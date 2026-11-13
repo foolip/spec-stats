@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Maintenance Load - WHATWG Spec Stats</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <div class="crumb"><a href="./">WHATWG Spec Stats</a></div>
+  <h1>Maintenance load</h1>
+  <p class="subtitle">Who does the work of keeping the WHATWG Living Standards going?</p>
+  <p class="lede">
+    Maintaining a standard is mostly reviewing other people's changes, merging them and answering
+    issues. This page counts that work on GitHub: reviews of someone else's pull request, merges, and
+    comments on someone else's issue or pull request. Each person is attributed to the organization
+    named on their public GitHub profile. Bots and self-reviews are left out.
+  </p>
+
+  <div class="filters" id="filters">
+    <label>Spec <select id="f-repo"></select></label>
+    <label>Activity <select id="f-action">
+      <option value="review">Reviews</option>
+      <option value="merge">Merges</option>
+      <option value="comment">Comments on others' issues and PRs</option>
+      <option value="pr">Merged PRs (authored)</option>
+      <option value="issue">Issues opened</option>
+    </select></label>
+    <label>Show <select id="f-measure">
+      <option value="share">Share by organization</option>
+      <option value="count">Count</option>
+    </select></label>
+  </div>
+
+  <section>
+    <h2 id="chart-title">Reviews by organization, per quarter</h2>
+    <ul class="legend" id="legend"></ul>
+    <div class="card chart" id="chart"></div>
+    <details><summary>Table view</summary><div class="table-wrap" id="chart-table"></div></details>
+  </section>
+
+  <section>
+    <h2>How few people carry each spec</h2>
+    <p class="muted" id="window-note"></p>
+    <div class="card table-wrap" id="concentration"></div>
+  </section>
+
+  <section>
+    <h2 id="people-title">Most active, last 12 months</h2>
+    <div class="card table-wrap" id="people"></div>
+  </section>
+
+  <section>
+    <h2>Time to first response</h2>
+    <p class="muted">Median days from opening an issue or PR to the first review or comment by someone else, by the quarter it was opened. "Unanswered" counts items with no response yet.</p>
+    <div class="card table-wrap" id="response"></div>
+  </section>
+
+  <p class="muted" id="generated"></p>
+</main>
+<script type="module" src="maintenance.js"></script>
+</body>
+</html>
