@@ -5,8 +5,10 @@ summaries/maintenance.json:
   people         trailing 12 complete months: [repo, login, org, action, count]
   concentration  trailing 12 complete months: per repo and action, how many
                  people do 50% and 80% of it, and the top person's share
-  response       per repo and quarter: median days to the first response
-                 from someone other than the author, for PRs and issues
+  response       per repo, kind and quarter opened: [opened, unanswered
+                 after 7 days, median days to the first response from
+                 someone other than the author], counted from when a PR
+                 was ready for review
 summaries/org_monthly.csv: the same org_monthly rows, for readable diffs.
 """
 
@@ -19,7 +21,8 @@ from datetime import datetime, timezone
 
 from . import paths
 
-ACTIONS = ["review", "merge", "comment", "pr", "issue"]
+ACTIONS = ["review", "review_comment", "merge", "comment", "pr", "issue"]
+UNANSWERED_DAYS = 7
 OTHER = "Other"
 FOLD_SHARE = 0.005  # orgs with less than this share of all actions fold into Other
 ALL = "*"
@@ -53,6 +56,12 @@ def people_needed(counts, share):
 def _days(a, b):
     fmt = "%Y-%m-%dT%H:%M:%SZ"
     return (datetime.strptime(b, fmt) - datetime.strptime(a, fmt)).total_seconds() / 86400
+
+
+def _fmt_day(day, delta_days):
+    from datetime import timedelta
+    d = datetime.strptime(day, "%Y-%m-%d") + timedelta(days=delta_days)
+    return d.strftime("%Y-%m-%dT00:00:00Z")
 
 
 def summarize(derived_path=None, out_dir=None, today=None):
@@ -94,20 +103,23 @@ def summarize(derived_path=None, out_dir=None, today=None):
         concentration.append([repo, action, total, len(counts), people_needed(counts, 0.5),
                               people_needed(counts, 0.8), round(max(counts) / total, 3)])
 
-    # First-response time, by quarter the item was opened.
+    # First-response time, by quarter the item was ready for review. Items
+    # ready less than UNANSWERED_DAYS ago aren't counted yet.
     resp = defaultdict(list)
-    open_counts = defaultdict(lambda: [0, 0])  # opened, never answered
-    for repo, kind, created, first in db.execute(
-            "SELECT repo, kind, created_at, first_response_at FROM items"):
-        q = quarter(created)
+    counts = defaultdict(lambda: [0, 0])  # opened, unanswered after UNANSWERED_DAYS
+    cutoff = _fmt_day(today, -UNANSWERED_DAYS)
+    for repo, kind, ready, first in db.execute(
+            "SELECT repo, kind, ready_at, first_response_at FROM items WHERE ready_at < ?", (cutoff,)):
+        q = quarter(ready)
+        days = _days(ready, first) if first else None
         for r in (repo, ALL):
-            open_counts[(r, kind, q)][0] += 1
-            if first:
-                resp[(r, kind, q)].append(_days(created, first))
-            else:
-                open_counts[(r, kind, q)][1] += 1
+            counts[(r, kind, q)][0] += 1
+            if days is None or days > UNANSWERED_DAYS:
+                counts[(r, kind, q)][1] += 1
+            if days is not None:
+                resp[(r, kind, q)].append(days)
     response = []
-    for key, (opened, unanswered) in sorted(open_counts.items()):
+    for key, (opened, unanswered) in sorted(counts.items()):
         days = resp.get(key, [])
         response.append([*key, opened, unanswered,
                          round(statistics.median(days), 2) if days else None])

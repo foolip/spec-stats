@@ -5,75 +5,27 @@ from pathlib import Path
 
 from specstats import derive, extract, github, summarize
 from specstats.orgs import Attributor, company_to_org, load_aliases
+from tests.fakegithub import REPO, FakeGitHub
 
-
-def actor(login, typename="User"):
-    return {"__typename": typename, "login": login}
-
-
-def pr(number, updated, author="alice", merged_by="editor", reviews=(), comments=(), merged=True,
-       more_reviews=False):
-    return {
-        "number": number, "title": f"PR {number}", "url": "", "state": "MERGED" if merged else "OPEN",
-        "isDraft": False, "createdAt": "2025-01-02T00:00:00Z", "updatedAt": updated,
-        "closedAt": updated if merged else None, "mergedAt": updated if merged else None,
-        "author": actor(author), "mergedBy": actor(merged_by) if merged else None,
-        "additions": 1, "deletions": 1, "changedFiles": 1, "body": "", "labels": {"nodes": []},
-        "reviews": {"pageInfo": {"hasNextPage": more_reviews, "endCursor": "r1" if more_reviews else None},
-                    "nodes": list(reviews)},
-        "comments": {"pageInfo": {"hasNextPage": False, "endCursor": None}, "nodes": list(comments)},
-    }
-
-
-def review(login, at, state="APPROVED", inline=0, typename="User"):
-    return {"author": actor(login, typename), "state": state, "submittedAt": at, "body": "",
-            "comments": {"totalCount": inline}}
-
-
-def comment(login, at, typename="User"):
-    return {"author": actor(login, typename), "createdAt": at, "body": ""}
-
-
-class FakeGitHub:
-    """Serves list queries from `nodes` (sorted newest-updated first), PAGE at a time."""
-
-    def __init__(self, nodes, page=2, extra_reviews=None, profiles=None):
-        self.nodes = sorted(nodes, key=lambda n: n["updatedAt"], reverse=True)
-        self.page = page
-        self.extra_reviews = extra_reviews or {}
-        self.profiles = profiles or {}
-        self.calls = []
-
-    def __call__(self, url, body, headers):
-        req = json.loads(body)
-        q, v = req["query"], req["variables"]
-        self.calls.append(q)
-        rate = {"cost": 1, "remaining": 4999, "resetAt": "2099-01-01T00:00:00Z"}
-        if "pullRequests(" in q:
-            start = int(v["after"] or 0)
-            chunk = self.nodes[start:start + self.page]
-            end = start + len(chunk)
-            data = {"repository": {"pullRequests": {
-                "pageInfo": {"hasNextPage": end < len(self.nodes), "endCursor": str(end)},
-                "nodes": json.loads(json.dumps(chunk))}}, "rateLimit": rate}
-        elif "pullRequest(number" in q:
-            data = {"repository": {"pullRequest": {"reviews": {
-                "pageInfo": {"hasNextPage": False, "endCursor": None},
-                "nodes": self.extra_reviews.get(v["number"], [])}}}, "rateLimit": rate}
-        elif "user(login" in q:
-            data = {"rateLimit": rate}
-            i = 0
-            while f"u{i}:" in q:
-                login = q.split(f"u{i}: user(login: ")[1].split(")")[0].strip('"')
-                data[f"u{i}"] = {"login": login, "company": self.profiles.get(login)}
-                i += 1
-        else:
-            raise AssertionError(q)
-        return 200, {}, json.dumps({"data": data}).encode()
+QUIET = dict(log=lambda *a: None)
 
 
 def client(fake):
-    return github.Client(token="t", transport=fake, sleep=lambda s: None, log=lambda *a: None)
+    return github.Client(token="t", transport=fake, sleep=lambda s: None, **QUIET)
+
+
+def populated(**kw):
+    gh = FakeGitHub(**kw)
+    gh.add_issue(1, "2025-01-01T00:00:00Z", author="ann")
+    gh.add_comment(1, "2025-01-03T00:00:00Z", "ed")
+    gh.add_issue(2, "2025-02-01T00:00:00Z", author="alice", is_pr=True,
+                 merged_at="2025-02-10T00:00:00Z", merged_by="ed",
+                 reviews=[("ed", "2025-02-05T00:00:00Z", "APPROVED", "User", 2)])
+    gh.add_issue(3, "2025-03-01T00:00:00Z", author="ed", is_pr=True,
+                 merged_at="2025-03-02T00:00:00Z", merged_by="ed")
+    gh.add_event(1, "2025-01-02T00:00:00Z", "labeled", "ed")
+    gh.add_event(2, "2025-02-10T00:00:00Z", "merged", "ed")
+    return gh
 
 
 class ExtractTest(unittest.TestCase):
@@ -84,48 +36,97 @@ class ExtractTest(unittest.TestCase):
     def tearDown(self):
         self.tmp.cleanup()
 
-    def stored(self):
-        return {n: u for n, u in self.db.execute("SELECT number, updated_at FROM nodes")}
+    def count(self, table):
+        return self.db.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
 
-    def test_full_then_incremental(self):
-        nodes = [pr(i, f"2025-01-{i:02d}T00:00:00Z") for i in range(1, 6)]
-        fake = FakeGitHub(nodes)
-        self.assertEqual(extract.extract_repo(client(fake), self.db, "whatwg/dom", "pr", log=lambda *a: None), 5)
-        self.assertEqual(len(self.stored()), 5)
-        # PR 2 is updated; an incremental run fetches only it and stops early.
-        nodes[1] = pr(2, "2025-02-01T00:00:00Z")
-        fake = FakeGitHub(nodes)
-        self.assertEqual(extract.extract_repo(client(fake), self.db, "whatwg/dom", "pr", log=lambda *a: None), 1)
-        self.assertEqual(len(fake.calls), 1)
-        self.assertEqual(self.stored()[2], "2025-02-01T00:00:00Z")
+    def test_full_sync_then_unchanged_is_all_304s(self):
+        gh = populated()
+        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
+        self.assertEqual(self.count("items"), 3)
+        self.assertEqual(self.count("issue_comments"), 1)
+        self.assertEqual(self.count("review_comments"), 2)
+        self.assertEqual(self.count("events"), 2)
+        self.assertEqual(self.count("pr_details"), 2)
+        self.assertEqual(extract.comment_mismatches(self.db, REPO), ([], []))
+        # Nothing changed. The second run re-reads the overlap once (its URL now
+        # has `since`, so the first run's ETags don't apply); after that, one
+        # conditional request per stream, all 304s.
+        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
+        c = client(gh)
+        extract.sync_repo(c, self.db, REPO, **QUIET)
+        self.assertEqual((c.requests, c.not_modified), (4, 4))
 
-    def test_since_then_backfill(self):
-        nodes = [pr(i, f"2025-01-{i:02d}T00:00:00Z") for i in range(1, 7)]
-        extract.extract_repo(client(FakeGitHub(nodes)), self.db, "whatwg/dom", "pr",
-                             since="2025-01-04", log=lambda *a: None)
-        self.assertEqual(sorted(self.stored()), [4, 5, 6])
-        # Going further back stores only the older ones.
-        n = extract.extract_repo(client(FakeGitHub(nodes)), self.db, "whatwg/dom", "pr",
-                                 since="2025-01-02", log=lambda *a: None)
-        self.assertEqual(n, 2)
-        self.assertEqual(sorted(self.stored()), [2, 3, 4, 5, 6])
+    def test_incremental_fetches_only_what_changed(self):
+        gh = populated()
+        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
+        gh.add_comment(2, "2025-06-01T00:00:00Z", "bob")
+        c = client(gh)
+        extract.sync_repo(c, self.db, REPO, **QUIET)
+        self.assertEqual(self.count("issue_comments"), 2)
+        self.assertEqual(extract.stale_prs(self.db, REPO), [])
+        graphql = [u for m, u in gh.calls[-c.requests:] if m == "POST"]
+        self.assertEqual(len(graphql), 1)  # PR 2's details only
 
-    def test_nested_pages_completed(self):
-        nodes = [pr(1, "2025-01-01T00:00:00Z", reviews=[review("bob", "2025-01-01T00:00:00Z")],
-                    more_reviews=True)]
-        fake = FakeGitHub(nodes, extra_reviews={1: [review("carol", "2025-01-01T01:00:00Z")]})
-        extract.extract_repo(client(fake), self.db, "whatwg/dom", "pr", log=lambda *a: None)
-        node = json.loads(self.db.execute("SELECT json FROM nodes").fetchone()[0])
-        self.assertEqual([r["author"]["login"] for r in node["reviews"]["nodes"]], ["bob", "carol"])
+    def test_overlap_catches_a_late_arrival(self):
+        gh = populated()
+        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
+        # A comment that became visible late, timestamped just before the cursor.
+        cursor = self.db.execute("SELECT cursor FROM cursors WHERE stream='issue_comments'").fetchone()[0]
+        gh.add_comment(1, "2025-01-02T12:00:00Z", "bob", touch=False)
+        gh.add_comment(3, cursor, "carol")
+        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
+        self.assertEqual(self.count("issue_comments"), 3)
+
+    def test_counts_heal_a_missed_comment(self):
+        gh = populated()
+        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
+        # A comment far older than the overlap shows up (e.g. it was missed),
+        # and the item's updated_at moves, so its count is checked.
+        gh.add_comment(1, "2024-06-01T00:00:00Z", "bob", touch=False)
+        gh.touch(1, "2025-07-01T00:00:00Z")
+        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
+        self.assertEqual(self.count("issue_comments"), 2)
+        self.assertEqual(extract.comment_mismatches(self.db, REPO), ([], []))
+
+    def test_pagination_limit_restarts_from_since(self):
+        gh = FakeGitHub(page=2, page_limit=2)
+        for i in range(1, 10):
+            gh.add_issue(i, f"2025-01-{i:02d}T00:00:00Z")
+        extract.sync_ascending(client(gh), self.db, REPO, "items", **QUIET)
+        self.assertEqual(self.count("items"), 9)
+
+    def test_events_floor_falls_back_to_per_item(self):
+        gh = FakeGitHub(page=2, page_limit=1)
+        for i in range(1, 5):
+            gh.add_issue(i, f"2025-01-{i:02d}T00:00:00Z")
+            gh.add_event(i, f"2025-01-{i:02d}T01:00:00Z", "labeled", "ed")
+        c = client(gh)
+        extract.sync_events(c, self.db, REPO, **QUIET)
+        self.assertEqual(self.count("events"), 2)  # one page only
+        extract.sync_ascending(c, self.db, REPO, "items", **QUIET)
+        extract.fetch_item_events(c, self.db, REPO, **QUIET)
+        self.assertEqual(self.count("events"), 4)
+
+    def test_reconcile(self):
+        gh = populated()
+        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
+        del gh.issues[1]  # deleted on GitHub
+        gh.add_issue(9, "2020-01-01T00:00:00Z")  # one we somehow never saw
+        gh.issues[9]["updated_at"] = "2020-01-01T00:00:00Z"
+        r = extract.reconcile(client(gh), self.db, REPO, **QUIET)
+        self.assertEqual(r["refetched"], [9])
+        self.assertEqual(r["gone"], [1])
+        self.assertEqual((r["remote_total"], r["stored"]), (3, 3))
+        self.assertEqual(self.db.execute("SELECT gone FROM items WHERE number=1").fetchone()[0], "deleted")
 
     def test_users(self):
-        nodes = [pr(1, "2025-01-01T00:00:00Z", reviews=[review("bob", "2025-01-01T00:00:00Z"),
-                                                        review("dependabot", "2025-01-01T00:00:00Z", typename="Bot")])]
-        fake = FakeGitHub(nodes, profiles={"bob": "@mozilla"})
-        extract.extract_repo(client(fake), self.db, "whatwg/dom", "pr", log=lambda *a: None)
+        gh = populated()
+        gh.add_comment(1, "2025-04-01T00:00:00Z", "dependabot[bot]", typ="Bot")
+        gh.profiles = {"ed": "Apple"}
+        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
         logins = extract.users_to_fetch(self.db)
-        self.assertEqual(logins, ["alice", "bob", "editor"])
-        extract.extract_users(client(fake), self.db, logins, log=lambda *a: None)
+        self.assertEqual(logins, ["alice", "ann", "ed"])
+        extract.extract_users(client(gh), self.db, logins, **QUIET)
         self.assertEqual(extract.users_to_fetch(self.db), [])
 
 
@@ -134,10 +135,19 @@ class ClientTest(unittest.TestCase):
         sleeps = []
         responses = [(429, {"Retry-After": "7"}, b""), (200, {}, b'{"data": {"ok": 1}}')]
         c = github.Client(token="t", transport=lambda *a: responses.pop(0), sleep=sleeps.append,
-                          clock=lambda: 0.0, log=lambda *a: None)
+                          clock=lambda: 0.0, **QUIET)
         self.assertEqual(c.query("{ ok }"), {"ok": 1})
         self.assertIn(7.0, sleeps)
         self.assertIn(1.0, sleeps)  # the second request waited MIN_INTERVAL
+
+    def test_secondary_rate_limit(self):
+        sleeps = []
+        responses = [(403, {}, b'{"message": "You have exceeded a secondary rate limit"}'),
+                     (200, {}, b"[]")]
+        c = github.Client(token="t", transport=lambda *a: responses.pop(0), sleep=sleeps.append,
+                          clock=lambda: 0.0, **QUIET)
+        self.assertEqual(c.rest("/x").data, [])
+        self.assertIn(30, sleeps)
 
 
 class OrgsTest(unittest.TestCase):
@@ -161,32 +171,37 @@ class DeriveSummarizeTest(unittest.TestCase):
     def test_end_to_end(self):
         with tempfile.TemporaryDirectory() as tmp:
             tmp = Path(tmp)
+            gh = populated()
+            gh.add_review(2, "alice", "2025-02-06T00:00:00Z", "COMMENTED")         # self-review
+            gh.add_review(2, "copilot", "2025-02-06T00:00:00Z", typename="Bot")    # bot
+            gh.add_comment(2, "2025-02-07T00:00:00Z", "ann", body="<!-- This comment is programmatically generated -->")
+            gh.add_issue(4, "2025-03-01T00:00:00Z", author="ann", is_pr=True, draft_ready_at="2025-03-20T00:00:00Z")
+            gh.add_comment(4, "2025-03-05T00:00:00Z", "ed")   # during the draft: not a response
+            gh.add_comment(4, "2025-03-22T00:00:00Z", "ed")
             db = extract.connect(tmp / "raw.sqlite")
-            nodes = [
-                pr(1, "2025-03-10T00:00:00Z", author="alice", merged_by="ed",
-                   reviews=[review("ed", "2025-03-05T00:00:00Z", inline=3),
-                            review("alice", "2025-03-06T00:00:00Z", state="COMMENTED"),  # self
-                            review("bot", "2025-03-06T00:00:00Z", typename="Bot")],
-                   comments=[comment("ann", "2025-01-03T00:00:00Z")]),
-                pr(2, "2025-04-10T00:00:00Z", author="ann", merged_by="ed",
-                   reviews=[review("ed", "2025-04-09T00:00:00Z")]),
-            ]
-            extract.extract_repo(client(FakeGitHub(nodes)), db, "whatwg/dom", "pr", log=lambda *a: None)
+            extract.sync_repo(client(gh), db, REPO, **QUIET)
             for login, company in [("ed", "Apple"), ("alice", "@google"), ("ann", None)]:
                 db.execute("INSERT INTO users VALUES (?, '', ?)", (login, json.dumps({"login": login, "company": company})))
             db.commit()
             derive.derive(tmp / "raw.sqlite", tmp / "derived.sqlite")
+
+            d = __import__("sqlite3").connect(tmp / "derived.sqlite")
+            merges = d.execute("SELECT number, detail FROM actions WHERE action='merge' ORDER BY number").fetchall()
+            self.assertEqual(merges, [(2, "other"), (3, "self")])
+            self.assertEqual(d.execute("SELECT COUNT(*) FROM actions WHERE action='review'").fetchone()[0], 1)
+            self.assertEqual(d.execute("SELECT COUNT(*) FROM actions WHERE action='review_comment'").fetchone()[0], 2)
+            # The boilerplate comment and ann's own comments don't count.
+            self.assertEqual(d.execute("SELECT COUNT(*) FROM actions WHERE action='comment'").fetchone()[0], 3)
+            ready, first = d.execute("SELECT ready_at, first_response_at FROM items WHERE number=4").fetchone()
+            self.assertEqual((ready, first), ("2025-03-20T00:00:00Z", "2025-03-22T00:00:00Z"))
+
             s = summarize.summarize(tmp / "derived.sqlite", tmp / "out", today="2026-01-15")
             rows = {(m, o, a): n for m, _, o, a, n in s["org_monthly"]}
-            self.assertEqual(rows[("2025-03", "Apple", "review")], 1)
-            self.assertEqual(rows[("2025-03", "Apple", "merge")], 1)
-            self.assertEqual(rows[("2025-03", "Google", "pr")], 1)
-            self.assertEqual(rows[("2025-01", "Unknown", "comment")], 1)
-            self.assertNotIn(("2025-03", "Google", "review"), rows)  # self-review left out
-            conc = {(r, a): row for r, a, *row in s["concentration"]}
-            self.assertEqual(conc[("*", "review")], [2, 1, 1, 1, 1.0])
+            self.assertEqual(rows[("2025-02", "Apple", "review")], 1)
+            self.assertEqual(rows[("2025-02", "Apple", "merge")], 1)
+            self.assertEqual(rows[("2025-02", "Google", "pr")], 1)
             resp = {(r, k, q): row for r, k, q, *row in s["response"]}
-            self.assertEqual(resp[("whatwg/dom", "pr", "2025-Q1")], [2, 0, 49.0])  # 1 and 97 days
+            self.assertEqual(resp[("whatwg/dom", "pr", "2025-Q1")], [3, 1, 3.0])  # PR 3 never answered
             self.assertTrue((tmp / "out" / "org_monthly.csv").exists())
 
     def test_people_needed(self):

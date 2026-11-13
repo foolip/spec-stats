@@ -2,6 +2,7 @@
 
 const ACTION_LABELS = {
   review: "Reviews",
+  review_comment: "Inline review comments",
   merge: "Merges",
   comment: "Comments on others' issues and PRs",
   pr: "Merged PRs",
@@ -300,7 +301,7 @@ function renderResponse(repo) {
     return;
   }
   $("response").replaceChildren(table(
-    ["Opened in", "PRs", "Median days", "Unanswered", "Issues", "Median days", "Unanswered"], body, [1, 2, 3, 4, 5, 6]));
+    ["Opened in", "PRs", "Median days", "Unanswered after 7 days", "Issues", "Median days", "Unanswered after 7 days"], body, [1, 2, 3, 4, 5, 6]));
 }
 
 fetch(dataUrl)

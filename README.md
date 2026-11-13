@@ -20,8 +20,8 @@ Ideas for later dashboards are in [`docs/plan.md`](docs/plan.md).
 
 | Source | What it gives | Status |
 |---|---|---|
-| GitHub GraphQL API, the repos in `config/repos.txt` | PRs, reviews, issues, comments, labels; public profiles (for `company`) | Approved 2026-11-13; extractor written, not run yet |
-| git history of the spec repos | Commits | Not approved |
+| GitHub API (REST and GraphQL), the repos in `config/repos.txt` | Every issue and PR with their comments, inline review comments, timeline events, reviews, commits and changed files; public profiles (for `company`) | Approved 2026-11-13; extractor written, not run yet |
+| git history of the spec repos | Diffs of spec text (how much prose is written) | Deferred: API data first (2026-11-13) |
 | Browser bug trackers (crbug, Bugzilla, WebKit) | Status of implementation bugs linked from PRs | Not approved |
 | wpt.fyi | Test results for tests linked from PRs | Not approved |
 
@@ -42,7 +42,8 @@ for public repos. Put your contact address in `data/private/settings.json`
 ```
 python3 -m specstats extract                      # dry run: prints the plan
 python3 -m specstats extract --repo whatwg/dom --go
-python3 -m specstats extract --since 2021-01-01 --go   # all repos, incremental
+python3 -m specstats extract --go                 # all repos; incremental after the first run
+python3 -m specstats reconcile --go               # weekly: check every issue/PR number against GitHub
 python3 -m specstats users --go                   # public profiles of everyone seen
 python3 -m specstats derive                       # build derived.sqlite (offline)
 python3 -m specstats summarize                    # write summaries/ (offline)
@@ -50,9 +51,12 @@ python3 -m unittest discover tests
 python3 -m http.server 8000                       # then open http://localhost:8000/web/
 ```
 
-Re-running `extract` fetches only PRs and issues updated since the last run.
+The first `extract` fetches each repo's whole history; later runs fetch only
+what changed, and an unchanged repo costs four free 304 responses. How
+updates work, and how holes are caught: [`docs/extraction.md`](docs/extraction.md).
 
 ## Docs
 
 - [`docs/plan.md`](docs/plan.md): goal, ground rules, decisions log, status and next steps.
+- [`docs/extraction.md`](docs/extraction.md): what is fetched, how daily updates work, and the consistency checks.
 - [`docs/maintenance-load.md`](docs/maintenance-load.md): what the Maintenance load dashboard counts, and its known limits.

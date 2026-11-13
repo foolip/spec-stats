@@ -1,29 +1,45 @@
-"""A throttled, serial GitHub GraphQL client (standard library only).
+"""A throttled, serial GitHub client for REST and GraphQL (standard library only).
 
 Ground rule 2 (docs/plan.md): one request at a time, at least
-MIN_INTERVAL seconds apart, back off on rate limits, and identify
-ourselves in the User-Agent.
+MIN_INTERVAL seconds apart, back off on rate limits, send ETags so
+unchanged listings come back as free 304s, and identify ourselves in the
+User-Agent.
 """
 
 import json
 import os
+import re
 import subprocess
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 
 from . import paths
 
-ENDPOINT = "https://api.github.com/graphql"
+API = "https://api.github.com"
+GRAPHQL = API + "/graphql"
 MIN_INTERVAL = 1.0  # seconds between requests
 MAX_RETRIES = 6
-# Stop well before the hourly GraphQL budget is spent, so the operator's
-# token stays usable for other things.
+# Pause before the hourly budget is spent, so the operator's token stays
+# usable for other things.
 RATE_LIMIT_FLOOR = 500
 
 
 class GitHubError(Exception):
     pass
+
+
+class NotFound(GitHubError):
+    """404 or 410: the item was deleted (or never existed)."""
+
+    def __init__(self, status, url):
+        super().__init__(f"HTTP {status} for {url}")
+        self.status = status
+
+
+class PaginationLimit(GitHubError):
+    """GitHub refused to page this deep (HTTP 422)."""
 
 
 def load_token():
@@ -44,26 +60,57 @@ def user_agent():
     return "spec-stats (+https://github.com/foolip/spec-stats)"
 
 
-def _http_post(url, body, headers):
-    req = urllib.request.Request(url, data=body, headers=headers, method="POST")
-    with urllib.request.urlopen(req, timeout=120) as resp:
-        return resp.status, dict(resp.headers), resp.read()
+def _http(method, url, body, headers):
+    req = urllib.request.Request(url, data=body, headers=headers, method=method)
+    try:
+        with urllib.request.urlopen(req, timeout=120) as resp:
+            return resp.status, dict(resp.headers), resp.read()
+    except urllib.error.HTTPError as e:
+        return e.code, dict(e.headers or {}), e.read()
+
+
+LINK_NEXT = re.compile(r'<([^>]+)>;\s*rel="next"')
+
+
+def next_link(headers):
+    m = LINK_NEXT.search(_lower(headers).get("link", ""))
+    return m.group(1) if m else None
+
+
+def _lower(headers):
+    return {k.lower(): v for k, v in headers.items()}
+
+
+class Response:
+    def __init__(self, status, headers, data):
+        self.status = status
+        self.headers = _lower(headers)
+        self.data = data
+
+    @property
+    def etag(self):
+        return self.headers.get("etag")
+
+    @property
+    def next(self):
+        return next_link(self.headers)
 
 
 class Client:
-    """Runs GraphQL queries one at a time. `transport` is replaceable in tests."""
+    """Runs requests one at a time. `transport(method, url, body, headers)`
+    returning (status, headers, raw bytes) is replaceable in tests."""
 
     def __init__(self, token=None, transport=None, sleep=time.sleep, clock=time.monotonic,
                  min_interval=MIN_INTERVAL, log=print):
         self.token = token if token is not None else load_token()
-        self.transport = transport or _http_post
+        self.transport = transport or _http
         self.sleep = sleep
         self.clock = clock
         self.min_interval = min_interval
         self.log = log
         self._last = None
         self.requests = 0
-        self.rate_limit = None
+        self.not_modified = 0
 
     def _throttle(self):
         if self._last is not None:
@@ -72,73 +119,94 @@ class Client:
                 self.sleep(wait)
         self._last = self.clock()
 
-    def query(self, query, variables=None):
-        body = json.dumps({"query": query, "variables": variables or {}}).encode()
+    def _send(self, method, url, body=None, extra_headers=None):
         headers = {
             "Authorization": f"bearer {self.token}",
-            "Content-Type": "application/json",
             "User-Agent": user_agent(),
+            "Accept": "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28",
         }
+        if body is not None:
+            headers["Content-Type"] = "application/json"
+        headers.update(extra_headers or {})
         delay = 30
-        for attempt in range(MAX_RETRIES):
+        for _ in range(MAX_RETRIES):
             self._throttle()
             self.requests += 1
             try:
-                status, resp_headers, raw = self.transport(ENDPOINT, body, headers)
-            except urllib.error.HTTPError as e:
-                status, resp_headers, raw = e.code, dict(e.headers or {}), e.read()
+                status, resp_headers, raw = self.transport(method, url, body, headers)
             except (urllib.error.URLError, TimeoutError, ConnectionError) as e:
                 self.log(f"network error ({e}); retrying in {delay}s")
                 self.sleep(delay)
                 delay *= 2
                 continue
-            if status in (403, 429, 502, 503, 504):
-                wait = self._backoff(resp_headers, delay)
+            lower = _lower(resp_headers)
+            secondary = status == 403 and (b"secondary rate limit" in raw.lower()
+                                           or lower.get("x-ratelimit-remaining") == "0")
+            if status == 429 or secondary or status in (502, 503, 504):
+                wait = self._backoff(lower, delay)
                 self.log(f"HTTP {status}; backing off {wait:.0f}s")
                 self.sleep(wait)
                 delay *= 2
                 continue
+            self._respect_budget(lower)
+            return status, resp_headers, raw
+        raise GitHubError(f"giving up on {url} after {MAX_RETRIES} attempts")
+
+    def rest(self, path_or_url, params=None, etag=None):
+        """GET a REST resource. Returns a Response; status 304 has data None."""
+        url = path_or_url if path_or_url.startswith("http") else API + path_or_url
+        if params:
+            url += ("&" if "?" in url else "?") + urllib.parse.urlencode(params)
+        status, headers, raw = self._send("GET", url, extra_headers={"If-None-Match": etag} if etag else None)
+        if status == 304:
+            self.not_modified += 1
+            return Response(304, headers, None)
+        if status in (404, 410):
+            raise NotFound(status, url)
+        if status == 422:
+            raise PaginationLimit(f"HTTP 422 for {url}: {raw[:300]!r}")
+        if status != 200:
+            raise GitHubError(f"HTTP {status} for {url}: {raw[:500]!r}")
+        return Response(status, headers, json.loads(raw))
+
+    def query(self, query, variables=None):
+        """Run a GraphQL query and return its `data`."""
+        body = json.dumps({"query": query, "variables": variables or {}}).encode()
+        delay = 30
+        for _ in range(MAX_RETRIES):
+            status, headers, raw = self._send("POST", GRAPHQL, body)
             if status != 200:
-                raise GitHubError(f"HTTP {status}: {raw[:500]!r}")
+                raise GitHubError(f"GraphQL HTTP {status}: {raw[:500]!r}")
             data = json.loads(raw)
             errors = data.get("errors")
+            if errors and any(e.get("type") == "RATE_LIMITED" for e in errors):
+                wait = self._backoff(_lower(headers), delay)
+                self.log(f"GraphQL rate limited; backing off {wait:.0f}s")
+                self.sleep(wait)
+                delay *= 2
+                continue
             if errors:
-                if any(e.get("type") == "RATE_LIMITED" for e in errors):
-                    wait = self._backoff(resp_headers, delay)
-                    self.log(f"rate limited; backing off {wait:.0f}s")
-                    self.sleep(wait)
-                    delay *= 2
-                    continue
-                raise GitHubError(json.dumps(errors)[:1000])
-            self._note_rate_limit(data.get("data") or {})
+                # NOT_FOUND for one alias (a deleted PR) is reported per alias;
+                # callers see None for it. Anything else is fatal.
+                fatal = [e for e in errors if e.get("type") != "NOT_FOUND"]
+                if fatal:
+                    raise GitHubError(json.dumps(fatal)[:1000])
             return data["data"]
-        raise GitHubError(f"giving up after {MAX_RETRIES} attempts")
+        raise GitHubError(f"GraphQL giving up after {MAX_RETRIES} attempts")
 
     @staticmethod
     def _backoff(headers, default):
-        headers = {k.lower(): v for k, v in headers.items()}
         if "retry-after" in headers:
             return max(float(headers["retry-after"]), 1)
         if headers.get("x-ratelimit-remaining") == "0" and "x-ratelimit-reset" in headers:
             return max(float(headers["x-ratelimit-reset"]) - time.time(), 1) + 5
         return default
 
-    def _note_rate_limit(self, data):
-        rl = data.get("rateLimit")
-        if not rl:
-            return
-        self.rate_limit = rl
-        if rl["remaining"] < RATE_LIMIT_FLOOR:
-            reset = rl.get("resetAt", "")
-            self.log(f"rate limit low ({rl['remaining']} left, resets {reset}); pausing until reset")
-            wait = _seconds_until(reset)
-            self.sleep(wait + 5)
-
-
-def _seconds_until(iso):
-    from datetime import datetime, timezone
-    try:
-        t = datetime.fromisoformat(iso.replace("Z", "+00:00"))
-    except ValueError:
-        return 600
-    return max((t - datetime.now(timezone.utc)).total_seconds(), 1)
+    def _respect_budget(self, headers):
+        remaining = headers.get("x-ratelimit-remaining")
+        reset = headers.get("x-ratelimit-reset")
+        if remaining is not None and reset is not None and int(remaining) < RATE_LIMIT_FLOOR:
+            wait = max(float(reset) - time.time(), 1) + 5
+            self.log(f"rate limit low ({remaining} left); pausing {wait:.0f}s until reset")
+            self.sleep(wait)

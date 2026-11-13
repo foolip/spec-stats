@@ -11,15 +11,23 @@ an account and an organization at the time it happened:
 | Action | One per | Counted when | Left out |
 |---|---|---|---|
 | `review` | review submitted on a PR (any state: approved, changes requested, commented, dismissed) | submitted | the PR author's own reviews (replies in review threads show up as reviews by the author) |
-| `merge` | merged PR, to whoever merged it (`mergedBy`) | merged | |
-| `comment` | conversation comment on an issue or PR | written | comments by the issue or PR author |
+| `review_comment` | inline review comment on a PR | written | the PR author's own |
+| `merge` | merged PR, to whoever merged it (`mergedBy`); `detail` says `self` or `other` | merged | |
+| `comment` | conversation comment on an issue or PR | written | comments by the issue or PR author, and generated boilerplate (PR preview comments) |
 | `pr` | merged PR, to its author | merged | unmerged PRs |
 | `issue` | issue opened | opened | |
 
-Bots are left out of everything: GraphQL `__typename` `Bot`, logins ending in
-`[bot]`, and `config/bots.txt`. Deleted accounts count as `ghost`.
+Bots are left out of everything: REST `type: Bot`, GraphQL `__typename`
+`Bot`, logins ending in `[bot]`, and `config/bots.txt`. Deleted accounts
+count as `ghost`. Issues and PRs that were deleted or transferred are left
+out.
 
-`review`, `merge` and `comment` are the maintenance work. `pr` and `issue`
+**Raw review counts overstate some people.** Clicking "Add single comment"
+instead of "Start a review" creates one review per comment. Distinct PRs
+touched and review sessions, from the earlier whatwg/html prototype, are
+planned to replace them (`docs/plan.md`, next steps).
+
+`review`, `review_comment`, `merge` and `comment` are the maintenance work. `pr` and `issue`
 are the demand on it, so you can compare the two.
 
 ## Organizations
@@ -46,10 +54,13 @@ less than 0.5% of all actions fold into `Other` in the summaries.
   people_for_80%, top_share]`. "People for 50%" is the fewest people who
   together did half of it, which is roughly the spec's bus factor for that
   kind of work.
-- `response`: per repo, kind (`pr` or `issue`) and quarter opened:
+- `response`: per repo, kind (`pr` or `issue`) and quarter:
   `[repo, kind, quarter, opened, unanswered, median_days_to_first_response]`.
-  A response is the first review or comment by anyone other than the author
-  or a bot.
+  The clock starts when the item was opened, or for a PR opened as a draft,
+  when it was first marked ready for review. A response is the first
+  review, inline review comment or comment by anyone other than the author
+  or a bot. `unanswered` counts items with no response within 7 days; items
+  opened in the last 7 days aren't counted yet.
 
 `summaries/org_monthly.csv` holds the same `org_monthly` rows, for readable
 diffs.
@@ -60,8 +71,8 @@ diffs.
   chat, in meetings, and through the edits they push to their own PRs. Only
   GitHub reviews, merges and comments are counted.
 - **A review isn't weighted by effort.** A one-word approval and a long
-  review both count as one; `inline_comments` is stored in `derived.sqlite`
-  for a weighted measure later.
+  review both count as one. The bodies are in the raw cache, for measures
+  like unquoted words later.
 - **`company` is free text and often empty.** How big `Unknown` gets is a
   key thing to check after the first fetch. `affiliations.json` is the fix,
   with a public source for each entry.
