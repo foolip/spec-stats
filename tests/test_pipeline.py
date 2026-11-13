@@ -1,4 +1,5 @@
 import json
+import re
 import tempfile
 import unittest
 from pathlib import Path
@@ -46,7 +47,8 @@ class ExtractTest(unittest.TestCase):
         self.assertEqual(self.count("issue_comments"), 1)
         self.assertEqual(self.count("review_comments"), 2)
         self.assertEqual(self.count("events"), 2)
-        self.assertEqual(self.count("pr_details"), 2)
+        self.assertEqual(self.count("pulls"), 2)
+        self.assertEqual(self.count("pr_reviews"), 1)
         self.assertEqual(extract.comment_mismatches(self.db, REPO), ([], []))
         # Nothing changed. The second run re-reads the overlap once (its URL now
         # has `since`, so the first run's ETags don't apply); after that, one
@@ -63,9 +65,9 @@ class ExtractTest(unittest.TestCase):
         c = client(gh)
         extract.sync_repo(c, self.db, REPO, **QUIET)
         self.assertEqual(self.count("issue_comments"), 2)
-        self.assertEqual(extract.stale_prs(self.db, REPO), [])
-        graphql = [u for m, u in gh.calls[-c.requests:] if m == "POST"]
-        self.assertEqual(len(graphql), 1)  # PR 2's details only
+        self.assertEqual(extract.stale_prs(self.db, REPO, "reviews"), [])
+        per_pr = [u for _, u in gh.calls[-c.requests:] if "/pulls/" in u and "/pulls/comments" not in u]
+        self.assertEqual(len(per_pr), 2)  # PR 2's pull and reviews, nothing for PR 3
 
     def test_overlap_catches_a_late_arrival(self):
         gh = populated()
@@ -107,17 +109,44 @@ class ExtractTest(unittest.TestCase):
         extract.fetch_item_events(c, self.db, REPO, **QUIET)
         self.assertEqual(self.count("events"), 4)
 
-    def test_reconcile(self):
+    def test_reconcile_accounts_for_every_number(self):
         gh = populated()
         extract.sync_repo(client(gh), self.db, REPO, **QUIET)
-        del gh.issues[1]  # deleted on GitHub
-        gh.add_issue(9, "2020-01-01T00:00:00Z")  # one we somehow never saw
-        gh.issues[9]["updated_at"] = "2020-01-01T00:00:00Z"
+        del gh.issues[1]           # deleted on GitHub
+        gh.add_issue(6, "2020-01-01T00:00:00Z")  # one we somehow never saw
+        gh.transferred.add(5)      # 4 and 5 never existed here: 4 deleted, 5 moved away
         r = extract.reconcile(client(gh), self.db, REPO, **QUIET)
-        self.assertEqual(r["refetched"], [9])
-        self.assertEqual(r["gone"], [1])
-        self.assertEqual((r["remote_total"], r["stored"]), (3, 3))
-        self.assertEqual(self.db.execute("SELECT gone FROM items WHERE number=1").fetchone()[0], "deleted")
+        self.assertEqual(r["highest"], 6)
+        self.assertEqual(r["newly_gone"], [1, 4, 5])
+        gone = dict(self.db.execute("SELECT number, reason FROM gone").fetchall())
+        self.assertEqual(gone, {1: "deleted", 4: "deleted", 5: "transferred"})
+        self.assertEqual(r["stored"] + r["gone"], r["highest"])
+        # The deleted item's last version is kept in history.
+        self.assertEqual(self.db.execute("SELECT removed FROM history WHERE tbl='items'").fetchone(), (1,))
+        # The next reconcile doesn't recheck known gone numbers.
+        c = client(gh)
+        extract.reconcile(c, self.db, REPO, **QUIET)
+        self.assertFalse([u for _, u in gh.calls[-c.requests:] if re.search(r"/issues/\d+$", u)])
+
+    def test_history_keeps_previous_versions(self):
+        gh = populated()
+        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
+        comment = gh.issue_comments[0]
+        comment["body"], comment["updated_at"] = "edited", "2025-08-01T00:00:00Z"
+        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
+        old = self.db.execute("SELECT json FROM history WHERE tbl='issue_comments'").fetchall()
+        self.assertEqual([json.loads(j)["body"] for (j,) in old], ["hi"])
+        # Re-reading the overlap doesn't add history for unchanged objects.
+        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
+        self.assertEqual(self.count("history"), 1)
+
+    def test_turning_on_a_pr_resource_later(self):
+        gh = populated()
+        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
+        c = client(gh)
+        n = extract.sync_pr_resources(c, self.db, REPO, resources=["pull", "reviews", "commits"], **QUIET)
+        self.assertEqual(n, 2)  # commits for both PRs, nothing else refetched
+        self.assertTrue(all("/commits" in u for _, u in gh.calls[-c.requests:]))
 
     def test_users(self):
         gh = populated()
@@ -133,10 +162,10 @@ class ExtractTest(unittest.TestCase):
 class ClientTest(unittest.TestCase):
     def test_throttle_and_backoff(self):
         sleeps = []
-        responses = [(429, {"Retry-After": "7"}, b""), (200, {}, b'{"data": {"ok": 1}}')]
+        responses = [(429, {"Retry-After": "7"}, b""), (200, {}, b'{"ok": 1}')]
         c = github.Client(token="t", transport=lambda *a: responses.pop(0), sleep=sleeps.append,
                           clock=lambda: 0.0, **QUIET)
-        self.assertEqual(c.query("{ ok }"), {"ok": 1})
+        self.assertEqual(c.rest("/x").data, {"ok": 1})
         self.assertIn(7.0, sleeps)
         self.assertIn(1.0, sleeps)  # the second request waited MIN_INTERVAL
 
@@ -173,16 +202,15 @@ class DeriveSummarizeTest(unittest.TestCase):
             tmp = Path(tmp)
             gh = populated()
             gh.add_review(2, "alice", "2025-02-06T00:00:00Z", "COMMENTED")         # self-review
-            gh.add_review(2, "copilot", "2025-02-06T00:00:00Z", typename="Bot")    # bot
+            gh.add_review(2, "copilot", "2025-02-06T00:00:00Z", typ="Bot")         # bot
             gh.add_comment(2, "2025-02-07T00:00:00Z", "ann", body="<!-- This comment is programmatically generated -->")
             gh.add_issue(4, "2025-03-01T00:00:00Z", author="ann", is_pr=True, draft_ready_at="2025-03-20T00:00:00Z")
             gh.add_comment(4, "2025-03-05T00:00:00Z", "ed")   # during the draft: not a response
             gh.add_comment(4, "2025-03-22T00:00:00Z", "ed")
+            gh.profiles = {"ed": "Apple", "alice": "@google"}
             db = extract.connect(tmp / "raw.sqlite")
             extract.sync_repo(client(gh), db, REPO, **QUIET)
-            for login, company in [("ed", "Apple"), ("alice", "@google"), ("ann", None)]:
-                db.execute("INSERT INTO users VALUES (?, '', ?)", (login, json.dumps({"login": login, "company": company})))
-            db.commit()
+            extract.extract_users(client(gh), db, extract.users_to_fetch(db), **QUIET)
             derive.derive(tmp / "raw.sqlite", tmp / "derived.sqlite")
 
             d = __import__("sqlite3").connect(tmp / "derived.sqlite")

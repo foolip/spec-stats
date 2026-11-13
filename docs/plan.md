@@ -22,8 +22,8 @@ for a first response. Definitions: `docs/maintenance-load.md`.
 ## Ground rules
 
 1. **Fetch only what has been approved.** Approved on 2026-11-13: the GitHub
-   API for the WHATWG repos in `config/repos.txt`: all activity on their
-   issues and PRs (comments, inline review comments, timeline events,
+   REST API for the WHATWG repos in `config/repos.txt`: all activity on
+   their issues and PRs (comments, inline review comments, timeline events,
    reviews, commits, changed files) and the public profiles of accounts
    seen in them. Not approved: git clones (deferred on 2026-11-13: API data
    first), browser bug trackers, wpt.fyi, GH Archive, and any repo outside
@@ -31,8 +31,8 @@ for a first response. Definitions: `docs/maintenance-load.md`.
    - `extract` and `users` print a plan unless given `--go`.
 2. **Be gentle with GitHub.**
    - Serial requests, at least 1 s apart (`github.MIN_INTERVAL`).
-   - Back off on 403/429/5xx and secondary rate limits, honoring
-     `Retry-After`; pause when the hourly GraphQL budget drops below 500 points.
+   - Back off on 429/5xx and secondary rate limits, honoring
+     `Retry-After`; pause when the hourly budget drops below 500 requests.
    - Incremental: fetch only what changed since the last run, with ETags so
      unchanged listings are free 304s (`docs/extraction.md`).
    - Identify ourselves: the User-Agent carries the operator's contact
@@ -56,8 +56,13 @@ for a first response. Definitions: `docs/maintenance-load.md`.
 | 2026-11-13 | Repo `foolip/spec-stats`; first dashboard is Maintenance load; first source is the GitHub API for `whatwg/*` | Maintainer's choice |
 | 2026-11-13 | ~~GraphQL per item: one query gets a page of PRs with their reviews and comments~~ Superseded the same day, below | |
 | 2026-11-13 | Fetch all activity on issues and PRs, not a chosen subset; metrics decide what to use | Filtering at fetch time is the one choice that's expensive to undo (a full backfill) |
-| 2026-11-13 | REST listings of whole repos (issues, comments, review comments, events), plus batched GraphQL only for what REST can't list per repo (reviews, commits, files) | Fewest and lightest requests; REST supports `since` and ETags, so a daily run of an unchanged repo is four free 304s |
+| 2026-11-13 | REST listings of whole repos (issues, comments, review comments, events), ~~plus batched GraphQL for reviews, commits and files~~ (superseded below: REST only) | REST supports `since` and ETags, so a daily run of an unchanged repo is four free 304s |
 | 2026-11-13 | Re-read a day of overlap on every run, save cursors per page, check comment counts per item, reconcile every number weekly, and fail on count mismatches | Stopping at the last-seen item trusts the API to be perfect; these find and fill holes instead (`docs/extraction.md`) |
+| 2026-11-13 | **REST only**, no GraphQL: per-PR requests for reviews instead of batched queries | REST returns whole objects, so everything is stored without maintaining field lists; one representation, ETags and `since` throughout. Costs a longer one-time backfill (roughly 2 requests per PR) |
+| 2026-11-13 | Per-PR commits and files are optional (`config/fetch.json`), off for now | Not sure they're needed; each resource is tracked separately, so turning one on later fetches only that |
+| 2026-11-13 | Raw objects are stored as plain JSON text, uncompressed | The maintainer wants to query the database and see the JSON directly. A few GB is fine |
+| 2026-11-13 | Keep previous versions of changed objects (`history`) | Edits, label changes and profile changes are otherwise lost; future analyses may want them, and it's cheap |
+| 2026-11-13 | Reconcile by issue number: every number from 1 to the highest is stored or recorded as deleted/transferred | Numbers are one sequence per repo, so completeness can be checked exactly |
 | 2026-11-13 | PR diffs and git history deferred | Spec text written is interesting, but needs git (API patches are truncated for large PRs); API data first |
 | 2026-11-13 | Response time counts from ready-for-review for PRs opened as drafts, and "unanswered" means no response within 7 days | From the earlier whatwg/html prototype: responses during a draft aren't triage, and a median alone hides items nobody answers |
 | 2026-11-13 | Merges are split into self and other; generated boilerplate comments are left out | Same prototype: a self-merge isn't review work, and PR preview comments aren't comments |
@@ -68,8 +73,8 @@ for a first response. Definitions: `docs/maintenance-load.md`.
 
 ## Status
 
-- Extractor (REST and GraphQL, incremental, with consistency checks and
-  `reconcile`), derive, summarize, tests and the Maintenance load page are
+- Extractor (REST only, incremental, with version history, consistency
+  checks and `reconcile`), derive, summarize, tests and the Maintenance load page are
   written. Tests run against an in-memory fake GitHub.
 - The page has been checked against synthetic data only, in light, dark
   and phone layouts.
@@ -91,8 +96,9 @@ for a first response. Definitions: `docs/maintenance-load.md`.
 3. Rework the metrics around the prototype's catalog: PRs touched (split
    by size) instead of raw review counts, review sessions, sign-offs
    (`APPROVED` or LGTM), unquoted words.
-4. Daily job: GitHub Actions on a schedule, with the raw cache in private
-   storage (R2 proposed; not decided).
+4. Daily job: GitHub Actions on a schedule, with a personal token as a
+   secret (the built-in token's limit is too low for the backfill) and the
+   raw cache in private storage (R2 proposed; not decided).
 5. Look at how big `Unknown` is, and fill `config/affiliations.json` with
    publicly sourced entries for the most active accounts.
 6. Confirm ground rule 3, then commit the first real summaries.

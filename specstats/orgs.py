@@ -7,7 +7,7 @@ In order:
    through the aliases in config/companies.json.
 3. Otherwise "Unknown".
 
-Bots are recognized by GraphQL __typename, a "[bot]" suffix, or
+Bots are recognized by account type ("Bot"), a "[bot]" suffix, or
 config/bots.txt.
 """
 

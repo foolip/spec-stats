@@ -1,4 +1,4 @@
-"""A throttled, serial GitHub client for REST and GraphQL (standard library only).
+"""A throttled, serial GitHub REST client (standard library only).
 
 Ground rule 2 (docs/plan.md): one request at a time, at least
 MIN_INTERVAL seconds apart, back off on rate limits, send ETags so
@@ -18,7 +18,6 @@ import urllib.request
 from . import paths
 
 API = "https://api.github.com"
-GRAPHQL = API + "/graphql"
 MIN_INTERVAL = 1.0  # seconds between requests
 MAX_RETRIES = 6
 # Pause before the hourly budget is spent, so the operator's token stays
@@ -169,31 +168,6 @@ class Client:
         if status != 200:
             raise GitHubError(f"HTTP {status} for {url}: {raw[:500]!r}")
         return Response(status, headers, json.loads(raw))
-
-    def query(self, query, variables=None):
-        """Run a GraphQL query and return its `data`."""
-        body = json.dumps({"query": query, "variables": variables or {}}).encode()
-        delay = 30
-        for _ in range(MAX_RETRIES):
-            status, headers, raw = self._send("POST", GRAPHQL, body)
-            if status != 200:
-                raise GitHubError(f"GraphQL HTTP {status}: {raw[:500]!r}")
-            data = json.loads(raw)
-            errors = data.get("errors")
-            if errors and any(e.get("type") == "RATE_LIMITED" for e in errors):
-                wait = self._backoff(_lower(headers), delay)
-                self.log(f"GraphQL rate limited; backing off {wait:.0f}s")
-                self.sleep(wait)
-                delay *= 2
-                continue
-            if errors:
-                # NOT_FOUND for one alias (a deleted PR) is reported per alias;
-                # callers see None for it. Anything else is fatal.
-                fatal = [e for e in errors if e.get("type") != "NOT_FOUND"]
-                if fatal:
-                    raise GitHubError(json.dumps(fatal)[:1000])
-            return data["data"]
-        raise GitHubError(f"GraphQL giving up after {MAX_RETRIES} attempts")
 
     @staticmethod
     def _backoff(headers, default):

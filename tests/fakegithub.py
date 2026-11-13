@@ -1,4 +1,4 @@
-"""An in-memory GitHub, enough of REST and GraphQL for the extractor's tests."""
+"""An in-memory GitHub, enough of the REST API for the extractor's tests."""
 
 import hashlib
 import json
@@ -21,7 +21,9 @@ class FakeGitHub:
         self.issue_comments = []
         self.review_comments = []
         self.events = []
-        self.prs = {}                 # number -> GraphQL PullRequest node
+        self.pulls = {}               # number -> REST pull request object
+        self.reviews = {}             # number -> [REST review objects]
+        self.transferred = set()      # issue numbers moved to another repo
         self.profiles = {}
         self.calls = []
         self._id = 1000
@@ -41,26 +43,22 @@ class FakeGitHub:
         self.issues[number] = obj
         if is_pr:
             obj["pull_request"] = {"merged_at": merged_at}
-            self.prs[number] = {
-                "number": number, "updatedAt": obj["updated_at"], "state": "MERGED" if merged_at else "OPEN",
-                "isDraft": False, "createdAt": at, "closedAt": merged_at, "mergedAt": merged_at,
-                "mergedBy": {"__typename": "User", "login": merged_by} if merged_by else None,
-                "author": {"__typename": "User", "login": author},
-                "reviews": self._conn([]), "commits": self._conn([]), "files": self._conn([])}
+            self.pulls[number] = {
+                "number": number, "node_id": f"PR_{number}", "updated_at": obj["updated_at"],
+                "state": "closed" if merged_at else "open", "draft": False, "created_at": at,
+                "merged_at": merged_at, "merged_by": user(merged_by) if merged_by else None,
+                "user": user(author), "review_comments": 0, "additions": 1, "deletions": 1, "changed_files": 1}
+            self.reviews[number] = []
             for r in reviews:
                 self.add_review(number, *r)
             if draft_ready_at:
                 self.add_event(number, draft_ready_at, "ready_for_review", author)
         return obj
 
-    @staticmethod
-    def _conn(nodes):
-        return {"totalCount": len(nodes), "pageInfo": {"hasNextPage": False, "endCursor": None}, "nodes": nodes}
-
     def touch(self, number, at):
         self.issues[number]["updated_at"] = at
-        if number in self.prs:
-            self.prs[number]["updatedAt"] = at
+        if number in self.pulls:
+            self.pulls[number]["updated_at"] = at
 
     def add_comment(self, number, at, login, body="hi", typ="User", touch=True):
         self.issue_comments.append({"id": self.next_id(), "issue_url": f"{API}/repos/{REPO}/issues/{number}",
@@ -69,18 +67,16 @@ class FakeGitHub:
         if touch:
             self.touch(number, at)
 
-    def add_review(self, number, login, at, state="APPROVED", typename="User", inline=0):
-        review = {"databaseId": self.next_id(), "author": {"__typename": typename, "login": login},
-                  "state": state, "createdAt": at, "submittedAt": at, "body": "",
-                  "comments": {"totalCount": inline}}
-        conn = self.prs[number]["reviews"]
-        conn["nodes"].append(review)
-        conn["totalCount"] += 1
+    def add_review(self, number, login, at, state="APPROVED", typ="User", inline=0):
+        review = {"id": self.next_id(), "node_id": "PRR", "user": user(login, typ), "state": state,
+                  "submitted_at": at, "body": ""}
+        self.reviews[number].append(review)
         for _ in range(inline):
             self.review_comments.append({
                 "id": self.next_id(), "pull_request_url": f"{API}/repos/{REPO}/pulls/{number}",
-                "pull_request_review_id": review["databaseId"], "created_at": at, "updated_at": at,
-                "user": user(login, "Bot" if typename == "Bot" else "User"), "body": "nit"})
+                "pull_request_review_id": review["id"], "created_at": at, "updated_at": at,
+                "user": user(login, typ), "body": "nit"})
+            self.pulls[number]["review_comments"] += 1
         self.touch(number, max(at, self.issues[number]["updated_at"]))
 
     def add_event(self, number, at, event, actor):
@@ -91,10 +87,14 @@ class FakeGitHub:
 
     def __call__(self, method, url, body, headers):
         self.calls.append((method, url))
-        if method == "POST":
-            return self._graphql(json.loads(body))
         parsed = urllib.parse.urlparse(url)
         q = dict(urllib.parse.parse_qsl(parsed.query))
+        m = re.fullmatch(r"/users/([^/]+)", parsed.path)
+        if m:
+            login = m.group(1)
+            return 200, {}, json.dumps({"login": login, "node_id": "U_" + login, "type": "User",
+                                        "company": self.profiles.get(login),
+                                        "updated_at": "2025-01-01T00:00:00Z"}).encode()
         path = parsed.path[len(f"/repos/{REPO}"):]
         if path == "/issues":
             rows = sorted(self.issues.values(), key=lambda o: o["updated_at"])
@@ -108,9 +108,18 @@ class FakeGitHub:
         m = re.fullmatch(r"/issues/(\d+)", path)
         if m:
             n = int(m.group(1))
+            if n in self.transferred:  # GitHub redirects; we see the issue in its new repo
+                return 200, {}, json.dumps({"number": 1, "repository_url": f"{API}/repos/elsewhere/repo"}).encode()
             if n not in self.issues:
-                return 404, {}, b'{"message": "Not Found"}'
+                return 410, {}, b'{"message": "This issue was deleted"}'
             return 200, {}, json.dumps(self.issues[n]).encode()
+        m = re.fullmatch(r"/pulls/(\d+)", path)
+        if m:
+            return 200, {}, json.dumps(self.pulls[int(m.group(1))]).encode()
+        m = re.fullmatch(r"/pulls/(\d+)/(reviews|commits|files)", path)
+        if m:
+            n, what = int(m.group(1)), m.group(2)
+            return self._list(url, q, headers, self.reviews[n] if what == "reviews" else [])
         m = re.fullmatch(r"/(issues|pulls)/(\d+)/(comments|events)", path)
         if m:
             kind, n, what = m.group(1), int(m.group(2)), m.group(3)
@@ -141,28 +150,3 @@ class FakeGitHub:
             base = url.split("&page=")[0].split("?page=")[0]
             out["Link"] = f'<{base}{"&" if "?" in base else "?"}page={page + 1}>; rel="next"'
         return 200, out, json.dumps(chunk).encode()
-
-    def _graphql(self, req):
-        query, v = req["query"], req["variables"]
-        rate = {"cost": 1, "remaining": 4999, "resetAt": "2099-01-01T00:00:00Z"}
-        if "pullRequest(number: $number)" in query:
-            conn = re.search(r"pullRequest\(number: \$number\) \{\s*(\w+)\(", query).group(1)
-            data = {"repository": {"pullRequest": {conn: self._conn([])}}, "rateLimit": rate}
-        elif re.search(r"p\d+: pullRequest", query):
-            repo = {}
-            for n in map(int, re.findall(r"p(\d+): pullRequest", query)):
-                repo[f"p{n}"] = json.loads(json.dumps(self.prs[n])) if n in self.prs else None
-            data = {"repository": repo, "rateLimit": rate}
-        elif "issues(first: 100" in query or "pullRequests(first: 100" in query:
-            want_pr = "pullRequests(" in query
-            nodes = [{"number": o["number"], "updatedAt": o["updated_at"]} for o in self.issues.values()
-                     if ("pull_request" in o) == want_pr]
-            conn = {"totalCount": len(nodes), "pageInfo": {"hasNextPage": False, "endCursor": None}, "nodes": nodes}
-            data = {"repository": {"pullRequests" if want_pr else "issues": conn}, "rateLimit": rate}
-        elif "user(login" in query:
-            data = {"rateLimit": rate}
-            for alias, login in re.findall(r'(u\d+): user\(login: "([^"]+)"\)', query):
-                data[alias] = {"login": login, "company": self.profiles.get(login)}
-        else:
-            raise AssertionError(query)
-        return 200, {}, json.dumps({"data": data}).encode()

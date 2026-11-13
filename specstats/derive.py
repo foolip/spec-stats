@@ -11,8 +11,8 @@ the time it happened (docs/maintenance-load.md):
 - issue:           opening an issue
 
 Bots, self-actions and generated boilerplate comments are left out;
-deleted accounts are kept as "ghost". Items marked gone (deleted or
-transferred) are left out.
+deleted accounts are kept as "ghost". Everything comes from REST objects
+in the raw cache (specstats/extract.py).
 """
 
 import json
@@ -64,12 +64,6 @@ def rest_login(user):
     return user.get("login") or "ghost", "Bot" if user.get("type") == "Bot" else "User"
 
 
-def gql_login(actor):
-    if not actor:
-        return "ghost", None
-    return actor.get("login") or "ghost", actor.get("__typename")
-
-
 def is_boilerplate(body):
     return any(b in (body or "") for b in BOILERPLATE)
 
@@ -83,10 +77,8 @@ def derive(raw_path=None, out_path=None, attr=None):
     out.executescript(SCHEMA)
 
     items = {}
-    for repo, number, is_pr, js in raw.execute("SELECT repo, number, is_pr, json FROM items WHERE gone IS NULL"):
+    for repo, number, is_pr, js in raw.execute("SELECT repo, number, is_pr, json FROM items"):
         items[(repo, number)] = (bool(is_pr), json.loads(js))
-    details = {(repo, number): json.loads(js) for repo, number, js in raw.execute(
-        "SELECT repo, number, json FROM pr_details")}
     ready = {}
     for repo, number, created in raw.execute(
             "SELECT repo, number, MIN(created_at) FROM events "
@@ -112,21 +104,24 @@ def derive(raw_path=None, out_path=None, attr=None):
         elif (obj.get("pull_request") or {}).get("merged_at"):
             act(repo, number, "pr", author, obj["pull_request"]["merged_at"])
 
-    for (repo, number), pr in details.items():
+    for repo, number, js in raw.execute("SELECT repo, number, json FROM pulls"):
+        pr = json.loads(js)
+        if (repo, number) not in items or not pr.get("merged_at"):
+            continue
+        merger, typ = rest_login(pr.get("merged_by"))
+        if not attr.is_bot(merger, typ):
+            act(repo, number, "merge", merger, pr["merged_at"], "self" if merger == authors[(repo, number)] else "other")
+
+    for repo, number, js in raw.execute("SELECT repo, number, json FROM pr_reviews"):
         if (repo, number) not in items:
             continue
-        author = authors[(repo, number)]
-        if pr.get("mergedAt"):
-            merger, typ = gql_login(pr.get("mergedBy"))
-            if not attr.is_bot(merger, typ):
-                act(repo, number, "merge", merger, pr["mergedAt"], "self" if merger == author else "other")
-        for review in pr["reviews"]["nodes"]:
-            login, typ = gql_login(review.get("author"))
-            at = review.get("submittedAt")
-            if not at or login == author or attr.is_bot(login, typ):
-                continue
-            act(repo, number, "review", login, at, review.get("state"))
-            responses[(repo, number)].append((at, login))
+        review = json.loads(js)
+        login, typ = rest_login(review.get("user"))
+        at = review.get("submitted_at")
+        if not at or review.get("state") == "PENDING" or login == authors[(repo, number)] or attr.is_bot(login, typ):
+            continue
+        act(repo, number, "review", login, at, review.get("state"))
+        responses[(repo, number)].append((at, login))
 
     for table, action in (("issue_comments", "comment"), ("review_comments", "review_comment")):
         for repo, number, js in raw.execute(f"SELECT repo, number, json FROM {table}"):

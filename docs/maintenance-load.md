@@ -12,13 +12,13 @@ an account and an organization at the time it happened:
 |---|---|---|---|
 | `review` | review submitted on a PR (any state: approved, changes requested, commented, dismissed) | submitted | the PR author's own reviews (replies in review threads show up as reviews by the author) |
 | `review_comment` | inline review comment on a PR | written | the PR author's own |
-| `merge` | merged PR, to whoever merged it (`mergedBy`); `detail` says `self` or `other` | merged | |
+| `merge` | merged PR, to whoever merged it (`merged_by`); `detail` says `self` or `other` | merged | |
 | `comment` | conversation comment on an issue or PR | written | comments by the issue or PR author, and generated boilerplate (PR preview comments) |
 | `pr` | merged PR, to its author | merged | unmerged PRs |
 | `issue` | issue opened | opened | |
 
-Bots are left out of everything: REST `type: Bot`, GraphQL `__typename`
-`Bot`, logins ending in `[bot]`, and `config/bots.txt`. Deleted accounts
+Bots are left out of everything: accounts of `type: Bot`, logins ending
+in `[bot]`, and `config/bots.txt`. Deleted accounts
 count as `ghost`. Issues and PRs that were deleted or transferred are left
 out.
 

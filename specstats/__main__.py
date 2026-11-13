@@ -15,10 +15,6 @@ import sys
 
 from . import derive, extract, github, paths, summarize
 
-# A reconcile that finds stored and GitHub totals further apart than this
-# fails, so a hole in the data is noticed.
-COUNT_TOLERANCE = 0
-
 
 def main(argv=None):
     ap = argparse.ArgumentParser(prog="specstats")
@@ -37,7 +33,8 @@ def main(argv=None):
     if args.cmd in ("extract", "reconcile"):
         repos = args.repo or paths.repos()
         db = extract.connect()
-        print(f"Plan: {args.cmd} {len(repos)} repos, serial, >= {github.MIN_INTERVAL}s between requests.")
+        print(f"Plan: {args.cmd} {len(repos)} repos, serial, >= {github.MIN_INTERVAL}s between requests."
+              + (f" Per-PR resources: {', '.join(extract.load_pr_resources())}." if args.cmd == "extract" else ""))
         for repo in repos:
             rows = db.execute("SELECT stream, cursor FROM cursors WHERE repo=?", (repo,)).fetchall()
             print(f"  {repo}: " + (", ".join(f"{s} to {c}" for s, c in rows) if rows else "nothing yet"))
@@ -51,16 +48,18 @@ def main(argv=None):
                 extract.sync_repo(client, db, repo)
             else:
                 r = extract.reconcile(client, db, repo)
-                if abs(r["remote_total"] - r["stored"]) > COUNT_TOLERANCE:
+                # Every number from 1 to the highest must be stored or gone.
+                if r["stored"] + r["gone"] != r["highest"]:
                     failed.append(r)
         print(f"Done: {client.requests} requests, {client.not_modified} of them unchanged (304).")
         for r in failed:
-            print(f"COUNT MISMATCH {r['repo']}: GitHub has {r['remote_total']}, stored {r['stored']}")
+            print(f"COUNT MISMATCH {r['repo']}: numbers 1..{r['highest']}, but {r['stored']} stored "
+                  f"and {r['gone']} gone")
         return 1 if failed else 0
     if args.cmd == "users":
         db = extract.connect()
         logins = extract.users_to_fetch(db)
-        print(f"Plan: fetch {len(logins)} profiles, 50 per request.")
+        print(f"Plan: fetch {len(logins)} profiles, one request each.")
         if not args.go:
             print("Dry run; pass --go to fetch.")
             return 0

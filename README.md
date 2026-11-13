@@ -20,7 +20,7 @@ Ideas for later dashboards are in [`docs/plan.md`](docs/plan.md).
 
 | Source | What it gives | Status |
 |---|---|---|
-| GitHub API (REST and GraphQL), the repos in `config/repos.txt` | Every issue and PR with their comments, inline review comments, timeline events, reviews, commits and changed files; public profiles (for `company`) | Approved 2026-11-13; extractor written, not run yet |
+| GitHub REST API, the repos in `config/repos.txt` | Every issue and PR with their comments, inline review comments, timeline events and reviews (commits and changed files optional); public profiles (for `company`) | Approved 2026-11-13; extractor written, not run yet |
 | git history of the spec repos | Diffs of spec text (how much prose is written) | Deferred: API data first (2026-11-13) |
 | Browser bug trackers (crbug, Bugzilla, WebKit) | Status of implementation bugs linked from PRs | Not approved |
 | wpt.fyi | Test results for tests linked from PRs | Not approved |
@@ -52,7 +52,9 @@ python3 -m http.server 8000                       # then open http://localhost:8
 ```
 
 The first `extract` fetches each repo's whole history; later runs fetch only
-what changed, and an unchanged repo costs four free 304 responses. How
+what changed, and an unchanged repo costs four free 304 responses. The raw
+data is plain JSON in SQLite, so you can query it directly, e.g.
+`sqlite3 data/private/raw.sqlite "SELECT json_pretty(json) FROM items LIMIT 1"`. How
 updates work, and how holes are caught: [`docs/extraction.md`](docs/extraction.md).
 
 ## Docs
