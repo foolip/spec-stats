@@ -52,6 +52,33 @@ Not fetched: diff patches, and anything outside GitHub (chat, meetings).
 Deleted comments and items can't be fetched once they're gone, except as
 the last version we stored.
 
+## Building the mirror from nothing
+
+There's no separate backfill mode, and no switch between orders. Every
+listing is in order of `updated_at`, oldest first, and the first run is
+just a run whose cursors start empty: it reads from the oldest-updated
+item to the newest, and when it finishes, its cursor is "now". The next
+run carries on from there with the same code.
+
+Ordering by update rather than by creation is what makes this work:
+
+- **Nothing changes behind the cursor unnoticed.** An item updated while
+  the backfill runs gets a new `updated_at`, so it moves *ahead* of the
+  cursor and is read again later in the same run, or by the next one. In
+  creation order, an item already read could change and not be seen
+  again, so a creation-order backfill would need a second, update-ordered
+  pass to catch up afterwards.
+- **Interruptions don't matter.** The cursor is saved per page, so a run
+  that stops (a timeout, the rate limit) resumes where it was, however
+  long the gap.
+- **Per-PR resources follow the same rule:** they're fetched for every PR
+  whose `updated_at` differs from the one they were fetched for, which on
+  the first run is every PR.
+
+Order per repo: the three ascending listings, then events, then per-PR
+resources, then the count checks; then profiles for everyone seen. A
+`reconcile` afterwards confirms that every issue number is accounted for.
+
 ## A run (`extract`)
 
 For each repo:
@@ -64,10 +91,15 @@ For each repo:
    - The first page carries the ETag from the last run with the same
      `since`. If nothing changed, GitHub answers `304 Not Modified`, which
      doesn't count against the rate limit.
+   - Pages are fetched by *keyset*: each next page is page 1 again, with
+     `since` a second before the newest timestamp seen so far. Following
+     page 2, 3, … links instead would skip a row whenever an item already
+     read is updated mid-listing (it moves to the end, and the row after
+     the page boundary slides back into the pages already read). Keyset
+     pages can't skip, and never page deep enough to hit GitHub's
+     pagination limit.
    - The cursor is saved after every page, so an interrupted run resumes
      where it stopped.
-   - If GitHub refuses to page that deep (HTTP 422), the listing restarts
-     with `since` set to the newest timestamp reached.
 2. **Events** are listed newest first until a day before the cursor. On
    the first run, if GitHub won't page back to the start of history, the
    oldest event reached is recorded as the *floor*, and items older than

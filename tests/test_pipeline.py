@@ -9,6 +9,7 @@ from specstats.orgs import Attributor, company_to_org, load_aliases
 from tests.fakegithub import REPO, FakeGitHub
 
 QUIET = dict(log=lambda *a: None)
+extract.PER_PAGE = 2  # small pages, so a few rows exercise paging
 
 
 def client(fake):
@@ -90,12 +91,26 @@ class ExtractTest(unittest.TestCase):
         self.assertEqual(self.count("issue_comments"), 2)
         self.assertEqual(extract.comment_mismatches(self.db, REPO), ([], []))
 
-    def test_pagination_limit_restarts_from_since(self):
-        gh = FakeGitHub(page=2, page_limit=2)
+    def test_keyset_paging_never_pages_deep(self):
+        gh = FakeGitHub(page_limit=1)  # GitHub refuses page 2 and beyond
         for i in range(1, 10):
             gh.add_issue(i, f"2025-01-{i:02d}T00:00:00Z")
         extract.sync_ascending(client(gh), self.db, REPO, "items", **QUIET)
         self.assertEqual(self.count("items"), 9)
+
+    def test_update_during_listing_skips_nothing(self):
+        gh = FakeGitHub()
+        for i in range(1, 10):
+            gh.add_issue(i, f"2025-01-{i:02d}T00:00:00Z")
+
+        def update_read_item(n):
+            if n == 2:  # after the first page: an item we've read is updated
+                gh.touch(1, "2025-06-01T00:00:00Z")
+        gh.before_request = update_read_item
+        extract.sync_ascending(client(gh), self.db, REPO, "items", **QUIET)
+        self.assertEqual(self.count("items"), 9)
+        self.assertEqual(self.db.execute("SELECT updated_at FROM items WHERE number=1").fetchone()[0],
+                         "2025-06-01T00:00:00Z")
 
     def test_events_floor_falls_back_to_per_item(self):
         gh = FakeGitHub(page=2, page_limit=1)

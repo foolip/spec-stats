@@ -32,7 +32,7 @@ import sqlite3
 from datetime import datetime, timedelta, timezone
 
 from . import paths
-from .github import NotFound, PaginationLimit
+from .github import GitHubError, NotFound, PaginationLimit
 
 OVERLAP = timedelta(days=1)
 PER_PAGE = 100
@@ -264,24 +264,37 @@ ASCENDING = {
 
 
 def list_ascending(client, path, params, on_page, first=None, log=print):
-    """Page through an ascending `since` listing, starting from `first` if
-    it's already been requested. If GitHub refuses to page that deep (HTTP
-    422), restart with `since` at the newest timestamp reached; `since` is
-    inclusive, so the boundary rows come again and are harmlessly re-stored.
-    `on_page(rows)` stores a page and returns the newest timestamp."""
+    """Page through an ascending listing by *keyset*: each next page is page 1
+    again with `since` just before the newest timestamp seen so far, rather
+    than page 2, 3, ... of the original request.
+
+    Offset pages shift when a row we've already read is updated mid-listing
+    (it moves to the end, and the row after our page boundary slides back
+    into it, unread). Keyset pages can't skip rows, and they never page deep
+    enough to hit GitHub's pagination limit. Rows in the overlapping second
+    are re-read and harmlessly re-stored. Only if a whole page shares one
+    timestamp does this follow the offset link for that stretch.
+
+    `first` is the already-requested first page, if any. `on_page(rows)`
+    stores a page and returns the newest timestamp.
+    """
+    per_page = int(params.get("per_page", PER_PAGE))
     resp = first or client.rest(path, params)
+    since = params.get("since")
     while True:
         newest = on_page(resp.data)
-        if not resp.next:
+        if len(resp.data) < per_page or not resp.next:
             return
-        try:
-            resp = client.rest(resp.next)
-        except PaginationLimit:
-            if newest is None or newest == params.get("since"):
-                raise
-            log(f"{path}: pagination limit, restarting from {newest}")
-            params = dict(params, since=newest)
-            resp = client.rest(path, params)
+        next_since = _fmt(_parse(newest) - timedelta(seconds=1))
+        if since is None or next_since > since:
+            since = next_since
+            resp = client.rest(path, dict(params, since=since))
+        else:
+            # A full page within one second: step through it by offset.
+            try:
+                resp = client.rest(resp.next)
+            except PaginationLimit:
+                raise GitHubError(f"{path}: more rows at {newest} than GitHub will page through")
 
 
 def sync_ascending(client, db, repo, stream, log=print):

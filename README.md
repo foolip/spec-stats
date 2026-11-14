@@ -57,6 +57,22 @@ data is plain JSON in SQLite, so you can query it directly, e.g.
 `sqlite3 data/private/raw.sqlite "SELECT json_pretty(json) FROM items LIMIT 1"`. How
 updates work, and how holes are caught: [`docs/extraction.md`](docs/extraction.md).
 
+### In GitHub Actions
+
+`.github/workflows/fetch.yml` runs the same pipeline on demand (Actions →
+"Fetch GitHub data" → Run workflow). The raw cache is kept between runs
+as a workflow artifact named `raw-data`: each run resumes from the newest
+one, and uploads its result even if it fails or times out. Download it
+from the run's page to query it locally.
+
+- Set a `SPECSTATS_TOKEN` secret (a fine-grained personal token with no
+  extra permissions) for 5,000 requests an hour; without it, the built-in
+  token allows 1,000, so a backfill pauses for the limit.
+- Set a `SPECSTATS_CONTACT` variable to put a contact address in the
+  User-Agent.
+- Each run's summary page shows row counts and cursors
+  (`python3 -m specstats stats`).
+
 ## Docs
 
 - [`docs/plan.md`](docs/plan.md): goal, ground rules, decisions log, status and next steps.

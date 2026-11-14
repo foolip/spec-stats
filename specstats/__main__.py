@@ -26,6 +26,7 @@ def main(argv=None):
         p.add_argument("--go", action="store_true", help="actually fetch")
     us = sub.add_parser("users", help="fetch public profiles of everyone seen")
     us.add_argument("--go", action="store_true")
+    sub.add_parser("stats", help="print what the raw cache holds, as Markdown (offline)")
     sub.add_parser("derive", help="build derived.sqlite from the raw cache (offline)")
     sub.add_parser("summarize", help="write summaries/ (offline)")
     args = ap.parse_args(argv)
@@ -64,12 +65,29 @@ def main(argv=None):
             print("Dry run; pass --go to fetch.")
             return 0
         extract.extract_users(github.Client(), db, logins)
+    elif args.cmd == "stats":
+        print(stats(extract.connect()))
     elif args.cmd == "derive":
         print(f"derived {derive.derive()} items into {paths.derived_db()}")
     elif args.cmd == "summarize":
         s = summarize.summarize()
         print(f"wrote {len(s['org_monthly'])} org-month rows, {len(s['months'])} months, to {paths.SUMMARIES}")
     return 0
+
+
+def stats(db):
+    """Row counts per repo and table, and the cursors, as Markdown."""
+    tables = [*extract.TABLES, "gone", "history"]
+    lines = ["| repo | " + " | ".join(tables) + " |", "|---" * (len(tables) + 1) + "|"]
+    repos = [r for (r,) in db.execute("SELECT DISTINCT repo FROM items ORDER BY repo")]
+    for repo in repos:
+        counts = [db.execute(f"SELECT COUNT(*) FROM {t} WHERE repo = ?", (repo,)).fetchone()[0] for t in tables]
+        lines.append(f"| {repo} | " + " | ".join(f"{n:,}" for n in counts) + " |")
+    users = db.execute("SELECT COUNT(*) FROM users").fetchone()[0]
+    lines += ["", f"Profiles: {users:,}", "", "| repo | stream | cursor |", "|---|---|---|"]
+    for repo, stream, cursor in db.execute("SELECT repo, stream, cursor FROM cursors ORDER BY repo, stream"):
+        lines.append(f"| {repo} | {stream} | {cursor} |")
+    return "\n".join(lines)
 
 
 if __name__ == "__main__":

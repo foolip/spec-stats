@@ -24,11 +24,13 @@ def derived_db():
 
 
 def settings():
-    """Operator settings, e.g. {"contact": "you@example.com"} for the User-Agent."""
+    """Operator settings, e.g. {"contact": "you@example.com"} for the
+    User-Agent, from data/private/settings.json or SPECSTATS_CONTACT."""
     p = private_dir() / "settings.json"
-    if p.exists():
-        return json.loads(p.read_text())
-    return {}
+    out = json.loads(p.read_text()) if p.exists() else {}
+    if os.environ.get("SPECSTATS_CONTACT"):
+        out.setdefault("contact", os.environ["SPECSTATS_CONTACT"])
+    return out
 
 
 def repos():

@@ -180,7 +180,10 @@ class Client:
     def _respect_budget(self, headers):
         remaining = headers.get("x-ratelimit-remaining")
         reset = headers.get("x-ratelimit-reset")
-        if remaining is not None and reset is not None and int(remaining) < RATE_LIMIT_FLOOR:
+        # Keep a reserve: 500, or a tenth of a smaller budget (Actions'
+        # built-in token gets 1,000 an hour).
+        floor = min(RATE_LIMIT_FLOOR, int(headers.get("x-ratelimit-limit", 5000)) // 10)
+        if remaining is not None and reset is not None and int(remaining) < floor:
             wait = max(float(reset) - time.time(), 1) + 5
             self.log(f"rate limit low ({remaining} left); pausing {wait:.0f}s until reset")
             self.sleep(wait)

@@ -26,6 +26,7 @@ class FakeGitHub:
         self.transferred = set()      # issue numbers moved to another repo
         self.profiles = {}
         self.calls = []
+        self.before_request = None    # called with the request count, to change state mid-run
         self._id = 1000
 
     # --- building state ---
@@ -87,6 +88,8 @@ class FakeGitHub:
 
     def __call__(self, method, url, body, headers):
         self.calls.append((method, url))
+        if self.before_request:
+            self.before_request(len(self.calls))
         parsed = urllib.parse.urlparse(url)
         q = dict(urllib.parse.parse_qsl(parsed.query))
         m = re.fullmatch(r"/users/([^/]+)", parsed.path)
@@ -144,9 +147,10 @@ class FakeGitHub:
         etag = '"%s"' % hashlib.sha1(json.dumps(rows, sort_keys=True).encode()).hexdigest()
         if page == 1 and headers.get("If-None-Match") == etag:
             return 304, {"ETag": etag}, b""
-        chunk = rows[(page - 1) * self.page: page * self.page]
+        size = int(q.get("per_page", self.page))
+        chunk = rows[(page - 1) * size: page * size]
         out = {"ETag": etag}
-        if page * self.page < len(rows):
+        if page * size < len(rows):
             base = url.split("&page=")[0].split("?page=")[0]
             out["Link"] = f'<{base}{"&" if "?" in base else "?"}page={page + 1}>; rel="next"'
         return 200, out, json.dumps(chunk).encode()
