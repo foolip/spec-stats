@@ -14,7 +14,7 @@ log, status), then `README.md` and `docs/extraction.md`.
 - **Never commit `data/private/`** or a token.
 - `data/github/` is committed and public: only real fetched data goes there.
   Tests write to a temporary directory (`SPECSTATS_GITHUB`).
-- Python is standard library only; the web pages have no build step.
+- Python is standard library only.
 - Record decisions in the decisions log with a date and the reason.
 
 ## Tests
