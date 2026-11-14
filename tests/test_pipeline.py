@@ -2,6 +2,7 @@ import json
 import os
 import re
 import tempfile
+import time
 import unittest
 from pathlib import Path
 from unittest import mock
@@ -13,8 +14,17 @@ QUIET = dict(log=lambda *a: None)
 extract.PER_PAGE = 2  # small pages, so a few rows exercise paging
 
 
-def client(fake):
-    return github.Client(token="t", transport=fake, sleep=lambda s: None, **QUIET)
+def client(fake, requests=None):
+    """A client for `fake`. With `requests`, its deadline allows that many
+    requests: each starts a second after the last on a fake clock."""
+    if requests is None:
+        return github.Client(token="t", transport=fake, sleep=lambda s: None, **QUIET)
+    t = [0.0]
+
+    def sleep(s):
+        t[0] += s
+    return github.Client(token="t", transport=fake, sleep=sleep, clock=lambda: t[0],
+                         seconds_left=requests - 1, **QUIET)
 
 
 def populated(**kw):
@@ -203,6 +213,26 @@ class ExtractTest(TempDirs):
         self.assertEqual(n, 2)  # commits for both PRs, nothing else refetched
         self.assertTrue(all("/commits" in u for _, u in gh.calls[-c.requests:]))
 
+    def test_deadline_stops_cleanly_and_the_next_run_continues(self):
+        gh = populated()
+        for i in range(3):  # enough events for several pages
+            gh.add_event(2, f"2025-02-1{i}T00:00:00Z", "labeled", "ann")
+        runs = 0
+        while True:
+            runs += 1
+            self.assertLess(runs, 100)
+            try:
+                self.sync(gh, client(gh, requests=6))
+                break
+            except github.DeadlineReached:
+                pass
+        self.assertGreater(runs, 3)
+        self.assertEqual(self.store().counts(), {"issues": 1, "prs": 2, "pulls": 2, "comments": 1, "events": 5,
+                                                 "reviews": 1, "review_comments": 2, "gone": 0})
+        self.assertEqual(extract.comment_mismatches(self.store()), ([], []))
+        self.assertEqual(extract.stale_prs(self.store(), "reviews"), [])
+        self.assertFalse(list(self.files.rglob("*.tmp")))
+
     def test_users(self):
         gh = populated()
         gh.add_comment(1, "2025-04-01T00:00:00Z", "dependabot[bot]", typ="Bot")
@@ -225,6 +255,21 @@ class ClientTest(unittest.TestCase):
         self.assertEqual(c.rest("/x").data, {"ok": 1})
         self.assertIn(7.0, sleeps)
         self.assertIn(1.0, sleeps)  # the second request waited MIN_INTERVAL
+
+    def test_deadline(self):
+        t = [0.0]
+
+        def transport(*a):
+            return 200, {"x-ratelimit-remaining": "10", "x-ratelimit-reset": str(time.time() + 600),
+                         "x-ratelimit-limit": "5000"}, b"[]"
+        c = github.Client(token="t", transport=transport, sleep=lambda s: t.__setitem__(0, t[0] + s),
+                          clock=lambda: t[0], seconds_left=60, **QUIET)
+        # The budget is low, but the response that said so is still returned...
+        self.assertEqual(c.rest("/x").data, [])
+        # ...and the 10-minute pause, which would end past the deadline, isn't taken.
+        with self.assertRaises(github.DeadlineReached):
+            c.rest("/y")
+        self.assertEqual((c.requests, t[0]), (1, 0.0))
 
     def test_secondary_rate_limit(self):
         sleeps = []

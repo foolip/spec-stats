@@ -133,6 +133,26 @@ For each repo:
 
 A daily run of an unchanged repo is four requests, all 304s.
 
+## Deadlines
+
+`--max-minutes N` or `--stop-at <UTC time>` stops a run cleanly: no request
+starts, and no rate-limit pause runs, past that point. A response is always
+stored before the run stops, and `state.json` is saved, so the next run
+continues where this one stopped:
+
+- The ascending listings resume from their cursor, saved after every page.
+- Per-PR and per-item fetches resume from `fetched` in `state.json`.
+- The events listing is newest first and can't be resumed midway. A first
+  run stopped during it records the oldest event reached as the *floor*,
+  just as when GitHub stops paging, and older items get their events one
+  at a time. A later run stopped during it simply re-reads from the newest.
+
+Once caught up, a run needs at least four requests (one per stream), so
+the deadline must allow more than that for a run to finish.
+
+The workflow stops each run 300 minutes in, inside the job's 350-minute
+limit, then commits. A backfill bigger than that takes several runs.
+
 ## The weekly reconcile (`reconcile`)
 
 Issue and PR numbers are one sequence per repo, so completeness can be

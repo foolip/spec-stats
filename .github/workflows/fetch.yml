@@ -2,7 +2,8 @@
 #
 # Everything fetched is committed to this repo, in data/github/
 # (docs/extraction.md), at the end of every run, even one that failed or
-# timed out, so the next run resumes from there. The first run fetches
+# stopped at its deadline, so the next run resumes from there. A backfill
+# bigger than one run takes several runs. The first run fetches
 # each repo's whole history; later runs only what changed.
 #
 # Token: the SPECSTATS_TOKEN secret if set (a fine-grained personal token
@@ -42,11 +43,16 @@ jobs:
         with:
           python-version: "3.13"
 
+      # The fetch stops itself 300 minutes in (no request or rate-limit pause
+      # starts after that), leaving time to commit. The step timeout is a
+      # backstop; a timed-out step still lets the commit step run.
       - name: Fetch
+        timeout-minutes: 320
         run: |
-          python3 -m specstats extract --go
-          if [ "${{ inputs.command }}" = reconcile ]; then python3 -m specstats reconcile --go; fi
-          python3 -m specstats users --go
+          stop_at=$(date -u -d '+300 minutes' +%Y-%m-%dT%H:%M:%SZ)
+          python3 -m specstats extract --go --stop-at "$stop_at"
+          if [ "${{ inputs.command }}" = reconcile ]; then python3 -m specstats reconcile --go --stop-at "$stop_at"; fi
+          python3 -m specstats users --go --stop-at "$stop_at"
 
       - name: Commit the fetched data
         if: always()

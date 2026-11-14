@@ -46,7 +46,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from . import paths
-from .github import GitHubError, NotFound, PaginationLimit
+from .github import DeadlineReached, GitHubError, NotFound, PaginationLimit
 
 OVERLAP = timedelta(days=1)
 PER_PAGE = 100
@@ -346,7 +346,8 @@ def sync_events(client, store, log=print):
 
     If GitHub won't page back to the start of history (first run), the
     oldest event reached is recorded as `floor`, and fetch_item_events()
-    covers older items one at a time.
+    covers older items one at a time. A first run stopped by the deadline
+    does the same, as a newest-first listing can't be resumed midway.
     """
     repo = store.repo
     c = store.cursor("events")
@@ -383,6 +384,11 @@ def sync_events(client, store, log=print):
         except PaginationLimit:
             log(f"{repo} events: pagination limit at {oldest}; older items fall back to per-item events")
             break
+        except DeadlineReached:
+            if cursor is None and oldest:
+                store.set_cursor("events", cursor=newest, etag=first_etag, floor=oldest)
+                log(f"{repo} events: stopped at {oldest}; older items fall back to per-item events")
+            raise
     if cursor is None:
         floor = "" if reached_end else oldest
     store.set_cursor("events", cursor=newest, etag=first_etag, floor=floor)
@@ -518,12 +524,17 @@ def reconcile(client, store, log=print):
 # --- whole repo ----------------------------------------------------------------
 
 def sync_repo(client, store, log=print):
-    for stream in ASCENDING:
-        sync_ascending(client, store, stream, log=log)
-    sync_events(client, store, log=log)
-    fetch_item_events(client, store, log=log)
-    sync_pr_resources(client, store, log=log)
-    check_counts(client, store, log=log)
+    """Everything for one repo. If the client's deadline stops it midway,
+    what's fetched so far is saved and the next run continues."""
+    try:
+        for stream in ASCENDING:
+            sync_ascending(client, store, stream, log=log)
+        sync_events(client, store, log=log)
+        fetch_item_events(client, store, log=log)
+        sync_pr_resources(client, store, log=log)
+        check_counts(client, store, log=log)
+    finally:
+        store.save_state()
 
 
 # --- users -----------------------------------------------------------------------

@@ -41,6 +41,7 @@ for public repos. Put your contact address in `data/private/settings.json`
 python3 -m specstats extract                      # dry run: prints the plan; --go fetches
 python3 -m specstats extract --repo whatwg/dom --go
 python3 -m specstats extract --go                 # all repos; incremental after the first run
+python3 -m specstats extract --go --max-minutes 60 # stop cleanly after an hour; the next run continues
 python3 -m specstats reconcile --go               # weekly: check every issue/PR number against GitHub
 python3 -m specstats users --go                   # public profiles of everyone seen
 python3 -m specstats stats                        # what's stored (offline)
@@ -55,9 +56,10 @@ updates work, and how holes are caught: [`docs/extraction.md`](docs/extraction.m
 ### In GitHub Actions
 
 `.github/workflows/fetch.yml` runs the extractor on demand (Actions →
-"Fetch GitHub data" → Run workflow). Each run commits what it fetched to
-`data/github/`, even if it fails or times out, and the next run resumes
-from there.
+"Fetch GitHub data" → Run workflow). Each run stops itself after 300
+minutes and commits what it fetched to `data/github/`, even if it failed,
+and the next run resumes from there. The first backfill of whatwg/html
+will likely take several runs.
 
 - Set a `SPECSTATS_TOKEN` secret (a fine-grained personal token with no
   extra permissions) for 5,000 requests an hour; without it, the built-in
