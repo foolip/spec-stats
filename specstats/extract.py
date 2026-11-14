@@ -1,10 +1,22 @@
 """Fetch everything that happens on a repo's issues and PRs from the GitHub REST API.
 
-Every object is stored as plain JSON text, exactly the fields GitHub
-returned, in data/private/raw.sqlite, so it can be queried directly
-(`SELECT json_pretty(json) FROM items ...`) and everything downstream can
-be rebuilt offline. When a stored object changes, its previous version is
-kept in `history`.
+Every object is stored exactly as GitHub returned it, as pretty-printed
+JSON files committed to this repo, laid out like the API paths
+(docs/extraction.md):
+
+  data/github/{owner}/{repo}/
+    issues/{n}.json            the issue (or the issue view of a PR)
+    issues/{n}/comments.json   conversation comments, by id
+    issues/{n}/events.json     timeline events, by id
+    pulls/{n}.json             the PR view: merged_by, size, ...
+    pulls/{n}/reviews.json     reviews
+    pulls/{n}/comments.json    inline review comments, by id
+    pulls/{n}/commits.json     (optional)
+    pulls/{n}/files.json       (optional)
+    state.json                 cursors, ETags, what was fetched when, gone numbers
+  data/github/users/{login}.json   public profiles
+
+Git keeps every earlier version, so nothing here keeps history itself.
 
 Per repo there are four *streams*, each a listing of the whole repo:
 
@@ -24,116 +36,29 @@ config/fetch.json (REST has no repo-wide listing of these):
 Each ascending stream re-reads OVERLAP before its cursor, so anything an
 earlier run missed is picked up; the cursor advances page by page, so an
 interrupted run resumes; and the first page carries the last ETag, so an
-unchanged stream costs one free 304. See docs/extraction.md.
+unchanged stream costs one free 304.
 """
 
 import json
-import sqlite3
+import shutil
+from collections import defaultdict
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 
 from . import paths
 from .github import GitHubError, NotFound, PaginationLimit
 
 OVERLAP = timedelta(days=1)
 PER_PAGE = 100
-
-# table -> (key columns after repo, extra columns, timestamp column, history mode)
-# history mode: "ts" keeps the old version when the timestamp changes,
-# "json" when the JSON changes (objects without updated_at), None never.
-TABLES = {
-    "items": (["number"], ["is_pr"], "updated_at", "ts"),
-    "issue_comments": (["id"], ["number"], "updated_at", "ts"),
-    "review_comments": (["id"], ["number", "review_id"], "updated_at", "ts"),
-    "events": (["id"], ["number"], "created_at", None),
-    "pulls": (["number"], [], "updated_at", "ts"),
-    "pr_reviews": (["id"], ["number"], "submitted_at", "json"),
-    "pr_commits": (["number", "sha"], [], None, "json"),
-    "pr_files": (["number", "filename"], [], None, "json"),
-}
+STATE_EVERY = 50  # save state.json after this many per-item fetches
 
 PR_RESOURCES = {
-    # resource -> (path, table, paged)
-    "pull": ("/repos/{repo}/pulls/{n}", "pulls", False),
-    "reviews": ("/repos/{repo}/pulls/{n}/reviews", "pr_reviews", True),
-    "commits": ("/repos/{repo}/pulls/{n}/commits", "pr_commits", True),
-    "files": ("/repos/{repo}/pulls/{n}/files", "pr_files", True),
+    # resource -> (API path, file under pulls/, paged)
+    "pull": ("/repos/{repo}/pulls/{n}", None, False),
+    "reviews": ("/repos/{repo}/pulls/{n}/reviews", "reviews", True),
+    "commits": ("/repos/{repo}/pulls/{n}/commits", "commits", True),
+    "files": ("/repos/{repo}/pulls/{n}/files", "files", True),
 }
-
-
-COLUMN_TYPES = {"number": "INTEGER", "id": "INTEGER", "is_pr": "INTEGER", "review_id": "INTEGER",
-                "sha": "TEXT", "filename": "TEXT"}
-
-
-def _schema():
-    out = []
-    for table, (keys, extra, ts, _) in TABLES.items():
-        cols = (["repo TEXT NOT NULL"] + [f"{k} {COLUMN_TYPES[k]} NOT NULL" for k in keys]
-                + [f"{k} {COLUMN_TYPES[k]}" for k in extra])
-        if ts:
-            cols.append(ts + " TEXT")
-        cols += ["node_id TEXT", "json TEXT NOT NULL", f"PRIMARY KEY (repo, {', '.join(keys)})"]
-        out.append(f"CREATE TABLE IF NOT EXISTS {table} ({', '.join(cols)});")
-        if "number" in extra:
-            out.append(f"CREATE INDEX IF NOT EXISTS {table}_number ON {table}(repo, number);")
-    out.append("""
-CREATE TABLE IF NOT EXISTS users (
-  login TEXT PRIMARY KEY,
-  updated_at TEXT,
-  fetched_at TEXT NOT NULL,
-  node_id TEXT,
-  json TEXT NOT NULL              -- REST user object, or {"login", "missing": true}
-);
-CREATE TABLE IF NOT EXISTS history (
-  -- previous versions of objects that changed, newest last
-  tbl TEXT NOT NULL,
-  repo TEXT,
-  key TEXT NOT NULL,              -- JSON array of the key columns
-  replaced_at TEXT NOT NULL,      -- when we saw the new version
-  removed INTEGER NOT NULL DEFAULT 0,  -- 1: the object was gone on refetch
-  json TEXT NOT NULL
-);
-CREATE INDEX IF NOT EXISTS history_key ON history(tbl, repo, key);
-CREATE TABLE IF NOT EXISTS pr_fetched (
-  -- which per-PR resources are current for which version of the PR
-  repo TEXT NOT NULL,
-  number INTEGER NOT NULL,
-  resource TEXT NOT NULL,
-  item_updated_at TEXT NOT NULL,
-  PRIMARY KEY (repo, number, resource)
-);
-CREATE TABLE IF NOT EXISTS item_events (
-  -- items whose events were fetched one by one (fallback when the
-  -- repo-wide events listing can't be paged back far enough)
-  repo TEXT NOT NULL,
-  number INTEGER NOT NULL,
-  item_updated_at TEXT NOT NULL,
-  PRIMARY KEY (repo, number)
-);
-CREATE TABLE IF NOT EXISTS gone (
-  -- issue numbers that don't exist here: deleted, or transferred elsewhere
-  repo TEXT NOT NULL,
-  number INTEGER NOT NULL,
-  reason TEXT NOT NULL,           -- 'deleted' | 'transferred'
-  checked_at TEXT NOT NULL,
-  PRIMARY KEY (repo, number)
-);
-CREATE TABLE IF NOT EXISTS cursors (
-  repo TEXT NOT NULL,
-  stream TEXT NOT NULL,
-  cursor TEXT,                    -- newest updated_at (created_at for events) stored
-  etag TEXT,                      -- ETag of the first page requested with since_used
-  since_used TEXT,
-  floor TEXT,                     -- events only: oldest created_at reached, '' = all
-  PRIMARY KEY (repo, stream)
-);
-""")
-    return "\n".join(out)
-
-
-def connect(path=None):
-    db = sqlite3.connect(path or paths.raw_db())
-    db.executescript(_schema())
-    return db
 
 
 def now():
@@ -152,10 +77,6 @@ def _tail_number(url):
     return int(url.rstrip("/").rsplit("/", 1)[1])
 
 
-def _dump(obj):
-    return json.dumps(obj, separators=(",", ":"), ensure_ascii=False)
-
-
 def load_pr_resources():
     p = paths.CONFIG / "fetch.json"
     names = json.loads(p.read_text())["pr_resources"] if p.exists() else ["pull", "reviews"]
@@ -165,84 +86,147 @@ def load_pr_resources():
     return names
 
 
-# --- storing ---------------------------------------------------------------
+# --- files ---------------------------------------------------------------------
 
-def _columns(table, obj, number=None):
-    """Column values for one object of `table` (everything but repo and json)."""
-    if table == "items":
-        return {"number": obj["number"], "is_pr": int("pull_request" in obj), "updated_at": obj["updated_at"]}
-    if table == "issue_comments":
-        return {"id": obj["id"], "number": _tail_number(obj["issue_url"]), "updated_at": obj["updated_at"]}
-    if table == "review_comments":
-        return {"id": obj["id"], "number": _tail_number(obj["pull_request_url"]),
-                "review_id": obj.get("pull_request_review_id"), "updated_at": obj["updated_at"]}
-    if table == "events":
-        return {"id": obj["id"], "number": number if number is not None else obj["issue"]["number"],
-                "created_at": obj["created_at"]}
-    if table == "pulls":
-        return {"number": obj["number"], "updated_at": obj["updated_at"]}
-    if table == "pr_reviews":
-        return {"id": obj["id"], "number": number, "submitted_at": obj.get("submitted_at")}
-    if table == "pr_commits":
-        return {"number": number, "sha": obj["sha"]}
-    if table == "pr_files":
-        return {"number": number, "filename": obj["filename"]}
-    raise ValueError(table)
+def pretty(data):
+    """GitHub's field order, 2-space indent, UTF-8, trailing newline."""
+    return json.dumps(data, indent=2, ensure_ascii=False) + "\n"
 
 
-def store(db, repo, table, obj, number=None):
-    """Upsert one REST object, keeping the old version in `history` if it
-    changed. Returns the object's timestamp (None if it has none)."""
-    keys, _, ts_col, mode = TABLES[table]
-    cols = _columns(table, obj, number)
-    new_json = _dump(obj)
-    where = " AND ".join(f"{k} = ?" for k in keys)
-    key_vals = [cols[k] for k in keys]
-    old = db.execute(f"SELECT {ts_col or 'NULL'}, json FROM {table} WHERE repo = ? AND {where}",
-                     [repo, *key_vals]).fetchone()
-    if old and mode and old[1] != new_json and (mode == "json" or old[0] != cols.get(ts_col)):
-        _keep(db, table, repo, key_vals, old[1])
-    cols.update(repo=repo, node_id=obj.get("node_id"), json=new_json)
-    names = list(cols)
-    db.execute(f"INSERT OR REPLACE INTO {table} ({', '.join(names)}) VALUES ({', '.join('?' * len(names))})",
-               [cols[n] for n in names])
-    return cols.get(ts_col) if ts_col else None
+def read_json(path, default=None):
+    path = Path(path)
+    return json.loads(path.read_text(encoding="utf-8")) if path.exists() else default
 
 
-def _keep(db, table, repo, key_vals, old_json, removed=False):
-    db.execute("INSERT INTO history (tbl, repo, key, replaced_at, removed, json) VALUES (?,?,?,?,?,?)",
-               (table, repo, json.dumps(key_vals), now(), int(removed), old_json))
+def write_json(path, data):
+    """Write `data` if it differs from what's there; None or [] removes the file
+    (and its directory, if that leaves it empty)."""
+    path = Path(path)
+    if data is None or data == []:
+        if path.exists():
+            path.unlink()
+            try:
+                path.parent.rmdir()
+            except OSError:
+                pass
+        return
+    text = pretty(data)
+    if path.exists() and path.read_text(encoding="utf-8") == text:
+        return
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_name(path.name + ".tmp")
+    tmp.write_text(text, encoding="utf-8")
+    tmp.replace(path)
 
 
-def replace_set(db, repo, table, number, objs):
-    """Store all of one item's objects in `table` (e.g. a PR's reviews), and
-    move ones that are no longer there to history."""
-    keys = TABLES[table][0]
-    old = db.execute(f"SELECT {', '.join(keys)}, json FROM {table} WHERE repo = ? AND number = ?",
-                     (repo, number)).fetchall()
-    seen = set()
-    for obj in objs:
-        cols = _columns(table, obj, number)
-        seen.add(tuple(cols[k] for k in keys))
-        store(db, repo, table, obj, number)
-    for row in old:
-        key_vals = row[:-1]
-        if tuple(key_vals) not in seen:
-            _keep(db, table, repo, list(key_vals), row[-1], removed=True)
-            where = " AND ".join(f"{k} = ?" for k in keys)
-            db.execute(f"DELETE FROM {table} WHERE repo = ? AND {where}", [repo, *key_vals])
+def _by_number(d):
+    return {k: d[k] for k in sorted(d, key=int)}
 
 
-def _cursor(db, repo, stream):
-    row = db.execute("SELECT cursor, etag, since_used, floor FROM cursors WHERE repo=? AND stream=?",
-                     (repo, stream)).fetchone()
-    return row or (None, None, None, None)
+class RepoStore:
+    """One repo's files, data/github/{owner}/{repo}/."""
+
+    def __init__(self, repo, root=None):
+        self.repo = repo
+        self.dir = Path(root or paths.github_dir()) / repo
+        self.state = read_json(self.dir / "state.json", {})
+        self._index = None
+
+    # state.json
+    def cursor(self, stream):
+        return self.state.get("cursors", {}).get(stream, {})
+
+    def set_cursor(self, stream, **fields):
+        self.state.setdefault("cursors", {})[stream] = {k: v for k, v in fields.items() if v is not None}
+        self.save_state()
+
+    def fetched(self, resource, number):
+        return self.state.get("fetched", {}).get(resource, {}).get(str(number))
+
+    def set_fetched(self, resource, number, updated_at):
+        self.state.setdefault("fetched", {}).setdefault(resource, {})[str(number)] = updated_at
+
+    def gone(self):
+        return {int(n): v for n, v in self.state.get("gone", {}).items()}
+
+    def set_gone(self, number, reason):
+        self.state.setdefault("gone", {})[str(number)] = {"reason": reason, "checked_at": now()}
+
+    def save_state(self):
+        s = dict(self.state)
+        if "fetched" in s:
+            s["fetched"] = {r: _by_number(m) for r, m in sorted(s["fetched"].items())}
+        if "gone" in s:
+            s["gone"] = _by_number(s["gone"])
+        write_json(self.dir / "state.json", s)
+
+    # objects
+    def path(self, kind, number, what=None):
+        return self.dir / kind / (f"{number}.json" if what is None else f"{number}/{what}.json")
+
+    def get(self, kind, number, what=None, default=None):
+        return read_json(self.path(kind, number, what), default)
+
+    def put(self, kind, number, what, data):
+        write_json(self.path(kind, number, what), data)
+        if kind == "issues" and what is None and self._index is not None:
+            self._remember(data)
+
+    def put_issue(self, obj):
+        self.put("issues", obj["number"], None, obj)
+
+    def merge(self, kind, number, what, objs):
+        """Add or replace objects by id in a list file, kept sorted by id."""
+        by_id = {o["id"]: o for o in self.get(kind, number, what, [])}
+        for o in objs:
+            by_id[o["id"]] = o
+        self.put(kind, number, what, [by_id[i] for i in sorted(by_id)])
+
+    def remove_item(self, number):
+        """Everything stored for a deleted or transferred issue or PR."""
+        for kind in ("issues", "pulls"):
+            self.path(kind, number).unlink(missing_ok=True)
+            shutil.rmtree(self.dir / kind / str(number), ignore_errors=True)
+        if self._index is not None:
+            self._index.pop(number, None)
+
+    # a small in-memory index of the issue files
+    def _remember(self, obj):
+        self._index[obj["number"]] = {"updated_at": obj["updated_at"], "created_at": obj["created_at"],
+                                      "is_pr": "pull_request" in obj, "comments": obj.get("comments", 0)}
+
+    def index(self):
+        """number -> {updated_at, created_at, is_pr, comments}, from issues/*.json."""
+        if self._index is None:
+            self._index = {}
+            for p in self.dir.glob("issues/*.json"):
+                if p.stem.isdigit():
+                    self._remember(read_json(p))
+        return self._index
+
+    def lists(self, kind, what):
+        """(number, objects) for every issues/{n}/{what}.json or pulls/{n}/{what}.json."""
+        for p in sorted(self.dir.glob(f"{kind}/*/{what}.json"), key=lambda p: int(p.parent.name)):
+            yield int(p.parent.name), read_json(p)
+
+    def counts(self):
+        idx = self.index()
+        out = {"issues": sum(not i["is_pr"] for i in idx.values()), "prs": sum(i["is_pr"] for i in idx.values()),
+               "pulls": len(list(self.dir.glob("pulls/*.json")))}
+        for name, kind, what in (("comments", "issues", "comments"), ("events", "issues", "events"),
+                                 ("reviews", "pulls", "reviews"), ("review_comments", "pulls", "comments")):
+            out[name] = sum(len(objs) for _, objs in self.lists(kind, what))
+        out["gone"] = len(self.gone())
+        return out
 
 
-def _save_cursor(db, repo, stream, cursor, etag, since_used, floor=None):
-    db.execute("INSERT OR REPLACE INTO cursors VALUES (?,?,?,?,?,?)",
-               (repo, stream, cursor, etag, since_used, floor))
-    db.commit()
+def stored_repos(root=None):
+    """owner/name of every repo with files, e.g. ["whatwg/dom"]."""
+    root = Path(root or paths.github_dir())
+    if not root.is_dir():
+        return []
+    return sorted(f"{o.name}/{r.name}" for o in root.iterdir() if o.is_dir() and o.name != "users"
+                  for r in o.iterdir() if r.is_dir())
 
 
 def _all_pages(client, path, params=None):
@@ -261,6 +245,22 @@ ASCENDING = {
     "issue_comments": ("/repos/{repo}/issues/comments", {"sort": "updated", "direction": "asc"}),
     "review_comments": ("/repos/{repo}/pulls/comments", {"sort": "updated", "direction": "asc"}),
 }
+
+
+def _store_page(store, stream, rows):
+    """Store one page of an ascending stream."""
+    if stream == "items":
+        for obj in rows:
+            store.put_issue(obj)
+        return
+    groups = defaultdict(list)
+    for obj in rows:
+        if stream == "issue_comments":
+            groups[("issues", _tail_number(obj["issue_url"]))].append(obj)
+        else:
+            groups[("pulls", _tail_number(obj["pull_request_url"]))].append(obj)
+    for (kind, number), objs in groups.items():
+        store.merge(kind, number, "comments", objs)
 
 
 def list_ascending(client, path, params, on_page, first=None, log=print):
@@ -297,48 +297,63 @@ def list_ascending(client, path, params, on_page, first=None, log=print):
                 raise GitHubError(f"{path}: more rows at {newest} than GitHub will page through")
 
 
-def sync_ascending(client, db, repo, stream, log=print):
+def sync_ascending(client, store, stream, log=print):
     """Fetch everything in `stream` updated since the cursor (minus OVERLAP)."""
+    repo = store.repo
     path, base = ASCENDING[stream]
     path = path.format(repo=repo)
-    cursor, etag, since_used, _ = _cursor(db, repo, stream)
+    c = store.cursor(stream)
+    cursor = c.get("cursor")
     since = _fmt(_parse(cursor) - OVERLAP) if cursor else None
     params = dict(base, per_page=PER_PAGE)
     if since:
         params["since"] = since
-    first = client.rest(path, params, etag=etag if since_used == since else None)
+    first = client.rest(path, params, etag=c.get("etag") if c.get("since") == since else None)
     if first.status == 304:
         log(f"{repo} {stream}: unchanged")
         return 0
     state = {"newest": cursor, "stored": 0}
 
     def on_page(rows):
+        _store_page(store, stream, rows)
         for obj in rows:
-            ts = store(db, repo, stream, obj)
-            state["newest"] = max(state["newest"] or ts, ts)
-            state["stored"] += 1
-        db.commit()
-        _save_cursor(db, repo, stream, state["newest"], None, None)  # resume point
+            state["newest"] = max(state["newest"] or obj["updated_at"], obj["updated_at"])
+        state["stored"] += len(rows)
+        store.set_cursor(stream, cursor=state["newest"])  # resume point
         return state["newest"]
 
     list_ascending(client, path, params, on_page, first=first, log=log)
-    _save_cursor(db, repo, stream, state["newest"], first.etag, since)
+    store.set_cursor(stream, cursor=state["newest"], etag=first.etag, since=since)
     log(f"{repo} {stream}: stored {state['stored']}")
     return state["stored"]
 
 
 # --- events ----------------------------------------------------------------
 
-def sync_events(client, db, repo, log=print):
+def _store_events(store, events):
+    """Events from the repo-wide listing, under their issue's number. The
+    embedded `issue` (a copy of the issue at fetch time) is left out, so
+    they're stored as /issues/{n}/events returns them."""
+    groups = defaultdict(list)
+    for obj in events:
+        groups[obj["issue"]["number"]].append({k: v for k, v in obj.items() if k != "issue"})
+    for number, objs in groups.items():
+        store.merge("issues", number, "events", objs)
+
+
+def sync_events(client, store, log=print):
     """Repo-wide events, newest first, until OVERLAP before the cursor.
 
     If GitHub won't page back to the start of history (first run), the
     oldest event reached is recorded as `floor`, and fetch_item_events()
     covers older items one at a time.
     """
-    cursor, etag, _, floor = _cursor(db, repo, "events")
+    repo = store.repo
+    c = store.cursor("events")
+    cursor, floor = c.get("cursor"), c.get("floor")
     stop = _fmt(_parse(cursor) - OVERLAP) if cursor else None
-    resp = client.rest(f"/repos/{repo}/issues/events", {"per_page": PER_PAGE}, etag=etag if cursor else None)
+    resp = client.rest(f"/repos/{repo}/issues/events", {"per_page": PER_PAGE},
+                       etag=c.get("etag") if cursor else None)
     if resp.status == 304:
         log(f"{repo} events: unchanged")
         return 0
@@ -346,17 +361,18 @@ def sync_events(client, db, repo, log=print):
     newest, oldest, stored, reached_end = cursor, None, 0, False
     while True:
         done = False
+        page = []
         for obj in resp.data:
             ts = obj["created_at"]
             if stop and ts < stop:
                 done = True
                 break
             if obj.get("issue"):
-                store(db, repo, "events", obj)
-                stored += 1
+                page.append(obj)
             newest = max(newest or ts, ts)
             oldest = min(oldest or ts, ts)
-        db.commit()
+        _store_events(store, page)
+        stored += len(page)
         if done:
             break
         if not resp.next:
@@ -369,123 +385,113 @@ def sync_events(client, db, repo, log=print):
             break
     if cursor is None:
         floor = "" if reached_end else oldest
-    _save_cursor(db, repo, "events", newest, first_etag, None, floor)
+    store.set_cursor("events", cursor=newest, etag=first_etag, floor=floor)
     log(f"{repo} events: stored {stored}")
     return stored
 
 
-def fetch_item_events(client, db, repo, log=print):
+def fetch_item_events(client, store, log=print):
     """Per-item events for items older than the events floor, if there is one."""
-    _, _, _, floor = _cursor(db, repo, "events")
+    floor = store.cursor("events").get("floor")
     if not floor:
         return 0
-    todo = db.execute(
-        "SELECT i.number, i.updated_at FROM items i LEFT JOIN item_events e "
-        "ON e.repo = i.repo AND e.number = i.number "
-        "WHERE i.repo = ? AND json_extract(i.json, '$.created_at') < ? "
-        "AND (e.item_updated_at IS NULL OR e.item_updated_at != i.updated_at)",
-        (repo, floor)).fetchall()
-    for number, updated in todo:
-        for obj in _all_pages(client, f"/repos/{repo}/issues/{number}/events"):
-            store(db, repo, "events", obj, number)
-        db.execute("INSERT OR REPLACE INTO item_events VALUES (?,?,?)", (repo, number, updated))
-        db.commit()
+    todo = [(n, i["updated_at"]) for n, i in sorted(store.index().items())
+            if i["created_at"] < floor and store.fetched("events", n) != i["updated_at"]]
+    for k, (number, updated) in enumerate(todo, 1):
+        store.merge("issues", number, "events", _all_pages(client, f"/repos/{store.repo}/issues/{number}/events"))
+        store.set_fetched("events", number, updated)
+        if k % STATE_EVERY == 0:
+            store.save_state()
+    store.save_state()
     if todo:
-        log(f"{repo} events: fetched per-item events for {len(todo)} older items")
+        log(f"{store.repo} events: fetched per-item events for {len(todo)} older items")
     return len(todo)
 
 
 # --- per-PR resources --------------------------------------------------------
 
-def stale_prs(db, repo, resource):
-    return db.execute(
-        "SELECT i.number, i.updated_at FROM items i LEFT JOIN pr_fetched f "
-        "ON f.repo = i.repo AND f.number = i.number AND f.resource = ? "
-        "WHERE i.repo = ? AND i.is_pr = 1 "
-        "AND (f.item_updated_at IS NULL OR f.item_updated_at != i.updated_at) ORDER BY i.number",
-        (resource, repo)).fetchall()
+def stale_prs(store, resource):
+    return [(n, i["updated_at"]) for n, i in sorted(store.index().items())
+            if i["is_pr"] and store.fetched(resource, n) != i["updated_at"]]
 
 
-def sync_pr_resources(client, db, repo, resources=None, log=print):
+def sync_pr_resources(client, store, resources=None, log=print):
     """Fetch each configured per-PR resource for every PR that changed."""
     total = 0
     for resource in resources or load_pr_resources():
-        path, table, paged = PR_RESOURCES[resource]
-        todo = stale_prs(db, repo, resource)
-        for number, updated in todo:
-            url = path.format(repo=repo, n=number)
+        path, what, paged = PR_RESOURCES[resource]
+        todo = stale_prs(store, resource)
+        for k, (number, updated) in enumerate(todo, 1):
+            url = path.format(repo=store.repo, n=number)
             try:
-                if paged:
-                    replace_set(db, repo, table, number, _all_pages(client, url))
-                else:
-                    store(db, repo, table, client.rest(url).data)
+                data = list(_all_pages(client, url)) if paged else client.rest(url).data
+                store.put("pulls", number, what, data)
             except NotFound:
                 pass  # deleted since it was listed; reconcile records it
-            db.execute("INSERT OR REPLACE INTO pr_fetched VALUES (?,?,?,?)", (repo, number, resource, updated))
-            db.commit()
+            store.set_fetched(resource, number, updated)
+            if k % STATE_EVERY == 0:
+                store.save_state()
+        store.save_state()
         if todo:
-            log(f"{repo} {resource}: fetched for {len(todo)} PRs")
+            log(f"{store.repo} {resource}: fetched for {len(todo)} PRs")
         total += len(todo)
     return total
 
 
 # --- consistency checks ------------------------------------------------------
 
-def comment_mismatches(db, repo):
+def comment_mismatches(store):
     """Items whose stored comments don't match the counts GitHub reports:
     conversation comments (`comments` on the issue) and inline review
     comments (`review_comments` on the PR, if `pull` is fetched)."""
-    issue = db.execute(
-        "SELECT i.number FROM items i WHERE i.repo = ? AND "
-        "json_extract(i.json, '$.comments') != "
-        "(SELECT COUNT(*) FROM issue_comments c WHERE c.repo = i.repo AND c.number = i.number)",
-        (repo,)).fetchall()
-    review = db.execute(
-        "SELECT p.number FROM pulls p JOIN items i ON i.repo = p.repo AND i.number = p.number "
-        "WHERE p.repo = ? AND p.updated_at = i.updated_at AND "
-        "json_extract(p.json, '$.review_comments') != "
-        "(SELECT COUNT(*) FROM review_comments c WHERE c.repo = p.repo AND c.number = p.number)",
-        (repo,)).fetchall()
-    return [n for (n,) in issue], [n for (n,) in review]
+    issue, review = [], []
+    for number, info in sorted(store.index().items()):
+        if info["comments"] != len(store.get("issues", number, "comments", [])):
+            issue.append(number)
+        if info["is_pr"]:
+            pull = store.get("pulls", number)
+            if (pull and pull["updated_at"] == info["updated_at"]
+                    and pull.get("review_comments") != len(store.get("pulls", number, "comments", []))):
+                review.append(number)
+    return issue, review
 
 
-def check_counts(client, db, repo, log=print):
-    """Refetch the comments of items whose stored counts are off. This also
-    moves comments that were deleted on GitHub to history."""
-    issue_bad, review_bad = comment_mismatches(db, repo)
-    for number in issue_bad:
-        replace_set(db, repo, "issue_comments", number, _all_pages(client, f"/repos/{repo}/issues/{number}/comments"))
-    for number in review_bad:
-        replace_set(db, repo, "review_comments", number, _all_pages(client, f"/repos/{repo}/pulls/{number}/comments"))
-    db.commit()
+def check_counts(client, store, log=print):
+    """Refetch the comments of items whose stored counts are off. Comments
+    deleted on GitHub are dropped (git keeps them)."""
+    issue_bad, review_bad = comment_mismatches(store)
+    for kind, bad in (("issues", issue_bad), ("pulls", review_bad)):
+        for number in bad:
+            objs = list(_all_pages(client, f"/repos/{store.repo}/{kind}/{number}/comments"))
+            store.put(kind, number, "comments", sorted(objs, key=lambda o: o["id"]))
     if issue_bad or review_bad:
-        log(f"{repo}: refetched comments for {len(issue_bad)} items and review comments for {len(review_bad)} PRs")
+        log(f"{store.repo}: refetched comments for {len(issue_bad)} items and review comments for {len(review_bad)} PRs")
     return issue_bad, review_bad
 
 
-def reconcile(client, db, repo, log=print):
+def reconcile(client, store, log=print):
     """Weekly check that every issue and PR is stored.
 
     Re-lists every item (storing any that changed), then accounts for every
-    number from 1 to the highest: each one is stored, or recorded in `gone`
-    as deleted or transferred after checking it on GitHub. Items stored here
-    but missing from the listing are checked the same way.
+    number from 1 to the highest: each one is stored, or recorded as gone
+    (deleted or transferred) in state.json after checking it on GitHub.
+    Items stored here but missing from the listing are checked the same way.
     """
-    remote = {}
+    repo = store.repo
+    remote = set()
 
     def on_page(rows):
         for obj in rows:
-            remote[obj["number"]] = obj["updated_at"]
-            store(db, repo, "items", obj)
-        db.commit()
+            remote.add(obj["number"])
+            store.put_issue(obj)
         return rows[-1]["updated_at"] if rows else None
 
     list_ascending(client, f"/repos/{repo}/issues",
                    {"state": "all", "sort": "updated", "direction": "asc", "per_page": PER_PAGE}, on_page, log=log)
-    stored = {n for (n,) in db.execute("SELECT number FROM items WHERE repo = ?", (repo,))}
-    gone = {n for (n,) in db.execute("SELECT number FROM gone WHERE repo = ?", (repo,))}
-    highest = max(set(remote) | stored, default=0)
-    to_check = sorted((set(range(1, highest + 1)) - set(remote) - gone))
+    stored = set(store.index())
+    gone = set(store.gone())
+    highest = max(remote | stored, default=0)
+    to_check = sorted(set(range(1, highest + 1)) - remote - gone)
     found, marked = [], {}
     for number in to_check:
         try:
@@ -494,71 +500,78 @@ def reconcile(client, db, repo, log=print):
             marked[number] = "deleted"
             continue
         if obj["repository_url"].lower().endswith("/repos/" + repo.lower()):
-            store(db, repo, "items", obj)
+            store.put_issue(obj)
             found.append(number)
         else:
             marked[number] = "transferred"
     for number, reason in marked.items():
-        db.execute("INSERT OR REPLACE INTO gone VALUES (?,?,?,?)", (repo, number, reason, now()))
-        row = db.execute("SELECT json FROM items WHERE repo = ? AND number = ?", (repo, number)).fetchone()
-        if row:
-            _keep(db, "items", repo, [number], row[0], removed=True)
-            db.execute("DELETE FROM items WHERE repo = ? AND number = ?", (repo, number))
-    db.commit()
-    stored_now = db.execute("SELECT COUNT(*) FROM items WHERE repo = ?", (repo,)).fetchone()[0]
-    gone_now = db.execute("SELECT COUNT(*) FROM gone WHERE repo = ?", (repo,)).fetchone()[0]
-    report = {"repo": repo, "highest": highest, "stored": stored_now, "gone": gone_now,
+        store.set_gone(number, reason)
+        store.remove_item(number)
+    store.save_state()
+    report = {"repo": repo, "highest": highest, "stored": len(store.index()), "gone": len(store.gone()),
               "found": found, "newly_gone": sorted(marked)}
-    log(f"{repo} reconcile: numbers 1..{highest}: {stored_now} stored, {gone_now} gone; "
+    log(f"{repo} reconcile: numbers 1..{highest}: {report['stored']} stored, {report['gone']} gone; "
         f"found {len(found)} missing, marked {len(marked)} gone")
     return report
 
 
 # --- whole repo ----------------------------------------------------------------
 
-def sync_repo(client, db, repo, log=print):
+def sync_repo(client, store, log=print):
     for stream in ASCENDING:
-        sync_ascending(client, db, repo, stream, log=log)
-    sync_events(client, db, repo, log=log)
-    fetch_item_events(client, db, repo, log=log)
-    sync_pr_resources(client, db, repo, log=log)
-    check_counts(client, db, repo, log=log)
+        sync_ascending(client, store, stream, log=log)
+    sync_events(client, store, log=log)
+    fetch_item_events(client, store, log=log)
+    sync_pr_resources(client, store, log=log)
+    check_counts(client, store, log=log)
 
 
 # --- users -----------------------------------------------------------------------
 
-def seen_logins(db):
-    """Logins of every human account that appears anywhere in the raw data."""
+def users_dir(root=None):
+    return Path(root or paths.github_dir()) / "users"
+
+
+def seen_logins(root=None):
+    """Logins of every human account that appears anywhere in the stored data."""
     logins = set()
-    for table, paths_ in (("items", ("$.user", "$.closed_by")), ("issue_comments", ("$.user",)),
-                          ("review_comments", ("$.user",)), ("events", ("$.actor",)),
-                          ("pulls", ("$.merged_by",)), ("pr_reviews", ("$.user",))):
-        for p in paths_:
-            for (login,) in db.execute(
-                    f"SELECT DISTINCT json_extract(json, '{p}.login') FROM {table} "
-                    f"WHERE json_extract(json, '{p}.type') = 'User'"):
-                if login:
-                    logins.add(login)
+
+    def add(user):
+        if user and user.get("type") == "User" and user.get("login"):
+            logins.add(user["login"])
+
+    for repo in stored_repos(root):
+        store = RepoStore(repo, root)
+        for p in store.dir.glob("issues/*.json"):
+            obj = read_json(p)
+            add(obj.get("user"))
+            add(obj.get("closed_by"))
+        for p in store.dir.glob("pulls/*.json"):
+            add(read_json(p).get("merged_by"))
+        for kind, what, field in (("issues", "comments", "user"), ("issues", "events", "actor"),
+                                  ("pulls", "reviews", "user"), ("pulls", "comments", "user")):
+            for _, objs in store.lists(kind, what):
+                for o in objs:
+                    add(o.get(field))
     return logins
 
 
-def users_to_fetch(db):
-    have = {r[0] for r in db.execute("SELECT login FROM users")}
-    return sorted(seen_logins(db) - have)
+def users_to_fetch(root=None):
+    have = {p.stem for p in users_dir(root).glob("*.json")}
+    return sorted(seen_logins(root) - have)
 
 
-def extract_users(client, db, logins, log=print):
+def load_profiles(root=None):
+    return {p.stem: read_json(p) for p in users_dir(root).glob("*.json")}
+
+
+def extract_users(client, logins, root=None, log=print):
     """Fetch the public profiles (name, company, …) of `logins`."""
     for i, login in enumerate(logins, 1):
         try:
             obj = client.rest(f"/users/{login}").data
         except NotFound:
             obj = {"login": login, "missing": True}
-        old = db.execute("SELECT updated_at, json FROM users WHERE login = ?", (login,)).fetchone()
-        if old and old[0] != obj.get("updated_at"):
-            _keep(db, "users", None, [login], old[1])
-        db.execute("INSERT OR REPLACE INTO users VALUES (?,?,?,?,?)",
-                   (login, obj.get("updated_at"), now(), obj.get("node_id"), _dump(obj)))
-        db.commit()
+        write_json(users_dir(root) / f"{login}.json", obj)
         if i % 100 == 0 or i == len(logins):
             log(f"users: {i}/{len(logins)}")

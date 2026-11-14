@@ -1,52 +1,70 @@
 # Extraction: what is fetched and how updates work
 
 Code: `specstats/extract.py` (fetching and storing), `specstats/github.py`
-(the throttled client). Everything goes in `data/private/raw.sqlite`,
-losslessly, as the API returned it, so derive and summarize can be rerun
-offline with new definitions at any time.
+(the throttled client). Everything goes in `data/github/`, committed to
+this repo, losslessly, as the API returned it, so any analysis can be
+run offline, and rerun with new definitions at any time.
+
+## Where it's stored
+
+One pretty-printed JSON file (2-space indent, GitHub's field order, UTF-8,
+trailing newline) per object or per item's list of objects, at a path
+that mirrors the API path it comes from:
+
+```
+data/github/
+  whatwg/dom/
+    issues/1234.json            GET /repos/whatwg/dom/issues/1234 (issues and PRs)
+    issues/1234/comments.json   conversation comments, sorted by id
+    issues/1234/events.json     timeline events, sorted by id
+    pulls/1234.json             GET /repos/whatwg/dom/pulls/1234 (PRs only)
+    pulls/1234/reviews.json     reviews
+    pulls/1234/comments.json    inline review comments, sorted by id
+    pulls/1234/commits.json     (optional)
+    pulls/1234/files.json       (optional)
+    state.json                  cursors and ETags, which PR resources were fetched for
+                                which updated_at, and numbers that are gone
+  users/foolip.json             GET /users/foolip
+```
+
+Lists that would be empty have no file. Issues and PRs share one
+`issues/` directory because they share one number sequence; a PR also
+has `pulls/{n}.json`, the PR view of the same number.
+
+Events from the repo-wide listing embed a copy of their issue as it was
+when fetched; that copy is left out, so `events.json` holds what
+`/issues/{n}/events` returns.
+
+Query the files with `jq` or any JSON tool, e.g.
+`jq -r '.[].user.login' data/github/whatwg/dom/issues/*/comments.json | sort | uniq -c | sort -n`.
+
+**History is git's.** A changed object rewrites its file; a comment deleted
+on GitHub is dropped from its list when refetched; a deleted or
+transferred item has all its files removed. Every earlier version is in
+`git log`. Unchanged objects re-read in the overlap don't change any file.
 
 ## What is fetched, per repo
 
-Everything comes from the REST API, and every object is stored as plain
-JSON text with all the fields GitHub returned, so the database can be
-queried directly:
-
-```sql
-SELECT json_pretty(json) FROM items WHERE repo = 'whatwg/dom' AND number = 1234;
-SELECT json_extract(json, '$.user.login'), COUNT(*) FROM issue_comments GROUP BY 1 ORDER BY 2 DESC;
-```
-
-Each table also has a few columns for lookups (repo, number, `id`,
-`node_id`, the object's timestamp).
-
-| Table | What | Request | Incremental by |
+| Stream or resource | What | Request | Incremental by |
 |---|---|---|---|
-| `items` | every issue and PR (labels, state, comment counts, reactions) | `GET /repos/{repo}/issues?state=all&sort=updated&direction=asc` | `since` |
-| `issue_comments` | every conversation comment on issues and PRs | `GET /repos/{repo}/issues/comments?sort=updated&direction=asc` | `since` |
-| `review_comments` | every inline review comment (`in_reply_to_id`, `path`, line, diff hunk, its review) | `GET /repos/{repo}/pulls/comments?sort=updated&direction=asc` | `since` |
-| `events` | every timeline event: labeled, closed, merged, review requested, ready for review, converted to draft, assigned, … | `GET /repos/{repo}/issues/events` (newest first) | stop past the cursor |
-| `pulls` | per PR: merged_by, draft, size (additions, deletions, changed files), review comment count | `GET /repos/{repo}/pulls/{n}` | PRs whose `updated_at` changed |
-| `pr_reviews` | per PR: every review, with state and body | `GET /repos/{repo}/pulls/{n}/reviews` | same |
-| `pr_commits` | per PR, optional: commits, with author emails (at most 250 per PR) | `GET /repos/{repo}/pulls/{n}/commits` | same |
-| `pr_files` | per PR, optional: changed files with line counts (at most 3,000 per PR) | `GET /repos/{repo}/pulls/{n}/files` | same |
-| `users` | public profiles: name, company, location | `GET /users/{login}` | logins not yet fetched |
+| items | every issue and PR (labels, state, comment counts, reactions) | `GET /repos/{repo}/issues?state=all&sort=updated&direction=asc` | `since` |
+| issue comments | every conversation comment on issues and PRs | `GET /repos/{repo}/issues/comments?sort=updated&direction=asc` | `since` |
+| review comments | every inline review comment (`in_reply_to_id`, `path`, line, diff hunk, its review) | `GET /repos/{repo}/pulls/comments?sort=updated&direction=asc` | `since` |
+| events | every timeline event: labeled, closed, merged, review requested, ready for review, converted to draft, assigned, … | `GET /repos/{repo}/issues/events` (newest first) | stop past the cursor |
+| pull | per PR: merged_by, draft, size (additions, deletions, changed files), review comment count | `GET /repos/{repo}/pulls/{n}` | PRs whose `updated_at` changed |
+| reviews | per PR: every review, with state and body | `GET /repos/{repo}/pulls/{n}/reviews` | same |
+| commits | per PR, optional: commits, with author emails (at most 250 per PR) | `GET /repos/{repo}/pulls/{n}/commits` | same |
+| files | per PR, optional: changed files with line counts (at most 3,000 per PR) | `GET /repos/{repo}/pulls/{n}/files` | same |
+| users | public profiles: name, company, location | `GET /users/{login}` | logins not yet fetched |
 
 REST has no repo-wide listing of reviews, commits or files, so those cost
 requests per PR. Which per-PR resources are fetched is set in
 `config/fetch.json`: `pull` and `reviews` by default, with `commits` and
 `files` off until an analysis needs them. Each resource is tracked
-separately (`pr_fetched`), so turning one on later fetches just that
+separately (`fetched` in `state.json`), so turning one on later fetches just that
 resource for every PR on the next run, without refetching anything else.
 
-Bots and boilerplate are kept here; derive decides what counts.
-
-**History.** When a stored object changes (its `updated_at` moves, or, for
-objects without one such as reviews and files, its JSON changes), the
-previous version goes in `history` with the time we saw the new one. Edited
-comments, changed labels on an item and profile `company` changes over
-time are all kept. Objects that disappeared on refetch (a deleted comment,
-a deleted issue) go there too, marked `removed`. Unchanged objects re-read
-in the overlap add nothing.
+Bots and boilerplate are kept; analyses decide what counts.
 
 Not fetched: diff patches, and anything outside GitHub (chat, meetings).
 Deleted comments and items can't be fetched once they're gone, except as
@@ -99,14 +117,14 @@ For each repo:
      pages can't skip, and never page deep enough to hit GitHub's
      pagination limit.
    - The cursor is saved after every page, so an interrupted run resumes
-     where it stopped.
+     where it stopped. Per-item fetches save `state.json` every 50 items.
 2. **Events** are listed newest first until a day before the cursor. On
    the first run, if GitHub won't page back to the start of history, the
    oldest event reached is recorded as the *floor*, and items older than
    it get their events fetched one at a time (`/issues/{n}/events`).
 3. **Per-PR resources:** for every PR whose `updated_at` differs from the
    one each resource was last fetched for. A PR's reviews (or commits, or
-   files) are replaced as a set; ones no longer there move to history.
+   files) are replaced as a set.
 4. **Count checks:** every item's `comments` count is compared with the
    conversation comments stored for it, and every PR's `review_comments`
    count with the inline comments stored. Items that differ get their
@@ -123,11 +141,11 @@ checked exactly:
 1. Re-list every item (about 120 pages for whatwg/html), storing any that
    changed.
 2. Every number from 1 to the highest must then be either stored, or
-   recorded in `gone`. Each number that's neither is fetched on its own:
+   recorded as gone in `state.json`. Each number that's neither is fetched on its own:
    if it exists, it's stored (it had been missed); if GitHub says it was
    deleted, or it redirects to another repo (transferred), it's recorded
-   in `gone` and not checked again. A stored item that turned out to be
-   gone moves to history.
+   as gone and not checked again. A stored item that turned out to be
+   gone has its files removed.
 3. If the numbers still don't add up, the command exits with an error.
 
 The first reconcile after the backfill checks every number never seen, so

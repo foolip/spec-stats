@@ -2,22 +2,25 @@
 
 This is the entry point for anyone (a person or a fresh Claude session)
 picking the project up. Read this, then `README.md`, then
-`docs/maintenance-load.md`.
+`docs/extraction.md`.
 
 ## Goal
 
 A set of dashboards about the health of WHATWG spec maintenance, published
-as one static site: a landing page (`web/index.html`) with a card per
-dashboard. Each dashboard answers one question from public data. Each data
-source gets its own extractor, a raw cache in `data/private/` kept
-losslessly, and small committed summaries that the pages read.
+as one static site, each answering one question from public data. Each
+data source gets its own extractor, with its raw data kept losslessly as
+committed JSON files (`data/github/` for GitHub).
 
-### First dashboard: Maintenance load (`web/maintenance.html`)
+**Current phase: collecting data only.** No deriving, summarizing or
+pages until the data is in and checked. A first dashboard was drafted and
+removed on 2026-11-14 (decisions log); its last version is at commit
+`10edb66`:
 
-Who reviews, merges and triages changes to each Living Standard, by
-organization over time; how few people carry each spec (people doing 50% of
-reviews and merges in the last 12 months); and how long issues and PRs wait
-for a first response. Definitions: `docs/maintenance-load.md`.
+- **Maintenance load:** who reviews, merges and triages changes to each
+  Living Standard, by organization over time; how few people carry each
+  spec (people doing 50% of reviews and merges in the last 12 months); and
+  how long issues and PRs wait for a first response. Definitions were in
+  `docs/maintenance-load.md`.
 
 ## Ground rules
 
@@ -28,7 +31,8 @@ for a first response. Definitions: `docs/maintenance-load.md`.
    seen in them. Not approved: git clones (deferred on 2026-11-13: API data
    first), browser bug trackers, wpt.fyi, GH Archive, and any repo outside
    `whatwg/`.
-   - `extract` and `users` print a plan unless given `--go`.
+   - `extract`, `reconcile` and `users` are dry runs that print a plan;
+     they fetch only when given `--go`.
 2. **Be gentle with GitHub.**
    - Serial requests, at least 1 s apart (`github.MIN_INTERVAL`).
    - Back off on 429/5xx and secondary rate limits, honoring
@@ -37,11 +41,11 @@ for a first response. Definitions: `docs/maintenance-load.md`.
      unchanged listings are free 304s (`docs/extraction.md`).
    - Identify ourselves: the User-Agent carries the operator's contact
      address from the gitignored `data/private/settings.json`.
-3. **Publishing per-person data.** Proposed: reviews, merges, names, logins
-   and profile companies are already public on GitHub, so per-person counts
-   may go in `summaries/` and on the site, as cosh does (its ground rule 3).
-   **This needs the maintainer's confirmation before the first real
-   summaries are committed.** Affiliations that aren't backed by a public
+3. **Publishing per-person data.** The raw GitHub data, which includes
+   logins, bodies and profiles, is committed publicly in `data/github/`
+   (confirmed by the maintainer on 2026-11-14). Whether per-person counts
+   go on dashboards, as cosh does (its ground rule 3), is to be decided
+   when there are dashboards. Affiliations that aren't backed by a public
    source need approval before they're committed either way.
 4. **Credentials:** a GitHub token in `GITHUB_TOKEN` or from `gh auth token`.
    Never print or commit it.
@@ -60,11 +64,11 @@ for a first response. Definitions: `docs/maintenance-load.md`.
 | 2026-11-13 | Re-read a day of overlap on every run, save cursors per page, check comment counts per item, reconcile every number weekly, and fail on count mismatches | Stopping at the last-seen item trusts the API to be perfect; these find and fill holes instead (`docs/extraction.md`) |
 | 2026-11-13 | **REST only**, no GraphQL: per-PR requests for reviews instead of batched queries | REST returns whole objects, so everything is stored without maintaining field lists; one representation, ETags and `since` throughout. Costs a longer one-time backfill (roughly 2 requests per PR) |
 | 2026-11-13 | Per-PR commits and files are optional (`config/fetch.json`), off for now | Not sure they're needed; each resource is tracked separately, so turning one on later fetches only that |
-| 2026-11-13 | Raw objects are stored as plain JSON text, uncompressed | The maintainer wants to query the database and see the JSON directly. A few GB is fine |
-| 2026-11-13 | Keep previous versions of changed objects (`history`) | Edits, label changes and profile changes are otherwise lost; future analyses may want them, and it's cheap |
+| 2026-11-13 | Raw objects are stored as plain JSON text, uncompressed (in files since 2026-11-14) | The maintainer wants to query the database and see the JSON directly. A few GB is fine |
+| 2026-11-13 | Keep previous versions of changed objects (~~`history`~~ git, since 2026-11-14) | Edits, label changes and profile changes are otherwise lost; future analyses may want them, and it's cheap |
 | 2026-11-13 | Reconcile by issue number: every number from 1 to the highest is stored or recorded as deleted/transferred | Numbers are one sequence per repo, so completeness can be checked exactly |
 | 2026-11-14 | Page listings by keyset (`since` just before the newest row seen), not offset links | An offset page skips a row whenever an already-read item is updated mid-listing; that would happen during a long backfill. Also avoids GitHub's deep-pagination limit |
-| 2026-11-14 | Start with whatwg/dom only, fetched by a manually triggered GitHub Actions workflow; the raw cache is kept as a workflow artifact (90 days) | Maintainer's instruction: populate and check one repo first. Artifacts can be downloaded and queried; where the cache lives long term is still open |
+| 2026-11-14 | Start with whatwg/dom only, fetched by a manually triggered GitHub Actions workflow; ~~the raw cache is kept as a workflow artifact (90 days)~~ the data is committed (below) | Maintainer's instruction: populate and check one repo first |
 | 2026-11-13 | PR diffs and git history deferred | Spec text written is interesting, but needs git (API patches are truncated for large PRs); API data first |
 | 2026-11-13 | Response time counts from ready-for-review for PRs opened as drafts, and "unanswered" means no response within 7 days | From the earlier whatwg/html prototype: responses during a draft aren't triage, and a median alone hides items nobody answers |
 | 2026-11-13 | Merges are split into self and other; generated boilerplate comments are left out | Same prototype: a self-merge isn't review work, and PR preview comments aren't comments |
@@ -73,14 +77,16 @@ for a first response. Definitions: `docs/maintenance-load.md`.
 | 2026-11-13 | Self-reviews and bots are left out; the PR author's comments aren't "responses" | Replies in one's own review threads are recorded as reviews, but they aren't review work |
 | 2026-11-13 | Web pages are plain HTML, CSS and ES modules, with no build step | Small enough not to need one |
 | 2026-11-14 | Stay with Python (standard library only), with our own small REST client rather than a wrapper library | Maintainer's choice. The extractor needs raw JSON, ETags, `since` with overlap and per-page cursors, which wrappers hide or don't help with; Octokit's throttling plugin (TypeScript) was the main thing given up |
+| 2026-11-14 | Issues and PRs (the `/issues` listing) are committed to this repo, one file per item: `data/github/{owner}/{repo}/issues/{number}.json`, pretty-printed (2-space indent, GitHub's field order, trailing newline). ~~SQLite stays the working cache~~ (superseded below) | Maintainer's choice. A file per item keeps each update a small diff and every file small; git keeps the history and hosts the data long term, and a run can resume from the files if the artifact is gone. One directory for both kinds, as they share one number sequence |
+| 2026-11-14 | **No SQLite for raw data.** Everything fetched is committed as files laid out like the API paths (`issues/{n}.json`, `issues/{n}/comments.json`, `pulls/{n}/reviews.json`, `users/{login}.json`, …) plus a `state.json` per repo; git replaces the `history` table and the workflow artifact. Events are stored without their embedded copy of the issue. SQLite may come back for crunching | Maintainer's choice: public, browsable data in one place with its history, and no second copy to keep in sync. The embedded issue is a snapshot of `issues/{n}.json` at fetch time, repeated on every event |
+| 2026-11-14 | The fetch workflow only fetches and commits; it doesn't run `derive` or `summarize` | Maintainer's instruction: the raw data isn't to be summarized yet. ~~The code stays for later~~ removed (next row) |
+| 2026-11-14 | Removed `derive`, `summarize`, org attribution (`orgs.py`, `config/affiliations.json`, `companies.json`, `bots.txt`), `summaries/`, `web/` and `docs/maintenance-load.md`; last version at `10edb66` | Maintainer's instruction: collect data first; the dashboard will be reworked anyway (next steps) |
 
 ## Status
 
-- Extractor (REST only, incremental, with version history, consistency
-  checks and `reconcile`), derive, summarize, tests and the Maintenance load page are
+- Extractor (REST only, incremental, storing everything as committed JSON
+  files, with consistency checks and `reconcile`) and its tests are
   written. Tests run against an in-memory fake GitHub.
-- The page has been checked against synthetic data only, in light, dark
-  and phone layouts.
 - **Nothing has been fetched yet.** The first run needs a GitHub token on
   the maintainer's machine (the cloud session that wrote this couldn't
   reach the WHATWG repos through the API).
@@ -94,19 +100,14 @@ for a first response. Definitions: `docs/maintenance-load.md`.
    not deep enough), and that `/issues/events` includes PR-only events
    (`ready_for_review`, `review_requested`). Then whatwg/html, cross-checked
    against the figures of the earlier prototype (1,171 PRs and 2,167 issues
-   in 2024–2026; 41.3% of 2026's reviews by the PR's author), then all
-   repos, then `users --go`.
-3. Rework the metrics around the prototype's catalog: PRs touched (split
-   by size) instead of raw review counts, review sessions, sign-offs
-   (`APPROVED` or LGTM), unquoted words.
-4. Daily job: GitHub Actions on a schedule, with a personal token as a
-   secret (the built-in token's limit is too low for the backfill) and the
-   raw cache in private storage (R2 proposed; not decided).
-5. Look at how big `Unknown` is, and fill `config/affiliations.json` with
-   publicly sourced entries for the most active accounts.
-6. Confirm ground rule 3, then commit the first real summaries.
-7. Publish the site with GitHub Pages (serve the repo root so
-   `web/` can read `summaries/`).
+   in 2024–2026), then all repos, then `users --go`.
+3. Daily job: GitHub Actions on a schedule, with a personal token as a
+   secret (the built-in token's limit is too low for the backfill),
+   committing to `data/github/` as the manual workflow does.
+4. Then dashboards: bring back Maintenance load (commit `10edb66`),
+   reworked around the prototype's catalog: PRs touched (split by size)
+   instead of raw review counts, review sessions, sign-offs (`APPROVED` or
+   LGTM), unquoted words.
 
 ## Dashboard ideas
 
