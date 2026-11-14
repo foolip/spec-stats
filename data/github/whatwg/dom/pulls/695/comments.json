@@ -1,0 +1,503 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/216860049",
+    "pull_request_review_id": 154440940,
+    "id": 216860049,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDIxNjg2MDA0OQ==",
+    "diff_hunk": "@@ -2382,17 +2412,11 @@ before a <var>child</var>, with an optional <i>suppress observers flag</i>, run\n    <li><p>Otherwise, <a for=set>insert</a> <var>node</var> into <var>parent</var>'s\n    <a for=tree>children</a> before <var>child</var>'s <a for=tree>index</a>.\n \n-   <li><p>If <var>parent</var> is a <a for=Element>shadow host</a> and <var>node</var> is a\n-   <a>slotable</a>, then <a>assign a slot</a> for <var>node</var>.\n-\n    <li>If <var>node</var> is a {{Text}} node, run the <a>child text content change steps</a> for\n    <var>parent</var>.\n \n-   <li><p>If <var>parent</var>'s <a for=tree>root</a> is a <a for=/>shadow root</a>, and\n-   <var>parent</var> is a <a>slot</a> whose <a for=slot>assigned nodes</a> is the empty list,\n-   then run <a>signal a slot change</a> for <var>parent</var>.\n-\n-   <li><p>Run <a>assign slotables for a tree</a> with <var>node</var>'s <a for=tree>root</a>.\n+   <li><p>If the <i>suppress observers flag</i> is unset, then <a>update slots</a> with « »,\n+   <var>parent</var>, and « <var>node</var> ».",
+    "path": "dom.bs",
+    "commit_id": "68e57efbd02b496857016522e664875fa20fe956",
+    "original_commit_id": "f80f0aa30dcb4deda2634134b0f50a6a17905d99",
+    "user": {
+      "login": "rniwa",
+      "id": 285965,
+      "node_id": "MDQ6VXNlcjI4NTk2NQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/285965?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/rniwa",
+      "html_url": "https://github.com/rniwa",
+      "followers_url": "https://api.github.com/users/rniwa/followers",
+      "following_url": "https://api.github.com/users/rniwa/following{/other_user}",
+      "gists_url": "https://api.github.com/users/rniwa/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/rniwa/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/rniwa/subscriptions",
+      "organizations_url": "https://api.github.com/users/rniwa/orgs",
+      "repos_url": "https://api.github.com/users/rniwa/repos",
+      "events_url": "https://api.github.com/users/rniwa/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/rniwa/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Why do we need to run it on both `parent` and `node`? We just inserted `node` into the same tree as `parent`.",
+    "created_at": "2018-09-11T23:52:47Z",
+    "updated_at": "2021-01-19T11:33:16Z",
+    "html_url": "https://github.com/whatwg/dom/pull/695#discussion_r216860049",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/695",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/216860049"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/695#discussion_r216860049"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/695"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/216860049/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 2466,
+    "original_line": 2466,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 53,
+    "position": 50,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/216918212",
+    "pull_request_review_id": 154509269,
+    "id": 216918212,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDIxNjkxODIxMg==",
+    "diff_hunk": "@@ -2382,17 +2412,11 @@ before a <var>child</var>, with an optional <i>suppress observers flag</i>, run\n    <li><p>Otherwise, <a for=set>insert</a> <var>node</var> into <var>parent</var>'s\n    <a for=tree>children</a> before <var>child</var>'s <a for=tree>index</a>.\n \n-   <li><p>If <var>parent</var> is a <a for=Element>shadow host</a> and <var>node</var> is a\n-   <a>slotable</a>, then <a>assign a slot</a> for <var>node</var>.\n-\n    <li>If <var>node</var> is a {{Text}} node, run the <a>child text content change steps</a> for\n    <var>parent</var>.\n \n-   <li><p>If <var>parent</var>'s <a for=tree>root</a> is a <a for=/>shadow root</a>, and\n-   <var>parent</var> is a <a>slot</a> whose <a for=slot>assigned nodes</a> is the empty list,\n-   then run <a>signal a slot change</a> for <var>parent</var>.\n-\n-   <li><p>Run <a>assign slotables for a tree</a> with <var>node</var>'s <a for=tree>root</a>.\n+   <li><p>If the <i>suppress observers flag</i> is unset, then <a>update slots</a> with « »,\n+   <var>parent</var>, and « <var>node</var> ».",
+    "path": "dom.bs",
+    "commit_id": "68e57efbd02b496857016522e664875fa20fe956",
+    "original_commit_id": "f80f0aa30dcb4deda2634134b0f50a6a17905d99",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "That's not what this does, right? It uses parent for different things then node.",
+    "created_at": "2018-09-12T07:09:08Z",
+    "updated_at": "2021-01-19T11:33:16Z",
+    "html_url": "https://github.com/whatwg/dom/pull/695#discussion_r216918212",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/695",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/216918212"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/695#discussion_r216918212"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/695"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/216918212/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 2466,
+    "original_line": 2466,
+    "side": "RIGHT",
+    "in_reply_to_id": 216860049,
+    "author_association": "MEMBER",
+    "original_position": 53,
+    "position": 50,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/280828343",
+    "pull_request_review_id": 233540778,
+    "id": 280828343,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI4MDgyODM0Mw==",
+    "diff_hunk": "@@ -2203,6 +2203,36 @@ steps:\n  <li><p>If <var>slot</var> is non-null, then run <a>assign slotables</a> for <var>slot</var>.\n </ol>\n \n+<p>To <dfn noexport>update slots</dfn>, given <var>removedNodes</var>, <var>parent</var>, and\n+<var>addedNodes</var>, run these steps:\n+\n+<ol>\n+ <li>\n+  <p>For each <var>removedNode</var> in <var>removedNodes</var>:\n+\n+  <ol>\n+   <li><p>If <var>removedNode</var> is <a for=slotable>assigned</a>, then run\n+   <a>assign slotables</a> for <var>removedNode</var>'s <a>assigned slot</a>.\n+\n+   <li><p>If <var>removedNode</var> has an <a>inclusive descendant</a> that is a <a>slot</a>, then\n+   run <a>assign slotables for a tree</a> with <var>removedNode</var>.",
+    "path": "dom.bs",
+    "commit_id": "68e57efbd02b496857016522e664875fa20fe956",
+    "original_commit_id": "f80f0aa30dcb4deda2634134b0f50a6a17905d99",
+    "user": {
+      "login": "EdgarChen",
+      "id": 2723528,
+      "node_id": "MDQ6VXNlcjI3MjM1Mjg=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2723528?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/EdgarChen",
+      "html_url": "https://github.com/EdgarChen",
+      "followers_url": "https://api.github.com/users/EdgarChen/followers",
+      "following_url": "https://api.github.com/users/EdgarChen/following{/other_user}",
+      "gists_url": "https://api.github.com/users/EdgarChen/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/EdgarChen/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/EdgarChen/subscriptions",
+      "organizations_url": "https://api.github.com/users/EdgarChen/orgs",
+      "repos_url": "https://api.github.com/users/EdgarChen/repos",
+      "events_url": "https://api.github.com/users/EdgarChen/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/EdgarChen/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I found that it seems the order of slotchange event is changed in a certain case, for example, https://software.hixie.ch/utilities/js/live-dom-viewer/?saved=6882. If I read spec correctly, the event order of current spec is [slot1, slot3. slot2], and it changes to [slot2, slot1, slot3]. Will this order change cause any problem? Current browsers have a different order than spec, and the order is not the same between browsers, either.",
+    "created_at": "2019-05-03T15:45:38Z",
+    "updated_at": "2021-01-19T11:33:16Z",
+    "html_url": "https://github.com/whatwg/dom/pull/695#discussion_r280828343",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/695",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/280828343"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/695#discussion_r280828343"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/695"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/280828343/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 2294,
+    "original_line": 2294,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 16,
+    "position": 16,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/281609904",
+    "pull_request_review_id": 234488707,
+    "id": 281609904,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI4MTYwOTkwNA==",
+    "diff_hunk": "@@ -2203,6 +2203,36 @@ steps:\n  <li><p>If <var>slot</var> is non-null, then run <a>assign slotables</a> for <var>slot</var>.\n </ol>\n \n+<p>To <dfn noexport>update slots</dfn>, given <var>removedNodes</var>, <var>parent</var>, and\n+<var>addedNodes</var>, run these steps:\n+\n+<ol>\n+ <li>\n+  <p>For each <var>removedNode</var> in <var>removedNodes</var>:\n+\n+  <ol>\n+   <li><p>If <var>removedNode</var> is <a for=slotable>assigned</a>, then run\n+   <a>assign slotables</a> for <var>removedNode</var>'s <a>assigned slot</a>.\n+\n+   <li><p>If <var>removedNode</var> has an <a>inclusive descendant</a> that is a <a>slot</a>, then\n+   run <a>assign slotables for a tree</a> with <var>removedNode</var>.",
+    "path": "dom.bs",
+    "commit_id": "68e57efbd02b496857016522e664875fa20fe956",
+    "original_commit_id": "f80f0aa30dcb4deda2634134b0f50a6a17905d99",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Thanks! @rniwa do you have any thoughts on order? I looked this through with Edgar and either way we are going to change the order here in order to centralize some of this work for \"replace all\". I don't care strongly for which slot we signal things first.\r\n\r\nAnd also, given that browsers are already different, it probably does not matter much?\r\n\r\nNot sure who to copy from Chrome. @domenic?",
+    "created_at": "2019-05-07T12:45:45Z",
+    "updated_at": "2021-01-19T11:33:16Z",
+    "html_url": "https://github.com/whatwg/dom/pull/695#discussion_r281609904",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/695",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/281609904"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/695#discussion_r281609904"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/695"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/281609904/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 2294,
+    "original_line": 2294,
+    "side": "RIGHT",
+    "in_reply_to_id": 280828343,
+    "author_association": "MEMBER",
+    "original_position": 16,
+    "position": 16,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/285839283",
+    "pull_request_review_id": 239810197,
+    "id": 285839283,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI4NTgzOTI4Mw==",
+    "diff_hunk": "@@ -2203,6 +2203,36 @@ steps:\n  <li><p>If <var>slot</var> is non-null, then run <a>assign slotables</a> for <var>slot</var>.\n </ol>\n \n+<p>To <dfn noexport>update slots</dfn>, given <var>removedNodes</var>, <var>parent</var>, and\n+<var>addedNodes</var>, run these steps:\n+\n+<ol>\n+ <li>\n+  <p>For each <var>removedNode</var> in <var>removedNodes</var>:\n+\n+  <ol>\n+   <li><p>If <var>removedNode</var> is <a for=slotable>assigned</a>, then run\n+   <a>assign slotables</a> for <var>removedNode</var>'s <a>assigned slot</a>.\n+\n+   <li><p>If <var>removedNode</var> has an <a>inclusive descendant</a> that is a <a>slot</a>, then\n+   run <a>assign slotables for a tree</a> with <var>removedNode</var>.",
+    "path": "dom.bs",
+    "commit_id": "68e57efbd02b496857016522e664875fa20fe956",
+    "original_commit_id": "f80f0aa30dcb4deda2634134b0f50a6a17905d99",
+    "user": {
+      "login": "rniwa",
+      "id": 285965,
+      "node_id": "MDQ6VXNlcjI4NTk2NQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/285965?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/rniwa",
+      "html_url": "https://github.com/rniwa",
+      "followers_url": "https://api.github.com/users/rniwa/followers",
+      "following_url": "https://api.github.com/users/rniwa/following{/other_user}",
+      "gists_url": "https://api.github.com/users/rniwa/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/rniwa/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/rniwa/subscriptions",
+      "organizations_url": "https://api.github.com/users/rniwa/orgs",
+      "repos_url": "https://api.github.com/users/rniwa/repos",
+      "events_url": "https://api.github.com/users/rniwa/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/rniwa/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Hm... looks like Blink & Gecko do: [slot1, slot2, slot3] and WebKit does [slot3, slot2, slot1]",
+    "created_at": "2019-05-21T03:32:54Z",
+    "updated_at": "2021-01-19T11:33:16Z",
+    "html_url": "https://github.com/whatwg/dom/pull/695#discussion_r285839283",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/695",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/285839283"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/695#discussion_r285839283"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/695"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/285839283/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 2294,
+    "original_line": 2294,
+    "side": "RIGHT",
+    "in_reply_to_id": 280828343,
+    "author_association": "NONE",
+    "original_position": 16,
+    "position": 16,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/285923708",
+    "pull_request_review_id": 239915137,
+    "id": 285923708,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI4NTkyMzcwOA==",
+    "diff_hunk": "@@ -2203,6 +2203,36 @@ steps:\n  <li><p>If <var>slot</var> is non-null, then run <a>assign slotables</a> for <var>slot</var>.\n </ol>\n \n+<p>To <dfn noexport>update slots</dfn>, given <var>removedNodes</var>, <var>parent</var>, and\n+<var>addedNodes</var>, run these steps:\n+\n+<ol>\n+ <li>\n+  <p>For each <var>removedNode</var> in <var>removedNodes</var>:\n+\n+  <ol>\n+   <li><p>If <var>removedNode</var> is <a for=slotable>assigned</a>, then run\n+   <a>assign slotables</a> for <var>removedNode</var>'s <a>assigned slot</a>.\n+\n+   <li><p>If <var>removedNode</var> has an <a>inclusive descendant</a> that is a <a>slot</a>, then\n+   run <a>assign slotables for a tree</a> with <var>removedNode</var>.",
+    "path": "dom.bs",
+    "commit_id": "68e57efbd02b496857016522e664875fa20fe956",
+    "original_commit_id": "f80f0aa30dcb4deda2634134b0f50a6a17905d99",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think the main point here is that if we want to centralize work and special \"replace all\" to avoid redundant events, the order will change somewhere, right? So we need to make some kind of call about whether that is okay and whether there are certain principles for deciding on an order. (I think it's okay and although I'd like tree order it doesn't seem worth the additional instructions that'd require.)",
+    "created_at": "2019-05-21T09:05:40Z",
+    "updated_at": "2021-01-19T11:33:16Z",
+    "html_url": "https://github.com/whatwg/dom/pull/695#discussion_r285923708",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/695",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/285923708"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/695#discussion_r285923708"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/695"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/285923708/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 2294,
+    "original_line": 2294,
+    "side": "RIGHT",
+    "in_reply_to_id": 280828343,
+    "author_association": "MEMBER",
+    "original_position": 16,
+    "position": 16,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/560112389",
+    "pull_request_review_id": 571156330,
+    "id": 560112389,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU2MDExMjM4OQ==",
+    "diff_hunk": "@@ -2585,6 +2612,9 @@ within a <var>parent</var>, run these steps:\n  <li><p>If <var>node</var> is non-null, then <a for=/>insert</a> <var>node</var> into\n  <var>parent</var> before null with the <i>suppress observers flag</i> set.\n \n+ <li><p>If the <i>suppress observers flag</i> is unset, then <a>update slots</a> with\n+ « <var>removedNodes</var> », <var>parent</var>, and « <var>addedNodes</var> ».",
+    "path": "dom.bs",
+    "commit_id": "68e57efbd02b496857016522e664875fa20fe956",
+    "original_commit_id": "68e57efbd02b496857016522e664875fa20fe956",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This is the \"replace all\" algorithm that doesn't have a suppress observers flag at the moment so that would have to be added.",
+    "created_at": "2021-01-19T11:34:32Z",
+    "updated_at": "2021-01-19T11:34:33Z",
+    "html_url": "https://github.com/whatwg/dom/pull/695#discussion_r560112389",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/695",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/560112389"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/695#discussion_r560112389"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/695"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/560112389/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 2616,
+    "original_line": 2616,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 78,
+    "position": 78,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

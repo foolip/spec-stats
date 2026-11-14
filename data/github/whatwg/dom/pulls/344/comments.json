@@ -1,0 +1,643 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/83286138",
+    "pull_request_review_id": 4140339,
+    "id": 83286138,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDgzMjg2MTM4",
+    "diff_hunk": "@@ -1184,18 +1184,18 @@ for discussion).\n <h3 id=dispatching-events>Dispatching events</h3>\n \n <p>To <dfn export for=Event id=concept-event-dispatch>dispatch</dfn> an <var>event</var> to a\n-<var>target</var>, with an optional <var>targetOverride</var>, run these steps:\n+<var>target</var>, with an optional <var>legacy target override flag</var>, run these steps:\n \n <ol>\n  <li><p>Set <var>event</var>'s <a>dispatch flag</a>.\n \n  <li>\n-  <p>If <var>targetOverride</var> is not given, let <var>targetOverride</var> be <var>target</var>.\n+  <p>Let <var>targetOverride</var> be <var>target</var>, if <var>legacy target override flag</var>",
+    "path": "dom.bs",
+    "commit_id": "a7ce7c183e01c7e430b35a7c20a398aad02bead5",
+    "original_commit_id": "729894090fc8c8d65341cbd10ffbbbff9991ad2c",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Nit: I think \"**the** _legacy target override flag_\" is more consistent with what we've done so far.\n",
+    "created_at": "2016-10-13T18:51:02Z",
+    "updated_at": "2016-10-14T15:30:44Z",
+    "html_url": "https://github.com/whatwg/dom/pull/344#discussion_r83286138",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/344",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/83286138"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/344#discussion_r83286138"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/344"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/83286138/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 1193,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 12,
+    "position": 12,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/83286307",
+    "pull_request_review_id": 4140339,
+    "id": 83286307,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDgzMjg2MzA3",
+    "diff_hunk": "@@ -1379,14 +1379,25 @@ an <var>object</var> with <var>event</var>, run these steps:\n \n <h3 id=firing-events>Firing events</h3>\n \n-To\n-<dfn export id=concept-event-fire lt=\"fire an event\">fire an event named <var>e</var></dfn>\n-means that a new <a>event</a> using the\n-{{Event}} interface, with its\n-{{Event/type}} attribute initialized to\n-<var>e</var>, and its {{Event/isTrusted}}\n-attribute initialized to <code>true</code>, is to be\n-<a>dispatched</a> to the given object.\n+<p>To <dfn export id=concept-event-fire lt=\"fire an event\">fire an event</dfn> named <var>e</var> at\n+<var>target</var>, optionally given an <var>eventClass</var>, a description of how IDL attributes\n+are to be initialized, and a <var>legacy target override flag</var>, run these steps:\n+\n+<ol>\n+ <li><p>If <var>eventClass</var> is not given ,let <var>eventClass</var> be {{Event}}.",
+    "path": "dom.bs",
+    "commit_id": "a7ce7c183e01c7e430b35a7c20a398aad02bead5",
+    "original_commit_id": "729894090fc8c8d65341cbd10ffbbbff9991ad2c",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "misplaced space before comma\n",
+    "created_at": "2016-10-13T18:51:58Z",
+    "updated_at": "2016-10-14T15:30:44Z",
+    "html_url": "https://github.com/whatwg/dom/pull/344#discussion_r83286307",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/344",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/83286307"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/344#discussion_r83286307"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/344"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/83286307/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 42,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/83286342",
+    "pull_request_review_id": 4140339,
+    "id": 83286342,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDgzMjg2MzQy",
+    "diff_hunk": "@@ -1379,14 +1379,25 @@ an <var>object</var> with <var>event</var>, run these steps:\n \n <h3 id=firing-events>Firing events</h3>\n \n-To\n-<dfn export id=concept-event-fire lt=\"fire an event\">fire an event named <var>e</var></dfn>\n-means that a new <a>event</a> using the\n-{{Event}} interface, with its\n-{{Event/type}} attribute initialized to\n-<var>e</var>, and its {{Event/isTrusted}}\n-attribute initialized to <code>true</code>, is to be\n-<a>dispatched</a> to the given object.\n+<p>To <dfn export id=concept-event-fire lt=\"fire an event\">fire an event</dfn> named <var>e</var> at",
+    "path": "dom.bs",
+    "commit_id": "a7ce7c183e01c7e430b35a7c20a398aad02bead5",
+    "original_commit_id": "729894090fc8c8d65341cbd10ffbbbff9991ad2c",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This lt=\"\" is now unnecessary\n",
+    "created_at": "2016-10-13T18:52:13Z",
+    "updated_at": "2016-10-14T15:30:44Z",
+    "html_url": "https://github.com/whatwg/dom/pull/344#discussion_r83286342",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/344",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/83286342"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/344#discussion_r83286342"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/344"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/83286342/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 37,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/83286584",
+    "pull_request_review_id": 4140339,
+    "id": 83286584,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDgzMjg2NTg0",
+    "diff_hunk": "@@ -1379,14 +1379,25 @@ an <var>object</var> with <var>event</var>, run these steps:\n \n <h3 id=firing-events>Firing events</h3>\n \n-To\n-<dfn export id=concept-event-fire lt=\"fire an event\">fire an event named <var>e</var></dfn>\n-means that a new <a>event</a> using the\n-{{Event}} interface, with its\n-{{Event/type}} attribute initialized to\n-<var>e</var>, and its {{Event/isTrusted}}\n-attribute initialized to <code>true</code>, is to be\n-<a>dispatched</a> to the given object.\n+<p>To <dfn export id=concept-event-fire lt=\"fire an event\">fire an event</dfn> named <var>e</var> at\n+<var>target</var>, optionally given an <var>eventClass</var>, a description of how IDL attributes",
+    "path": "dom.bs",
+    "commit_id": "a7ce7c183e01c7e430b35a7c20a398aad02bead5",
+    "original_commit_id": "729894090fc8c8d65341cbd10ffbbbff9991ad2c",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Maybe eventInterface is more accurate? I dunno, I want to use JS terms, but this is kind of Web IDL land. Could go either way.\n",
+    "created_at": "2016-10-13T18:53:24Z",
+    "updated_at": "2016-10-14T15:30:44Z",
+    "html_url": "https://github.com/whatwg/dom/pull/344#discussion_r83286584",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/344",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/83286584"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/344#discussion_r83286584"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/344"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/83286584/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 38,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/83286951",
+    "pull_request_review_id": 4140339,
+    "id": 83286951,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDgzMjg2OTUx",
+    "diff_hunk": "@@ -1379,14 +1379,25 @@ an <var>object</var> with <var>event</var>, run these steps:\n \n <h3 id=firing-events>Firing events</h3>\n \n-To\n-<dfn export id=concept-event-fire lt=\"fire an event\">fire an event named <var>e</var></dfn>\n-means that a new <a>event</a> using the\n-{{Event}} interface, with its\n-{{Event/type}} attribute initialized to\n-<var>e</var>, and its {{Event/isTrusted}}\n-attribute initialized to <code>true</code>, is to be\n-<a>dispatched</a> to the given object.\n+<p>To <dfn export id=concept-event-fire lt=\"fire an event\">fire an event</dfn> named <var>e</var> at\n+<var>target</var>, optionally given an <var>eventClass</var>, a description of how IDL attributes\n+are to be initialized, and a <var>legacy target override flag</var>, run these steps:\n+\n+<ol>\n+ <li><p>If <var>eventClass</var> is not given ,let <var>eventClass</var> be {{Event}}.\n+\n+ <li><p>Let <var>event</var> be a new <a>event</a> using <var>eventClass</var>.\n+\n+ <li><p>Initialize <var>event</var>'s {{Event/type}} attribute to <var>e</var>.\n+\n+ <li><p>Initialize <var>event</var>'s {{Event/isTrusted}} attribute to true.\n+\n+ <li><p>Initialize any other IDL attributes of <var>event</var> as described in the invocation of\n+ this algorithm.\n+\n+ <li><p>Return the result of <a>dispatching</a> <var>event</var> at <var>target</var>, with\n+ <var>legacy target override flag</var> set if set.\n+</ol>\n \n <p class=\"note no-backref\">Fire in the context of DOM is short for creating, initializing,",
+    "path": "dom.bs",
+    "commit_id": "a7ce7c183e01c7e430b35a7c20a398aad02bead5",
+    "original_commit_id": "729894090fc8c8d65341cbd10ffbbbff9991ad2c",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "It might be worth adding a more complex example that uses eventClass and initializes some extra attributes, and possibly uses the return value.\n",
+    "created_at": "2016-10-13T18:55:15Z",
+    "updated_at": "2016-10-14T15:30:44Z",
+    "html_url": "https://github.com/whatwg/dom/pull/344#discussion_r83286951",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/344",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/83286951"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/344#discussion_r83286951"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/344"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/83286951/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 57,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/83364536",
+    "pull_request_review_id": 4213690,
+    "id": 83364536,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDgzMzY0NTM2",
+    "diff_hunk": "@@ -1184,18 +1184,18 @@ for discussion).\n <h3 id=dispatching-events>Dispatching events</h3>\n \n <p>To <dfn export for=Event id=concept-event-dispatch>dispatch</dfn> an <var>event</var> to a\n-<var>target</var>, with an optional <var>targetOverride</var>, run these steps:\n+<var>target</var>, with an optional <var>legacy target override flag</var>, run these steps:\n \n <ol>\n  <li><p>Set <var>event</var>'s <a>dispatch flag</a>.\n \n  <li>\n-  <p>If <var>targetOverride</var> is not given, let <var>targetOverride</var> be <var>target</var>.\n+  <p>Let <var>targetOverride</var> be <var>target</var>, if <var>legacy target override flag</var>",
+    "path": "dom.bs",
+    "commit_id": "a7ce7c183e01c7e430b35a7c20a398aad02bead5",
+    "original_commit_id": "729894090fc8c8d65341cbd10ffbbbff9991ad2c",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Not in my prose... (Aside: I'm really starting to dislike flags. I wish we'd just have optional arguments with default values and use booleans here.)\n",
+    "created_at": "2016-10-14T06:32:50Z",
+    "updated_at": "2016-10-14T15:30:44Z",
+    "html_url": "https://github.com/whatwg/dom/pull/344#discussion_r83364536",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/344",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/83364536"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/344#discussion_r83364536"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/344"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/83364536/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 1193,
+    "original_line": null,
+    "side": "RIGHT",
+    "in_reply_to_id": 83286138,
+    "author_association": "MEMBER",
+    "original_position": 12,
+    "position": 12,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/83364574",
+    "pull_request_review_id": 4213728,
+    "id": 83364574,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDgzMzY0NTc0",
+    "diff_hunk": "@@ -1379,14 +1379,25 @@ an <var>object</var> with <var>event</var>, run these steps:\n \n <h3 id=firing-events>Firing events</h3>\n \n-To\n-<dfn export id=concept-event-fire lt=\"fire an event\">fire an event named <var>e</var></dfn>\n-means that a new <a>event</a> using the\n-{{Event}} interface, with its\n-{{Event/type}} attribute initialized to\n-<var>e</var>, and its {{Event/isTrusted}}\n-attribute initialized to <code>true</code>, is to be\n-<a>dispatched</a> to the given object.\n+<p>To <dfn export id=concept-event-fire lt=\"fire an event\">fire an event</dfn> named <var>e</var> at\n+<var>target</var>, optionally given an <var>eventClass</var>, a description of how IDL attributes",
+    "path": "dom.bs",
+    "commit_id": "a7ce7c183e01c7e430b35a7c20a398aad02bead5",
+    "original_commit_id": "729894090fc8c8d65341cbd10ffbbbff9991ad2c",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I guess we can go with interface for now. IDL should really rename things though...\n",
+    "created_at": "2016-10-14T06:33:16Z",
+    "updated_at": "2016-10-14T15:30:44Z",
+    "html_url": "https://github.com/whatwg/dom/pull/344#discussion_r83364574",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/344",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/83364574"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/344#discussion_r83364574"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/344"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/83364574/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "in_reply_to_id": 83286584,
+    "author_association": "MEMBER",
+    "original_position": 38,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/83442588",
+    "pull_request_review_id": 4287960,
+    "id": 83442588,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDgzNDQyNTg4",
+    "diff_hunk": "@@ -1377,36 +1377,53 @@ an <var>object</var> with <var>event</var>, run these steps:\n  <li><p>Return <var>found</var>.\n </ol>\n \n+\n <h3 id=firing-events>Firing events</h3>\n \n-<p>To <dfn export id=concept-event-fire lt=\"fire an event\">fire an event</dfn> named <var>e</var> at\n-<var>target</var>, optionally given an <var>eventClass</var>, a description of how IDL attributes\n-are to be initialized, and a <var>legacy target override flag</var>, run these steps:\n+<p>To <dfn export id=concept-event-fire>fire an event</dfn> named <var>e</var> at <var>target</var>,\n+optionally using an <var>eventConstructor</var>, with a description of how IDL attributes are to be\n+initialized, and a <var>legacy target override flag</var>, run these steps:\n \n <ol>\n- <li><p>If <var>eventClass</var> is not given ,let <var>eventClass</var> be {{Event}}.\n-\n- <li><p>Let <var>event</var> be a new <a>event</a> using <var>eventClass</var>.\n+ <li><p>If <var>eventConstructor</var> is not given, then let <var>eventConstructor</var> be\n+ {{Event}}.\n \n- <li><p>Initialize <var>event</var>'s {{Event/type}} attribute to <var>e</var>.\n+ <li><p>Let <var>event</var> be the result of <a for=Event lt=constructor>invoking</a> the initial\n+ value of <var>eventConstructor</var> with <var>e</var> as argument.",
+    "path": "dom.bs",
+    "commit_id": "a7ce7c183e01c7e430b35a7c20a398aad02bead5",
+    "original_commit_id": "6e9c3d376f02b6b033555805ed53c6f8e772ee50",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "\"with the argument _e_\"\n",
+    "created_at": "2016-10-14T15:15:36Z",
+    "updated_at": "2016-10-14T15:30:44Z",
+    "html_url": "https://github.com/whatwg/dom/pull/344#discussion_r83442588",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/344",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/83442588"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/344#discussion_r83442588"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/344"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/83442588/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 23,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/83442812",
+    "pull_request_review_id": 4287960,
+    "id": 83442812,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDgzNDQyODEy",
+    "diff_hunk": "@@ -1377,36 +1377,53 @@ an <var>object</var> with <var>event</var>, run these steps:\n  <li><p>Return <var>found</var>.\n </ol>\n \n+\n <h3 id=firing-events>Firing events</h3>\n \n-<p>To <dfn export id=concept-event-fire lt=\"fire an event\">fire an event</dfn> named <var>e</var> at\n-<var>target</var>, optionally given an <var>eventClass</var>, a description of how IDL attributes\n-are to be initialized, and a <var>legacy target override flag</var>, run these steps:\n+<p>To <dfn export id=concept-event-fire>fire an event</dfn> named <var>e</var> at <var>target</var>,\n+optionally using an <var>eventConstructor</var>, with a description of how IDL attributes are to be\n+initialized, and a <var>legacy target override flag</var>, run these steps:\n \n <ol>\n- <li><p>If <var>eventClass</var> is not given ,let <var>eventClass</var> be {{Event}}.\n-\n- <li><p>Let <var>event</var> be a new <a>event</a> using <var>eventClass</var>.\n+ <li><p>If <var>eventConstructor</var> is not given, then let <var>eventConstructor</var> be\n+ {{Event}}.\n \n- <li><p>Initialize <var>event</var>'s {{Event/type}} attribute to <var>e</var>.\n+ <li><p>Let <var>event</var> be the result of <a for=Event lt=constructor>invoking</a> the initial\n+ value of <var>eventConstructor</var> with <var>e</var> as argument.\n \n  <li><p>Initialize <var>event</var>'s {{Event/isTrusted}} attribute to true.\n \n- <li><p>Initialize any other IDL attributes of <var>event</var> as described in the invocation of\n- this algorithm.\n+ <li>\n+  <p>Initialize any other IDL attributes of <var>event</var> as described in the invocation of this\n+  algorithm.\n+\n+  <p class=\"note\">This also allows for the {{Event/isTrusted}} attribute to be set to false.\n \n  <li><p>Return the result of <a>dispatching</a> <var>event</var> at <var>target</var>, with\n  <var>legacy target override flag</var> set if set.\n </ol>\n \n-<p class=\"note no-backref\">Fire in the context of DOM is short for creating, initializing,\n-and <a>dispatching</a> an <a>event</a>.\n-<a>Fire an event</a> makes that process easier to write\n-down. If the <a>event</a> needs its {{Event/bubbles}} or\n-{{Event/cancelable}} attribute initialized, one could write\n-\"<a>fire an event</a> named\n-<code>submit</code> with its {{Event/cancelable}} attribute\n-initialized to true\".\n+<p class=\"note no-backref\">Fire in the context of DOM is short for creating, initializing, and\n+<a>dispatching</a> an <a>event</a>. <a>Fire an event</a> makes that process easier to write down.\n+\n+<div class=\"example no-backref\" id=firing-events-example>\n+ <p>If the <a>event</a> needs its {{Event/bubbles}} or {{Event/cancelable}} attribute initialized,\n+ one could write \"<a>fire an event</a> named <code>submit</code> at <var>target</var> with its\n+ {{Event/cancelable}} attribute initialized to true\".\n+\n+ <p>Or, when a custom constructor is required, \"<a>fire an event</a> named <code>click</code> at\n+ <var>target</var> using <code>MouseEvent</code> with its {{Event/isTrusted}} attribute initialized",
+    "path": "dom.bs",
+    "commit_id": "a7ce7c183e01c7e430b35a7c20a398aad02bead5",
+    "original_commit_id": "6e9c3d376f02b6b033555805ed53c6f8e772ee50",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Use `{{MouseEvent}}` instead of `<code>MouseEvent</code>` to get some free auto-linking.\n",
+    "created_at": "2016-10-14T15:16:40Z",
+    "updated_at": "2016-10-14T15:30:44Z",
+    "html_url": "https://github.com/whatwg/dom/pull/344#discussion_r83442812",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/344",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/83442812"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/344#discussion_r83442812"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/344"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/83442812/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 56,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

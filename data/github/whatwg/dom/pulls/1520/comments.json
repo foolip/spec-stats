@@ -1,0 +1,144 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/4477275572",
+    "pull_request_review_id": 5780705560,
+    "id": 4477275572,
+    "node_id": "PRRC_kwDOAFUqXs8AAAABCt3NtA",
+    "diff_hunk": "@@ -3022,13 +3018,22 @@ optional boolean <dfn for=\"insert\"><var>suppressObservers</var></dfn> (default f\n         <a>upgrade an element</a> algorithm.\n       </ol>\n \n-     <li><p>Otherwise, if <var>inclusiveDescendant</var> is a <a for=/>shadow root</a>,\n+     <li><p>Otherwise, if <var>inclusiveDescendant</var> is <a>connected</a>,\n+     <var>inclusiveDescendant</var> is a <a for=/>shadow root</a>,\n      <var>inclusiveDescendant</var>'s <a for=ShadowRoot>custom element registry</a> is non-null, and\n      <var>inclusiveDescendant</var>'s <a for=ShadowRoot>custom element registry</a>'s\n      <a for=CustomElementRegistry>is scoped</a> is true, then <a for=set>append</a>\n      <var>inclusiveDescendant</var>'s <a for=Node>node document</a> to\n      <var>inclusiveDescendant</var>'s <a for=ShadowRoot>custom element registry</a>'s\n      <a for=CustomElementRegistry>scoped document set</a>.\n+\n+     <li>\n+      <p>Run the <a>insertion steps</a> with <var>inclusiveDescendant</var>.\n+\n+      <p class=note>The <code>connectedCallback</code> reaction, or the upgrade reaction, for\n+      <var>inclusiveDescendant</var> is enqueued before the <a>insertion steps</a> run, so that any\n+      reactions the <a>insertion steps</a> enqueue for <var>inclusiveDescendant</var> come after\n+      it.",
+    "path": "dom.bs",
+    "commit_id": "f1a8ccb13f1811c198eb0a56c7bc834d74b39a0f",
+    "original_commit_id": "f1a8ccb13f1811c198eb0a56c7bc834d74b39a0f",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I don't think we want to add this note.",
+    "created_at": "2026-11-05T06:24:13Z",
+    "updated_at": "2026-11-05T06:25:00Z",
+    "html_url": "https://github.com/whatwg/dom/pull/1520#discussion_r4477275572",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/1520",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/4477275572"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/1520#discussion_r4477275572"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/1520"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/4477275572/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 3036,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 38,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/4477277549",
+    "pull_request_review_id": 5780705560,
+    "id": 4477277549,
+    "node_id": "PRRC_kwDOAFUqXs8AAAABCt3VbQ",
+    "diff_hunk": "@@ -3368,16 +3371,23 @@ optional boolean <dfn for=remove><var>suppressObservers</var></dfn> (default fal\n   <p class=note>It is intentional for now that <a for=Element>custom</a> <a for=/>elements</a> do\n   not get <var>parent</var> passed. This might change in the future if there is a need.\n \n+ <li>\n+  <p>Run the <a>removing steps</a> with <var>node</var>, true, and <var>parent</var>.\n+\n+  <p class=note>The <code>disconnectedCallback</code> reaction for <var>node</var> is enqueued\n+  before the <a>removing steps</a> run, so that any reactions the <a>removing steps</a> enqueue\n+  for <var>node</var> come after it. The same applies to its descendants below.",
+    "path": "dom.bs",
+    "commit_id": "f1a8ccb13f1811c198eb0a56c7bc834d74b39a0f",
+    "original_commit_id": "f1a8ccb13f1811c198eb0a56c7bc834d74b39a0f",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Ditto.",
+    "created_at": "2026-11-05T06:24:33Z",
+    "updated_at": "2026-11-05T06:25:00Z",
+    "html_url": "https://github.com/whatwg/dom/pull/1520#discussion_r4477277549",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/1520",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/4477277549"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/1520#discussion_r4477277549"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/1520"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/4477277549/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 3379,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 82,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

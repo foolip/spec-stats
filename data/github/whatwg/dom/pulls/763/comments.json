@@ -1,0 +1,499 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/288565222",
+    "pull_request_review_id": 243257873,
+    "id": 288565222,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI4ODU2NTIyMg==",
+    "diff_hunk": "@@ -9818,6 +9818,88 @@ the given value.\n \n \n \n+<h2 id=xpath>XPath</h2>\n+\n+<cite>DOM Level 3 XPath</cite> defined an API for evaluating <cite>XPath 1.0</cite> expressions.\n+[[DOM-Level-3-XPath]] [[XPath]] These APIs are widely implemented, but\n+<cite>DOM Level 3 XPath</cite> is no longer maintained. The DOM Standard does not attempt to\n+define any of the behavior, but the interface definitions are maintained here so that they can\n+be updated when Web IDL changes. [[WEBIDL]]\n+\n+<h3 id=interface-xpathresult>Interface {{XPathResult}}</h3>\n+\n+<pre class=idl>\n+[Exposed=Window]\n+interface XPathResult {\n+  const unsigned short ANY_TYPE = 0;\n+  const unsigned short NUMBER_TYPE = 1;\n+  const unsigned short STRING_TYPE = 2;\n+  const unsigned short BOOLEAN_TYPE = 3;\n+  const unsigned short UNORDERED_NODE_ITERATOR_TYPE = 4;\n+  const unsigned short ORDERED_NODE_ITERATOR_TYPE = 5;\n+  const unsigned short UNORDERED_NODE_SNAPSHOT_TYPE = 6;\n+  const unsigned short ORDERED_NODE_SNAPSHOT_TYPE = 7;\n+  const unsigned short ANY_UNORDERED_NODE_TYPE = 8;\n+  const unsigned short FIRST_ORDERED_NODE_TYPE = 9;\n+\n+  readonly attribute unsigned short resultType;\n+  readonly attribute unrestricted double numberValue;\n+  readonly attribute DOMString stringValue;\n+  readonly attribute boolean booleanValue;\n+  readonly attribute Node? singleNodeValue;\n+  readonly attribute boolean invalidIteratorState;\n+  readonly attribute unsigned long snapshotLength;\n+\n+  Node? iterateNext();\n+  Node? snapshotItem(unsigned long index);\n+};\n+</pre>\n+\n+<h3 id=interface-xpathexpression>Interface {{XPathExpression}}</h3>\n+\n+<pre class=idl>\n+[Exposed=Window]\n+interface XPathExpression {\n+  XPathResult evaluate(Node contextNode,\n+                       optional unsigned short type,\n+                       optional XPathResult? result);\n+};\n+</pre>\n+\n+<h3 id=mixin-xpathevaluatorbase>Mixin {{XPathEvaluatorBase}}</h3>\n+\n+<pre class=idl>\n+callback interface XPathNSResolver {\n+  DOMString? lookupNamespaceURI(DOMString? prefix);\n+};\n+\n+interface mixin XPathEvaluatorBase {\n+  [NewObject] XPathExpression createExpression(DOMString expression,\n+                                               optional XPathNSResolver? resolver);",
+    "path": "dom.bs",
+    "commit_id": "5f1b1e076e0a9dc874a648857e14258ffef8a3f4",
+    "original_commit_id": "5a5ad56967b8ce4f888e1f430eb55d304db5793e",
+    "user": {
+      "login": "gsnedders",
+      "id": 176218,
+      "node_id": "MDQ6VXNlcjE3NjIxOA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/176218?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/gsnedders",
+      "html_url": "https://github.com/gsnedders",
+      "followers_url": "https://api.github.com/users/gsnedders/followers",
+      "following_url": "https://api.github.com/users/gsnedders/following{/other_user}",
+      "gists_url": "https://api.github.com/users/gsnedders/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/gsnedders/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/gsnedders/subscriptions",
+      "organizations_url": "https://api.github.com/users/gsnedders/orgs",
+      "repos_url": "https://api.github.com/users/gsnedders/repos",
+      "events_url": "https://api.github.com/users/gsnedders/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/gsnedders/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n                                               optional XPathNSResolver? resolver = null);\r\n```",
+    "created_at": "2019-05-29T13:26:35Z",
+    "updated_at": "2019-08-30T08:19:00Z",
+    "html_url": "https://github.com/whatwg/dom/pull/763#discussion_r288565222",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/763",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/288565222"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/763#discussion_r288565222"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/763"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/288565222/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 9878,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 61,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/288565423",
+    "pull_request_review_id": 243257873,
+    "id": 288565423,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI4ODU2NTQyMw==",
+    "diff_hunk": "@@ -9818,6 +9818,88 @@ the given value.\n \n \n \n+<h2 id=xpath>XPath</h2>\n+\n+<cite>DOM Level 3 XPath</cite> defined an API for evaluating <cite>XPath 1.0</cite> expressions.\n+[[DOM-Level-3-XPath]] [[XPath]] These APIs are widely implemented, but\n+<cite>DOM Level 3 XPath</cite> is no longer maintained. The DOM Standard does not attempt to\n+define any of the behavior, but the interface definitions are maintained here so that they can\n+be updated when Web IDL changes. [[WEBIDL]]\n+\n+<h3 id=interface-xpathresult>Interface {{XPathResult}}</h3>\n+\n+<pre class=idl>\n+[Exposed=Window]\n+interface XPathResult {\n+  const unsigned short ANY_TYPE = 0;\n+  const unsigned short NUMBER_TYPE = 1;\n+  const unsigned short STRING_TYPE = 2;\n+  const unsigned short BOOLEAN_TYPE = 3;\n+  const unsigned short UNORDERED_NODE_ITERATOR_TYPE = 4;\n+  const unsigned short ORDERED_NODE_ITERATOR_TYPE = 5;\n+  const unsigned short UNORDERED_NODE_SNAPSHOT_TYPE = 6;\n+  const unsigned short ORDERED_NODE_SNAPSHOT_TYPE = 7;\n+  const unsigned short ANY_UNORDERED_NODE_TYPE = 8;\n+  const unsigned short FIRST_ORDERED_NODE_TYPE = 9;\n+\n+  readonly attribute unsigned short resultType;\n+  readonly attribute unrestricted double numberValue;\n+  readonly attribute DOMString stringValue;\n+  readonly attribute boolean booleanValue;\n+  readonly attribute Node? singleNodeValue;\n+  readonly attribute boolean invalidIteratorState;\n+  readonly attribute unsigned long snapshotLength;\n+\n+  Node? iterateNext();\n+  Node? snapshotItem(unsigned long index);\n+};\n+</pre>\n+\n+<h3 id=interface-xpathexpression>Interface {{XPathExpression}}</h3>\n+\n+<pre class=idl>\n+[Exposed=Window]\n+interface XPathExpression {\n+  XPathResult evaluate(Node contextNode,\n+                       optional unsigned short type,",
+    "path": "dom.bs",
+    "commit_id": "5f1b1e076e0a9dc874a648857e14258ffef8a3f4",
+    "original_commit_id": "5a5ad56967b8ce4f888e1f430eb55d304db5793e",
+    "user": {
+      "login": "gsnedders",
+      "id": 176218,
+      "node_id": "MDQ6VXNlcjE3NjIxOA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/176218?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/gsnedders",
+      "html_url": "https://github.com/gsnedders",
+      "followers_url": "https://api.github.com/users/gsnedders/followers",
+      "following_url": "https://api.github.com/users/gsnedders/following{/other_user}",
+      "gists_url": "https://api.github.com/users/gsnedders/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/gsnedders/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/gsnedders/subscriptions",
+      "organizations_url": "https://api.github.com/users/gsnedders/orgs",
+      "repos_url": "https://api.github.com/users/gsnedders/repos",
+      "events_url": "https://api.github.com/users/gsnedders/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/gsnedders/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n                       optional unsigned short type = 0 /* ANY_TYPE */,\r\n```",
+    "created_at": "2019-05-29T13:26:58Z",
+    "updated_at": "2019-08-30T08:19:00Z",
+    "html_url": "https://github.com/whatwg/dom/pull/763#discussion_r288565423",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/763",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/288565423"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/763#discussion_r288565423"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/763"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/288565423/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 9864,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 47,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/288565635",
+    "pull_request_review_id": 243257873,
+    "id": 288565635,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI4ODU2NTYzNQ==",
+    "diff_hunk": "@@ -9818,6 +9818,88 @@ the given value.\n \n \n \n+<h2 id=xpath>XPath</h2>\n+\n+<cite>DOM Level 3 XPath</cite> defined an API for evaluating <cite>XPath 1.0</cite> expressions.\n+[[DOM-Level-3-XPath]] [[XPath]] These APIs are widely implemented, but\n+<cite>DOM Level 3 XPath</cite> is no longer maintained. The DOM Standard does not attempt to\n+define any of the behavior, but the interface definitions are maintained here so that they can\n+be updated when Web IDL changes. [[WEBIDL]]\n+\n+<h3 id=interface-xpathresult>Interface {{XPathResult}}</h3>\n+\n+<pre class=idl>\n+[Exposed=Window]\n+interface XPathResult {\n+  const unsigned short ANY_TYPE = 0;\n+  const unsigned short NUMBER_TYPE = 1;\n+  const unsigned short STRING_TYPE = 2;\n+  const unsigned short BOOLEAN_TYPE = 3;\n+  const unsigned short UNORDERED_NODE_ITERATOR_TYPE = 4;\n+  const unsigned short ORDERED_NODE_ITERATOR_TYPE = 5;\n+  const unsigned short UNORDERED_NODE_SNAPSHOT_TYPE = 6;\n+  const unsigned short ORDERED_NODE_SNAPSHOT_TYPE = 7;\n+  const unsigned short ANY_UNORDERED_NODE_TYPE = 8;\n+  const unsigned short FIRST_ORDERED_NODE_TYPE = 9;\n+\n+  readonly attribute unsigned short resultType;\n+  readonly attribute unrestricted double numberValue;\n+  readonly attribute DOMString stringValue;\n+  readonly attribute boolean booleanValue;\n+  readonly attribute Node? singleNodeValue;\n+  readonly attribute boolean invalidIteratorState;\n+  readonly attribute unsigned long snapshotLength;\n+\n+  Node? iterateNext();\n+  Node? snapshotItem(unsigned long index);\n+};\n+</pre>\n+\n+<h3 id=interface-xpathexpression>Interface {{XPathExpression}}</h3>\n+\n+<pre class=idl>\n+[Exposed=Window]\n+interface XPathExpression {\n+  XPathResult evaluate(Node contextNode,\n+                       optional unsigned short type,\n+                       optional XPathResult? result);",
+    "path": "dom.bs",
+    "commit_id": "5f1b1e076e0a9dc874a648857e14258ffef8a3f4",
+    "original_commit_id": "5a5ad56967b8ce4f888e1f430eb55d304db5793e",
+    "user": {
+      "login": "gsnedders",
+      "id": 176218,
+      "node_id": "MDQ6VXNlcjE3NjIxOA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/176218?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/gsnedders",
+      "html_url": "https://github.com/gsnedders",
+      "followers_url": "https://api.github.com/users/gsnedders/followers",
+      "following_url": "https://api.github.com/users/gsnedders/following{/other_user}",
+      "gists_url": "https://api.github.com/users/gsnedders/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/gsnedders/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/gsnedders/subscriptions",
+      "organizations_url": "https://api.github.com/users/gsnedders/orgs",
+      "repos_url": "https://api.github.com/users/gsnedders/repos",
+      "events_url": "https://api.github.com/users/gsnedders/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/gsnedders/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n                       optional XPathResult? result = null);\r\n```",
+    "created_at": "2019-05-29T13:27:21Z",
+    "updated_at": "2019-08-30T08:19:00Z",
+    "html_url": "https://github.com/whatwg/dom/pull/763#discussion_r288565635",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/763",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/288565635"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/763#discussion_r288565635"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/763"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/288565635/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 9865,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 48,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/288566525",
+    "pull_request_review_id": 243257873,
+    "id": 288566525,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI4ODU2NjUyNQ==",
+    "diff_hunk": "@@ -9818,6 +9818,88 @@ the given value.\n \n \n \n+<h2 id=xpath>XPath</h2>\n+\n+<cite>DOM Level 3 XPath</cite> defined an API for evaluating <cite>XPath 1.0</cite> expressions.\n+[[DOM-Level-3-XPath]] [[XPath]] These APIs are widely implemented, but\n+<cite>DOM Level 3 XPath</cite> is no longer maintained. The DOM Standard does not attempt to\n+define any of the behavior, but the interface definitions are maintained here so that they can\n+be updated when Web IDL changes. [[WEBIDL]]\n+\n+<h3 id=interface-xpathresult>Interface {{XPathResult}}</h3>\n+\n+<pre class=idl>\n+[Exposed=Window]\n+interface XPathResult {\n+  const unsigned short ANY_TYPE = 0;\n+  const unsigned short NUMBER_TYPE = 1;\n+  const unsigned short STRING_TYPE = 2;\n+  const unsigned short BOOLEAN_TYPE = 3;\n+  const unsigned short UNORDERED_NODE_ITERATOR_TYPE = 4;\n+  const unsigned short ORDERED_NODE_ITERATOR_TYPE = 5;\n+  const unsigned short UNORDERED_NODE_SNAPSHOT_TYPE = 6;\n+  const unsigned short ORDERED_NODE_SNAPSHOT_TYPE = 7;\n+  const unsigned short ANY_UNORDERED_NODE_TYPE = 8;\n+  const unsigned short FIRST_ORDERED_NODE_TYPE = 9;\n+\n+  readonly attribute unsigned short resultType;\n+  readonly attribute unrestricted double numberValue;\n+  readonly attribute DOMString stringValue;\n+  readonly attribute boolean booleanValue;\n+  readonly attribute Node? singleNodeValue;\n+  readonly attribute boolean invalidIteratorState;\n+  readonly attribute unsigned long snapshotLength;\n+\n+  Node? iterateNext();\n+  Node? snapshotItem(unsigned long index);\n+};\n+</pre>\n+\n+<h3 id=interface-xpathexpression>Interface {{XPathExpression}}</h3>\n+\n+<pre class=idl>\n+[Exposed=Window]\n+interface XPathExpression {\n+  XPathResult evaluate(Node contextNode,\n+                       optional unsigned short type,\n+                       optional XPathResult? result);\n+};\n+</pre>\n+\n+<h3 id=mixin-xpathevaluatorbase>Mixin {{XPathEvaluatorBase}}</h3>\n+\n+<pre class=idl>\n+callback interface XPathNSResolver {\n+  DOMString? lookupNamespaceURI(DOMString? prefix);\n+};\n+\n+interface mixin XPathEvaluatorBase {\n+  [NewObject] XPathExpression createExpression(DOMString expression,\n+                                               optional XPathNSResolver? resolver);\n+  XPathNSResolver createNSResolver(Node nodeResolver);\n+  XPathResult evaluate(DOMString expression,\n+                       Node contextNode,\n+                       optional XPathNSResolver? resolver,",
+    "path": "dom.bs",
+    "commit_id": "5f1b1e076e0a9dc874a648857e14258ffef8a3f4",
+    "original_commit_id": "5a5ad56967b8ce4f888e1f430eb55d304db5793e",
+    "user": {
+      "login": "gsnedders",
+      "id": 176218,
+      "node_id": "MDQ6VXNlcjE3NjIxOA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/176218?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/gsnedders",
+      "html_url": "https://github.com/gsnedders",
+      "followers_url": "https://api.github.com/users/gsnedders/followers",
+      "following_url": "https://api.github.com/users/gsnedders/following{/other_user}",
+      "gists_url": "https://api.github.com/users/gsnedders/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/gsnedders/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/gsnedders/subscriptions",
+      "organizations_url": "https://api.github.com/users/gsnedders/orgs",
+      "repos_url": "https://api.github.com/users/gsnedders/repos",
+      "events_url": "https://api.github.com/users/gsnedders/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/gsnedders/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n                       optional XPathNSResolver? resolver = null,\r\n```",
+    "created_at": "2019-05-29T13:29:05Z",
+    "updated_at": "2019-08-30T08:19:00Z",
+    "html_url": "https://github.com/whatwg/dom/pull/763#discussion_r288566525",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/763",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/288566525"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/763#discussion_r288566525"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/763"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/288566525/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 9882,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 65,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/288566937",
+    "pull_request_review_id": 243257873,
+    "id": 288566937,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI4ODU2NjkzNw==",
+    "diff_hunk": "@@ -9818,6 +9818,88 @@ the given value.\n \n \n \n+<h2 id=xpath>XPath</h2>\n+\n+<cite>DOM Level 3 XPath</cite> defined an API for evaluating <cite>XPath 1.0</cite> expressions.\n+[[DOM-Level-3-XPath]] [[XPath]] These APIs are widely implemented, but\n+<cite>DOM Level 3 XPath</cite> is no longer maintained. The DOM Standard does not attempt to\n+define any of the behavior, but the interface definitions are maintained here so that they can\n+be updated when Web IDL changes. [[WEBIDL]]\n+\n+<h3 id=interface-xpathresult>Interface {{XPathResult}}</h3>\n+\n+<pre class=idl>\n+[Exposed=Window]\n+interface XPathResult {\n+  const unsigned short ANY_TYPE = 0;\n+  const unsigned short NUMBER_TYPE = 1;\n+  const unsigned short STRING_TYPE = 2;\n+  const unsigned short BOOLEAN_TYPE = 3;\n+  const unsigned short UNORDERED_NODE_ITERATOR_TYPE = 4;\n+  const unsigned short ORDERED_NODE_ITERATOR_TYPE = 5;\n+  const unsigned short UNORDERED_NODE_SNAPSHOT_TYPE = 6;\n+  const unsigned short ORDERED_NODE_SNAPSHOT_TYPE = 7;\n+  const unsigned short ANY_UNORDERED_NODE_TYPE = 8;\n+  const unsigned short FIRST_ORDERED_NODE_TYPE = 9;\n+\n+  readonly attribute unsigned short resultType;\n+  readonly attribute unrestricted double numberValue;\n+  readonly attribute DOMString stringValue;\n+  readonly attribute boolean booleanValue;\n+  readonly attribute Node? singleNodeValue;\n+  readonly attribute boolean invalidIteratorState;\n+  readonly attribute unsigned long snapshotLength;\n+\n+  Node? iterateNext();\n+  Node? snapshotItem(unsigned long index);\n+};\n+</pre>\n+\n+<h3 id=interface-xpathexpression>Interface {{XPathExpression}}</h3>\n+\n+<pre class=idl>\n+[Exposed=Window]\n+interface XPathExpression {\n+  XPathResult evaluate(Node contextNode,\n+                       optional unsigned short type,\n+                       optional XPathResult? result);\n+};\n+</pre>\n+\n+<h3 id=mixin-xpathevaluatorbase>Mixin {{XPathEvaluatorBase}}</h3>\n+\n+<pre class=idl>\n+callback interface XPathNSResolver {\n+  DOMString? lookupNamespaceURI(DOMString? prefix);\n+};\n+\n+interface mixin XPathEvaluatorBase {\n+  [NewObject] XPathExpression createExpression(DOMString expression,\n+                                               optional XPathNSResolver? resolver);\n+  XPathNSResolver createNSResolver(Node nodeResolver);\n+  XPathResult evaluate(DOMString expression,\n+                       Node contextNode,\n+                       optional XPathNSResolver? resolver,\n+                       optional unsigned short type,",
+    "path": "dom.bs",
+    "commit_id": "5f1b1e076e0a9dc874a648857e14258ffef8a3f4",
+    "original_commit_id": "5a5ad56967b8ce4f888e1f430eb55d304db5793e",
+    "user": {
+      "login": "gsnedders",
+      "id": 176218,
+      "node_id": "MDQ6VXNlcjE3NjIxOA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/176218?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/gsnedders",
+      "html_url": "https://github.com/gsnedders",
+      "followers_url": "https://api.github.com/users/gsnedders/followers",
+      "following_url": "https://api.github.com/users/gsnedders/following{/other_user}",
+      "gists_url": "https://api.github.com/users/gsnedders/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/gsnedders/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/gsnedders/subscriptions",
+      "organizations_url": "https://api.github.com/users/gsnedders/orgs",
+      "repos_url": "https://api.github.com/users/gsnedders/repos",
+      "events_url": "https://api.github.com/users/gsnedders/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/gsnedders/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n                       optional unsigned short type = 0 /* ANY_TYPE */,\r\n```",
+    "created_at": "2019-05-29T13:29:53Z",
+    "updated_at": "2019-08-30T08:19:00Z",
+    "html_url": "https://github.com/whatwg/dom/pull/763#discussion_r288566937",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/763",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/288566937"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/763#discussion_r288566937"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/763"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/288566937/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 9883,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 66,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/288567061",
+    "pull_request_review_id": 243257873,
+    "id": 288567061,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI4ODU2NzA2MQ==",
+    "diff_hunk": "@@ -9818,6 +9818,88 @@ the given value.\n \n \n \n+<h2 id=xpath>XPath</h2>\n+\n+<cite>DOM Level 3 XPath</cite> defined an API for evaluating <cite>XPath 1.0</cite> expressions.\n+[[DOM-Level-3-XPath]] [[XPath]] These APIs are widely implemented, but\n+<cite>DOM Level 3 XPath</cite> is no longer maintained. The DOM Standard does not attempt to\n+define any of the behavior, but the interface definitions are maintained here so that they can\n+be updated when Web IDL changes. [[WEBIDL]]\n+\n+<h3 id=interface-xpathresult>Interface {{XPathResult}}</h3>\n+\n+<pre class=idl>\n+[Exposed=Window]\n+interface XPathResult {\n+  const unsigned short ANY_TYPE = 0;\n+  const unsigned short NUMBER_TYPE = 1;\n+  const unsigned short STRING_TYPE = 2;\n+  const unsigned short BOOLEAN_TYPE = 3;\n+  const unsigned short UNORDERED_NODE_ITERATOR_TYPE = 4;\n+  const unsigned short ORDERED_NODE_ITERATOR_TYPE = 5;\n+  const unsigned short UNORDERED_NODE_SNAPSHOT_TYPE = 6;\n+  const unsigned short ORDERED_NODE_SNAPSHOT_TYPE = 7;\n+  const unsigned short ANY_UNORDERED_NODE_TYPE = 8;\n+  const unsigned short FIRST_ORDERED_NODE_TYPE = 9;\n+\n+  readonly attribute unsigned short resultType;\n+  readonly attribute unrestricted double numberValue;\n+  readonly attribute DOMString stringValue;\n+  readonly attribute boolean booleanValue;\n+  readonly attribute Node? singleNodeValue;\n+  readonly attribute boolean invalidIteratorState;\n+  readonly attribute unsigned long snapshotLength;\n+\n+  Node? iterateNext();\n+  Node? snapshotItem(unsigned long index);\n+};\n+</pre>\n+\n+<h3 id=interface-xpathexpression>Interface {{XPathExpression}}</h3>\n+\n+<pre class=idl>\n+[Exposed=Window]\n+interface XPathExpression {\n+  XPathResult evaluate(Node contextNode,\n+                       optional unsigned short type,\n+                       optional XPathResult? result);\n+};\n+</pre>\n+\n+<h3 id=mixin-xpathevaluatorbase>Mixin {{XPathEvaluatorBase}}</h3>\n+\n+<pre class=idl>\n+callback interface XPathNSResolver {\n+  DOMString? lookupNamespaceURI(DOMString? prefix);\n+};\n+\n+interface mixin XPathEvaluatorBase {\n+  [NewObject] XPathExpression createExpression(DOMString expression,\n+                                               optional XPathNSResolver? resolver);\n+  XPathNSResolver createNSResolver(Node nodeResolver);\n+  XPathResult evaluate(DOMString expression,\n+                       Node contextNode,\n+                       optional XPathNSResolver? resolver,\n+                       optional unsigned short type,\n+                       optional XPathResult? result);",
+    "path": "dom.bs",
+    "commit_id": "5f1b1e076e0a9dc874a648857e14258ffef8a3f4",
+    "original_commit_id": "5a5ad56967b8ce4f888e1f430eb55d304db5793e",
+    "user": {
+      "login": "gsnedders",
+      "id": 176218,
+      "node_id": "MDQ6VXNlcjE3NjIxOA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/176218?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/gsnedders",
+      "html_url": "https://github.com/gsnedders",
+      "followers_url": "https://api.github.com/users/gsnedders/followers",
+      "following_url": "https://api.github.com/users/gsnedders/following{/other_user}",
+      "gists_url": "https://api.github.com/users/gsnedders/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/gsnedders/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/gsnedders/subscriptions",
+      "organizations_url": "https://api.github.com/users/gsnedders/orgs",
+      "repos_url": "https://api.github.com/users/gsnedders/repos",
+      "events_url": "https://api.github.com/users/gsnedders/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/gsnedders/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n                       optional XPathResult? result = null);\r\n```",
+    "created_at": "2019-05-29T13:30:07Z",
+    "updated_at": "2019-08-30T08:19:00Z",
+    "html_url": "https://github.com/whatwg/dom/pull/763#discussion_r288567061",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/763",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/288567061"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/763#discussion_r288567061"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/763"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/288567061/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 9884,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 67,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/288570832",
+    "pull_request_review_id": 243257873,
+    "id": 288570832,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI4ODU3MDgzMg==",
+    "diff_hunk": "@@ -9818,6 +9818,88 @@ the given value.\n \n \n \n+<h2 id=xpath>XPath</h2>\n+\n+<cite>DOM Level 3 XPath</cite> defined an API for evaluating <cite>XPath 1.0</cite> expressions.\n+[[DOM-Level-3-XPath]] [[XPath]] These APIs are widely implemented, but\n+<cite>DOM Level 3 XPath</cite> is no longer maintained. The DOM Standard does not attempt to\n+define any of the behavior, but the interface definitions are maintained here so that they can\n+be updated when Web IDL changes. [[WEBIDL]]",
+    "path": "dom.bs",
+    "commit_id": "5f1b1e076e0a9dc874a648857e14258ffef8a3f4",
+    "original_commit_id": "5a5ad56967b8ce4f888e1f430eb55d304db5793e",
+    "user": {
+      "login": "gsnedders",
+      "id": 176218,
+      "node_id": "MDQ6VXNlcjE3NjIxOA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/176218?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/gsnedders",
+      "html_url": "https://github.com/gsnedders",
+      "followers_url": "https://api.github.com/users/gsnedders/followers",
+      "following_url": "https://api.github.com/users/gsnedders/following{/other_user}",
+      "gists_url": "https://api.github.com/users/gsnedders/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/gsnedders/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/gsnedders/subscriptions",
+      "organizations_url": "https://api.github.com/users/gsnedders/orgs",
+      "repos_url": "https://api.github.com/users/gsnedders/repos",
+      "events_url": "https://api.github.com/users/gsnedders/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/gsnedders/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "There's more changes than just that, some of them simplify the API by making arguments optional.\r\n\r\nLet's also add something, possibly just normative, saying:\r\n\r\n * `XPathException` is gone (just use `DOMException`)\r\n * The query is matched against the DOM, and therefore contrary to the XPath 1.0 data model the root element has a parent (the Document) and text nodes can be adjacent to one another. [wilful violation]",
+    "created_at": "2019-05-29T13:37:46Z",
+    "updated_at": "2019-08-30T08:19:00Z",
+    "html_url": "https://github.com/whatwg/dom/pull/763#discussion_r288570832",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/763",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/288570832"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/763#discussion_r288570832"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/763"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/288570832/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 9827,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 10,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

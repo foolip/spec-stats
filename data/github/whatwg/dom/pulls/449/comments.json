@@ -1,0 +1,73 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/242392809",
+    "pull_request_review_id": 185889684,
+    "id": 242392809,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI0MjM5MjgwOQ==",
+    "diff_hunk": "@@ -266,42 +268,112 @@ against a <var>set</var>, run these steps:\n added.\n \n \n-<h3 id=namespaces>Namespaces</h3>\n+<h3 id=name-validation oldids=namespaces>Name validation</h3>\n \n-<p>To <dfn export>validate</dfn> a <var>qualifiedName</var>, <a>throw</a> an\n-{{InvalidCharacterError}} if <var>qualifiedName</var> does not match the\n-<code><a type>Name</a></code> or <code><a type>QName</a></code> production.\n+<p>To <dfn>validate and canonicalize the HTML element local name</dfn> <var>localName</var>:</p>\n \n-To <dfn export>validate and extract</dfn> a <var>namespace</var> and <var>qualifiedName</var>,\n-run these steps:\n+<ol>\n+ <li><p>If <var>localName</var>'s <a for=\"string\">length</a> is 0, then <a>throw</a> an\n+ {{InvalidCharacterError}}.</p></li>\n+\n+ <li><p><a>ASCII lowercase</a> <var>localName</var>.</p></li>\n+\n+ <li><p>If <var>localName</var>'s first character is not an <a>ASCII lower alpha</a>, then\n+ <a>throw</a> an {{InvalidCharacterError}}.</p></li>\n+\n+ <li><p>If <var>localName</var> contains <a>ASCII whitespace</a>, U+002F (/), or U+003E (>), then\n+ <a>throw</a> an {{InvalidCharacterError}}.</p></li>\n+\n+ <li><p>Replace any instances of U+0000 NULL within <var>localName</var> with U+FFFD.</p></li>\n+\n+ <li><p>Return <var>localName</var>.</p></li>\n+</ol>\n+\n+<p class=\"note\">The <a>validate and canonicalize the HTML element local name</a> algorithm throws in\n+the cases where the <a>HTML parser</a> would not create an element, and otherwise canonicalizes the\n+given string to equal the local name of the element the HTML parser would create.</p>\n+\n+<p>To <dfn>validate and canonicalize the HTML attribute local name</dfn> <var>localName</var>:</p>\n \n <ol>\n- <li>If <var>namespace</var> is the empty string, set it to null.\n+ <li><p>If <var>localName</var>'s <a for=\"string\">length</a> is 0, then <a>throw</a> an\n+ {{InvalidCharacterError}}.</p></li>\n+\n+ <li><p><a>ASCII lowercase</a> <var>localName</var>.</p></li>\n+\n+ <li><p>If <var>localName</var> contains <a>ASCII whitespace</a>, U+002F (/), or U+003E (>), then\n+ <a>throw</a> an {{InvalidCharacterError}}.</p></li>\n \n- <li><a>Validate</a> <var>qualifiedName</var>.\n+ <li><p>If <var>localName</var>'s contains U+003D (=) in any position except the first character,\n+ then <a>throw</a> an {{InvalidCharacterError}}.</p></li>\n \n- <li>Let <var>prefix</var> be null.\n+ <li><p>Replace any instances of U+0000 NULL within <var>localName</var> with U+FFFD.</p></li>\n \n- <li>Let <var>localName</var> be <var>qualifiedName</var>.\n+ <li><p>Return <var>localName</var>.</p></li>\n+</ol>\n+\n+<p class=\"note\">The <a>validate and canonicalize the HTML attribute local name</a> algorithm throws\n+in the cases where the <a>HTML parser</a> would not create an attribute, and otherwise canonicalizes\n+the given string to equal the local name of the attribute the HTML parser would create.</p>\n \n- <li>If <var>qualifiedName</var> contains a \"<code>:</code>\" (U+003E), then split the\n- string on it and set <var>prefix</var> to the part before and <var>localName</var> to\n- the part after.\n+<p>To <dfn>validate the XML local name</dfn> <var>localName</var>:</p>\n+\n+<ol>\n+ <li><p>If <var>localName</var> does not match the <code><a type>Name</a></code> production, then\n+ <a>throw</a> an {{InvalidCharacterError}}.\n+</ol>\n \n- <li>If <var>prefix</var> is non-null and <var>namespace</var> is null, then <a>throw</a> a\n+<p>To <dfn>validate the XML qualified name</dfn> <var>qualifiedName</var>:\n+\n+<ol>\n+ <li><p>If <var>qualifiedName</var> does not match the <code><a type>Name</a></code> or\n+ <code><a type>QName</a></code> production, then <a>throw</a> an {{InvalidCharacterError}}.</p></li>\n+</ol>\n+\n+<p>To <dfn>canonicalize a namespace and qualified name</dfn>, given <var>namespace</var>,\n+<var>qualifiedName</var>, and a <var>mode</var> which is either \"<code>attribute</code>\" or\n+\"<code>element</code>\":\n+\n+<ol>\n+ <li><p>If <var>namespace</var> is the empty string, set it to null.\n+\n+ <li><p>Let <var>prefix</var> be null.\n+\n+ <li><p>Let <var>localName</var> be <var>qualifiedName</var>.\n+\n+ <li><p>If <var>qualifiedName</var> contains a \"<code>:</code>\" (U+003E), then split\n+ <var>qualifiedName</var> on that first occurrence of \"<code>:</code>\" and set <var>prefix</var> to\n+ the part before and <var>localName</var> to the part after.",
+    "path": "dom.bs",
+    "commit_id": "d91bdac8eca89be5d0ef8c67edadb4dcf2e04fa5",
+    "original_commit_id": "d91bdac8eca89be5d0ef8c67edadb4dcf2e04fa5",
+    "user": {
+      "login": "snuggs",
+      "id": 38223,
+      "node_id": "MDQ6VXNlcjM4MjIz",
+      "avatar_url": "https://avatars.githubusercontent.com/u/38223?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/snuggs",
+      "html_url": "https://github.com/snuggs",
+      "followers_url": "https://api.github.com/users/snuggs/followers",
+      "following_url": "https://api.github.com/users/snuggs/following{/other_user}",
+      "gists_url": "https://api.github.com/users/snuggs/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/snuggs/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/snuggs/subscriptions",
+      "organizations_url": "https://api.github.com/users/snuggs/orgs",
+      "repos_url": "https://api.github.com/users/snuggs/repos",
+      "events_url": "https://api.github.com/users/snuggs/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/snuggs/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "@domenic `before` and `after` seem a bit vague. Perhaps suffix with ... _`prefix` to the part before and `localName` to the part after the `:` respectively.\r\n\r\nJust a thought. Sounded incomplete when reading out loud.",
+    "created_at": "2018-12-18T02:57:10Z",
+    "updated_at": "2018-12-18T02:57:10Z",
+    "html_url": "https://github.com/whatwg/dom/pull/449#discussion_r242392809",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/449",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/242392809"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/449#discussion_r242392809"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/449"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/242392809/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 346,
+    "original_line": 346,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 102,
+    "position": 102,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

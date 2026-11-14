@@ -1,0 +1,432 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/2848552321",
+    "pull_request_review_id": 3849463603,
+    "id": 2848552321,
+    "node_id": "PRRC_kwDOAFUqXs6pyXWB",
+    "diff_hunk": "@@ -1805,6 +1845,77 @@ that gave folks all the wrong ideas. <a>Events</a> do not represent or cause act\n can only be used to influence an ongoing one.\n \n \n+<h3 id=\"propagates-async-context-to-events\">The <dfn extended-attribute lt=\"PropagatesAsyncContextToEvents\">[PropagatesAsyncContextToEvents]</dfn> extended attribute</h3>\n+\n+<p>To enable integration with the TC39 AsyncContext proposal for events fired asynchronously as a\n+result of either a method call or the construction of an interface instance, we introduce the\n+[{{PropagatesAsyncContextToEvents}}] WebIDL [=extended attribute=]. [[!PROPOSAL-ASYNCCONTEXT]]\n+\n+<p>The [{{PropagatesAsyncContextToEvents}}] extended attribute must take either a string or a list\n+of strings. It must only used on either an [=interface=] that inherits from {{EventTarget}}, or on a\n+[=regular operation=] declared on such an interface.\n+\n+<p>Regular operations annotated with [{{PropagatesAsyncContextToEvents}}], as well as [=constructor\n+steps=] of an interface annotated with that extended attribute, must run the following steps in\n+place of the ones specified in their description:\n+\n+<ol>\n+ <li><p>If the [{{PropagatesAsyncContextToEvents}}] extended attribute takes a list of strings, let\n+ <var>event types</var> be that list. Otherwise, the argument is a string; let <var>event\n+ types</var> be a list containing that string.\n+\n+ <li>\n+  <p>For each <var>event type</var> in <var>event types</var>, set (<a>this</a>'s\n+  <a for=EventTarget>preserved AsyncContext map</a>)[<var>event type</var>] to\n+  <a abstract-op>AsyncContextSnapshot</a>().\n+\n+  <p class=note>The return value of <a abstract-op>AsyncContextSnapshot</a>() will not change across\n+  these invocations.\n+ </li>\n+\n+ <li><p>Run the originally-specified steps for this regular operation. If the steps return a value\n+ or throw an exception, return or throw it in turn.\n+</ol>\n+\n+<p>Specifications should set this extended attribute on methods which start an async operation which\n+will eventually cause events to be fired on the instance on which the method was called.\n+<span class=\"non-normative\">An example of this is the {{XMLHttpRequest}} and its\n+{{XMLHttpRequest/send}} method:</span> [[XHR]]\n+\n+<pre highlight=idl>\n+[Exposed=(Window,DedicatedWorker,SharedWorker)]\n+interface XMLHttpRequest : XMLHttpRequestEventTarget {\n+  // ...\n+  [PropagatesAsyncContextToEvents=(\"loadstart\", \"progress\", \"error\", \"load\", \"timeout\", \"loadend\")] undefined send(optional (Document or XMLHttpRequestBodyInit)? body = null);",
+    "path": "dom.bs",
+    "commit_id": "b740fda564de21d4ee6b7e469b3c5b2482a3ab9c",
+    "original_commit_id": "111b1bd157d420143775f5d95e4872df68c9189d",
+    "user": {
+      "login": "nicolo-ribaudo",
+      "id": 7000710,
+      "node_id": "MDQ6VXNlcjcwMDA3MTA=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7000710?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nicolo-ribaudo",
+      "html_url": "https://github.com/nicolo-ribaudo",
+      "followers_url": "https://api.github.com/users/nicolo-ribaudo/followers",
+      "following_url": "https://api.github.com/users/nicolo-ribaudo/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nicolo-ribaudo/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nicolo-ribaudo/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nicolo-ribaudo/subscriptions",
+      "organizations_url": "https://api.github.com/users/nicolo-ribaudo/orgs",
+      "repos_url": "https://api.github.com/users/nicolo-ribaudo/repos",
+      "events_url": "https://api.github.com/users/nicolo-ribaudo/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nicolo-ribaudo/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "How would people feel about using `AsyncContext.PropagatesToEvents` as a naming pattern for the AsyncContext-related attributes, since there are multiple?",
+    "created_at": "2026-02-24T17:29:05Z",
+    "updated_at": "2026-02-24T17:29:05Z",
+    "html_url": "https://github.com/whatwg/dom/pull/1451#discussion_r2848552321",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/1451",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/2848552321"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/1451#discussion_r2848552321"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/1451"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/2848552321/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 1949,
+    "original_line": 1889,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 114,
+    "position": 145,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/2849412509",
+    "pull_request_review_id": 3850377623,
+    "id": 2849412509,
+    "node_id": "PRRC_kwDOAFUqXs6p1pWd",
+    "diff_hunk": "@@ -1805,6 +1845,77 @@ that gave folks all the wrong ideas. <a>Events</a> do not represent or cause act\n can only be used to influence an ongoing one.\n \n \n+<h3 id=\"propagates-async-context-to-events\">The <dfn extended-attribute lt=\"PropagatesAsyncContextToEvents\">[PropagatesAsyncContextToEvents]</dfn> extended attribute</h3>\n+\n+<p>To enable integration with the TC39 AsyncContext proposal for events fired asynchronously as a\n+result of either a method call or the construction of an interface instance, we introduce the\n+[{{PropagatesAsyncContextToEvents}}] WebIDL [=extended attribute=]. [[!PROPOSAL-ASYNCCONTEXT]]\n+\n+<p>The [{{PropagatesAsyncContextToEvents}}] extended attribute must take either a string or a list\n+of strings. It must only used on either an [=interface=] that inherits from {{EventTarget}}, or on a\n+[=regular operation=] declared on such an interface.\n+\n+<p>Regular operations annotated with [{{PropagatesAsyncContextToEvents}}], as well as [=constructor\n+steps=] of an interface annotated with that extended attribute, must run the following steps in\n+place of the ones specified in their description:\n+\n+<ol>\n+ <li><p>If the [{{PropagatesAsyncContextToEvents}}] extended attribute takes a list of strings, let\n+ <var>event types</var> be that list. Otherwise, the argument is a string; let <var>event\n+ types</var> be a list containing that string.\n+\n+ <li>\n+  <p>For each <var>event type</var> in <var>event types</var>, set (<a>this</a>'s\n+  <a for=EventTarget>preserved AsyncContext map</a>)[<var>event type</var>] to\n+  <a abstract-op>AsyncContextSnapshot</a>().\n+\n+  <p class=note>The return value of <a abstract-op>AsyncContextSnapshot</a>() will not change across\n+  these invocations.\n+ </li>\n+\n+ <li><p>Run the originally-specified steps for this regular operation. If the steps return a value\n+ or throw an exception, return or throw it in turn.\n+</ol>\n+\n+<p>Specifications should set this extended attribute on methods which start an async operation which\n+will eventually cause events to be fired on the instance on which the method was called.\n+<span class=\"non-normative\">An example of this is the {{XMLHttpRequest}} and its\n+{{XMLHttpRequest/send}} method:</span> [[XHR]]\n+\n+<pre highlight=idl>\n+[Exposed=(Window,DedicatedWorker,SharedWorker)]\n+interface XMLHttpRequest : XMLHttpRequestEventTarget {\n+  // ...\n+  [PropagatesAsyncContextToEvents=(\"loadstart\", \"progress\", \"error\", \"load\", \"timeout\", \"loadend\")] undefined send(optional (Document or XMLHttpRequestBodyInit)? body = null);",
+    "path": "dom.bs",
+    "commit_id": "b740fda564de21d4ee6b7e469b3c5b2482a3ab9c",
+    "original_commit_id": "111b1bd157d420143775f5d95e4872df68c9189d",
+    "user": {
+      "login": "WebReflection",
+      "id": 85749,
+      "node_id": "MDQ6VXNlcjg1NzQ5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/85749?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/WebReflection",
+      "html_url": "https://github.com/WebReflection",
+      "followers_url": "https://api.github.com/users/WebReflection/followers",
+      "following_url": "https://api.github.com/users/WebReflection/following{/other_user}",
+      "gists_url": "https://api.github.com/users/WebReflection/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/WebReflection/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/WebReflection/subscriptions",
+      "organizations_url": "https://api.github.com/users/WebReflection/orgs",
+      "repos_url": "https://api.github.com/users/WebReflection/repos",
+      "events_url": "https://api.github.com/users/WebReflection/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/WebReflection/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "why wouldn't `propagates: [...]` be enough, if I might ask?",
+    "created_at": "2026-02-24T20:34:42Z",
+    "updated_at": "2026-02-24T20:34:42Z",
+    "html_url": "https://github.com/whatwg/dom/pull/1451#discussion_r2849412509",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/1451",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/2849412509"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/1451#discussion_r2849412509"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/1451"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/2849412509/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 1949,
+    "original_line": 1889,
+    "side": "RIGHT",
+    "in_reply_to_id": 2848552321,
+    "author_association": "NONE",
+    "original_position": 114,
+    "position": 145,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/2849474374",
+    "pull_request_review_id": 3850444014,
+    "id": 2849474374,
+    "node_id": "PRRC_kwDOAFUqXs6p14dG",
+    "diff_hunk": "@@ -1805,6 +1845,77 @@ that gave folks all the wrong ideas. <a>Events</a> do not represent or cause act\n can only be used to influence an ongoing one.\n \n \n+<h3 id=\"propagates-async-context-to-events\">The <dfn extended-attribute lt=\"PropagatesAsyncContextToEvents\">[PropagatesAsyncContextToEvents]</dfn> extended attribute</h3>\n+\n+<p>To enable integration with the TC39 AsyncContext proposal for events fired asynchronously as a\n+result of either a method call or the construction of an interface instance, we introduce the\n+[{{PropagatesAsyncContextToEvents}}] WebIDL [=extended attribute=]. [[!PROPOSAL-ASYNCCONTEXT]]\n+\n+<p>The [{{PropagatesAsyncContextToEvents}}] extended attribute must take either a string or a list\n+of strings. It must only used on either an [=interface=] that inherits from {{EventTarget}}, or on a\n+[=regular operation=] declared on such an interface.\n+\n+<p>Regular operations annotated with [{{PropagatesAsyncContextToEvents}}], as well as [=constructor\n+steps=] of an interface annotated with that extended attribute, must run the following steps in\n+place of the ones specified in their description:\n+\n+<ol>\n+ <li><p>If the [{{PropagatesAsyncContextToEvents}}] extended attribute takes a list of strings, let\n+ <var>event types</var> be that list. Otherwise, the argument is a string; let <var>event\n+ types</var> be a list containing that string.\n+\n+ <li>\n+  <p>For each <var>event type</var> in <var>event types</var>, set (<a>this</a>'s\n+  <a for=EventTarget>preserved AsyncContext map</a>)[<var>event type</var>] to\n+  <a abstract-op>AsyncContextSnapshot</a>().\n+\n+  <p class=note>The return value of <a abstract-op>AsyncContextSnapshot</a>() will not change across\n+  these invocations.\n+ </li>\n+\n+ <li><p>Run the originally-specified steps for this regular operation. If the steps return a value\n+ or throw an exception, return or throw it in turn.\n+</ol>\n+\n+<p>Specifications should set this extended attribute on methods which start an async operation which\n+will eventually cause events to be fired on the instance on which the method was called.\n+<span class=\"non-normative\">An example of this is the {{XMLHttpRequest}} and its\n+{{XMLHttpRequest/send}} method:</span> [[XHR]]\n+\n+<pre highlight=idl>\n+[Exposed=(Window,DedicatedWorker,SharedWorker)]\n+interface XMLHttpRequest : XMLHttpRequestEventTarget {\n+  // ...\n+  [PropagatesAsyncContextToEvents=(\"loadstart\", \"progress\", \"error\", \"load\", \"timeout\", \"loadend\")] undefined send(optional (Document or XMLHttpRequestBodyInit)? body = null);",
+    "path": "dom.bs",
+    "commit_id": "b740fda564de21d4ee6b7e469b3c5b2482a3ab9c",
+    "original_commit_id": "111b1bd157d420143775f5d95e4872df68c9189d",
+    "user": {
+      "login": "nicolo-ribaudo",
+      "id": 7000710,
+      "node_id": "MDQ6VXNlcjcwMDA3MTA=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7000710?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nicolo-ribaudo",
+      "html_url": "https://github.com/nicolo-ribaudo",
+      "followers_url": "https://api.github.com/users/nicolo-ribaudo/followers",
+      "following_url": "https://api.github.com/users/nicolo-ribaudo/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nicolo-ribaudo/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nicolo-ribaudo/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nicolo-ribaudo/subscriptions",
+      "organizations_url": "https://api.github.com/users/nicolo-ribaudo/orgs",
+      "repos_url": "https://api.github.com/users/nicolo-ribaudo/repos",
+      "events_url": "https://api.github.com/users/nicolo-ribaudo/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nicolo-ribaudo/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I'm not sure I understand the question. This is about WebIDL, not some JS-exposed option.",
+    "created_at": "2026-02-24T20:50:04Z",
+    "updated_at": "2026-02-24T20:50:05Z",
+    "html_url": "https://github.com/whatwg/dom/pull/1451#discussion_r2849474374",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/1451",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/2849474374"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/1451#discussion_r2849474374"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/1451"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/2849474374/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 1949,
+    "original_line": 1889,
+    "side": "RIGHT",
+    "in_reply_to_id": 2848552321,
+    "author_association": "MEMBER",
+    "original_position": 114,
+    "position": 145,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/2849541238",
+    "pull_request_review_id": 3850522639,
+    "id": 2849541238,
+    "node_id": "PRRC_kwDOAFUqXs6p2Ix2",
+    "diff_hunk": "@@ -1805,6 +1845,77 @@ that gave folks all the wrong ideas. <a>Events</a> do not represent or cause act\n can only be used to influence an ongoing one.\n \n \n+<h3 id=\"propagates-async-context-to-events\">The <dfn extended-attribute lt=\"PropagatesAsyncContextToEvents\">[PropagatesAsyncContextToEvents]</dfn> extended attribute</h3>\n+\n+<p>To enable integration with the TC39 AsyncContext proposal for events fired asynchronously as a\n+result of either a method call or the construction of an interface instance, we introduce the\n+[{{PropagatesAsyncContextToEvents}}] WebIDL [=extended attribute=]. [[!PROPOSAL-ASYNCCONTEXT]]\n+\n+<p>The [{{PropagatesAsyncContextToEvents}}] extended attribute must take either a string or a list\n+of strings. It must only used on either an [=interface=] that inherits from {{EventTarget}}, or on a\n+[=regular operation=] declared on such an interface.\n+\n+<p>Regular operations annotated with [{{PropagatesAsyncContextToEvents}}], as well as [=constructor\n+steps=] of an interface annotated with that extended attribute, must run the following steps in\n+place of the ones specified in their description:\n+\n+<ol>\n+ <li><p>If the [{{PropagatesAsyncContextToEvents}}] extended attribute takes a list of strings, let\n+ <var>event types</var> be that list. Otherwise, the argument is a string; let <var>event\n+ types</var> be a list containing that string.\n+\n+ <li>\n+  <p>For each <var>event type</var> in <var>event types</var>, set (<a>this</a>'s\n+  <a for=EventTarget>preserved AsyncContext map</a>)[<var>event type</var>] to\n+  <a abstract-op>AsyncContextSnapshot</a>().\n+\n+  <p class=note>The return value of <a abstract-op>AsyncContextSnapshot</a>() will not change across\n+  these invocations.\n+ </li>\n+\n+ <li><p>Run the originally-specified steps for this regular operation. If the steps return a value\n+ or throw an exception, return or throw it in turn.\n+</ol>\n+\n+<p>Specifications should set this extended attribute on methods which start an async operation which\n+will eventually cause events to be fired on the instance on which the method was called.\n+<span class=\"non-normative\">An example of this is the {{XMLHttpRequest}} and its\n+{{XMLHttpRequest/send}} method:</span> [[XHR]]\n+\n+<pre highlight=idl>\n+[Exposed=(Window,DedicatedWorker,SharedWorker)]\n+interface XMLHttpRequest : XMLHttpRequestEventTarget {\n+  // ...\n+  [PropagatesAsyncContextToEvents=(\"loadstart\", \"progress\", \"error\", \"load\", \"timeout\", \"loadend\")] undefined send(optional (Document or XMLHttpRequestBodyInit)? body = null);",
+    "path": "dom.bs",
+    "commit_id": "b740fda564de21d4ee6b7e469b3c5b2482a3ab9c",
+    "original_commit_id": "111b1bd157d420143775f5d95e4872df68c9189d",
+    "user": {
+      "login": "WebReflection",
+      "id": 85749,
+      "node_id": "MDQ6VXNlcjg1NzQ5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/85749?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/WebReflection",
+      "html_url": "https://github.com/WebReflection",
+      "followers_url": "https://api.github.com/users/WebReflection/followers",
+      "following_url": "https://api.github.com/users/WebReflection/following{/other_user}",
+      "gists_url": "https://api.github.com/users/WebReflection/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/WebReflection/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/WebReflection/subscriptions",
+      "organizations_url": "https://api.github.com/users/WebReflection/orgs",
+      "repos_url": "https://api.github.com/users/WebReflection/repos",
+      "events_url": "https://api.github.com/users/WebReflection/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/WebReflection/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "fair enough, apologies for the irrelevant question then 👋",
+    "created_at": "2026-02-24T21:05:37Z",
+    "updated_at": "2026-02-24T21:05:37Z",
+    "html_url": "https://github.com/whatwg/dom/pull/1451#discussion_r2849541238",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/1451",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/2849541238"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/1451#discussion_r2849541238"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/1451"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/2849541238/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 1949,
+    "original_line": 1889,
+    "side": "RIGHT",
+    "in_reply_to_id": 2848552321,
+    "author_association": "NONE",
+    "original_position": 114,
+    "position": 145,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/2850297242",
+    "pull_request_review_id": 3851308169,
+    "id": 2850297242,
+    "node_id": "PRRC_kwDOAFUqXs6p5BWa",
+    "diff_hunk": "@@ -1805,6 +1845,77 @@ that gave folks all the wrong ideas. <a>Events</a> do not represent or cause act\n can only be used to influence an ongoing one.\n \n \n+<h3 id=\"propagates-async-context-to-events\">The <dfn extended-attribute lt=\"PropagatesAsyncContextToEvents\">[PropagatesAsyncContextToEvents]</dfn> extended attribute</h3>\n+\n+<p>To enable integration with the TC39 AsyncContext proposal for events fired asynchronously as a\n+result of either a method call or the construction of an interface instance, we introduce the\n+[{{PropagatesAsyncContextToEvents}}] WebIDL [=extended attribute=]. [[!PROPOSAL-ASYNCCONTEXT]]\n+\n+<p>The [{{PropagatesAsyncContextToEvents}}] extended attribute must take either a string or a list\n+of strings. It must only used on either an [=interface=] that inherits from {{EventTarget}}, or on a\n+[=regular operation=] declared on such an interface.\n+\n+<p>Regular operations annotated with [{{PropagatesAsyncContextToEvents}}], as well as [=constructor\n+steps=] of an interface annotated with that extended attribute, must run the following steps in\n+place of the ones specified in their description:\n+\n+<ol>\n+ <li><p>If the [{{PropagatesAsyncContextToEvents}}] extended attribute takes a list of strings, let\n+ <var>event types</var> be that list. Otherwise, the argument is a string; let <var>event\n+ types</var> be a list containing that string.\n+\n+ <li>\n+  <p>For each <var>event type</var> in <var>event types</var>, set (<a>this</a>'s\n+  <a for=EventTarget>preserved AsyncContext map</a>)[<var>event type</var>] to\n+  <a abstract-op>AsyncContextSnapshot</a>().\n+\n+  <p class=note>The return value of <a abstract-op>AsyncContextSnapshot</a>() will not change across\n+  these invocations.\n+ </li>\n+\n+ <li><p>Run the originally-specified steps for this regular operation. If the steps return a value\n+ or throw an exception, return or throw it in turn.\n+</ol>\n+\n+<p>Specifications should set this extended attribute on methods which start an async operation which\n+will eventually cause events to be fired on the instance on which the method was called.\n+<span class=\"non-normative\">An example of this is the {{XMLHttpRequest}} and its\n+{{XMLHttpRequest/send}} method:</span> [[XHR]]\n+\n+<pre highlight=idl>\n+[Exposed=(Window,DedicatedWorker,SharedWorker)]\n+interface XMLHttpRequest : XMLHttpRequestEventTarget {\n+  // ...\n+  [PropagatesAsyncContextToEvents=(\"loadstart\", \"progress\", \"error\", \"load\", \"timeout\", \"loadend\")] undefined send(optional (Document or XMLHttpRequestBodyInit)? body = null);",
+    "path": "dom.bs",
+    "commit_id": "b740fda564de21d4ee6b7e469b3c5b2482a3ab9c",
+    "original_commit_id": "111b1bd157d420143775f5d95e4872df68c9189d",
+    "user": {
+      "login": "andreubotella",
+      "id": 8225977,
+      "node_id": "MDQ6VXNlcjgyMjU5Nzc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8225977?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/andreubotella",
+      "html_url": "https://github.com/andreubotella",
+      "followers_url": "https://api.github.com/users/andreubotella/followers",
+      "following_url": "https://api.github.com/users/andreubotella/following{/other_user}",
+      "gists_url": "https://api.github.com/users/andreubotella/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/andreubotella/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/andreubotella/subscriptions",
+      "organizations_url": "https://api.github.com/users/andreubotella/orgs",
+      "repos_url": "https://api.github.com/users/andreubotella/repos",
+      "events_url": "https://api.github.com/users/andreubotella/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/andreubotella/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "There's no similar namespacing in WebIDL extended attributes, and in fact extended attribute names currently can only be identifiers. But it seems like this could be changed without that much trouble, and without syntax conflicts.",
+    "created_at": "2026-02-25T01:11:33Z",
+    "updated_at": "2026-02-25T01:11:33Z",
+    "html_url": "https://github.com/whatwg/dom/pull/1451#discussion_r2850297242",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/1451",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/2850297242"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/1451#discussion_r2850297242"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/1451"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/2850297242/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 1949,
+    "original_line": 1889,
+    "side": "RIGHT",
+    "in_reply_to_id": 2848552321,
+    "author_association": "MEMBER",
+    "original_position": 114,
+    "position": 145,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/4196867582",
+    "pull_request_review_id": 5430341275,
+    "id": 4196867582,
+    "node_id": "PRRC_kwDOAFUqXs76Jx3-",
+    "diff_hunk": "@@ -1805,6 +1847,83 @@ that gave folks all the wrong ideas. <a>Events</a> do not represent or cause act\n can only be used to influence an ongoing one.\n \n \n+<h3 id=\"propagates-async-context-to-events\">The <dfn extended-attribute lt=\"PropagatesAsyncContextToEvents\">[PropagatesAsyncContextToEvents]</dfn> extended attribute</h3>\n+\n+<p>To enable integration with the TC39 AsyncContext proposal for events fired asynchronously as a\n+result of either a method call or the construction of an interface instance, we introduce the\n+[{{PropagatesAsyncContextToEvents}}] WebIDL [=extended attribute=]. [[!PROPOSAL-ASYNCCONTEXT]]\n+\n+<p>The [{{PropagatesAsyncContextToEvents}}] extended attribute must take either a string or a list\n+of strings. It must only used on either an [=interface=] that inherits from {{EventTarget}}, or on a\n+[=regular operation=] declared on such an interface.\n+\n+<p>Regular operations annotated with [{{PropagatesAsyncContextToEvents}}], as well as [=constructor\n+steps=] of an interface annotated with that extended attribute, must run the following steps in\n+place of the ones specified in their description:\n+\n+<ol>\n+ <li><p>If the [{{PropagatesAsyncContextToEvents}}] extended attribute takes a list of strings, let\n+ <var>event types</var> be that list. Otherwise, the argument is a string; let <var>event\n+ types</var> be a list containing that string.\n+\n+ <li><p><a for=EventTarget>Propagate AsyncContext for events</a> <var>event types</var> given\n+ <a>this</a>.\n+\n+ <li><p>Run the originally-specified steps for this regular operation. If the steps return a value\n+ or throw an exception, return or throw it in turn.\n+</ol>\n+\n+<p algorithm>To <dfn export for=EventTarget>propagate AsyncContext for events</dfn> with a list of\n+strings <var>event types</var>, given an {{EventTarget}} <var>target</var>, then for each\n+<var>event type</var> in <var>event types</var>, set (<var>target</var>'s\n+<a for=EventTarget>preserved AsyncContext map</a>)[<var>event type</var>] to\n+<a abstract-op>AsyncContextSnapshot</a>(). <span class=note>The return value of\n+<a abstract-op>AsyncContextSnapshot</a>() will not change across these invocations.</span></p>\n+\n+<p algorithm>To <dfn export for=EventTarget>clear AsyncContext for events</dfn> with a list of\n+strings <var>event types</var>, given an {{EventTarget}} <var>target</var>, then for each\n+<var>event type</var> in <var>event types</var>, remove (<var>target</var>'s\n+<a for=EventTarget>preserved AsyncContext map</a>)[<var>event type</var>].</p>\n+\n+<p>Specifications should set the [{{PropagatesAsyncContextToEvents}}] extended attribute on methods\n+which start an async operation which will eventually cause events to be fired on the instance on\n+which the method was called. <span class=\"non-normative\">An example of this is the\n+{{XMLHttpRequest}} interface and its {{XMLHttpRequest/send}} method:</span> [[XHR]]\n+\n+<pre highlight=idl>\n+[Exposed=(Window,DedicatedWorker,SharedWorker)]\n+interface XMLHttpRequest : XMLHttpRequestEventTarget {\n+  // ...\n+  [PropagatesAsyncContextToEvents=(\"loadstart\", \"progress\", \"error\", \"load\", \"timeout\", \"loadend\")] undefined send(optional (Document or XMLHttpRequestBodyInit)? body = null);\n+  // ...\n+};\n+</pre>\n+\n+<p>Specifications should also set this extended attribute on interfaces which are only constructed\n+as a result of an operation which will eventually fire events on that instance.\n+<span class=\"non-normative\">An example of this is {{IDBOpenDBRequest}}, instances of which can only\n+be created by the methods {{IDBFactory/open}} or {{IDBFactory/deleteDatabase}} of {{IDBFactory}},\n+both of which will result in events being fired on the returned {{IDBOpenDBRequest}} instance. Note\n+that here {{IDBFactory/open}} and {{IDBFactory/deleteDatabase}} are not annotated with any\n+AsyncContext-related extended attribute; only {{IDBOpenDBRequest}} is:</span> [[INDEXEDDB]]\n+\n+<pre highlight=idl>\n+[Exposed=(Window,Worker)]\n+interface IDBFactory {\n+  [NewObject] IDBOpenDBRequest open(DOMString name,\n+                                    optional [EnforceRange] unsigned long long version);\n+  [NewObject] IDBOpenDBRequest deleteDatabase(DOMString name);\n+  // ...\n+};\n+\n+[Exposed=(Window,Worker),\n+PropagatesAsyncContextToEvents=(\"success\", \"error\", \"blocked\", \"upgradeneeded\")]",
+    "path": "dom.bs",
+    "commit_id": "2ce5c7dfca1badc3827b0cca8870a023da20e06a",
+    "original_commit_id": "2ce5c7dfca1badc3827b0cca8870a023da20e06a",
+    "user": {
+      "login": "nicolo-ribaudo",
+      "id": 7000710,
+      "node_id": "MDQ6VXNlcjcwMDA3MTA=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7000710?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nicolo-ribaudo",
+      "html_url": "https://github.com/nicolo-ribaudo",
+      "followers_url": "https://api.github.com/users/nicolo-ribaudo/followers",
+      "following_url": "https://api.github.com/users/nicolo-ribaudo/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nicolo-ribaudo/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nicolo-ribaudo/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nicolo-ribaudo/subscriptions",
+      "organizations_url": "https://api.github.com/users/nicolo-ribaudo/orgs",
+      "repos_url": "https://api.github.com/users/nicolo-ribaudo/repos",
+      "events_url": "https://api.github.com/users/nicolo-ribaudo/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nicolo-ribaudo/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Should this annotation be on interfaces, or on their constructor?",
+    "created_at": "2026-10-06T14:58:31Z",
+    "updated_at": "2026-10-06T14:58:31Z",
+    "html_url": "https://github.com/whatwg/dom/pull/1451#discussion_r4196867582",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/1451",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/4196867582"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/1451#discussion_r4196867582"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/1451"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/4196867582/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1920,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 154,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

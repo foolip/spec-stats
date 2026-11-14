@@ -1,0 +1,716 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/76768321",
+    "pull_request_review_id": null,
+    "id": 76768321,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDc2NzY4MzIx",
+    "diff_hunk": "@@ -4136,51 +4136,41 @@ when invoked, must run these steps:\n \n  <li><p>Let <var>node1</var> be <var>other</var> and <var>node2</var> be <a>context object</a>.\n \n- <li><p>Let <var>attr1</var> be null.\n+ <li><p>Let <var>attr1</var> and <var>attr2</var> be null.\n \n- <li>\n-  <p>If <var>node1</var> is an <a>attribute</a>, then:\n-\n-  <ol>\n-   <li><p>Set <var>attr1</var> to <var>node1</var>.\n-\n-   <li><p>If <var>attr1</var>'s <a for=Attr>element</a> is non-null, then set <var>node1</var> to\n-   <var>attr1</var>'s <a for=Attr>element</a>.\n-  </ol>\n+ <li><p>If <var>node1</var> is an <a>attribute</a>, then set <var>attr1</var> to <var>node1</var>\n+ and set <var>node1</var> to <var>attr1</var>'s <a for=Attr>element</a>.\n \n  <li>\n   <p>If <var>node2</var> is an <a>attribute</a>, then:\n \n   <ol>\n-   <li><p>Let <var>attr2</var> be <var>node2</var>.\n+   <li><p>Set <var>attr2</var> be <var>node2</var> and <var>node2</var> to <var>attr2</var>'s\n+   <a for=Attr>element</a>.\n \n    <li>\n-    <p>If <var>attr2</var>'s <a for=Attr>element</a> is <var>node1</var> and <var>attr1</var> is\n-    non-null, then:\n+    <p>If <var>node2</var> is <var>node1</var> and <var>attr1</var> is non-null, then:\n \n     <ol>\n      <li>\n-      <p>For each <a>attribute</a> <var>node2Attribute</var> in <var>attr2</var>'s\n-      <a for=Attr>element</a>'s <a for=Element>attribute list</a>:\n+      <p>For each <a>attribute</a> <var>node2Attr</var> in <var>node2</var>'s",
+    "path": "dom.bs",
+    "commit_id": "41a602f2fdac7b45eac18f92f0af522499725f34",
+    "original_commit_id": "fa39e5ce4fd80d6e5e2ed1522ce7b0769a2a37d1",
+    "user": {
+      "login": "foolip",
+      "id": 498917,
+      "node_id": "MDQ6VXNlcjQ5ODkxNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/498917?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/foolip",
+      "html_url": "https://github.com/foolip",
+      "followers_url": "https://api.github.com/users/foolip/followers",
+      "following_url": "https://api.github.com/users/foolip/following{/other_user}",
+      "gists_url": "https://api.github.com/users/foolip/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/foolip/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/foolip/subscriptions",
+      "organizations_url": "https://api.github.com/users/foolip/orgs",
+      "repos_url": "https://api.github.com/users/foolip/repos",
+      "events_url": "https://api.github.com/users/foolip/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/foolip/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Segfault, here it's possible for node1 and node2 to both be null while attr1 is non-null. I think the check needs to be \"If node1 and attr1 are non-null and node1 is node2\" or similar, i.e. add a null-check for node2.\n",
+    "created_at": "2016-08-30T10:19:41Z",
+    "updated_at": "2016-08-31T16:28:36Z",
+    "html_url": "https://github.com/whatwg/dom/pull/312#discussion_r76768321",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/312",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/76768321"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/312#discussion_r76768321"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/312"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/76768321/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 36,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/76771469",
+    "pull_request_review_id": null,
+    "id": 76771469,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDc2NzcxNDY5",
+    "diff_hunk": "@@ -4136,51 +4136,41 @@ when invoked, must run these steps:\n \n  <li><p>Let <var>node1</var> be <var>other</var> and <var>node2</var> be <a>context object</a>.\n \n- <li><p>Let <var>attr1</var> be null.\n+ <li><p>Let <var>attr1</var> and <var>attr2</var> be null.\n \n- <li>\n-  <p>If <var>node1</var> is an <a>attribute</a>, then:\n-\n-  <ol>\n-   <li><p>Set <var>attr1</var> to <var>node1</var>.\n-\n-   <li><p>If <var>attr1</var>'s <a for=Attr>element</a> is non-null, then set <var>node1</var> to\n-   <var>attr1</var>'s <a for=Attr>element</a>.\n-  </ol>\n+ <li><p>If <var>node1</var> is an <a>attribute</a>, then set <var>attr1</var> to <var>node1</var>\n+ and set <var>node1</var> to <var>attr1</var>'s <a for=Attr>element</a>.\n \n  <li>\n   <p>If <var>node2</var> is an <a>attribute</a>, then:\n \n   <ol>\n-   <li><p>Let <var>attr2</var> be <var>node2</var>.\n+   <li><p>Set <var>attr2</var> be <var>node2</var> and <var>node2</var> to <var>attr2</var>'s\n+   <a for=Attr>element</a>.\n \n    <li>\n-    <p>If <var>attr2</var>'s <a for=Attr>element</a> is <var>node1</var> and <var>attr1</var> is\n-    non-null, then:\n+    <p>If <var>node2</var> is <var>node1</var> and <var>attr1</var> is non-null, then:\n \n     <ol>\n      <li>\n-      <p>For each <a>attribute</a> <var>node2Attribute</var> in <var>attr2</var>'s\n-      <a for=Attr>element</a>'s <a for=Element>attribute list</a>:\n+      <p>For each <a>attribute</a> <var>node2Attr</var> in <var>node2</var>'s",
+    "path": "dom.bs",
+    "commit_id": "41a602f2fdac7b45eac18f92f0af522499725f34",
+    "original_commit_id": "fa39e5ce4fd80d6e5e2ed1522ce7b0769a2a37d1",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.\n",
+    "created_at": "2016-08-30T10:45:33Z",
+    "updated_at": "2016-08-31T16:28:36Z",
+    "html_url": "https://github.com/whatwg/dom/pull/312#discussion_r76771469",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/312",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/76771469"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/312#discussion_r76771469"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/312"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/76771469/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "in_reply_to_id": 76768321,
+    "author_association": "MEMBER",
+    "original_position": 36,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/76774192",
+    "pull_request_review_id": null,
+    "id": 76774192,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDc2Nzc0MTky",
+    "diff_hunk": "@@ -4136,51 +4136,41 @@ when invoked, must run these steps:\n \n  <li><p>Let <var>node1</var> be <var>other</var> and <var>node2</var> be <a>context object</a>.\n \n- <li><p>Let <var>attr1</var> be null.\n+ <li><p>Let <var>attr1</var> and <var>attr2</var> be null.\n \n- <li>\n-  <p>If <var>node1</var> is an <a>attribute</a>, then:\n-\n-  <ol>\n-   <li><p>Set <var>attr1</var> to <var>node1</var>.\n-\n-   <li><p>If <var>attr1</var>'s <a for=Attr>element</a> is non-null, then set <var>node1</var> to\n-   <var>attr1</var>'s <a for=Attr>element</a>.\n-  </ol>\n+ <li><p>If <var>node1</var> is an <a>attribute</a>, then set <var>attr1</var> to <var>node1</var>\n+ and set <var>node1</var> to <var>attr1</var>'s <a for=Attr>element</a>.\n \n  <li>\n   <p>If <var>node2</var> is an <a>attribute</a>, then:\n \n   <ol>\n-   <li><p>Let <var>attr2</var> be <var>node2</var>.\n+   <li><p>Set <var>attr2</var> be <var>node2</var> and <var>node2</var> to <var>attr2</var>'s\n+   <a for=Attr>element</a>.\n \n    <li>\n-    <p>If <var>attr2</var>'s <a for=Attr>element</a> is <var>node1</var> and <var>attr1</var> is\n-    non-null, then:\n+    <p>If <var>node2</var> is <var>node1</var> and <var>attr1</var> is non-null, then:\n \n     <ol>\n      <li>\n-      <p>For each <a>attribute</a> <var>node2Attribute</var> in <var>attr2</var>'s\n-      <a for=Attr>element</a>'s <a for=Element>attribute list</a>:\n+      <p>For each <a>attribute</a> <var>node2Attr</var> in <var>node2</var>'s",
+    "path": "dom.bs",
+    "commit_id": "41a602f2fdac7b45eac18f92f0af522499725f34",
+    "original_commit_id": "fa39e5ce4fd80d6e5e2ed1522ce7b0769a2a37d1",
+    "user": {
+      "login": "foolip",
+      "id": 498917,
+      "node_id": "MDQ6VXNlcjQ5ODkxNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/498917?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/foolip",
+      "html_url": "https://github.com/foolip",
+      "followers_url": "https://api.github.com/users/foolip/followers",
+      "following_url": "https://api.github.com/users/foolip/following{/other_user}",
+      "gists_url": "https://api.github.com/users/foolip/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/foolip/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/foolip/subscriptions",
+      "organizations_url": "https://api.github.com/users/foolip/orgs",
+      "repos_url": "https://api.github.com/users/foolip/repos",
+      "events_url": "https://api.github.com/users/foolip/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/foolip/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Reading this anew, I also wonder if it'd be more clear to call _node2Attr_ simply _attr_ or something without a 2 in it, since node1==node2 here.\n",
+    "created_at": "2016-08-30T11:07:23Z",
+    "updated_at": "2016-08-31T16:28:36Z",
+    "html_url": "https://github.com/whatwg/dom/pull/312#discussion_r76774192",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/312",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/76774192"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/312#discussion_r76774192"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/312"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/76774192/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 36,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/76774479",
+    "pull_request_review_id": null,
+    "id": 76774479,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDc2Nzc0NDc5",
+    "diff_hunk": "@@ -4136,51 +4136,41 @@ when invoked, must run these steps:\n \n  <li><p>Let <var>node1</var> be <var>other</var> and <var>node2</var> be <a>context object</a>.\n \n- <li><p>Let <var>attr1</var> be null.\n+ <li><p>Let <var>attr1</var> and <var>attr2</var> be null.\n \n- <li>\n-  <p>If <var>node1</var> is an <a>attribute</a>, then:\n-\n-  <ol>\n-   <li><p>Set <var>attr1</var> to <var>node1</var>.\n-\n-   <li><p>If <var>attr1</var>'s <a for=Attr>element</a> is non-null, then set <var>node1</var> to\n-   <var>attr1</var>'s <a for=Attr>element</a>.\n-  </ol>\n+ <li><p>If <var>node1</var> is an <a>attribute</a>, then set <var>attr1</var> to <var>node1</var>\n+ and set <var>node1</var> to <var>attr1</var>'s <a for=Attr>element</a>.\n \n  <li>\n   <p>If <var>node2</var> is an <a>attribute</a>, then:\n \n   <ol>\n-   <li><p>Let <var>attr2</var> be <var>node2</var>.\n+   <li><p>Set <var>attr2</var> be <var>node2</var> and <var>node2</var> to <var>attr2</var>'s\n+   <a for=Attr>element</a>.\n \n    <li>\n-    <p>If <var>attr2</var>'s <a for=Attr>element</a> is <var>node1</var> and <var>attr1</var> is\n-    non-null, then:\n+    <p>If <var>node2</var> is <var>node1</var> and <var>attr1</var> is non-null, then:\n \n     <ol>\n      <li>\n-      <p>For each <a>attribute</a> <var>node2Attribute</var> in <var>attr2</var>'s\n-      <a for=Attr>element</a>'s <a for=Element>attribute list</a>:\n+      <p>For each <a>attribute</a> <var>node2Attr</var> in <var>node2</var>'s",
+    "path": "dom.bs",
+    "commit_id": "41a602f2fdac7b45eac18f92f0af522499725f34",
+    "original_commit_id": "fa39e5ce4fd80d6e5e2ed1522ce7b0769a2a37d1",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Good call.\n",
+    "created_at": "2016-08-30T11:10:02Z",
+    "updated_at": "2016-08-31T16:28:36Z",
+    "html_url": "https://github.com/whatwg/dom/pull/312#discussion_r76774479",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/312",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/76774479"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/312#discussion_r76774479"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/312"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/76774479/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "in_reply_to_id": 76768321,
+    "author_association": "MEMBER",
+    "original_position": 36,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/76777892",
+    "pull_request_review_id": null,
+    "id": 76777892,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDc2Nzc3ODky",
+    "diff_hunk": "@@ -2519,51 +2519,41 @@ <h3 class=\"heading settled\" data-level=\"4.4\" id=\"interface-node\"><span class=\"se\n     <li>\n      <p>Let <var>node1</var> be <var>other</var> and <var>node2</var> be <a data-link-type=\"dfn\" href=\"#context-object\">context object</a>. </p>\n     <li>\n-     <p>Let <var>attr1</var> be null. </p>\n+     <p>Let <var>attr1</var> and <var>attr2</var> be null. </p>\n     <li>\n-     <p>If <var>node1</var> is an <a data-link-type=\"dfn\" href=\"#concept-attribute\">attribute</a>, then: </p>\n-     <ol>\n-      <li>\n-       <p>Set <var>attr1</var> to <var>node1</var>. </p>\n-      <li>\n-       <p>If <var>attr1</var>’s <a data-link-type=\"dfn\" href=\"#concept-attribute-element\">element</a> is non-null, then set <var>node1</var> to <var>attr1</var>’s <a data-link-type=\"dfn\" href=\"#concept-attribute-element\">element</a>. </p>\n-     </ol>\n+     <p>If <var>node1</var> is an <a data-link-type=\"dfn\" href=\"#concept-attribute\">attribute</a>, then set <var>attr1</var> to <var>node1</var> and <var>node1</var> to <var>attr1</var>’s <a data-link-type=\"dfn\" href=\"#concept-attribute-element\">element</a>. </p>\n     <li>\n      <p>If <var>node2</var> is an <a data-link-type=\"dfn\" href=\"#concept-attribute\">attribute</a>, then: </p>\n      <ol>\n       <li>\n-       <p>Let <var>attr2</var> be <var>node2</var>. </p>\n+       <p>Set <var>attr2</var> to <var>node2</var> and <var>node2</var> to <var>attr2</var>’s <a data-link-type=\"dfn\" href=\"#concept-attribute-element\">element</a>. </p>\n       <li>\n-       <p>If <var>attr2</var>’s <a data-link-type=\"dfn\" href=\"#concept-attribute-element\">element</a> is <var>node1</var> and <var>attr1</var> is\n-    non-null, then: </p>\n+       <p>If <var>attr1</var> and <var>node1</var> are non-null, and <var>node2</var> is <var>node1</var>, then: </p>\n        <ol>\n         <li>\n-         <p>For each <a data-link-type=\"dfn\" href=\"#concept-attribute\">attribute</a> <var>node2Attribute</var> in <var>attr2</var>’s <a data-link-type=\"dfn\" href=\"#concept-attribute-element\">element</a>’s <a data-link-type=\"dfn\" href=\"#concept-element-attribute\">attribute list</a>: </p>\n+         <p>For each <a data-link-type=\"dfn\" href=\"#concept-attribute\">attribute</a> <var>attr</var> in <var>node2</var>’s <a data-link-type=\"dfn\" href=\"#concept-element-attribute\">attribute list</a>: </p>\n          <ol>\n           <li>\n-           <p>If <var>node2Attribute</var> <a data-link-type=\"dfn\" href=\"#concept-node-equals\">equals</a> <var>attr1</var>, then return the\n-       result of adding <code class=\"idl\"><a data-link-type=\"idl\" href=\"#dom-node-document_position_implementation_specific\">DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC</a></code> and <code class=\"idl\"><a data-link-type=\"idl\" href=\"#dom-node-document_position_preceding\">DOCUMENT_POSITION_PRECEDING</a></code>. </p>\n+           <p>If <var>attr</var> <a data-link-type=\"dfn\" href=\"#concept-node-equals\">equals</a> <var>attr1</var>, then return the result of\n+       adding <code class=\"idl\"><a data-link-type=\"idl\" href=\"#dom-node-document_position_implementation_specific\">DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC</a></code> and <code class=\"idl\"><a data-link-type=\"idl\" href=\"#dom-node-document_position_preceding\">DOCUMENT_POSITION_PRECEDING</a></code>. </p>\n           <li>\n-           <p>If <var>node2Attribute</var> <a data-link-type=\"dfn\" href=\"#concept-node-equals\">equals</a> <var>attr2</var>, then return the\n-       result of adding <code class=\"idl\"><a data-link-type=\"idl\" href=\"#dom-node-document_position_implementation_specific\">DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC</a></code> and <code class=\"idl\"><a data-link-type=\"idl\" href=\"#dom-node-document_position_following\">DOCUMENT_POSITION_FOLLOWING</a></code>. </p>\n+           <p>If <var>attr</var> <a data-link-type=\"dfn\" href=\"#concept-node-equals\">equals</a> <var>attr2</var>, then return the result of\n+       adding <code class=\"idl\"><a data-link-type=\"idl\" href=\"#dom-node-document_position_implementation_specific\">DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC</a></code> and <code class=\"idl\"><a data-link-type=\"idl\" href=\"#dom-node-document_position_following\">DOCUMENT_POSITION_FOLLOWING</a></code>. </p>\n          </ol>\n        </ol>\n-      <li>\n-       <p>If <var>attr2</var>’s <a data-link-type=\"dfn\" href=\"#concept-attribute-element\">element</a> is non-null, then set <var>node2</var> to <var>attr2</var>’s <a data-link-type=\"dfn\" href=\"#concept-attribute-element\">element</a>. </p>\n      </ol>\n     <li>\n-     <p>If <var>node1</var>’s <a data-link-type=\"dfn\" href=\"#concept-tree-root\">root</a> is not <var>node2</var>’s <a data-link-type=\"dfn\" href=\"#concept-tree-root\">root</a> or <var>node1</var> and <var>node2</var> are <a data-link-type=\"dfn\" href=\"#concept-attribute\">attributes</a>, then return the result of adding <code class=\"idl\"><a data-link-type=\"idl\" href=\"#dom-node-document_position_disconnected\">DOCUMENT_POSITION_DISCONNECTED</a></code>, <code class=\"idl\"><a data-link-type=\"idl\" href=\"#dom-node-document_position_implementation_specific\">DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC</a></code>, and\n+     <p>If <var>node1</var> or <var>node2</var> is null, or <var>node1</var>’s <a data-link-type=\"dfn\" href=\"#concept-tree-root\">root</a> is\n+  not <var>node2</var>’s <a data-link-type=\"dfn\" href=\"#concept-tree-root\">root</a>, then return the result of adding <code class=\"idl\"><a data-link-type=\"idl\" href=\"#dom-node-document_position_disconnected\">DOCUMENT_POSITION_DISCONNECTED</a></code>, <code class=\"idl\"><a data-link-type=\"idl\" href=\"#dom-node-document_position_implementation_specific\">DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC</a></code>, and\n   either <code class=\"idl\"><a data-link-type=\"idl\" href=\"#dom-node-document_position_preceding\">DOCUMENT_POSITION_PRECEDING</a></code> or <code class=\"idl\"><a data-link-type=\"idl\" href=\"#dom-node-document_position_following\">DOCUMENT_POSITION_FOLLOWING</a></code>, with the\n   constraint that this is to be consistent, together. </p>\n      <p class=\"note no-backref\" role=\"note\">Whether to return <code class=\"idl\"><a data-link-type=\"idl\" href=\"#dom-node-document_position_preceding\">DOCUMENT_POSITION_PRECEDING</a></code> or <code class=\"idl\"><a data-link-type=\"idl\" href=\"#dom-node-document_position_following\">DOCUMENT_POSITION_FOLLOWING</a></code> is typically implemented via pointer comparison. In\n   JavaScript implementations a cached <code class=\"lang-javascript highlight\"><span class=\"nb\">Math</span><span class=\"p\">.</span><span class=\"nx\">random</span><span class=\"p\">()</span> </code> value can",
+    "path": "dom.html",
+    "commit_id": "41a602f2fdac7b45eac18f92f0af522499725f34",
+    "original_commit_id": "96cb8745f57621bb3a5effe9211baf96f52c5849",
+    "user": {
+      "login": "foolip",
+      "id": 498917,
+      "node_id": "MDQ6VXNlcjQ5ODkxNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/498917?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/foolip",
+      "html_url": "https://github.com/foolip",
+      "followers_url": "https://api.github.com/users/foolip/followers",
+      "following_url": "https://api.github.com/users/foolip/following{/other_user}",
+      "gists_url": "https://api.github.com/users/foolip/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/foolip/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/foolip/subscriptions",
+      "organizations_url": "https://api.github.com/users/foolip/orgs",
+      "repos_url": "https://api.github.com/users/foolip/repos",
+      "events_url": "https://api.github.com/users/foolip/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/foolip/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Looks like a Bikeshed bug on this line, an extra space before `</code>` that you can see in the rendered result. @tabatkins, known issue?\n",
+    "created_at": "2016-08-30T11:36:44Z",
+    "updated_at": "2016-08-31T16:28:36Z",
+    "html_url": "https://github.com/whatwg/dom/pull/312#discussion_r76777892",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/312",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/76777892"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/312#discussion_r76777892"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/312"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/76777892/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 2552,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 61,
+    "position": 52,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/76777935",
+    "pull_request_review_id": null,
+    "id": 76777935,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDc2Nzc3OTM1",
+    "diff_hunk": "@@ -4176,11 +4167,13 @@ when invoked, must run these steps:\n   JavaScript implementations a cached <code class='lang-javascript'>Math.random()</code> value can\n   be used.\n \n- <li><p>If <var>node1</var> is an <a>ancestor</a> of <var>node2</var>, then return the result of\n- adding {{Node/DOCUMENT_POSITION_CONTAINS}} to {{Node/DOCUMENT_POSITION_PRECEDING}}.\n+ <li><p>If <var>node1</var> is an <a>ancestor</a> of <var>node2</var>, or <var>node1</var> is",
+    "path": "dom.bs",
+    "commit_id": "41a602f2fdac7b45eac18f92f0af522499725f34",
+    "original_commit_id": "96cb8745f57621bb3a5effe9211baf96f52c5849",
+    "user": {
+      "login": "foolip",
+      "id": 498917,
+      "node_id": "MDQ6VXNlcjQ5ODkxNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/498917?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/foolip",
+      "html_url": "https://github.com/foolip",
+      "followers_url": "https://api.github.com/users/foolip/followers",
+      "following_url": "https://api.github.com/users/foolip/following{/other_user}",
+      "gists_url": "https://api.github.com/users/foolip/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/foolip/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/foolip/subscriptions",
+      "organizations_url": "https://api.github.com/users/foolip/orgs",
+      "repos_url": "https://api.github.com/users/foolip/repos",
+      "events_url": "https://api.github.com/users/foolip/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/foolip/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Oh my, this is still a problem when an attribute is compared to a descendant of its element. Because one of _node1_ and _node2_ will become the attribute's element, either this or the next step will match. Maybe \"If _node1_ is an ancestor of _node2_ <ins>and _attr1_ is null</ins>, or _node1_ is _node2_ and _attr2_ is non-null\" and similarly for the next step?\n",
+    "created_at": "2016-08-30T11:37:05Z",
+    "updated_at": "2016-08-31T16:28:36Z",
+    "html_url": "https://github.com/whatwg/dom/pull/312#discussion_r76777935",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/312",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/76777935"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/312#discussion_r76777935"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/312"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/76777935/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 73,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/76778121",
+    "pull_request_review_id": null,
+    "id": 76778121,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDc2Nzc4MTIx",
+    "diff_hunk": "@@ -4176,11 +4167,13 @@ when invoked, must run these steps:\n   JavaScript implementations a cached <code class='lang-javascript'>Math.random()</code> value can\n   be used.\n \n- <li><p>If <var>node1</var> is an <a>ancestor</a> of <var>node2</var>, then return the result of\n- adding {{Node/DOCUMENT_POSITION_CONTAINS}} to {{Node/DOCUMENT_POSITION_PRECEDING}}.\n+ <li><p>If <var>node1</var> is an <a>ancestor</a> of <var>node2</var>, or <var>node1</var> is\n+ <var>node2</var> and <var>attr2</var> is non-null, then return the result of adding\n+ {{Node/DOCUMENT_POSITION_CONTAINS}} to {{Node/DOCUMENT_POSITION_PRECEDING}}.\n \n- <li><p>If <var>node1</var> is a <a>descendant</a> of <var>node2</var>, then return the result of\n- adding {{Node/DOCUMENT_POSITION_CONTAINED_BY}} to {{Node/DOCUMENT_POSITION_FOLLOWING}}.\n+ <li><p>If <var>node1</var> is a <a>descendant</a> of <var>node2</var>, or <var>node1</var> is\n+ <var>node2</var> and <var>attr1</var> is non-null, then return the result of adding\n+ {{Node/DOCUMENT_POSITION_CONTAINED_BY}} to {{Node/DOCUMENT_POSITION_FOLLOWING}}.\n \n  <li><p>If <var>node1</var> is <a>preceding</a> <var>node2</var>, then return",
+    "path": "dom.bs",
+    "commit_id": "41a602f2fdac7b45eac18f92f0af522499725f34",
+    "original_commit_id": "96cb8745f57621bb3a5effe9211baf96f52c5849",
+    "user": {
+      "login": "foolip",
+      "id": 498917,
+      "node_id": "MDQ6VXNlcjQ5ODkxNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/498917?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/foolip",
+      "html_url": "https://github.com/foolip",
+      "followers_url": "https://api.github.com/users/foolip/followers",
+      "following_url": "https://api.github.com/users/foolip/following{/other_user}",
+      "gists_url": "https://api.github.com/users/foolip/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/foolip/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/foolip/subscriptions",
+      "organizations_url": "https://api.github.com/users/foolip/orgs",
+      "repos_url": "https://api.github.com/users/foolip/repos",
+      "events_url": "https://api.github.com/users/foolip/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/foolip/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "A  note around here that explains that we can end up here for attributes and that they are considered to come before the real descendants would be nice, since it's going to be impossible to extract intention from the algorithm alone.\n",
+    "created_at": "2016-08-30T11:38:32Z",
+    "updated_at": "2016-08-31T16:28:36Z",
+    "html_url": "https://github.com/whatwg/dom/pull/312#discussion_r76778121",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/312",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/76778121"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/312#discussion_r76778121"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/312"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/76778121/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 83,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/76779114",
+    "pull_request_review_id": null,
+    "id": 76779114,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDc2Nzc5MTE0",
+    "diff_hunk": "@@ -4176,11 +4167,13 @@ when invoked, must run these steps:\n   JavaScript implementations a cached <code class='lang-javascript'>Math.random()</code> value can\n   be used.\n \n- <li><p>If <var>node1</var> is an <a>ancestor</a> of <var>node2</var>, then return the result of\n- adding {{Node/DOCUMENT_POSITION_CONTAINS}} to {{Node/DOCUMENT_POSITION_PRECEDING}}.\n+ <li><p>If <var>node1</var> is an <a>ancestor</a> of <var>node2</var>, or <var>node1</var> is\n+ <var>node2</var> and <var>attr2</var> is non-null, then return the result of adding\n+ {{Node/DOCUMENT_POSITION_CONTAINS}} to {{Node/DOCUMENT_POSITION_PRECEDING}}.\n \n- <li><p>If <var>node1</var> is a <a>descendant</a> of <var>node2</var>, then return the result of\n- adding {{Node/DOCUMENT_POSITION_CONTAINED_BY}} to {{Node/DOCUMENT_POSITION_FOLLOWING}}.\n+ <li><p>If <var>node1</var> is a <a>descendant</a> of <var>node2</var>, or <var>node1</var> is\n+ <var>node2</var> and <var>attr1</var> is non-null, then return the result of adding\n+ {{Node/DOCUMENT_POSITION_CONTAINED_BY}} to {{Node/DOCUMENT_POSITION_FOLLOWING}}.\n \n  <li><p>If <var>node1</var> is <a>preceding</a> <var>node2</var>, then return",
+    "path": "dom.bs",
+    "commit_id": "41a602f2fdac7b45eac18f92f0af522499725f34",
+    "original_commit_id": "96cb8745f57621bb3a5effe9211baf96f52c5849",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "How can we end up here with either node1 or node2 being null?\n",
+    "created_at": "2016-08-30T11:46:33Z",
+    "updated_at": "2016-08-31T16:28:36Z",
+    "html_url": "https://github.com/whatwg/dom/pull/312#discussion_r76779114",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/312",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/76779114"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/312#discussion_r76779114"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/312"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/76779114/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "in_reply_to_id": 76778121,
+    "author_association": "MEMBER",
+    "original_position": 83,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/76779629",
+    "pull_request_review_id": null,
+    "id": 76779629,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDc2Nzc5NjI5",
+    "diff_hunk": "@@ -4176,11 +4167,13 @@ when invoked, must run these steps:\n   JavaScript implementations a cached <code class='lang-javascript'>Math.random()</code> value can\n   be used.\n \n- <li><p>If <var>node1</var> is an <a>ancestor</a> of <var>node2</var>, then return the result of\n- adding {{Node/DOCUMENT_POSITION_CONTAINS}} to {{Node/DOCUMENT_POSITION_PRECEDING}}.\n+ <li><p>If <var>node1</var> is an <a>ancestor</a> of <var>node2</var>, or <var>node1</var> is\n+ <var>node2</var> and <var>attr2</var> is non-null, then return the result of adding\n+ {{Node/DOCUMENT_POSITION_CONTAINS}} to {{Node/DOCUMENT_POSITION_PRECEDING}}.\n \n- <li><p>If <var>node1</var> is a <a>descendant</a> of <var>node2</var>, then return the result of\n- adding {{Node/DOCUMENT_POSITION_CONTAINED_BY}} to {{Node/DOCUMENT_POSITION_FOLLOWING}}.\n+ <li><p>If <var>node1</var> is a <a>descendant</a> of <var>node2</var>, or <var>node1</var> is\n+ <var>node2</var> and <var>attr1</var> is non-null, then return the result of adding\n+ {{Node/DOCUMENT_POSITION_CONTAINED_BY}} to {{Node/DOCUMENT_POSITION_FOLLOWING}}.\n \n  <li><p>If <var>node1</var> is <a>preceding</a> <var>node2</var>, then return",
+    "path": "dom.bs",
+    "commit_id": "41a602f2fdac7b45eac18f92f0af522499725f34",
+    "original_commit_id": "96cb8745f57621bb3a5effe9211baf96f52c5849",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think I understand what you mean.\n",
+    "created_at": "2016-08-30T11:50:35Z",
+    "updated_at": "2016-08-31T16:28:36Z",
+    "html_url": "https://github.com/whatwg/dom/pull/312#discussion_r76779629",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/312",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/76779629"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/312#discussion_r76779629"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/312"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/76779629/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "in_reply_to_id": 76778121,
+    "author_association": "MEMBER",
+    "original_position": 83,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/76948024",
+    "pull_request_review_id": null,
+    "id": 76948024,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDc2OTQ4MDI0",
+    "diff_hunk": "@@ -4176,14 +4167,21 @@ when invoked, must run these steps:\n   JavaScript implementations a cached <code class='lang-javascript'>Math.random()</code> value can\n   be used.\n \n- <li><p>If <var>node1</var> is an <a>ancestor</a> of <var>node2</var>, then return the result of\n+ <li><p>If <var>node1</var> is an <a>ancestor</a> of <var>node2</var> and <var>attr1</var> is null,\n+ or <var>node1</var> is <var>node2</var> and <var>attr2</var> is non-null, then return the result of\n  adding {{Node/DOCUMENT_POSITION_CONTAINS}} to {{Node/DOCUMENT_POSITION_PRECEDING}}.\n \n- <li><p>If <var>node1</var> is a <a>descendant</a> of <var>node2</var>, then return the result of\n+ <li><p>If <var>node1</var> is a <a>descendant</a> of <var>node2</var> and <var>attr1</var> is null,",
+    "path": "dom.bs",
+    "commit_id": "41a602f2fdac7b45eac18f92f0af522499725f34",
+    "original_commit_id": "d90bb5f6077b6611326ec839c5fa2408011b7c4b",
+    "user": {
+      "login": "foolip",
+      "id": 498917,
+      "node_id": "MDQ6VXNlcjQ5ODkxNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/498917?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/foolip",
+      "html_url": "https://github.com/foolip",
+      "followers_url": "https://api.github.com/users/foolip/followers",
+      "following_url": "https://api.github.com/users/foolip/following{/other_user}",
+      "gists_url": "https://api.github.com/users/foolip/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/foolip/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/foolip/subscriptions",
+      "organizations_url": "https://api.github.com/users/foolip/orgs",
+      "repos_url": "https://api.github.com/users/foolip/repos",
+      "events_url": "https://api.github.com/users/foolip/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/foolip/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Oops, this one needs to say \"and _attr2_ is null\"\n",
+    "created_at": "2016-08-31T08:50:42Z",
+    "updated_at": "2016-08-31T16:28:36Z",
+    "html_url": "https://github.com/whatwg/dom/pull/312#discussion_r76948024",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/312",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/76948024"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/312#discussion_r76948024"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/312"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/76948024/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 77,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

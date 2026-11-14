@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/issues/comments/4760732319",
+    "html_url": "https://github.com/whatwg/dom/issues/1472#issuecomment-4760732319",
+    "issue_url": "https://api.github.com/repos/whatwg/dom/issues/1472",
+    "id": 4760732319,
+    "node_id": "IC_kwDOAFUqXs8AAAABG8MCnw",
+    "user": {
+      "login": "Jamesernator",
+      "id": 8518303,
+      "node_id": "MDQ6VXNlcjg1MTgzMDM=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8518303?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Jamesernator",
+      "html_url": "https://github.com/Jamesernator",
+      "followers_url": "https://api.github.com/users/Jamesernator/followers",
+      "following_url": "https://api.github.com/users/Jamesernator/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Jamesernator/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Jamesernator/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Jamesernator/subscriptions",
+      "organizations_url": "https://api.github.com/users/Jamesernator/orgs",
+      "repos_url": "https://api.github.com/users/Jamesernator/repos",
+      "events_url": "https://api.github.com/users/Jamesernator/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Jamesernator/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-06-21T03:00:20Z",
+    "updated_at": "2026-06-21T03:01:20Z",
+    "body": "As described `.getWrappingColumns` is probably not that well defined when you take into account things like floats, whitespace collapsing around line endings, position absolute/fixed etc, slots, and probably a bunch of other CSS features that might result in boxes being created out of the line flow.\n\nThough given [`.getClientRects()`](https://developer.mozilla.org/en-US/docs/Web/API/Element/getClientRects) exists, it seems like there could just be a version of that API that gives back rects with their associated ranges and box kind. i.e. Something like:\n\n```ts\ninterface Fragment {\n    kind: \"line\" | \"block\" | \"etc\";\n    // A line box might? consist of multiple ranges if there's an element removed from\n    // the line flow in the middle of the line (e.g. a float)\n    ranges: Array<StaticRange>;\n    // Same as from getClientRect\n    rect: DOMRect;\n}\n\ninterface Element {\n    getClientFragments(): Array<Fragment>\n}\n```\n\nThis should probably be an issue in the [CSSWG](https://github.com/w3c/csswg-drafts/issues) though as this spec is purely for DOM-tree operations.",
+    "author_association": "NONE",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/issues/comments/4760732319/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

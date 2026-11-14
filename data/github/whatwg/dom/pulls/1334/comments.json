@@ -1,0 +1,430 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/1883825773",
+    "pull_request_review_id": 2502125334,
+    "id": 1883825773,
+    "node_id": "PRRC_kwDOAFUqXs5wSOZt",
+    "diff_hunk": "@@ -4573,11 +4601,31 @@ dom-Range-extractContents, dom-Range-cloneContents -->\n      <li><p><a lt=\"append an attribute\">Append</a> <var>copyAttribute</var> to <var>copy</var>.\n     </ol>\n    </li>\n+\n+   <li>\n+    <p>If <var>node</var> is a <a for=Element>shadow host</a> and its\n+    <a for=Element>shadow root</a>'s <a for=ShadowRoot>clonable</a> is true:\n+\n+    <ol>\n+     <li><p><a for=/>Assert</a>: <var>copy</var> is not a <a for=Element>shadow host</a>.\n+\n+     <li><p><a>Attach a shadow root</a> with <var>copy</var>, <var>node</var>'s\n+     <a for=Element>shadow root</a>'s <a for=ShadowRoot>mode</a>, true, <var>node</var>'s\n+     <a for=Element>shadow root</a>'s <a for=ShadowRoot>serializable</a>, <var>node</var>'s\n+     <a for=Element>shadow root</a>'s <a for=ShadowRoot>delegates focus</a>, and <var>node</var>'s\n+     <a for=Element>shadow root</a>'s <a for=ShadowRoot>slot assignment</a>.\n+\n+     <li><p>Set <var>copy</var>'s <a for=Element>shadow root</a>'s <a for=ShadowRoot>declarative</a>\n+     to <var>node</var>'s <a for=Element>shadow root</a>'s <a for=ShadowRoot>declarative</a>.\n+\n+     <li><p><a>Clone a node's children</a> given <var>node</var>'s <a for=Element>shadow root</a>,\n+     <var>copy</var>'s <a for=Element>shadow root</a>, <var>document</var>, and <var>subtree</var>.",
+    "path": "dom.bs",
+    "commit_id": "76beba985763b339f4727917bf1ebc3f1dfddf7e",
+    "original_commit_id": "7e5e3917d377cc9cc4fa078a30b1ff60af70e4ec",
+    "user": {
+      "login": "smaug----",
+      "id": 9219935,
+      "node_id": "MDQ6VXNlcjkyMTk5MzU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9219935?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/smaug----",
+      "html_url": "https://github.com/smaug----",
+      "followers_url": "https://api.github.com/users/smaug----/followers",
+      "following_url": "https://api.github.com/users/smaug----/following{/other_user}",
+      "gists_url": "https://api.github.com/users/smaug----/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/smaug----/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/smaug----/subscriptions",
+      "organizations_url": "https://api.github.com/users/smaug----/orgs",
+      "repos_url": "https://api.github.com/users/smaug----/repos",
+      "events_url": "https://api.github.com/users/smaug----/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/smaug----/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Don't we want shadow root cloning to happen after appending to avoid calling insertion steps again when the host is added to its parent?",
+    "created_at": "2024-12-13T11:55:46Z",
+    "updated_at": "2024-12-13T11:55:47Z",
+    "html_url": "https://github.com/whatwg/dom/pull/1334#discussion_r1883825773",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/1334",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/1883825773"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/1334#discussion_r1883825773"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/1334"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/1883825773/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 4622,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 118,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/1884572557",
+    "pull_request_review_id": 2503288172,
+    "id": 1884572557,
+    "node_id": "PRRC_kwDOAFUqXs5wVEuN",
+    "diff_hunk": "@@ -4532,33 +4532,86 @@ each <a for=tree>descendant</a> <a>exclusive <code>Text</code> node</a> <var>nod\n \n <div class=impl>\n \n+<div algorithm>\n <a lt=\"Other applicable specifications\">Specifications</a> may define\n <dfn export id=concept-node-clone-ext>cloning steps</dfn> for all or some <a for=/>nodes</a>. The\n-algorithm is passed <var>copy</var>, <var>node</var>, <var>document</var>, and an optional\n-<i>clone children flag</i>, as indicated in the <a lt=\"clone a node\">clone</a> algorithm.\n+algorithm is passed <var ignore>node</var>, <var ignore>copy</var>, and <var ignore>subtree</var> as\n+indicated in the <a>clone a node and append</a> algorithm.\n \n-<p class=note>HTML defines <a>cloning steps</a> for <{script}> and <{input}>\n-elements. SVG ought to do the same for its <{script}> elements, but does not call this out\n-at the moment.\n+<p class=note>HTML defines <a>cloning steps</a> for several elements, such as <{input}>, <{script}>,\n+and <{template}>. SVG ought to do the same for its <{script}> elements, but does not.\n+</div>\n \n-<p>To <dfn export id=concept-node-clone lt=\"clone a node\" local-lt=\"clone\">clone</dfn> a\n-<var>node</var>, with an optional <var>document</var> and <i>clone children flag</i>, run these\n-steps:\n-<!-- This algorithm is used by dom-Node-cloneNode, dom-Document-importNode,\n-dom-Range-extractContents, dom-Range-cloneContents -->\n+<div algorithm>\n+<p>To <dfn export id=concept-node-clone local-lt=\"clone\">clone a node</dfn> given a\n+<a for=/>node</a> <var>node</var> and an optional <a for=/>document</a> <var>document</var> (default\n+<var>node</var>'s <a for=Node>node document</a>) and boolean <var>subtree</var> (default false):\n \n <ol>\n- <li><p>If <var>document</var> is not given, then set <var>document</var> to <var>node</var>'s\n- <a for=Node>node document</a>.\n+ <li><p><a for=/>Assert</a>: <var>node</var> is not a <a for=/>document</a> or <var>node</var> is\n+ <var>document</var>.\n+\n+ <li><p>Return the result of <a>cloning a node and append</a> given <var>node</var>, null,\n+ <var>document</var>, and <var>subtree</var>.\n+</ol>\n+</div>\n+\n+<div algorithm>\n+<p>To <dfn export>clone a node and append</dfn> given a <a for=/>node</a> <var>node</var>, a\n+<a for=/>node</a>-or-null <var>parent</var>, a <a for=/>document</a> <var>document</var>, and a\n+boolean <var>subtree</var>:\n \n- <li><a for=/>Assert</a>: <var>node</var> is not a <a for=/>document</a> or <var>node</var> is\n+<ol>\n+ <li><p>Let <var>copy</var> be the result of <a>cloning a single node</a> given <var>node</var> and\n  <var>document</var>.\n \n+ <li><p>If <var>parent</var> is non-null, then <a for=/>append</a> <var>copy</var> to\n+ <var>parent</var>.\n+\n+ <li><p>Run any <a>cloning steps</a> defined for <var>node</var> in\n+ <a>other applicable specifications</a> and pass <var>node</var>, <var>copy</var>, and\n+ <var>subtree</var> as parameters.\n+\n+ <li>\n+  <p>If <var>node</var> is an <a for=/>element</a>, <a for=Element>shadow host</a>, and its\n+  <a for=Element>shadow root</a>'s <a for=ShadowRoot>clonable</a> is true:\n+\n+  <ol>\n+   <li><p><a for=/>Assert</a>: <var>copy</var> is not a <a for=Element>shadow host</a>.\n+\n+   <li><p><a>Attach a shadow root</a> with <var>copy</var>, <var>node</var>'s\n+   <a for=Element>shadow root</a>'s <a for=ShadowRoot>mode</a>, true, <var>node</var>'s\n+   <a for=Element>shadow root</a>'s <a for=ShadowRoot>serializable</a>, <var>node</var>'s\n+   <a for=Element>shadow root</a>'s <a for=ShadowRoot>delegates focus</a>, and <var>node</var>'s\n+   <a for=Element>shadow root</a>'s <a for=ShadowRoot>slot assignment</a>.\n+\n+   <li><p>Set <var>copy</var>'s <a for=Element>shadow root</a>'s <a for=ShadowRoot>declarative</a>\n+   to <var>node</var>'s <a for=Element>shadow root</a>'s <a for=ShadowRoot>declarative</a>.\n+\n+   <li><p>For each <var>child</var> of <var>node</var>'s <a for=Element>shadow root</a>'s\n+   <a for=tree>children</a>, in <a>tree order</a>: <a>clone a node and append</a> given\n+   <var>child</var>, <var>copy</var>'s <a for=Element>shadow root</a>, <var>document</var>, and\n+   <var>subtree</var>.",
+    "path": "dom.bs",
+    "commit_id": "76beba985763b339f4727917bf1ebc3f1dfddf7e",
+    "original_commit_id": "e5c3b37fbd9543131fb9eec15e1a64a0563d67ad",
+    "user": {
+      "login": "smaug----",
+      "id": 9219935,
+      "node_id": "MDQ6VXNlcjkyMTk5MzU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9219935?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/smaug----",
+      "html_url": "https://github.com/smaug----",
+      "followers_url": "https://api.github.com/users/smaug----/followers",
+      "following_url": "https://api.github.com/users/smaug----/following{/other_user}",
+      "gists_url": "https://api.github.com/users/smaug----/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/smaug----/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/smaug----/subscriptions",
+      "organizations_url": "https://api.github.com/users/smaug----/orgs",
+      "repos_url": "https://api.github.com/users/smaug----/repos",
+      "events_url": "https://api.github.com/users/smaug----/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/smaug----/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "In Gecko shadow root attaching happens after going through children.\r\nAnd the same seems to happen in Chrome too https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/core/dom/element.cc;l=689;drc=fe99dee25a6b65dbe6c9e97099334e9c027a24a1;bpv=0;bpt=1\r\n\r\nhttps://mozilla.pettay.fi/moztests/shadowclone.html\r\nThe order of slotchange events is the same in Firefox and Chrome (h6, div, span), Safari has - I was told - div, span, h6.",
+    "created_at": "2024-12-13T21:41:18Z",
+    "updated_at": "2024-12-13T21:42:45Z",
+    "html_url": "https://github.com/whatwg/dom/pull/1334#discussion_r1884572557",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/1334",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/1884572557"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/1334#discussion_r1884572557"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/1334"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/1884572557/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 4594,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 97,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/1884845535",
+    "pull_request_review_id": 2503605653,
+    "id": 1884845535,
+    "node_id": "PRRC_kwDOAFUqXs5wWHXf",
+    "diff_hunk": "@@ -4532,33 +4532,86 @@ each <a for=tree>descendant</a> <a>exclusive <code>Text</code> node</a> <var>nod\n \n <div class=impl>\n \n+<div algorithm>\n <a lt=\"Other applicable specifications\">Specifications</a> may define\n <dfn export id=concept-node-clone-ext>cloning steps</dfn> for all or some <a for=/>nodes</a>. The\n-algorithm is passed <var>copy</var>, <var>node</var>, <var>document</var>, and an optional\n-<i>clone children flag</i>, as indicated in the <a lt=\"clone a node\">clone</a> algorithm.\n+algorithm is passed <var ignore>node</var>, <var ignore>copy</var>, and <var ignore>subtree</var> as\n+indicated in the <a>clone a node and append</a> algorithm.\n \n-<p class=note>HTML defines <a>cloning steps</a> for <{script}> and <{input}>\n-elements. SVG ought to do the same for its <{script}> elements, but does not call this out\n-at the moment.\n+<p class=note>HTML defines <a>cloning steps</a> for several elements, such as <{input}>, <{script}>,\n+and <{template}>. SVG ought to do the same for its <{script}> elements, but does not.\n+</div>\n \n-<p>To <dfn export id=concept-node-clone lt=\"clone a node\" local-lt=\"clone\">clone</dfn> a\n-<var>node</var>, with an optional <var>document</var> and <i>clone children flag</i>, run these\n-steps:\n-<!-- This algorithm is used by dom-Node-cloneNode, dom-Document-importNode,\n-dom-Range-extractContents, dom-Range-cloneContents -->\n+<div algorithm>\n+<p>To <dfn export id=concept-node-clone local-lt=\"clone\">clone a node</dfn> given a\n+<a for=/>node</a> <var>node</var> and an optional <a for=/>document</a> <var>document</var> (default\n+<var>node</var>'s <a for=Node>node document</a>) and boolean <var>subtree</var> (default false):\n \n <ol>\n- <li><p>If <var>document</var> is not given, then set <var>document</var> to <var>node</var>'s\n- <a for=Node>node document</a>.\n+ <li><p><a for=/>Assert</a>: <var>node</var> is not a <a for=/>document</a> or <var>node</var> is\n+ <var>document</var>.\n+\n+ <li><p>Return the result of <a>cloning a node and append</a> given <var>node</var>, null,\n+ <var>document</var>, and <var>subtree</var>.\n+</ol>\n+</div>\n+\n+<div algorithm>\n+<p>To <dfn export>clone a node and append</dfn> given a <a for=/>node</a> <var>node</var>, a\n+<a for=/>node</a>-or-null <var>parent</var>, a <a for=/>document</a> <var>document</var>, and a\n+boolean <var>subtree</var>:\n \n- <li><a for=/>Assert</a>: <var>node</var> is not a <a for=/>document</a> or <var>node</var> is\n+<ol>\n+ <li><p>Let <var>copy</var> be the result of <a>cloning a single node</a> given <var>node</var> and\n  <var>document</var>.\n \n+ <li><p>If <var>parent</var> is non-null, then <a for=/>append</a> <var>copy</var> to\n+ <var>parent</var>.\n+\n+ <li><p>Run any <a>cloning steps</a> defined for <var>node</var> in\n+ <a>other applicable specifications</a> and pass <var>node</var>, <var>copy</var>, and\n+ <var>subtree</var> as parameters.\n+\n+ <li>\n+  <p>If <var>node</var> is an <a for=/>element</a>, <a for=Element>shadow host</a>, and its\n+  <a for=Element>shadow root</a>'s <a for=ShadowRoot>clonable</a> is true:\n+\n+  <ol>\n+   <li><p><a for=/>Assert</a>: <var>copy</var> is not a <a for=Element>shadow host</a>.\n+\n+   <li><p><a>Attach a shadow root</a> with <var>copy</var>, <var>node</var>'s\n+   <a for=Element>shadow root</a>'s <a for=ShadowRoot>mode</a>, true, <var>node</var>'s\n+   <a for=Element>shadow root</a>'s <a for=ShadowRoot>serializable</a>, <var>node</var>'s\n+   <a for=Element>shadow root</a>'s <a for=ShadowRoot>delegates focus</a>, and <var>node</var>'s\n+   <a for=Element>shadow root</a>'s <a for=ShadowRoot>slot assignment</a>.\n+\n+   <li><p>Set <var>copy</var>'s <a for=Element>shadow root</a>'s <a for=ShadowRoot>declarative</a>\n+   to <var>node</var>'s <a for=Element>shadow root</a>'s <a for=ShadowRoot>declarative</a>.\n+\n+   <li><p>For each <var>child</var> of <var>node</var>'s <a for=Element>shadow root</a>'s\n+   <a for=tree>children</a>, in <a>tree order</a>: <a>clone a node and append</a> given\n+   <var>child</var>, <var>copy</var>'s <a for=Element>shadow root</a>, <var>document</var>, and\n+   <var>subtree</var>.",
+    "path": "dom.bs",
+    "commit_id": "76beba985763b339f4727917bf1ebc3f1dfddf7e",
+    "original_commit_id": "e5c3b37fbd9543131fb9eec15e1a64a0563d67ad",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Yeah it is, but is that the result of cloning order or something else? As per the discussion in #695 there's already a difference between engines.\r\n\r\nI can restore the original order here though. That seems better for now either way.",
+    "created_at": "2024-12-14T06:17:07Z",
+    "updated_at": "2024-12-14T06:17:07Z",
+    "html_url": "https://github.com/whatwg/dom/pull/1334#discussion_r1884845535",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/1334",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/1884845535"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/1334#discussion_r1884845535"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/1334"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/1884845535/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 4594,
+    "side": "RIGHT",
+    "in_reply_to_id": 1884572557,
+    "author_association": "MEMBER",
+    "original_position": 97,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/1887174856",
+    "pull_request_review_id": 2506764230,
+    "id": 1887174856,
+    "node_id": "PRRC_kwDOAFUqXs5wfADI",
+    "diff_hunk": "@@ -4533,33 +4533,82 @@ each <a for=tree>descendant</a> <a>exclusive <code>Text</code> node</a> <var>nod\n \n <div class=impl>\n \n+<div algorithm>\n <a lt=\"Other applicable specifications\">Specifications</a> may define\n <dfn export id=concept-node-clone-ext>cloning steps</dfn> for all or some <a for=/>nodes</a>. The\n-algorithm is passed <var>copy</var>, <var>node</var>, <var>document</var>, and an optional\n-<i>clone children flag</i>, as indicated in the <a lt=\"clone a node\">clone</a> algorithm.\n+algorithm is passed <var ignore>node</var>, <var ignore>copy</var>, and <var ignore>subtree</var> as\n+indicated in the <a>clone a node</a> algorithm.\n \n-<p class=note>HTML defines <a>cloning steps</a> for <{script}> and <{input}>\n-elements. SVG ought to do the same for its <{script}> elements, but does not call this out\n-at the moment.\n+<p class=note>HTML defines <a>cloning steps</a> for several elements, such as <{input}>, <{script}>,\n+and <{template}>. SVG ought to do the same for its <{script}> elements, but does not.\n+</div>\n \n-<p>To <dfn export id=concept-node-clone lt=\"clone a node\" local-lt=\"clone\">clone</dfn> a\n-<var>node</var>, with an optional <var>document</var> and <i>clone children flag</i>, run these\n-steps:\n-<!-- This algorithm is used by dom-Node-cloneNode, dom-Document-importNode,\n-dom-Range-extractContents, dom-Range-cloneContents -->\n+<div algorithm=\"clone a node\">\n+<p>To <dfn export id=concept-node-clone>clone a node</dfn> given a <a for=/>node</a> <var>node</var>\n+and an optional <a for=/>document</a> <dfn export for=\"clone a node\"><var>document</var></dfn>\n+(default <var>node</var>'s <a for=Node>node document</a>), boolean\n+<dfn export for=\"clone a node\"><var>subtree</var></dfn> (default false), and\n+<a for=/>node</a>-or-null <dfn export for=\"clone a node\"><var>parent</var></dfn> (default null):\n \n <ol>\n- <li><p>If <var>document</var> is not given, then set <var>document</var> to <var>node</var>'s\n- <a for=Node>node document</a>.\n+ <li><p><a for=/>Assert</a>: <var>node</var> is not a <a for=/>document</a> or <var>node</var> is\n+ <var>document</var>.\n \n- <li><a for=/>Assert</a>: <var>node</var> is not a <a for=/>document</a> or <var>node</var> is\n+ <li><p>Let <var>copy</var> be the result of <a>cloning a single node</a> given <var>node</var> and\n  <var>document</var>.\n \n+ <li><p>If <var>parent</var> is non-null, then <a for=/>append</a> <var>copy</var> to\n+ <var>parent</var>.\n+\n+ <li><p>Run any <a>cloning steps</a> defined for <var>node</var> in\n+ <a>other applicable specifications</a> and pass <var>node</var>, <var>copy</var>, and\n+ <var>subtree</var> as parameters.\n+\n+ <li><p>If <var>subtree</var> is true, then for each <var>child</var> of <var>node</var>'s\n+ <a for=tree>children</a>, in <a>tree order</a>: <a>clone a node</a> given <var>child</var> with\n+ <a for=\"clone a node\"><i>document</i></a> set to <var>document</var>,\n+ <a for=\"clone a node\"><i>subtree</i></a> set to <var>subtree</var>, and\n+ <a for=\"clone a node\"><i>parent</i></a> set to <var>copy</var>.\n+\n+ <li>\n+  <p>If <var>node</var> is an <a for=/>element</a>, <a for=Element>shadow host</a>, and its",
+    "path": "dom.bs",
+    "commit_id": "76beba985763b339f4727917bf1ebc3f1dfddf7e",
+    "original_commit_id": "371e70d8ae73307599abcb8574800dedc12ff6f2",
+    "user": {
+      "login": "dbaron",
+      "id": 248721,
+      "node_id": "MDQ6VXNlcjI0ODcyMQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/248721?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/dbaron",
+      "html_url": "https://github.com/dbaron",
+      "followers_url": "https://api.github.com/users/dbaron/followers",
+      "following_url": "https://api.github.com/users/dbaron/following{/other_user}",
+      "gists_url": "https://api.github.com/users/dbaron/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/dbaron/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/dbaron/subscriptions",
+      "organizations_url": "https://api.github.com/users/dbaron/orgs",
+      "repos_url": "https://api.github.com/users/dbaron/repos",
+      "events_url": "https://api.github.com/users/dbaron/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/dbaron/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This insertion of \"an element\" makes the clause not really seem to parse properly (as English) anymore.  I'm not quite sure what the change relative to the old wording was intended to be, but I can't tell what the new wording means.",
+    "created_at": "2024-12-16T16:53:43Z",
+    "updated_at": "2024-12-16T16:57:29Z",
+    "html_url": "https://github.com/whatwg/dom/pull/1334#discussion_r1887174856",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/1334",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/1887174856"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/1334#discussion_r1887174856"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/1334"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/1887174856/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 4574,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 105,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/1887185373",
+    "pull_request_review_id": 2506780774,
+    "id": 1887185373,
+    "node_id": "PRRC_kwDOAFUqXs5wfCnd",
+    "diff_hunk": "@@ -4533,33 +4533,82 @@ each <a for=tree>descendant</a> <a>exclusive <code>Text</code> node</a> <var>nod\n \n <div class=impl>\n \n+<div algorithm>\n <a lt=\"Other applicable specifications\">Specifications</a> may define\n <dfn export id=concept-node-clone-ext>cloning steps</dfn> for all or some <a for=/>nodes</a>. The\n-algorithm is passed <var>copy</var>, <var>node</var>, <var>document</var>, and an optional\n-<i>clone children flag</i>, as indicated in the <a lt=\"clone a node\">clone</a> algorithm.\n+algorithm is passed <var ignore>node</var>, <var ignore>copy</var>, and <var ignore>subtree</var> as\n+indicated in the <a>clone a node</a> algorithm.\n \n-<p class=note>HTML defines <a>cloning steps</a> for <{script}> and <{input}>\n-elements. SVG ought to do the same for its <{script}> elements, but does not call this out\n-at the moment.\n+<p class=note>HTML defines <a>cloning steps</a> for several elements, such as <{input}>, <{script}>,\n+and <{template}>. SVG ought to do the same for its <{script}> elements, but does not.\n+</div>\n \n-<p>To <dfn export id=concept-node-clone lt=\"clone a node\" local-lt=\"clone\">clone</dfn> a\n-<var>node</var>, with an optional <var>document</var> and <i>clone children flag</i>, run these\n-steps:\n-<!-- This algorithm is used by dom-Node-cloneNode, dom-Document-importNode,\n-dom-Range-extractContents, dom-Range-cloneContents -->\n+<div algorithm=\"clone a node\">\n+<p>To <dfn export id=concept-node-clone>clone a node</dfn> given a <a for=/>node</a> <var>node</var>\n+and an optional <a for=/>document</a> <dfn export for=\"clone a node\"><var>document</var></dfn>\n+(default <var>node</var>'s <a for=Node>node document</a>), boolean\n+<dfn export for=\"clone a node\"><var>subtree</var></dfn> (default false), and\n+<a for=/>node</a>-or-null <dfn export for=\"clone a node\"><var>parent</var></dfn> (default null):\n \n <ol>\n- <li><p>If <var>document</var> is not given, then set <var>document</var> to <var>node</var>'s\n- <a for=Node>node document</a>.\n+ <li><p><a for=/>Assert</a>: <var>node</var> is not a <a for=/>document</a> or <var>node</var> is\n+ <var>document</var>.\n \n- <li><a for=/>Assert</a>: <var>node</var> is not a <a for=/>document</a> or <var>node</var> is\n+ <li><p>Let <var>copy</var> be the result of <a>cloning a single node</a> given <var>node</var> and\n  <var>document</var>.\n \n+ <li><p>If <var>parent</var> is non-null, then <a for=/>append</a> <var>copy</var> to\n+ <var>parent</var>.\n+\n+ <li><p>Run any <a>cloning steps</a> defined for <var>node</var> in\n+ <a>other applicable specifications</a> and pass <var>node</var>, <var>copy</var>, and\n+ <var>subtree</var> as parameters.\n+\n+ <li><p>If <var>subtree</var> is true, then for each <var>child</var> of <var>node</var>'s\n+ <a for=tree>children</a>, in <a>tree order</a>: <a>clone a node</a> given <var>child</var> with\n+ <a for=\"clone a node\"><i>document</i></a> set to <var>document</var>,\n+ <a for=\"clone a node\"><i>subtree</i></a> set to <var>subtree</var>, and\n+ <a for=\"clone a node\"><i>parent</i></a> set to <var>copy</var>.\n+\n+ <li>\n+  <p>If <var>node</var> is an <a for=/>element</a>, <a for=Element>shadow host</a>, and its",
+    "path": "dom.bs",
+    "commit_id": "76beba985763b339f4727917bf1ebc3f1dfddf7e",
+    "original_commit_id": "371e70d8ae73307599abcb8574800dedc12ff6f2",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Thanks for the review!\r\n\r\nI guess I'll change it to:\r\n\r\n> If _node_ is an element, _node_ is a shadow host, and _node_'s shadow root's clonable is true\r\n\r\nThe problem is that \"is a shadow host\" is only defined for elements.",
+    "created_at": "2024-12-16T17:00:25Z",
+    "updated_at": "2024-12-16T17:00:40Z",
+    "html_url": "https://github.com/whatwg/dom/pull/1334#discussion_r1887185373",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/1334",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/1887185373"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/1334#discussion_r1887185373"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/1334"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/1887185373/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 4574,
+    "side": "RIGHT",
+    "in_reply_to_id": 1887174856,
+    "author_association": "MEMBER",
+    "original_position": 105,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/1887447788",
+    "pull_request_review_id": 2507149480,
+    "id": 1887447788,
+    "node_id": "PRRC_kwDOAFUqXs5wgCrs",
+    "diff_hunk": "@@ -4533,33 +4533,82 @@ each <a for=tree>descendant</a> <a>exclusive <code>Text</code> node</a> <var>nod\n \n <div class=impl>\n \n+<div algorithm>\n <a lt=\"Other applicable specifications\">Specifications</a> may define\n <dfn export id=concept-node-clone-ext>cloning steps</dfn> for all or some <a for=/>nodes</a>. The\n-algorithm is passed <var>copy</var>, <var>node</var>, <var>document</var>, and an optional\n-<i>clone children flag</i>, as indicated in the <a lt=\"clone a node\">clone</a> algorithm.\n+algorithm is passed <var ignore>node</var>, <var ignore>copy</var>, and <var ignore>subtree</var> as\n+indicated in the <a>clone a node</a> algorithm.\n \n-<p class=note>HTML defines <a>cloning steps</a> for <{script}> and <{input}>\n-elements. SVG ought to do the same for its <{script}> elements, but does not call this out\n-at the moment.\n+<p class=note>HTML defines <a>cloning steps</a> for several elements, such as <{input}>, <{script}>,\n+and <{template}>. SVG ought to do the same for its <{script}> elements, but does not.\n+</div>\n \n-<p>To <dfn export id=concept-node-clone lt=\"clone a node\" local-lt=\"clone\">clone</dfn> a\n-<var>node</var>, with an optional <var>document</var> and <i>clone children flag</i>, run these\n-steps:\n-<!-- This algorithm is used by dom-Node-cloneNode, dom-Document-importNode,\n-dom-Range-extractContents, dom-Range-cloneContents -->\n+<div algorithm=\"clone a node\">\n+<p>To <dfn export id=concept-node-clone>clone a node</dfn> given a <a for=/>node</a> <var>node</var>\n+and an optional <a for=/>document</a> <dfn export for=\"clone a node\"><var>document</var></dfn>\n+(default <var>node</var>'s <a for=Node>node document</a>), boolean\n+<dfn export for=\"clone a node\"><var>subtree</var></dfn> (default false), and\n+<a for=/>node</a>-or-null <dfn export for=\"clone a node\"><var>parent</var></dfn> (default null):\n \n <ol>\n- <li><p>If <var>document</var> is not given, then set <var>document</var> to <var>node</var>'s\n- <a for=Node>node document</a>.\n+ <li><p><a for=/>Assert</a>: <var>node</var> is not a <a for=/>document</a> or <var>node</var> is\n+ <var>document</var>.\n \n- <li><a for=/>Assert</a>: <var>node</var> is not a <a for=/>document</a> or <var>node</var> is\n+ <li><p>Let <var>copy</var> be the result of <a>cloning a single node</a> given <var>node</var> and\n  <var>document</var>.\n \n+ <li><p>If <var>parent</var> is non-null, then <a for=/>append</a> <var>copy</var> to\n+ <var>parent</var>.\n+\n+ <li><p>Run any <a>cloning steps</a> defined for <var>node</var> in\n+ <a>other applicable specifications</a> and pass <var>node</var>, <var>copy</var>, and\n+ <var>subtree</var> as parameters.",
+    "path": "dom.bs",
+    "commit_id": "76beba985763b339f4727917bf1ebc3f1dfddf7e",
+    "original_commit_id": "371e70d8ae73307599abcb8574800dedc12ff6f2",
+    "user": {
+      "login": "smaug----",
+      "id": 9219935,
+      "node_id": "MDQ6VXNlcjkyMTk5MzU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9219935?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/smaug----",
+      "html_url": "https://github.com/smaug----",
+      "followers_url": "https://api.github.com/users/smaug----/followers",
+      "following_url": "https://api.github.com/users/smaug----/following{/other_user}",
+      "gists_url": "https://api.github.com/users/smaug----/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/smaug----/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/smaug----/subscriptions",
+      "organizations_url": "https://api.github.com/users/smaug----/orgs",
+      "repos_url": "https://api.github.com/users/smaug----/repos",
+      "events_url": "https://api.github.com/users/smaug----/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/smaug----/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Gecko runs cloning steps as part of cloning a single node, and I think webkit does that too https://searchfox.org/wubkat/rev/72adbb9f99534551a728acb270d4f111da5e9515/Source/WebCore/dom/Element.cpp#648,655,663 \r\nand chrome too https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/core/dom/element.cc;l=755;drc=f5e280b6c11f41545154266cd2317d3c730e9b30;bpv=0;bpt=1 ",
+    "created_at": "2024-12-16T19:39:06Z",
+    "updated_at": "2024-12-16T19:39:06Z",
+    "html_url": "https://github.com/whatwg/dom/pull/1334#discussion_r1887447788",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/1334",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/1887447788"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/1334#discussion_r1887447788"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/1334"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/1887447788/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 4562,
+    "original_line": 4565,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 96,
+    "position": 93,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

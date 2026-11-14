@@ -1,0 +1,73 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/765286049",
+    "pull_request_review_id": 827012249,
+    "id": 765286049,
+    "node_id": "PRRC_kwDOAFUqXs4tnVah",
+    "diff_hunk": "@@ -1866,13 +1892,35 @@ them. For instance, if the operation has already completed.\n  <li><p>[=Fire an event=] named {{AbortSignal/abort}} at <var>signal</var>.\n </ol>\n \n+<p>To <dfn export for=AbortSignal>signal close</dfn>, given an {{AbortSignal}} object\n+<var>signal</var>, run these steps:\n+\n+<ol>\n+  <li><p>If <var>signal</var> is [=AbortSignal/aborted=], then return.\n+\n+  <li><p>If <var>signal</var> is [=AbortSignal/closed=], then return.\n+\n+  <li><p>Set <var>signal</var>'s [=AbortSignal/closed=] to <var>true</var>.\n+\n+  <li><p>Remove all of <var>signal</var>'s abort algorithms.\n+</ol>\n+\n+<p class=note>Closing an {{AbortSignal}} enables explicitly indicating that there is no further\n+reason to expect the {{AbortController}} to <a for=AbortSignal>signal abort</a> on its\n+{{AbortSignal}}, and that the signal can be safely ignored.\n+\n <p>A <var>followingSignal</var> (an {{AbortSignal}}) is made to\n <dfn export for=AbortSignal>follow</dfn> a <var>parentSignal</var> (an {{AbortSignal}}) by running\n these steps:\n \n <ol>\n  <li><p>If <var>followingSignal</var> is [=AbortSignal/aborted=], then return.\n \n+ <li><p>If <var>followingSignal</var> is [=AbortSignal/closed=], then return.",
+    "path": "dom.bs",
+    "commit_id": "923f6e5abc45bf7269b909a3d31b57c46e6f831a",
+    "original_commit_id": "923f6e5abc45bf7269b909a3d31b57c46e6f831a",
+    "user": {
+      "login": "MattiasBuelens",
+      "id": 649348,
+      "node_id": "MDQ6VXNlcjY0OTM0OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/649348?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/MattiasBuelens",
+      "html_url": "https://github.com/MattiasBuelens",
+      "followers_url": "https://api.github.com/users/MattiasBuelens/followers",
+      "following_url": "https://api.github.com/users/MattiasBuelens/following{/other_user}",
+      "gists_url": "https://api.github.com/users/MattiasBuelens/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/MattiasBuelens/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/MattiasBuelens/subscriptions",
+      "organizations_url": "https://api.github.com/users/MattiasBuelens/orgs",
+      "repos_url": "https://api.github.com/users/MattiasBuelens/repos",
+      "events_url": "https://api.github.com/users/MattiasBuelens/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/MattiasBuelens/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Ideally, if _followingSignal_ becomes closed later on, we would remove the abort steps added to *parentSignal* so we don't unnecessarily keep *parentSignal* alive.\r\n\r\nNot sure how that'll work in practice though. We've already had a similar discussion in https://github.com/whatwg/dom/issues/920#issuecomment-726879818.",
+    "created_at": "2021-12-08T22:13:42Z",
+    "updated_at": "2021-12-08T22:13:43Z",
+    "html_url": "https://github.com/whatwg/dom/pull/1042#discussion_r765286049",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/1042",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/765286049"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/1042#discussion_r765286049"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/1042"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/765286049/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 1919,
+    "original_line": 1919,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 117,
+    "position": 117,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

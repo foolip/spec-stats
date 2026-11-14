@@ -1,0 +1,431 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/438037056",
+    "pull_request_review_id": 427941016,
+    "id": 438037056,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDQzODAzNzA1Ng==",
+    "diff_hunk": "@@ -6694,10 +6722,35 @@ when invoked, must run these steps:\n invoked, must run these steps:\n \n <ol>\n- <li><p>If <a>this</a>'s <a for=Element>namespace</a> is <em>not</em> the <a>HTML namespace</a>,\n+\n+ <li><p>Run <a>attach a shadow root</a> with <var>shadow host</var> equal to <a>this</a>,\n+   <var>mode</var> equal to <var>init</var>'s {{ShadowRootInit/mode}}, and <var>delegates focus</var>\n+   equal to <var>init</var>'s {{ShadowRootInit/delegatesFocus}}.</p></li>\n+\n+ <li><p>Return <a>this</a>'s <a for=Element>shadow root</a>.</p></li>\n+\n+</ol>\n+\n+<p>The <dfn attribute for=Element><code>shadowRoot</code></dfn> attribute's getter must run these\n+steps:\n+\n+<ol>\n+ <li><p>Let <var>shadow</var> be <var>shadow host</var>'s <a for=Element>shadow root</a>.",
+    "path": "dom.bs",
+    "commit_id": "191a88c92e1f80a7bb439b064a63fbd043204226",
+    "original_commit_id": "54065b2744dbb8c9d0cc22d50a1adedd6cd4ed60",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "shadow host should be this, right?",
+    "created_at": "2020-06-10T10:57:58Z",
+    "updated_at": "2020-06-11T21:42:29Z",
+    "html_url": "https://github.com/whatwg/dom/pull/858#discussion_r438037056",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/858",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/438037056"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/858#discussion_r438037056"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/858"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/438037056/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 6738,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 94,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/438039440",
+    "pull_request_review_id": 427941016,
+    "id": 438039440,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDQzODAzOTQ0MA==",
+    "diff_hunk": "@@ -6734,31 +6787,26 @@ invoked, must run these steps:\n   </ol>\n  </li>\n \n- <li><p>If <a>this</a> is a <a for=Element>shadow host</a>, then <a>throw</a> an\n+ <li><p>If <var>shadow host</var> has a non-null <a for=/>shadow root</a> whose\n+ <a for=ShadowRoot>is declarative shadow root</a> property is false, then <a>throw</a> an\n  \"{{NotSupportedError!!exception}}\" {{DOMException}}.\n \n- <li><p>Let <var>shadow</var> be a new <a for=/>shadow root</a> whose <a for=Node>node document</a>\n- is <a>this</a>'s <a for=Node>node document</a>, <a for=DocumentFragment>host</a> is <a>this</a>,\n- and <a for=ShadowRoot>mode</a> is <var>init</var>'s {{ShadowRootInit/mode}}.\n-\n- <li><p>Set <var>shadow</var>'s <a for=ShadowRoot>delegates focus</a> to <var>init</var>'s\n- {{ShadowRootInit/delegatesFocus}}.\n+ <li><p>If <var>shadow host</var> has a non-null <a for=/>shadow root</a> whose\n+ <a for=ShadowRoot>is declarative shadow root</a> property is true, then <a for=/>remove</a> all of\n+ <a for=/>shadow root</a>'s <a>children</a>, in <a>tree order</a>. Return <var>shadow host</var>'s <a for=/>shadow root</a>.",
+    "path": "dom.bs",
+    "commit_id": "191a88c92e1f80a7bb439b064a63fbd043204226",
+    "original_commit_id": "54065b2744dbb8c9d0cc22d50a1adedd6cd4ed60",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think it would be clearer to have a single non-null step and then have these algorithm exists (throw and return) as substeps.",
+    "created_at": "2020-06-10T11:02:51Z",
+    "updated_at": "2020-06-11T21:42:29Z",
+    "html_url": "https://github.com/whatwg/dom/pull/858#discussion_r438039440",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/858",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/438039440"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/858#discussion_r438039440"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/858"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/438039440/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 6796,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 148,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/438044041",
+    "pull_request_review_id": 427950068,
+    "id": 438044041,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDQzODA0NDA0MQ==",
+    "diff_hunk": "@@ -5872,6 +5896,10 @@ dictionary ShadowRootInit {\n   required ShadowRootMode mode;\n   boolean delegatesFocus = false;\n };\n+\n+dictionary GetInnerHTMLOptions {\n+  boolean includeShadowRoots = true;",
+    "path": "dom.bs",
+    "commit_id": "191a88c92e1f80a7bb439b064a63fbd043204226",
+    "original_commit_id": "54065b2744dbb8c9d0cc22d50a1adedd6cd4ed60",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "At the very least this should say OpenShadowRoots, but it seems better to me if we did not have a separate API here for open and closed.",
+    "created_at": "2020-06-10T11:12:05Z",
+    "updated_at": "2020-06-11T21:42:29Z",
+    "html_url": "https://github.com/whatwg/dom/pull/858#discussion_r438044041",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/858",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/438044041"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/858#discussion_r438044041"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/858"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/438044041/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 5901,
+    "original_line": 5901,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 71,
+    "position": 71,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/439086248",
+    "pull_request_review_id": 429311463,
+    "id": 439086248,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDQzOTA4NjI0OA==",
+    "diff_hunk": "@@ -6694,10 +6722,35 @@ when invoked, must run these steps:\n invoked, must run these steps:\n \n <ol>\n- <li><p>If <a>this</a>'s <a for=Element>namespace</a> is <em>not</em> the <a>HTML namespace</a>,\n+\n+ <li><p>Run <a>attach a shadow root</a> with <var>shadow host</var> equal to <a>this</a>,\n+   <var>mode</var> equal to <var>init</var>'s {{ShadowRootInit/mode}}, and <var>delegates focus</var>\n+   equal to <var>init</var>'s {{ShadowRootInit/delegatesFocus}}.</p></li>\n+\n+ <li><p>Return <a>this</a>'s <a for=Element>shadow root</a>.</p></li>\n+\n+</ol>\n+\n+<p>The <dfn attribute for=Element><code>shadowRoot</code></dfn> attribute's getter must run these\n+steps:\n+\n+<ol>\n+ <li><p>Let <var>shadow</var> be <var>shadow host</var>'s <a for=Element>shadow root</a>.",
+    "path": "dom.bs",
+    "commit_id": "191a88c92e1f80a7bb439b064a63fbd043204226",
+    "original_commit_id": "54065b2744dbb8c9d0cc22d50a1adedd6cd4ed60",
+    "user": {
+      "login": "mfreed7",
+      "id": 29559695,
+      "node_id": "MDQ6VXNlcjI5NTU5Njk1",
+      "avatar_url": "https://avatars.githubusercontent.com/u/29559695?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mfreed7",
+      "html_url": "https://github.com/mfreed7",
+      "followers_url": "https://api.github.com/users/mfreed7/followers",
+      "following_url": "https://api.github.com/users/mfreed7/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mfreed7/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mfreed7/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mfreed7/subscriptions",
+      "organizations_url": "https://api.github.com/users/mfreed7/orgs",
+      "repos_url": "https://api.github.com/users/mfreed7/repos",
+      "events_url": "https://api.github.com/users/mfreed7/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mfreed7/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Yep, thanks. Fixed.",
+    "created_at": "2020-06-11T21:43:41Z",
+    "updated_at": "2020-06-11T21:43:42Z",
+    "html_url": "https://github.com/whatwg/dom/pull/858#discussion_r439086248",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/858",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/439086248"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/858#discussion_r439086248"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/858"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/439086248/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 6738,
+    "side": "RIGHT",
+    "in_reply_to_id": 438037056,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 94,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/439086368",
+    "pull_request_review_id": 429311890,
+    "id": 439086368,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDQzOTA4NjM2OA==",
+    "diff_hunk": "@@ -6734,31 +6787,26 @@ invoked, must run these steps:\n   </ol>\n  </li>\n \n- <li><p>If <a>this</a> is a <a for=Element>shadow host</a>, then <a>throw</a> an\n+ <li><p>If <var>shadow host</var> has a non-null <a for=/>shadow root</a> whose\n+ <a for=ShadowRoot>is declarative shadow root</a> property is false, then <a>throw</a> an\n  \"{{NotSupportedError!!exception}}\" {{DOMException}}.\n \n- <li><p>Let <var>shadow</var> be a new <a for=/>shadow root</a> whose <a for=Node>node document</a>\n- is <a>this</a>'s <a for=Node>node document</a>, <a for=DocumentFragment>host</a> is <a>this</a>,\n- and <a for=ShadowRoot>mode</a> is <var>init</var>'s {{ShadowRootInit/mode}}.\n-\n- <li><p>Set <var>shadow</var>'s <a for=ShadowRoot>delegates focus</a> to <var>init</var>'s\n- {{ShadowRootInit/delegatesFocus}}.\n+ <li><p>If <var>shadow host</var> has a non-null <a for=/>shadow root</a> whose\n+ <a for=ShadowRoot>is declarative shadow root</a> property is true, then <a for=/>remove</a> all of\n+ <a for=/>shadow root</a>'s <a>children</a>, in <a>tree order</a>. Return <var>shadow host</var>'s <a for=/>shadow root</a>.",
+    "path": "dom.bs",
+    "commit_id": "191a88c92e1f80a7bb439b064a63fbd043204226",
+    "original_commit_id": "54065b2744dbb8c9d0cc22d50a1adedd6cd4ed60",
+    "user": {
+      "login": "mfreed7",
+      "id": 29559695,
+      "node_id": "MDQ6VXNlcjI5NTU5Njk1",
+      "avatar_url": "https://avatars.githubusercontent.com/u/29559695?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mfreed7",
+      "html_url": "https://github.com/mfreed7",
+      "followers_url": "https://api.github.com/users/mfreed7/followers",
+      "following_url": "https://api.github.com/users/mfreed7/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mfreed7/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mfreed7/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mfreed7/subscriptions",
+      "organizations_url": "https://api.github.com/users/mfreed7/orgs",
+      "repos_url": "https://api.github.com/users/mfreed7/repos",
+      "events_url": "https://api.github.com/users/mfreed7/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mfreed7/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done. Let me know if this is what you were expecting.",
+    "created_at": "2020-06-11T21:44:01Z",
+    "updated_at": "2020-06-11T21:44:01Z",
+    "html_url": "https://github.com/whatwg/dom/pull/858#discussion_r439086368",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/858",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/439086368"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/858#discussion_r439086368"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/858"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/439086368/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 6796,
+    "side": "RIGHT",
+    "in_reply_to_id": 438039440,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 148,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/439087748",
+    "pull_request_review_id": 429316608,
+    "id": 439087748,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDQzOTA4Nzc0OA==",
+    "diff_hunk": "@@ -5872,6 +5896,10 @@ dictionary ShadowRootInit {\n   required ShadowRootMode mode;\n   boolean delegatesFocus = false;\n };\n+\n+dictionary GetInnerHTMLOptions {\n+  boolean includeShadowRoots = true;",
+    "path": "dom.bs",
+    "commit_id": "191a88c92e1f80a7bb439b064a63fbd043204226",
+    "original_commit_id": "54065b2744dbb8c9d0cc22d50a1adedd6cd4ed60",
+    "user": {
+      "login": "mfreed7",
+      "id": 29559695,
+      "node_id": "MDQ6VXNlcjI5NTU5Njk1",
+      "avatar_url": "https://avatars.githubusercontent.com/u/29559695?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mfreed7",
+      "html_url": "https://github.com/mfreed7",
+      "followers_url": "https://api.github.com/users/mfreed7/followers",
+      "following_url": "https://api.github.com/users/mfreed7/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mfreed7/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mfreed7/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mfreed7/subscriptions",
+      "organizations_url": "https://api.github.com/users/mfreed7/orgs",
+      "repos_url": "https://api.github.com/users/mfreed7/repos",
+      "events_url": "https://api.github.com/users/mfreed7/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mfreed7/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I've added the \"rest\" of this interface, as explained [here](https://github.com/mfreed7/declarative-shadow-dom/blob/master/README.md#serialization) in the explainer. In particular, the section just below that, [Closed shadow roots](https://github.com/mfreed7/declarative-shadow-dom/blob/master/README.md#closed-shadow-roots) goes into the details of the interface. You essentially get two knobs. `includeShadowRoots` is an opt-in for *any* shadow roots to be serialized. The second input, `closedRoots` is a list of closed shadow roots that you would like to be included. If a closed shadow root is encountered that is not in the list, it will be skipped to preserve encapsulation.\r\n\r\nI am going to add the corresponding change to my HTML spec PR.\r\n\r\nLMK if the above clarifies the situation, or if you have further questions.",
+    "created_at": "2020-06-11T21:47:24Z",
+    "updated_at": "2020-06-11T21:47:24Z",
+    "html_url": "https://github.com/whatwg/dom/pull/858#discussion_r439087748",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/858",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/439087748"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/858#discussion_r439087748"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/858"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/439087748/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 5901,
+    "original_line": 5901,
+    "side": "RIGHT",
+    "in_reply_to_id": 438044041,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 71,
+    "position": 71,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

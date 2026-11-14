@@ -1,0 +1,217 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/3514667792",
+    "pull_request_review_id": 4619458602,
+    "id": 3514667792,
+    "node_id": "PRRC_kwDOAFUqXs7RfZMQ",
+    "diff_hunk": "@@ -10318,31 +10322,49 @@ filter matches any <a for=/>node</a>.\n given a {{NodeIterator}} object <var>nodeIterator</var> and <a for=/>node</a>\n <var>toBeRemovedNode</var>, are:\n \n+<ol>\n+ <li><p>Set <var>nodeIterator</var>'s <a for=NodeIterator>reference</a> to the result of\n+ <a for=NodeIterator>adjusting</a> <var>nodeIterator</var>'s <a for=NodeIterator>reference</a>\n+ given <var>nodeIterator</var> and <var>toBeRemovedNode</var>.\n+\n+ <li><p>If <var>nodeIterator</var>'s <a for=NodeIterator>candidate reference</a> is non-null, then set\n+ <var>nodeIterator</var>'s <a for=NodeIterator>candidate reference</a> to the result of\n+ <a for=NodeIterator>adjusting</a> <var>nodeIterator</var>'s <a for=NodeIterator>candidate reference</a>\n+ given <var>nodeIterator</var> and <var>toBeRemovedNode</var>.\n+</ol>\n+</div>\n+\n+<hr>\n+\n+<div algorithm>\n+<p>To <dfn for=NodeIterator>adjust</dfn> a <a>node pointer</a> <var>nodePointer</var>, given a\n+{{NodeIterator}} object <var>nodeIterator</var> and <a for=/>node</a> <var>toBeRemovedNode</var>,\n+perform the following steps. They return a <a>node pointer</a>.\n+\n <ol>\n  <li><p>If <var>toBeRemovedNode</var> is not an <a for=tree>inclusive ancestor</a> of\n- <var>nodeIterator</var>'s <a for=NodeIterator>reference</a>, or <var>toBeRemovedNode</var> is an\n+ <var>nodePointer</var>'s <a for=\"node pointer\">node</a>, or <var>toBeRemovedNode</var> is an",
+    "path": "dom.bs",
+    "commit_id": "4f36f63ab749d416bbc6d3f80d3c05803b1472ad",
+    "original_commit_id": "ca79387afbed8b447ce69cddd96eff4a496720ba",
+    "user": {
+      "login": "shannonbooth",
+      "id": 35911232,
+      "node_id": "MDQ6VXNlcjM1OTExMjMy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/35911232?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/shannonbooth",
+      "html_url": "https://github.com/shannonbooth",
+      "followers_url": "https://api.github.com/users/shannonbooth/followers",
+      "following_url": "https://api.github.com/users/shannonbooth/following{/other_user}",
+      "gists_url": "https://api.github.com/users/shannonbooth/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/shannonbooth/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/shannonbooth/subscriptions",
+      "organizations_url": "https://api.github.com/users/shannonbooth/orgs",
+      "repos_url": "https://api.github.com/users/shannonbooth/repos",
+      "events_url": "https://api.github.com/users/shannonbooth/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/shannonbooth/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This is the same approach ladybird does to fix this scenario (factored slightly differently, but I think this is nicer). I don't have any ideas for a less invasive approach.\r\n\r\nThough the thing I noticed adjusting the implementation to match this exactly is if I understand correctly, I think nodePointer needs to be defined as a variable here from `nodeIterator` since it's not passed through in \"given\"",
+    "created_at": "2026-07-02T16:35:24Z",
+    "updated_at": "2026-07-02T20:35:51Z",
+    "html_url": "https://github.com/whatwg/dom/pull/1479#discussion_r3514667792",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/1479",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/3514667792"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/1479#discussion_r3514667792"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/1479"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/3514667792/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 10346,
+    "original_line": 10346,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 72,
+    "position": 72,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/3517725355",
+    "pull_request_review_id": 4623092375,
+    "id": 3517725355,
+    "node_id": "PRRC_kwDOAFUqXs7RrDqr",
+    "diff_hunk": "@@ -10318,31 +10322,49 @@ filter matches any <a for=/>node</a>.\n given a {{NodeIterator}} object <var>nodeIterator</var> and <a for=/>node</a>\n <var>toBeRemovedNode</var>, are:\n \n+<ol>\n+ <li><p>Set <var>nodeIterator</var>'s <a for=NodeIterator>reference</a> to the result of\n+ <a for=NodeIterator>adjusting</a> <var>nodeIterator</var>'s <a for=NodeIterator>reference</a>\n+ given <var>nodeIterator</var> and <var>toBeRemovedNode</var>.\n+\n+ <li><p>If <var>nodeIterator</var>'s <a for=NodeIterator>candidate reference</a> is non-null, then set\n+ <var>nodeIterator</var>'s <a for=NodeIterator>candidate reference</a> to the result of\n+ <a for=NodeIterator>adjusting</a> <var>nodeIterator</var>'s <a for=NodeIterator>candidate reference</a>\n+ given <var>nodeIterator</var> and <var>toBeRemovedNode</var>.\n+</ol>\n+</div>\n+\n+<hr>\n+\n+<div algorithm>\n+<p>To <dfn for=NodeIterator>adjust</dfn> a <a>node pointer</a> <var>nodePointer</var>, given a\n+{{NodeIterator}} object <var>nodeIterator</var> and <a for=/>node</a> <var>toBeRemovedNode</var>,\n+perform the following steps. They return a <a>node pointer</a>.\n+\n <ol>\n  <li><p>If <var>toBeRemovedNode</var> is not an <a for=tree>inclusive ancestor</a> of\n- <var>nodeIterator</var>'s <a for=NodeIterator>reference</a>, or <var>toBeRemovedNode</var> is an\n+ <var>nodePointer</var>'s <a for=\"node pointer\">node</a>, or <var>toBeRemovedNode</var> is an",
+    "path": "dom.bs",
+    "commit_id": "4f36f63ab749d416bbc6d3f80d3c05803b1472ad",
+    "original_commit_id": "ca79387afbed8b447ce69cddd96eff4a496720ba",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I'm not sure I fully understand what you meant, but I made it more explicitly a variable of adjust. Does that help?",
+    "created_at": "2026-07-03T05:46:37Z",
+    "updated_at": "2026-07-03T05:46:38Z",
+    "html_url": "https://github.com/whatwg/dom/pull/1479#discussion_r3517725355",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/1479",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/3517725355"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/1479#discussion_r3517725355"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/1479"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/3517725355/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 10346,
+    "original_line": 10346,
+    "side": "RIGHT",
+    "in_reply_to_id": 3514667792,
+    "author_association": "MEMBER",
+    "original_position": 72,
+    "position": 72,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/3518498176",
+    "pull_request_review_id": 4624165505,
+    "id": 3518498176,
+    "node_id": "PRRC_kwDOAFUqXs7RuAWA",
+    "diff_hunk": "@@ -10318,31 +10322,49 @@ filter matches any <a for=/>node</a>.\n given a {{NodeIterator}} object <var>nodeIterator</var> and <a for=/>node</a>\n <var>toBeRemovedNode</var>, are:\n \n+<ol>\n+ <li><p>Set <var>nodeIterator</var>'s <a for=NodeIterator>reference</a> to the result of\n+ <a for=NodeIterator>adjusting</a> <var>nodeIterator</var>'s <a for=NodeIterator>reference</a>\n+ given <var>nodeIterator</var> and <var>toBeRemovedNode</var>.\n+\n+ <li><p>If <var>nodeIterator</var>'s <a for=NodeIterator>candidate reference</a> is non-null, then set\n+ <var>nodeIterator</var>'s <a for=NodeIterator>candidate reference</a> to the result of\n+ <a for=NodeIterator>adjusting</a> <var>nodeIterator</var>'s <a for=NodeIterator>candidate reference</a>\n+ given <var>nodeIterator</var> and <var>toBeRemovedNode</var>.\n+</ol>\n+</div>\n+\n+<hr>\n+\n+<div algorithm>\n+<p>To <dfn for=NodeIterator>adjust</dfn> a <a>node pointer</a> <var>nodePointer</var>, given a\n+{{NodeIterator}} object <var>nodeIterator</var> and <a for=/>node</a> <var>toBeRemovedNode</var>,\n+perform the following steps. They return a <a>node pointer</a>.\n+\n <ol>\n  <li><p>If <var>toBeRemovedNode</var> is not an <a for=tree>inclusive ancestor</a> of\n- <var>nodeIterator</var>'s <a for=NodeIterator>reference</a>, or <var>toBeRemovedNode</var> is an\n+ <var>nodePointer</var>'s <a for=\"node pointer\">node</a>, or <var>toBeRemovedNode</var> is an",
+    "path": "dom.bs",
+    "commit_id": "4f36f63ab749d416bbc6d3f80d3c05803b1472ad",
+    "original_commit_id": "ca79387afbed8b447ce69cddd96eff4a496720ba",
+    "user": {
+      "login": "shannonbooth",
+      "id": 35911232,
+      "node_id": "MDQ6VXNlcjM1OTExMjMy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/35911232?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/shannonbooth",
+      "html_url": "https://github.com/shannonbooth",
+      "followers_url": "https://api.github.com/users/shannonbooth/followers",
+      "following_url": "https://api.github.com/users/shannonbooth/following{/other_user}",
+      "gists_url": "https://api.github.com/users/shannonbooth/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/shannonbooth/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/shannonbooth/subscriptions",
+      "organizations_url": "https://api.github.com/users/shannonbooth/orgs",
+      "repos_url": "https://api.github.com/users/shannonbooth/repos",
+      "events_url": "https://api.github.com/users/shannonbooth/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/shannonbooth/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Yup, sorry for being unclear thats what I meant",
+    "created_at": "2026-07-03T08:24:06Z",
+    "updated_at": "2026-07-03T08:24:06Z",
+    "html_url": "https://github.com/whatwg/dom/pull/1479#discussion_r3518498176",
+    "pull_request_url": "https://api.github.com/repos/whatwg/dom/pulls/1479",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/comments/3518498176"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/dom/pull/1479#discussion_r3518498176"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/dom/pulls/1479"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/pulls/comments/3518498176/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 10346,
+    "original_line": 10346,
+    "side": "RIGHT",
+    "in_reply_to_id": 3514667792,
+    "author_association": "MEMBER",
+    "original_position": 72,
+    "position": 72,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]
