@@ -1,4 +1,5 @@
-"""Where things live. Raw and derived data go in data/private/ (gitignored)."""
+"""Where things live. Raw GitHub objects that are committed go in data/github/;
+the SQLite caches and settings go in data/private/ (gitignored)."""
 
 import json
 import os
@@ -7,6 +8,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 CONFIG = ROOT / "config"
 SUMMARIES = ROOT / "summaries"
+
+
+def github_dir():
+    """Committed raw GitHub objects: {owner}/{repo}/issues/{number}.json."""
+    return Path(os.environ.get("SPECSTATS_GITHUB", ROOT / "data" / "github"))
 
 
 def private_dir():

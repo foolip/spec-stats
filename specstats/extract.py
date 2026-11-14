@@ -25,6 +25,11 @@ Each ascending stream re-reads OVERLAP before its cursor, so anything an
 earlier run missed is picked up; the cursor advances page by page, so an
 interrupted run resumes; and the first page carries the last ETag, so an
 unchanged stream costs one free 304. See docs/extraction.md.
+
+Issues and PRs (the items stream) are also written, one pretty-printed file
+each, to data/github/{owner}/{repo}/issues/{number}.json, which is
+committed: git keeps their history, and a run can resume from the files
+alone if raw.sqlite is lost (sync_item_files).
 """
 
 import json
@@ -206,6 +211,8 @@ def store(db, repo, table, obj, number=None):
     names = list(cols)
     db.execute(f"INSERT OR REPLACE INTO {table} ({', '.join(names)}) VALUES ({', '.join('?' * len(names))})",
                [cols[n] for n in names])
+    if table == "items":
+        write_item_file(repo, obj)
     return cols.get(ts_col) if ts_col else None
 
 
@@ -231,6 +238,61 @@ def replace_set(db, repo, table, number, objs):
             _keep(db, table, repo, list(key_vals), row[-1], removed=True)
             where = " AND ".join(f"{k} = ?" for k in keys)
             db.execute(f"DELETE FROM {table} WHERE repo = ? AND {where}", [repo, *key_vals])
+
+
+# --- committed item files ------------------------------------------------------
+
+def item_path(repo, number):
+    return paths.github_dir() / repo / "issues" / f"{number}.json"
+
+
+def pretty(obj):
+    """GitHub's field order, 2-space indent, UTF-8, trailing newline."""
+    return json.dumps(obj, indent=2, ensure_ascii=False) + "\n"
+
+
+def write_item_file(repo, obj):
+    p = item_path(repo, obj["number"])
+    text = pretty(obj)
+    if p.exists() and p.read_text(encoding="utf-8") == text:
+        return
+    p.parent.mkdir(parents=True, exist_ok=True)
+    tmp = p.with_name(p.name + ".tmp")
+    tmp.write_text(text, encoding="utf-8")
+    tmp.replace(p)
+
+
+def remove_item_file(repo, number):
+    item_path(repo, number).unlink(missing_ok=True)
+
+
+def sync_item_files(db, repo, log=print):
+    """Make the committed item files and the items table agree, newest
+    version winning, and start the items cursor from the files if there is
+    none. Either side can then be rebuilt from the other."""
+    d = paths.github_dir() / repo / "issues"
+    files = {int(p.stem): p for p in d.glob("*.json") if p.stem.isdigit()} if d.is_dir() else {}
+    rows = {n: (u, j) for n, u, j in db.execute("SELECT number, updated_at, json FROM items WHERE repo = ?", (repo,))}
+    imported = exported = 0
+    for number, p in sorted(files.items()):
+        obj = json.loads(p.read_text(encoding="utf-8"))
+        row = rows.get(number)
+        if row is None or obj["updated_at"] > row[0]:
+            store(db, repo, "items", obj)
+            imported += 1
+        elif obj["updated_at"] < row[0]:
+            write_item_file(repo, json.loads(row[1]))
+            exported += 1
+    for number in sorted(rows.keys() - files.keys()):
+        write_item_file(repo, json.loads(rows[number][1]))
+        exported += 1
+    newest = db.execute("SELECT MAX(updated_at) FROM items WHERE repo = ?", (repo,)).fetchone()[0]
+    if newest and _cursor(db, repo, "items")[0] is None:
+        _save_cursor(db, repo, "items", newest, None, None)
+    db.commit()
+    if imported or exported:
+        log(f"{repo} items: {imported} read from files, {exported} written to files")
+    return imported, exported
 
 
 def _cursor(db, repo, stream):
@@ -471,6 +533,7 @@ def reconcile(client, db, repo, log=print):
     as deleted or transferred after checking it on GitHub. Items stored here
     but missing from the listing are checked the same way.
     """
+    sync_item_files(db, repo, log=log)
     remote = {}
 
     def on_page(rows):
@@ -504,6 +567,7 @@ def reconcile(client, db, repo, log=print):
         if row:
             _keep(db, "items", repo, [number], row[0], removed=True)
             db.execute("DELETE FROM items WHERE repo = ? AND number = ?", (repo, number))
+        remove_item_file(repo, number)
     db.commit()
     stored_now = db.execute("SELECT COUNT(*) FROM items WHERE repo = ?", (repo,)).fetchone()[0]
     gone_now = db.execute("SELECT COUNT(*) FROM gone WHERE repo = ?", (repo,)).fetchone()[0]
@@ -517,6 +581,7 @@ def reconcile(client, db, repo, log=print):
 # --- whole repo ----------------------------------------------------------------
 
 def sync_repo(client, db, repo, log=print):
+    sync_item_files(db, repo, log=log)
     for stream in ASCENDING:
         sync_ascending(client, db, repo, stream, log=log)
     sync_events(client, db, repo, log=log)

@@ -1,8 +1,10 @@
 import json
+import os
 import re
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 from specstats import derive, extract, github, summarize
 from specstats.orgs import Attributor, company_to_org, load_aliases
@@ -30,13 +32,24 @@ def populated(**kw):
     return gh
 
 
-class ExtractTest(unittest.TestCase):
+class TempDirs(unittest.TestCase):
+    """A temporary directory per test, with data/github/ inside it, so tests
+    never write into the checkout."""
+
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
-        self.db = extract.connect(Path(self.tmp.name) / "raw.sqlite")
+        self.files = Path(self.tmp.name) / "github"
+        env = mock.patch.dict(os.environ, {"SPECSTATS_GITHUB": str(self.files)})
+        env.start()
+        self.addCleanup(env.stop)
+        self.addCleanup(self.tmp.cleanup)
 
-    def tearDown(self):
-        self.tmp.cleanup()
+
+class ExtractTest(TempDirs):
+    def setUp(self):
+        super().setUp()
+        self.db = extract.connect(Path(self.tmp.name) / "raw.sqlite")
+        self.addCleanup(self.db.close)
 
     def count(self, table):
         return self.db.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
@@ -136,6 +149,8 @@ class ExtractTest(unittest.TestCase):
         gone = dict(self.db.execute("SELECT number, reason FROM gone").fetchall())
         self.assertEqual(gone, {1: "deleted", 4: "deleted", 5: "transferred"})
         self.assertEqual(r["stored"] + r["gone"], r["highest"])
+        self.assertEqual(sorted(p.name for p in (self.files / REPO / "issues").iterdir()),
+                         ["2.json", "3.json", "6.json"])
         # The deleted item's last version is kept in history.
         self.assertEqual(self.db.execute("SELECT removed FROM history WHERE tbl='items'").fetchone(), (1,))
         # The next reconcile doesn't recheck known gone numbers.
@@ -162,6 +177,45 @@ class ExtractTest(unittest.TestCase):
         n = extract.sync_pr_resources(c, self.db, REPO, resources=["pull", "reviews", "commits"], **QUIET)
         self.assertEqual(n, 2)  # commits for both PRs, nothing else refetched
         self.assertTrue(all("/commits" in u for _, u in gh.calls[-c.requests:]))
+
+    def test_items_are_written_as_files(self):
+        gh = populated()
+        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
+        d = self.files / REPO / "issues"
+        self.assertEqual(sorted(p.name for p in d.iterdir()), ["1.json", "2.json", "3.json"])
+        text = (d / "2.json").read_text(encoding="utf-8")
+        self.assertTrue(text.startswith('{\n  "number": 2,\n'))
+        self.assertTrue(text.endswith("}\n") and not text.endswith("\n\n"))
+        self.assertEqual(json.loads(text), gh.issues[2])
+        # An update rewrites the file.
+        gh.touch(2, "2025-09-01T00:00:00Z")
+        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
+        self.assertEqual(json.loads((d / "2.json").read_text())["updated_at"], "2025-09-01T00:00:00Z")
+
+    def test_resume_from_files_alone(self):
+        gh = populated()
+        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
+        # raw.sqlite is lost; the committed files are all that's left.
+        db = extract.connect(Path(self.tmp.name) / "fresh.sqlite")
+        self.addCleanup(db.close)
+        self.assertEqual(extract.sync_item_files(db, REPO, **QUIET), (3, 0))
+        self.assertEqual(db.execute("SELECT COUNT(*) FROM items").fetchone()[0], 3)
+        # The items listing resumes from the files' newest updated_at, not from scratch.
+        c = client(gh)
+        extract.sync_ascending(c, db, REPO, "items", **QUIET)
+        self.assertIn("since=", gh.calls[-1][1])
+
+    def test_files_and_table_newest_wins(self):
+        gh = populated()
+        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
+        d = self.files / REPO / "issues"
+        (d / "1.json").unlink()
+        newer = dict(gh.issues[3], updated_at="2025-12-01T00:00:00Z")
+        (d / "3.json").write_text(extract.pretty(newer), encoding="utf-8")
+        self.assertEqual(extract.sync_item_files(self.db, REPO, **QUIET), (1, 1))
+        self.assertTrue((d / "1.json").exists())
+        self.assertEqual(self.db.execute("SELECT updated_at FROM items WHERE number=3").fetchone()[0],
+                         "2025-12-01T00:00:00Z")
 
     def test_users(self):
         gh = populated()
@@ -211,7 +265,7 @@ class OrgsTest(unittest.TestCase):
         self.assertEqual(attr.org("x", "2024-06-01T00:00:00Z"), "Google")
 
 
-class DeriveSummarizeTest(unittest.TestCase):
+class DeriveSummarizeTest(TempDirs):
     def test_end_to_end(self):
         with tempfile.TemporaryDirectory() as tmp:
             tmp = Path(tmp)

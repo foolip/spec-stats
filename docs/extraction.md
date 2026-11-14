@@ -19,6 +19,17 @@ SELECT json_extract(json, '$.user.login'), COUNT(*) FROM issue_comments GROUP BY
 Each table also has a few columns for lookups (repo, number, `id`,
 `node_id`, the object's timestamp).
 
+**Committed files.** Issues and PRs (the `items` table, from `/issues`) are
+also written to `data/github/{owner}/{repo}/issues/{number}.json`, one
+pretty-printed object per file, exactly as GitHub returned it, and
+committed after every Actions run. A changed item rewrites its file; a
+deleted or transferred one (found by `reconcile`) has its file removed, so
+git log has every version. At the start of `extract` and `reconcile`, the
+files and the table are compared and the newer version of each item is
+copied to the other side; with no items cursor, the cursor starts from the
+newest file. So a run with only the files (no `raw.sqlite`) fetches just
+what changed since. The other streams are only in SQLite for now.
+
 | Table | What | Request | Incremental by |
 |---|---|---|---|
 | `items` | every issue and PR (labels, state, comment counts, reactions) | `GET /repos/{repo}/issues?state=all&sort=updated&direction=asc` | `since` |

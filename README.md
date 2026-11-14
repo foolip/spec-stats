@@ -30,9 +30,10 @@ before anything is fetched ([`docs/plan.md`](docs/plan.md), ground rules).
 
 ## Usage
 
-The pipeline uses the Python standard library only. Raw and derived data go
-in `data/private/` (gitignored). Summaries go in `summaries/` and are
-committed.
+The pipeline uses the Python standard library only. Issues and PRs are
+committed as JSON files in `data/github/{owner}/{repo}/issues/`; the rest of
+the raw data and the derived data go in `data/private/` (gitignored).
+Summaries go in `summaries/` and are committed.
 
 You need a GitHub token, either `GITHUB_TOKEN` in the environment or a
 signed-in `gh` CLI. A fine-grained token with no extra permissions is enough

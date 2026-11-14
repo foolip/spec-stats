@@ -6,6 +6,9 @@
 # result, even if the run failed or timed out, so the next run resumes.
 # Download it from the run's page to query it with sqlite3.
 #
+# Issues and PRs are also committed to this repo, one file each, in
+# data/github/{owner}/{repo}/issues/{number}.json, after every run.
+#
 # Token: the SPECSTATS_TOKEN secret if set (a fine-grained personal token
 # with no extra permissions: 5,000 requests an hour), otherwise the
 # built-in token (1,000 an hour, so a backfill pauses for the limit).
@@ -27,7 +30,7 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: read
+  contents: write  # to commit data/github/
   actions: read  # to download the previous run's artifact
 
 jobs:
@@ -63,6 +66,17 @@ jobs:
           python3 -m specstats extract --go
           if [ "${{ inputs.command }}" = reconcile ]; then python3 -m specstats reconcile --go; fi
           python3 -m specstats users --go
+
+      - name: Commit issue and PR files
+        if: always()
+        run: |
+          git add data/github
+          if git diff --cached --quiet; then echo "No changes"; exit 0; fi
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit -q -m "Update GitHub issue and PR data"
+          git pull -q --rebase
+          git push -q
 
       - name: Derive and summarize
         run: |

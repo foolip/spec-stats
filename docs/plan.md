@@ -73,6 +73,7 @@ for a first response. Definitions: `docs/maintenance-load.md`.
 | 2026-11-13 | Self-reviews and bots are left out; the PR author's comments aren't "responses" | Replies in one's own review threads are recorded as reviews, but they aren't review work |
 | 2026-11-13 | Web pages are plain HTML, CSS and ES modules, with no build step | Small enough not to need one |
 | 2026-11-14 | Stay with Python (standard library only), with our own small REST client rather than a wrapper library | Maintainer's choice. The extractor needs raw JSON, ETags, `since` with overlap and per-page cursors, which wrappers hide or don't help with; Octokit's throttling plugin (TypeScript) was the main thing given up |
+| 2026-11-14 | Issues and PRs (the `/issues` listing) are committed to this repo, one file per item: `data/github/{owner}/{repo}/issues/{number}.json`, pretty-printed (2-space indent, GitHub's field order, trailing newline). SQLite stays the working cache, and the two are kept in sync | Maintainer's choice, starting with items before the other streams. A file per item keeps each update a small diff and every file small; git keeps the history and hosts the data long term, and a run can resume from the files if the artifact is gone. One directory for both kinds, as they share one number sequence |
 
 ## Status
 
