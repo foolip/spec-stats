@@ -8,33 +8,23 @@
 Commands that fetch print a plan and do nothing unless given --go
 (docs/plan.md, ground rule 1). Fetched data goes in data/github/.
 
-They also take --max-minutes N or --stop-at 2026-11-15T03:00:00Z: no
-request starts, and no rate-limit pause runs, past that point. The run
+They also take --max-minutes N: no request starts, and no rate-limit
+pause runs, after that many minutes. The run
 then saves its state and exits normally, and the next run continues.
 """
 
 import argparse
 import sys
-import time
-from datetime import datetime, timezone
 
 from . import extract, github, paths
 
 
 def add_deadline_args(p):
     p.add_argument("--max-minutes", type=float, help="stop starting requests after this many minutes")
-    p.add_argument("--stop-at", help="stop starting requests at this UTC time, e.g. 2026-11-15T03:00:00Z")
 
 
 def seconds_left(args):
-    """Seconds until the earlier of --max-minutes and --stop-at, or None."""
-    limits = []
-    if args.max_minutes is not None:
-        limits.append(args.max_minutes * 60)
-    if args.stop_at:
-        at = datetime.strptime(args.stop_at, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
-        limits.append(at.timestamp() - time.time())
-    return min(limits) if limits else None
+    return args.max_minutes * 60 if args.max_minutes is not None else None
 
 
 def main(argv=None):

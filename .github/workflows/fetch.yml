@@ -49,10 +49,12 @@ jobs:
       - name: Fetch
         timeout-minutes: 320
         run: |
-          stop_at=$(date -u -d '+300 minutes' +%Y-%m-%dT%H:%M:%SZ)
-          python3 -m specstats extract --go --stop-at "$stop_at"
-          if [ "${{ inputs.command }}" = reconcile ]; then python3 -m specstats reconcile --go --stop-at "$stop_at"; fi
-          python3 -m specstats users --go --stop-at "$stop_at"
+          # One 300-minute budget, shared by the commands in turn.
+          end=$(( $(date +%s) + 300 * 60 ))
+          left() { echo $(( (end - $(date +%s)) / 60 )); }
+          python3 -m specstats extract --go --max-minutes "$(left)"
+          if [ "${{ inputs.command }}" = reconcile ]; then python3 -m specstats reconcile --go --max-minutes "$(left)"; fi
+          python3 -m specstats users --go --max-minutes "$(left)"
 
       - name: Commit the fetched data
         if: always()

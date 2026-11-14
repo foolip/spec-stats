@@ -135,8 +135,8 @@ A daily run of an unchanged repo is four requests, all 304s.
 
 ## Deadlines
 
-`--max-minutes N` or `--stop-at <UTC time>` stops a run cleanly: no request
-starts, and no rate-limit pause runs, past that point. A response is always
+`--max-minutes N` stops a run cleanly: no request starts, and no
+rate-limit pause runs, after N minutes. A response is always
 stored before the run stops, and `state.json` is saved, so the next run
 continues where this one stopped:
 
