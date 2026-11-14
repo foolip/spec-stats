@@ -1,0 +1,95 @@
+# Fetch GitHub data for the repos in config/repos.txt, on demand.
+#
+# The raw cache (data/private/raw.sqlite) is kept between runs as a
+# workflow artifact: each run downloads the newest one, fetches what
+# changed since (the whole history on the first run), and uploads the
+# result, even if the run failed or timed out, so the next run resumes.
+# Download it from the run's page to query it with sqlite3.
+#
+# Token: the SPECSTATS_TOKEN secret if set (a fine-grained personal token
+# with no extra permissions: 5,000 requests an hour), otherwise the
+# built-in token (1,000 an hour, so a backfill pauses for the limit).
+# Contact for the User-Agent: the SPECSTATS_CONTACT variable, if set.
+
+name: Fetch GitHub data
+
+on:
+  workflow_dispatch:
+    inputs:
+      command:
+        description: "extract: fetch what changed. reconcile: also check every issue number (weekly)."
+        type: choice
+        options: [extract, reconcile]
+        default: extract
+
+concurrency:
+  group: raw-data  # one run at a time: each builds on the previous one's cache
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  actions: read  # to download the previous run's artifact
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    env:
+      GITHUB_TOKEN: ${{ secrets.SPECSTATS_TOKEN || github.token }}
+      SPECSTATS_CONTACT: ${{ vars.SPECSTATS_CONTACT }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Download the previous raw cache
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p data/private
+          run_id=$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=raw-data&per_page=100" \
+            --jq '[.artifacts[] | select(.expired | not)] | sort_by(.created_at) | last | .workflow_run.id // empty')
+          if [ -n "$run_id" ]; then
+            echo "Resuming from run $run_id"
+            gh run download "$run_id" --name raw-data --dir data/private
+          else
+            echo "No previous raw cache: starting from nothing"
+          fi
+
+      - name: Fetch
+        run: |
+          python3 -m specstats extract --go
+          if [ "${{ inputs.command }}" = reconcile ]; then python3 -m specstats reconcile --go; fi
+          python3 -m specstats users --go
+
+      - name: Derive and summarize
+        run: |
+          python3 -m specstats derive
+          python3 -m specstats summarize
+
+      - name: Report
+        if: always()
+        run: |
+          if [ -f data/private/raw.sqlite ]; then python3 -m specstats stats >> "$GITHUB_STEP_SUMMARY"; fi
+
+      - name: Upload the raw cache
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: raw-data
+          path: |
+            data/private/raw.sqlite
+            data/private/derived.sqlite
+          if-no-files-found: ignore
+          retention-days: 90
+
+      # Summaries aren't committed until per-person publishing is decided
+      # (docs/plan.md, ground rule 3); they're kept with the run instead.
+      - name: Upload summaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: summaries
+          path: summaries/
+          retention-days: 90
