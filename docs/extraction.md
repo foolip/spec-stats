@@ -2,8 +2,8 @@
 
 Code: `specstats/extract.py` (fetching and storing), `specstats/github.py`
 (the throttled client). Everything goes in `data/github/`, committed to
-this repo, losslessly, as the API returned it, so derive and summarize can
-be rerun offline with new definitions at any time.
+this repo, losslessly, as the API returned it, so any analysis can be
+run offline, and rerun with new definitions at any time.
 
 ## Where it's stored
 
@@ -64,7 +64,7 @@ requests per PR. Which per-PR resources are fetched is set in
 separately (`fetched` in `state.json`), so turning one on later fetches just that
 resource for every PR on the next run, without refetching anything else.
 
-Bots and boilerplate are kept here; derive decides what counts.
+Bots and boilerplate are kept; analyses decide what counts.
 
 Not fetched: diff patches, and anything outside GitHub (chat, meetings).
 Deleted comments and items can't be fetched once they're gone, except as

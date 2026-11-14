@@ -6,8 +6,7 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-from specstats import derive, extract, github, summarize
-from specstats.orgs import Attributor, company_to_org, load_aliases
+from specstats import extract, github
 from tests.fakegithub import REPO, FakeGitHub
 
 QUIET = dict(log=lambda *a: None)
@@ -235,64 +234,6 @@ class ClientTest(unittest.TestCase):
                           clock=lambda: 0.0, **QUIET)
         self.assertEqual(c.rest("/x").data, [])
         self.assertIn(30, sleeps)
-
-
-class OrgsTest(unittest.TestCase):
-    def test_company_field(self):
-        aliases = load_aliases()
-        self.assertEqual(company_to_org("@google", aliases), "Google")
-        self.assertEqual(company_to_org("Mozilla Corporation", aliases), "Mozilla")
-        self.assertEqual(company_to_org("Apple Inc.", aliases), "Apple")
-        self.assertEqual(company_to_org("@igalia @webkit", aliases), "Igalia")
-        self.assertIsNone(company_to_org("", aliases))
-        self.assertIsNone(company_to_org("Freelance", aliases))
-
-    def test_dated_override(self):
-        attr = Attributor({"x": {"company": "Google"}},
-                          affiliations={"x": [{"org": "Mozilla", "until": "2024-01-01"}]}, bots=set())
-        self.assertEqual(attr.org("x", "2023-06-01T00:00:00Z"), "Mozilla")
-        self.assertEqual(attr.org("x", "2024-06-01T00:00:00Z"), "Google")
-
-
-class DeriveSummarizeTest(TempDirs):
-    def test_end_to_end(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            tmp = Path(tmp)
-            gh = populated()
-            gh.add_review(2, "alice", "2025-02-06T00:00:00Z", "COMMENTED")         # self-review
-            gh.add_review(2, "copilot", "2025-02-06T00:00:00Z", typ="Bot")         # bot
-            gh.add_comment(2, "2025-02-07T00:00:00Z", "ann", body="<!-- This comment is programmatically generated -->")
-            gh.add_issue(4, "2025-03-01T00:00:00Z", author="ann", is_pr=True, draft_ready_at="2025-03-20T00:00:00Z")
-            gh.add_comment(4, "2025-03-05T00:00:00Z", "ed")   # during the draft: not a response
-            gh.add_comment(4, "2025-03-22T00:00:00Z", "ed")
-            gh.profiles = {"ed": "Apple", "alice": "@google"}
-            extract.sync_repo(client(gh), extract.RepoStore(REPO), **QUIET)
-            extract.extract_users(client(gh), extract.users_to_fetch(), **QUIET)
-            derive.derive(out_path=tmp / "derived.sqlite")
-
-            d = __import__("sqlite3").connect(tmp / "derived.sqlite")
-            merges = d.execute("SELECT number, detail FROM actions WHERE action='merge' ORDER BY number").fetchall()
-            self.assertEqual(merges, [(2, "other"), (3, "self")])
-            self.assertEqual(d.execute("SELECT COUNT(*) FROM actions WHERE action='review'").fetchone()[0], 1)
-            self.assertEqual(d.execute("SELECT COUNT(*) FROM actions WHERE action='review_comment'").fetchone()[0], 2)
-            # The boilerplate comment and ann's own comments don't count.
-            self.assertEqual(d.execute("SELECT COUNT(*) FROM actions WHERE action='comment'").fetchone()[0], 3)
-            ready, first = d.execute("SELECT ready_at, first_response_at FROM items WHERE number=4").fetchone()
-            self.assertEqual((ready, first), ("2025-03-20T00:00:00Z", "2025-03-22T00:00:00Z"))
-
-            s = summarize.summarize(tmp / "derived.sqlite", tmp / "out", today="2026-01-15")
-            rows = {(m, o, a): n for m, _, o, a, n in s["org_monthly"]}
-            self.assertEqual(rows[("2025-02", "Apple", "review")], 1)
-            self.assertEqual(rows[("2025-02", "Apple", "merge")], 1)
-            self.assertEqual(rows[("2025-02", "Google", "pr")], 1)
-            resp = {(r, k, q): row for r, k, q, *row in s["response"]}
-            self.assertEqual(resp[("whatwg/dom", "pr", "2025-Q1")], [3, 1, 3.0])  # PR 3 never answered
-            self.assertTrue((tmp / "out" / "org_monthly.csv").exists())
-
-    def test_people_needed(self):
-        self.assertEqual(summarize.people_needed([10, 5, 3, 2], 0.5), 1)
-        self.assertEqual(summarize.people_needed([5, 5, 5, 5], 0.8), 4)
-        self.assertEqual(summarize.people_needed([], 0.5), 0)
 
 
 if __name__ == "__main__":

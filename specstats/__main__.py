@@ -4,8 +4,6 @@
   python3 -m specstats reconcile [--repo whatwg/dom] [--go]   weekly: compare every number with GitHub
   python3 -m specstats users [--go]                           public profiles of everyone seen
   python3 -m specstats stats                                  offline: what's stored
-  python3 -m specstats derive                                 offline
-  python3 -m specstats summarize                              offline
 
 Commands that fetch print a plan and do nothing unless given --go
 (docs/plan.md, ground rule 1). Fetched data goes in data/github/.
@@ -14,7 +12,7 @@ Commands that fetch print a plan and do nothing unless given --go
 import argparse
 import sys
 
-from . import derive, extract, github, paths, summarize
+from . import extract, github, paths
 
 
 def main(argv=None):
@@ -28,8 +26,6 @@ def main(argv=None):
     us = sub.add_parser("users", help="fetch public profiles of everyone seen")
     us.add_argument("--go", action="store_true")
     sub.add_parser("stats", help="print what data/github/ holds, as Markdown (offline)")
-    sub.add_parser("derive", help="build derived.sqlite from data/github/ (offline)")
-    sub.add_parser("summarize", help="write summaries/ (offline)")
     args = ap.parse_args(argv)
 
     if args.cmd in ("extract", "reconcile"):
@@ -68,11 +64,6 @@ def main(argv=None):
         extract.extract_users(github.Client(), logins)
     elif args.cmd == "stats":
         print(stats())
-    elif args.cmd == "derive":
-        print(f"derived {derive.derive()} items into {paths.derived_db()}")
-    elif args.cmd == "summarize":
-        s = summarize.summarize()
-        print(f"wrote {len(s['org_monthly'])} org-month rows, {len(s['months'])} months, to {paths.SUMMARIES}")
     return 0
 
 

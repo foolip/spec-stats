@@ -1,5 +1,5 @@
 """Where things live. Raw GitHub objects go in data/github/ (committed);
-derived data and operator settings go in data/private/ (gitignored)."""
+operator settings go in data/private/ (gitignored)."""
 
 import json
 import os
@@ -7,7 +7,6 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 CONFIG = ROOT / "config"
-SUMMARIES = ROOT / "summaries"
 
 
 def github_dir():
@@ -19,10 +18,6 @@ def private_dir():
     d = Path(os.environ.get("SPECSTATS_DATA", ROOT / "data" / "private"))
     d.mkdir(parents=True, exist_ok=True)
     return d
-
-
-def derived_db():
-    return private_dir() / "derived.sqlite"
 
 
 def settings():

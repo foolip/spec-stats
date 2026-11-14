@@ -2,22 +2,25 @@
 
 This is the entry point for anyone (a person or a fresh Claude session)
 picking the project up. Read this, then `README.md`, then
-`docs/maintenance-load.md`.
+`docs/extraction.md`.
 
 ## Goal
 
 A set of dashboards about the health of WHATWG spec maintenance, published
-as one static site: a landing page (`web/index.html`) with a card per
-dashboard. Each dashboard answers one question from public data. Each data
-source gets its own extractor, raw data kept losslessly as committed JSON
-files in `data/github/`, and small committed summaries that the pages read.
+as one static site, each answering one question from public data. Each
+data source gets its own extractor, with its raw data kept losslessly as
+committed JSON files (`data/github/` for GitHub).
 
-### First dashboard: Maintenance load (`web/maintenance.html`)
+**Current phase: collecting data only.** No deriving, summarizing or
+pages until the data is in and checked. A first dashboard was drafted and
+removed on 2026-11-14 (decisions log); its last version is at commit
+`10edb66`:
 
-Who reviews, merges and triages changes to each Living Standard, by
-organization over time; how few people carry each spec (people doing 50% of
-reviews and merges in the last 12 months); and how long issues and PRs wait
-for a first response. Definitions: `docs/maintenance-load.md`.
+- **Maintenance load:** who reviews, merges and triages changes to each
+  Living Standard, by organization over time; how few people carry each
+  spec (people doing 50% of reviews and merges in the last 12 months); and
+  how long issues and PRs wait for a first response. Definitions were in
+  `docs/maintenance-load.md`.
 
 ## Ground rules
 
@@ -40,11 +43,9 @@ for a first response. Definitions: `docs/maintenance-load.md`.
      address from the gitignored `data/private/settings.json`.
 3. **Publishing per-person data.** The raw GitHub data, which includes
    logins, bodies and profiles, is committed publicly in `data/github/`
-   (confirmed by the maintainer on 2026-11-14). Proposed: reviews, merges, names, logins
-   and profile companies are already public on GitHub, so per-person counts
-   may go in `summaries/` and on the site, as cosh does (its ground rule 3).
-   **This needs the maintainer's confirmation before the first real
-   summaries are committed.** Affiliations that aren't backed by a public
+   (confirmed by the maintainer on 2026-11-14). Whether per-person counts
+   go on dashboards, as cosh does (its ground rule 3), is to be decided
+   when there are dashboards. Affiliations that aren't backed by a public
    source need approval before they're committed either way.
 4. **Credentials:** a GitHub token in `GITHUB_TOKEN` or from `gh auth token`.
    Never print or commit it.
@@ -77,16 +78,15 @@ for a first response. Definitions: `docs/maintenance-load.md`.
 | 2026-11-13 | Web pages are plain HTML, CSS and ES modules, with no build step | Small enough not to need one |
 | 2026-11-14 | Stay with Python (standard library only), with our own small REST client rather than a wrapper library | Maintainer's choice. The extractor needs raw JSON, ETags, `since` with overlap and per-page cursors, which wrappers hide or don't help with; Octokit's throttling plugin (TypeScript) was the main thing given up |
 | 2026-11-14 | Issues and PRs (the `/issues` listing) are committed to this repo, one file per item: `data/github/{owner}/{repo}/issues/{number}.json`, pretty-printed (2-space indent, GitHub's field order, trailing newline). ~~SQLite stays the working cache~~ (superseded below) | Maintainer's choice. A file per item keeps each update a small diff and every file small; git keeps the history and hosts the data long term, and a run can resume from the files if the artifact is gone. One directory for both kinds, as they share one number sequence |
-| 2026-11-14 | **No SQLite for raw data.** Everything fetched is committed as files laid out like the API paths (`issues/{n}.json`, `issues/{n}/comments.json`, `pulls/{n}/reviews.json`, `users/{login}.json`, …) plus a `state.json` per repo; git replaces the `history` table and the workflow artifact. Events are stored without their embedded copy of the issue. SQLite may come back for crunching; `derive` still writes `derived.sqlite` for now | Maintainer's choice: public, browsable data in one place with its history, and no second copy to keep in sync. The embedded issue is a snapshot of `issues/{n}.json` at fetch time, repeated on every event |
-| 2026-11-14 | The fetch workflow only fetches and commits; it doesn't run `derive` or `summarize` | Maintainer's instruction: the raw data isn't to be summarized yet. The code stays for later |
+| 2026-11-14 | **No SQLite for raw data.** Everything fetched is committed as files laid out like the API paths (`issues/{n}.json`, `issues/{n}/comments.json`, `pulls/{n}/reviews.json`, `users/{login}.json`, …) plus a `state.json` per repo; git replaces the `history` table and the workflow artifact. Events are stored without their embedded copy of the issue. SQLite may come back for crunching | Maintainer's choice: public, browsable data in one place with its history, and no second copy to keep in sync. The embedded issue is a snapshot of `issues/{n}.json` at fetch time, repeated on every event |
+| 2026-11-14 | The fetch workflow only fetches and commits; it doesn't run `derive` or `summarize` | Maintainer's instruction: the raw data isn't to be summarized yet. ~~The code stays for later~~ removed (next row) |
+| 2026-11-14 | Removed `derive`, `summarize`, org attribution (`orgs.py`, `config/affiliations.json`, `companies.json`, `bots.txt`), `summaries/`, `web/` and `docs/maintenance-load.md`; last version at `10edb66` | Maintainer's instruction: collect data first; the dashboard will be reworked anyway (next steps) |
 
 ## Status
 
 - Extractor (REST only, incremental, storing everything as committed JSON
-  files, with consistency checks and `reconcile`), derive, summarize, tests and the Maintenance load page are
+  files, with consistency checks and `reconcile`) and its tests are
   written. Tests run against an in-memory fake GitHub.
-- The page has been checked against synthetic data only, in light, dark
-  and phone layouts.
 - **Nothing has been fetched yet.** The first run needs a GitHub token on
   the maintainer's machine (the cloud session that wrote this couldn't
   reach the WHATWG repos through the API).
@@ -100,19 +100,14 @@ for a first response. Definitions: `docs/maintenance-load.md`.
    not deep enough), and that `/issues/events` includes PR-only events
    (`ready_for_review`, `review_requested`). Then whatwg/html, cross-checked
    against the figures of the earlier prototype (1,171 PRs and 2,167 issues
-   in 2024–2026; 41.3% of 2026's reviews by the PR's author), then all
-   repos, then `users --go`.
-3. Rework the metrics around the prototype's catalog: PRs touched (split
-   by size) instead of raw review counts, review sessions, sign-offs
-   (`APPROVED` or LGTM), unquoted words.
-4. Daily job: GitHub Actions on a schedule, with a personal token as a
+   in 2024–2026), then all repos, then `users --go`.
+3. Daily job: GitHub Actions on a schedule, with a personal token as a
    secret (the built-in token's limit is too low for the backfill),
    committing to `data/github/` as the manual workflow does.
-5. Look at how big `Unknown` is, and fill `config/affiliations.json` with
-   publicly sourced entries for the most active accounts.
-6. Confirm ground rule 3, then commit the first real summaries.
-7. Publish the site with GitHub Pages (serve the repo root so
-   `web/` can read `summaries/`).
+4. Then dashboards: bring back Maintenance load (commit `10edb66`),
+   reworked around the prototype's catalog: PRs touched (split by size)
+   instead of raw review counts, review sessions, sign-offs (`APPROVED` or
+   LGTM), unquoted words.
 
 ## Dashboard ideas
 
