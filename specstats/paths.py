@@ -1,5 +1,5 @@
-"""Where things live. Raw GitHub objects that are committed go in data/github/;
-the SQLite caches and settings go in data/private/ (gitignored)."""
+"""Where things live. Raw GitHub objects go in data/github/ (committed);
+derived data and operator settings go in data/private/ (gitignored)."""
 
 import json
 import os
@@ -19,10 +19,6 @@ def private_dir():
     d = Path(os.environ.get("SPECSTATS_DATA", ROOT / "data" / "private"))
     d.mkdir(parents=True, exist_ok=True)
     return d
-
-
-def raw_db():
-    return private_dir() / "raw.sqlite"
 
 
 def derived_db():

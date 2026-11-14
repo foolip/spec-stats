@@ -46,70 +46,101 @@ class TempDirs(unittest.TestCase):
 
 
 class ExtractTest(TempDirs):
-    def setUp(self):
-        super().setUp()
-        self.db = extract.connect(Path(self.tmp.name) / "raw.sqlite")
-        self.addCleanup(self.db.close)
+    def store(self):
+        """A fresh RepoStore each time, so every run starts from the files alone."""
+        return extract.RepoStore(REPO)
 
-    def count(self, table):
-        return self.db.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
+    def sync(self, gh, c=None):
+        extract.sync_repo(c or client(gh), self.store(), **QUIET)
+
+    def count(self, what):
+        return self.store().counts()[what]
+
+    def issue_dir(self):
+        return self.files / REPO / "issues"
 
     def test_full_sync_then_unchanged_is_all_304s(self):
         gh = populated()
-        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
-        self.assertEqual(self.count("items"), 3)
-        self.assertEqual(self.count("issue_comments"), 1)
-        self.assertEqual(self.count("review_comments"), 2)
-        self.assertEqual(self.count("events"), 2)
-        self.assertEqual(self.count("pulls"), 2)
-        self.assertEqual(self.count("pr_reviews"), 1)
-        self.assertEqual(extract.comment_mismatches(self.db, REPO), ([], []))
+        self.sync(gh)
+        self.assertEqual(self.store().counts(), {"issues": 1, "prs": 2, "pulls": 2, "comments": 1, "events": 2,
+                                                 "reviews": 1, "review_comments": 2, "gone": 0})
+        self.assertEqual(extract.comment_mismatches(self.store()), ([], []))
         # Nothing changed. The second run re-reads the overlap once (its URL now
         # has `since`, so the first run's ETags don't apply); after that, one
         # conditional request per stream, all 304s.
-        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
+        self.sync(gh)
         c = client(gh)
-        extract.sync_repo(c, self.db, REPO, **QUIET)
+        self.sync(gh, c)
         self.assertEqual((c.requests, c.not_modified), (4, 4))
+
+    def test_file_layout_and_format(self):
+        gh = populated()
+        self.sync(gh)
+        d = self.files / REPO
+        files = sorted(str(p.relative_to(d)) for p in d.rglob("*") if p.is_file())
+        self.assertEqual(files, ["issues/1.json", "issues/1/comments.json", "issues/1/events.json",
+                                 "issues/2.json", "issues/2/events.json", "issues/3.json",
+                                 "pulls/2.json", "pulls/2/comments.json", "pulls/2/reviews.json",
+                                 "pulls/3.json", "state.json"])
+        text = (d / "issues/2.json").read_text(encoding="utf-8")
+        self.assertTrue(text.startswith('{\n  "number": 2,\n'))
+        self.assertTrue(text.endswith("}\n") and not text.endswith("\n\n"))
+        self.assertEqual(json.loads(text), gh.issues[2])
+        # Events are stored without the embedded issue, as /issues/{n}/events returns them.
+        self.assertNotIn("issue", json.loads((d / "issues/1/events.json").read_text())[0])
+        # An update rewrites the file.
+        gh.touch(2, "2025-09-01T00:00:00Z")
+        self.sync(gh)
+        self.assertEqual(json.loads((d / "issues/2.json").read_text())["updated_at"], "2025-09-01T00:00:00Z")
 
     def test_incremental_fetches_only_what_changed(self):
         gh = populated()
-        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
+        self.sync(gh)
         gh.add_comment(2, "2025-06-01T00:00:00Z", "bob")
         c = client(gh)
-        extract.sync_repo(c, self.db, REPO, **QUIET)
-        self.assertEqual(self.count("issue_comments"), 2)
-        self.assertEqual(extract.stale_prs(self.db, REPO, "reviews"), [])
+        self.sync(gh, c)
+        self.assertEqual(self.count("comments"), 2)
+        self.assertEqual(extract.stale_prs(self.store(), "reviews"), [])
         per_pr = [u for _, u in gh.calls[-c.requests:] if "/pulls/" in u and "/pulls/comments" not in u]
         self.assertEqual(len(per_pr), 2)  # PR 2's pull and reviews, nothing for PR 3
 
     def test_overlap_catches_a_late_arrival(self):
         gh = populated()
-        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
+        self.sync(gh)
         # A comment that became visible late, timestamped just before the cursor.
-        cursor = self.db.execute("SELECT cursor FROM cursors WHERE stream='issue_comments'").fetchone()[0]
+        cursor = self.store().cursor("issue_comments")["cursor"]
         gh.add_comment(1, "2025-01-02T12:00:00Z", "bob", touch=False)
         gh.add_comment(3, cursor, "carol")
-        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
-        self.assertEqual(self.count("issue_comments"), 3)
+        self.sync(gh)
+        self.assertEqual(self.count("comments"), 3)
 
     def test_counts_heal_a_missed_comment(self):
         gh = populated()
-        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
+        self.sync(gh)
         # A comment far older than the overlap shows up (e.g. it was missed),
         # and the item's updated_at moves, so its count is checked.
         gh.add_comment(1, "2024-06-01T00:00:00Z", "bob", touch=False)
         gh.touch(1, "2025-07-01T00:00:00Z")
-        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
-        self.assertEqual(self.count("issue_comments"), 2)
-        self.assertEqual(extract.comment_mismatches(self.db, REPO), ([], []))
+        self.sync(gh)
+        self.assertEqual(self.count("comments"), 2)
+        self.assertEqual(extract.comment_mismatches(self.store()), ([], []))
+
+    def test_deleted_comment_is_dropped(self):
+        gh = populated()
+        self.sync(gh)
+        gh.issue_comments.clear()
+        gh.issues[1]["comments"] = 0
+        gh.touch(1, "2025-07-01T00:00:00Z")
+        self.sync(gh)
+        self.assertEqual(self.count("comments"), 0)
+        self.assertFalse((self.issue_dir() / "1/comments.json").exists())
 
     def test_keyset_paging_never_pages_deep(self):
         gh = FakeGitHub(page_limit=1)  # GitHub refuses page 2 and beyond
         for i in range(1, 10):
             gh.add_issue(i, f"2025-01-{i:02d}T00:00:00Z")
-        extract.sync_ascending(client(gh), self.db, REPO, "items", **QUIET)
-        self.assertEqual(self.count("items"), 9)
+        extract.sync_ascending(client(gh), self.store(), "items", **QUIET)
+        self.assertEqual(self.count("issues"), 9)
 
     def test_update_during_listing_skips_nothing(self):
         gh = FakeGitHub()
@@ -120,10 +151,9 @@ class ExtractTest(TempDirs):
             if n == 2:  # after the first page: an item we've read is updated
                 gh.touch(1, "2025-06-01T00:00:00Z")
         gh.before_request = update_read_item
-        extract.sync_ascending(client(gh), self.db, REPO, "items", **QUIET)
-        self.assertEqual(self.count("items"), 9)
-        self.assertEqual(self.db.execute("SELECT updated_at FROM items WHERE number=1").fetchone()[0],
-                         "2025-06-01T00:00:00Z")
+        extract.sync_ascending(client(gh), self.store(), "items", **QUIET)
+        self.assertEqual(self.count("issues"), 9)
+        self.assertEqual(self.store().get("issues", 1)["updated_at"], "2025-06-01T00:00:00Z")
 
     def test_events_floor_falls_back_to_per_item(self):
         gh = FakeGitHub(page=2, page_limit=1)
@@ -131,101 +161,60 @@ class ExtractTest(TempDirs):
             gh.add_issue(i, f"2025-01-{i:02d}T00:00:00Z")
             gh.add_event(i, f"2025-01-{i:02d}T01:00:00Z", "labeled", "ed")
         c = client(gh)
-        extract.sync_events(c, self.db, REPO, **QUIET)
+        extract.sync_events(c, self.store(), **QUIET)
         self.assertEqual(self.count("events"), 2)  # one page only
-        extract.sync_ascending(c, self.db, REPO, "items", **QUIET)
-        extract.fetch_item_events(c, self.db, REPO, **QUIET)
+        extract.sync_ascending(c, self.store(), "items", **QUIET)
+        extract.fetch_item_events(c, self.store(), **QUIET)
         self.assertEqual(self.count("events"), 4)
 
     def test_reconcile_accounts_for_every_number(self):
         gh = populated()
-        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
+        self.sync(gh)
         del gh.issues[1]           # deleted on GitHub
         gh.add_issue(6, "2020-01-01T00:00:00Z")  # one we somehow never saw
         gh.transferred.add(5)      # 4 and 5 never existed here: 4 deleted, 5 moved away
-        r = extract.reconcile(client(gh), self.db, REPO, **QUIET)
+        r = extract.reconcile(client(gh), self.store(), **QUIET)
         self.assertEqual(r["highest"], 6)
         self.assertEqual(r["newly_gone"], [1, 4, 5])
-        gone = dict(self.db.execute("SELECT number, reason FROM gone").fetchall())
+        gone = {n: g["reason"] for n, g in self.store().gone().items()}
         self.assertEqual(gone, {1: "deleted", 4: "deleted", 5: "transferred"})
         self.assertEqual(r["stored"] + r["gone"], r["highest"])
-        self.assertEqual(sorted(p.name for p in (self.files / REPO / "issues").iterdir()),
-                         ["2.json", "3.json", "6.json"])
-        # The deleted item's last version is kept in history.
-        self.assertEqual(self.db.execute("SELECT removed FROM history WHERE tbl='items'").fetchone(), (1,))
+        # Everything stored for the deleted item is removed (git keeps it).
+        self.assertEqual(sorted(p.name for p in self.issue_dir().iterdir()),
+                         ["2", "2.json", "3.json", "6.json"])
         # The next reconcile doesn't recheck known gone numbers.
         c = client(gh)
-        extract.reconcile(c, self.db, REPO, **QUIET)
+        extract.reconcile(c, self.store(), **QUIET)
         self.assertFalse([u for _, u in gh.calls[-c.requests:] if re.search(r"/issues/\d+$", u)])
 
-    def test_history_keeps_previous_versions(self):
+    def test_edits_replace_the_stored_version(self):
         gh = populated()
-        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
+        self.sync(gh)
         comment = gh.issue_comments[0]
         comment["body"], comment["updated_at"] = "edited", "2025-08-01T00:00:00Z"
-        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
-        old = self.db.execute("SELECT json FROM history WHERE tbl='issue_comments'").fetchall()
-        self.assertEqual([json.loads(j)["body"] for (j,) in old], ["hi"])
-        # Re-reading the overlap doesn't add history for unchanged objects.
-        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
-        self.assertEqual(self.count("history"), 1)
+        self.sync(gh)
+        stored = self.store().get("issues", 1, "comments")
+        self.assertEqual([c["body"] for c in stored], ["edited"])
 
     def test_turning_on_a_pr_resource_later(self):
         gh = populated()
-        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
+        self.sync(gh)
         c = client(gh)
-        n = extract.sync_pr_resources(c, self.db, REPO, resources=["pull", "reviews", "commits"], **QUIET)
+        n = extract.sync_pr_resources(c, self.store(), resources=["pull", "reviews", "commits"], **QUIET)
         self.assertEqual(n, 2)  # commits for both PRs, nothing else refetched
         self.assertTrue(all("/commits" in u for _, u in gh.calls[-c.requests:]))
-
-    def test_items_are_written_as_files(self):
-        gh = populated()
-        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
-        d = self.files / REPO / "issues"
-        self.assertEqual(sorted(p.name for p in d.iterdir()), ["1.json", "2.json", "3.json"])
-        text = (d / "2.json").read_text(encoding="utf-8")
-        self.assertTrue(text.startswith('{\n  "number": 2,\n'))
-        self.assertTrue(text.endswith("}\n") and not text.endswith("\n\n"))
-        self.assertEqual(json.loads(text), gh.issues[2])
-        # An update rewrites the file.
-        gh.touch(2, "2025-09-01T00:00:00Z")
-        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
-        self.assertEqual(json.loads((d / "2.json").read_text())["updated_at"], "2025-09-01T00:00:00Z")
-
-    def test_resume_from_files_alone(self):
-        gh = populated()
-        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
-        # raw.sqlite is lost; the committed files are all that's left.
-        db = extract.connect(Path(self.tmp.name) / "fresh.sqlite")
-        self.addCleanup(db.close)
-        self.assertEqual(extract.sync_item_files(db, REPO, **QUIET), (3, 0))
-        self.assertEqual(db.execute("SELECT COUNT(*) FROM items").fetchone()[0], 3)
-        # The items listing resumes from the files' newest updated_at, not from scratch.
-        c = client(gh)
-        extract.sync_ascending(c, db, REPO, "items", **QUIET)
-        self.assertIn("since=", gh.calls[-1][1])
-
-    def test_files_and_table_newest_wins(self):
-        gh = populated()
-        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
-        d = self.files / REPO / "issues"
-        (d / "1.json").unlink()
-        newer = dict(gh.issues[3], updated_at="2025-12-01T00:00:00Z")
-        (d / "3.json").write_text(extract.pretty(newer), encoding="utf-8")
-        self.assertEqual(extract.sync_item_files(self.db, REPO, **QUIET), (1, 1))
-        self.assertTrue((d / "1.json").exists())
-        self.assertEqual(self.db.execute("SELECT updated_at FROM items WHERE number=3").fetchone()[0],
-                         "2025-12-01T00:00:00Z")
 
     def test_users(self):
         gh = populated()
         gh.add_comment(1, "2025-04-01T00:00:00Z", "dependabot[bot]", typ="Bot")
         gh.profiles = {"ed": "Apple"}
-        extract.sync_repo(client(gh), self.db, REPO, **QUIET)
-        logins = extract.users_to_fetch(self.db)
+        self.sync(gh)
+        logins = extract.users_to_fetch()
         self.assertEqual(logins, ["alice", "ann", "ed"])
-        extract.extract_users(client(gh), self.db, logins, **QUIET)
-        self.assertEqual(extract.users_to_fetch(self.db), [])
+        extract.extract_users(client(gh), logins, **QUIET)
+        self.assertEqual(extract.users_to_fetch(), [])
+        self.assertEqual(extract.load_profiles()["ed"]["company"], "Apple")
+        self.assertEqual(extract.stored_repos(), [REPO])
 
 
 class ClientTest(unittest.TestCase):
@@ -277,10 +266,9 @@ class DeriveSummarizeTest(TempDirs):
             gh.add_comment(4, "2025-03-05T00:00:00Z", "ed")   # during the draft: not a response
             gh.add_comment(4, "2025-03-22T00:00:00Z", "ed")
             gh.profiles = {"ed": "Apple", "alice": "@google"}
-            db = extract.connect(tmp / "raw.sqlite")
-            extract.sync_repo(client(gh), db, REPO, **QUIET)
-            extract.extract_users(client(gh), db, extract.users_to_fetch(db), **QUIET)
-            derive.derive(tmp / "raw.sqlite", tmp / "derived.sqlite")
+            extract.sync_repo(client(gh), extract.RepoStore(REPO), **QUIET)
+            extract.extract_users(client(gh), extract.users_to_fetch(), **QUIET)
+            derive.derive(out_path=tmp / "derived.sqlite")
 
             d = __import__("sqlite3").connect(tmp / "derived.sqlite")
             merges = d.execute("SELECT number, detail FROM actions WHERE action='merge' ORDER BY number").fetchall()

@@ -1,13 +1,9 @@
 # Fetch GitHub data for the repos in config/repos.txt, on demand.
 #
-# The raw cache (data/private/raw.sqlite) is kept between runs as a
-# workflow artifact: each run downloads the newest one, fetches what
-# changed since (the whole history on the first run), and uploads the
-# result, even if the run failed or timed out, so the next run resumes.
-# Download it from the run's page to query it with sqlite3.
-#
-# Issues and PRs are also committed to this repo, one file each, in
-# data/github/{owner}/{repo}/issues/{number}.json, after every run.
+# Everything fetched is committed to this repo, in data/github/
+# (docs/extraction.md), at the end of every run, even one that failed or
+# timed out, so the next run resumes from there. The first run fetches
+# each repo's whole history; later runs only what changed.
 #
 # Token: the SPECSTATS_TOKEN secret if set (a fine-grained personal token
 # with no extra permissions: 5,000 requests an hour), otherwise the
@@ -26,12 +22,11 @@ on:
         default: extract
 
 concurrency:
-  group: raw-data  # one run at a time: each builds on the previous one's cache
+  group: github-data  # one run at a time: each builds on the previous one's commit
   cancel-in-progress: false
 
 permissions:
   contents: write  # to commit data/github/
-  actions: read  # to download the previous run's artifact
 
 jobs:
   fetch:
@@ -47,34 +42,20 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Download the previous raw cache
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          mkdir -p data/private
-          run_id=$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts?name=raw-data&per_page=100" \
-            --jq '[.artifacts[] | select(.expired | not)] | sort_by(.created_at) | last | .workflow_run.id // empty')
-          if [ -n "$run_id" ]; then
-            echo "Resuming from run $run_id"
-            gh run download "$run_id" --name raw-data --dir data/private
-          else
-            echo "No previous raw cache: starting from nothing"
-          fi
-
       - name: Fetch
         run: |
           python3 -m specstats extract --go
           if [ "${{ inputs.command }}" = reconcile ]; then python3 -m specstats reconcile --go; fi
           python3 -m specstats users --go
 
-      - name: Commit issue and PR files
+      - name: Commit the fetched data
         if: always()
         run: |
           git add data/github
           if git diff --cached --quiet; then echo "No changes"; exit 0; fi
           git -c user.name="github-actions[bot]" \
               -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
-              commit -q -m "Update GitHub issue and PR data"
+              commit -q -m "Update GitHub data"
           git pull -q --rebase
           git push -q
 
@@ -86,18 +67,7 @@ jobs:
       - name: Report
         if: always()
         run: |
-          if [ -f data/private/raw.sqlite ]; then python3 -m specstats stats >> "$GITHUB_STEP_SUMMARY"; fi
-
-      - name: Upload the raw cache
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: raw-data
-          path: |
-            data/private/raw.sqlite
-            data/private/derived.sqlite
-          if-no-files-found: ignore
-          retention-days: 90
+          python3 -m specstats stats >> "$GITHUB_STEP_SUMMARY"
 
       # Summaries aren't committed until per-person publishing is decided
       # (docs/plan.md, ground rule 3); they're kept with the run instead.

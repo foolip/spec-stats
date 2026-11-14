@@ -71,7 +71,7 @@ diffs.
   chat, in meetings, and through the edits they push to their own PRs. Only
   GitHub reviews, merges and comments are counted.
 - **A review isn't weighted by effort.** A one-word approval and a long
-  review both count as one. The bodies are in the raw cache, for measures
+  review both count as one. The bodies are in `data/github/`, for measures
   like unquoted words later.
 - **`company` is free text and often empty.** How big `Unknown` gets is a
   key thing to check after the first fetch. `affiliations.json` is the fix,

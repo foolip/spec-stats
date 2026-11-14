@@ -1,4 +1,4 @@
-"""Build data/private/derived.sqlite from the raw cache (offline).
+"""Build data/private/derived.sqlite from the files in data/github/ (offline).
 
 One row per action, each attributed to an account and an organization at
 the time it happened (docs/maintenance-load.md):
@@ -11,8 +11,8 @@ the time it happened (docs/maintenance-load.md):
 - issue:           opening an issue
 
 Bots, self-actions and generated boilerplate comments are left out;
-deleted accounts are kept as "ghost". Everything comes from REST objects
-in the raw cache (specstats/extract.py).
+deleted accounts are kept as "ghost". Everything comes from the REST
+objects stored by specstats/extract.py.
 """
 
 import json
@@ -68,22 +68,23 @@ def is_boilerplate(body):
     return any(b in (body or "") for b in BOILERPLATE)
 
 
-def derive(raw_path=None, out_path=None, attr=None):
-    raw = extract.connect(raw_path)
+def derive(root=None, out_path=None, attr=None):
     if attr is None:
-        profiles = {login: json.loads(js) for login, js in raw.execute("SELECT login, json FROM users")}
-        attr = Attributor(profiles)
+        attr = Attributor(extract.load_profiles(root))
     out = sqlite3.connect(out_path or paths.derived_db())
     out.executescript(SCHEMA)
 
+    stores = {repo: extract.RepoStore(repo, root) for repo in extract.stored_repos(root)}
     items = {}
-    for repo, number, is_pr, js in raw.execute("SELECT repo, number, is_pr, json FROM items"):
-        items[(repo, number)] = (bool(is_pr), json.loads(js))
     ready = {}
-    for repo, number, created in raw.execute(
-            "SELECT repo, number, MIN(created_at) FROM events "
-            "WHERE json_extract(json, '$.event') = 'ready_for_review' GROUP BY repo, number"):
-        ready[(repo, number)] = created
+    for repo, store in stores.items():
+        for p in store.dir.glob("issues/*.json"):
+            obj = extract.read_json(p)
+            items[(repo, obj["number"])] = ("pull_request" in obj, obj)
+        for number, events in store.lists("issues", "events"):
+            times = [e["created_at"] for e in events if e.get("event") == "ready_for_review"]
+            if times:
+                ready[(repo, number)] = min(times)
 
     actions = []
     responses = defaultdict(list)  # (repo, number) -> [(at, login)]
@@ -104,35 +105,39 @@ def derive(raw_path=None, out_path=None, attr=None):
         elif (obj.get("pull_request") or {}).get("merged_at"):
             act(repo, number, "pr", author, obj["pull_request"]["merged_at"])
 
-    for repo, number, js in raw.execute("SELECT repo, number, json FROM pulls"):
-        pr = json.loads(js)
-        if (repo, number) not in items or not pr.get("merged_at"):
-            continue
-        merger, typ = rest_login(pr.get("merged_by"))
-        if not attr.is_bot(merger, typ):
-            act(repo, number, "merge", merger, pr["merged_at"], "self" if merger == authors[(repo, number)] else "other")
+    for repo, store in stores.items():
+        for p in store.dir.glob("pulls/*.json"):
+            pr = extract.read_json(p)
+            number = pr["number"]
+            if (repo, number) not in items or not pr.get("merged_at"):
+                continue
+            merger, typ = rest_login(pr.get("merged_by"))
+            if not attr.is_bot(merger, typ):
+                act(repo, number, "merge", merger, pr["merged_at"],
+                    "self" if merger == authors[(repo, number)] else "other")
 
-    for repo, number, js in raw.execute("SELECT repo, number, json FROM pr_reviews"):
-        if (repo, number) not in items:
-            continue
-        review = json.loads(js)
-        login, typ = rest_login(review.get("user"))
-        at = review.get("submitted_at")
-        if not at or review.get("state") == "PENDING" or login == authors[(repo, number)] or attr.is_bot(login, typ):
-            continue
-        act(repo, number, "review", login, at, review.get("state"))
-        responses[(repo, number)].append((at, login))
-
-    for table, action in (("issue_comments", "comment"), ("review_comments", "review_comment")):
-        for repo, number, js in raw.execute(f"SELECT repo, number, json FROM {table}"):
+        for number, reviews in store.lists("pulls", "reviews"):
             if (repo, number) not in items:
                 continue
-            c = json.loads(js)
-            login, typ = rest_login(c.get("user"))
-            if login == authors[(repo, number)] or attr.is_bot(login, typ) or is_boilerplate(c.get("body")):
-                continue
-            act(repo, number, action, login, c["created_at"])
-            responses[(repo, number)].append((c["created_at"], login))
+            for review in reviews:
+                login, typ = rest_login(review.get("user"))
+                at = review.get("submitted_at")
+                if (not at or review.get("state") == "PENDING" or login == authors[(repo, number)]
+                        or attr.is_bot(login, typ)):
+                    continue
+                act(repo, number, "review", login, at, review.get("state"))
+                responses[(repo, number)].append((at, login))
+
+        for kind, action in (("issues", "comment"), ("pulls", "review_comment")):
+            for number, comments in store.lists(kind, "comments"):
+                if (repo, number) not in items:
+                    continue
+                for c in comments:
+                    login, typ = rest_login(c.get("user"))
+                    if login == authors[(repo, number)] or attr.is_bot(login, typ) or is_boilerplate(c.get("body")):
+                        continue
+                    act(repo, number, action, login, c["created_at"])
+                    responses[(repo, number)].append((c["created_at"], login))
 
     out.executemany("INSERT INTO actions VALUES (?,?,?,?,?,?,?,?,?)", actions)
 
