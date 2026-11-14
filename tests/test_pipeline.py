@@ -233,16 +233,9 @@ class ExtractTest(TempDirs):
         self.assertEqual(extract.stale_prs(self.store(), "reviews"), [])
         self.assertFalse(list(self.files.rglob("*.tmp")))
 
-    def test_users(self):
-        gh = populated()
-        gh.add_comment(1, "2025-04-01T00:00:00Z", "dependabot[bot]", typ="Bot")
-        gh.profiles = {"ed": "Apple"}
-        self.sync(gh)
-        logins = extract.users_to_fetch()
-        self.assertEqual(logins, ["alice", "ann", "ed"])
-        extract.extract_users(client(gh), logins, **QUIET)
-        self.assertEqual(extract.users_to_fetch(), [])
-        self.assertEqual(extract.load_profiles()["ed"]["company"], "Apple")
+    def test_stored_repos(self):
+        self.assertEqual(extract.stored_repos(), [])
+        self.sync(populated())
         self.assertEqual(extract.stored_repos(), [REPO])
 
 

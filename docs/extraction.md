@@ -24,7 +24,6 @@ data/github/
     pulls/1234/files.json       (optional)
     state.json                  cursors and ETags, which PR resources were fetched for
                                 which updated_at, and numbers that are gone
-  users/foolip.json             GET /users/foolip
 ```
 
 Lists that would be empty have no file. Issues and PRs share one
@@ -55,7 +54,6 @@ transferred item has all its files removed. Every earlier version is in
 | reviews | per PR: every review, with state and body | `GET /repos/{repo}/pulls/{n}/reviews` | same |
 | commits | per PR, optional: commits, with author emails (at most 250 per PR) | `GET /repos/{repo}/pulls/{n}/commits` | same |
 | files | per PR, optional: changed files with line counts (at most 3,000 per PR) | `GET /repos/{repo}/pulls/{n}/files` | same |
-| users | public profiles: name, company, location | `GET /users/{login}` | logins not yet fetched |
 
 REST has no repo-wide listing of reviews, commits or files, so those cost
 requests per PR. Which per-PR resources are fetched is set in
@@ -94,8 +92,8 @@ Ordering by update rather than by creation is what makes this work:
   the first run is every PR.
 
 Order per repo: the three ascending listings, then events, then per-PR
-resources, then the count checks; then profiles for everyone seen. A
-`reconcile` afterwards confirms that every issue number is accounted for.
+resources, then the count checks. With `--reconcile`, each repo is then
+checked so that every issue number is accounted for.
 
 ## A run (`extract`)
 
@@ -153,7 +151,7 @@ the deadline must allow more than that for a run to finish.
 The workflow stops each run 300 minutes in, inside the job's 350-minute
 limit, then commits. A backfill bigger than that takes several runs.
 
-## The weekly reconcile (`reconcile`)
+## The weekly reconcile (`extract --reconcile`)
 
 Issue and PR numbers are one sequence per repo, so completeness can be
 checked exactly:

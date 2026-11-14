@@ -24,7 +24,6 @@ class FakeGitHub:
         self.pulls = {}               # number -> REST pull request object
         self.reviews = {}             # number -> [REST review objects]
         self.transferred = set()      # issue numbers moved to another repo
-        self.profiles = {}
         self.calls = []
         self.before_request = None    # called with the request count, to change state mid-run
         self._id = 1000
@@ -92,12 +91,6 @@ class FakeGitHub:
             self.before_request(len(self.calls))
         parsed = urllib.parse.urlparse(url)
         q = dict(urllib.parse.parse_qsl(parsed.query))
-        m = re.fullmatch(r"/users/([^/]+)", parsed.path)
-        if m:
-            login = m.group(1)
-            return 200, {}, json.dumps({"login": login, "node_id": "U_" + login, "type": "User",
-                                        "company": self.profiles.get(login),
-                                        "updated_at": "2025-01-01T00:00:00Z"}).encode()
         path = parsed.path[len(f"/repos/{REPO}"):]
         if path == "/issues":
             rows = sorted(self.issues.values(), key=lambda o: o["updated_at"])

@@ -17,7 +17,7 @@ dashboards are in [`docs/plan.md`](docs/plan.md).
 
 | Source | What it gives | Status |
 |---|---|---|
-| GitHub REST API, the repos in `config/repos.txt` | Every issue and PR with their comments, inline review comments, timeline events and reviews (commits and changed files optional); public profiles | Approved 2026-11-13; extractor written, not run yet. Stored in `data/github/` |
+| GitHub REST API, the repos in `config/repos.txt` | Every issue and PR with their comments, inline review comments, timeline events and reviews (commits and changed files optional); public profiles (approved, not fetched for now) | Approved 2026-11-13; extractor written, not run yet. Stored in `data/github/` |
 | git history of the spec repos | Diffs of spec text (how much prose is written) | Deferred: API data first (2026-11-13) |
 | Browser bug trackers (crbug, Bugzilla, WebKit) | Status of implementation bugs linked from PRs | Not approved |
 | wpt.fyi | Test results for tests linked from PRs | Not approved |
@@ -42,8 +42,7 @@ python3 -m specstats extract                      # dry run: prints the plan; --
 python3 -m specstats extract --repo whatwg/dom --go
 python3 -m specstats extract --go                 # all repos; incremental after the first run
 python3 -m specstats extract --go --max-minutes 60 # stop cleanly after an hour; the next run continues
-python3 -m specstats reconcile --go               # weekly: check every issue/PR number against GitHub
-python3 -m specstats users --go                   # public profiles of everyone seen
+python3 -m specstats extract --go --reconcile     # weekly: also check every issue/PR number against GitHub
 python3 -m specstats stats                        # what's stored (offline)
 python3 -m unittest discover tests
 ```

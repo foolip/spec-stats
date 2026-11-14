@@ -16,11 +16,10 @@ name: Fetch GitHub data
 on:
   workflow_dispatch:
     inputs:
-      command:
-        description: "extract: fetch what changed. reconcile: also check every issue number (weekly)."
-        type: choice
-        options: [extract, reconcile]
-        default: extract
+      reconcile:
+        description: "Also check every issue and PR number against GitHub (weekly)"
+        type: boolean
+        default: false
 
 concurrency:
   group: github-data  # one run at a time: each builds on the previous one's commit
@@ -43,18 +42,12 @@ jobs:
         with:
           python-version: "3.13"
 
-      # The fetch stops itself 300 minutes in (no request or rate-limit pause
-      # starts after that), leaving time to commit. The step timeout is a
-      # backstop; a timed-out step still lets the commit step run.
+      # The fetch stops itself after 300 minutes (no request or rate-limit
+      # pause starts after that), leaving time to commit. The step timeout is
+      # a backstop; a timed-out step still lets the commit step run.
       - name: Fetch
         timeout-minutes: 320
-        run: |
-          # One 300-minute budget, shared by the commands in turn.
-          end=$(( $(date +%s) + 300 * 60 ))
-          left() { echo $(( (end - $(date +%s)) / 60 )); }
-          python3 -m specstats extract --go --max-minutes "$(left)"
-          if [ "${{ inputs.command }}" = reconcile ]; then python3 -m specstats reconcile --go --max-minutes "$(left)"; fi
-          python3 -m specstats users --go --max-minutes "$(left)"
+        run: python3 -m specstats extract --go --max-minutes 300 ${{ inputs.reconcile && '--reconcile' || '' }}
 
       - name: Commit the fetched data
         if: always()
