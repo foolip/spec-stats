@@ -1,12 +1,17 @@
 """spec-stats command line.
 
-  python3 -m specstats extract [--repo whatwg/dom] [--go]     incremental fetch of everything
-  python3 -m specstats reconcile [--repo whatwg/dom] [--go]   weekly: compare every number with GitHub
-  python3 -m specstats users [--go]                           public profiles of everyone seen
-  python3 -m specstats stats                                  offline: what's stored
+  python3 -m specstats extract [--repo whatwg/dom] [--reconcile] [--max-minutes N] [--dry-run]
+  python3 -m specstats stats      offline: what's stored
 
-Commands that fetch print a plan and do nothing unless given --go
-(docs/plan.md, ground rule 1). Fetched data goes in data/github/.
+extract fetches everything that changed since the last run into
+data/github/. With --reconcile (weekly), it then checks every issue and PR
+number of each repo against GitHub, and exits with an error if the numbers
+don't add up.
+
+With --dry-run it only prints the plan and fetches nothing. With
+--max-minutes N, no request starts, and no rate-limit pause runs, after N
+minutes; the run saves its state and exits normally, and the next run
+continues from there.
 """
 
 import argparse
@@ -18,53 +23,47 @@ from . import extract, github, paths
 def main(argv=None):
     ap = argparse.ArgumentParser(prog="specstats")
     sub = ap.add_subparsers(dest="cmd", required=True)
-    for name, help in (("extract", "fetch everything changed since the last run"),
-                       ("reconcile", "compare every issue and PR number with GitHub")):
-        p = sub.add_parser(name, help=help)
-        p.add_argument("--repo", action="append", help="owner/name; default: config/repos.txt")
-        p.add_argument("--go", action="store_true", help="actually fetch")
-    us = sub.add_parser("users", help="fetch public profiles of everyone seen")
-    us.add_argument("--go", action="store_true")
+    p = sub.add_parser("extract", help="fetch everything changed since the last run")
+    p.add_argument("--repo", action="append", help="owner/name; default: config/repos.txt")
+    p.add_argument("--reconcile", action="store_true", help="also check every issue and PR number (weekly)")
+    p.add_argument("--max-minutes", type=float, help="stop starting requests after this many minutes")
+    p.add_argument("--dry-run", action="store_true", help="print the plan, fetch nothing")
     sub.add_parser("stats", help="print what data/github/ holds, as Markdown (offline)")
     args = ap.parse_args(argv)
 
-    if args.cmd in ("extract", "reconcile"):
-        repos = args.repo or paths.repos()
-        print(f"Plan: {args.cmd} {len(repos)} repos, serial, >= {github.MIN_INTERVAL}s between requests."
-              + (f" Per-PR resources: {', '.join(extract.load_pr_resources())}." if args.cmd == "extract" else ""))
-        for repo in repos:
-            cursors = extract.RepoStore(repo).state.get("cursors", {})
-            print(f"  {repo}: " + (", ".join(f"{s} to {c.get('cursor')}" for s, c in cursors.items())
-                                   if cursors else "nothing yet"))
-        if not args.go:
-            print("Dry run; pass --go to fetch.")
-            return 0
-        client = github.Client()
-        failed = []
-        for repo in repos:
-            store = extract.RepoStore(repo)
-            if args.cmd == "extract":
-                extract.sync_repo(client, store)
-            else:
+    if args.cmd == "stats":
+        print(stats())
+        return 0
+
+    repos = args.repo or paths.repos()
+    print(f"Plan: extract {len(repos)} repos{', then reconcile each' if args.reconcile else ''}, serial, "
+          f">= {github.MIN_INTERVAL}s between requests. Per-PR resources: {', '.join(extract.load_pr_resources())}.")
+    for repo in repos:
+        cursors = extract.RepoStore(repo).state.get("cursors", {})
+        print(f"  {repo}: " + (", ".join(f"{s} to {c.get('cursor')}" for s, c in cursors.items())
+                               if cursors else "nothing yet"))
+    if args.dry_run:
+        print("Dry run: nothing fetched.")
+        return 0
+    client = github.Client(seconds_left=args.max_minutes * 60 if args.max_minutes is not None else None)
+    failed = []
+    for repo in repos:
+        store = extract.RepoStore(repo)
+        try:
+            extract.sync_repo(client, store)
+            if args.reconcile:
                 r = extract.reconcile(client, store)
                 # Every number from 1 to the highest must be stored or gone.
                 if r["stored"] + r["gone"] != r["highest"]:
                     failed.append(r)
-        print(f"Done: {client.requests} requests, {client.not_modified} of them unchanged (304).")
-        for r in failed:
-            print(f"COUNT MISMATCH {r['repo']}: numbers 1..{r['highest']}, but {r['stored']} stored "
-                  f"and {r['gone']} gone")
-        return 1 if failed else 0
-    if args.cmd == "users":
-        logins = extract.users_to_fetch()
-        print(f"Plan: fetch {len(logins)} profiles, one request each.")
-        if not args.go:
-            print("Dry run; pass --go to fetch.")
-            return 0
-        extract.extract_users(github.Client(), logins)
-    elif args.cmd == "stats":
-        print(stats())
-    return 0
+        except github.DeadlineReached:
+            print(f"Stopped at the deadline during {repo}; the next run continues from here.")
+            break
+    print(f"Done: {client.requests} requests, {client.not_modified} of them unchanged (304).")
+    for r in failed:
+        print(f"COUNT MISMATCH {r['repo']}: numbers 1..{r['highest']}, but {r['stored']} stored "
+              f"and {r['gone']} gone")
+    return 1 if failed else 0
 
 
 def stats(root=None):
@@ -78,8 +77,7 @@ def stats(root=None):
     lines = ["| repo | " + " | ".join(cols) + " |", "|---" * (len(cols) + 1) + "|"]
     for repo, c in zip(repos, counts):
         lines.append(f"| {repo} | " + " | ".join(f"{c[k]:,}" for k in cols) + " |")
-    users = len(list(extract.users_dir(root).glob("*.json")))
-    lines += ["", f"Profiles: {users:,}", "", "| repo | stream | cursor |", "|---|---|---|"]
+    lines += ["", "| repo | stream | cursor |", "|---|---|---|"]
     for store in stores:
         for stream, c in store.state.get("cursors", {}).items():
             lines.append(f"| {store.repo} | {stream} | {c.get('cursor')} |")

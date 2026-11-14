@@ -14,7 +14,6 @@ JSON files committed to this repo, laid out like the API paths
     pulls/{n}/commits.json     (optional)
     pulls/{n}/files.json       (optional)
     state.json                 cursors, ETags, what was fetched when, gone numbers
-  data/github/users/{login}.json   public profiles
 
 Git keeps every earlier version, so nothing here keeps history itself.
 
@@ -46,7 +45,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from . import paths
-from .github import GitHubError, NotFound, PaginationLimit
+from .github import DeadlineReached, GitHubError, NotFound, PaginationLimit
 
 OVERLAP = timedelta(days=1)
 PER_PAGE = 100
@@ -225,7 +224,7 @@ def stored_repos(root=None):
     root = Path(root or paths.github_dir())
     if not root.is_dir():
         return []
-    return sorted(f"{o.name}/{r.name}" for o in root.iterdir() if o.is_dir() and o.name != "users"
+    return sorted(f"{o.name}/{r.name}" for o in root.iterdir() if o.is_dir()
                   for r in o.iterdir() if r.is_dir())
 
 
@@ -346,7 +345,8 @@ def sync_events(client, store, log=print):
 
     If GitHub won't page back to the start of history (first run), the
     oldest event reached is recorded as `floor`, and fetch_item_events()
-    covers older items one at a time.
+    covers older items one at a time. A first run stopped by the deadline
+    does the same, as a newest-first listing can't be resumed midway.
     """
     repo = store.repo
     c = store.cursor("events")
@@ -383,6 +383,11 @@ def sync_events(client, store, log=print):
         except PaginationLimit:
             log(f"{repo} events: pagination limit at {oldest}; older items fall back to per-item events")
             break
+        except DeadlineReached:
+            if cursor is None and oldest:
+                store.set_cursor("events", cursor=newest, etag=first_etag, floor=oldest)
+                log(f"{repo} events: stopped at {oldest}; older items fall back to per-item events")
+            raise
     if cursor is None:
         floor = "" if reached_end else oldest
     store.set_cursor("events", cursor=newest, etag=first_etag, floor=floor)
@@ -518,60 +523,14 @@ def reconcile(client, store, log=print):
 # --- whole repo ----------------------------------------------------------------
 
 def sync_repo(client, store, log=print):
-    for stream in ASCENDING:
-        sync_ascending(client, store, stream, log=log)
-    sync_events(client, store, log=log)
-    fetch_item_events(client, store, log=log)
-    sync_pr_resources(client, store, log=log)
-    check_counts(client, store, log=log)
-
-
-# --- users -----------------------------------------------------------------------
-
-def users_dir(root=None):
-    return Path(root or paths.github_dir()) / "users"
-
-
-def seen_logins(root=None):
-    """Logins of every human account that appears anywhere in the stored data."""
-    logins = set()
-
-    def add(user):
-        if user and user.get("type") == "User" and user.get("login"):
-            logins.add(user["login"])
-
-    for repo in stored_repos(root):
-        store = RepoStore(repo, root)
-        for p in store.dir.glob("issues/*.json"):
-            obj = read_json(p)
-            add(obj.get("user"))
-            add(obj.get("closed_by"))
-        for p in store.dir.glob("pulls/*.json"):
-            add(read_json(p).get("merged_by"))
-        for kind, what, field in (("issues", "comments", "user"), ("issues", "events", "actor"),
-                                  ("pulls", "reviews", "user"), ("pulls", "comments", "user")):
-            for _, objs in store.lists(kind, what):
-                for o in objs:
-                    add(o.get(field))
-    return logins
-
-
-def users_to_fetch(root=None):
-    have = {p.stem for p in users_dir(root).glob("*.json")}
-    return sorted(seen_logins(root) - have)
-
-
-def load_profiles(root=None):
-    return {p.stem: read_json(p) for p in users_dir(root).glob("*.json")}
-
-
-def extract_users(client, logins, root=None, log=print):
-    """Fetch the public profiles (name, company, …) of `logins`."""
-    for i, login in enumerate(logins, 1):
-        try:
-            obj = client.rest(f"/users/{login}").data
-        except NotFound:
-            obj = {"login": login, "missing": True}
-        write_json(users_dir(root) / f"{login}.json", obj)
-        if i % 100 == 0 or i == len(logins):
-            log(f"users: {i}/{len(logins)}")
+    """Everything for one repo. If the client's deadline stops it midway,
+    what's fetched so far is saved and the next run continues."""
+    try:
+        for stream in ASCENDING:
+            sync_ascending(client, store, stream, log=log)
+        sync_events(client, store, log=log)
+        fetch_item_events(client, store, log=log)
+        sync_pr_resources(client, store, log=log)
+        check_counts(client, store, log=log)
+    finally:
+        store.save_state()

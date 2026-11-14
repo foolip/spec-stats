@@ -41,6 +41,11 @@ class PaginationLimit(GitHubError):
     """GitHub refused to page this deep (HTTP 422)."""
 
 
+class DeadlineReached(Exception):
+    """The run's deadline came before the next request (or before the end of
+    a pause). Raised only between requests, so nothing fetched is lost."""
+
+
 def load_token():
     token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
     if token:
@@ -100,7 +105,7 @@ class Client:
     returning (status, headers, raw bytes) is replaceable in tests."""
 
     def __init__(self, token=None, transport=None, sleep=time.sleep, clock=time.monotonic,
-                 min_interval=MIN_INTERVAL, log=print):
+                 min_interval=MIN_INTERVAL, log=print, seconds_left=None):
         self.token = token if token is not None else load_token()
         self.transport = transport or _http
         self.sleep = sleep
@@ -110,12 +115,23 @@ class Client:
         self._last = None
         self.requests = 0
         self.not_modified = 0
+        # In clock() time: no request starts, and no pause runs, past this.
+        self.deadline = clock() + seconds_left if seconds_left is not None else None
+        self._resume_at = None  # end of a rate-limit pause, taken before the next request
+
+    def _wait(self, seconds):
+        if self.deadline is not None and self.clock() + seconds > self.deadline:
+            raise DeadlineReached(f"deadline reached ({self.requests} requests made)")
+        if seconds > 0:
+            self.sleep(seconds)
 
     def _throttle(self):
-        if self._last is not None:
-            wait = self.min_interval - (self.clock() - self._last)
+        if self._resume_at is not None:
+            wait, self._resume_at = self._resume_at - self.clock(), None
             if wait > 0:
-                self.sleep(wait)
+                self._wait(wait)
+        wait = self.min_interval - (self.clock() - self._last) if self._last is not None else 0
+        self._wait(max(wait, 0))  # also checks the deadline before every request
         self._last = self.clock()
 
     def _send(self, method, url, body=None, extra_headers=None):
@@ -136,7 +152,7 @@ class Client:
                 status, resp_headers, raw = self.transport(method, url, body, headers)
             except (urllib.error.URLError, TimeoutError, ConnectionError) as e:
                 self.log(f"network error ({e}); retrying in {delay}s")
-                self.sleep(delay)
+                self._wait(delay)
                 delay *= 2
                 continue
             lower = _lower(resp_headers)
@@ -145,7 +161,7 @@ class Client:
             if status == 429 or secondary or status in (502, 503, 504):
                 wait = self._backoff(lower, delay)
                 self.log(f"HTTP {status}; backing off {wait:.0f}s")
-                self.sleep(wait)
+                self._wait(wait)
                 delay *= 2
                 continue
             self._respect_budget(lower)
@@ -185,5 +201,7 @@ class Client:
         floor = min(RATE_LIMIT_FLOOR, int(headers.get("x-ratelimit-limit", 5000)) // 10)
         if remaining is not None and reset is not None and int(remaining) < floor:
             wait = max(float(reset) - time.time(), 1) + 5
+            # Paused before the next request rather than now, so this
+            # response is returned and stored even if the deadline comes first.
             self.log(f"rate limit low ({remaining} left); pausing {wait:.0f}s until reset")
-            self.sleep(wait)
+            self._resume_at = self.clock() + wait

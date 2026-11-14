@@ -17,7 +17,7 @@ dashboards are in [`docs/plan.md`](docs/plan.md).
 
 | Source | What it gives | Status |
 |---|---|---|
-| GitHub REST API, the repos in `config/repos.txt` | Every issue and PR with their comments, inline review comments, timeline events and reviews (commits and changed files optional); public profiles | Approved 2026-11-13; extractor written, not run yet. Stored in `data/github/` |
+| GitHub REST API, the repos in `config/repos.txt` | Every issue and PR with their comments, inline review comments, timeline events and reviews (commits and changed files optional); public profiles (approved, not fetched for now) | Approved 2026-11-13; extractor written, not run yet. Stored in `data/github/` |
 | git history of the spec repos | Diffs of spec text (how much prose is written) | Deferred: API data first (2026-11-13) |
 | Browser bug trackers (crbug, Bugzilla, WebKit) | Status of implementation bugs linked from PRs | Not approved |
 | wpt.fyi | Test results for tests linked from PRs | Not approved |
@@ -38,11 +38,11 @@ for public repos. Put your contact address in `data/private/settings.json`
 (`{"contact": "you@example.com"}`) so it goes in the User-Agent.
 
 ```
-python3 -m specstats extract                      # dry run: prints the plan; --go fetches
-python3 -m specstats extract --repo whatwg/dom --go
-python3 -m specstats extract --go                 # all repos; incremental after the first run
-python3 -m specstats reconcile --go               # weekly: check every issue/PR number against GitHub
-python3 -m specstats users --go                   # public profiles of everyone seen
+python3 -m specstats extract --dry-run            # print the plan, fetch nothing
+python3 -m specstats extract --repo whatwg/dom
+python3 -m specstats extract                      # all repos; incremental after the first run
+python3 -m specstats extract --max-minutes 60     # stop cleanly after an hour; the next run continues
+python3 -m specstats extract --reconcile          # weekly: also check every issue/PR number against GitHub
 python3 -m specstats stats                        # what's stored (offline)
 python3 -m unittest discover tests
 ```
@@ -55,9 +55,10 @@ updates work, and how holes are caught: [`docs/extraction.md`](docs/extraction.m
 ### In GitHub Actions
 
 `.github/workflows/fetch.yml` runs the extractor on demand (Actions →
-"Fetch GitHub data" → Run workflow). Each run commits what it fetched to
-`data/github/`, even if it fails or times out, and the next run resumes
-from there.
+"Fetch GitHub data" → Run workflow). Each run stops itself after 300
+minutes and commits what it fetched to `data/github/`, even if it failed,
+and the next run resumes from there. The first backfill of whatwg/html
+will likely take several runs.
 
 - Set a `SPECSTATS_TOKEN` secret (a fine-grained personal token with no
   extra permissions) for 5,000 requests an hour; without it, the built-in

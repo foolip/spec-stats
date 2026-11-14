@@ -9,7 +9,7 @@ log, status), then `README.md` and `docs/extraction.md`.
 
 - **Fetch only what `docs/plan.md` ground rule 1 says is approved.** Anything
   else (another source, a repo outside `whatwg/`) needs the maintainer's
-  explicit approval first. Fetching commands are dry runs without `--go`.
+  explicit approval first. `extract --dry-run` shows what a run would fetch.
 - **Keep requests serial, throttled and incremental** (ground rule 2).
 - **Never commit `data/private/`** or a token.
 - `data/github/` is committed and public: only real fetched data goes there.

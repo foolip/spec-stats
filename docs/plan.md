@@ -31,8 +31,7 @@ removed on 2026-11-14 (decisions log); its last version is at commit
    seen in them. Not approved: git clones (deferred on 2026-11-13: API data
    first), browser bug trackers, wpt.fyi, GH Archive, and any repo outside
    `whatwg/`.
-   - `extract`, `reconcile` and `users` are dry runs that print a plan;
-     they fetch only when given `--go`.
+   - `extract --dry-run` prints what a run would fetch without fetching.
 2. **Be gentle with GitHub.**
    - Serial requests, at least 1 s apart (`github.MIN_INTERVAL`).
    - Back off on 429/5xx and secondary rate limits, honoring
@@ -81,6 +80,9 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-14 | **No SQLite for raw data.** Everything fetched is committed as files laid out like the API paths (`issues/{n}.json`, `issues/{n}/comments.json`, `pulls/{n}/reviews.json`, `users/{login}.json`, …) plus a `state.json` per repo; git replaces the `history` table and the workflow artifact. Events are stored without their embedded copy of the issue. SQLite may come back for crunching | Maintainer's choice: public, browsable data in one place with its history, and no second copy to keep in sync. The embedded issue is a snapshot of `issues/{n}.json` at fetch time, repeated on every event |
 | 2026-11-14 | The fetch workflow only fetches and commits; it doesn't run `derive` or `summarize` | Maintainer's instruction: the raw data isn't to be summarized yet. ~~The code stays for later~~ removed (next row) |
 | 2026-11-14 | Removed `derive`, `summarize`, org attribution (`orgs.py`, `config/affiliations.json`, `companies.json`, `bots.txt`), `summaries/`, `web/` and `docs/maintenance-load.md`; last version at `10edb66` | Maintainer's instruction: collect data first; the dashboard will be reworked anyway (next steps) |
+| 2026-11-14 | Runs have a deadline (`--max-minutes`); the workflow stops fetching at 300 minutes and then commits | Without one, a long backfill (or an hour-long rate-limit pause) runs into the job's time limit and is cancelled, and whether the commit step still runs then isn't something to rely on. Stopping only between requests loses nothing |
+| 2026-11-14 | Public profiles aren't fetched for now (the `users` command is removed), though they stay approved; `reconcile` is `extract --reconcile`, so a run is one command | Profiles were only needed for `company`, for org attribution, which went with `derive`. They hold only current values, so fetching them when a dashboard needs them loses little. One command means one deadline and a simpler workflow |
+| 2026-11-14 | `extract` fetches by default; `--dry-run` opts out (replaces cosh's `--go` opt-in) | Maintainer's choice: fetching approved public data is harmless, and an opt-in switch on the only fetching command, run daily, adds nothing |
 
 ## Status
 
@@ -94,13 +96,13 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 ## Next steps
 
 1. Check `config/repos.txt` against the list of Living Standards (whatwg/sg `db.json`).
-2. First fetch: `extract --repo whatwg/dom --go` to measure requests and
+2. First fetch: `extract --repo whatwg/dom` to measure requests and
    cost, and to confirm two things the code assumes but couldn't test:
    how deep GitHub lets the repo-wide listings page (the code falls back if
    not deep enough), and that `/issues/events` includes PR-only events
    (`ready_for_review`, `review_requested`). Then whatwg/html, cross-checked
    against the figures of the earlier prototype (1,171 PRs and 2,167 issues
-   in 2024–2026), then all repos, then `users --go`.
+   in 2024–2026), then all repos.
 3. Daily job: GitHub Actions on a schedule, with a personal token as a
    secret (the built-in token's limit is too low for the backfill),
    committing to `data/github/` as the manual workflow does.
