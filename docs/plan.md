@@ -31,8 +31,7 @@ removed on 2026-11-14 (decisions log); its last version is at commit
    seen in them. Not approved: git clones (deferred on 2026-11-13: API data
    first), browser bug trackers, wpt.fyi, GH Archive, and any repo outside
    `whatwg/`.
-   - `extract` is a dry run that prints a plan; it fetches only when
-     given `--go`.
+   - `extract --dry-run` prints what a run would fetch without fetching.
 2. **Be gentle with GitHub.**
    - Serial requests, at least 1 s apart (`github.MIN_INTERVAL`).
    - Back off on 429/5xx and secondary rate limits, honoring
@@ -83,6 +82,7 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-14 | Removed `derive`, `summarize`, org attribution (`orgs.py`, `config/affiliations.json`, `companies.json`, `bots.txt`), `summaries/`, `web/` and `docs/maintenance-load.md`; last version at `10edb66` | Maintainer's instruction: collect data first; the dashboard will be reworked anyway (next steps) |
 | 2026-11-14 | Runs have a deadline (`--max-minutes`); the workflow stops fetching at 300 minutes and then commits | Without one, a long backfill (or an hour-long rate-limit pause) runs into the job's time limit and is cancelled, and whether the commit step still runs then isn't something to rely on. Stopping only between requests loses nothing |
 | 2026-11-14 | Public profiles aren't fetched for now (the `users` command is removed), though they stay approved; `reconcile` is `extract --reconcile`, so a run is one command | Profiles were only needed for `company`, for org attribution, which went with `derive`. They hold only current values, so fetching them when a dashboard needs them loses little. One command means one deadline and a simpler workflow |
+| 2026-11-14 | `extract` fetches by default; `--dry-run` opts out (replaces cosh's `--go` opt-in) | Maintainer's choice: fetching approved public data is harmless, and an opt-in switch on the only fetching command, run daily, adds nothing |
 
 ## Status
 
@@ -96,7 +96,7 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 ## Next steps
 
 1. Check `config/repos.txt` against the list of Living Standards (whatwg/sg `db.json`).
-2. First fetch: `extract --repo whatwg/dom --go` to measure requests and
+2. First fetch: `extract --repo whatwg/dom` to measure requests and
    cost, and to confirm two things the code assumes but couldn't test:
    how deep GitHub lets the repo-wide listings page (the code falls back if
    not deep enough), and that `/issues/events` includes PR-only events

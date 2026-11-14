@@ -38,11 +38,11 @@ for public repos. Put your contact address in `data/private/settings.json`
 (`{"contact": "you@example.com"}`) so it goes in the User-Agent.
 
 ```
-python3 -m specstats extract                      # dry run: prints the plan; --go fetches
-python3 -m specstats extract --repo whatwg/dom --go
-python3 -m specstats extract --go                 # all repos; incremental after the first run
-python3 -m specstats extract --go --max-minutes 60 # stop cleanly after an hour; the next run continues
-python3 -m specstats extract --go --reconcile     # weekly: also check every issue/PR number against GitHub
+python3 -m specstats extract --dry-run            # print the plan, fetch nothing
+python3 -m specstats extract --repo whatwg/dom
+python3 -m specstats extract                      # all repos; incremental after the first run
+python3 -m specstats extract --max-minutes 60     # stop cleanly after an hour; the next run continues
+python3 -m specstats extract --reconcile          # weekly: also check every issue/PR number against GitHub
 python3 -m specstats stats                        # what's stored (offline)
 python3 -m unittest discover tests
 ```

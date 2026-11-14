@@ -1,6 +1,6 @@
 """spec-stats command line.
 
-  python3 -m specstats extract [--repo whatwg/dom] [--reconcile] [--max-minutes N] [--go]
+  python3 -m specstats extract [--repo whatwg/dom] [--reconcile] [--max-minutes N] [--dry-run]
   python3 -m specstats stats      offline: what's stored
 
 extract fetches everything that changed since the last run into
@@ -8,7 +8,7 @@ data/github/. With --reconcile (weekly), it then checks every issue and PR
 number of each repo against GitHub, and exits with an error if the numbers
 don't add up.
 
-Without --go it only prints a plan (docs/plan.md, ground rule 1). With
+With --dry-run it only prints the plan and fetches nothing. With
 --max-minutes N, no request starts, and no rate-limit pause runs, after N
 minutes; the run saves its state and exits normally, and the next run
 continues from there.
@@ -27,7 +27,7 @@ def main(argv=None):
     p.add_argument("--repo", action="append", help="owner/name; default: config/repos.txt")
     p.add_argument("--reconcile", action="store_true", help="also check every issue and PR number (weekly)")
     p.add_argument("--max-minutes", type=float, help="stop starting requests after this many minutes")
-    p.add_argument("--go", action="store_true", help="actually fetch")
+    p.add_argument("--dry-run", action="store_true", help="print the plan, fetch nothing")
     sub.add_parser("stats", help="print what data/github/ holds, as Markdown (offline)")
     args = ap.parse_args(argv)
 
@@ -42,8 +42,8 @@ def main(argv=None):
         cursors = extract.RepoStore(repo).state.get("cursors", {})
         print(f"  {repo}: " + (", ".join(f"{s} to {c.get('cursor')}" for s, c in cursors.items())
                                if cursors else "nothing yet"))
-    if not args.go:
-        print("Dry run; pass --go to fetch.")
+    if args.dry_run:
+        print("Dry run: nothing fetched.")
         return 0
     client = github.Client(seconds_left=args.max_minutes * 60 if args.max_minutes is not None else None)
     failed = []

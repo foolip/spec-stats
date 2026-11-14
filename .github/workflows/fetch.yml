@@ -47,7 +47,7 @@ jobs:
       # a backstop; a timed-out step still lets the commit step run.
       - name: Fetch
         timeout-minutes: 320
-        run: python3 -m specstats extract --go --max-minutes 300 ${{ inputs.reconcile && '--reconcile' || '' }}
+        run: python3 -m specstats extract --max-minutes 300 ${{ inputs.reconcile && '--reconcile' || '' }}
 
       - name: Commit the fetched data
         if: always()
