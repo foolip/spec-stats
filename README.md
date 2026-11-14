@@ -5,7 +5,7 @@ spec-stats is meant to build public dashboards about how the
 from public data, following [cosh](https://github.com/RByers/cosh)
 (Chromium Open Source Health).
 
-**For now it only collects data:** a throttled, incremental extractor
+**For now it only collects data:** a serial, incremental extractor
 mirrors the GitHub activity of the WHATWG repos into `data/github/`. Nothing
 is derived or summarized yet, and there are no pages. A first dashboard
 (Maintenance load) and its pipeline were drafted and then removed until the

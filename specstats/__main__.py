@@ -36,8 +36,8 @@ def main(argv=None):
         return 0
 
     repos = args.repo or paths.repos()
-    print(f"Plan: extract {len(repos)} repos{', then reconcile each' if args.reconcile else ''}, serial, "
-          f">= {github.MIN_INTERVAL}s between requests. Per-PR resources: {', '.join(extract.load_pr_resources())}.")
+    print(f"Plan: extract {len(repos)} repos{', then reconcile each' if args.reconcile else ''}, "
+          f"one request at a time. Per-PR resources: {', '.join(extract.load_pr_resources())}.")
     for repo in repos:
         cursors = extract.RepoStore(repo).state.get("cursors", {})
         print(f"  {repo}: " + (", ".join(f"{s} to {c.get('cursor')}" for s, c in cursors.items())

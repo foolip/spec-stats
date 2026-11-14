@@ -33,7 +33,8 @@ removed on 2026-11-14 (decisions log); its last version is at commit
    `whatwg/`.
    - `extract --dry-run` prints what a run would fetch without fetching.
 2. **Be gentle with GitHub.**
-   - Serial requests, at least 1 s apart (`github.MIN_INTERVAL`).
+   - Serial requests, one at a time, with no gap between them (since
+     2026-11-14; it was at least 1 s apart).
    - Back off on 429/5xx and secondary rate limits, honoring
      `Retry-After`; pause when the hourly budget drops below 500 requests.
    - Incremental: fetch only what changed since the last run, with ETags so
@@ -83,6 +84,7 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-14 | Runs have a deadline (`--max-minutes`); the workflow stops fetching at 300 minutes and then commits | Without one, a long backfill (or an hour-long rate-limit pause) runs into the job's time limit and is cancelled, and whether the commit step still runs then isn't something to rely on. Stopping only between requests loses nothing |
 | 2026-11-14 | Public profiles aren't fetched for now (the `users` command is removed), though they stay approved; `reconcile` is `extract --reconcile`, so a run is one command | Profiles were only needed for `company`, for org attribution, which went with `derive`. They hold only current values, so fetching them when a dashboard needs them loses little. One command means one deadline and a simpler workflow |
 | 2026-11-14 | `extract` fetches by default; `--dry-run` opts out (replaces cosh's `--go` opt-in) | Maintainer's choice: fetching approved public data is harmless, and an opt-in switch on the only fetching command, run daily, adds nothing |
+| 2026-11-14 | No minimum gap between requests; still serial, with back-off and the hourly reserve | The hourly budget decides throughput anyway, and GitHub asks for serial requests, not slow ones: its secondary limit is 900 a minute for REST, and Octokit's throttling plugin doesn't space out GETs. With a personal token the 1 s gap was the bottleneck (3,600 an hour of 5,000) |
 
 ## Status
 

@@ -1,7 +1,7 @@
 # Extraction: what is fetched and how updates work
 
 Code: `specstats/extract.py` (fetching and storing), `specstats/github.py`
-(the throttled client). Everything goes in `data/github/`, committed to
+(the serial client). Everything goes in `data/github/`, committed to
 this repo, losslessly, as the API returned it, so any analysis can be
 run offline, and rerun with new definitions at any time.
 
