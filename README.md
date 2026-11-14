@@ -71,6 +71,7 @@ from there.
   token allows 1,000, so a backfill pauses for the limit.
 - Set a `SPECSTATS_CONTACT` variable to put a contact address in the
   User-Agent.
+- Each run only fetches and commits; nothing is derived or summarized yet.
 - Each run's summary page shows row counts and cursors
   (`python3 -m specstats stats`).
 

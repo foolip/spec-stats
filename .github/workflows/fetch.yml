@@ -59,21 +59,7 @@ jobs:
           git pull -q --rebase
           git push -q
 
-      - name: Derive and summarize
-        run: |
-          python3 -m specstats derive
-          python3 -m specstats summarize
-
       - name: Report
         if: always()
         run: |
           python3 -m specstats stats >> "$GITHUB_STEP_SUMMARY"
-
-      # Summaries aren't committed until per-person publishing is decided
-      # (docs/plan.md, ground rule 3); they're kept with the run instead.
-      - name: Upload summaries
-        uses: actions/upload-artifact@v4
-        with:
-          name: summaries
-          path: summaries/
-          retention-days: 90
