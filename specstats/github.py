@@ -3,7 +3,9 @@
 Ground rule 2 (docs/plan.md): one request at a time, with no gap between
 them (GitHub asks for serial requests, not slow ones; Octokit doesn't space
 out GETs either), keep a reserve of the hourly budget, stop the run rather
-than wait whenever GitHub says to wait for quota (the next run continues), send ETags so unchanged listings come back as free 304s, and
+than wait whenever GitHub says to wait for quota (the next run continues),
+send ETags so unchanged listings come back as free 304s (only with the
+token that got the ETag: Actions' built-in token is new every run), and
 identify ourselves in the User-Agent.
 """
 
@@ -137,6 +139,7 @@ class Client:
         # In clock() time: no request starts, and no retry delay runs, past this.
         self.deadline = clock() + seconds_left if seconds_left is not None else None
         self._out_of_quota = None  # why the run stops before its next request
+        self.rate_limit = None  # the hourly limit GitHub reports for this token, once known
 
     def _wait(self, seconds):
         if self.deadline is not None and self.clock() + seconds > self.deadline:
@@ -213,10 +216,11 @@ class Client:
 
     def _respect_budget(self, headers):
         remaining = headers.get("x-ratelimit-remaining")
-        reset = headers.get("x-ratelimit-reset")
-        # Keep a reserve: 500, or a tenth of a smaller budget (Actions'
-        # built-in token gets 1,000 an hour). The run stops with exactly
-        # that many left, not one fewer.
+        if self.rate_limit is None and "x-ratelimit-limit" in headers:
+            self.rate_limit = int(headers["x-ratelimit-limit"])
+            self.log(f"rate limit: {self.rate_limit} an hour, {remaining} left ({self._reset_note(headers)})")
+        # Keep a reserve: 500, or a tenth of a smaller budget. The run stops
+        # with exactly that many left, not one fewer.
         floor = min(RATE_LIMIT_FLOOR, int(headers.get("x-ratelimit-limit", 5000)) // 10)
         if remaining is not None and int(remaining) <= floor:
             # Stops before the next request rather than now, so this

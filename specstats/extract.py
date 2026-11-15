@@ -20,13 +20,14 @@ Git keeps every earlier version, so nothing here keeps history itself.
 Items (issues and PRs) are fetched one number at a time, everything for a
 number together (sync_item). The backfill walks the numbers from 1 to the
 highest; after it, each run lists the items updated since the last run
-(one free 304 if nothing changed) and syncs those whose updated_at differs
+(one request, a free 304 if nothing changed and the token is the same as
+the last run's: GitHub's ETags are per token) and syncs those whose updated_at differs
 from the stored one.
 
 Events are part of an item (GET /issues/{n}/events, fetched with it).
 After the backfill, each run also reads the repo-wide /issues/events
-listing, newest first, back to the last run's newest event (one free 304
-if there are none): it has the events that don't move an item's
+listing, newest first, back to the last run's newest event (one request
+if there are none, as above): it has the events that don't move an item's
 updated_at, so the item isn't refetched for them. The listing can't be
 the backfill: GitHub ends it after 300 pages (whatwg/html: back to
 2024-12-06).
@@ -376,7 +377,8 @@ def _sync_changed(client, store, rows, resources):
 
 def update_items(client, store, resources, log=print):
     """Items updated since the cursor (minus OVERLAP). The first page carries
-    the last ETag for the same `since`, so an unchanged repo is a free 304."""
+    the last ETag for the same `since`, so an unchanged repo is one request,
+    a free 304 if the token is the same as the last run's."""
     s = store.section("items")
     since = _minus_overlap(s["cursor"])
     path = f"/repos/{store.repo}/issues"

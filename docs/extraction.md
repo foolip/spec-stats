@@ -101,9 +101,10 @@ the backfill, the cursor starts at the time the backfill started, so
 everything that changed during it is fetched again.
 
 - The first page carries the ETag from the last run with the same
-  `since`. `S` only moves when something changed, so **an unchanged repo
-  is one request, a `304 Not Modified`**, which doesn't count against
-  the rate limit.
+  `since`. `S` only moves when something changed, so an unchanged repo
+  is one request, which comes back as a free `304 Not Modified` **only
+  if the token is the same**: GitHub's ETags are per token, and Actions'
+  built-in token is new every run, so there it's an ordinary request.
 - A listed number above the highest known one (new issues, transfers in)
   first syncs every number in between, so deleted ones are recorded as
   gone, and the "every number below is stored or gone" rule keeps
@@ -125,9 +126,9 @@ comment. It doesn't hold for events, hence the listing below.
   complete, events included.
 - **Updates:** once the items backfill is done, each run reads the
   repo-wide `GET /issues/events` (newest first): page 1 with its ETag (a
-  free 304 if there's nothing new), and on back to a day before the
-  newest event seen; the first time, back to a day before the backfill
-  started. New events are merged into each item's `events.json` by id. A
+  free 304 if there's nothing new and the token is the same), and on
+  back to a day before the newest event seen; the first time, back to a
+  day before the backfill started. New events are merged into each item's `events.json` by id. A
   changed item is refetched whole, events included.
 - Events of numbers recorded as gone are dropped: the listing keeps
   events of deleted and transferred issues (whatwg/dom had 81 such
@@ -197,7 +198,8 @@ reconcile, then (once the backfill is done) the events listing. Events
 filed under a number above the highest that turns out to be gone are
 removed when an update reaches it.
 
-A caught-up run of an unchanged repo is two requests, both free 304s.
+A caught-up run of an unchanged repo is two requests: free 304s with the
+same token as the last run, ordinary ones with Actions' built-in token.
 
 ## Stopping: deadlines and rate limits
 
@@ -214,8 +216,9 @@ The smallest unit of work is one PR: four to six requests, more for very
 long lists. Once the backfill is done, every run also spends at least one
 request on the events listing.
 
-The workflow commits after every run. With a 5,000-an-hour token a
-backfill run stops at the reserve after about 4,500 requests (some 20
+Each run logs the hourly limit GitHub reports for its token. The
+workflow commits after every run. With a 5,000-an-hour token (the
+built-in one has had that here) a backfill run stops at the reserve after about 4,500 requests (some 20
 minutes), so a backfill takes one run per hour of budget; the 300-minute
 deadline, inside the job's 350-minute limit, is a backstop.
 
