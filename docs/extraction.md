@@ -14,10 +14,10 @@ that mirrors the API path it comes from:
 ```
 data/github/
   whatwg/dom/
-    issues/1234.json            GET /repos/whatwg/dom/issues/1234 (issues and PRs)
+    issues/1234/index.json      GET /repos/whatwg/dom/issues/1234 (issues and PRs)
     issues/1234/comments.json   conversation comments, sorted by id
     issues/1234/events.json     timeline events, sorted by id
-    pulls/1234.json             GET /repos/whatwg/dom/pulls/1234 (PRs only)
+    pulls/1234/index.json       GET /repos/whatwg/dom/pulls/1234 (PRs only)
     pulls/1234/reviews.json     reviews
     pulls/1234/comments.json    inline review comments, sorted by id
     pulls/1234/commits.json     (optional)
@@ -28,7 +28,9 @@ data/github/
 
 Lists that would be empty have no file. Issues and PRs share one
 `issues/` directory because they share one number sequence; a PR also
-has `pulls/{n}.json`, the PR view of the same number.
+has `pulls/{n}/index.json`, the PR view of the same number. Everything
+stored for one number is in one directory, `issues/{n}/` or `pulls/{n}/`,
+with the object itself as `index.json`.
 
 Events from the repo-wide listing embed a copy of their issue as it was
 when fetched; that copy is left out, so `events.json` holds what

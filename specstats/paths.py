@@ -10,7 +10,7 @@ CONFIG = ROOT / "config"
 
 
 def github_dir():
-    """Committed raw GitHub objects: {owner}/{repo}/issues/{number}.json."""
+    """Committed raw GitHub objects: {owner}/{repo}/issues/{number}/index.json."""
     return Path(os.environ.get("SPECSTATS_GITHUB", ROOT / "data" / "github"))
 
 

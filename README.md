@@ -29,7 +29,8 @@ before anything is fetched ([`docs/plan.md`](docs/plan.md), ground rules).
 
 The extractor uses the Python standard library only. Everything fetched is
 committed as JSON files in `data/github/`, laid out like the API paths
-(`whatwg/dom/issues/1234.json`, `whatwg/dom/issues/1234/comments.json`, …).
+(`whatwg/dom/issues/1234/index.json`, `whatwg/dom/issues/1234/comments.json`,
+…).
 Operator settings go in `data/private/` (gitignored).
 
 You need a GitHub token, either `GITHUB_TOKEN` in the environment or a
