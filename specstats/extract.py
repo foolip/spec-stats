@@ -456,6 +456,13 @@ def sync_events(client, store, log=print):
             _store_events(store, resp.data)
             if resp.data:
                 s["oldest"] = resp.data[-1]["created_at"]
+            if not resp.next and len(resp.data) == PER_PAGE:
+                # GitHub ends this listing silently: whatwg/html's stopped at
+                # page 300, a full page with no next link and no error. A
+                # real last page is almost always short; one that's exactly
+                # full fails here too, which is the safe side.
+                raise CheckFailed(f"{store.repo}: /issues/events stops at page {page}, a full page, "
+                                  f"so GitHub probably cut it off (oldest event reached: {s.get('oldest')})")
             if not resp.next:
                 s["done"] = True
                 s.pop("page", None)

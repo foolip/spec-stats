@@ -53,11 +53,14 @@ jobs:
       - name: Commit the fetched data
         if: always()
         run: |
+          # The identity is set in the repo config, not with -c on commit:
+          # the rebase below rewrites the commit when main moved during the
+          # run, and needs it too (run 4 failed there, losing its data).
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/github
           if git diff --cached --quiet; then echo "No changes"; exit 0; fi
-          git -c user.name="github-actions[bot]" \
-              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
-              commit -q -m "Update GitHub data"
+          git commit -q -m "Update GitHub data"
           git pull -q --rebase
           git push -q
 

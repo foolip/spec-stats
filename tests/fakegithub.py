@@ -14,9 +14,10 @@ def user(login, typ="User"):
 
 
 class FakeGitHub:
-    def __init__(self, page=2, page_limit=None):
+    def __init__(self, page=2, page_limit=None, page_cap=None):
         self.page = page              # items per page, whatever per_page asks for
         self.page_limit = page_limit  # deepest page served before HTTP 422
+        self.page_cap = page_cap      # deepest page served, silently, with no next link
         self.issues = {}
         self.issue_comments = []
         self.review_comments = []
@@ -155,7 +156,7 @@ class FakeGitHub:
         size = int(q.get("per_page", self.page))
         chunk = rows[(page - 1) * size: page * size]
         out = {"ETag": etag}
-        if page * size < len(rows):
+        if page * size < len(rows) and not (self.page_cap and page >= self.page_cap):
             base = url.split("&page=")[0].split("?page=")[0]
             out["Link"] = f'<{base}{"&" if "?" in base else "?"}page={page + 1}>; rel="next"'
         return 200, out, json.dumps(chunk).encode()
