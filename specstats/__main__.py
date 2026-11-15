@@ -2,12 +2,15 @@
 
   python3 -m specstats extract [--repo whatwg/html] [--reconcile] [--max-minutes N] [--dry-run]
   python3 -m specstats stats      offline: what's stored
+  python3 -m specstats check      offline: consistency checks on what's stored
 
 extract fetches everything that changed since the last run into
 data/github/. With --reconcile (weekly), it also re-lists every issue and PR,
-to catch deletions and missed updates. A run exits with an error if the
-stored data breaks an assumption (extract.CheckFailed), after storing what
-it fetched.
+to catch deletions and missed updates. It stores what GitHub returns,
+consistent or not, and exits with an error (extract.CheckFailed), after
+storing what it fetched, only if fetching itself can't be done right.
+check looks for inconsistencies in the stored data (bugs in the process,
+or GitHub's own) and exits with an error if it finds any.
 
 With --dry-run it only prints the plan and fetches nothing. A run never
 waits for rate-limit quota: when the hourly reserve is reached, or GitHub
@@ -19,7 +22,7 @@ normally, and the next run continues from there.
 import argparse
 import sys
 
-from . import extract, github, paths, timeline_check
+from . import check, extract, github, paths, timeline_check
 
 
 def main(argv=None):
@@ -31,6 +34,8 @@ def main(argv=None):
     p.add_argument("--max-minutes", type=float, help="stop starting requests after this many minutes")
     p.add_argument("--dry-run", action="store_true", help="print the plan, fetch nothing")
     sub.add_parser("stats", help="print what data/github/ holds, as Markdown (offline)")
+    p = sub.add_parser("check", help="consistency checks on data/github/, as Markdown (offline)")
+    p.add_argument("--repo", action="append", help="owner/name; default: every stored repo")
     p = sub.add_parser("timeline-check", help="compare the timeline API with the stored lists, "
                        "for a sample of items (fetches only timelines; writes nothing to data/github/)")
     p.add_argument("--repo", default="whatwg/dom", help="a repo with stored data (default: whatwg/dom)")
@@ -45,6 +50,10 @@ def main(argv=None):
     if args.cmd == "stats":
         print(stats())
         return 0
+    if args.cmd == "check":
+        text, found = check.report(args.repo)
+        print(text, end="")
+        return 1 if found else 0
     if args.cmd == "timeline-check":
         store = extract.RepoStore(args.repo)
         numbers = args.numbers or timeline_check.sample(store, args.size)

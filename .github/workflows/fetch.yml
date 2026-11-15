@@ -14,6 +14,11 @@
 # when the hourly budget is down to its reserve (about 20 minutes into a
 # backfill), commits, and the next run, an hour later, continues.
 # Contact for the User-Agent: the SPECSTATS_CONTACT variable, if set.
+#
+# The fetch stores what GitHub returns, consistent or not. The separate
+# `check` job then runs the consistency checks on the committed data
+# (`python3 -m specstats check`), so a finding shows up as that job
+# failing, while the fetch and its commit go through.
 
 name: Fetch GitHub data
 
@@ -76,3 +81,24 @@ jobs:
         if: always()
         run: |
           python3 -m specstats stats >> "$GITHUB_STEP_SUMMARY"
+
+  check:
+    needs: fetch
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main  # with the data the fetch job just committed
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Check
+        run: |
+          set -o pipefail  # fail on findings, not only if tee fails
+          python3 -m specstats check | tee -a "$GITHUB_STEP_SUMMARY"

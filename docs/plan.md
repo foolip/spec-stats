@@ -63,7 +63,7 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-13 | ~~GraphQL per item: one query gets a page of PRs with their reviews and comments~~ Superseded the same day, below | |
 | 2026-11-13 | Fetch all activity on issues and PRs, not a chosen subset; metrics decide what to use | Filtering at fetch time is the one choice that's expensive to undo (a full backfill) |
 | 2026-11-13 | ~~REST listings of whole repos (issues, comments, review comments, events)~~ (superseded on 2026-11-15: items by number, with their events), ~~plus batched GraphQL for reviews, commits and files~~ (superseded below: REST only) | REST supports `since` and ETags, so a daily run of an unchanged repo is four free 304s |
-| 2026-11-13 | Re-read a day of overlap on every run, save cursors per page, ~~check comment counts per item~~, reconcile every number weekly, and fail on count mismatches (counts dropped on 2026-11-15: lists are refetched whole with their item, and whatwg/dom has items whose count never matches, e.g. #126, 43 vs 40) | Stopping at the last-seen item trusts the API to be perfect; these find and fill holes instead (`docs/extraction.md`) |
+| 2026-11-13 | Re-read a day of overlap on every run, save cursors per page, ~~check comment counts per item~~, reconcile every number weekly, and ~~fail on count mismatches~~ (since 2026-11-15, consistency checks are separate from the fetch, below) (counts dropped on 2026-11-15: lists are refetched whole with their item, and whatwg/dom has items whose count never matches, e.g. #126, 43 vs 40) | Stopping at the last-seen item trusts the API to be perfect; these find and fill holes instead (`docs/extraction.md`) |
 | 2026-11-13 | **REST only**, no GraphQL: per-PR requests for reviews instead of batched queries | REST returns whole objects, so everything is stored without maintaining field lists; one representation, ETags and `since` throughout. Costs a longer one-time backfill (roughly 2 requests per PR) |
 | 2026-11-13 | Per-PR commits and files are optional (`config/fetch.json`), off for now | Not sure they're needed; each resource is tracked separately, so turning one on later fetches only that |
 | 2026-11-13 | Raw objects are stored as plain JSON text, uncompressed (in files since 2026-11-14) | The maintainer wants to query the database and see the JSON directly. A few GB is fine |
@@ -101,6 +101,7 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-15 | Test whether the timeline API (`/issues/{n}/timeline`, one listing per item) could replace the per-item comment, review and inline-comment requests and supply events older than the repo-wide listing's 300 pages: `timeline-check` compares it with whatwg/dom's stored data for a sample of items | Maintainer's question after whatwg/html's events were cut off. Timeline events are approved (ground rule 1). The earlier row choosing events over the timeline was about events alone; if the timeline holds everything, it could be fewer requests per item, not more |
 | 2026-11-15 | **The timeline can't replace the per-item lists.** `timeline-check` on 40 whatwg/dom items: issue comments all there and identical; reviews 92 of 386 (none of the 294 that only reply in an existing thread, and `state`, `user` and `body` differ); inline comments 43 of 576 (only those not part of a review); events 1,613 of 1,801 (188 missing, mostly `referenced`, `subscribed` and `mentioned`, no rule found). The endpoint's only parameters are paging and `exclude`. Details in `docs/extraction.md` | Only the comments request could go, at the cost of a timeline request per item. Cross-references are the one thing only the timeline has: a reason to add it later (as an optional per-item resource, with `exclude` to keep it small) if a dashboard needs them, e.g. WPT PRs linking to spec PRs; adding it later costs the same requests as now |
 | 2026-11-15 | Test on whatwg/fullscreen before whatwg/html | Maintainer's instruction: see whether the extractor works end to end at all. With about 260 issues and PRs (roughly 1,000 requests), one run does the whole backfill, the first read of the events listing and the checks |
+| 2026-11-15 | **The fetch stores what GitHub returns, consistent or not; consistency checks run separately** (`specstats check`, offline, as its own job after each fetch). The fetch fails only when fetching can't be done right (the events listing won't reach back far enough, or `config/fetch.json` changed). The checks: every number reached is stored or gone, closed items have a `closed` event, merged PRs a `merged` event, PRs a `pulls/{n}/index.json`, no events under numbers neither stored nor gone | Maintainer's choice: GitHub's data isn't perfectly consistent (whatwg/fullscreen #220, a probable spam PR closed by its author, has no events at all, not even `closed`), so failing the fetch on it stops collection for no fault of ours. The checks are for finding bugs in the end-to-end process; a finding may turn out to be GitHub's |
 | 2026-11-15 | **Events are fetched per item** (`GET /issues/{n}/events` with everything else for the number, every item); the repo-wide `/issues/events` listing is read only after the items backfill, from a day before the backfill started, then back to the last run's newest event | Maintainer's choice. GitHub ends the repo-wide listing after 300 pages, so it can't be the backfill for whatwg/html; per item, a backfilled number is complete with its events. Costs one request per item more (about 11,000 for whatwg/html). The listing still catches the events that don't move an item's `updated_at` |
 | 2026-11-15 | A run never waits for rate-limit quota: at the hourly reserve, or on a 429, secondary or primary rate limit, it stops cleanly as at its deadline (`RateLimited`), and the next run continues | Maintainer's instruction: the runner mustn't idle. Run 4 spent about 3¼ of its 4⅓ hours paused for the reset |
 | 2026-11-15 | If main moved during a fetch run, the run fails without committing its data (it was rebased onto the new main) | Maintainer's choice: the collection code may have changed under the run. Run 4's rebase failed anyway, for want of a git identity |
@@ -124,25 +125,31 @@ removed on 2026-11-14 (decisions log); its last version is at commit
   pages) and includes PR-only events (`review_requested`,
   `ready_for_review`). Its data stays; `config/repos.txt` now lists only
   whatwg/fullscreen.
+- Run 5 (2026-11-15) fetched whatwg/fullscreen whole in one run: 1,017
+  requests in about 6 minutes; numbers 1–265, 259 stored (122 issues and
+  137 PRs, as GitHub's search counts) and 6 gone. The only
+  inconsistency: #220, a closed PR with no events at all, which then
+  failed the run; the checks are now separate (decisions log).
 
 ## Next steps
 
-1. Run the fetch workflow for whatwg/fullscreen (one run) and check the
-   result: every number stored or gone, the closed/merged event checks
-   passing, and a second run costing two 304s.
-2. Then switch to whatwg/html and run the fetch workflow until the backfill is done
-   (about one run per hour of budget, at roughly 4 requests per item),
-   see whether every closed item has a `closed` event, and cross-check
+1. Run the fetch workflow for whatwg/fullscreen again: the update should
+   re-read only what changed during the backfill, and the check job
+   should report #220 and nothing else. Once caught up, an unchanged repo
+   costs two 304s.
+2. Then switch to whatwg/html and run the fetch workflow until the
+   backfill is done (about one run per hour of budget, at roughly 4
+   requests per item), look at what the check job finds, and cross-check
    against the earlier prototype's figures (1,171 PRs and 2,167 issues in
    2024–2026).
 3. Decide what to do with whatwg/dom's data: refetch it with the new
    design, or keep it.
-3. Check `config/repos.txt` against the list of Living Standards (whatwg/sg `db.json`), then all repos.
-4. Daily job: GitHub Actions on a schedule, with a personal token as a
+4. Check `config/repos.txt` against the list of Living Standards (whatwg/sg `db.json`), then all repos.
+5. Daily job: GitHub Actions on a schedule, with a personal token as a
    secret (the built-in token's limit is too low for the backfill),
    committing to `data/github/` as the manual workflow does, and
    `--reconcile` weekly.
-5. Then dashboards: bring back Maintenance load (commit `10edb66`),
+6. Then dashboards: bring back Maintenance load (commit `10edb66`),
    reworked around the prototype's catalog: PRs touched (split by size)
    instead of raw review counts, review sessions, sign-offs (`APPROVED` or
    LGTM), unquoted words.

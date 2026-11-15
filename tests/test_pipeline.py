@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-from specstats import extract, github, timeline_check
+from specstats import check, extract, github, timeline_check
 from tests.fakegithub import REPO, FakeGitHub
 
 QUIET = dict(log=lambda *a: None)
@@ -277,11 +277,38 @@ class ExtractTest(TempDirs):
         with self.assertRaisesRegex(extract.CheckFailed, "a full page with no next link"):
             self.sync(gh)
 
-    def test_closed_item_without_a_closed_event_fails(self):
+    def test_inconsistent_data_is_stored_and_found_by_check(self):
+        # GitHub's data isn't always consistent (whatwg/fullscreen #220: a
+        # closed PR with no events at all). The fetch stores it and passes;
+        # check reports it.
         gh = populated()
         gh.close(1, "2025-04-01T00:00:00Z", event=False)
-        with self.assertRaisesRegex(extract.CheckFailed, r"closed with no `closed` event: 1$"):
-            self.sync(gh)
+        self.sync(gh)
+        self.assertEqual(self.store().get("issues", 1)["state"], "closed")
+        self.assertEqual(check.check_repo(self.store()), [("closed with no `closed` event", [1])])
+        text, found = check.report()
+        self.assertTrue(found)
+        self.assertIn("closed with no `closed` event: 1", text)
+
+    def test_check_finds_process_bugs(self):
+        gh = populated()
+        self.sync(gh)
+        self.assertEqual(check.check_repo(self.store()), [])
+        self.assertEqual(check.report(), (f"# Consistency checks\n\n- {REPO}: OK\n", False))
+        # As if files went missing between fetching and committing.
+        (self.files / REPO / "pulls/3/index.json").unlink()
+        for f in (self.issue_dir() / "1").iterdir():
+            f.unlink()
+        self.assertEqual(check.check_repo(extract.RepoStore(REPO)), [
+            ("neither stored nor gone", [1]),
+            ("a PR with no pulls/{n}/index.json", [3])])
+
+    def test_check_covers_only_what_the_backfill_reached(self):
+        gh = populated()
+        with self.assertRaises(github.DeadlineReached):
+            self.sync(gh, client(gh, requests=6))  # #1, then stops in #2
+        self.assertEqual(self.store().section("items")["next"], 2)
+        self.assertEqual(check.check_repo(self.store()), [])
 
     def test_reconcile_catches_deletions_and_missed_updates(self):
         gh = populated()
