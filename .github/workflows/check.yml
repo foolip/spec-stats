@@ -4,20 +4,11 @@
 # (docs/extraction.md). Offline: reads data/github/ on main, no API
 # requests, no token. A finding fails this workflow, not the fetch.
 #
-# Runs after every fetch run (whatever its result), when code or config
-# changes on main, and on demand. Commits pushed by the fetch itself don't
-# trigger workflows (GitHub's rule for the built-in token), hence the
-# workflow_run trigger.
+# Manually triggered for now (Actions → "Check data" → Run workflow).
 
 name: Check data
 
 on:
-  workflow_run:
-    workflows: ["Fetch GitHub data"]
-    types: [completed]
-  push:
-    branches: [main]
-    paths: ["specstats/**", "config/**", "data/github/**"]
   workflow_dispatch:
 
 permissions:
@@ -30,7 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: main  # with the data the fetch just committed
+          ref: main
 
       - uses: actions/setup-python@v5
         with:

@@ -186,8 +186,8 @@ It exits with an error if it finds anything. These are for finding bugs
 in the whole process (fetching, storing, committing); a finding can also
 be GitHub's own inconsistency, such as whatwg/fullscreen #220, a closed
 PR for which GitHub returns no events at all. The "Check data" workflow
-(`check.yml`), separate from the fetch, runs it on `main` after every
-fetch run, when code or config changes, and on demand. Repos
+(`check.yml`), separate from the fetch, runs it on `main`; it's triggered
+manually for now. Repos
 stored in the format before 2026-11-15 (whatwg/dom) aren't checked.
 
 ## A run (`extract`)
