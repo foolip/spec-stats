@@ -87,6 +87,7 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-14 | No minimum gap between requests; still serial, with back-off and the hourly reserve | The hourly budget decides throughput anyway, and GitHub asks for serial requests, not slow ones: its secondary limit is 900 a minute for REST, and Octokit's throttling plugin doesn't space out GETs. With a personal token the 1 s gap was the bottleneck (3,600 an hour of 5,000) |
 | 2026-11-15 | Removed `data/github/users/` (1,125 profiles fetched on 2026-11-14 before profile fetching was dropped); profiles stay out of the repo until there's a decision on what of them to publish | 438 of them held public email addresses; republishing those in bulk is the riskiest part of the data under GitHub's Acceptable Use Policies and GDPR. They remain in git history (commit `d2eb8fc`) |
 | 2026-11-15 | An issue or PR is stored as `issues/{n}/index.json` and `pulls/{n}/index.json`, not `issues/{n}.json` and `pulls/{n}.json`; existing files moved | Maintainer's choice: everything for one number is in one directory |
+| 2026-11-15 | Requests send `X-GitHub-Api-Version: 2026-03-10` (was `2022-11-28`) | Maintainer's instruction: use the current REST API version. Stored objects fetched before this were returned under `2022-11-28` |
 
 ## Status
 
