@@ -43,6 +43,11 @@ from .github import GitHubError, Gone, PaginationLimit
 OVERLAP = timedelta(days=1)
 PER_PAGE = 100
 STATE_EVERY = 50  # save state.json after this many items
+# Log backfill progress about every 10-15 requests: an item takes about 2.7
+# (whatwg/dom: the issue, comments if any, and for a PR the pull, reviews
+# and review comments if any); an events page takes one.
+PROGRESS_EVERY = 5  # items
+PROGRESS_PAGES = 10  # events pages
 
 PR_RESOURCES = {
     # resource -> (API path, file under pulls/{n}/, paged)
@@ -302,6 +307,9 @@ def backfill_items(client, store, resources, log=print):
         done += 1
         if done % STATE_EVERY == 0:
             store.save_state()
+        if done % PROGRESS_EVERY == 0:
+            log(f"{store.repo} items: backfilled up to {s['next'] - 1} of {s['highest']} "
+                f"({done} this run, {client.requests} requests so far)")
     # Anything created, transferred in or updated since the backfill
     # started is in the first update's listing.
     s["cursor"] = s.pop("started")
@@ -454,6 +462,9 @@ def sync_events(client, store, log=print):
                 store.save_state()
                 log(f"{store.repo} events: read back to {s.get('oldest')} ({page} pages)")
                 return
+            if page % PROGRESS_PAGES == 0:
+                log(f"{store.repo} events: read {page} pages, back to {s.get('oldest')} "
+                    f"({client.requests} requests so far)")
             page += 1
             s["page"] = page
             store.save_state()

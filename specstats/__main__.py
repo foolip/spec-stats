@@ -31,6 +31,10 @@ def main(argv=None):
     p.add_argument("--dry-run", action="store_true", help="print the plan, fetch nothing")
     sub.add_parser("stats", help="print what data/github/ holds, as Markdown (offline)")
     args = ap.parse_args(argv)
+    # Show each line as it's printed, even when stdout is a pipe (as in
+    # GitHub Actions), where Python would otherwise hold it in a buffer.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(line_buffering=True)
 
     if args.cmd == "stats":
         print(stats())
