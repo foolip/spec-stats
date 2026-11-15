@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/fullscreen/issues/comments/2650849579",
+    "html_url": "https://github.com/whatwg/fullscreen/issues/133#issuecomment-2650849579",
+    "issue_url": "https://api.github.com/repos/whatwg/fullscreen/issues/133",
+    "id": 2650849579,
+    "node_id": "IC_kwDOAFgnLs6eAMEr",
+    "user": {
+      "login": "foolip",
+      "id": 498917,
+      "node_id": "MDQ6VXNlcjQ5ODkxNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/498917?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/foolip",
+      "html_url": "https://github.com/foolip",
+      "followers_url": "https://api.github.com/users/foolip/followers",
+      "following_url": "https://api.github.com/users/foolip/following{/other_user}",
+      "gists_url": "https://api.github.com/users/foolip/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/foolip/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/foolip/subscriptions",
+      "organizations_url": "https://api.github.com/users/foolip/orgs",
+      "repos_url": "https://api.github.com/users/foolip/repos",
+      "events_url": "https://api.github.com/users/foolip/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/foolip/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2025-02-11T13:35:40Z",
+    "updated_at": "2025-02-11T13:35:40Z",
+    "body": "This came up again in https://github.com/whatwg/fullscreen/pull/243 and I've written some more tests in https://github.com/web-platform-tests/wpt/pull/50630.\n\nThe relevant parts of the spec are step 3.1 and 3.2 of the \"removing steps\", and step 7.2 of \"exit fullscreen\".\n\nThese are the 4 situations now covered by tests and what I think the spec requires (after https://github.com/whatwg/fullscreen/pull/243):\n\n- remove-first.html: Parent and child elements in fullscreen and the parent is removed. The removing steps visit the parent first, but since it's not the fullscreen element, it just unfullscreens that node. Then it visits the child which is the fullscreen element, and invokes exit fullscreen. There, step 7.2 is reached which unfullscreens that node too. Actually exiting and events follow async.\n- remove-last.html: Parent and child elements in fullscreen and the child is removed. Since the child is the fullscreen element, the removing steps invoke exit fullscreen. There, step 7.2 is reached which unfullscreens that node too. Immediately after removal, the parent is the fullscreen element. Then we exit fullscreen async which eventually clears all state.\n- remove-first-sibling.html: Two siblings in fullscreen and the first is removed. This should only unfullscreen that element and not exit fullscreen or fire any events.\n- remove-last-sibling.html: Two siblings in fullscreen and the second is removed. The second element is the fullscreen element, and this is much like the remove-last.html case.\n\nAFAICT we don't get any dangling state, but the behavior is a bit curious. AFAICT there isn't any reason we have to exit fullscreen if there are other fullscreen elements still in top layer. The special case of the topmost such element seems unnecessary, but probably also harmless.\n\ncc @nt1m",
+    "author_association": "MEMBER",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fullscreen/issues/comments/2650849579/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

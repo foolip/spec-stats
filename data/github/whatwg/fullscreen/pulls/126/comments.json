@@ -1,0 +1,288 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/fullscreen/pulls/comments/189255349",
+    "pull_request_review_id": 121401900,
+    "id": 189255349,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE4OTI1NTM0OQ==",
+    "diff_hunk": "@@ -79,34 +79,33 @@ its <a>node document</a>'s <a>top layer</a>.\n <p>To <dfn>fully exit fullscreen</dfn> a <a for=/>document</a> <var>document</var>, run these steps:\n \n <ol>\n- <li><p>If <var>document</var>'s <a>fullscreen element</a> is null, terminate these steps.\n+ <li><p>Let <var>topLevelDoc</var> be <var>document</var>'s <a>top-level browsing context</a>'s\n+ <a>active document</a>.\n \n- <li><p><a lt=\"unfullscreen an element\">Unfullscreen elements</a> whose <a>fullscreen flag</a> is\n- set, within <var>document</var>'s <a>top layer</a>, except for <var>document</var>'s\n- <a>fullscreen element</a>.\n+ <li><p>If <var>topLevelDoc</var>'s <a>fullscreen element</a> is null, terminate these steps.\n \n- <li><p><a>Exit fullscreen</a> <var>document</var>.\n-</ol>\n+ <li><p>Let <var>exitDocs</var> be an <a>ordered set</a> consisting of <var>doc</var>.\n \n-<p>Whenever the <a>removing steps</a> run with a <var>removedNode</var>, run these steps:\n-\n-<ol>\n- <li><p>Let <var>nodes</var> be <var>removedNode</var>'s\n- <a>shadow-including inclusive descendants</a> that have their <a>fullscreen flag</a> set, in\n- <a>shadow-including tree order</a>.\n+ <li><p>Append <var>topLevelDoc</var>'s <a>descendant browsing contexts</a>' <a>active documents</a>\n+ whose <a>fullscreen element</a> are non-null, if any, in <a>tree order</a> to <var>exitDocs</var>.\n \n  <li>\n-  <p><a>For each</a> <var>node</var> in <var>nodes</var>:\n+  <p><a>For each</a> <var>exitDoc</var> in <var>exitDocs</var>:\n \n   <ol>\n-   <li><p>If <var>node</var> is its <a>node document</a>'s <a>fullscreen element</a>,\n-   <a>exit fullscreen</a> that <a for=/>document</a>.\n+   <li><p><a for=set>Append</a> (<code>fullscreenchange</code>, <var>exitDoc</var>'s\n+   <a>fullscreen element</a>) to <var>exitDoc</var>'s <a>list of pending fullscreen events</a>.\n \n-   <li><p>Otherwise, <a lt=\"unfullscreen an element\">unfullscreen <var>node</var></a> within its\n-   <a>node document</a>.\n+   <li><p><a lt=\"unfullscreen a document\">Unfullscreen <var>exitDoc</var></a>.\n   </ol>\n+\n+ <li><p>Run the remaining steps <a>in parallel</a>.\n+ <li><p>Resize <var>topLevelDoc</var>'s viewport to its \"normal\" dimensions.\n </ol>\n \n+<p>Whenever the <a>removing steps</a> run with a <var>removedNode</var>,",
+    "path": "fullscreen.bs",
+    "commit_id": "50f2677e2143b89ab299e0c45b40f343e847b985",
+    "original_commit_id": "50f2677e2143b89ab299e0c45b40f343e847b985",
+    "user": {
+      "login": "foolip",
+      "id": 498917,
+      "node_id": "MDQ6VXNlcjQ5ODkxNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/498917?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/foolip",
+      "html_url": "https://github.com/foolip",
+      "followers_url": "https://api.github.com/users/foolip/followers",
+      "following_url": "https://api.github.com/users/foolip/following{/other_user}",
+      "gists_url": "https://api.github.com/users/foolip/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/foolip/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/foolip/subscriptions",
+      "organizations_url": "https://api.github.com/users/foolip/orgs",
+      "repos_url": "https://api.github.com/users/foolip/repos",
+      "events_url": "https://api.github.com/users/foolip/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/foolip/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This will unconditionally run \"fully exit fullscreen\" when any node is removed. https://fullscreen.spec.whatwg.org/#removing-steps (here removed) will need to retain at least the bits up to \"For each node in nodes\" to only deal with elements \"that have their fullscreen flag set\".",
+    "created_at": "2018-05-18T12:40:49Z",
+    "updated_at": "2018-05-18T12:57:21Z",
+    "html_url": "https://github.com/whatwg/fullscreen/pull/126#discussion_r189255349",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fullscreen/pulls/126",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fullscreen/pulls/comments/189255349"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fullscreen/pull/126#discussion_r189255349"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fullscreen/pulls/126"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fullscreen/pulls/comments/189255349/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 106,
+    "original_line": 106,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 45,
+    "position": 45,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fullscreen/pulls/comments/189258920",
+    "pull_request_review_id": 121401900,
+    "id": 189258920,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE4OTI1ODkyMA==",
+    "diff_hunk": "@@ -79,34 +79,33 @@ its <a>node document</a>'s <a>top layer</a>.\n <p>To <dfn>fully exit fullscreen</dfn> a <a for=/>document</a> <var>document</var>, run these steps:\n \n <ol>\n- <li><p>If <var>document</var>'s <a>fullscreen element</a> is null, terminate these steps.\n+ <li><p>Let <var>topLevelDoc</var> be <var>document</var>'s <a>top-level browsing context</a>'s\n+ <a>active document</a>.\n \n- <li><p><a lt=\"unfullscreen an element\">Unfullscreen elements</a> whose <a>fullscreen flag</a> is\n- set, within <var>document</var>'s <a>top layer</a>, except for <var>document</var>'s\n- <a>fullscreen element</a>.\n+ <li><p>If <var>topLevelDoc</var>'s <a>fullscreen element</a> is null, terminate these steps.",
+    "path": "fullscreen.bs",
+    "commit_id": "50f2677e2143b89ab299e0c45b40f343e847b985",
+    "original_commit_id": "50f2677e2143b89ab299e0c45b40f343e847b985",
+    "user": {
+      "login": "foolip",
+      "id": 498917,
+      "node_id": "MDQ6VXNlcjQ5ODkxNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/498917?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/foolip",
+      "html_url": "https://github.com/foolip",
+      "followers_url": "https://api.github.com/users/foolip/followers",
+      "following_url": "https://api.github.com/users/foolip/following{/other_user}",
+      "gists_url": "https://api.github.com/users/foolip/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/foolip/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/foolip/subscriptions",
+      "organizations_url": "https://api.github.com/users/foolip/orgs",
+      "repos_url": "https://api.github.com/users/foolip/repos",
+      "events_url": "https://api.github.com/users/foolip/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/foolip/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "How should this interact with the changes in https://github.com/whatwg/fullscreen/pull/102? The \"fullscreen element is null\" condition should be impossible if top layer is modified *after* the synchronous part of this algorithm has run.",
+    "created_at": "2018-05-18T12:55:07Z",
+    "updated_at": "2018-05-18T12:57:21Z",
+    "html_url": "https://github.com/whatwg/fullscreen/pull/126#discussion_r189258920",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fullscreen/pulls/126",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fullscreen/pulls/comments/189258920"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fullscreen/pull/126#discussion_r189258920"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fullscreen/pulls/126"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fullscreen/pulls/comments/189258920/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 85,
+    "original_line": 85,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 11,
+    "position": 11,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fullscreen/pulls/comments/189501295",
+    "pull_request_review_id": 121691092,
+    "id": 189501295,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE4OTUwMTI5NQ==",
+    "diff_hunk": "@@ -79,34 +79,33 @@ its <a>node document</a>'s <a>top layer</a>.\n <p>To <dfn>fully exit fullscreen</dfn> a <a for=/>document</a> <var>document</var>, run these steps:\n \n <ol>\n- <li><p>If <var>document</var>'s <a>fullscreen element</a> is null, terminate these steps.\n+ <li><p>Let <var>topLevelDoc</var> be <var>document</var>'s <a>top-level browsing context</a>'s\n+ <a>active document</a>.\n \n- <li><p><a lt=\"unfullscreen an element\">Unfullscreen elements</a> whose <a>fullscreen flag</a> is\n- set, within <var>document</var>'s <a>top layer</a>, except for <var>document</var>'s\n- <a>fullscreen element</a>.\n+ <li><p>If <var>topLevelDoc</var>'s <a>fullscreen element</a> is null, terminate these steps.\n \n- <li><p><a>Exit fullscreen</a> <var>document</var>.\n-</ol>\n+ <li><p>Let <var>exitDocs</var> be an <a>ordered set</a> consisting of <var>doc</var>.\n \n-<p>Whenever the <a>removing steps</a> run with a <var>removedNode</var>, run these steps:\n-\n-<ol>\n- <li><p>Let <var>nodes</var> be <var>removedNode</var>'s\n- <a>shadow-including inclusive descendants</a> that have their <a>fullscreen flag</a> set, in\n- <a>shadow-including tree order</a>.\n+ <li><p>Append <var>topLevelDoc</var>'s <a>descendant browsing contexts</a>' <a>active documents</a>\n+ whose <a>fullscreen element</a> are non-null, if any, in <a>tree order</a> to <var>exitDocs</var>.\n \n  <li>\n-  <p><a>For each</a> <var>node</var> in <var>nodes</var>:\n+  <p><a>For each</a> <var>exitDoc</var> in <var>exitDocs</var>:\n \n   <ol>\n-   <li><p>If <var>node</var> is its <a>node document</a>'s <a>fullscreen element</a>,\n-   <a>exit fullscreen</a> that <a for=/>document</a>.\n+   <li><p><a for=set>Append</a> (<code>fullscreenchange</code>, <var>exitDoc</var>'s\n+   <a>fullscreen element</a>) to <var>exitDoc</var>'s <a>list of pending fullscreen events</a>.\n \n-   <li><p>Otherwise, <a lt=\"unfullscreen an element\">unfullscreen <var>node</var></a> within its\n-   <a>node document</a>.\n+   <li><p><a lt=\"unfullscreen a document\">Unfullscreen <var>exitDoc</var></a>.\n   </ol>\n+\n+ <li><p>Run the remaining steps <a>in parallel</a>.\n+ <li><p>Resize <var>topLevelDoc</var>'s viewport to its \"normal\" dimensions.\n </ol>\n \n+<p>Whenever the <a>removing steps</a> run with a <var>removedNode</var>,",
+    "path": "fullscreen.bs",
+    "commit_id": "50f2677e2143b89ab299e0c45b40f343e847b985",
+    "original_commit_id": "50f2677e2143b89ab299e0c45b40f343e847b985",
+    "user": {
+      "login": "upsuper",
+      "id": 333750,
+      "node_id": "MDQ6VXNlcjMzMzc1MA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/333750?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/upsuper",
+      "html_url": "https://github.com/upsuper",
+      "followers_url": "https://api.github.com/users/upsuper/followers",
+      "following_url": "https://api.github.com/users/upsuper/following{/other_user}",
+      "gists_url": "https://api.github.com/users/upsuper/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/upsuper/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/upsuper/subscriptions",
+      "organizations_url": "https://api.github.com/users/upsuper/orgs",
+      "repos_url": "https://api.github.com/users/upsuper/repos",
+      "events_url": "https://api.github.com/users/upsuper/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/upsuper/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "We just need to check whether there exists any element in the subtree which has fullscreen flag set for this change.",
+    "created_at": "2018-05-21T06:06:16Z",
+    "updated_at": "2018-05-21T06:06:16Z",
+    "html_url": "https://github.com/whatwg/fullscreen/pull/126#discussion_r189501295",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fullscreen/pulls/126",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fullscreen/pulls/comments/189501295"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fullscreen/pull/126#discussion_r189501295"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fullscreen/pulls/126"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fullscreen/pulls/comments/189501295/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 106,
+    "original_line": 106,
+    "side": "RIGHT",
+    "in_reply_to_id": 189255349,
+    "author_association": "MEMBER",
+    "original_position": 45,
+    "position": 45,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fullscreen/pulls/comments/189503668",
+    "pull_request_review_id": 121693854,
+    "id": 189503668,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE4OTUwMzY2OA==",
+    "diff_hunk": "@@ -79,34 +79,33 @@ its <a>node document</a>'s <a>top layer</a>.\n <p>To <dfn>fully exit fullscreen</dfn> a <a for=/>document</a> <var>document</var>, run these steps:\n \n <ol>\n- <li><p>If <var>document</var>'s <a>fullscreen element</a> is null, terminate these steps.\n+ <li><p>Let <var>topLevelDoc</var> be <var>document</var>'s <a>top-level browsing context</a>'s\n+ <a>active document</a>.\n \n- <li><p><a lt=\"unfullscreen an element\">Unfullscreen elements</a> whose <a>fullscreen flag</a> is\n- set, within <var>document</var>'s <a>top layer</a>, except for <var>document</var>'s\n- <a>fullscreen element</a>.\n+ <li><p>If <var>topLevelDoc</var>'s <a>fullscreen element</a> is null, terminate these steps.",
+    "path": "fullscreen.bs",
+    "commit_id": "50f2677e2143b89ab299e0c45b40f343e847b985",
+    "original_commit_id": "50f2677e2143b89ab299e0c45b40f343e847b985",
+    "user": {
+      "login": "upsuper",
+      "id": 333750,
+      "node_id": "MDQ6VXNlcjMzMzc1MA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/333750?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/upsuper",
+      "html_url": "https://github.com/upsuper",
+      "followers_url": "https://api.github.com/users/upsuper/followers",
+      "following_url": "https://api.github.com/users/upsuper/following{/other_user}",
+      "gists_url": "https://api.github.com/users/upsuper/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/upsuper/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/upsuper/subscriptions",
+      "organizations_url": "https://api.github.com/users/upsuper/orgs",
+      "repos_url": "https://api.github.com/users/upsuper/repos",
+      "events_url": "https://api.github.com/users/upsuper/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/upsuper/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The condition is possible because there are other callsites to this algorithm, for example, unloading document, and probably for the escaping mechanism. If we don't check here, we would need to guard all callsites with this condition, and we probably still want to assert it in this algorithm to ensure everything runs as expected.",
+    "created_at": "2018-05-21T06:26:04Z",
+    "updated_at": "2018-05-21T06:26:05Z",
+    "html_url": "https://github.com/whatwg/fullscreen/pull/126#discussion_r189503668",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fullscreen/pulls/126",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fullscreen/pulls/comments/189503668"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fullscreen/pull/126#discussion_r189503668"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fullscreen/pulls/126"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fullscreen/pulls/comments/189503668/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 85,
+    "original_line": 85,
+    "side": "RIGHT",
+    "in_reply_to_id": 189258920,
+    "author_association": "MEMBER",
+    "original_position": 11,
+    "position": 11,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]
