@@ -5,10 +5,10 @@ JSON files committed to this repo, laid out like the API paths
 (docs/extraction.md):
 
   data/github/{owner}/{repo}/
-    issues/{n}.json            the issue (or the issue view of a PR)
+    issues/{n}/index.json      the issue (or the issue view of a PR)
     issues/{n}/comments.json   conversation comments, by id
     issues/{n}/events.json     timeline events, by id
-    pulls/{n}.json             the PR view: merged_by, size, ...
+    pulls/{n}/index.json       the PR view: merged_by, size, ...
     pulls/{n}/reviews.json     reviews
     pulls/{n}/comments.json    inline review comments, by id
     pulls/{n}/commits.json     (optional)
@@ -161,7 +161,7 @@ class RepoStore:
 
     # objects
     def path(self, kind, number, what=None):
-        return self.dir / kind / (f"{number}.json" if what is None else f"{number}/{what}.json")
+        return self.dir / kind / str(number) / f"{what or 'index'}.json"
 
     def get(self, kind, number, what=None, default=None):
         return read_json(self.path(kind, number, what), default)
@@ -184,7 +184,6 @@ class RepoStore:
     def remove_item(self, number):
         """Everything stored for a deleted or transferred issue or PR."""
         for kind in ("issues", "pulls"):
-            self.path(kind, number).unlink(missing_ok=True)
             shutil.rmtree(self.dir / kind / str(number), ignore_errors=True)
         if self._index is not None:
             self._index.pop(number, None)
@@ -195,11 +194,11 @@ class RepoStore:
                                       "is_pr": "pull_request" in obj, "comments": obj.get("comments", 0)}
 
     def index(self):
-        """number -> {updated_at, created_at, is_pr, comments}, from issues/*.json."""
+        """number -> {updated_at, created_at, is_pr, comments}, from issues/*/index.json."""
         if self._index is None:
             self._index = {}
-            for p in self.dir.glob("issues/*.json"):
-                if p.stem.isdigit():
+            for p in self.dir.glob("issues/*/index.json"):
+                if p.parent.name.isdigit():
                     self._remember(read_json(p))
         return self._index
 
@@ -211,7 +210,7 @@ class RepoStore:
     def counts(self):
         idx = self.index()
         out = {"issues": sum(not i["is_pr"] for i in idx.values()), "prs": sum(i["is_pr"] for i in idx.values()),
-               "pulls": len(list(self.dir.glob("pulls/*.json")))}
+               "pulls": len(list(self.dir.glob("pulls/*/index.json")))}
         for name, kind, what in (("comments", "issues", "comments"), ("events", "issues", "events"),
                                  ("reviews", "pulls", "reviews"), ("review_comments", "pulls", "comments")):
             out[name] = sum(len(objs) for _, objs in self.lists(kind, what))

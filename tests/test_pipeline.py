@@ -91,11 +91,11 @@ class ExtractTest(TempDirs):
         self.sync(gh)
         d = self.files / REPO
         files = sorted(str(p.relative_to(d)) for p in d.rglob("*") if p.is_file())
-        self.assertEqual(files, ["issues/1.json", "issues/1/comments.json", "issues/1/events.json",
-                                 "issues/2.json", "issues/2/events.json", "issues/3.json",
-                                 "pulls/2.json", "pulls/2/comments.json", "pulls/2/reviews.json",
-                                 "pulls/3.json", "state.json"])
-        text = (d / "issues/2.json").read_text(encoding="utf-8")
+        self.assertEqual(files, ["issues/1/comments.json", "issues/1/events.json", "issues/1/index.json",
+                                 "issues/2/events.json", "issues/2/index.json", "issues/3/index.json",
+                                 "pulls/2/comments.json", "pulls/2/index.json", "pulls/2/reviews.json",
+                                 "pulls/3/index.json", "state.json"])
+        text = (d / "issues/2/index.json").read_text(encoding="utf-8")
         self.assertTrue(text.startswith('{\n  "number": 2,\n'))
         self.assertTrue(text.endswith("}\n") and not text.endswith("\n\n"))
         self.assertEqual(json.loads(text), gh.issues[2])
@@ -104,7 +104,7 @@ class ExtractTest(TempDirs):
         # An update rewrites the file.
         gh.touch(2, "2025-09-01T00:00:00Z")
         self.sync(gh)
-        self.assertEqual(json.loads((d / "issues/2.json").read_text())["updated_at"], "2025-09-01T00:00:00Z")
+        self.assertEqual(json.loads((d / "issues/2/index.json").read_text())["updated_at"], "2025-09-01T00:00:00Z")
 
     def test_incremental_fetches_only_what_changed(self):
         gh = populated()
@@ -194,7 +194,7 @@ class ExtractTest(TempDirs):
         self.assertEqual(r["stored"] + r["gone"], r["highest"])
         # Everything stored for the deleted item is removed (git keeps it).
         self.assertEqual(sorted(p.name for p in self.issue_dir().iterdir()),
-                         ["2", "2.json", "3.json", "6.json"])
+                         ["2", "3", "6"])
         # The next reconcile doesn't recheck known gone numbers.
         c = client(gh)
         extract.reconcile(c, self.store(), **QUIET)
