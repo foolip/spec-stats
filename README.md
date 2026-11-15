@@ -60,7 +60,9 @@ updates work, and how holes are caught: [`docs/extraction.md`](docs/extraction.m
 `.github/workflows/fetch.yml` runs the extractor on demand (Actions →
 "Fetch GitHub data" → Run workflow). Each run stops itself after 300
 minutes and commits what it fetched to `data/github/`, even if it failed,
-and the next run resumes from there. The first backfill of whatwg/html
+and the next run resumes from there. If `main` moved during the run, it
+fails without committing, as the collection code may have changed; don't
+merge into `main` while a run is going. The first backfill of whatwg/html
 will likely take several runs.
 
 - Set a `SPECSTATS_TOKEN` secret (a fine-grained personal token with no

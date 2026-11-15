@@ -96,7 +96,7 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-15 | Each run fetches events before items | Maintainer's choice: whether `/issues/events` pages back to the beginning of whatwg/html is the open question, and items take several runs |
 | 2026-11-15 | Switch the test repo from whatwg/dom to whatwg/html; dom's data stays as fetched on 2026-11-14 | Maintainer's instruction: html is the biggest, so it's where GitHub's paging limits would show |
 | 2026-11-15 | A backfill of `/issues/events` whose last page is full, with no next link, fails the run | Run 4 (whatwg/html) showed GitHub ends the listing at page 300 silently, with no 422; the code took that as the beginning and went on to items, so the early check the events-first order was for didn't fire |
-| 2026-11-15 | The fetch workflow sets the git identity in the repo config, not with `-c` on `commit` | Run 4's `git pull --rebase` (main had moved) rewrote the commit with no identity and failed, so 4.4 hours of fetched data weren't committed |
+| 2026-11-15 | If main moved during a fetch run, the run fails without committing its data (it was rebased onto the new main) | Maintainer's choice: the collection code may have changed under the run. Run 4's rebase failed anyway, for want of a git identity |
 
 ## Status
 
@@ -107,8 +107,9 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 - Run 4 (2026-11-15, whatwg/html) made 22,504 requests in 4h22m, the
   full 5,000-an-hour budget: each hour's budget went in about 20 minutes
   and the rest was a rate-limit pause. `/issues/events` stopped at page
-  300 (back to 2024-12-06) with no error, and the commit step failed, so
-  nothing from it was kept. Both are fixed; whatwg/html's events need a
+  300 (back to 2024-12-06) with no error, and the commit step failed
+  (main had moved), so nothing from it was kept. The events check is
+  fixed, and a run during which main moves now fails on purpose; whatwg/html's events need a
   decision before the next run (next steps).
 - whatwg/dom was fetched on 2026-11-14 by the previous design. It
   confirmed that `/issues/events` paged back to dom's first issue (150

@@ -2,9 +2,11 @@
 #
 # Everything fetched is committed to this repo, in data/github/
 # (docs/extraction.md), at the end of every run, even one that failed or
-# stopped at its deadline, so the next run resumes from there. A backfill
-# bigger than one run takes several runs. The first run fetches
-# each repo's whole history; later runs only what changed.
+# stopped at its deadline, so the next run resumes from there. The
+# exception: if main moved during the run, the run fails and its data is
+# dropped, as the code that collected it may be out of date. A backfill
+# bigger than one run takes several runs. The first run fetches each
+# repo's whole history; later runs only what changed.
 #
 # Token: the SPECSTATS_TOKEN secret if set (a fine-grained personal token
 # with no extra permissions: 5,000 requests an hour), otherwise the
@@ -53,16 +55,20 @@ jobs:
       - name: Commit the fetched data
         if: always()
         run: |
-          # The identity is set in the repo config, not with -c on commit:
-          # the rebase below rewrites the commit when main moved during the
-          # run, and needs it too (run 4 failed there, losing its data).
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/github
           if git diff --cached --quiet; then echo "No changes"; exit 0; fi
-          git commit -q -m "Update GitHub data"
-          git pull -q --rebase
-          git push -q
+          # If main moved during the run, the collection code may have
+          # changed under it, so the data isn't committed: fail instead.
+          # (A push that races a later move is rejected as non-fast-forward.)
+          git fetch -q origin main
+          if [ "$(git rev-parse FETCH_HEAD)" != "$GITHUB_SHA" ]; then
+            echo "::error::main moved from $GITHUB_SHA to $(git rev-parse FETCH_HEAD) during the run; not committing its data"
+            exit 1
+          fi
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit -q -m "Update GitHub data"
+          git push -q origin HEAD:main
 
       - name: Report
         if: always()
