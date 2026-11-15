@@ -8,9 +8,12 @@
 # bigger than one run takes several runs. The first run fetches each
 # repo's whole history; later runs only what changed.
 #
-# Token: the SPECSTATS_TOKEN secret if set (a fine-grained personal token
-# with no extra permissions: 5,000 requests an hour), otherwise the
-# built-in token (1,000 an hour). A run never waits for quota: it stops
+# Token: the built-in token, which is enough (5,000 requests an hour here:
+# run 4 stopped at a 500 reserve; each run logs the limit), or the
+# SPECSTATS_TOKEN secret if set (not set). The built-in token is new every
+# run, and GitHub's ETags are per token, so a listing's saved ETag never
+# matches on the next run: an unchanged repo costs two ordinary requests,
+# not two free 304s. A run never waits for quota: it stops
 # when the hourly budget is down to its reserve (about 20 minutes into a
 # backfill), commits, and the next run, an hour later, continues.
 # Contact for the User-Agent: the SPECSTATS_CONTACT variable, if set.

@@ -40,7 +40,8 @@ removed on 2026-11-14 (decisions log); its last version is at commit
      a 429 or secondary rate limit; the next run continues. 5xx and
      network errors are retried with back-off.
    - Incremental: fetch only what changed since the last run, with ETags so
-     unchanged listings are free 304s (`docs/extraction.md`).
+     unchanged listings are free 304s when the token is the same
+     (`docs/extraction.md`).
    - Identify ourselves: the User-Agent carries the operator's contact
      address from the gitignored `data/private/settings.json`.
 3. **Publishing per-person data.** The raw GitHub data, which includes
@@ -94,7 +95,7 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-15 | Redirects aren't followed; a transferred issue is treated like a deleted one (recorded as gone) | Maintainer's choice. Following the redirect fetches from another repo, possibly outside `whatwg/` |
 | 2026-11-15 | ~~**Events come only from the repo-wide `/issues/events` listing**, read back to the beginning once, then the new ones each run (a free 304 if none); no per-item event requests~~ (superseded the same day: per-item events, below). The run fails ~~if GitHub won't page back far enough, or~~ if a closed item has no `closed` event or a merged PR no `merged` event | Fewest requests (one per 100 events). It catches the events that don't move an item's `updated_at` (1,965 of 14,960 in whatwg/dom, mostly `referenced`). It paged back to 2012 for whatwg/dom; whatwg/html, the biggest, is the test, so the code fails rather than fall back. An event skipped by a deletion during the read is accepted as missing |
 | 2026-11-15 | Events (`/issues/{n}/events` form), not the timeline API (confirmed by `timeline-check`, below) | The timeline's only unique data is `cross-referenced`, which embeds issues from other repos; it also repeats comments and reviews, and some of its items have no id |
-| 2026-11-15 | An unchanged repo costs two requests per run (items and events), both 304s | ETags on the first page of each listing; the `since` of the items listing only moves when something changed |
+| 2026-11-15 | An unchanged repo costs two requests per run (items and events), ~~both 304s~~ (304s only with the same token; not in Actions, below) | ETags on the first page of each listing; the `since` of the items listing only moves when something changed |
 | 2026-11-15 | ~~Each run fetches events before items~~ (reversed the same day: items first, as the events listing is only read after the items backfill) | Maintainer's choice: whether `/issues/events` pages back to the beginning of whatwg/html is the open question, and items take several runs |
 | 2026-11-15 | ~~Switch the test repo from whatwg/dom to whatwg/html~~ (whatwg/fullscreen first, below); dom's data stays as fetched on 2026-11-14 | Maintainer's instruction: html is the biggest, so it's where GitHub's paging limits would show |
 | 2026-11-15 | A read of `/issues/events` ~~(then the backfill)~~ that ends on a full page with no next link before reaching where it should fails the run | Run 4 (whatwg/html) showed GitHub ends the listing at page 300 silently, with no 422; the code took that as the beginning and went on to items, so the early check the events-first order was for didn't fire |
@@ -102,6 +103,7 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-15 | **The timeline can't replace the per-item lists.** `timeline-check` on 40 whatwg/dom items: issue comments all there and identical; reviews 92 of 386 (none of the 294 that only reply in an existing thread, and `state`, `user` and `body` differ); inline comments 43 of 576 (only those not part of a review); events 1,613 of 1,801 (188 missing, mostly `referenced`, `subscribed` and `mentioned`, no rule found). The endpoint's only parameters are paging and `exclude`. Details in `docs/extraction.md` | Only the comments request could go, at the cost of a timeline request per item. Cross-references are the one thing only the timeline has: a reason to add it later (as an optional per-item resource, with `exclude` to keep it small) if a dashboard needs them, e.g. WPT PRs linking to spec PRs; adding it later costs the same requests as now |
 | 2026-11-15 | Test on whatwg/fullscreen before whatwg/html | Maintainer's instruction: see whether the extractor works end to end at all. With about 260 issues and PRs (roughly 1,000 requests), one run does the whole backfill, the first read of the events listing and the checks |
 | 2026-11-15 | **The fetch stores what GitHub returns, consistent or not; consistency checks run separately** (`specstats check`, offline, in its own workflow, `check.yml`, triggered manually for now; not in the fetch workflow or triggered by it, at the maintainer's instruction). The fetch fails only when fetching can't be done right (the events listing won't reach back far enough, or `config/fetch.json` changed). The checks: every number reached is stored or gone, closed items have a `closed` event, merged PRs a `merged` event, PRs a `pulls/{n}/index.json`, no events under numbers neither stored nor gone | Maintainer's choice: GitHub's data isn't perfectly consistent (whatwg/fullscreen #220, a probable spam PR closed by its author, has no events at all, not even `closed`), so failing the fetch on it stops collection for no fault of ours. The checks are for finding bugs in the end-to-end process; a finding may turn out to be GitHub's |
+| 2026-11-15 | The fetch workflow uses the built-in token; no personal token. Each run logs the rate limit GitHub reports. ETags don't save requests there | Maintainer's choice. The built-in token has had 5,000 requests an hour (run 4 stopped at the 500 reserve, about every 4,500 requests; run 5 made 1,017), not the 1,000 the docs said. It's new every run and GitHub's ETags are per token (`Vary: Authorization`; same token: stable ETag and a 304 after 70 s), so runs 6 and 7 of an unchanged whatwg/fullscreen got 200s with new ETags. That costs two requests per run |
 | 2026-11-15 | **Events are fetched per item** (`GET /issues/{n}/events` with everything else for the number, every item); the repo-wide `/issues/events` listing is read only after the items backfill, from a day before the backfill started, then back to the last run's newest event | Maintainer's choice. GitHub ends the repo-wide listing after 300 pages, so it can't be the backfill for whatwg/html; per item, a backfilled number is complete with its events. Costs one request per item more (about 11,000 for whatwg/html). The listing still catches the events that don't move an item's `updated_at` |
 | 2026-11-15 | A run never waits for rate-limit quota: at the hourly reserve, or on a 429, secondary or primary rate limit, it stops cleanly as at its deadline (`RateLimited`), and the next run continues | Maintainer's instruction: the runner mustn't idle. Run 4 spent about 3¼ of its 4⅓ hours paused for the reset |
 | 2026-11-15 | If main moved during a fetch run, the run fails without committing its data (it was rebased onto the new main) | Maintainer's choice: the collection code may have changed under the run. Run 4's rebase failed anyway, for want of a git identity |
@@ -133,11 +135,9 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 
 ## Next steps
 
-1. Run the fetch workflow for whatwg/fullscreen again: an unchanged repo
-   should now cost two 304s. Run 6 (the first update) got a 200 from the
-   events listing with nothing new, despite run 5's ETag; if that
-   repeats, the listing's ETag isn't reliable (one request per run). The
-   "Check data" workflow (run by hand) should report #220 and nothing else.
+1. Run "Check data" (by hand): it should report whatwg/fullscreen #220
+   and nothing else. (Runs 6 and 7 of the unchanged repo cost two
+   requests each, as expected with the built-in token.)
 2. Then switch to whatwg/html and run the fetch workflow until the
    backfill is done (about one run per hour of budget, at roughly 4
    requests per item), look at what "Check data" finds, and cross-check
@@ -146,8 +146,7 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 3. Decide what to do with whatwg/dom's data: refetch it with the new
    design, or keep it.
 4. Check `config/repos.txt` against the list of Living Standards (whatwg/sg `db.json`), then all repos.
-5. Daily job: GitHub Actions on a schedule, with a personal token as a
-   secret (the built-in token's limit is too low for the backfill),
+5. Daily job: GitHub Actions on a schedule, with the built-in token,
    committing to `data/github/` as the manual workflow does, and
    `--reconcile` weekly.
 6. Then dashboards: bring back Maintenance load (commit `10edb66`),

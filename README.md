@@ -50,10 +50,10 @@ python3 -m unittest discover tests
 
 The first `extract` fetches each repo's whole history, one issue or PR at a
 time; later runs fetch only what changed, and an unchanged repo costs two
-free 304 responses. It stores what GitHub returns, consistent or not;
-`python3 -m specstats check` (offline) then looks for inconsistencies in
-the stored data, which may be bugs in the process or GitHub's own. The data
-is plain JSON files, so `jq`, `grep` and `git log -p` work on it directly. How
+requests (free 304s when the token is the same as the last run's). It
+stores what GitHub returns, consistent or not; `python3 -m specstats
+check` (offline) then looks for inconsistencies in the stored data, which
+may be bugs in the process or GitHub's own. The data is plain JSON files, so `jq`, `grep` and `git log -p` work on it directly. How
 updates work, and how holes are caught: [`docs/extraction.md`](docs/extraction.md).
 
 ### In GitHub Actions
@@ -66,12 +66,11 @@ fails without committing, as the collection code may have changed; don't
 merge into `main` while a run is going. A backfill bigger than one
 hour's budget (whatwg/html: about 10) takes several runs.
 
-- Set a `SPECSTATS_TOKEN` secret (a fine-grained personal token with no
-  extra permissions) for 5,000 requests an hour; without it, the built-in
-  token allows 1,000. A run doesn't wait for the hourly limit to reset:
-  it stops and commits when the budget is down to its reserve, so a
-  backfill is one run an hour (about 4,500 requests each with a personal
-  token).
+- The built-in token is enough: it has had 5,000 requests an hour here
+  (each run logs the limit). A `SPECSTATS_TOKEN` secret, if set, is used
+  instead. A run doesn't wait for the hourly limit to reset: it stops and
+  commits when the budget is down to its reserve, so a backfill is one
+  run an hour (about 4,500 requests each).
 - Set a `SPECSTATS_CONTACT` variable to put a contact address in the
   User-Agent.
 - Each run's summary page shows what's stored and the cursors

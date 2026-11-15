@@ -403,6 +403,17 @@ class ClientTest(unittest.TestCase):
             c.rest("/y")
         self.assertEqual((c.requests, sleeps), (1, []))
 
+    def test_rate_limit_is_logged_once(self):
+        lines = []
+
+        def transport(*a):
+            return 200, {"x-ratelimit-remaining": "4990", "x-ratelimit-limit": "5000"}, b"[]"
+        c = github.Client(token="t", transport=transport, sleep=lambda s: None, log=lines.append)
+        c.rest("/x")
+        c.rest("/y")
+        self.assertEqual(c.rate_limit, 5000)
+        self.assertEqual(lines, ["rate limit: 5000 an hour, 4990 left (no reset time given)"])
+
     def test_one_above_the_reserve_continues(self):
         def transport(*a):
             return 200, {"x-ratelimit-remaining": "501", "x-ratelimit-limit": "5000"}, b"[]"
