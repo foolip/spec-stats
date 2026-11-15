@@ -62,8 +62,8 @@ updates work, and how holes are caught: [`docs/extraction.md`](docs/extraction.m
 minutes and commits what it fetched to `data/github/`, even if it failed,
 and the next run resumes from there. If `main` moved during the run, it
 fails without committing, as the collection code may have changed; don't
-merge into `main` while a run is going. The first backfill of whatwg/html
-will likely take several runs.
+merge into `main` while a run is going. A backfill bigger than one
+hour's budget (whatwg/html: about 10) takes several runs.
 
 - Set a `SPECSTATS_TOKEN` secret (a fine-grained personal token with no
   extra permissions) for 5,000 requests an hour; without it, the built-in
