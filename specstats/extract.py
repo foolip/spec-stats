@@ -29,8 +29,12 @@ listing, newest first, back to the last run's newest event (one free 304
 if there are none): it has the events that don't move an item's
 updated_at, so the item isn't refetched for them. The listing can't be
 the backfill: GitHub ends it after 300 pages (whatwg/html: back to
-2024-12-06). If the stored events don't add up (a closed item with no
-`closed` event), the run fails with CheckFailed.
+2024-12-06).
+
+The data is stored as GitHub returns it, consistent or not; a run fails
+(CheckFailed) only when fetching itself can't be done right: GitHub won't
+page the events listing back far enough, or config/fetch.json changed.
+Consistency checks on the stored data are separate (check.py).
 """
 
 import json
@@ -60,6 +64,8 @@ PR_RESOURCES = {
 
 
 class CheckFailed(Exception):
+    """Fetching can't be done right; the run stores what it has and fails."""
+
     """An assumption about GitHub's data didn't hold. What was fetched is
     stored; the run reports this and exits with an error."""
 
@@ -396,9 +402,10 @@ def update_items(client, store, resources, log=print):
 
 
 def reconcile(client, store, resources, log=print):
-    """Weekly: list every item, sync any whose updated_at differs (missed
-    updates) or that's stored but no longer listed (deleted or transferred),
-    and fail unless every number up to the highest is stored or gone."""
+    """Weekly: list every item, and sync any whose updated_at differs (missed
+    updates) or that's stored but no longer listed (deleted or transferred).
+    `check` then finds any number up to the highest that's neither stored
+    nor gone."""
     listed = {}
 
     def on_page(rows):
@@ -415,11 +422,8 @@ def reconcile(client, store, resources, log=print):
         sync_item(client, store, n, resources)
     store.save_state()
     highest = store.section("items")["highest"]
-    missing = sorted(set(range(1, highest + 1)) - set(store.index()) - store.gone())
     log(f"{store.repo} reconcile: synced {changed} changed and {len(unlisted)} unlisted; "
         f"numbers 1..{highest}: {len(store.index())} stored, {len(store.gone())} gone")
-    if missing:
-        raise CheckFailed(f"{store.repo}: numbers neither stored nor gone: {_some(missing)}")
 
 
 # --- events ------------------------------------------------------------------
@@ -481,34 +485,6 @@ def sync_events(client, store, log=print):
     log(f"{store.repo} events: stored {stored}")
 
 
-def _some(numbers, limit=20):
-    return ", ".join(map(str, numbers[:limit])) + (f", … ({len(numbers)} in all)" if len(numbers) > limit else "")
-
-
-def check_events(store):
-    """What the stored items say must be in the stored events: a `closed`
-    event for every closed item and a `merged` event for every merged PR.
-    Also no events for numbers that are neither stored nor gone."""
-    problems = []
-    no_closed, no_merged = [], []
-    for n, info in sorted(store.index().items()):
-        kinds = {e["event"] for e in store.get("issues", n, "events", [])}
-        if info["state"] == "closed" and "closed" not in kinds:
-            no_closed.append(n)
-        if info["merged"] and "merged" not in kinds:
-            no_merged.append(n)
-    if no_closed:
-        problems.append(f"closed with no `closed` event: {_some(no_closed)}")
-    if no_merged:
-        problems.append(f"merged with no `merged` event: {_some(no_merged)}")
-    highest = store.section("items").get("highest", 0)
-    orphans = [n for n, _ in store.lists("issues", "events") if n <= highest and n not in store.index()]
-    if orphans:
-        problems.append(f"events for numbers not stored: {_some(orphans)}")
-    if problems:
-        raise CheckFailed(f"{store.repo} events don't add up; " + "; ".join(problems))
-
-
 # --- whole repo ----------------------------------------------------------------
 
 def sync_repo(client, store, reconcile_=False, log=print):
@@ -531,5 +507,3 @@ def sync_repo(client, store, reconcile_=False, log=print):
         sync_events(client, store, log=log)
     finally:
         store.save_state()
-    if "cursor" in store.section("events"):
-        check_events(store)

@@ -161,27 +161,40 @@ authorship) entries, neither with an id. Its only parameters are paging
 and `exclude` (event types to leave out); nothing adds a review's
 comments.
 
-## Checks (`CheckFailed`)
+## When a run fails (`CheckFailed`)
 
-A run stores what it fetched, then exits with an error if an assumption
-doesn't hold:
+The extractor stores what GitHub returns, consistent or not. A run
+stores what it fetched and then exits with an error only when fetching
+itself can't be done right:
 
 - The repo-wide `/issues/events` doesn't reach back to the last run's
   events: HTTP 422, or a full page (100 events) with no next link, which
   is how GitHub cut off whatwg/html's listing at page 300.
-- Once the items backfill is done, on every run: every closed item has a
-  `closed` event, every merged PR has a `merged` event, and no events
-  are stored for a number up to the highest that's neither stored nor
-  gone.
-- With `--reconcile`, every number up to the highest is stored or gone.
 - `config/fetch.json` changed its per-PR resources.
+
+## Consistency checks (`check`)
+
+`python3 -m specstats check` reads the stored files (no requests) and
+reports, per repo, for the numbers the backfill has reached:
+
+- numbers neither stored nor gone, or both;
+- closed items with no `closed` event, merged PRs with no `merged` event;
+- PRs with no `pulls/{n}/index.json`;
+- events stored under a number that's neither stored nor gone.
+
+It exits with an error if it finds anything. These are for finding bugs
+in the whole process (fetching, storing, committing); a finding can also
+be GitHub's own inconsistency, such as whatwg/fullscreen #220, a closed
+PR for which GitHub returns no events at all. The fetch workflow runs
+it as a separate job on the committed data after every fetch. Repos
+stored in the format before 2026-11-15 (whatwg/dom) aren't checked.
 
 ## A run (`extract`)
 
 Per repo: the items backfill or an update, then with `--reconcile` the
-reconcile, then (once the backfill is done) the events listing and the
-checks. Events filed under a number above the highest that turns out to
-be gone are removed when an update reaches it.
+reconcile, then (once the backfill is done) the events listing. Events
+filed under a number above the highest that turns out to be gone are
+removed when an update reaches it.
 
 A caught-up run of an unchanged repo is two requests, both free 304s.
 
@@ -214,8 +227,8 @@ every item is listed (one request per 100 items, by keyset), and:
    missed update);
 2. any stored item that's no longer listed is synced, which records it as
    gone if it is;
-3. the run fails unless every number from 1 to the highest is stored or
-   gone.
+3. `check` then reports any number from 1 to the highest that's neither
+   stored nor gone.
 
 ## Known gaps
 
