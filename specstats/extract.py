@@ -5,37 +5,30 @@ JSON files committed to this repo, laid out like the API paths
 (docs/extraction.md):
 
   data/github/{owner}/{repo}/
-    issues/{n}/index.json      the issue (or the issue view of a PR)
-    issues/{n}/comments.json   conversation comments, by id
-    issues/{n}/events.json     timeline events, by id
-    pulls/{n}/index.json       the PR view: merged_by, size, ...
-    pulls/{n}/reviews.json     reviews
-    pulls/{n}/comments.json    inline review comments, by id
+    issues/{n}/index.json      GET /issues/{n} (the issue, or the issue view of a PR)
+    issues/{n}/comments.json   GET /issues/{n}/comments
+    issues/{n}/events.json     events from the repo-wide /issues/events, by id
+    pulls/{n}/index.json       GET /pulls/{n}
+    pulls/{n}/reviews.json     GET /pulls/{n}/reviews
+    pulls/{n}/comments.json    GET /pulls/{n}/comments
     pulls/{n}/commits.json     (optional)
     pulls/{n}/files.json       (optional)
-    state.json                 cursors, ETags, what was fetched when, gone numbers
+    state.json                 where each part is up to, and numbers that are gone
 
 Git keeps every earlier version, so nothing here keeps history itself.
 
-Per repo there are four *streams*, each a listing of the whole repo:
+Items (issues and PRs) are fetched one number at a time, everything for a
+number together (sync_item). The backfill walks the numbers from 1 to the
+highest; after it, each run lists the items updated since the last run
+(one free 304 if nothing changed) and syncs those whose updated_at differs
+from the stored one.
 
-  items            /issues            every issue and PR (sort=updated, asc, since)
-  issue_comments   /issues/comments   every conversation comment (asc, since)
-  review_comments  /pulls/comments    every inline review comment (asc, since)
-  events           /issues/events     every timeline event (newest first, no since)
-
-and, for each PR whose `updated_at` changed, the per-PR resources listed in
-config/fetch.json (REST has no repo-wide listing of these):
-
-  pull     /pulls/{n}           merged_by, size, review comment count
-  reviews  /pulls/{n}/reviews   states and bodies
-  commits  /pulls/{n}/commits   (optional)
-  files    /pulls/{n}/files     (optional)
-
-Each ascending stream re-reads OVERLAP before its cursor, so anything an
-earlier run missed is picked up; the cursor advances page by page, so an
-interrupted run resumes; and the first page carries the last ETag, so an
-unchanged stream costs one free 304.
+Events come only from the repo-wide /issues/events listing, newest first:
+read back to the beginning once, then each run reads the new ones (one
+free 304 if there are none). This assumes GitHub pages that listing all the
+way back; if it doesn't, or the stored events don't add up (a closed item
+with no `closed` event), the run fails with CheckFailed rather than fall
+back to per-item requests.
 """
 
 import json
@@ -45,19 +38,24 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from . import paths
-from .github import DeadlineReached, GitHubError, NotFound, PaginationLimit
+from .github import GitHubError, Gone, PaginationLimit
 
 OVERLAP = timedelta(days=1)
 PER_PAGE = 100
-STATE_EVERY = 50  # save state.json after this many per-item fetches
+STATE_EVERY = 50  # save state.json after this many items
 
 PR_RESOURCES = {
-    # resource -> (API path, file under pulls/, paged)
+    # resource -> (API path, file under pulls/{n}/, paged)
     "pull": ("/repos/{repo}/pulls/{n}", None, False),
     "reviews": ("/repos/{repo}/pulls/{n}/reviews", "reviews", True),
     "commits": ("/repos/{repo}/pulls/{n}/commits", "commits", True),
     "files": ("/repos/{repo}/pulls/{n}/files", "files", True),
 }
+
+
+class CheckFailed(Exception):
+    """An assumption about GitHub's data didn't hold. What was fetched is
+    stored; the run reports this and exits with an error."""
 
 
 def now():
@@ -72,8 +70,8 @@ def _fmt(dt):
     return dt.strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def _tail_number(url):
-    return int(url.rstrip("/").rsplit("/", 1)[1])
+def _minus_overlap(ts):
+    return _fmt(_parse(ts) - OVERLAP)
 
 
 def load_pr_resources():
@@ -118,10 +116,6 @@ def write_json(path, data):
     tmp.replace(path)
 
 
-def _by_number(d):
-    return {k: d[k] for k in sorted(d, key=int)}
-
-
 class RepoStore:
     """One repo's files, data/github/{owner}/{repo}/."""
 
@@ -132,31 +126,22 @@ class RepoStore:
         self._index = None
 
     # state.json
-    def cursor(self, stream):
-        return self.state.get("cursors", {}).get(stream, {})
-
-    def set_cursor(self, stream, **fields):
-        self.state.setdefault("cursors", {})[stream] = {k: v for k, v in fields.items() if v is not None}
-        self.save_state()
-
-    def fetched(self, resource, number):
-        return self.state.get("fetched", {}).get(resource, {}).get(str(number))
-
-    def set_fetched(self, resource, number, updated_at):
-        self.state.setdefault("fetched", {}).setdefault(resource, {})[str(number)] = updated_at
+    def section(self, name):
+        return self.state.setdefault(name, {})
 
     def gone(self):
-        return {int(n): v for n, v in self.state.get("gone", {}).items()}
+        return {int(n) for n in self.state.get("gone", {})}
 
-    def set_gone(self, number, reason):
-        self.state.setdefault("gone", {})[str(number)] = {"reason": reason, "checked_at": now()}
+    def set_gone(self, number):
+        self.state.setdefault("gone", {})[str(number)] = {"checked_at": now()}
+
+    def unset_gone(self, number):
+        self.state.get("gone", {}).pop(str(number), None)
 
     def save_state(self):
         s = dict(self.state)
-        if "fetched" in s:
-            s["fetched"] = {r: _by_number(m) for r, m in sorted(s["fetched"].items())}
         if "gone" in s:
-            s["gone"] = _by_number(s["gone"])
+            s["gone"] = {k: s["gone"][k] for k in sorted(s["gone"], key=int)}
         write_json(self.dir / "state.json", s)
 
     # objects
@@ -170,9 +155,6 @@ class RepoStore:
         write_json(self.path(kind, number, what), data)
         if kind == "issues" and what is None and self._index is not None:
             self._remember(data)
-
-    def put_issue(self, obj):
-        self.put("issues", obj["number"], None, obj)
 
     def merge(self, kind, number, what, objs):
         """Add or replace objects by id in a list file, kept sorted by id."""
@@ -190,11 +172,12 @@ class RepoStore:
 
     # a small in-memory index of the issue files
     def _remember(self, obj):
-        self._index[obj["number"]] = {"updated_at": obj["updated_at"], "created_at": obj["created_at"],
-                                      "is_pr": "pull_request" in obj, "comments": obj.get("comments", 0)}
+        self._index[obj["number"]] = {
+            "updated_at": obj["updated_at"], "created_at": obj["created_at"], "state": obj["state"],
+            "is_pr": "pull_request" in obj, "merged": bool((obj.get("pull_request") or {}).get("merged_at"))}
 
     def index(self):
-        """number -> {updated_at, created_at, is_pr, comments}, from issues/*/index.json."""
+        """number -> {updated_at, created_at, state, is_pr, merged}, from issues/*/index.json."""
         if self._index is None:
             self._index = {}
             for p in self.dir.glob("issues/*/index.json"):
@@ -219,7 +202,7 @@ class RepoStore:
 
 
 def stored_repos(root=None):
-    """owner/name of every repo with files, e.g. ["whatwg/dom"]."""
+    """owner/name of every repo with files, e.g. ["whatwg/html"]."""
     root = Path(root or paths.github_dir())
     if not root.is_dir():
         return []
@@ -236,45 +219,108 @@ def _all_pages(client, path, params=None):
         resp = client.rest(resp.next)
 
 
-# --- the ascending streams -------------------------------------------------
+# --- one item ------------------------------------------------------------------
 
-ASCENDING = {
-    "items": ("/repos/{repo}/issues", {"state": "all", "sort": "updated", "direction": "asc"}),
-    "issue_comments": ("/repos/{repo}/issues/comments", {"sort": "updated", "direction": "asc"}),
-    "review_comments": ("/repos/{repo}/pulls/comments", {"sort": "updated", "direction": "asc"}),
-}
+def sync_item(client, store, number, resources):
+    """Fetch everything for one issue or PR number and replace what's stored.
+
+    index.json is written last, so its updated_at says the item is synced:
+    a run stopped midway refetches the item. A number that's deleted,
+    transferred elsewhere (a redirect, not followed) or never existed is
+    recorded as gone, and anything stored for it is removed.
+    """
+    repo = store.repo
+    try:
+        obj = client.rest(f"/repos/{repo}/issues/{number}").data
+        comments = (list(_all_pages(client, f"/repos/{repo}/issues/{number}/comments"))
+                    if obj["comments"] else None)
+        pr = {}
+        if "pull_request" in obj:
+            for res in resources:
+                path, _, paged = PR_RESOURCES[res]
+                url = path.format(repo=repo, n=number)
+                pr[res] = list(_all_pages(client, url)) if paged else client.rest(url).data
+            pull = pr.get("pull")
+            pr["review_comments"] = (list(_all_pages(client, f"/repos/{repo}/pulls/{number}/comments"))
+                                     if pull is None or pull["review_comments"] else None)
+    except Gone:
+        store.remove_item(number)
+        store.set_gone(number)
+        return None
+    store.unset_gone(number)
+    store.put("issues", number, "comments", comments)
+    for res, data in pr.items():
+        what = "comments" if res == "review_comments" else PR_RESOURCES[res][1]
+        store.put("pulls", number, what, data)
+    store.put("issues", number, None, obj)
+    return obj
 
 
-def _store_page(store, stream, rows):
-    """Store one page of an ascending stream."""
-    if stream == "items":
-        for obj in rows:
-            store.put_issue(obj)
-        return
-    groups = defaultdict(list)
-    for obj in rows:
-        if stream == "issue_comments":
-            groups[("issues", _tail_number(obj["issue_url"]))].append(obj)
-        else:
-            groups[("pulls", _tail_number(obj["pull_request_url"]))].append(obj)
-    for (kind, number), objs in groups.items():
-        store.merge(kind, number, "comments", objs)
+def _sync_through(client, store, number, resources):
+    """Make every number up to `number` stored or gone: sync the numbers
+    between the highest known and `number`, which is new."""
+    s = store.section("items")
+    while s["highest"] < number:
+        sync_item(client, store, s["highest"] + 1, resources)
+        s["highest"] += 1
 
 
-def list_ascending(client, path, params, on_page, first=None, log=print):
+# --- items -------------------------------------------------------------------
+
+ITEMS = {"state": "all", "sort": "updated", "direction": "asc"}
+
+
+def find_highest(client, repo):
+    """The highest issue or PR number. The newest-created item usually has
+    it, but an issue transferred in later keeps its creation date and gets
+    a higher number; a transfer moves updated_at, so it's among the items
+    updated since the newest was created."""
+    newest = client.rest(f"/repos/{repo}/issues",
+                         {"state": "all", "sort": "created", "direction": "desc", "per_page": 1}).data
+    if not newest:
+        return 0
+    highest = newest[0]["number"]
+    for row in _all_pages(client, f"/repos/{repo}/issues",
+                          {"state": "all", "sort": "updated", "direction": "desc",
+                           "since": newest[0]["created_at"]}):
+        highest = max(highest, row["number"])
+    return highest
+
+
+def backfill_items(client, store, resources, log=print):
+    """Every number from 1 to the highest, one at a time. Resumes from `next`."""
+    s = store.section("items")
+    if "highest" not in s:
+        s["started"] = now()
+        s["highest"] = find_highest(client, store.repo)
+        s["next"] = 1
+        store.save_state()
+    done = 0
+    while s["next"] <= s["highest"]:
+        sync_item(client, store, s["next"], resources)
+        s["next"] += 1
+        done += 1
+        if done % STATE_EVERY == 0:
+            store.save_state()
+    # Anything created, transferred in or updated since the backfill
+    # started is in the first update's listing.
+    s["cursor"] = s.pop("started")
+    del s["next"]
+    store.save_state()
+    log(f"{store.repo} items: backfilled numbers 1..{s['highest']} ({done} this run)")
+
+
+def list_ascending(client, path, params, on_page, first=None):
     """Page through an ascending listing by *keyset*: each next page is page 1
-    again with `since` just before the newest timestamp seen so far, rather
-    than page 2, 3, ... of the original request.
+    again with `since` just before the newest timestamp seen so far.
 
-    Offset pages shift when a row we've already read is updated mid-listing
-    (it moves to the end, and the row after our page boundary slides back
-    into it, unread). Keyset pages can't skip rows, and they never page deep
-    enough to hit GitHub's pagination limit. Rows in the overlapping second
-    are re-read and harmlessly re-stored. Only if a whole page shares one
-    timestamp does this follow the offset link for that stretch.
+    Following page 2, 3, ... links would skip a row whenever a row already
+    read is updated mid-listing (it moves to the end, and the row after the
+    page boundary slides back unread). Only if a whole page shares one
+    second does this follow the offset link for that stretch.
 
     `first` is the already-requested first page, if any. `on_page(rows)`
-    stores a page and returns the newest timestamp.
+    handles a page and returns its newest updated_at.
     """
     per_page = int(params.get("per_page", PER_PAGE))
     resp = first or client.rest(path, params)
@@ -288,248 +334,197 @@ def list_ascending(client, path, params, on_page, first=None, log=print):
             since = next_since
             resp = client.rest(path, dict(params, since=since))
         else:
-            # A full page within one second: step through it by offset.
             try:
                 resp = client.rest(resp.next)
             except PaginationLimit:
                 raise GitHubError(f"{path}: more rows at {newest} than GitHub will page through")
 
 
-def sync_ascending(client, store, stream, log=print):
-    """Fetch everything in `stream` updated since the cursor (minus OVERLAP)."""
-    repo = store.repo
-    path, base = ASCENDING[stream]
-    path = path.format(repo=repo)
-    c = store.cursor(stream)
-    cursor = c.get("cursor")
-    since = _fmt(_parse(cursor) - OVERLAP) if cursor else None
-    params = dict(base, per_page=PER_PAGE)
-    if since:
-        params["since"] = since
-    first = client.rest(path, params, etag=c.get("etag") if c.get("since") == since else None)
+def _sync_changed(client, store, rows, resources):
+    """Sync each listed item whose updated_at differs from the stored one
+    (or that isn't stored). Returns how many were synced."""
+    idx, synced = store.index(), 0
+    for row in rows:
+        n = row["number"]
+        _sync_through(client, store, n - 1, resources)
+        if idx.get(n, {}).get("updated_at") != row["updated_at"]:
+            sync_item(client, store, n, resources)
+            synced += 1
+        s = store.section("items")
+        s["highest"] = max(s["highest"], n)
+    return synced
+
+
+def update_items(client, store, resources, log=print):
+    """Items updated since the cursor (minus OVERLAP). The first page carries
+    the last ETag for the same `since`, so an unchanged repo is a free 304."""
+    s = store.section("items")
+    since = _minus_overlap(s["cursor"])
+    path = f"/repos/{store.repo}/issues"
+    params = dict(ITEMS, per_page=PER_PAGE, since=since)
+    first = client.rest(path, params, etag=s.get("etag") if s.get("etag_since") == since else None)
     if first.status == 304:
-        log(f"{repo} {stream}: unchanged")
+        log(f"{store.repo} items: unchanged")
         return 0
-    state = {"newest": cursor, "stored": 0}
+    total = [0]
 
     def on_page(rows):
-        _store_page(store, stream, rows)
-        for obj in rows:
-            state["newest"] = max(state["newest"] or obj["updated_at"], obj["updated_at"])
-        state["stored"] += len(rows)
-        store.set_cursor(stream, cursor=state["newest"])  # resume point
-        return state["newest"]
+        total[0] += _sync_changed(client, store, rows, resources)
+        if rows:
+            s["cursor"] = max(s["cursor"], max(r["updated_at"] for r in rows))
+        store.save_state()  # resume point
+        return max((r["updated_at"] for r in rows), default=None)
 
-    list_ascending(client, path, params, on_page, first=first, log=log)
-    store.set_cursor(stream, cursor=state["newest"], etag=first.etag, since=since)
-    log(f"{repo} {stream}: stored {state['stored']}")
-    return state["stored"]
+    list_ascending(client, path, params, on_page, first=first)
+    s["etag"], s["etag_since"] = first.etag, since
+    store.save_state()
+    log(f"{store.repo} items: synced {total[0]} changed")
+    return total[0]
 
 
-# --- events ----------------------------------------------------------------
+def reconcile(client, store, resources, log=print):
+    """Weekly: list every item, sync any whose updated_at differs (missed
+    updates) or that's stored but no longer listed (deleted or transferred),
+    and fail unless every number up to the highest is stored or gone."""
+    listed = {}
+
+    def on_page(rows):
+        for r in rows:
+            listed[r["number"]] = r["updated_at"]
+        return rows[-1]["updated_at"] if rows else None
+
+    list_ascending(client, f"/repos/{store.repo}/issues", dict(ITEMS, per_page=PER_PAGE), on_page)
+    idx = store.index()
+    rows = [{"number": n, "updated_at": u} for n, u in sorted(listed.items())]
+    changed = _sync_changed(client, store, rows, resources)
+    unlisted = sorted(set(idx) - set(listed))
+    for n in unlisted:
+        sync_item(client, store, n, resources)
+    store.save_state()
+    highest = store.section("items")["highest"]
+    missing = sorted(set(range(1, highest + 1)) - set(store.index()) - store.gone())
+    log(f"{store.repo} reconcile: synced {changed} changed and {len(unlisted)} unlisted; "
+        f"numbers 1..{highest}: {len(store.index())} stored, {len(store.gone())} gone")
+    if missing:
+        raise CheckFailed(f"{store.repo}: numbers neither stored nor gone: {_some(missing)}")
+
+
+# --- events ------------------------------------------------------------------
 
 def _store_events(store, events):
-    """Events from the repo-wide listing, under their issue's number. The
-    embedded `issue` (a copy of the issue at fetch time) is left out, so
-    they're stored as /issues/{n}/events returns them."""
+    """Events under their issue's number, without the embedded copy of the
+    issue (as /issues/{n}/events returns them). Events of numbers recorded
+    as gone are dropped: the listing keeps deleted issues' events."""
+    gone = store.gone()
     groups = defaultdict(list)
     for obj in events:
-        groups[obj["issue"]["number"]].append({k: v for k, v in obj.items() if k != "issue"})
-    for number, objs in groups.items():
-        store.merge("issues", number, "events", objs)
+        n = obj["issue"]["number"]
+        if n not in gone:
+            groups[n].append({k: v for k, v in obj.items() if k != "issue"})
+    for n, objs in groups.items():
+        store.merge("issues", n, "events", objs)
 
 
 def sync_events(client, store, log=print):
-    """Repo-wide events, newest first, until OVERLAP before the cursor.
-
-    If GitHub won't page back to the start of history (first run), the
-    oldest event reached is recorded as `floor`, and fetch_item_events()
-    covers older items one at a time. A first run stopped by the deadline
-    does the same, as a newest-first listing can't be resumed midway.
-    """
-    repo = store.repo
-    c = store.cursor("events")
-    cursor, floor = c.get("cursor"), c.get("floor")
-    stop = _fmt(_parse(cursor) - OVERLAP) if cursor else None
-    resp = client.rest(f"/repos/{repo}/issues/events", {"per_page": PER_PAGE},
-                       etag=c.get("etag") if cursor else None)
+    """The repo-wide events listing, newest first: once back to the
+    beginning (by page number, resumable), then each run back to OVERLAP
+    before the newest event seen. New events during the backfill only push
+    rows to later pages, where they're read again; they're picked up by the
+    first update, which starts from the newest event when the backfill began."""
+    s = store.section("events")
+    path = f"/repos/{store.repo}/issues/events"
+    if not s.get("done"):
+        page = s.get("page", 1)
+        while True:
+            try:
+                resp = client.rest(path, {"per_page": PER_PAGE, **({"page": page} if page > 1 else {})})
+            except PaginationLimit:
+                raise CheckFailed(f"{store.repo}: GitHub won't page /issues/events past page {page - 1} "
+                                  f"(oldest event reached: {s.get('oldest')})")
+            if "cursor" not in s:
+                s["cursor"] = resp.data[0]["created_at"] if resp.data else now()
+                s["etag"] = resp.etag
+            _store_events(store, resp.data)
+            if resp.data:
+                s["oldest"] = resp.data[-1]["created_at"]
+            if not resp.next:
+                s["done"] = True
+                s.pop("page", None)
+                store.save_state()
+                log(f"{store.repo} events: read back to {s.get('oldest')} ({page} pages)")
+                return
+            page += 1
+            s["page"] = page
+            store.save_state()
+    resp = client.rest(path, {"per_page": PER_PAGE}, etag=s.get("etag"))
     if resp.status == 304:
-        log(f"{repo} events: unchanged")
-        return 0
-    first_etag = resp.etag
-    newest, oldest, stored, reached_end = cursor, None, 0, False
+        log(f"{store.repo} events: unchanged")
+        return
+    first_etag, stop, newest, stored = resp.etag, _minus_overlap(s["cursor"]), s["cursor"], 0
     while True:
-        done = False
-        page = []
-        for obj in resp.data:
-            ts = obj["created_at"]
-            if stop and ts < stop:
-                done = True
-                break
-            if obj.get("issue"):
-                page.append(obj)
-            newest = max(newest or ts, ts)
-            oldest = min(oldest or ts, ts)
-        _store_events(store, page)
-        stored += len(page)
-        if done:
-            break
-        if not resp.next:
-            reached_end = True
+        rows = [e for e in resp.data if e["created_at"] >= stop]
+        _store_events(store, rows)
+        stored += len(rows)
+        newest = max([newest] + [e["created_at"] for e in rows])
+        if len(rows) < len(resp.data) or not resp.next:
             break
         try:
             resp = client.rest(resp.next)
         except PaginationLimit:
-            log(f"{repo} events: pagination limit at {oldest}; older items fall back to per-item events")
-            break
-        except DeadlineReached:
-            if cursor is None and oldest:
-                store.set_cursor("events", cursor=newest, etag=first_etag, floor=oldest)
-                log(f"{repo} events: stopped at {oldest}; older items fall back to per-item events")
-            raise
-    if cursor is None:
-        floor = "" if reached_end else oldest
-    store.set_cursor("events", cursor=newest, etag=first_etag, floor=floor)
-    log(f"{repo} events: stored {stored}")
-    return stored
-
-
-def fetch_item_events(client, store, log=print):
-    """Per-item events for items older than the events floor, if there is one."""
-    floor = store.cursor("events").get("floor")
-    if not floor:
-        return 0
-    todo = [(n, i["updated_at"]) for n, i in sorted(store.index().items())
-            if i["created_at"] < floor and store.fetched("events", n) != i["updated_at"]]
-    for k, (number, updated) in enumerate(todo, 1):
-        store.merge("issues", number, "events", _all_pages(client, f"/repos/{store.repo}/issues/{number}/events"))
-        store.set_fetched("events", number, updated)
-        if k % STATE_EVERY == 0:
-            store.save_state()
+            raise CheckFailed(f"{store.repo}: GitHub won't page /issues/events back to {stop}")
+    s["cursor"], s["etag"] = newest, first_etag
     store.save_state()
-    if todo:
-        log(f"{store.repo} events: fetched per-item events for {len(todo)} older items")
-    return len(todo)
+    log(f"{store.repo} events: stored {stored}")
 
 
-# --- per-PR resources --------------------------------------------------------
-
-def stale_prs(store, resource):
-    return [(n, i["updated_at"]) for n, i in sorted(store.index().items())
-            if i["is_pr"] and store.fetched(resource, n) != i["updated_at"]]
+def _some(numbers, limit=20):
+    return ", ".join(map(str, numbers[:limit])) + (f", … ({len(numbers)} in all)" if len(numbers) > limit else "")
 
 
-def sync_pr_resources(client, store, resources=None, log=print):
-    """Fetch each configured per-PR resource for every PR that changed."""
-    total = 0
-    for resource in resources or load_pr_resources():
-        path, what, paged = PR_RESOURCES[resource]
-        todo = stale_prs(store, resource)
-        for k, (number, updated) in enumerate(todo, 1):
-            url = path.format(repo=store.repo, n=number)
-            try:
-                data = list(_all_pages(client, url)) if paged else client.rest(url).data
-                store.put("pulls", number, what, data)
-            except NotFound:
-                pass  # deleted since it was listed; reconcile records it
-            store.set_fetched(resource, number, updated)
-            if k % STATE_EVERY == 0:
-                store.save_state()
-        store.save_state()
-        if todo:
-            log(f"{store.repo} {resource}: fetched for {len(todo)} PRs")
-        total += len(todo)
-    return total
-
-
-# --- consistency checks ------------------------------------------------------
-
-def comment_mismatches(store):
-    """Items whose stored comments don't match the counts GitHub reports:
-    conversation comments (`comments` on the issue) and inline review
-    comments (`review_comments` on the PR, if `pull` is fetched)."""
-    issue, review = [], []
-    for number, info in sorted(store.index().items()):
-        if info["comments"] != len(store.get("issues", number, "comments", [])):
-            issue.append(number)
-        if info["is_pr"]:
-            pull = store.get("pulls", number)
-            if (pull and pull["updated_at"] == info["updated_at"]
-                    and pull.get("review_comments") != len(store.get("pulls", number, "comments", []))):
-                review.append(number)
-    return issue, review
-
-
-def check_counts(client, store, log=print):
-    """Refetch the comments of items whose stored counts are off. Comments
-    deleted on GitHub are dropped (git keeps them)."""
-    issue_bad, review_bad = comment_mismatches(store)
-    for kind, bad in (("issues", issue_bad), ("pulls", review_bad)):
-        for number in bad:
-            objs = list(_all_pages(client, f"/repos/{store.repo}/{kind}/{number}/comments"))
-            store.put(kind, number, "comments", sorted(objs, key=lambda o: o["id"]))
-    if issue_bad or review_bad:
-        log(f"{store.repo}: refetched comments for {len(issue_bad)} items and review comments for {len(review_bad)} PRs")
-    return issue_bad, review_bad
-
-
-def reconcile(client, store, log=print):
-    """Weekly check that every issue and PR is stored.
-
-    Re-lists every item (storing any that changed), then accounts for every
-    number from 1 to the highest: each one is stored, or recorded as gone
-    (deleted or transferred) in state.json after checking it on GitHub.
-    Items stored here but missing from the listing are checked the same way.
-    """
-    repo = store.repo
-    remote = set()
-
-    def on_page(rows):
-        for obj in rows:
-            remote.add(obj["number"])
-            store.put_issue(obj)
-        return rows[-1]["updated_at"] if rows else None
-
-    list_ascending(client, f"/repos/{repo}/issues",
-                   {"state": "all", "sort": "updated", "direction": "asc", "per_page": PER_PAGE}, on_page, log=log)
-    stored = set(store.index())
-    gone = set(store.gone())
-    highest = max(remote | stored, default=0)
-    to_check = sorted(set(range(1, highest + 1)) - remote - gone)
-    found, marked = [], {}
-    for number in to_check:
-        try:
-            obj = client.rest(f"/repos/{repo}/issues/{number}").data
-        except NotFound:
-            marked[number] = "deleted"
-            continue
-        if obj["repository_url"].lower().endswith("/repos/" + repo.lower()):
-            store.put_issue(obj)
-            found.append(number)
-        else:
-            marked[number] = "transferred"
-    for number, reason in marked.items():
-        store.set_gone(number, reason)
-        store.remove_item(number)
-    store.save_state()
-    report = {"repo": repo, "highest": highest, "stored": len(store.index()), "gone": len(store.gone()),
-              "found": found, "newly_gone": sorted(marked)}
-    log(f"{repo} reconcile: numbers 1..{highest}: {report['stored']} stored, {report['gone']} gone; "
-        f"found {len(found)} missing, marked {len(marked)} gone")
-    return report
+def check_events(store):
+    """What the stored items say must be in the stored events: a `closed`
+    event for every closed item and a `merged` event for every merged PR.
+    Also no events for numbers that are neither stored nor gone."""
+    problems = []
+    no_closed, no_merged = [], []
+    for n, info in sorted(store.index().items()):
+        kinds = {e["event"] for e in store.get("issues", n, "events", [])}
+        if info["state"] == "closed" and "closed" not in kinds:
+            no_closed.append(n)
+        if info["merged"] and "merged" not in kinds:
+            no_merged.append(n)
+    if no_closed:
+        problems.append(f"closed with no `closed` event: {_some(no_closed)}")
+    if no_merged:
+        problems.append(f"merged with no `merged` event: {_some(no_merged)}")
+    highest = store.section("items").get("highest", 0)
+    orphans = [n for n, _ in store.lists("issues", "events") if n <= highest and n not in store.index()]
+    if orphans:
+        problems.append(f"events for numbers not stored: {_some(orphans)}")
+    if problems:
+        raise CheckFailed(f"{store.repo} events don't add up; " + "; ".join(problems))
 
 
 # --- whole repo ----------------------------------------------------------------
 
-def sync_repo(client, store, log=print):
+def sync_repo(client, store, reconcile_=False, log=print):
     """Everything for one repo. If the client's deadline stops it midway,
     what's fetched so far is saved and the next run continues."""
+    resources = load_pr_resources()
+    fixed = store.state.setdefault("pr_resources", resources)
+    if fixed != resources:
+        raise CheckFailed(f"{store.repo}: config/fetch.json pr_resources is {resources}, but stored PRs "
+                          f"have {fixed}; fetching a changed set for every PR isn't implemented")
     try:
-        for stream in ASCENDING:
-            sync_ascending(client, store, stream, log=log)
+        items = store.section("items")
+        if "cursor" not in items:
+            backfill_items(client, store, resources, log=log)
+        else:
+            update_items(client, store, resources, log=log)
+            if reconcile_:
+                reconcile(client, store, resources, log=log)
         sync_events(client, store, log=log)
-        fetch_item_events(client, store, log=log)
-        sync_pr_resources(client, store, log=log)
-        check_counts(client, store, log=log)
     finally:
         store.save_state()
+    if store.section("events").get("done"):
+        check_events(store)

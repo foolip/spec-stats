@@ -23,7 +23,7 @@ class FakeGitHub:
         self.events = []
         self.pulls = {}               # number -> REST pull request object
         self.reviews = {}             # number -> [REST review objects]
-        self.transferred = set()      # issue numbers moved to another repo
+        self.transferred = set()      # issue numbers moved to another repo (served as a redirect)
         self.calls = []
         self.before_request = None    # called with the request count, to change state mid-run
         self._id = 1000
@@ -41,6 +41,9 @@ class FakeGitHub:
                "labels": [{"name": l} for l in labels],
                "repository_url": f"{API}/repos/{REPO}"}
         self.issues[number] = obj
+        if merged_at:
+            self.add_event(number, merged_at, "merged", merged_by)
+            self.add_event(number, merged_at, "closed", merged_by)
         if is_pr:
             obj["pull_request"] = {"merged_at": merged_at}
             self.pulls[number] = {
@@ -54,6 +57,12 @@ class FakeGitHub:
             if draft_ready_at:
                 self.add_event(number, draft_ready_at, "ready_for_review", author)
         return obj
+
+    def close(self, number, at, actor="ed", event=True):
+        self.issues[number].update(state="closed", closed_at=at)
+        if event:
+            self.add_event(number, at, "closed", actor)
+        self.touch(number, at)
 
     def touch(self, number, at):
         self.issues[number]["updated_at"] = at
@@ -93,7 +102,9 @@ class FakeGitHub:
         q = dict(urllib.parse.parse_qsl(parsed.query))
         path = parsed.path[len(f"/repos/{REPO}"):]
         if path == "/issues":
-            rows = sorted(self.issues.values(), key=lambda o: o["updated_at"])
+            key = "created_at" if q.get("sort") == "created" else "updated_at"
+            rows = sorted(self.issues.values(), key=lambda o: (o[key], o["number"]),
+                          reverse=q.get("direction") == "desc")
             return self._list(url, q, headers, self._since(rows, q))
         if path == "/issues/comments":
             return self._list(url, q, headers, self._since(sorted(self.issue_comments, key=lambda o: o["updated_at"]), q))
@@ -104,8 +115,9 @@ class FakeGitHub:
         m = re.fullmatch(r"/issues/(\d+)", path)
         if m:
             n = int(m.group(1))
-            if n in self.transferred:  # GitHub redirects; we see the issue in its new repo
-                return 200, {}, json.dumps({"number": 1, "repository_url": f"{API}/repos/elsewhere/repo"}).encode()
+            if n in self.transferred:
+                return 301, {"Location": f"{API}/repositories/1/issues/1"}, b'{"message": "Moved Permanently"}'
+
             if n not in self.issues:
                 return 410, {}, b'{"message": "This issue was deleted"}'
             return 200, {}, json.dumps(self.issues[n]).encode()

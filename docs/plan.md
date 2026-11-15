@@ -60,15 +60,15 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-13 | Repo `foolip/spec-stats`; first dashboard is Maintenance load; first source is the GitHub API for `whatwg/*` | Maintainer's choice |
 | 2026-11-13 | ~~GraphQL per item: one query gets a page of PRs with their reviews and comments~~ Superseded the same day, below | |
 | 2026-11-13 | Fetch all activity on issues and PRs, not a chosen subset; metrics decide what to use | Filtering at fetch time is the one choice that's expensive to undo (a full backfill) |
-| 2026-11-13 | REST listings of whole repos (issues, comments, review comments, events), ~~plus batched GraphQL for reviews, commits and files~~ (superseded below: REST only) | REST supports `since` and ETags, so a daily run of an unchanged repo is four free 304s |
-| 2026-11-13 | Re-read a day of overlap on every run, save cursors per page, check comment counts per item, reconcile every number weekly, and fail on count mismatches | Stopping at the last-seen item trusts the API to be perfect; these find and fill holes instead (`docs/extraction.md`) |
+| 2026-11-13 | ~~REST listings of whole repos (issues, comments, review comments, events)~~ (superseded on 2026-11-15: items by number, events from the repo-wide listing), ~~plus batched GraphQL for reviews, commits and files~~ (superseded below: REST only) | REST supports `since` and ETags, so a daily run of an unchanged repo is four free 304s |
+| 2026-11-13 | Re-read a day of overlap on every run, save cursors per page, ~~check comment counts per item~~, reconcile every number weekly, and fail on count mismatches (counts dropped on 2026-11-15: lists are refetched whole with their item, and whatwg/dom has items whose count never matches, e.g. #126, 43 vs 40) | Stopping at the last-seen item trusts the API to be perfect; these find and fill holes instead (`docs/extraction.md`) |
 | 2026-11-13 | **REST only**, no GraphQL: per-PR requests for reviews instead of batched queries | REST returns whole objects, so everything is stored without maintaining field lists; one representation, ETags and `since` throughout. Costs a longer one-time backfill (roughly 2 requests per PR) |
 | 2026-11-13 | Per-PR commits and files are optional (`config/fetch.json`), off for now | Not sure they're needed; each resource is tracked separately, so turning one on later fetches only that |
 | 2026-11-13 | Raw objects are stored as plain JSON text, uncompressed (in files since 2026-11-14) | The maintainer wants to query the database and see the JSON directly. A few GB is fine |
 | 2026-11-13 | Keep previous versions of changed objects (~~`history`~~ git, since 2026-11-14) | Edits, label changes and profile changes are otherwise lost; future analyses may want them, and it's cheap |
 | 2026-11-13 | Reconcile by issue number: every number from 1 to the highest is stored or recorded as deleted/transferred | Numbers are one sequence per repo, so completeness can be checked exactly |
 | 2026-11-14 | Page listings by keyset (`since` just before the newest row seen), not offset links | An offset page skips a row whenever an already-read item is updated mid-listing; that would happen during a long backfill. Also avoids GitHub's deep-pagination limit |
-| 2026-11-14 | Start with whatwg/dom only, fetched by a manually triggered GitHub Actions workflow; ~~the raw cache is kept as a workflow artifact (90 days)~~ the data is committed (below) | Maintainer's instruction: populate and check one repo first |
+| 2026-11-14 | ~~Start with whatwg/dom only~~ (whatwg/html since 2026-11-15), fetched by a manually triggered GitHub Actions workflow; ~~the raw cache is kept as a workflow artifact (90 days)~~ the data is committed (below) | Maintainer's instruction: populate and check one repo first |
 | 2026-11-13 | PR diffs and git history deferred | Spec text written is interesting, but needs git (API patches are truncated for large PRs); API data first |
 | 2026-11-13 | Response time counts from ready-for-review for PRs opened as drafts, and "unanswered" means no response within 7 days | From the earlier whatwg/html prototype: responses during a draft aren't triage, and a median alone hides items nobody answers |
 | 2026-11-13 | Merges are split into self and other; generated boilerplate comments are left out | Same prototype: a self-merge isn't review work, and PR preview comments aren't comments |
@@ -86,30 +86,40 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-14 | `extract` fetches by default; `--dry-run` opts out (replaces cosh's `--go` opt-in) | Maintainer's choice: fetching approved public data is harmless, and an opt-in switch on the only fetching command, run daily, adds nothing |
 | 2026-11-14 | No minimum gap between requests; still serial, with back-off and the hourly reserve | The hourly budget decides throughput anyway, and GitHub asks for serial requests, not slow ones: its secondary limit is 900 a minute for REST, and Octokit's throttling plugin doesn't space out GETs. With a personal token the 1 s gap was the bottleneck (3,600 an hour of 5,000) |
 | 2026-11-15 | An issue or PR is stored as `issues/{n}/index.json` and `pulls/{n}/index.json`, not `issues/{n}.json` and `pulls/{n}.json`; existing files moved | Maintainer's choice: everything for one number is in one directory |
+| 2026-11-15 | **Items are fetched by number:** the backfill runs `GET /issues/{n}` and everything for that number (comments, and for PRs `pull`, reviews, inline comments) for n = 1 … highest; later runs list items updated since the cursor and refetch each changed item the same way. Lists are replaced whole, not merged | Complete as it goes: every number below the cursor is stored or gone, and stopping and resuming are the same thing. A listing paged by number can skip rows when items are deleted or transferred in mid-read (whatwg/dom #1340 was transferred in, with an older creation date than lower numbers). One API form for every stored object. Costs one request per item more than storing listing rows |
+| 2026-11-15 | Redirects aren't followed; a transferred issue is treated like a deleted one (recorded as gone) | Maintainer's choice. Following the redirect fetches from another repo, possibly outside `whatwg/` |
+| 2026-11-15 | **Events come only from the repo-wide `/issues/events` listing**, read back to the beginning once, then the new ones each run (a free 304 if none); no per-item event requests. The run fails if GitHub won't page back far enough, or if a closed item has no `closed` event or a merged PR no `merged` event | Fewest requests (one per 100 events). It catches the events that don't move an item's `updated_at` (1,965 of 14,960 in whatwg/dom, mostly `referenced`). It paged back to 2012 for whatwg/dom; whatwg/html, the biggest, is the test, so the code fails rather than fall back. An event skipped by a deletion during the read is accepted as missing |
+| 2026-11-15 | Events (`/issues/{n}/events` form), not the timeline API | The timeline's only unique data is `cross-referenced`, which embeds issues from other repos; it also repeats comments and reviews, and some of its items have no id |
+| 2026-11-15 | An unchanged repo costs two requests per run (items and events), both 304s | ETags on the first page of each listing; the `since` of the items listing only moves when something changed |
+| 2026-11-15 | Switch the test repo from whatwg/dom to whatwg/html; dom's data stays as fetched on 2026-11-14 | Maintainer's instruction: html is the biggest, so it's where GitHub's paging limits would show |
 
 ## Status
 
-- Extractor (REST only, incremental, storing everything as committed JSON
-  files, with consistency checks and `reconcile`) and its tests are
-  written. Tests run against an in-memory fake GitHub.
-- **Nothing has been fetched yet.** The first run needs a GitHub token on
-  the maintainer's machine (the cloud session that wrote this couldn't
-  reach the WHATWG repos through the API).
+- Extractor (REST only, items by number, events from the repo-wide
+  listing, all committed as JSON files, failing loudly when an assumption
+  doesn't hold) and its tests are written. Tests run against an
+  in-memory fake GitHub.
+- whatwg/dom was fetched on 2026-11-14 by the previous design. It
+  confirmed that `/issues/events` paged back to dom's first issue (150
+  pages) and includes PR-only events (`review_requested`,
+  `ready_for_review`). Its data stays; `config/repos.txt` now lists only
+  whatwg/html.
 
 ## Next steps
 
-1. Check `config/repos.txt` against the list of Living Standards (whatwg/sg `db.json`).
-2. First fetch: `extract --repo whatwg/dom` to measure requests and
-   cost, and to confirm two things the code assumes but couldn't test:
-   how deep GitHub lets the repo-wide listings page (the code falls back if
-   not deep enough), and that `/issues/events` includes PR-only events
-   (`ready_for_review`, `review_requested`). Then whatwg/html, cross-checked
-   against the figures of the earlier prototype (1,171 PRs and 2,167 issues
-   in 2024–2026), then all repos.
-3. Daily job: GitHub Actions on a schedule, with a personal token as a
+1. Run the fetch workflow for whatwg/html until the backfill is done
+   (several runs), and see whether the checks hold: whether
+   `/issues/events` pages back to the beginning, and whether every closed
+   item has a `closed` event. Cross-check against the earlier prototype's
+   figures (1,171 PRs and 2,167 issues in 2024–2026).
+2. Decide what to do with whatwg/dom's data: refetch it with the new
+   design, or keep it.
+3. Check `config/repos.txt` against the list of Living Standards (whatwg/sg `db.json`), then all repos.
+4. Daily job: GitHub Actions on a schedule, with a personal token as a
    secret (the built-in token's limit is too low for the backfill),
-   committing to `data/github/` as the manual workflow does.
-4. Then dashboards: bring back Maintenance load (commit `10edb66`),
+   committing to `data/github/` as the manual workflow does, and
+   `--reconcile` weekly.
+5. Then dashboards: bring back Maintenance load (commit `10edb66`),
    reworked around the prototype's catalog: PRs touched (split by size)
    instead of raw review counts, review sessions, sign-offs (`APPROVED` or
    LGTM), unquoted words.
