@@ -1,0 +1,50 @@
+# Compare the timeline API with the stored per-item lists, for a sample of
+# items in a repo with stored data (`python3 -m specstats timeline-check`).
+# Fetches only timelines, commits nothing: the report goes on the run's
+# summary page, and the raw timelines are kept as an artifact.
+
+name: Timeline check
+
+on:
+  workflow_dispatch:
+    inputs:
+      repo:
+        description: "Repo with stored data in data/github/"
+        default: "whatwg/dom"
+      size:
+        description: "How many items to sample"
+        default: "40"
+      numbers:
+        description: "Or: item numbers to check, space-separated (overrides the sample)"
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GITHUB_TOKEN: ${{ secrets.SPECSTATS_TOKEN || github.token }}
+      SPECSTATS_CONTACT: ${{ vars.SPECSTATS_CONTACT }}
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Check
+        env:
+          REPO: ${{ inputs.repo }}
+          SIZE: ${{ inputs.size }}
+          NUMBERS: ${{ inputs.numbers }}
+        run: python3 -m specstats timeline-check --repo "$REPO" --size "$SIZE" $NUMBERS >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: timelines
+          path: data/private/timeline/

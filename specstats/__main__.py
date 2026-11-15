@@ -19,7 +19,7 @@ normally, and the next run continues from there.
 import argparse
 import sys
 
-from . import extract, github, paths
+from . import extract, github, paths, timeline_check
 
 
 def main(argv=None):
@@ -31,6 +31,11 @@ def main(argv=None):
     p.add_argument("--max-minutes", type=float, help="stop starting requests after this many minutes")
     p.add_argument("--dry-run", action="store_true", help="print the plan, fetch nothing")
     sub.add_parser("stats", help="print what data/github/ holds, as Markdown (offline)")
+    p = sub.add_parser("timeline-check", help="compare the timeline API with the stored lists, "
+                       "for a sample of items (fetches only timelines; writes nothing to data/github/)")
+    p.add_argument("--repo", default="whatwg/dom", help="a repo with stored data (default: whatwg/dom)")
+    p.add_argument("--size", type=int, default=40, help="how many items to sample (default: 40)")
+    p.add_argument("numbers", nargs="*", type=int, help="items to check instead of a sample")
     args = ap.parse_args(argv)
     # Show each line as it's printed, even when stdout is a pipe (as in
     # GitHub Actions), where Python would otherwise hold it in a buffer.
@@ -39,6 +44,12 @@ def main(argv=None):
 
     if args.cmd == "stats":
         print(stats())
+        return 0
+    if args.cmd == "timeline-check":
+        store = extract.RepoStore(args.repo)
+        numbers = args.numbers or timeline_check.sample(store, args.size)
+        log = lambda m: print(m, file=sys.stderr)  # the report alone goes to stdout
+        print(timeline_check.check(github.Client(log=log), store, numbers, log=log))
         return 0
 
     repos = args.repo or paths.repos()

@@ -75,6 +75,9 @@ will likely take several runs.
   User-Agent.
 - Each run's summary page shows what's stored and the cursors
   (`python3 -m specstats stats`).
+- The separate "Timeline check" workflow (`python3 -m specstats
+  timeline-check`) compares the timeline API with the stored lists for a
+  sample of whatwg/dom items, and commits nothing.
 
 ## Docs
 

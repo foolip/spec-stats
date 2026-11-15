@@ -24,6 +24,7 @@ class FakeGitHub:
         self.events = []
         self.pulls = {}               # number -> REST pull request object
         self.reviews = {}             # number -> [REST review objects]
+        self.timeline_drop = set()    # ids left out of timelines
         self.transferred = set()      # issue numbers moved to another repo (served as a redirect)
         self.calls = []
         self.before_request = None    # called with the request count, to change state mid-run
@@ -129,6 +130,19 @@ class FakeGitHub:
         if m:
             n, what = int(m.group(1)), m.group(2)
             return self._list(url, q, headers, self.reviews[n] if what == "reviews" else [])
+        m = re.fullmatch(r"/issues/(\d+)/timeline", path)
+        if m:  # roughly GitHub's shape; `timeline_drop` leaves out ids, to test the check
+            n = int(m.group(1))
+            rows = [dict(c, event="commented") for c in self.issue_comments
+                    if c["issue_url"].endswith(f"/issues/{n}")]
+            rows += [dict(r, event="reviewed") for r in self.reviews.get(n, [])]
+            inline = [c for c in self.review_comments if c["pull_request_url"].endswith(f"/pulls/{n}")]
+            if inline:
+                rows.append({"event": "line-commented", "comments": inline})
+            rows += [dict((k, v) for k, v in e.items() if k != "issue") for e in self.events
+                     if e["issue"]["number"] == n]
+            rows = [r for r in rows if r.get("id") not in self.timeline_drop]
+            return self._list(url, q, headers, rows)
         m = re.fullmatch(r"/(issues|pulls)/(\d+)/(comments|events)", path)
         if m:
             kind, n, what = m.group(1), int(m.group(2)), m.group(3)

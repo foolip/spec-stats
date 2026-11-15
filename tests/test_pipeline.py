@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-from specstats import extract, github
+from specstats import extract, github, timeline_check
 from tests.fakegithub import REPO, FakeGitHub
 
 QUIET = dict(log=lambda *a: None)
@@ -305,6 +305,31 @@ class ExtractTest(TempDirs):
         self.assertEqual(extract.stored_repos(), [])
         self.sync(populated())
         self.assertEqual(extract.stored_repos(), [REPO])
+
+
+class TimelineCheckTest(TempDirs):
+    def test_report(self):
+        env = mock.patch.dict(os.environ, {"SPECSTATS_DATA": str(Path(self.tmp.name) / "private")})
+        env.start()
+        self.addCleanup(env.stop)
+        gh = populated()
+        extract.sync_repo(client(gh), extract.RepoStore(REPO), **QUIET)
+        store = extract.RepoStore(REPO)
+        dropped_comment = gh.issue_comments[0]["id"]
+        dropped_event = gh.events[0]["id"]
+        gh.timeline_drop = {dropped_comment, dropped_event}
+        gh.add_comment(1, "2025-05-01T00:00:00Z", "ann")  # after the stored fetch: new
+        numbers = timeline_check.sample(store, 10)
+        self.assertEqual(numbers, [1, 2, 3])
+        out = timeline_check.check(client(gh), store, numbers, **QUIET)
+        self.assertIn("| comments | 1 | 1 | 0 | 1 | 0 | 1 |", out)
+        self.assertIn("| reviews | 1 | 1 | 1 | 0 | 0 | 0 |", out)
+        self.assertIn("| review_comments | 2 | 2 | 2 | 0 | 0 | 0 |", out)
+        self.assertIn(f"Stored but not in the timeline: #1 {dropped_comment}", out)
+        self.assertIn("Fields only in the timeline's copy: `event` (1)", out)
+        self.assertIn("Timeline entries without an id: `line-commented` (1)", out)
+        self.assertTrue((Path(self.tmp.name) / "private/timeline" / REPO / "2.json").exists())
+        self.assertFalse((self.files / REPO / "issues/1/timeline.json").exists())
 
 
 class ClientTest(unittest.TestCase):

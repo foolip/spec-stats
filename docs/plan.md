@@ -98,6 +98,7 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-15 | Each run fetches events before items | Maintainer's choice: whether `/issues/events` pages back to the beginning of whatwg/html is the open question, and items take several runs |
 | 2026-11-15 | Switch the test repo from whatwg/dom to whatwg/html; dom's data stays as fetched on 2026-11-14 | Maintainer's instruction: html is the biggest, so it's where GitHub's paging limits would show |
 | 2026-11-15 | A backfill of `/issues/events` whose last page is full, with no next link, fails the run | Run 4 (whatwg/html) showed GitHub ends the listing at page 300 silently, with no 422; the code took that as the beginning and went on to items, so the early check the events-first order was for didn't fire |
+| 2026-11-15 | Test whether the timeline API (`/issues/{n}/timeline`, one listing per item) could replace the per-item comment, review and inline-comment requests and supply events older than the repo-wide listing's 300 pages: `timeline-check` compares it with whatwg/dom's stored data for a sample of items | Maintainer's question after whatwg/html's events were cut off. Timeline events are approved (ground rule 1). The earlier row choosing events over the timeline was about events alone; if the timeline holds everything, it could be fewer requests per item, not more |
 | 2026-11-15 | A run never waits for rate-limit quota: at the hourly reserve, or on a 429, secondary or primary rate limit, it stops cleanly as at its deadline (`RateLimited`), and the next run continues | Maintainer's instruction: the runner mustn't idle. Run 4 spent about 3¼ of its 4⅓ hours paused for the reset |
 | 2026-11-15 | If main moved during a fetch run, the run fails without committing its data (it was rebased onto the new main) | Maintainer's choice: the collection code may have changed under the run. Run 4's rebase failed anyway, for want of a git identity |
 
@@ -122,13 +123,15 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 
 ## Next steps
 
-1. Decide how to get whatwg/html's events older than the repo-wide
-   listing's 300 pages (e.g. per-item `/issues/{n}/events` for every item
-   created before the listing's oldest event, as some events don't move
-   `updated_at`), then run
-   the fetch workflow until the backfill is done (several runs), and see
-   whether every closed item has a `closed` event. Cross-check against the earlier prototype's
-   figures (1,171 PRs and 2,167 issues in 2024–2026).
+1. Run the "Timeline check" workflow (or `python3 -m specstats
+   timeline-check`) and decide from its report whether the timeline can
+   replace the per-item lists. Either way, decide how to get whatwg/html's
+   events older than the repo-wide listing's 300 pages (the timeline, or
+   per-item `/issues/{n}/events` for every item created before the
+   listing's oldest event, as some events don't move `updated_at`). Then
+   run the fetch workflow until the backfill is done (several runs), see
+   whether every closed item has a `closed` event, and cross-check against
+   the earlier prototype's figures (1,171 PRs and 2,167 issues in 2024–2026).
 2. Decide what to do with whatwg/dom's data: refetch it with the new
    design, or keep it.
 3. Check `config/repos.txt` against the list of Living Standards (whatwg/sg `db.json`), then all repos.
