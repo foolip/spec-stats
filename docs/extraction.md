@@ -149,7 +149,7 @@ doesn't hold:
 
 - GitHub refuses to page `/issues/events` back to the beginning
   (HTTP 422), or back to the last run's events.
-- Once the events backfill is done, on every run: every closed item has a
+- Once both backfills are done, on every run: every closed item has a
   `closed` event, every merged PR has a `merged` event, and no events
   are stored for a number up to the highest that's neither stored nor
   gone. A listing that ended early without a 422 would show up here.
@@ -158,10 +158,12 @@ doesn't hold:
 
 ## A run (`extract`)
 
-Per repo: the items backfill (to the end) or an update, then with
-`--reconcile` the reconcile, then events (backfill or update), then the
-checks. The items backfill finishes before the events backfill starts,
-because events are filed under numbers known to exist.
+Per repo: events (backfill or update), then the items backfill or an
+update, then with `--reconcile` the reconcile, then the checks once both
+backfills are done. Events go first so that whether GitHub pages them all
+the way back is known before the much longer items backfill. Events
+filed under a number that turns out to be gone are removed when the
+items backfill reaches it.
 
 A caught-up run of an unchanged repo is two requests, both free 304s.
 
@@ -174,7 +176,8 @@ backfill from its saved page. An events update stopped midway saves
 nothing and re-reads from the newest next time.
 
 The smallest unit of work is one PR: three to five requests, more for very
-long lists.
+long lists. Once the events backfill is done, every run also spends one
+request on events first.
 
 The workflow stops each run 300 minutes in, inside the job's 350-minute
 limit, then commits. A backfill bigger than that takes several runs.

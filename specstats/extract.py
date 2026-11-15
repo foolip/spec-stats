@@ -414,7 +414,8 @@ def reconcile(client, store, resources, log=print):
 def _store_events(store, events):
     """Events under their issue's number, without the embedded copy of the
     issue (as /issues/{n}/events returns them). Events of numbers recorded
-    as gone are dropped: the listing keeps deleted issues' events."""
+    as gone are dropped: the listing keeps deleted issues' events. Events
+    stored before their number is found to be gone are removed with it."""
     gone = store.gone()
     groups = defaultdict(list)
     for obj in events:
@@ -516,6 +517,9 @@ def sync_repo(client, store, reconcile_=False, log=print):
         raise CheckFailed(f"{store.repo}: config/fetch.json pr_resources is {resources}, but stored PRs "
                           f"have {fixed}; fetching a changed set for every PR isn't implemented")
     try:
+        # Events first, so that whether GitHub pages them all the way back
+        # is known before the much longer items backfill.
+        sync_events(client, store, log=log)
         items = store.section("items")
         if "cursor" not in items:
             backfill_items(client, store, resources, log=log)
@@ -523,8 +527,7 @@ def sync_repo(client, store, reconcile_=False, log=print):
             update_items(client, store, resources, log=log)
             if reconcile_:
                 reconcile(client, store, resources, log=log)
-        sync_events(client, store, log=log)
     finally:
         store.save_state()
-    if store.section("events").get("done"):
+    if store.section("events").get("done") and "cursor" in store.section("items"):
         check_events(store)

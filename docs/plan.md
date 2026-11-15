@@ -91,6 +91,7 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-15 | **Events come only from the repo-wide `/issues/events` listing**, read back to the beginning once, then the new ones each run (a free 304 if none); no per-item event requests. The run fails if GitHub won't page back far enough, or if a closed item has no `closed` event or a merged PR no `merged` event | Fewest requests (one per 100 events). It catches the events that don't move an item's `updated_at` (1,965 of 14,960 in whatwg/dom, mostly `referenced`). It paged back to 2012 for whatwg/dom; whatwg/html, the biggest, is the test, so the code fails rather than fall back. An event skipped by a deletion during the read is accepted as missing |
 | 2026-11-15 | Events (`/issues/{n}/events` form), not the timeline API | The timeline's only unique data is `cross-referenced`, which embeds issues from other repos; it also repeats comments and reviews, and some of its items have no id |
 | 2026-11-15 | An unchanged repo costs two requests per run (items and events), both 304s | ETags on the first page of each listing; the `since` of the items listing only moves when something changed |
+| 2026-11-15 | Each run fetches events before items | Maintainer's choice: whether `/issues/events` pages back to the beginning of whatwg/html is the open question, and items take several runs |
 | 2026-11-15 | Switch the test repo from whatwg/dom to whatwg/html; dom's data stays as fetched on 2026-11-14 | Maintainer's instruction: html is the biggest, so it's where GitHub's paging limits would show |
 
 ## Status
@@ -109,8 +110,9 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 
 1. Run the fetch workflow for whatwg/html until the backfill is done
    (several runs), and see whether the checks hold: whether
-   `/issues/events` pages back to the beginning, and whether every closed
-   item has a `closed` event. Cross-check against the earlier prototype's
+   `/issues/events` pages back to the beginning (known first: events are
+   fetched before items), and whether every closed item has a `closed`
+   event. Cross-check against the earlier prototype's
    figures (1,171 PRs and 2,167 issues in 2024–2026).
 2. Decide what to do with whatwg/dom's data: refetch it with the new
    design, or keep it.

@@ -98,11 +98,11 @@ class ExtractTest(TempDirs):
         c = client(gh)
         self.sync(gh, c)
         self.assertEqual(self.calls(gh, c), [
+            "/issues/events", "/issues/events", "/issues/events",
             "/issues", "/issues",  # the highest number
             "/issues/1", "/issues/1/comments",
             "/issues/2", "/pulls/2", "/pulls/2/reviews", "/pulls/2/comments",
-            "/issues/3", "/pulls/3", "/pulls/3/reviews",  # no review comments: none to fetch
-            "/issues/events", "/issues/events", "/issues/events"])
+            "/issues/3", "/pulls/3", "/pulls/3/reviews"])  # no review comments: none to fetch
 
     def test_file_layout_and_format(self):
         gh = populated()
@@ -124,6 +124,7 @@ class ExtractTest(TempDirs):
     def test_deleted_and_transferred_numbers_are_gone(self):
         gh = populated()
         gh.add_issue(6, "2025-04-01T00:00:00Z")
+        gh.add_event(5, "2025-03-03T00:00:00Z", "labeled", "ed")  # stored, then removed with #5
         gh.transferred.add(4)  # moved to another repo: a redirect, not followed
         self.sync(gh)          # 5 was deleted (410)
         self.assertEqual(self.store().gone(), {4, 5})
@@ -146,7 +147,7 @@ class ExtractTest(TempDirs):
         gh.add_comment(1, "2025-06-01T00:00:00Z", "bob")
         c = client(gh)
         self.sync(gh, c)
-        self.assertEqual(self.calls(gh, c), ["/issues", "/issues/1", "/issues/1/comments", "/issues/events"])
+        self.assertEqual(self.calls(gh, c), ["/issues/events", "/issues", "/issues/1", "/issues/1/comments"])
         self.assertEqual(self.count("comments"), 2)
 
     def test_new_numbers_fill_the_gap(self):
@@ -235,7 +236,7 @@ class ExtractTest(TempDirs):
         gh = populated(page_limit=2)
         with self.assertRaisesRegex(extract.CheckFailed, "won't page /issues/events past page 2"):
             self.sync(gh)
-        self.assertEqual(self.count("issues"), 1)  # the items are stored
+        self.assertEqual(self.count("events"), 4)  # the events read are stored
 
     def test_closed_item_without_a_closed_event_fails(self):
         gh = populated()
@@ -272,7 +273,7 @@ class ExtractTest(TempDirs):
             runs += 1
             self.assertLess(runs, 100)
             try:
-                self.sync(gh, client(gh, requests=4))  # a PR's issue, pull, reviews, comments
+                self.sync(gh, client(gh, requests=5))  # events, then a PR: issue, pull, reviews, comments
                 break
             except github.DeadlineReached:
                 pass
