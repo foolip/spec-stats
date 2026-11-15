@@ -9,10 +9,11 @@ to catch deletions and missed updates. A run exits with an error if the
 stored data breaks an assumption (extract.CheckFailed), after storing what
 it fetched.
 
-With --dry-run it only prints the plan and fetches nothing. With
---max-minutes N, no request starts, and no rate-limit pause runs, after N
-minutes; the run saves its state and exits normally, and the next run
-continues from there.
+With --dry-run it only prints the plan and fetches nothing. A run never
+waits for rate-limit quota: when the hourly reserve is reached, or GitHub
+answers with a rate limit, it stops. With --max-minutes N, no request
+starts after N minutes. Either way the run saves its state and exits
+normally, and the next run continues from there.
 """
 
 import argparse
@@ -56,8 +57,8 @@ def main(argv=None):
             extract.sync_repo(client, store, reconcile_=args.reconcile)
         except extract.CheckFailed as e:
             failed.append(str(e))
-        except github.DeadlineReached:
-            print(f"Stopped at the deadline during {repo}; the next run continues from here.")
+        except github.Stopped as e:
+            print(f"Stopped during {repo}: {e}. The next run continues from here.")
             break
     print(f"Done: {client.requests} requests, {client.not_modified} of them unchanged (304).")
     for f in failed:

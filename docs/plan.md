@@ -35,8 +35,10 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 2. **Be gentle with GitHub.**
    - Serial requests, one at a time, with no gap between them (since
      2026-11-14; it was at least 1 s apart).
-   - Back off on 429/5xx and secondary rate limits, honoring
-     `Retry-After`; pause when the hourly budget drops below 500 requests.
+   - Never wait for quota (since 2026-11-15): stop the run when the hourly
+     budget drops below 500 requests (a tenth of a smaller budget), or on
+     a 429 or secondary rate limit; the next run continues. 5xx and
+     network errors are retried with back-off.
    - Incremental: fetch only what changed since the last run, with ETags so
      unchanged listings are free 304s (`docs/extraction.md`).
    - Identify ourselves: the User-Agent carries the operator's contact
@@ -96,6 +98,7 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-15 | Each run fetches events before items | Maintainer's choice: whether `/issues/events` pages back to the beginning of whatwg/html is the open question, and items take several runs |
 | 2026-11-15 | Switch the test repo from whatwg/dom to whatwg/html; dom's data stays as fetched on 2026-11-14 | Maintainer's instruction: html is the biggest, so it's where GitHub's paging limits would show |
 | 2026-11-15 | A backfill of `/issues/events` whose last page is full, with no next link, fails the run | Run 4 (whatwg/html) showed GitHub ends the listing at page 300 silently, with no 422; the code took that as the beginning and went on to items, so the early check the events-first order was for didn't fire |
+| 2026-11-15 | A run never waits for rate-limit quota: at the hourly reserve, or on a 429, secondary or primary rate limit, it stops cleanly as at its deadline (`RateLimited`), and the next run continues | Maintainer's instruction: the runner mustn't idle. Run 4 spent about 3¼ of its 4⅓ hours paused for the reset |
 | 2026-11-15 | If main moved during a fetch run, the run fails without committing its data (it was rebased onto the new main) | Maintainer's choice: the collection code may have changed under the run. Run 4's rebase failed anyway, for want of a git identity |
 
 ## Status

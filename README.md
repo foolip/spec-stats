@@ -67,7 +67,10 @@ will likely take several runs.
 
 - Set a `SPECSTATS_TOKEN` secret (a fine-grained personal token with no
   extra permissions) for 5,000 requests an hour; without it, the built-in
-  token allows 1,000, so a backfill pauses for the limit.
+  token allows 1,000. A run doesn't wait for the hourly limit to reset:
+  it stops and commits when the budget is down to its reserve, so a
+  backfill is one run an hour (about 4,500 requests each with a personal
+  token).
 - Set a `SPECSTATS_CONTACT` variable to put a contact address in the
   User-Agent.
 - Each run's summary page shows what's stored and the cursors

@@ -10,7 +10,9 @@
 #
 # Token: the SPECSTATS_TOKEN secret if set (a fine-grained personal token
 # with no extra permissions: 5,000 requests an hour), otherwise the
-# built-in token (1,000 an hour, so a backfill pauses for the limit).
+# built-in token (1,000 an hour). A run never waits for quota: it stops
+# when the hourly budget is down to its reserve (about 20 minutes into a
+# backfill), commits, and the next run, an hour later, continues.
 # Contact for the User-Agent: the SPECSTATS_CONTACT variable, if set.
 
 name: Fetch GitHub data
@@ -45,8 +47,8 @@ jobs:
         with:
           python-version: "3.13"
 
-      # The fetch stops itself after 300 minutes (no request or rate-limit
-      # pause starts after that), leaving time to commit. The step timeout is
+      # The fetch stops itself after 300 minutes (no request starts after
+      # that), leaving time to commit. The step timeout is
       # a backstop; a timed-out step still lets the commit step run.
       - name: Fetch
         timeout-minutes: 320

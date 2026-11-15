@@ -308,37 +308,58 @@ class ExtractTest(TempDirs):
 
 
 class ClientTest(unittest.TestCase):
-    def test_backoff_and_no_gap(self):
+    def test_no_gap_and_server_errors_are_retried(self):
         sleeps = []
-        responses = [(429, {"Retry-After": "7"}, b""), (200, {}, b'{"ok": 1}')]
+        responses = [(502, {}, b""), (200, {}, b'{"ok": 1}'), (200, {}, b'{"ok": 2}')]
         c = github.Client(token="t", transport=lambda *a: responses.pop(0), sleep=sleeps.append,
                           clock=lambda: 0.0, **QUIET)
         self.assertEqual(c.rest("/x").data, {"ok": 1})
-        self.assertEqual(sleeps, [7.0])  # the Retry-After, and no other waiting
+        self.assertEqual(c.rest("/y").data, {"ok": 2})
+        self.assertEqual(sleeps, [30])  # the retry, and no other waiting
+
+    def test_low_budget_stops_without_waiting(self):
+        sleeps = []
+
+        def transport(*a):
+            return 200, {"x-ratelimit-remaining": "499", "x-ratelimit-reset": str(time.time() + 600),
+                         "x-ratelimit-limit": "5000"}, b"[]"
+        c = github.Client(token="t", transport=transport, sleep=sleeps.append, clock=lambda: 0.0, **QUIET)
+        # The budget is low, but the response that said so is still returned...
+        self.assertEqual(c.rest("/x").data, [])
+        # ...and the run stops before the next request instead of waiting.
+        with self.assertRaisesRegex(github.RateLimited, "499 left"):
+            c.rest("/y")
+        self.assertEqual((c.requests, sleeps), (1, []))
+
+    def test_smaller_budget_keeps_a_tenth(self):
+        def transport(*a):
+            return 200, {"x-ratelimit-remaining": "150", "x-ratelimit-limit": "1000"}, b"[]"
+        c = github.Client(token="t", transport=transport, sleep=lambda s: None, **QUIET)
+        c.rest("/x")
+        c.rest("/y")  # 150 is above a tenth of 1,000
+        self.assertEqual(c.requests, 2)
+
+    def test_rate_limit_responses_stop_without_waiting(self):
+        for status, headers, body in [
+                (429, {"Retry-After": "7"}, b""),
+                (403, {}, b'{"message": "You have exceeded a secondary rate limit"}'),
+                (403, {"x-ratelimit-remaining": "0", "x-ratelimit-reset": str(time.time() + 600)}, b"{}")]:
+            sleeps = []
+            c = github.Client(token="t", transport=lambda *a: (status, headers, body), sleep=sleeps.append,
+                              clock=lambda: 0.0, **QUIET)
+            with self.assertRaises(github.RateLimited):
+                c.rest("/x")
+            self.assertEqual((c.requests, sleeps), (1, []))
 
     def test_deadline(self):
         t = [0.0]
-
-        def transport(*a):
-            return 200, {"x-ratelimit-remaining": "10", "x-ratelimit-reset": str(time.time() + 600),
-                         "x-ratelimit-limit": "5000"}, b"[]"
-        c = github.Client(token="t", transport=transport, sleep=lambda s: t.__setitem__(0, t[0] + s),
+        c = github.Client(token="t", transport=lambda *a: (200, {}, b"[]"), sleep=lambda s: None,
                           clock=lambda: t[0], seconds_left=60, **QUIET)
-        # The budget is low, but the response that said so is still returned...
-        self.assertEqual(c.rest("/x").data, [])
-        # ...and the 10-minute pause, which would end past the deadline, isn't taken.
+        c.rest("/x")
+        t[0] = 61
         with self.assertRaises(github.DeadlineReached):
             c.rest("/y")
-        self.assertEqual((c.requests, t[0]), (1, 0.0))
-
-    def test_secondary_rate_limit(self):
-        sleeps = []
-        responses = [(403, {}, b'{"message": "You have exceeded a secondary rate limit"}'),
-                     (200, {}, b"[]")]
-        c = github.Client(token="t", transport=lambda *a: responses.pop(0), sleep=sleeps.append,
-                          clock=lambda: 0.0, **QUIET)
-        self.assertEqual(c.rest("/x").data, [])
-        self.assertIn(30, sleeps)
+        self.assertEqual(c.requests, 1)
 
     def test_redirect_is_gone(self):
         c = github.Client(token="t", transport=lambda *a: (301, {"Location": "https://api.github.com/x"}, b""),
