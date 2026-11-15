@@ -7,7 +7,7 @@ JSON files committed to this repo, laid out like the API paths
   data/github/{owner}/{repo}/
     issues/{n}/index.json      GET /issues/{n} (the issue, or the issue view of a PR)
     issues/{n}/comments.json   GET /issues/{n}/comments
-    issues/{n}/events.json     events from the repo-wide /issues/events, by id
+    issues/{n}/events.json     GET /issues/{n}/events, plus newer ones from /issues/events
     pulls/{n}/index.json       GET /pulls/{n}
     pulls/{n}/reviews.json     GET /pulls/{n}/reviews
     pulls/{n}/comments.json    GET /pulls/{n}/comments
@@ -23,12 +23,14 @@ highest; after it, each run lists the items updated since the last run
 (one free 304 if nothing changed) and syncs those whose updated_at differs
 from the stored one.
 
-Events come only from the repo-wide /issues/events listing, newest first:
-read back to the beginning once, then each run reads the new ones (one
-free 304 if there are none). This assumes GitHub pages that listing all the
-way back; if it doesn't, or the stored events don't add up (a closed item
-with no `closed` event), the run fails with CheckFailed rather than fall
-back to per-item requests.
+Events are part of an item (GET /issues/{n}/events, fetched with it).
+After the backfill, each run also reads the repo-wide /issues/events
+listing, newest first, back to the last run's newest event (one free 304
+if there are none): it has the events that don't move an item's
+updated_at, so the item isn't refetched for them. The listing can't be
+the backfill: GitHub ends it after 300 pages (whatwg/html: back to
+2024-12-06). If the stored events don't add up (a closed item with no
+`closed` event), the run fails with CheckFailed.
 """
 
 import json
@@ -43,11 +45,10 @@ from .github import GitHubError, Gone, PaginationLimit
 OVERLAP = timedelta(days=1)
 PER_PAGE = 100
 STATE_EVERY = 50  # save state.json after this many items
-# Log backfill progress about every 10-15 requests: an item takes about 2.7
-# (whatwg/dom: the issue, comments if any, and for a PR the pull, reviews
-# and review comments if any); an events page takes one.
+# Log backfill progress about every 10-20 requests: an item takes about 3.7
+# (whatwg/dom: the issue, its events, comments if any, and for a PR the
+# pull, reviews and review comments if any).
 PROGRESS_EVERY = 5  # items
-PROGRESS_PAGES = 10  # events pages
 
 PR_RESOURCES = {
     # resource -> (API path, file under pulls/{n}/, paged)
@@ -239,6 +240,7 @@ def sync_item(client, store, number, resources):
         obj = client.rest(f"/repos/{repo}/issues/{number}").data
         comments = (list(_all_pages(client, f"/repos/{repo}/issues/{number}/comments"))
                     if obj["comments"] else None)
+        events = [_without_issue(e) for e in _all_pages(client, f"/repos/{repo}/issues/{number}/events")]
         pr = {}
         if "pull_request" in obj:
             for res in resources:
@@ -254,6 +256,7 @@ def sync_item(client, store, number, resources):
         return None
     store.unset_gone(number)
     store.put("issues", number, "comments", comments)
+    store.put("issues", number, "events", events)
     for res, data in pr.items():
         what = "comments" if res == "review_comments" else PR_RESOURCES[res][1]
         store.put("pulls", number, what, data)
@@ -311,8 +314,10 @@ def backfill_items(client, store, resources, log=print):
             log(f"{store.repo} items: backfilled up to {s['next'] - 1} of {s['highest']} "
                 f"({done} this run, {client.requests} requests so far)")
     # Anything created, transferred in or updated since the backfill
-    # started is in the first update's listing.
+    # started is in the first update's listing, and any event since then
+    # in the first read of the events listing.
     s["cursor"] = s.pop("started")
+    store.section("events").setdefault("cursor", s["cursor"])
     del s["next"]
     store.save_state()
     log(f"{store.repo} items: backfilled numbers 1..{s['highest']} ({done} this run)")
@@ -419,62 +424,35 @@ def reconcile(client, store, resources, log=print):
 
 # --- events ------------------------------------------------------------------
 
+def _without_issue(event):
+    """The repo-wide listing embeds a copy of the issue in each event; the
+    per-item listing doesn't."""
+    return {k: v for k, v in event.items() if k != "issue"}
+
+
 def _store_events(store, events):
-    """Events under their issue's number, without the embedded copy of the
-    issue (as /issues/{n}/events returns them). Events of numbers recorded
-    as gone are dropped: the listing keeps deleted issues' events. Events
-    stored before their number is found to be gone are removed with it."""
+    """Listed events under their issue's number, merged by id. Events of
+    numbers recorded as gone are dropped: the listing keeps deleted issues'
+    events. Events stored before their number is found to be gone are
+    removed with it."""
     gone = store.gone()
     groups = defaultdict(list)
     for obj in events:
         n = obj["issue"]["number"]
         if n not in gone:
-            groups[n].append({k: v for k, v in obj.items() if k != "issue"})
+            groups[n].append(_without_issue(obj))
     for n, objs in groups.items():
         store.merge("issues", n, "events", objs)
 
 
 def sync_events(client, store, log=print):
-    """The repo-wide events listing, newest first: once back to the
-    beginning (by page number, resumable), then each run back to OVERLAP
-    before the newest event seen. New events during the backfill only push
-    rows to later pages, where they're read again; they're picked up by the
-    first update, which starts from the newest event when the backfill began."""
+    """After the items backfill: the repo-wide events listing, newest
+    first, back to OVERLAP before the newest event seen (at first, before
+    the backfill started). Merged into each item's events."""
     s = store.section("events")
+    if "cursor" not in s:
+        return  # set when the items backfill finishes
     path = f"/repos/{store.repo}/issues/events"
-    if not s.get("done"):
-        page = s.get("page", 1)
-        while True:
-            try:
-                resp = client.rest(path, {"per_page": PER_PAGE, **({"page": page} if page > 1 else {})})
-            except PaginationLimit:
-                raise CheckFailed(f"{store.repo}: GitHub won't page /issues/events past page {page - 1} "
-                                  f"(oldest event reached: {s.get('oldest')})")
-            if "cursor" not in s:
-                s["cursor"] = resp.data[0]["created_at"] if resp.data else now()
-                s["etag"] = resp.etag
-            _store_events(store, resp.data)
-            if resp.data:
-                s["oldest"] = resp.data[-1]["created_at"]
-            if not resp.next and len(resp.data) == PER_PAGE:
-                # GitHub ends this listing silently: whatwg/html's stopped at
-                # page 300, a full page with no next link and no error. A
-                # real last page is almost always short; one that's exactly
-                # full fails here too, which is the safe side.
-                raise CheckFailed(f"{store.repo}: /issues/events stops at page {page}, a full page, "
-                                  f"so GitHub probably cut it off (oldest event reached: {s.get('oldest')})")
-            if not resp.next:
-                s["done"] = True
-                s.pop("page", None)
-                store.save_state()
-                log(f"{store.repo} events: read back to {s.get('oldest')} ({page} pages)")
-                return
-            if page % PROGRESS_PAGES == 0:
-                log(f"{store.repo} events: read {page} pages, back to {s.get('oldest')} "
-                    f"({client.requests} requests so far)")
-            page += 1
-            s["page"] = page
-            store.save_state()
     resp = client.rest(path, {"per_page": PER_PAGE}, etag=s.get("etag"))
     if resp.status == 304:
         log(f"{store.repo} events: unchanged")
@@ -485,7 +463,14 @@ def sync_events(client, store, log=print):
         _store_events(store, rows)
         stored += len(rows)
         newest = max([newest] + [e["created_at"] for e in rows])
-        if len(rows) < len(resp.data) or not resp.next:
+        if len(rows) < len(resp.data):
+            break
+        if not resp.next:
+            if len(resp.data) == PER_PAGE:
+                # GitHub ends this listing silently after 300 pages: a full
+                # page with no next link.
+                raise CheckFailed(f"{store.repo}: /issues/events ended (a full page with no next link) "
+                                  f"before reaching {stop}")
             break
         try:
             resp = client.rest(resp.next)
@@ -535,9 +520,6 @@ def sync_repo(client, store, reconcile_=False, log=print):
         raise CheckFailed(f"{store.repo}: config/fetch.json pr_resources is {resources}, but stored PRs "
                           f"have {fixed}; fetching a changed set for every PR isn't implemented")
     try:
-        # Events first, so that whether GitHub pages them all the way back
-        # is known before the much longer items backfill.
-        sync_events(client, store, log=log)
         items = store.section("items")
         if "cursor" not in items:
             backfill_items(client, store, resources, log=log)
@@ -545,7 +527,9 @@ def sync_repo(client, store, reconcile_=False, log=print):
             update_items(client, store, resources, log=log)
             if reconcile_:
                 reconcile(client, store, resources, log=log)
+        # After items: the events cursor is set when the backfill finishes.
+        sync_events(client, store, log=log)
     finally:
         store.save_state()
-    if store.section("events").get("done") and "cursor" in store.section("items"):
+    if "cursor" in store.section("events"):
         check_events(store)
