@@ -104,6 +104,17 @@ class ExtractTest(TempDirs):
             "/issues/2", "/pulls/2", "/pulls/2/reviews", "/pulls/2/comments",
             "/issues/3", "/pulls/3", "/pulls/3/reviews"])  # no review comments: none to fetch
 
+    def test_backfill_logs_progress(self):
+        gh = populated()
+        lines = []
+        with mock.patch.object(extract, "PROGRESS_EVERY", 2), mock.patch.object(extract, "PROGRESS_PAGES", 2):
+            extract.sync_repo(client(gh), self.store(), log=lines.append)
+        self.assertEqual([l.split(" (")[0] for l in lines], [
+            f"{REPO} events: read 2 pages, back to 2025-02-10T00:00:00Z",
+            f"{REPO} events: read back to 2025-02-10T00:00:00Z",
+            f"{REPO} items: backfilled up to 2 of 3",
+            f"{REPO} items: backfilled numbers 1..3"])
+
     def test_file_layout_and_format(self):
         gh = populated()
         self.sync(gh)
