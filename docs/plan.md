@@ -36,7 +36,7 @@ removed on 2026-11-14 (decisions log); its last version is at commit
    - Serial requests, one at a time, with no gap between them (since
      2026-11-14; it was at least 1 s apart).
    - Never wait for quota (since 2026-11-15): stop the run when the hourly
-     budget drops below 500 requests (a tenth of a smaller budget), or on
+     budget is down to 500 requests (a tenth of a smaller budget), or on
      a 429 or secondary rate limit; the next run continues. 5xx and
      network errors are retried with back-off.
    - Incremental: fetch only what changed since the last run, with ETags so

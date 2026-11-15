@@ -366,23 +366,35 @@ class ClientTest(unittest.TestCase):
         sleeps = []
 
         def transport(*a):
-            return 200, {"x-ratelimit-remaining": "499", "x-ratelimit-reset": str(time.time() + 600),
+            return 200, {"x-ratelimit-remaining": "500", "x-ratelimit-reset": str(time.time() + 600),
                          "x-ratelimit-limit": "5000"}, b"[]"
         c = github.Client(token="t", transport=transport, sleep=sleeps.append, clock=lambda: 0.0, **QUIET)
         # The budget is low, but the response that said so is still returned...
         self.assertEqual(c.rest("/x").data, [])
         # ...and the run stops before the next request instead of waiting.
-        with self.assertRaisesRegex(github.RateLimited, "499 left"):
+        with self.assertRaisesRegex(github.RateLimited, "500 left"):
             c.rest("/y")
         self.assertEqual((c.requests, sleeps), (1, []))
 
-    def test_smaller_budget_keeps_a_tenth(self):
+    def test_one_above_the_reserve_continues(self):
         def transport(*a):
-            return 200, {"x-ratelimit-remaining": "150", "x-ratelimit-limit": "1000"}, b"[]"
+            return 200, {"x-ratelimit-remaining": "501", "x-ratelimit-limit": "5000"}, b"[]"
         c = github.Client(token="t", transport=transport, sleep=lambda s: None, **QUIET)
         c.rest("/x")
-        c.rest("/y")  # 150 is above a tenth of 1,000
+        c.rest("/y")
         self.assertEqual(c.requests, 2)
+
+    def test_smaller_budget_keeps_a_tenth(self):
+        remaining = ["150", "101", "100"]
+
+        def transport(*a):
+            return 200, {"x-ratelimit-remaining": remaining.pop(0), "x-ratelimit-limit": "1000"}, b"[]"
+        c = github.Client(token="t", transport=transport, sleep=lambda s: None, **QUIET)
+        for path in ("/x", "/y", "/z"):  # 150 and 101 are above a tenth of 1,000; 100 isn't
+            c.rest(path)
+        with self.assertRaisesRegex(github.RateLimited, "100 left"):
+            c.rest("/w")
+        self.assertEqual(c.requests, 3)
 
     def test_rate_limit_responses_stop_without_waiting(self):
         for status, headers, body in [
