@@ -142,7 +142,7 @@ class Client:
             "Authorization": f"bearer {self.token}",
             "User-Agent": user_agent(),
             "Accept": "application/vnd.github+json",
-            "X-GitHub-Api-Version": "2022-11-28",
+            "X-GitHub-Api-Version": "2026-03-10",
         }
         if body is not None:
             headers["Content-Type"] = "application/json"
