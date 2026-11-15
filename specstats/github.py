@@ -1,9 +1,10 @@
-"""A throttled, serial GitHub REST client (standard library only).
+"""A serial GitHub REST client (standard library only).
 
-Ground rule 2 (docs/plan.md): one request at a time, at least
-MIN_INTERVAL seconds apart, back off on rate limits, send ETags so
-unchanged listings come back as free 304s, and identify ourselves in the
-User-Agent.
+Ground rule 2 (docs/plan.md): one request at a time, with no gap between
+them (GitHub asks for serial requests, not slow ones; Octokit doesn't space
+out GETs either), back off on rate limits, keep a reserve of the hourly
+budget, send ETags so unchanged listings come back as free 304s, and
+identify ourselves in the User-Agent.
 """
 
 import json
@@ -18,7 +19,6 @@ import urllib.request
 from . import paths
 
 API = "https://api.github.com"
-MIN_INTERVAL = 1.0  # seconds between requests
 MAX_RETRIES = 6
 # Pause before the hourly budget is spent, so the operator's token stays
 # usable for other things.
@@ -105,14 +105,12 @@ class Client:
     returning (status, headers, raw bytes) is replaceable in tests."""
 
     def __init__(self, token=None, transport=None, sleep=time.sleep, clock=time.monotonic,
-                 min_interval=MIN_INTERVAL, log=print, seconds_left=None):
+                 log=print, seconds_left=None):
         self.token = token if token is not None else load_token()
         self.transport = transport or _http
         self.sleep = sleep
         self.clock = clock
-        self.min_interval = min_interval
         self.log = log
-        self._last = None
         self.requests = 0
         self.not_modified = 0
         # In clock() time: no request starts, and no pause runs, past this.
@@ -125,14 +123,9 @@ class Client:
         if seconds > 0:
             self.sleep(seconds)
 
-    def _throttle(self):
-        if self._resume_at is not None:
-            wait, self._resume_at = self._resume_at - self.clock(), None
-            if wait > 0:
-                self._wait(wait)
-        wait = self.min_interval - (self.clock() - self._last) if self._last is not None else 0
+    def _before_request(self):
+        wait, self._resume_at = (self._resume_at - self.clock() if self._resume_at is not None else 0), None
         self._wait(max(wait, 0))  # also checks the deadline before every request
-        self._last = self.clock()
 
     def _send(self, method, url, body=None, extra_headers=None):
         headers = {
@@ -146,7 +139,7 @@ class Client:
         headers.update(extra_headers or {})
         delay = 30
         for _ in range(MAX_RETRIES):
-            self._throttle()
+            self._before_request()
             self.requests += 1
             try:
                 status, resp_headers, raw = self.transport(method, url, body, headers)

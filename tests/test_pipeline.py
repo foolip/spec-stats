@@ -16,14 +16,18 @@ extract.PER_PAGE = 2  # small pages, so a few rows exercise paging
 
 def client(fake, requests=None):
     """A client for `fake`. With `requests`, its deadline allows that many
-    requests: each starts a second after the last on a fake clock."""
+    requests: each takes a second on a fake clock."""
     if requests is None:
         return github.Client(token="t", transport=fake, sleep=lambda s: None, **QUIET)
     t = [0.0]
 
     def sleep(s):
         t[0] += s
-    return github.Client(token="t", transport=fake, sleep=sleep, clock=lambda: t[0],
+
+    def transport(*a):
+        t[0] += 1
+        return fake(*a)
+    return github.Client(token="t", transport=transport, sleep=sleep, clock=lambda: t[0],
                          seconds_left=requests - 1, **QUIET)
 
 
@@ -240,14 +244,13 @@ class ExtractTest(TempDirs):
 
 
 class ClientTest(unittest.TestCase):
-    def test_throttle_and_backoff(self):
+    def test_backoff_and_no_gap(self):
         sleeps = []
         responses = [(429, {"Retry-After": "7"}, b""), (200, {}, b'{"ok": 1}')]
         c = github.Client(token="t", transport=lambda *a: responses.pop(0), sleep=sleeps.append,
                           clock=lambda: 0.0, **QUIET)
         self.assertEqual(c.rest("/x").data, {"ok": 1})
-        self.assertIn(7.0, sleeps)
-        self.assertIn(1.0, sleeps)  # the second request waited MIN_INTERVAL
+        self.assertEqual(sleeps, [7.0])  # the Retry-After, and no other waiting
 
     def test_deadline(self):
         t = [0.0]
