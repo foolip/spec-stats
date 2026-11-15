@@ -5,6 +5,10 @@ Code: `specstats/extract.py` (fetching and storing), `specstats/github.py`
 this repo, losslessly, as the API returned it, so any analysis can be
 run offline, and rerun with new definitions at any time.
 
+The design goal (2026-11-15) is the simplest approach that's complete as
+it goes: fetch one issue or PR number at a time, and check assumptions
+about GitHub's data by failing loudly rather than working around them.
+
 ## Where it's stored
 
 One pretty-printed JSON file (2-space indent, GitHub's field order, UTF-8,
@@ -13,171 +17,192 @@ that mirrors the API path it comes from:
 
 ```
 data/github/
-  whatwg/dom/
-    issues/1234/index.json      GET /repos/whatwg/dom/issues/1234 (issues and PRs)
-    issues/1234/comments.json   conversation comments, sorted by id
-    issues/1234/events.json     timeline events, sorted by id
-    pulls/1234/index.json       GET /repos/whatwg/dom/pulls/1234 (PRs only)
-    pulls/1234/reviews.json     reviews
-    pulls/1234/comments.json    inline review comments, sorted by id
+  whatwg/html/
+    issues/1234/index.json      GET /repos/whatwg/html/issues/1234 (issues and PRs)
+    issues/1234/comments.json   GET …/issues/1234/comments
+    issues/1234/events.json     this item's events from GET …/issues/events, sorted by id
+    pulls/1234/index.json       GET …/pulls/1234 (PRs only)
+    pulls/1234/reviews.json     GET …/pulls/1234/reviews
+    pulls/1234/comments.json    GET …/pulls/1234/comments (inline review comments)
     pulls/1234/commits.json     (optional)
     pulls/1234/files.json       (optional)
-    state.json                  cursors and ETags, which PR resources were fetched for
-                                which updated_at, and numbers that are gone
+    state.json                  how far each part has got, and numbers that are gone
 ```
 
 Lists that would be empty have no file. Issues and PRs share one
 `issues/` directory because they share one number sequence; a PR also
-has `pulls/{n}/index.json`, the PR view of the same number. Everything
-stored for one number is in one directory, `issues/{n}/` or `pulls/{n}/`,
-with the object itself as `index.json`.
+has `pulls/{n}/index.json`, the PR view of the same number.
 
 Events from the repo-wide listing embed a copy of their issue as it was
 when fetched; that copy is left out, so `events.json` holds what
-`/issues/{n}/events` returns.
+`/issues/{n}/events` would return.
 
 Query the files with `jq` or any JSON tool, e.g.
-`jq -r '.[].user.login' data/github/whatwg/dom/issues/*/comments.json | sort | uniq -c | sort -n`.
+`jq -r '.[].user.login' data/github/whatwg/html/issues/*/comments.json | sort | uniq -c | sort -n`.
 
 **History is git's.** A changed object rewrites its file; a comment deleted
-on GitHub is dropped from its list when refetched; a deleted or
-transferred item has all its files removed. Every earlier version is in
-`git log`. Unchanged objects re-read in the overlap don't change any file.
+on GitHub is gone from its list when the item is next fetched; a deleted
+or transferred item has all its files removed. Every earlier version is
+in `git log`.
 
-## What is fetched, per repo
+whatwg/dom was fetched on 2026-11-14 by the earlier design (repo-wide
+listings of comments and review comments, merged by id); its files are
+in the same layout, but its `state.json` is in the old format and it
+isn't updated for now.
 
-| Stream or resource | What | Request | Incremental by |
-|---|---|---|---|
-| items | every issue and PR (labels, state, comment counts, reactions) | `GET /repos/{repo}/issues?state=all&sort=updated&direction=asc` | `since` |
-| issue comments | every conversation comment on issues and PRs | `GET /repos/{repo}/issues/comments?sort=updated&direction=asc` | `since` |
-| review comments | every inline review comment (`in_reply_to_id`, `path`, line, diff hunk, its review) | `GET /repos/{repo}/pulls/comments?sort=updated&direction=asc` | `since` |
-| events | every timeline event: labeled, closed, merged, review requested, ready for review, converted to draft, assigned, … | `GET /repos/{repo}/issues/events` (newest first) | stop past the cursor |
-| pull | per PR: merged_by, draft, size (additions, deletions, changed files), review comment count | `GET /repos/{repo}/pulls/{n}` | PRs whose `updated_at` changed |
-| reviews | per PR: every review, with state and body | `GET /repos/{repo}/pulls/{n}/reviews` | same |
-| commits | per PR, optional: commits, with author emails (at most 250 per PR) | `GET /repos/{repo}/pulls/{n}/commits` | same |
-| files | per PR, optional: changed files with line counts (at most 3,000 per PR) | `GET /repos/{repo}/pulls/{n}/files` | same |
+## One item: `sync_item(n)`
 
-REST has no repo-wide listing of reviews, commits or files, so those cost
-requests per PR. Which per-PR resources are fetched is set in
-`config/fetch.json`: `pull` and `reviews` by default, with `commits` and
-`files` off until an analysis needs them. Each resource is tracked
-separately (`fetched` in `state.json`), so turning one on later fetches just that
-resource for every PR on the next run, without refetching anything else.
+Everything for one number is fetched together and replaces what's stored:
 
-Bots and boilerplate are kept; analyses decide what counts.
+| Request | When |
+|---|---|
+| `GET /issues/{n}` | always |
+| `GET /issues/{n}/comments` | if the issue's `comments` count isn't 0 |
+| `GET /pulls/{n}` | PRs, if `pull` is in `config/fetch.json` (default) |
+| `GET /pulls/{n}/reviews` | PRs, if `reviews` is in `config/fetch.json` (default) |
+| `GET /pulls/{n}/commits`, `/files` | PRs, if turned on in `config/fetch.json` (off) |
+| `GET /pulls/{n}/comments` | PRs, unless `pull` says `review_comments` is 0 |
 
-Not fetched: diff patches, and anything outside GitHub (chat, meetings).
-Deleted comments and items can't be fetched once they're gone, except as
-the last version we stored.
+So an issue costs one or two requests and a PR three to five, plus one
+per extra page of a long list. `index.json` is written last: its
+`updated_at` is what says the item is synced, so a run stopped midway
+fetches the item again.
 
-## Building the mirror from nothing
+If `GET /issues/{n}` answers 404 or 410 (deleted, never existed, or a
+discussion), or redirects (transferred to another repo), the number is
+recorded as gone in `state.json`, anything stored for it is removed, and it
+isn't fetched again. **Redirects aren't followed**, so nothing is
+fetched from the other repo; a transfer is treated as a deletion.
 
-There's no separate backfill mode, and no switch between orders. Every
-listing is in order of `updated_at`, oldest first, and the first run is
-just a run whose cursors start empty: it reads from the oldest-updated
-item to the newest, and when it finishes, its cursor is "now". The next
-run carries on from there with the same code.
+The set of per-PR resources is recorded in `state.json`. Changing it in
+`config/fetch.json` makes the run fail: fetching a newly enabled
+resource for every existing PR isn't implemented yet.
 
-Ordering by update rather than by creation is what makes this work:
+## Items: backfill by number, then updates
 
-- **Nothing changes behind the cursor unnoticed.** An item updated while
-  the backfill runs gets a new `updated_at`, so it moves *ahead* of the
-  cursor and is read again later in the same run, or by the next one. In
-  creation order, an item already read could change and not be seen
-  again, so a creation-order backfill would need a second, update-ordered
-  pass to catch up afterwards.
-- **Interruptions don't matter.** The cursor is saved per page, so a run
-  that stops (a timeout, the rate limit) resumes where it was, however
-  long the gap.
-- **Per-PR resources follow the same rule:** they're fetched for every PR
-  whose `updated_at` differs from the one they were fetched for, which on
-  the first run is every PR.
+**Backfill.** Find the highest number, then `sync_item` every number from
+1 to it. The cursor is just the next number (`items.next` in
+`state.json`), so a run can stop between any two items and the next run
+continues there, and every number below the cursor is stored or gone.
 
-Order per repo: the three ascending listings, then events, then per-PR
-resources, then the count checks. With `--reconcile`, each repo is then
-checked so that every issue number is accounted for.
+The highest number is that of the newest-created item, or higher if an
+issue was transferred in since: a transferred issue keeps its creation
+date but gets the next number (whatwg/dom #1340 is one). A transfer
+moves `updated_at`, so the highest number is the most of the newest-created
+item and the items updated since it was created.
+
+**Updates.** Each later run lists
+`GET /issues?state=all&sort=updated&direction=asc&since=S` and syncs each
+listed item whose `updated_at` differs from the stored one. `S` is the
+newest `updated_at` seen, minus a day of overlap, so anything a run
+missed (identical timestamps, a briefly stale API) is listed again. After
+the backfill, the cursor starts at the time the backfill started, so
+everything that changed during it is fetched again.
+
+- The first page carries the ETag from the last run with the same
+  `since`. `S` only moves when something changed, so **an unchanged repo
+  is one request, a `304 Not Modified`**, which doesn't count against
+  the rate limit.
+- A listed number above the highest known one (new issues, transfers in)
+  first syncs every number in between, so deleted ones are recorded as
+  gone, and the "every number below is stored or gone" rule keeps
+  holding.
+- Pages are fetched by *keyset*: each next page is page 1 again, with
+  `since` a second before the newest timestamp seen. Following page 2,
+  3, … links instead would skip a row whenever an item already read is
+  updated mid-listing. The cursor is saved after every page.
+
+This relies on every change to an item's comments, reviews or inline
+comments also moving the item's `updated_at`. In whatwg/dom's data that
+held for every comment (including 2,146 edited ones), review and inline
+comment.
+
+## Events: the repo-wide listing only
+
+Events come only from `GET /issues/events` (newest first), never from
+per-item requests:
+
+- **Backfill:** read the listing back to the beginning, by page number,
+  saving the page after each one. New events during the backfill push
+  rows onto later pages, where they're read again (merged by id), so
+  resuming days later is safe. A deletion during it can skip one event
+  per page boundary; that's accepted.
+- **Updates:** read page 1 with its ETag (a free 304 if there's nothing
+  new), and on back to a day before the newest event seen.
+- Events of numbers recorded as gone are dropped: the listing keeps
+  events of deleted and transferred issues (whatwg/dom had 81 such
+  numbers).
+
+This catches events that don't move the item's `updated_at`. In
+whatwg/dom that's 1,965 of 14,960 events: mostly `referenced`,
+`subscribed` and `mentioned`, and `head_ref_deleted`.
+
+It also **assumes GitHub pages the listing all the way back**. That held
+for whatwg/dom (150 pages, back to its first issue in 2012); whatwg/html
+is the test. If it doesn't hold, the run fails (below) rather than fall
+back to per-item event requests.
+
+## Checks (`CheckFailed`)
+
+A run stores what it fetched, then exits with an error if an assumption
+doesn't hold:
+
+- GitHub refuses to page `/issues/events` back to the beginning
+  (HTTP 422), or back to the last run's events.
+- Once both backfills are done, on every run: every closed item has a
+  `closed` event, every merged PR has a `merged` event, and no events
+  are stored for a number up to the highest that's neither stored nor
+  gone. A listing that ended early without a 422 would show up here.
+- With `--reconcile`, every number up to the highest is stored or gone.
+- `config/fetch.json` changed its per-PR resources.
 
 ## A run (`extract`)
 
-For each repo:
+Per repo: events (backfill or update), then the items backfill or an
+update, then with `--reconcile` the reconcile, then the checks once both
+backfills are done. Events go first so that whether GitHub pages them all
+the way back is known before the much longer items backfill. Events
+filed under a number that turns out to be gone are removed when the
+items backfill reaches it.
 
-1. **The three ascending listings** (items, issue comments, review
-   comments) each start from their cursor (the newest `updated_at`
-   stored) minus a **day of overlap**. So each run re-reads the last day,
-   and anything an earlier run missed (identical timestamps, a briefly
-   stale API, things that moved while we paged) is picked up.
-   - The first page carries the ETag from the last run with the same
-     `since`. If nothing changed, GitHub answers `304 Not Modified`, which
-     doesn't count against the rate limit.
-   - Pages are fetched by *keyset*: each next page is page 1 again, with
-     `since` a second before the newest timestamp seen so far. Following
-     page 2, 3, … links instead would skip a row whenever an item already
-     read is updated mid-listing (it moves to the end, and the row after
-     the page boundary slides back into the pages already read). Keyset
-     pages can't skip, and never page deep enough to hit GitHub's
-     pagination limit.
-   - The cursor is saved after every page, so an interrupted run resumes
-     where it stopped. Per-item fetches save `state.json` every 50 items.
-2. **Events** are listed newest first until a day before the cursor. On
-   the first run, if GitHub won't page back to the start of history, the
-   oldest event reached is recorded as the *floor*, and items older than
-   it get their events fetched one at a time (`/issues/{n}/events`).
-3. **Per-PR resources:** for every PR whose `updated_at` differs from the
-   one each resource was last fetched for. A PR's reviews (or commits, or
-   files) are replaced as a set.
-4. **Count checks:** every item's `comments` count is compared with the
-   conversation comments stored for it, and every PR's `review_comments`
-   count with the inline comments stored. Items that differ get their
-   comments refetched one at a time. This needs no requests unless
-   something differs.
-
-A daily run of an unchanged repo is four requests, all 304s.
+A caught-up run of an unchanged repo is two requests, both free 304s.
 
 ## Deadlines
 
 `--max-minutes N` stops a run cleanly: no request starts, and no
-rate-limit pause runs, after N minutes. A response is always
-stored before the run stops, and `state.json` is saved, so the next run
-continues where this one stopped:
+rate-limit pause runs, after N minutes. The items backfill continues from
+`items.next`, item updates from the cursor saved per page, and the events
+backfill from its saved page. An events update stopped midway saves
+nothing and re-reads from the newest next time.
 
-- The ascending listings resume from their cursor, saved after every page.
-- Per-PR and per-item fetches resume from `fetched` in `state.json`.
-- The events listing is newest first and can't be resumed midway. A first
-  run stopped during it records the oldest event reached as the *floor*,
-  just as when GitHub stops paging, and older items get their events one
-  at a time. A later run stopped during it simply re-reads from the newest.
-
-Once caught up, a run needs at least four requests (one per stream), so
-the deadline must allow more than that for a run to finish.
+The smallest unit of work is one PR: three to five requests, more for very
+long lists. Once the events backfill is done, every run also spends one
+request on events first.
 
 The workflow stops each run 300 minutes in, inside the job's 350-minute
 limit, then commits. A backfill bigger than that takes several runs.
 
 ## The weekly reconcile (`extract --reconcile`)
 
-Issue and PR numbers are one sequence per repo, so completeness can be
-checked exactly:
+No update listing shows a deleted or transferred item, so once a week
+every item is listed (one request per 100 items, by keyset), and:
 
-1. Re-list every item (about 120 pages for whatwg/html), storing any that
-   changed.
-2. Every number from 1 to the highest must then be either stored, or
-   recorded as gone in `state.json`. Each number that's neither is fetched on its own:
-   if it exists, it's stored (it had been missed); if GitHub says it was
-   deleted, or it redirects to another repo (transferred), it's recorded
-   as gone and not checked again. A stored item that turned out to be
-   gone has its files removed.
-3. If the numbers still don't add up, the command exits with an error.
-
-The first reconcile after the backfill checks every number never seen, so
-it costs one request per deleted or transferred issue; later ones only
-check new gaps.
+1. any item whose `updated_at` differs from the stored one is synced (a
+   missed update);
+2. any stored item that's no longer listed is synced, which records it as
+   gone if it is;
+3. the run fails unless every number from 1 to the highest is stored or
+   gone.
 
 ## Known gaps
 
-- A comment deleted on an item that didn't otherwise change may not move
-  the item's `updated_at`, so its count isn't rechecked. It stays stored
-  until the item next changes.
-- Untested against the real API (written in a session that couldn't reach
-  it): how deep the repo-wide listings can page, and whether
-  `/issues/events` includes PR-only events like `ready_for_review`. The
-  first run on whatwg/dom settles both (`docs/plan.md`, next steps).
+- An event skipped by a deletion during a multi-page events read stays
+  missing (accepted on 2026-11-15).
+- A change that doesn't move an item's `updated_at` (other than events) is
+  only fetched when the item next changes, or by the weekly reconcile if
+  the listing's `updated_at` differs. None was seen in whatwg/dom's data.
+- Untested against the real API (written in a session that couldn't
+  reach it): that redirects for transferred issues are 301s with the
+  `Location` of the new issue, and that per-item and listed objects have
+  the same fields (only `GET /issues/{n}` is stored now, so it no longer
+  matters for items).

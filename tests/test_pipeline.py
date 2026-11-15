@@ -1,6 +1,5 @@
 import json
 import os
-import re
 import tempfile
 import time
 import unittest
@@ -41,8 +40,11 @@ def populated(**kw):
     gh.add_issue(3, "2025-03-01T00:00:00Z", author="ed", is_pr=True,
                  merged_at="2025-03-02T00:00:00Z", merged_by="ed")
     gh.add_event(1, "2025-01-02T00:00:00Z", "labeled", "ed")
-    gh.add_event(2, "2025-02-10T00:00:00Z", "merged", "ed")
     return gh
+
+
+FULL = {"issues": 1, "prs": 2, "pulls": 2, "comments": 1, "events": 5, "reviews": 1, "review_comments": 2,
+        "gone": 0}
 
 
 class TempDirs(unittest.TestCase):
@@ -56,6 +58,10 @@ class TempDirs(unittest.TestCase):
         env.start()
         self.addCleanup(env.stop)
         self.addCleanup(self.tmp.cleanup)
+        # The fake's data is from early 2025; "now" is just after it.
+        clock = mock.patch.object(extract, "now", return_value="2025-04-01T00:00:00Z")
+        clock.start()
+        self.addCleanup(clock.stop)
 
 
 class ExtractTest(TempDirs):
@@ -63,8 +69,8 @@ class ExtractTest(TempDirs):
         """A fresh RepoStore each time, so every run starts from the files alone."""
         return extract.RepoStore(REPO)
 
-    def sync(self, gh, c=None):
-        extract.sync_repo(c or client(gh), self.store(), **QUIET)
+    def sync(self, gh, c=None, **kw):
+        extract.sync_repo(c or client(gh), self.store(), **kw, **QUIET)
 
     def count(self, what):
         return self.store().counts()[what]
@@ -72,19 +78,31 @@ class ExtractTest(TempDirs):
     def issue_dir(self):
         return self.files / REPO / "issues"
 
-    def test_full_sync_then_unchanged_is_all_304s(self):
+    def calls(self, gh, c):
+        return [u.split("?")[0].replace(f"https://api.github.com/repos/{REPO}", "")
+                for _, u in gh.calls[-c.requests:]]
+
+    def test_backfill_then_unchanged_is_two_304s(self):
         gh = populated()
         self.sync(gh)
-        self.assertEqual(self.store().counts(), {"issues": 1, "prs": 2, "pulls": 2, "comments": 1, "events": 2,
-                                                 "reviews": 1, "review_comments": 2, "gone": 0})
-        self.assertEqual(extract.comment_mismatches(self.store()), ([], []))
-        # Nothing changed. The second run re-reads the overlap once (its URL now
-        # has `since`, so the first run's ETags don't apply); after that, one
-        # conditional request per stream, all 304s.
+        self.assertEqual(self.store().counts(), FULL)
+        # The first update re-reads what changed during the backfill; after
+        # that, one conditional request for items and one for events.
         self.sync(gh)
         c = client(gh)
         self.sync(gh, c)
-        self.assertEqual((c.requests, c.not_modified), (4, 4))
+        self.assertEqual((c.requests, c.not_modified), (2, 2))
+
+    def test_backfill_fetches_by_number(self):
+        gh = populated()
+        c = client(gh)
+        self.sync(gh, c)
+        self.assertEqual(self.calls(gh, c), [
+            "/issues/events", "/issues/events", "/issues/events",
+            "/issues", "/issues",  # the highest number
+            "/issues/1", "/issues/1/comments",
+            "/issues/2", "/pulls/2", "/pulls/2/reviews", "/pulls/2/comments",
+            "/issues/3", "/pulls/3", "/pulls/3/reviews"])  # no review comments: none to fetch
 
     def test_file_layout_and_format(self):
         gh = populated()
@@ -92,7 +110,8 @@ class ExtractTest(TempDirs):
         d = self.files / REPO
         files = sorted(str(p.relative_to(d)) for p in d.rglob("*") if p.is_file())
         self.assertEqual(files, ["issues/1/comments.json", "issues/1/events.json", "issues/1/index.json",
-                                 "issues/2/events.json", "issues/2/index.json", "issues/3/index.json",
+                                 "issues/2/events.json", "issues/2/index.json",
+                                 "issues/3/events.json", "issues/3/index.json",
                                  "pulls/2/comments.json", "pulls/2/index.json", "pulls/2/reviews.json",
                                  "pulls/3/index.json", "state.json"])
         text = (d / "issues/2/index.json").read_text(encoding="utf-8")
@@ -101,42 +120,58 @@ class ExtractTest(TempDirs):
         self.assertEqual(json.loads(text), gh.issues[2])
         # Events are stored without the embedded issue, as /issues/{n}/events returns them.
         self.assertNotIn("issue", json.loads((d / "issues/1/events.json").read_text())[0])
-        # An update rewrites the file.
-        gh.touch(2, "2025-09-01T00:00:00Z")
-        self.sync(gh)
-        self.assertEqual(json.loads((d / "issues/2/index.json").read_text())["updated_at"], "2025-09-01T00:00:00Z")
 
-    def test_incremental_fetches_only_what_changed(self):
+    def test_deleted_and_transferred_numbers_are_gone(self):
+        gh = populated()
+        gh.add_issue(6, "2025-04-01T00:00:00Z")
+        gh.add_event(5, "2025-03-03T00:00:00Z", "labeled", "ed")  # stored, then removed with #5
+        gh.transferred.add(4)  # moved to another repo: a redirect, not followed
+        self.sync(gh)          # 5 was deleted (410)
+        self.assertEqual(self.store().gone(), {4, 5})
+        self.assertEqual(sorted(int(p.name) for p in self.issue_dir().iterdir()), [1, 2, 3, 6])
+
+    def test_highest_includes_an_issue_transferred_in(self):
+        gh = populated()
+        # Transferred in after #3 was created: it keeps its older creation
+        # date, but gets the next number, and the transfer moves updated_at.
+        gh.add_issue(4, "2024-06-01T00:00:00Z")
+        gh.touch(4, "2025-03-05T00:00:00Z")
+        self.sync(gh)
+        self.assertEqual(self.store().section("items")["highest"], 4)
+        self.assertIn(4, self.store().index())
+
+    def test_update_syncs_only_what_changed(self):
         gh = populated()
         self.sync(gh)
-        gh.add_comment(2, "2025-06-01T00:00:00Z", "bob")
+        self.sync(gh)
+        gh.add_comment(1, "2025-06-01T00:00:00Z", "bob")
         c = client(gh)
         self.sync(gh, c)
+        self.assertEqual(self.calls(gh, c), ["/issues/events", "/issues", "/issues/1", "/issues/1/comments"])
         self.assertEqual(self.count("comments"), 2)
-        self.assertEqual(extract.stale_prs(self.store(), "reviews"), [])
-        per_pr = [u for _, u in gh.calls[-c.requests:] if "/pulls/" in u and "/pulls/comments" not in u]
-        self.assertEqual(len(per_pr), 2)  # PR 2's pull and reviews, nothing for PR 3
 
-    def test_overlap_catches_a_late_arrival(self):
+    def test_new_numbers_fill_the_gap(self):
         gh = populated()
         self.sync(gh)
-        # A comment that became visible late, timestamped just before the cursor.
-        cursor = self.store().cursor("issue_comments")["cursor"]
-        gh.add_comment(1, "2025-01-02T12:00:00Z", "bob", touch=False)
-        gh.add_comment(3, cursor, "carol")
+        gh.add_issue(5, "2025-06-01T00:00:00Z")  # 4 was created and deleted in between
         self.sync(gh)
-        self.assertEqual(self.count("comments"), 3)
+        self.assertEqual(self.store().gone(), {4})
+        self.assertEqual(self.store().section("items")["highest"], 5)
+        self.assertIn(5, self.store().index())
 
-    def test_counts_heal_a_missed_comment(self):
+    def test_items_created_during_the_backfill(self):
         gh = populated()
+
+        def create(n):
+            if n == 4:  # after the highest number was found
+                gh.add_issue(4, "2025-05-01T00:00:00Z")
+                gh.add_comment(1, "2025-05-02T00:00:00Z", "bob")
+        gh.before_request = create
         self.sync(gh)
-        # A comment far older than the overlap shows up (e.g. it was missed),
-        # and the item's updated_at moves, so its count is checked.
-        gh.add_comment(1, "2024-06-01T00:00:00Z", "bob", touch=False)
-        gh.touch(1, "2025-07-01T00:00:00Z")
+        gh.before_request = None
         self.sync(gh)
+        self.assertIn(4, self.store().index())
         self.assertEqual(self.count("comments"), 2)
-        self.assertEqual(extract.comment_mismatches(self.store()), ([], []))
 
     def test_deleted_comment_is_dropped(self):
         gh = populated()
@@ -148,74 +183,86 @@ class ExtractTest(TempDirs):
         self.assertEqual(self.count("comments"), 0)
         self.assertFalse((self.issue_dir() / "1/comments.json").exists())
 
-    def test_keyset_paging_never_pages_deep(self):
-        gh = FakeGitHub(page_limit=1)  # GitHub refuses page 2 and beyond
-        for i in range(1, 10):
-            gh.add_issue(i, f"2025-01-{i:02d}T00:00:00Z")
-        extract.sync_ascending(client(gh), self.store(), "items", **QUIET)
-        self.assertEqual(self.count("issues"), 9)
-
-    def test_update_during_listing_skips_nothing(self):
-        gh = FakeGitHub()
-        for i in range(1, 10):
-            gh.add_issue(i, f"2025-01-{i:02d}T00:00:00Z")
-
-        def update_read_item(n):
-            if n == 2:  # after the first page: an item we've read is updated
-                gh.touch(1, "2025-06-01T00:00:00Z")
-        gh.before_request = update_read_item
-        extract.sync_ascending(client(gh), self.store(), "items", **QUIET)
-        self.assertEqual(self.count("issues"), 9)
-        self.assertEqual(self.store().get("issues", 1)["updated_at"], "2025-06-01T00:00:00Z")
-
-    def test_events_floor_falls_back_to_per_item(self):
-        gh = FakeGitHub(page=2, page_limit=1)
-        for i in range(1, 5):
-            gh.add_issue(i, f"2025-01-{i:02d}T00:00:00Z")
-            gh.add_event(i, f"2025-01-{i:02d}T01:00:00Z", "labeled", "ed")
-        c = client(gh)
-        extract.sync_events(c, self.store(), **QUIET)
-        self.assertEqual(self.count("events"), 2)  # one page only
-        extract.sync_ascending(c, self.store(), "items", **QUIET)
-        extract.fetch_item_events(c, self.store(), **QUIET)
-        self.assertEqual(self.count("events"), 4)
-
-    def test_reconcile_accounts_for_every_number(self):
-        gh = populated()
-        self.sync(gh)
-        del gh.issues[1]           # deleted on GitHub
-        gh.add_issue(6, "2020-01-01T00:00:00Z")  # one we somehow never saw
-        gh.transferred.add(5)      # 4 and 5 never existed here: 4 deleted, 5 moved away
-        r = extract.reconcile(client(gh), self.store(), **QUIET)
-        self.assertEqual(r["highest"], 6)
-        self.assertEqual(r["newly_gone"], [1, 4, 5])
-        gone = {n: g["reason"] for n, g in self.store().gone().items()}
-        self.assertEqual(gone, {1: "deleted", 4: "deleted", 5: "transferred"})
-        self.assertEqual(r["stored"] + r["gone"], r["highest"])
-        # Everything stored for the deleted item is removed (git keeps it).
-        self.assertEqual(sorted(p.name for p in self.issue_dir().iterdir()),
-                         ["2", "3", "6"])
-        # The next reconcile doesn't recheck known gone numbers.
-        c = client(gh)
-        extract.reconcile(c, self.store(), **QUIET)
-        self.assertFalse([u for _, u in gh.calls[-c.requests:] if re.search(r"/issues/\d+$", u)])
-
     def test_edits_replace_the_stored_version(self):
         gh = populated()
         self.sync(gh)
         comment = gh.issue_comments[0]
         comment["body"], comment["updated_at"] = "edited", "2025-08-01T00:00:00Z"
+        gh.touch(1, "2025-08-01T00:00:00Z")
         self.sync(gh)
-        stored = self.store().get("issues", 1, "comments")
-        self.assertEqual([c["body"] for c in stored], ["edited"])
+        self.assertEqual([c["body"] for c in self.store().get("issues", 1, "comments")], ["edited"])
 
-    def test_turning_on_a_pr_resource_later(self):
+    def test_update_during_listing_skips_nothing(self):
         gh = populated()
         self.sync(gh)
+        for i in range(4, 10):
+            gh.add_issue(i, f"2025-06-{i:02d}T00:00:00Z")
+
+        def update_read_item(n):
+            # Once #4 has been synced from the first page of the listing,
+            # it's updated, so it moves to the end of the listing.
+            if gh.calls[-1][1].endswith("/issues/4/comments") or gh.calls[-1][1].endswith("/issues/4"):
+                gh.before_request = None
+                gh.touch(4, "2025-07-01T00:00:00Z")
+        gh.before_request = update_read_item
+        self.sync(gh)
+        self.assertEqual(sorted(self.store().index()), list(range(1, 10)))
+        self.assertEqual(self.store().get("issues", 4)["updated_at"], "2025-07-01T00:00:00Z")
+
+    def test_events_without_an_item_update_are_picked_up(self):
+        gh = populated()
+        self.sync(gh)
+        gh.add_event(1, "2025-09-01T00:00:00Z", "referenced", "bob")  # updated_at doesn't move
+        self.sync(gh)
+        self.assertEqual(self.count("events"), 6)
         c = client(gh)
-        n = extract.sync_pr_resources(c, self.store(), resources=["pull", "reviews", "commits"], **QUIET)
-        self.assertEqual(n, 2)  # commits for both PRs, nothing else refetched
-        self.assertTrue(all("/commits" in u for _, u in gh.calls[-c.requests:]))
+        self.sync(gh, c)
+        self.assertEqual((c.requests, c.not_modified), (2, 2))
+
+    def test_events_of_deleted_issues_are_dropped(self):
+        gh = populated()
+        gh.add_event(4, "2025-03-03T00:00:00Z", "labeled", "ed")  # 4 is deleted; its event stays listed
+        self.sync(gh)
+        # 4 is above the highest number, so it isn't known to be gone yet.
+        self.assertEqual(self.store().gone(), set())
+        self.assertTrue((self.issue_dir() / "4/events.json").exists())
+        gh.add_issue(5, "2025-06-01T00:00:00Z")
+        gh.touch(5, "2025-06-01T00:00:00Z")
+        self.sync(gh)
+        self.assertEqual(self.store().gone(), {4})
+        self.assertFalse((self.issue_dir() / "4").exists())
+
+    def test_events_listing_that_stops_early_fails(self):
+        gh = populated(page_limit=2)
+        with self.assertRaisesRegex(extract.CheckFailed, "won't page /issues/events past page 2"):
+            self.sync(gh)
+        self.assertEqual(self.count("events"), 4)  # the events read are stored
+
+    def test_closed_item_without_a_closed_event_fails(self):
+        gh = populated()
+        gh.close(1, "2025-04-01T00:00:00Z", event=False)
+        with self.assertRaisesRegex(extract.CheckFailed, r"closed with no `closed` event: 1$"):
+            self.sync(gh)
+
+    def test_reconcile_catches_deletions_and_missed_updates(self):
+        gh = populated()
+        self.sync(gh)
+        del gh.issues[1]                        # deleted, which no update listing shows
+        gh.issues[3]["title"] = "missed"        # changed, and somehow not seen
+        gh.issues[3]["updated_at"] = "2020-01-01T00:00:00Z"
+        self.sync(gh)
+        self.assertIn(1, self.store().index())
+        self.sync(gh, reconcile_=True)
+        self.assertEqual(self.store().gone(), {1})
+        self.assertFalse((self.issue_dir() / "1").exists())
+        self.assertEqual(self.store().get("issues", 3)["title"], "missed")
+
+    def test_changing_pr_resources_fails(self):
+        gh = populated()
+        self.sync(gh)
+        with mock.patch.object(extract, "load_pr_resources", return_value=["pull", "reviews", "commits"]):
+            with self.assertRaisesRegex(extract.CheckFailed, "pr_resources"):
+                self.sync(gh)
 
     def test_deadline_stops_cleanly_and_the_next_run_continues(self):
         gh = populated()
@@ -226,15 +273,12 @@ class ExtractTest(TempDirs):
             runs += 1
             self.assertLess(runs, 100)
             try:
-                self.sync(gh, client(gh, requests=6))
+                self.sync(gh, client(gh, requests=5))  # events, then a PR: issue, pull, reviews, comments
                 break
             except github.DeadlineReached:
                 pass
         self.assertGreater(runs, 3)
-        self.assertEqual(self.store().counts(), {"issues": 1, "prs": 2, "pulls": 2, "comments": 1, "events": 5,
-                                                 "reviews": 1, "review_comments": 2, "gone": 0})
-        self.assertEqual(extract.comment_mismatches(self.store()), ([], []))
-        self.assertEqual(extract.stale_prs(self.store(), "reviews"), [])
+        self.assertEqual(self.store().counts(), dict(FULL, events=8))
         self.assertFalse(list(self.files.rglob("*.tmp")))
 
     def test_stored_repos(self):
@@ -275,6 +319,12 @@ class ClientTest(unittest.TestCase):
                           clock=lambda: 0.0, **QUIET)
         self.assertEqual(c.rest("/x").data, [])
         self.assertIn(30, sleeps)
+
+    def test_redirect_is_gone(self):
+        c = github.Client(token="t", transport=lambda *a: (301, {"Location": "https://api.github.com/x"}, b""),
+                          sleep=lambda s: None, **QUIET)
+        with self.assertRaises(github.Gone):
+            c.rest("/repos/whatwg/html/issues/1")
 
 
 if __name__ == "__main__":

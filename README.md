@@ -17,7 +17,7 @@ dashboards are in [`docs/plan.md`](docs/plan.md).
 
 | Source | What it gives | Status |
 |---|---|---|
-| GitHub REST API, the repos in `config/repos.txt` | Every issue and PR with their comments, inline review comments, timeline events and reviews (commits and changed files optional); public profiles (approved, not fetched for now) | Approved 2026-11-13; extractor written, not run yet. Stored in `data/github/` |
+| GitHub REST API, the repos in `config/repos.txt` | Every issue and PR with their comments, inline review comments, timeline events and reviews (commits and changed files optional); public profiles (approved, not fetched for now) | Approved 2026-11-13. whatwg/dom fetched 2026-11-14; whatwg/html next. Stored in `data/github/` |
 | git history of the spec repos | Diffs of spec text (how much prose is written) | Deferred: API data first (2026-11-13) |
 | Browser bug trackers (crbug, Bugzilla, WebKit) | Status of implementation bugs linked from PRs | Not approved |
 | wpt.fyi | Test results for tests linked from PRs | Not approved |
@@ -29,7 +29,7 @@ before anything is fetched ([`docs/plan.md`](docs/plan.md), ground rules).
 
 The extractor uses the Python standard library only. Everything fetched is
 committed as JSON files in `data/github/`, laid out like the API paths
-(`whatwg/dom/issues/1234/index.json`, `whatwg/dom/issues/1234/comments.json`,
+(`whatwg/html/issues/1234/index.json`, `whatwg/html/issues/1234/comments.json`,
 …).
 Operator settings go in `data/private/` (gitignored).
 
@@ -40,16 +40,18 @@ for public repos. Put your contact address in `data/private/settings.json`
 
 ```
 python3 -m specstats extract --dry-run            # print the plan, fetch nothing
-python3 -m specstats extract --repo whatwg/dom
+python3 -m specstats extract --repo whatwg/html
 python3 -m specstats extract                      # all repos; incremental after the first run
 python3 -m specstats extract --max-minutes 60     # stop cleanly after an hour; the next run continues
-python3 -m specstats extract --reconcile          # weekly: also check every issue/PR number against GitHub
+python3 -m specstats extract --reconcile          # weekly: also re-list every issue/PR (deletions, missed updates)
 python3 -m specstats stats                        # what's stored (offline)
 python3 -m unittest discover tests
 ```
 
-The first `extract` fetches each repo's whole history; later runs fetch only
-what changed, and an unchanged repo costs four free 304 responses. The data
+The first `extract` fetches each repo's whole history, one issue or PR at a
+time; later runs fetch only what changed, and an unchanged repo costs two
+free 304 responses. A run exits with an error if the data breaks an
+assumption the extractor makes (after storing it). The data
 is plain JSON files, so `jq`, `grep` and `git log -p` work on it directly. How
 updates work, and how holes are caught: [`docs/extraction.md`](docs/extraction.md).
 

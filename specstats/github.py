@@ -29,8 +29,10 @@ class GitHubError(Exception):
     pass
 
 
-class NotFound(GitHubError):
-    """404 or 410: the item was deleted (or never existed)."""
+class Gone(GitHubError):
+    """404, 410 or a redirect: the item was deleted, never existed, or was
+    transferred to another repo. Redirects aren't followed, so nothing is
+    fetched from the other repo; a transfer is treated as a deletion."""
 
     def __init__(self, status, url):
         super().__init__(f"HTTP {status} for {url}")
@@ -64,10 +66,18 @@ def user_agent():
     return "spec-stats (+https://github.com/foolip/spec-stats)"
 
 
+class _NoRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, *args, **kwargs):
+        return None  # urllib then raises HTTPError with the 3xx status
+
+
+_OPENER = urllib.request.build_opener(_NoRedirect)
+
+
 def _http(method, url, body, headers):
     req = urllib.request.Request(url, data=body, headers=headers, method=method)
     try:
-        with urllib.request.urlopen(req, timeout=120) as resp:
+        with _OPENER.open(req, timeout=120) as resp:
             return resp.status, dict(resp.headers), resp.read()
     except urllib.error.HTTPError as e:
         return e.code, dict(e.headers or {}), e.read()
@@ -170,8 +180,8 @@ class Client:
         if status == 304:
             self.not_modified += 1
             return Response(304, headers, None)
-        if status in (404, 410):
-            raise NotFound(status, url)
+        if status in (301, 302, 307, 308, 404, 410):
+            raise Gone(status, url)
         if status == 422:
             raise PaginationLimit(f"HTTP 422 for {url}: {raw[:300]!r}")
         if status != 200:
