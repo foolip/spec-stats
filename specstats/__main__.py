@@ -88,10 +88,8 @@ def progress(state):
         out = f"items backfill at {items['next']} of {items['highest']}"
     else:
         out = f"items up to {items['cursor']} (numbers 1..{items['highest']})"
-    if events.get("done"):
+    if "cursor" in events:
         out += f"; events up to {events['cursor']}"
-    elif events:
-        out += f"; events backfill at page {events.get('page', 1)}, back to {events.get('oldest')}"
     return out
 
 

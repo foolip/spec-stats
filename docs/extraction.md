@@ -20,7 +20,7 @@ data/github/
   whatwg/html/
     issues/1234/index.json      GET /repos/whatwg/html/issues/1234 (issues and PRs)
     issues/1234/comments.json   GET …/issues/1234/comments
-    issues/1234/events.json     this item's events from GET …/issues/events, sorted by id
+    issues/1234/events.json     GET …/issues/1234/events, plus newer ones from …/issues/events
     pulls/1234/index.json       GET …/pulls/1234 (PRs only)
     pulls/1234/reviews.json     GET …/pulls/1234/reviews
     pulls/1234/comments.json    GET …/pulls/1234/comments (inline review comments)
@@ -35,7 +35,7 @@ has `pulls/{n}/index.json`, the PR view of the same number.
 
 Events from the repo-wide listing embed a copy of their issue as it was
 when fetched; that copy is left out, so `events.json` holds what
-`/issues/{n}/events` would return.
+`/issues/{n}/events` returns.
 
 Query the files with `jq` or any JSON tool, e.g.
 `jq -r '.[].user.login' data/github/whatwg/html/issues/*/comments.json | sort | uniq -c | sort -n`.
@@ -58,12 +58,13 @@ Everything for one number is fetched together and replaces what's stored:
 |---|---|
 | `GET /issues/{n}` | always |
 | `GET /issues/{n}/comments` | if the issue's `comments` count isn't 0 |
+| `GET /issues/{n}/events` | always (the issue has no count of them) |
 | `GET /pulls/{n}` | PRs, if `pull` is in `config/fetch.json` (default) |
 | `GET /pulls/{n}/reviews` | PRs, if `reviews` is in `config/fetch.json` (default) |
 | `GET /pulls/{n}/commits`, `/files` | PRs, if turned on in `config/fetch.json` (off) |
 | `GET /pulls/{n}/comments` | PRs, unless `pull` says `review_comments` is 0 |
 
-So an issue costs one or two requests and a PR three to five, plus one
+So an issue costs two or three requests and a PR four to six, plus one
 per extra page of a long list. `index.json` is written last: its
 `updated_at` is what says the item is synced, so a run stopped midway
 fetches the item again.
@@ -115,60 +116,72 @@ everything that changed during it is fetched again.
 This relies on every change to an item's comments, reviews or inline
 comments also moving the item's `updated_at`. In whatwg/dom's data that
 held for every comment (including 2,146 edited ones), review and inline
-comment.
+comment. It doesn't hold for events, hence the listing below.
 
-## Events: the repo-wide listing only
+## Events: per item, then the repo-wide listing
 
-Events come only from `GET /issues/events` (newest first), never from
-per-item requests:
-
-- **Backfill:** read the listing back to the beginning, by page number,
-  saving the page after each one. New events during the backfill push
-  rows onto later pages, where they're read again (merged by id), so
-  resuming days later is safe. A deletion during it can skip one event
-  per page boundary; that's accepted.
-- **Updates:** read page 1 with its ETag (a free 304 if there's nothing
-  new), and on back to a day before the newest event seen.
+- **Backfill:** each item's events come with it (`/issues/{n}/events`
+  in `sync_item`), so every number below the backfill's position is
+  complete, events included.
+- **Updates:** once the items backfill is done, each run reads the
+  repo-wide `GET /issues/events` (newest first): page 1 with its ETag (a
+  free 304 if there's nothing new), and on back to a day before the
+  newest event seen; the first time, back to a day before the backfill
+  started. New events are merged into each item's `events.json` by id. A
+  changed item is refetched whole, events included.
 - Events of numbers recorded as gone are dropped: the listing keeps
   events of deleted and transferred issues (whatwg/dom had 81 such
   numbers).
 
-This catches events that don't move the item's `updated_at`. In
-whatwg/dom that's 1,965 of 14,960 events: mostly `referenced`,
-`subscribed` and `mentioned`, and `head_ref_deleted`.
+The listing catches events that don't move the item's `updated_at`, so
+the item isn't refetched for them. In whatwg/dom that's 1,965 of 14,960
+events: mostly `referenced`, `subscribed` and `mentioned`, and
+`head_ref_deleted`.
 
-It also **assumes GitHub pages the listing all the way back**. That held
-for whatwg/dom (150 pages, back to its first issue in 2012), but **not for
-whatwg/html**: on 2026-11-15 its listing ended at page 300 (30,000
-events, back to 2024-12-06), a full page with no next link and no error.
-The run now fails there (below) rather than fall back to per-item event
-requests; how to get older events is undecided (`docs/plan.md`).
+**Why not the listing for the backfill:** GitHub ends it after 300 pages
+(30,000 events) with a full page and no next link, no error.
+whatwg/dom's listing reached its first issue, from 2012, in 150 pages;
+whatwg/html's ended at 2024-12-06 (seen on 2026-11-15). Between runs, the listing only
+needs to reach back a day before the last run.
+
+**Why not the timeline** (`/issues/{n}/timeline`, checked on 2026-11-15
+with `timeline-check` on 40 whatwg/dom items): it would replace the
+comments request, but not the others.
+
+| | stored | in the timeline |
+|---|---|---|
+| issue comments | 1,116 | all, identical (`commented`, plus `event` and `actor`) |
+| reviews | 386 | 92: not the 294 that only reply in an existing thread; `state`, `user` and `body` differ from `/pulls/{n}/reviews` |
+| inline review comments | 576 | 43: only those not part of a review (`line-commented`); a `reviewed` entry has no comments |
+| events | 1,801 | 1,613: 188 missing (`referenced` 123 of 360, `subscribed` 33, `mentioned` 30, `closed` 1, `head_ref_force_pushed` 1), with no rule found |
+
+Only the timeline has `cross-referenced` (297 in the sample, with a copy of
+the referring issue, often from outside `whatwg/`) and `committed` (git
+authorship) entries, neither with an id. Its only parameters are paging
+and `exclude` (event types to leave out); nothing adds a review's
+comments.
 
 ## Checks (`CheckFailed`)
 
 A run stores what it fetched, then exits with an error if an assumption
 doesn't hold:
 
-- GitHub refuses to page `/issues/events` back to the beginning
-  (HTTP 422), or back to the last run's events, or the backfill's last
-  page is full (100 events) with no next link, which is how GitHub cut
-  off whatwg/html's listing at page 300. A listing that really ends on
-  a full page fails too; that's the safe side.
-- Once both backfills are done, on every run: every closed item has a
+- The repo-wide `/issues/events` doesn't reach back to the last run's
+  events: HTTP 422, or a full page (100 events) with no next link, which
+  is how GitHub cut off whatwg/html's listing at page 300.
+- Once the items backfill is done, on every run: every closed item has a
   `closed` event, every merged PR has a `merged` event, and no events
   are stored for a number up to the highest that's neither stored nor
-  gone. A listing cut off on a short page would show up here.
+  gone.
 - With `--reconcile`, every number up to the highest is stored or gone.
 - `config/fetch.json` changed its per-PR resources.
 
 ## A run (`extract`)
 
-Per repo: events (backfill or update), then the items backfill or an
-update, then with `--reconcile` the reconcile, then the checks once both
-backfills are done. Events go first so that whether GitHub pages them all
-the way back is known before the much longer items backfill. Events
-filed under a number that turns out to be gone are removed when the
-items backfill reaches it.
+Per repo: the items backfill or an update, then with `--reconcile` the
+reconcile, then (once the backfill is done) the events listing and the
+checks. Events filed under a number above the highest that turns out to
+be gone are removed when an update reaches it.
 
 A caught-up run of an unchanged repo is two requests, both free 304s.
 
@@ -180,13 +193,12 @@ for rate-limit quota: the hourly budget is down to its reserve (500, or a
 tenth of a smaller budget), or GitHub answers with a 429, a secondary
 rate limit or an exhausted primary limit. It never idles until a reset.
 A stopped run exits normally. The items backfill continues from
-`items.next`, item updates from the cursor saved per page, and the events
-backfill from its saved page. An events update stopped midway saves
-nothing and re-reads from the newest next time.
+`items.next` and item updates from the cursor saved per page. An events
+read stopped midway saves nothing and re-reads from the newest next time.
 
-The smallest unit of work is one PR: three to five requests, more for very
-long lists. Once the events backfill is done, every run also spends one
-request on events first.
+The smallest unit of work is one PR: four to six requests, more for very
+long lists. Once the backfill is done, every run also spends at least one
+request on the events listing.
 
 The workflow commits after every run. With a 5,000-an-hour token a
 backfill run stops at the reserve after about 4,500 requests (some 20

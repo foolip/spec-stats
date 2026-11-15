@@ -98,22 +98,21 @@ class ExtractTest(TempDirs):
         c = client(gh)
         self.sync(gh, c)
         self.assertEqual(self.calls(gh, c), [
-            "/issues/events", "/issues/events", "/issues/events",
             "/issues", "/issues",  # the highest number
-            "/issues/1", "/issues/1/comments",
-            "/issues/2", "/pulls/2", "/pulls/2/reviews", "/pulls/2/comments",
-            "/issues/3", "/pulls/3", "/pulls/3/reviews"])  # no review comments: none to fetch
+            "/issues/1", "/issues/1/comments", "/issues/1/events",
+            "/issues/2", "/issues/2/events", "/pulls/2", "/pulls/2/reviews", "/pulls/2/comments",
+            "/issues/3", "/issues/3/events", "/pulls/3", "/pulls/3/reviews",  # no review comments to fetch
+            "/issues/events"])  # after the backfill: events since it started
 
     def test_backfill_logs_progress(self):
         gh = populated()
         lines = []
-        with mock.patch.object(extract, "PROGRESS_EVERY", 2), mock.patch.object(extract, "PROGRESS_PAGES", 2):
+        with mock.patch.object(extract, "PROGRESS_EVERY", 2):
             extract.sync_repo(client(gh), self.store(), log=lines.append)
         self.assertEqual([l.split(" (")[0] for l in lines], [
-            f"{REPO} events: read 2 pages, back to 2025-02-10T00:00:00Z",
-            f"{REPO} events: read back to 2025-02-10T00:00:00Z",
             f"{REPO} items: backfilled up to 2 of 3",
-            f"{REPO} items: backfilled numbers 1..3"])
+            f"{REPO} items: backfilled numbers 1..3",
+            f"{REPO} events: stored 0"])
 
     def test_file_layout_and_format(self):
         gh = populated()
@@ -135,8 +134,7 @@ class ExtractTest(TempDirs):
     def test_deleted_and_transferred_numbers_are_gone(self):
         gh = populated()
         gh.add_issue(6, "2025-04-01T00:00:00Z")
-        gh.add_event(5, "2025-03-03T00:00:00Z", "labeled", "ed")  # stored, then removed with #5
-        gh.add_event(5, "2025-03-04T00:00:00Z", "unlabeled", "ed")  # (an odd count: a full last page fails)
+        gh.add_event(5, "2025-03-03T00:00:00Z", "labeled", "ed")
         gh.transferred.add(4)  # moved to another repo: a redirect, not followed
         self.sync(gh)          # 5 was deleted (410)
         self.assertEqual(self.store().gone(), {4, 5})
@@ -159,7 +157,8 @@ class ExtractTest(TempDirs):
         gh.add_comment(1, "2025-06-01T00:00:00Z", "bob")
         c = client(gh)
         self.sync(gh, c)
-        self.assertEqual(self.calls(gh, c), ["/issues/events", "/issues", "/issues/1", "/issues/1/comments"])
+        self.assertEqual(self.calls(gh, c), ["/issues", "/issues/1", "/issues/1/comments", "/issues/1/events",
+                                             "/issues/events"])
         self.assertEqual(self.count("comments"), 2)
 
     def test_new_numbers_fill_the_gap(self):
@@ -233,8 +232,10 @@ class ExtractTest(TempDirs):
 
     def test_events_of_deleted_issues_are_dropped(self):
         gh = populated()
-        gh.add_event(4, "2025-03-03T00:00:00Z", "labeled", "ed")  # 4 is deleted; its events stay listed
-        gh.add_event(4, "2025-03-04T00:00:00Z", "unlabeled", "ed")  # (an odd count: a full last page fails)
+        # 4 is deleted, but its events stay in the repo-wide listing; they're
+        # newer than the backfill, so the first read of the listing has them.
+        gh.add_event(4, "2025-05-01T00:00:00Z", "labeled", "ed")
+        gh.add_event(4, "2025-05-02T00:00:00Z", "unlabeled", "ed")
         self.sync(gh)
         # 4 is above the highest number, so it isn't known to be gone yet.
         self.assertEqual(self.store().gone(), set())
@@ -245,18 +246,36 @@ class ExtractTest(TempDirs):
         self.assertEqual(self.store().gone(), {4})
         self.assertFalse((self.issue_dir() / "4").exists())
 
+    def test_backfill_reads_no_events_listing(self):
+        # Events come with each item, so a backfill doesn't depend on how far
+        # back GitHub pages the repo-wide listing (300 pages for whatwg/html).
+        gh = populated(page_limit=1)
+        with self.assertRaises(github.DeadlineReached):
+            self.sync(gh, client(gh, requests=8))  # stops mid-backfill
+        self.assertFalse([u for _, u in gh.calls if "/issues/events" in u])
+        self.assertGreater(self.count("events"), 0)
+
+    def new_events(self, gh, count):
+        for i in range(count):
+            gh.add_event(1, f"2025-05-0{i + 1}T00:00:00Z", "labeled", "ed")
+
     def test_events_listing_that_stops_early_fails(self):
-        gh = populated(page_limit=2)
-        with self.assertRaisesRegex(extract.CheckFailed, "won't page /issues/events past page 2"):
+        gh = populated()
+        self.sync(gh)
+        self.new_events(gh, 5)
+        gh.page_limit = 2
+        with self.assertRaisesRegex(extract.CheckFailed, "won't page /issues/events back to"):
             self.sync(gh)
-        self.assertEqual(self.count("events"), 4)  # the events read are stored
+        self.assertEqual(self.count("events"), 9)  # the events read are stored
 
     def test_events_listing_cut_off_silently_fails(self):
         # GitHub ended whatwg/html's listing at page 300: full, with no next link.
-        gh = populated(page_cap=2)
-        with self.assertRaisesRegex(extract.CheckFailed, "stops at page 2, a full page"):
+        gh = populated()
+        self.sync(gh)
+        self.new_events(gh, 5)
+        gh.page_cap = 2
+        with self.assertRaisesRegex(extract.CheckFailed, "a full page with no next link"):
             self.sync(gh)
-        self.assertFalse(self.store().section("events").get("done"))
 
     def test_closed_item_without_a_closed_event_fails(self):
         gh = populated()
@@ -293,11 +312,12 @@ class ExtractTest(TempDirs):
             runs += 1
             self.assertLess(runs, 100)
             try:
-                self.sync(gh, client(gh, requests=5))  # events, then a PR: issue, pull, reviews, comments
+                self.sync(gh, client(gh, requests=6))  # the biggest item: #2's issue, events (2 pages),
+                # pull, reviews and review comments
                 break
             except github.DeadlineReached:
                 pass
-        self.assertGreater(runs, 3)
+        self.assertGreater(runs, 2)
         self.assertEqual(self.store().counts(), dict(FULL, events=7))
         self.assertFalse(list(self.files.rglob("*.tmp")))
 

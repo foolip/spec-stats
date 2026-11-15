@@ -62,7 +62,7 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-13 | Repo `foolip/spec-stats`; first dashboard is Maintenance load; first source is the GitHub API for `whatwg/*` | Maintainer's choice |
 | 2026-11-13 | ~~GraphQL per item: one query gets a page of PRs with their reviews and comments~~ Superseded the same day, below | |
 | 2026-11-13 | Fetch all activity on issues and PRs, not a chosen subset; metrics decide what to use | Filtering at fetch time is the one choice that's expensive to undo (a full backfill) |
-| 2026-11-13 | ~~REST listings of whole repos (issues, comments, review comments, events)~~ (superseded on 2026-11-15: items by number, events from the repo-wide listing), ~~plus batched GraphQL for reviews, commits and files~~ (superseded below: REST only) | REST supports `since` and ETags, so a daily run of an unchanged repo is four free 304s |
+| 2026-11-13 | ~~REST listings of whole repos (issues, comments, review comments, events)~~ (superseded on 2026-11-15: items by number, with their events), ~~plus batched GraphQL for reviews, commits and files~~ (superseded below: REST only) | REST supports `since` and ETags, so a daily run of an unchanged repo is four free 304s |
 | 2026-11-13 | Re-read a day of overlap on every run, save cursors per page, ~~check comment counts per item~~, reconcile every number weekly, and fail on count mismatches (counts dropped on 2026-11-15: lists are refetched whole with their item, and whatwg/dom has items whose count never matches, e.g. #126, 43 vs 40) | Stopping at the last-seen item trusts the API to be perfect; these find and fill holes instead (`docs/extraction.md`) |
 | 2026-11-13 | **REST only**, no GraphQL: per-PR requests for reviews instead of batched queries | REST returns whole objects, so everything is stored without maintaining field lists; one representation, ETags and `since` throughout. Costs a longer one-time backfill (roughly 2 requests per PR) |
 | 2026-11-13 | Per-PR commits and files are optional (`config/fetch.json`), off for now | Not sure they're needed; each resource is tracked separately, so turning one on later fetches only that |
@@ -92,29 +92,32 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-15 | Requests send `X-GitHub-Api-Version: 2026-03-10` (was `2022-11-28`) | Maintainer's instruction: use the current REST API version. Stored objects fetched before this were returned under `2022-11-28` |
 | 2026-11-15 | **Items are fetched by number:** the backfill runs `GET /issues/{n}` and everything for that number (comments, and for PRs `pull`, reviews, inline comments) for n = 1 … highest; later runs list items updated since the cursor and refetch each changed item the same way. Lists are replaced whole, not merged | Complete as it goes: every number below the cursor is stored or gone, and stopping and resuming are the same thing. A listing paged by number can skip rows when items are deleted or transferred in mid-read (whatwg/dom #1340 was transferred in, with an older creation date than lower numbers). One API form for every stored object. Costs one request per item more than storing listing rows |
 | 2026-11-15 | Redirects aren't followed; a transferred issue is treated like a deleted one (recorded as gone) | Maintainer's choice. Following the redirect fetches from another repo, possibly outside `whatwg/` |
-| 2026-11-15 | **Events come only from the repo-wide `/issues/events` listing**, read back to the beginning once, then the new ones each run (a free 304 if none); no per-item event requests. The run fails if GitHub won't page back far enough, or if a closed item has no `closed` event or a merged PR no `merged` event | Fewest requests (one per 100 events). It catches the events that don't move an item's `updated_at` (1,965 of 14,960 in whatwg/dom, mostly `referenced`). It paged back to 2012 for whatwg/dom; whatwg/html, the biggest, is the test, so the code fails rather than fall back. An event skipped by a deletion during the read is accepted as missing |
-| 2026-11-15 | Events (`/issues/{n}/events` form), not the timeline API | The timeline's only unique data is `cross-referenced`, which embeds issues from other repos; it also repeats comments and reviews, and some of its items have no id |
+| 2026-11-15 | ~~**Events come only from the repo-wide `/issues/events` listing**, read back to the beginning once, then the new ones each run (a free 304 if none); no per-item event requests~~ (superseded the same day: per-item events, below). The run fails ~~if GitHub won't page back far enough, or~~ if a closed item has no `closed` event or a merged PR no `merged` event | Fewest requests (one per 100 events). It catches the events that don't move an item's `updated_at` (1,965 of 14,960 in whatwg/dom, mostly `referenced`). It paged back to 2012 for whatwg/dom; whatwg/html, the biggest, is the test, so the code fails rather than fall back. An event skipped by a deletion during the read is accepted as missing |
+| 2026-11-15 | Events (`/issues/{n}/events` form), not the timeline API (confirmed by `timeline-check`, below) | The timeline's only unique data is `cross-referenced`, which embeds issues from other repos; it also repeats comments and reviews, and some of its items have no id |
 | 2026-11-15 | An unchanged repo costs two requests per run (items and events), both 304s | ETags on the first page of each listing; the `since` of the items listing only moves when something changed |
-| 2026-11-15 | Each run fetches events before items | Maintainer's choice: whether `/issues/events` pages back to the beginning of whatwg/html is the open question, and items take several runs |
+| 2026-11-15 | ~~Each run fetches events before items~~ (reversed the same day: items first, as the events listing is only read after the items backfill) | Maintainer's choice: whether `/issues/events` pages back to the beginning of whatwg/html is the open question, and items take several runs |
 | 2026-11-15 | Switch the test repo from whatwg/dom to whatwg/html; dom's data stays as fetched on 2026-11-14 | Maintainer's instruction: html is the biggest, so it's where GitHub's paging limits would show |
-| 2026-11-15 | A backfill of `/issues/events` whose last page is full, with no next link, fails the run | Run 4 (whatwg/html) showed GitHub ends the listing at page 300 silently, with no 422; the code took that as the beginning and went on to items, so the early check the events-first order was for didn't fire |
+| 2026-11-15 | A read of `/issues/events` ~~(then the backfill)~~ that ends on a full page with no next link before reaching where it should fails the run | Run 4 (whatwg/html) showed GitHub ends the listing at page 300 silently, with no 422; the code took that as the beginning and went on to items, so the early check the events-first order was for didn't fire |
 | 2026-11-15 | Test whether the timeline API (`/issues/{n}/timeline`, one listing per item) could replace the per-item comment, review and inline-comment requests and supply events older than the repo-wide listing's 300 pages: `timeline-check` compares it with whatwg/dom's stored data for a sample of items | Maintainer's question after whatwg/html's events were cut off. Timeline events are approved (ground rule 1). The earlier row choosing events over the timeline was about events alone; if the timeline holds everything, it could be fewer requests per item, not more |
+| 2026-11-15 | **The timeline can't replace the per-item lists.** `timeline-check` on 40 whatwg/dom items: issue comments all there and identical; reviews 92 of 386 (none of the 294 that only reply in an existing thread, and `state`, `user` and `body` differ); inline comments 43 of 576 (only those not part of a review); events 1,613 of 1,801 (188 missing, mostly `referenced`, `subscribed` and `mentioned`, no rule found). The endpoint's only parameters are paging and `exclude`. Details in `docs/extraction.md` | Only the comments request could go, at the cost of a timeline request per item. Cross-references are the one thing only the timeline has: a reason to add it later (as an optional per-item resource, with `exclude` to keep it small) if a dashboard needs them, e.g. WPT PRs linking to spec PRs; adding it later costs the same requests as now |
+| 2026-11-15 | **Events are fetched per item** (`GET /issues/{n}/events` with everything else for the number, every item); the repo-wide `/issues/events` listing is read only after the items backfill, from a day before the backfill started, then back to the last run's newest event | Maintainer's choice. GitHub ends the repo-wide listing after 300 pages, so it can't be the backfill for whatwg/html; per item, a backfilled number is complete with its events. Costs one request per item more (about 11,000 for whatwg/html). The listing still catches the events that don't move an item's `updated_at` |
 | 2026-11-15 | A run never waits for rate-limit quota: at the hourly reserve, or on a 429, secondary or primary rate limit, it stops cleanly as at its deadline (`RateLimited`), and the next run continues | Maintainer's instruction: the runner mustn't idle. Run 4 spent about 3¼ of its 4⅓ hours paused for the reset |
 | 2026-11-15 | If main moved during a fetch run, the run fails without committing its data (it was rebased onto the new main) | Maintainer's choice: the collection code may have changed under the run. Run 4's rebase failed anyway, for want of a git identity |
 
 ## Status
 
-- Extractor (REST only, items by number, events from the repo-wide
-  listing, all committed as JSON files, failing loudly when an assumption
-  doesn't hold) and its tests are written. Tests run against an
+- Extractor (REST only, items by number with their events, then the
+  repo-wide events listing for updates, all committed as JSON files,
+  failing loudly when an assumption doesn't hold) and its tests are
+  written. Tests run against an
   in-memory fake GitHub.
 - Run 4 (2026-11-15, whatwg/html) made 22,504 requests in 4h22m, the
   full 5,000-an-hour budget: each hour's budget went in about 20 minutes
   and the rest was a rate-limit pause. `/issues/events` stopped at page
   300 (back to 2024-12-06) with no error, and the commit step failed
-  (main had moved), so nothing from it was kept. The events check is
-  fixed, and a run during which main moves now fails on purpose; whatwg/html's events need a
-  decision before the next run (next steps).
+  (main had moved), so nothing from it was kept. Since then: runs
+  stop instead of waiting for quota, a run during which main moves
+  fails on purpose, and events are fetched per item.
 - whatwg/dom was fetched on 2026-11-14 by the previous design. It
   confirmed that `/issues/events` paged back to dom's first issue (150
   pages) and includes PR-only events (`review_requested`,
@@ -123,15 +126,11 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 
 ## Next steps
 
-1. Run the "Timeline check" workflow (or `python3 -m specstats
-   timeline-check`) and decide from its report whether the timeline can
-   replace the per-item lists. Either way, decide how to get whatwg/html's
-   events older than the repo-wide listing's 300 pages (the timeline, or
-   per-item `/issues/{n}/events` for every item created before the
-   listing's oldest event, as some events don't move `updated_at`). Then
-   run the fetch workflow until the backfill is done (several runs), see
-   whether every closed item has a `closed` event, and cross-check against
-   the earlier prototype's figures (1,171 PRs and 2,167 issues in 2024–2026).
+1. Run the fetch workflow for whatwg/html until the backfill is done
+   (about one run per hour of budget, at roughly 4 requests per item),
+   see whether every closed item has a `closed` event, and cross-check
+   against the earlier prototype's figures (1,171 PRs and 2,167 issues in
+   2024–2026).
 2. Decide what to do with whatwg/dom's data: refetch it with the new
    design, or keep it.
 3. Check `config/repos.txt` against the list of Living Standards (whatwg/sg `db.json`), then all repos.
