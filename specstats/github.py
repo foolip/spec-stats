@@ -215,9 +215,10 @@ class Client:
         remaining = headers.get("x-ratelimit-remaining")
         reset = headers.get("x-ratelimit-reset")
         # Keep a reserve: 500, or a tenth of a smaller budget (Actions'
-        # built-in token gets 1,000 an hour).
+        # built-in token gets 1,000 an hour). The run stops with exactly
+        # that many left, not one fewer.
         floor = min(RATE_LIMIT_FLOOR, int(headers.get("x-ratelimit-limit", 5000)) // 10)
-        if remaining is not None and int(remaining) < floor:
+        if remaining is not None and int(remaining) <= floor:
             # Stops before the next request rather than now, so this
             # response is returned and stored.
             self._out_of_quota = (f"hourly rate limit reserve reached ({remaining} left, "
