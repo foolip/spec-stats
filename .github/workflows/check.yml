@@ -1,0 +1,42 @@
+# Consistency checks on the stored data (`python3 -m specstats check`),
+# kept apart from the fetch: the fetch stores what GitHub returns,
+# consistent or not, and these look for bugs in the end-to-end process
+# (docs/extraction.md). Offline: reads data/github/ on main, no API
+# requests, no token. A finding fails this workflow, not the fetch.
+#
+# Runs after every fetch run (whatever its result), when code or config
+# changes on main, and on demand. Commits pushed by the fetch itself don't
+# trigger workflows (GitHub's rule for the built-in token), hence the
+# workflow_run trigger.
+
+name: Check data
+
+on:
+  workflow_run:
+    workflows: ["Fetch GitHub data"]
+    types: [completed]
+  push:
+    branches: [main]
+    paths: ["specstats/**", "config/**", "data/github/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main  # with the data the fetch just committed
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Check
+        run: |
+          set -o pipefail  # fail on findings, not only if tee fails
+          python3 -m specstats check | tee -a "$GITHUB_STEP_SUMMARY"
