@@ -1,7 +1,8 @@
 # Compare the timeline API with the stored per-item lists, for a sample of
 # items in a repo with stored data (`python3 -m specstats timeline-check`).
 # Fetches only timelines, commits nothing: the report goes on the run's
-# summary page, and the raw timelines are kept as an artifact.
+# summary page and into the job log (readable through the API, unlike the
+# summary page), and the raw timelines are kept as an artifact.
 
 name: Timeline check
 
@@ -41,7 +42,9 @@ jobs:
           REPO: ${{ inputs.repo }}
           SIZE: ${{ inputs.size }}
           NUMBERS: ${{ inputs.numbers }}
-        run: python3 -m specstats timeline-check --repo "$REPO" --size "$SIZE" $NUMBERS >> "$GITHUB_STEP_SUMMARY"
+        run: |
+          set -o pipefail  # fail the step if the check fails, not only if tee does
+          python3 -m specstats timeline-check --repo "$REPO" --size "$SIZE" $NUMBERS | tee -a "$GITHUB_STEP_SUMMARY"
 
       - uses: actions/upload-artifact@v4
         if: always()
