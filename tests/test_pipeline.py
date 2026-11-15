@@ -136,6 +136,7 @@ class ExtractTest(TempDirs):
         gh = populated()
         gh.add_issue(6, "2025-04-01T00:00:00Z")
         gh.add_event(5, "2025-03-03T00:00:00Z", "labeled", "ed")  # stored, then removed with #5
+        gh.add_event(5, "2025-03-04T00:00:00Z", "unlabeled", "ed")  # (an odd count: a full last page fails)
         gh.transferred.add(4)  # moved to another repo: a redirect, not followed
         self.sync(gh)          # 5 was deleted (410)
         self.assertEqual(self.store().gone(), {4, 5})
@@ -232,7 +233,8 @@ class ExtractTest(TempDirs):
 
     def test_events_of_deleted_issues_are_dropped(self):
         gh = populated()
-        gh.add_event(4, "2025-03-03T00:00:00Z", "labeled", "ed")  # 4 is deleted; its event stays listed
+        gh.add_event(4, "2025-03-03T00:00:00Z", "labeled", "ed")  # 4 is deleted; its events stay listed
+        gh.add_event(4, "2025-03-04T00:00:00Z", "unlabeled", "ed")  # (an odd count: a full last page fails)
         self.sync(gh)
         # 4 is above the highest number, so it isn't known to be gone yet.
         self.assertEqual(self.store().gone(), set())
@@ -248,6 +250,13 @@ class ExtractTest(TempDirs):
         with self.assertRaisesRegex(extract.CheckFailed, "won't page /issues/events past page 2"):
             self.sync(gh)
         self.assertEqual(self.count("events"), 4)  # the events read are stored
+
+    def test_events_listing_cut_off_silently_fails(self):
+        # GitHub ended whatwg/html's listing at page 300: full, with no next link.
+        gh = populated(page_cap=2)
+        with self.assertRaisesRegex(extract.CheckFailed, "stops at page 2, a full page"):
+            self.sync(gh)
+        self.assertFalse(self.store().section("events").get("done"))
 
     def test_closed_item_without_a_closed_event_fails(self):
         gh = populated()
@@ -277,7 +286,7 @@ class ExtractTest(TempDirs):
 
     def test_deadline_stops_cleanly_and_the_next_run_continues(self):
         gh = populated()
-        for i in range(3):  # enough events for several pages
+        for i in range(2):  # enough events for several pages, and an odd count
             gh.add_event(2, f"2025-02-1{i}T00:00:00Z", "labeled", "ann")
         runs = 0
         while True:
@@ -289,7 +298,7 @@ class ExtractTest(TempDirs):
             except github.DeadlineReached:
                 pass
         self.assertGreater(runs, 3)
-        self.assertEqual(self.store().counts(), dict(FULL, events=8))
+        self.assertEqual(self.store().counts(), dict(FULL, events=7))
         self.assertFalse(list(self.files.rglob("*.tmp")))
 
     def test_stored_repos(self):

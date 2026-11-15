@@ -138,9 +138,11 @@ whatwg/dom that's 1,965 of 14,960 events: mostly `referenced`,
 `subscribed` and `mentioned`, and `head_ref_deleted`.
 
 It also **assumes GitHub pages the listing all the way back**. That held
-for whatwg/dom (150 pages, back to its first issue in 2012); whatwg/html
-is the test. If it doesn't hold, the run fails (below) rather than fall
-back to per-item event requests.
+for whatwg/dom (150 pages, back to its first issue in 2012), but **not for
+whatwg/html**: on 2026-11-15 its listing ended at page 300 (30,000
+events, back to 2024-12-06), a full page with no next link and no error.
+The run now fails there (below) rather than fall back to per-item event
+requests; how to get older events is undecided (`docs/plan.md`).
 
 ## Checks (`CheckFailed`)
 
@@ -148,11 +150,14 @@ A run stores what it fetched, then exits with an error if an assumption
 doesn't hold:
 
 - GitHub refuses to page `/issues/events` back to the beginning
-  (HTTP 422), or back to the last run's events.
+  (HTTP 422), or back to the last run's events, or the backfill's last
+  page is full (100 events) with no next link, which is how GitHub cut
+  off whatwg/html's listing at page 300. A listing that really ends on
+  a full page fails too; that's the safe side.
 - Once both backfills are done, on every run: every closed item has a
   `closed` event, every merged PR has a `merged` event, and no events
   are stored for a number up to the highest that's neither stored nor
-  gone. A listing that ended early without a 422 would show up here.
+  gone. A listing cut off on a short page would show up here.
 - With `--reconcile`, every number up to the highest is stored or gone.
 - `config/fetch.json` changed its per-PR resources.
 

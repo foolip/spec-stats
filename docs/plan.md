@@ -95,6 +95,8 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-15 | An unchanged repo costs two requests per run (items and events), both 304s | ETags on the first page of each listing; the `since` of the items listing only moves when something changed |
 | 2026-11-15 | Each run fetches events before items | Maintainer's choice: whether `/issues/events` pages back to the beginning of whatwg/html is the open question, and items take several runs |
 | 2026-11-15 | Switch the test repo from whatwg/dom to whatwg/html; dom's data stays as fetched on 2026-11-14 | Maintainer's instruction: html is the biggest, so it's where GitHub's paging limits would show |
+| 2026-11-15 | A backfill of `/issues/events` whose last page is full, with no next link, fails the run | Run 4 (whatwg/html) showed GitHub ends the listing at page 300 silently, with no 422; the code took that as the beginning and went on to items, so the early check the events-first order was for didn't fire |
+| 2026-11-15 | If main moved during a fetch run, the run fails without committing its data (it was rebased onto the new main) | Maintainer's choice: the collection code may have changed under the run. Run 4's rebase failed anyway, for want of a git identity |
 
 ## Status
 
@@ -102,6 +104,13 @@ removed on 2026-11-14 (decisions log); its last version is at commit
   listing, all committed as JSON files, failing loudly when an assumption
   doesn't hold) and its tests are written. Tests run against an
   in-memory fake GitHub.
+- Run 4 (2026-11-15, whatwg/html) made 22,504 requests in 4h22m, the
+  full 5,000-an-hour budget: each hour's budget went in about 20 minutes
+  and the rest was a rate-limit pause. `/issues/events` stopped at page
+  300 (back to 2024-12-06) with no error, and the commit step failed
+  (main had moved), so nothing from it was kept. The events check is
+  fixed, and a run during which main moves now fails on purpose; whatwg/html's events need a
+  decision before the next run (next steps).
 - whatwg/dom was fetched on 2026-11-14 by the previous design. It
   confirmed that `/issues/events` paged back to dom's first issue (150
   pages) and includes PR-only events (`review_requested`,
@@ -110,11 +119,12 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 
 ## Next steps
 
-1. Run the fetch workflow for whatwg/html until the backfill is done
-   (several runs), and see whether the checks hold: whether
-   `/issues/events` pages back to the beginning (known first: events are
-   fetched before items), and whether every closed item has a `closed`
-   event. Cross-check against the earlier prototype's
+1. Decide how to get whatwg/html's events older than the repo-wide
+   listing's 300 pages (e.g. per-item `/issues/{n}/events` for every item
+   created before the listing's oldest event, as some events don't move
+   `updated_at`), then run
+   the fetch workflow until the backfill is done (several runs), and see
+   whether every closed item has a `closed` event. Cross-check against the earlier prototype's
    figures (1,171 PRs and 2,167 issues in 2024–2026).
 2. Decide what to do with whatwg/dom's data: refetch it with the new
    design, or keep it.
