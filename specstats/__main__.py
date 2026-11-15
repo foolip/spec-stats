@@ -9,16 +9,17 @@ to catch deletions and missed updates. A run exits with an error if the
 stored data breaks an assumption (extract.CheckFailed), after storing what
 it fetched.
 
-With --dry-run it only prints the plan and fetches nothing. With
---max-minutes N, no request starts, and no rate-limit pause runs, after N
-minutes; the run saves its state and exits normally, and the next run
-continues from there.
+With --dry-run it only prints the plan and fetches nothing. A run never
+waits for rate-limit quota: when the hourly reserve is reached, or GitHub
+answers with a rate limit, it stops. With --max-minutes N, no request
+starts after N minutes. Either way the run saves its state and exits
+normally, and the next run continues from there.
 """
 
 import argparse
 import sys
 
-from . import extract, github, paths
+from . import extract, github, paths, timeline_check
 
 
 def main(argv=None):
@@ -30,6 +31,11 @@ def main(argv=None):
     p.add_argument("--max-minutes", type=float, help="stop starting requests after this many minutes")
     p.add_argument("--dry-run", action="store_true", help="print the plan, fetch nothing")
     sub.add_parser("stats", help="print what data/github/ holds, as Markdown (offline)")
+    p = sub.add_parser("timeline-check", help="compare the timeline API with the stored lists, "
+                       "for a sample of items (fetches only timelines; writes nothing to data/github/)")
+    p.add_argument("--repo", default="whatwg/dom", help="a repo with stored data (default: whatwg/dom)")
+    p.add_argument("--size", type=int, default=40, help="how many items to sample (default: 40)")
+    p.add_argument("numbers", nargs="*", type=int, help="items to check instead of a sample")
     args = ap.parse_args(argv)
     # Show each line as it's printed, even when stdout is a pipe (as in
     # GitHub Actions), where Python would otherwise hold it in a buffer.
@@ -38,6 +44,12 @@ def main(argv=None):
 
     if args.cmd == "stats":
         print(stats())
+        return 0
+    if args.cmd == "timeline-check":
+        store = extract.RepoStore(args.repo)
+        numbers = args.numbers or timeline_check.sample(store, args.size)
+        log = lambda m: print(m, file=sys.stderr)  # the report alone goes to stdout
+        print(timeline_check.check(github.Client(log=log), store, numbers, log=log))
         return 0
 
     repos = args.repo or paths.repos()
@@ -56,8 +68,8 @@ def main(argv=None):
             extract.sync_repo(client, store, reconcile_=args.reconcile)
         except extract.CheckFailed as e:
             failed.append(str(e))
-        except github.DeadlineReached:
-            print(f"Stopped at the deadline during {repo}; the next run continues from here.")
+        except github.Stopped as e:
+            print(f"Stopped during {repo}: {e}. The next run continues from here.")
             break
     print(f"Done: {client.requests} requests, {client.not_modified} of them unchanged (304).")
     for f in failed:

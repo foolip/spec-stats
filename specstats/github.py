@@ -2,8 +2,8 @@
 
 Ground rule 2 (docs/plan.md): one request at a time, with no gap between
 them (GitHub asks for serial requests, not slow ones; Octokit doesn't space
-out GETs either), back off on rate limits, keep a reserve of the hourly
-budget, send ETags so unchanged listings come back as free 304s, and
+out GETs either), keep a reserve of the hourly budget, stop the run rather
+than wait whenever GitHub says to wait for quota (the next run continues), send ETags so unchanged listings come back as free 304s, and
 identify ourselves in the User-Agent.
 """
 
@@ -43,9 +43,20 @@ class PaginationLimit(GitHubError):
     """GitHub refused to page this deep (HTTP 422)."""
 
 
-class DeadlineReached(Exception):
+class Stopped(Exception):
+    """The run stops cleanly before the next request; the next run continues.
+    Raised only between requests, so nothing fetched is lost."""
+
+
+class DeadlineReached(Stopped):
     """The run's deadline came before the next request (or before the end of
-    a pause). Raised only between requests, so nothing fetched is lost."""
+    a retry delay)."""
+
+
+class RateLimited(Stopped):
+    """GitHub says to wait for quota: the hourly reserve is reached, or a
+    429 or secondary rate limit. The run stops instead of idling until the
+    reset."""
 
 
 def load_token():
@@ -123,9 +134,9 @@ class Client:
         self.log = log
         self.requests = 0
         self.not_modified = 0
-        # In clock() time: no request starts, and no pause runs, past this.
+        # In clock() time: no request starts, and no retry delay runs, past this.
         self.deadline = clock() + seconds_left if seconds_left is not None else None
-        self._resume_at = None  # end of a rate-limit pause, taken before the next request
+        self._out_of_quota = None  # why the run stops before its next request
 
     def _wait(self, seconds):
         if self.deadline is not None and self.clock() + seconds > self.deadline:
@@ -134,8 +145,9 @@ class Client:
             self.sleep(seconds)
 
     def _before_request(self):
-        wait, self._resume_at = (self._resume_at - self.clock() if self._resume_at is not None else 0), None
-        self._wait(max(wait, 0))  # also checks the deadline before every request
+        if self._out_of_quota:
+            raise RateLimited(self._out_of_quota)
+        self._wait(0)  # checks the deadline
 
     def _send(self, method, url, body=None, extra_headers=None):
         headers = {
@@ -161,9 +173,12 @@ class Client:
             lower = _lower(resp_headers)
             secondary = status == 403 and (b"secondary rate limit" in raw.lower()
                                            or lower.get("x-ratelimit-remaining") == "0")
-            if status == 429 or secondary or status in (502, 503, 504):
-                wait = self._backoff(lower, delay)
-                self.log(f"HTTP {status}; backing off {wait:.0f}s")
+            if status == 429 or secondary:
+                raise RateLimited(f"HTTP {status} rate limit ({self._reset_note(lower)}; "
+                                  f"{self.requests} requests made)")
+            if status in (502, 503, 504):
+                wait = float(lower.get("retry-after", delay))
+                self.log(f"HTTP {status}; retrying in {wait:.0f}s")
                 self._wait(wait)
                 delay *= 2
                 continue
@@ -189,12 +204,12 @@ class Client:
         return Response(status, headers, json.loads(raw))
 
     @staticmethod
-    def _backoff(headers, default):
+    def _reset_note(headers):
         if "retry-after" in headers:
-            return max(float(headers["retry-after"]), 1)
-        if headers.get("x-ratelimit-remaining") == "0" and "x-ratelimit-reset" in headers:
-            return max(float(headers["x-ratelimit-reset"]) - time.time(), 1) + 5
-        return default
+            return f"retry after {headers['retry-after']}s"
+        if "x-ratelimit-reset" in headers:
+            return f"resets in {max(float(headers['x-ratelimit-reset']) - time.time(), 0):.0f}s"
+        return "no reset time given"
 
     def _respect_budget(self, headers):
         remaining = headers.get("x-ratelimit-remaining")
@@ -202,9 +217,8 @@ class Client:
         # Keep a reserve: 500, or a tenth of a smaller budget (Actions'
         # built-in token gets 1,000 an hour).
         floor = min(RATE_LIMIT_FLOOR, int(headers.get("x-ratelimit-limit", 5000)) // 10)
-        if remaining is not None and reset is not None and int(remaining) < floor:
-            wait = max(float(reset) - time.time(), 1) + 5
-            # Paused before the next request rather than now, so this
-            # response is returned and stored even if the deadline comes first.
-            self.log(f"rate limit low ({remaining} left); pausing {wait:.0f}s until reset")
-            self._resume_at = self.clock() + wait
+        if remaining is not None and int(remaining) < floor:
+            # Stops before the next request rather than now, so this
+            # response is returned and stored.
+            self._out_of_quota = (f"hourly rate limit reserve reached ({remaining} left, "
+                                  f"{self._reset_note(headers)}; {self.requests} requests made)")

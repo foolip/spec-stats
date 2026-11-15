@@ -172,10 +172,14 @@ items backfill reaches it.
 
 A caught-up run of an unchanged repo is two requests, both free 304s.
 
-## Deadlines
+## Stopping: deadlines and rate limits
 
-`--max-minutes N` stops a run cleanly: no request starts, and no
-rate-limit pause runs, after N minutes. The items backfill continues from
+A run stops cleanly, between requests, in two cases: `--max-minutes N`
+(no request starts after N minutes), and whenever it would otherwise wait
+for rate-limit quota: the hourly budget is down to its reserve (500, or a
+tenth of a smaller budget), or GitHub answers with a 429, a secondary
+rate limit or an exhausted primary limit. It never idles until a reset.
+A stopped run exits normally. The items backfill continues from
 `items.next`, item updates from the cursor saved per page, and the events
 backfill from its saved page. An events update stopped midway saves
 nothing and re-reads from the newest next time.
@@ -184,8 +188,10 @@ The smallest unit of work is one PR: three to five requests, more for very
 long lists. Once the events backfill is done, every run also spends one
 request on events first.
 
-The workflow stops each run 300 minutes in, inside the job's 350-minute
-limit, then commits. A backfill bigger than that takes several runs.
+The workflow commits after every run. With a 5,000-an-hour token a
+backfill run stops at the reserve after about 4,500 requests (some 20
+minutes), so a backfill takes one run per hour of budget; the 300-minute
+deadline, inside the job's 350-minute limit, is a backstop.
 
 ## The weekly reconcile (`extract --reconcile`)
 
