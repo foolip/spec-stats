@@ -43,10 +43,10 @@ from .github import GitHubError, Gone, PaginationLimit
 OVERLAP = timedelta(days=1)
 PER_PAGE = 100
 STATE_EVERY = 50  # save state.json after this many items
-# Log backfill progress about every 10 requests: an item takes about 2.7
+# Log backfill progress about every 10-15 requests: an item takes about 2.7
 # (whatwg/dom: the issue, comments if any, and for a PR the pull, reviews
 # and review comments if any); an events page takes one.
-PROGRESS_EVERY = 4  # items
+PROGRESS_EVERY = 5  # items
 PROGRESS_PAGES = 10  # events pages
 
 PR_RESOURCES = {
