@@ -1,0 +1,144 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/40786454",
+    "pull_request_review_id": null,
+    "id": 40786454,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDQwNzg2NDU0",
+    "diff_hunk": "@@ -72817,47 +72413,7 @@ END:VCARD</pre>\n  &lt;meta itemprop=\"description\" content=\"via livebrum.co.uk\">\n &lt;/body></pre>\n \n-   <p>The \"<code data-x=\"\">getCalendar()</code>\" method could look like\n-   this:</p>\n-\n-   <pre>function getCalendar(node) {\n-  // This function assumes the content is valid.\n-  // It is not a compliant implementation of the algorithm for <span>extracting vEvent data</span>.\n-  while (node && (!node.itemScope || !node.itemType.contains('http://microformats.org/profile/hcalendar#vevent')))\n-    node = node.parentNode;\n-  if (!node) {\n-    alert('No event data found.');\n-    return;\n-  }\n-  var stamp = new Date();\n-  var stampString = '' + stamp.getUTCFullYear() + (stamp.getUTCMonth() + 1) + stamp.getUTCDate() + 'T' +\n-                         stamp.getUTCHours() + stamp.getUTCMinutes() + stamp.getUTCSeconds() + 'Z';\n-  var calendar = 'BEGIN:VCALENDAR\\r\\nPRODID:HTML\\r\\nVERSION:2.0\\r\\nBEGIN:VEVENT\\r\\nDTSTAMP:' + stampString + '\\r\\n';\n-  for (var propIndex = 0; propIndex &lt; node.properties.length; propIndex += 1) {\n-    var prop = node.properties[propIndex];\n-    var value = prop.itemValue;\n-    var parameters = '';\n-    if (prop.localName == 'time') {\n-      value = value.replace(/[:-]/g, '');\n-      if (value.match(/T/))\n-        parameters = ';VALUE=DATE';\n-      else\n-        parameters = ';VALUE=DATE-TIME';\n-    } else {\n-      value = value.replace(/\\\\/g, '\\\\n');\n-      value = value.replace(/;/g, '\\\\;');\n-      value = value.replace(/,/g, '\\\\,');\n-      value = value.replace(/\\n/g, '\\\\n');\n-    }\n-    for (var nameIndex = 0; nameIndex &lt; prop.itemProp.length; nameIndex += 1) {\n-      var name = prop.itemProp[nameIndex];\n-      if (!name.match(/:/) && !name.match(/\\./))\n-        calendar += name.toUpperCase() + parameters + ':' + value + '\\r\\n';\n-    }\n-  }\n-  calendar += 'END:VEVENT\\r\\nEND:VCALENDAR\\r\\n';\n-  return 'data:text/calendar;component=vevent,' + encodeURI(calendar);\n-}</pre>\n+   <p>The \"<code data-x=\"\">getCalendar()</code>\" method is left as an exercise for the reader.</p>",
+    "path": "source",
+    "commit_id": "2aaecb89900b875b9ee8357fa8bccf48477358bb",
+    "original_commit_id": "526cc81754a558eb75d93464b48833add82051c1",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "While you're here it'd be nice to remove the quotes and say \"function\" instead of \"method\".\n",
+    "created_at": "2015-09-30T12:18:36Z",
+    "updated_at": "2015-09-30T15:10:36Z",
+    "html_url": "https://github.com/whatwg/html/pull/213#discussion_r40786454",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/213",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/40786454"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/213#discussion_r40786454"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/213"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/40786454/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 72416,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 497,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/40793979",
+    "pull_request_review_id": null,
+    "id": 40793979,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDQwNzkzOTc5",
+    "diff_hunk": "@@ -72817,47 +72413,7 @@ END:VCARD</pre>\n  &lt;meta itemprop=\"description\" content=\"via livebrum.co.uk\">\n &lt;/body></pre>\n \n-   <p>The \"<code data-x=\"\">getCalendar()</code>\" method could look like\n-   this:</p>\n-\n-   <pre>function getCalendar(node) {\n-  // This function assumes the content is valid.\n-  // It is not a compliant implementation of the algorithm for <span>extracting vEvent data</span>.\n-  while (node && (!node.itemScope || !node.itemType.contains('http://microformats.org/profile/hcalendar#vevent')))\n-    node = node.parentNode;\n-  if (!node) {\n-    alert('No event data found.');\n-    return;\n-  }\n-  var stamp = new Date();\n-  var stampString = '' + stamp.getUTCFullYear() + (stamp.getUTCMonth() + 1) + stamp.getUTCDate() + 'T' +\n-                         stamp.getUTCHours() + stamp.getUTCMinutes() + stamp.getUTCSeconds() + 'Z';\n-  var calendar = 'BEGIN:VCALENDAR\\r\\nPRODID:HTML\\r\\nVERSION:2.0\\r\\nBEGIN:VEVENT\\r\\nDTSTAMP:' + stampString + '\\r\\n';\n-  for (var propIndex = 0; propIndex &lt; node.properties.length; propIndex += 1) {\n-    var prop = node.properties[propIndex];\n-    var value = prop.itemValue;\n-    var parameters = '';\n-    if (prop.localName == 'time') {\n-      value = value.replace(/[:-]/g, '');\n-      if (value.match(/T/))\n-        parameters = ';VALUE=DATE';\n-      else\n-        parameters = ';VALUE=DATE-TIME';\n-    } else {\n-      value = value.replace(/\\\\/g, '\\\\n');\n-      value = value.replace(/;/g, '\\\\;');\n-      value = value.replace(/,/g, '\\\\,');\n-      value = value.replace(/\\n/g, '\\\\n');\n-    }\n-    for (var nameIndex = 0; nameIndex &lt; prop.itemProp.length; nameIndex += 1) {\n-      var name = prop.itemProp[nameIndex];\n-      if (!name.match(/:/) && !name.match(/\\./))\n-        calendar += name.toUpperCase() + parameters + ':' + value + '\\r\\n';\n-    }\n-  }\n-  calendar += 'END:VEVENT\\r\\nEND:VCALENDAR\\r\\n';\n-  return 'data:text/calendar;component=vevent,' + encodeURI(calendar);\n-}</pre>\n+   <p>The \"<code data-x=\"\">getCalendar()</code>\" method is left as an exercise for the reader.</p>",
+    "path": "source",
+    "commit_id": "2aaecb89900b875b9ee8357fa8bccf48477358bb",
+    "original_commit_id": "526cc81754a558eb75d93464b48833add82051c1",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Will do once this is LGTM'd.\n",
+    "created_at": "2015-09-30T13:41:14Z",
+    "updated_at": "2015-09-30T15:10:36Z",
+    "html_url": "https://github.com/whatwg/html/pull/213#discussion_r40793979",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/213",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/40793979"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/213#discussion_r40793979"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/213"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/40793979/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 72416,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 497,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]
