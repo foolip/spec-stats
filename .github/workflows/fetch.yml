@@ -14,7 +14,6 @@
 # requests and commits nothing. A run never waits for quota: it stops
 # when the hourly budget is down to its reserve (about 20 minutes into a
 # backfill), commits, and the next run, an hour later, continues.
-# Contact for the User-Agent: the SPECSTATS_CONTACT variable, if set.
 #
 # The fetch stores what GitHub returns, consistent or not. The consistency
 # checks are a separate workflow (check.yml), triggered manually.
@@ -42,7 +41,6 @@ jobs:
     timeout-minutes: 350
     env:
       GITHUB_TOKEN: ${{ github.token }}
-      SPECSTATS_CONTACT: ${{ vars.SPECSTATS_CONTACT }}
       PYTHONUNBUFFERED: "1"  # log lines appear as they're printed, not at exit
     steps:
       - uses: actions/checkout@v4

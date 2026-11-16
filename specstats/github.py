@@ -16,7 +16,6 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-from . import paths
 
 API = "https://api.github.com"
 MAX_RETRIES = 6
@@ -70,11 +69,7 @@ def load_token():
         raise GitHubError("No GitHub token: set GITHUB_TOKEN or sign in with `gh auth login`.")
 
 
-def user_agent():
-    contact = paths.settings().get("contact")
-    if contact:
-        return f"spec-stats (+https://github.com/foolip/spec-stats; {contact})"
-    return "spec-stats (+https://github.com/foolip/spec-stats)"
+USER_AGENT = "spec-stats (+https://github.com/foolip/spec-stats)"
 
 
 class _NoRedirect(urllib.request.HTTPRedirectHandler):
@@ -148,7 +143,7 @@ class Client:
     def _send(self, method, url, body=None, extra_headers=None):
         headers = {
             "Authorization": f"bearer {self.token}",
-            "User-Agent": user_agent(),
+            "User-Agent": USER_AGENT,
             "Accept": "application/vnd.github+json",
             "X-GitHub-Api-Version": "2026-03-10",
         }
