@@ -31,12 +31,12 @@ The extractor uses the Python standard library only. Everything fetched is
 committed as JSON files in `data/github/`, laid out like the API paths
 (`whatwg/html/issues/1234/index.json`, `whatwg/html/issues/1234/comments.json`,
 …).
-Operator settings go in `data/private/` (gitignored).
+Local-only output, such as the timeline check's, goes in `data/private/`
+(gitignored).
 
 You need a GitHub token, either `GITHUB_TOKEN` in the environment or a
 signed-in `gh` CLI. A fine-grained token with no extra permissions is enough
-for public repos. Put your contact address in `data/private/settings.json`
-(`{"contact": "you@example.com"}`) so it goes in the User-Agent.
+for public repos.
 
 ```
 python3 -m specstats extract --dry-run            # print the plan, fetch nothing
@@ -66,12 +66,9 @@ merge into `main` while a run is going. A backfill bigger than one
 hour's budget (whatwg/html: about 10) takes several runs.
 
 - The built-in token is enough: it has had 5,000 requests an hour here
-  (each run logs the limit). A `SPECSTATS_TOKEN` secret, if set, is used
-  instead. A run doesn't wait for the hourly limit to reset: it stops and
-  commits when the budget is down to its reserve, so a backfill is one
-  run an hour (about 4,500 requests each).
-- Set a `SPECSTATS_CONTACT` variable to put a contact address in the
-  User-Agent.
+  (each run logs the limit). A run doesn't wait for the hourly limit to
+  reset: it stops and commits when the budget is down to its reserve, so
+  a backfill is one run an hour (about 4,500 requests each).
 - Each run's summary page shows what's stored and the cursors
   (`python3 -m specstats stats`).
 - The separate "Timeline check" workflow (`python3 -m specstats

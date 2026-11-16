@@ -41,8 +41,9 @@ removed on 2026-11-14 (decisions log); its last version is at commit
      network errors are retried with back-off.
    - Incremental: fetch only what changed since the last run, by `since`
      and cursors (`docs/extraction.md`); no ETags (since 2026-11-16).
-   - Identify ourselves: the User-Agent carries the operator's contact
-     address from the gitignored `data/private/settings.json`.
+   - Identify ourselves: the User-Agent names the project and links the
+     repo; the token says who is making the requests (no contact address
+     since 2026-11-16).
 3. **Publishing per-person data.** The raw GitHub data, which includes
    logins, bodies and profiles, is committed publicly in `data/github/`
    (confirmed by the maintainer on 2026-11-14). Whether per-person counts
@@ -105,6 +106,8 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-15 | The fetch workflow uses the built-in token; no personal token. Each run logs the rate limit GitHub reports. ETags don't save requests there | Maintainer's choice. The built-in token has had 5,000 requests an hour (run 4 stopped at the 500 reserve, about every 4,500 requests; run 5 made 1,017), not the 1,000 the docs said. It's new every run and GitHub's ETags are per token (`Vary: Authorization`; same token: stable ETag and a 304 after 70 s), so runs 6 and 7 of an unchanged whatwg/fullscreen got 200s with new ETags. That costs two requests per run |
 | 2026-11-16 | Fetch whatwg/dom again, by the current design, alongside whatwg/fullscreen: its old-format `state.json` is removed (so the backfill starts from #1), its files are kept and replaced number by number | Maintainer's instruction. Each number's files are replaced whole when the backfill reaches it (deleted and transferred numbers, 81 of them with only events stored, are removed), so nothing needs deleting first, and git shows how the two designs' data differ |
 | 2026-11-16 | **No ETags**: no conditional requests, and none stored in `state.json` (removed from whatwg/fullscreen's and whatwg/dom's) | Maintainer's instruction. With the built-in token they never matched, and saving the new ones made every run of an unchanged repo commit a changed `state.json` (runs 6–8). With a stable token they'd save at most two requests per run per repo; `since` and the cursors are what keep runs small |
+| 2026-11-16 | The workflows no longer read a `SPECSTATS_TOKEN` secret; they use only the built-in token | Maintainer's instruction. The secret was never set, and the built-in token's 5,000 an hour is enough |
+| 2026-11-16 | No contact address in the User-Agent: `SPECSTATS_CONTACT` and `data/private/settings.json` removed | Maintainer's instruction. Every request is authenticated, so GitHub already knows who is making it (the repo's Actions installation, or the operator's own token), and its docs only ask for a username or app name in the User-Agent |
 | 2026-11-15 | **Events are fetched per item** (`GET /issues/{n}/events` with everything else for the number, every item); the repo-wide `/issues/events` listing is read only after the items backfill, from a day before the backfill started, then back to the last run's newest event | Maintainer's choice. GitHub ends the repo-wide listing after 300 pages, so it can't be the backfill for whatwg/html; per item, a backfilled number is complete with its events. Costs one request per item more (about 11,000 for whatwg/html). The listing still catches the events that don't move an item's `updated_at` |
 | 2026-11-15 | A run never waits for rate-limit quota: at the hourly reserve, or on a 429, secondary or primary rate limit, it stops cleanly as at its deadline (`RateLimited`), and the next run continues | Maintainer's instruction: the runner mustn't idle. Run 4 spent about 3¼ of its 4⅓ hours paused for the reset |
 | 2026-11-15 | If main moved during a fetch run, the run fails without committing its data (it was rebased onto the new main) | Maintainer's choice: the collection code may have changed under the run. Run 4's rebase failed anyway, for want of a git identity |
