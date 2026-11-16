@@ -1,4 +1,5 @@
-# Fetch GitHub data for the repos in config/repos.txt, on demand.
+# Fetch GitHub data for the repos in config/repos.txt: every hour, and on
+# demand.
 #
 # Everything fetched is committed to this repo, in data/github/
 # (docs/extraction.md), at the end of every run, even one that failed or
@@ -13,7 +14,9 @@
 # budget is shared by every run in the repo. An unchanged repo costs two
 # requests and commits nothing. A run never waits for quota: it stops
 # when the hourly budget is down to its reserve (about 20 minutes into a
-# backfill), commits, and the next run, an hour later, continues.
+# backfill), commits, and the next run, an hour later, continues. A
+# scheduled run that starts before the previous hour's budget has reset
+# stops after one request and leaves the work to the next hour.
 #
 # The fetch stores what GitHub returns, consistent or not. The consistency
 # checks are a separate workflow (check.yml), triggered manually.
@@ -21,6 +24,11 @@
 name: Fetch GitHub data
 
 on:
+  schedule:
+    # Hourly, at a minute other than :00, when GitHub delays scheduled
+    # runs most. A run still going when the next is due makes it wait
+    # (concurrency below), not run alongside.
+    - cron: "23 * * * *"
   workflow_dispatch:
     inputs:
       reconcile:
