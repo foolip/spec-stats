@@ -16,13 +16,12 @@ def _some(numbers, limit=20):
 
 def check_repo(store):
     """[(check, [numbers])] for one repo's files, only the checks that found
-    something. Covers the numbers the backfill has reached."""
+    something, or None if nothing's fetched yet. Covers the numbers the
+    backfill has reached."""
     state = store.state
-    if "cursors" in state:
-        return None  # the format before 2026-11-15 (whatwg/dom); not checked
     items = state.get("items", {})
     if "highest" not in items:
-        return []
+        return None
     reached = items["next"] - 1 if "next" in items else items["highest"]
     idx, gone = store.index(), store.gone()
     pull_fetched = "pull" in state.get("pr_resources", [])
@@ -58,7 +57,7 @@ def report(repos=None, root=None):
         store = extract.RepoStore(repo, root)
         found = check_repo(store)
         if found is None:
-            lines.append(f"- {repo}: not checked (stored in the format before 2026-11-15)")
+            lines.append(f"- {repo}: nothing fetched yet")
         elif not found:
             lines.append(f"- {repo}: OK")
         else:

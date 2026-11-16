@@ -45,10 +45,11 @@ on GitHub is gone from its list when the item is next fetched; a deleted
 or transferred item has all its files removed. Every earlier version is
 in `git log`.
 
-whatwg/dom was fetched on 2026-11-14 by the earlier design (repo-wide
-listings of comments and review comments, merged by id); its files are
-in the same layout, but its `state.json` is in the old format and it
-isn't updated for now.
+whatwg/dom was first fetched on 2026-11-14 by an earlier design
+(repo-wide listings of comments, review comments and events, merged by
+id). It's being refetched by the current one (2026-11-16): its old
+`state.json` was removed, so the backfill starts from #1 and replaces
+each number's files as it reaches them; git shows what differs.
 
 ## One item: `sync_item(n)`
 
@@ -185,8 +186,7 @@ in the whole process (fetching, storing, committing); a finding can also
 be GitHub's own inconsistency, such as whatwg/fullscreen #220, a closed
 PR for which GitHub returns no events at all. The "Check data" workflow
 (`check.yml`), separate from the fetch, runs it on `main`; it's triggered
-manually for now. Repos
-stored in the format before 2026-11-15 (whatwg/dom) aren't checked.
+manually for now.
 
 ## A run (`extract`)
 
