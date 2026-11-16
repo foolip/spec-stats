@@ -89,8 +89,6 @@ def main(argv=None):
 def progress(state):
     """Where a repo's fetching is up to, from its state.json."""
     items, events = state.get("items", {}), state.get("events", {})
-    if "cursors" in state:
-        return "fetched by the extractor before 2026-11-15 (repo-wide listings); not updated since"
     if not items:
         return "nothing yet"
     if "next" in items:

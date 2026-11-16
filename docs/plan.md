@@ -103,6 +103,7 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-15 | Test on whatwg/fullscreen before whatwg/html | Maintainer's instruction: see whether the extractor works end to end at all. With about 260 issues and PRs (roughly 1,000 requests), one run does the whole backfill, the first read of the events listing and the checks |
 | 2026-11-15 | **The fetch stores what GitHub returns, consistent or not; consistency checks run separately** (`specstats check`, offline, in its own workflow, `check.yml`, triggered manually for now; not in the fetch workflow or triggered by it, at the maintainer's instruction). The fetch fails only when fetching can't be done right (the events listing won't reach back far enough, or `config/fetch.json` changed). The checks: every number reached is stored or gone, closed items have a `closed` event, merged PRs a `merged` event, PRs a `pulls/{n}/index.json`, no events under numbers neither stored nor gone | Maintainer's choice: GitHub's data isn't perfectly consistent (whatwg/fullscreen #220, a probable spam PR closed by its author, has no events at all, not even `closed`), so failing the fetch on it stops collection for no fault of ours. The checks are for finding bugs in the end-to-end process; a finding may turn out to be GitHub's |
 | 2026-11-15 | The fetch workflow uses the built-in token; no personal token. Each run logs the rate limit GitHub reports. ETags don't save requests there | Maintainer's choice. The built-in token has had 5,000 requests an hour (run 4 stopped at the 500 reserve, about every 4,500 requests; run 5 made 1,017), not the 1,000 the docs said. It's new every run and GitHub's ETags are per token (`Vary: Authorization`; same token: stable ETag and a 304 after 70 s), so runs 6 and 7 of an unchanged whatwg/fullscreen got 200s with new ETags. That costs two requests per run |
+| 2026-11-16 | Fetch whatwg/dom again, by the current design, alongside whatwg/fullscreen: its old-format `state.json` is removed (so the backfill starts from #1), its files are kept and replaced number by number | Maintainer's instruction. Each number's files are replaced whole when the backfill reaches it (deleted and transferred numbers, 81 of them with only events stored, are removed), so nothing needs deleting first, and git shows how the two designs' data differ |
 | 2026-11-16 | **No ETags**: no conditional requests, and none stored in `state.json` (removed from whatwg/fullscreen's and whatwg/dom's) | Maintainer's instruction. With the built-in token they never matched, and saving the new ones made every run of an unchanged repo commit a changed `state.json` (runs 6–8). With a stable token they'd save at most two requests per run per repo; `since` and the cursors are what keep runs small |
 | 2026-11-15 | **Events are fetched per item** (`GET /issues/{n}/events` with everything else for the number, every item); the repo-wide `/issues/events` listing is read only after the items backfill, from a day before the backfill started, then back to the last run's newest event | Maintainer's choice. GitHub ends the repo-wide listing after 300 pages, so it can't be the backfill for whatwg/html; per item, a backfilled number is complete with its events. Costs one request per item more (about 11,000 for whatwg/html). The listing still catches the events that don't move an item's `updated_at` |
 | 2026-11-15 | A run never waits for rate-limit quota: at the hourly reserve, or on a 429, secondary or primary rate limit, it stops cleanly as at its deadline (`RateLimited`), and the next run continues | Maintainer's instruction: the runner mustn't idle. Run 4 spent about 3¼ of its 4⅓ hours paused for the reset |
@@ -125,8 +126,8 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 - whatwg/dom was fetched on 2026-11-14 by the previous design. It
   confirmed that `/issues/events` paged back to dom's first issue (150
   pages) and includes PR-only events (`review_requested`,
-  `ready_for_review`). Its data stays; `config/repos.txt` now lists only
-  whatwg/fullscreen.
+  `ready_for_review`). It's being refetched by the current design
+  (2026-11-16); `config/repos.txt` lists whatwg/fullscreen and whatwg/dom.
 - Run 5 (2026-11-15) fetched whatwg/fullscreen whole in one run: 1,017
   requests in about 6 minutes; numbers 1–265, 259 stored (122 issues and
   137 PRs, as GitHub's search counts) and 6 gone. The only
@@ -135,21 +136,20 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 
 ## Next steps
 
-1. Run the fetch for whatwg/fullscreen once more: two requests, and
-   "No changes" in the commit step (no commit). Run "Check data" (by
-   hand): it should report #220 and nothing else.
+1. Run the fetch for whatwg/dom's backfill (about 1,530 numbers, roughly
+   5,500 requests: two runs, an hour apart), then "Check data" by hand,
+   and look at the git diff against the 2026-11-14 data. (Run 9 of an
+   unchanged whatwg/fullscreen: two requests, no commit.)
 2. Then switch to whatwg/html and run the fetch workflow until the
    backfill is done (about one run per hour of budget, at roughly 4
    requests per item), look at what "Check data" finds, and cross-check
    against the earlier prototype's figures (1,171 PRs and 2,167 issues in
    2024–2026).
-3. Decide what to do with whatwg/dom's data: refetch it with the new
-   design, or keep it.
-4. Check `config/repos.txt` against the list of Living Standards (whatwg/sg `db.json`), then all repos.
-5. Daily job: GitHub Actions on a schedule, with the built-in token,
+3. Check `config/repos.txt` against the list of Living Standards (whatwg/sg `db.json`), then all repos.
+4. Daily job: GitHub Actions on a schedule, with the built-in token,
    committing to `data/github/` as the manual workflow does, and
    `--reconcile` weekly.
-6. Then dashboards: bring back Maintenance load (commit `10edb66`),
+5. Then dashboards: bring back Maintenance load (commit `10edb66`),
    reworked around the prototype's catalog: PRs touched (split by size)
    instead of raw review counts, review sessions, sign-offs (`APPROVED` or
    LGTM), unquoted words.
