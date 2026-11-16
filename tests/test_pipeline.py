@@ -320,10 +320,15 @@ class ExtractTest(TempDirs):
         text, found = check.report()
         self.assertFalse(found)
         self.assertIn(f"(refused by GitHub, not a finding) #2 pull: {too_many}", text)
-        # Once GitHub answers again, the next sync of the item stores it and
-        # drops the record.
+        # The next run fetches the item again, changed or not; while GitHub
+        # still refuses, the record stays.
+        c = client(gh)
+        self.sync(gh, c)
+        self.assertEqual(self.calls(gh, c)[0], "/issues/2")
+        self.assertEqual(set(self.store().refused()), {2})
+        # Once GitHub answers (whatwg/dom #548's did, a run later), it's
+        # stored and the record dropped.
         del gh.unprocessable["/pulls/2"]
-        gh.touch(2, "2025-06-01T00:00:00Z")
         self.sync(gh)
         self.assertIsNotNone(self.store().get("pulls", 2))
         self.assertEqual(self.store().refused(), {})

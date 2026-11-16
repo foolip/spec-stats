@@ -503,6 +503,23 @@ def sync_events(client, store, log=print):
 
 # --- whole repo ----------------------------------------------------------------
 
+def retry_refused(client, store, resources, log=print):
+    """Fetch again every item GitHub refused part of (HTTP 422) on an earlier
+    run: such refusals can pass (whatwg/dom #548's did, a run later). The
+    record goes once GitHub answers."""
+    numbers = sorted(store.refused())
+    for n in numbers:
+        sync_item(client, store, n, resources)
+    if numbers:
+        store.save_state()
+        still = sorted(store.refused())
+        log(f"{store.repo} refused: retried {_list(numbers)}; still refused: {_list(still) or 'none'}")
+
+
+def _list(numbers):
+    return ", ".join(f"#{n}" for n in numbers)
+
+
 def sync_repo(client, store, reconcile_=False, log=print):
     """Everything for one repo. If the client's deadline stops it midway,
     what's fetched so far is saved and the next run continues."""
@@ -512,6 +529,7 @@ def sync_repo(client, store, reconcile_=False, log=print):
         raise CheckFailed(f"{store.repo}: config/fetch.json pr_resources is {resources}, but stored PRs "
                           f"have {fixed}; fetching a changed set for every PR isn't implemented")
     try:
+        retry_refused(client, store, resources, log=log)
         items = store.section("items")
         if "cursor" not in items:
             backfill_items(client, store, resources, log=log)
