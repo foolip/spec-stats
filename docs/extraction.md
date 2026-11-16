@@ -137,6 +137,16 @@ the item isn't refetched for them. In whatwg/dom that's 1,965 of 14,960
 events: mostly `referenced`, `subscribed` and `mentioned`, and
 `head_ref_deleted`.
 
+**What the per-item lists leave out:** compared with the repo-wide
+listing (whatwg/dom, 2026-11-14 against 2026-11-16), 973 events across 265
+items: 893 `referenced` (737 from commits that no longer exist or with no
+commit, 145 from forks, 11 from whatwg/dom's own commits), 73
+`subscribed`, `mentioned` and `unsubscribed`, and 7 others, including
+#831's `closed` (its `closed_at` and `closed_by` are in the issue). The
+per-item list seems to drop references GitHub can't resolve any more.
+Little of value for maintenance stats, so the backfill doesn't merge in
+the repo-wide listing; it's read only for updates, as above.
+
 **Why not the listing for the backfill:** GitHub ends it after 300 pages
 (30,000 events) with a full page and no next link, no error.
 whatwg/dom's listing reached its first issue, from 2012, in 150 pages;
@@ -173,15 +183,16 @@ itself can't be done right:
 - Any other HTTP 422, except the one below.
 
 **HTTP 422** (`Unprocessable`) isn't a rate limit (those are 403 and
-429, and stop the run instead): GitHub won't process that request, now
-or later, and uses it for unrelated reasons. The request tells which.
+429, and stop the run instead): GitHub won't process that request, and
+uses it for unrelated reasons. The request tells which.
 `GET /pulls/{n}` answers it for a PR with too many changed files
 (whatwg/dom #548, 2026-11-16: "The request could not be processed because
 too many files changed"); the rest of the number is stored as usual,
 without `pulls/{n}/index.json` (so inline comments are fetched, with no
 count to say there are none), and GitHub's message is recorded in
-`state.json` under `refused`. The record goes when the item is next
-fetched in full. Lost for such a PR: what only the pull object has, such
+`state.json` under `refused`. Every run starts by fetching refused items
+again, changed or not, and the record goes once GitHub answers: #548's
+422 passed a run later (its PR has one changed file). Lost for such a PR: what only the pull object has, such
 as size and `merged_by` (the `merged` event names who merged it).
 
 ## Consistency checks (`check`)

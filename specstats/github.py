@@ -39,11 +39,11 @@ class Gone(GitHubError):
 
 
 class Unprocessable(GitHubError):
-    """HTTP 422: GitHub won't process this request, and won't later either.
-    Not a rate limit (those are 403 and 429). GitHub uses it for unrelated
-    things, e.g. paging a listing too deep, or a PR with too many changed
-    files for GET /pulls/{n}; the caller knows which from the request.
-    `message` is GitHub's."""
+    """HTTP 422: GitHub won't process this request. Not a rate limit (those
+    are 403 and 429). GitHub uses it for unrelated things, e.g. paging a
+    listing too deep, or "too many files changed" for GET /pulls/{n}, which
+    can pass (whatwg/dom #548: a PR with one changed file, fine a run
+    later); the caller knows which from the request. `message` is GitHub's."""
 
     def __init__(self, url, message):
         super().__init__(f"HTTP 422 for {url}: {message}")
