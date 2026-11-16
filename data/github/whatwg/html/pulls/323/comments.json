@@ -1,0 +1,286 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54313667",
+    "pull_request_review_id": null,
+    "id": 54313667,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0MzEzNjY3",
+    "diff_hunk": "@@ -77643,17 +77646,18 @@ dictionary <dfn>DragEventInit</dfn> : <span>MouseEventInit</span> {\n   the <span>browsing context</span> from which the <span>auxiliary browsing context</span> was\n   created.</p>\n \n+  <p>An <span>auxiliary browsing context</span> can be <dfn id=\"disowned-its-opener\">disowned</dfn>.\n+  This means it is no longer <span data-x=\"directly reachable browsing contexts\">directly\n+  reachable</span>.</p>\n \n   <h5>Navigating auxiliary browsing contexts in the DOM</h5>\n \n   <p>The <dfn><code data-x=\"dom-opener\">opener</code></dfn> IDL attribute on the <code>Window</code>\n-  object, on getting, must return the <code>WindowProxy</code> object of the <span>browsing\n-  context</span> from which the current <span>browsing context</span> was created (its <span>opener\n-  browsing context</span>), if there is one, if it is still available, and if the current\n-  <span>browsing context</span> has not <i data-x=\"disowned its opener\">disowned its opener</i>;\n-  otherwise, it must return null. On setting, if the new value is null then the current\n-  <span>browsing context</span> must <dfn data-x=\"disowned its opener\">disown its opener</dfn>; if\n-  the new value is anything else then the user agent must\n+  object, on getting, must return the <code>WindowProxy</code> object of the current <span>browsing\n+  context</span>'s <span>opener browsing context</span>, if there is one and it is not\n+  <span>disowned</span>; otherwise, it must return null. On setting, if the new value is null then",
+    "path": "source",
+    "commit_id": "a401d52c459908684312d7525f4e409f8f32a7c7",
+    "original_commit_id": "852a6eab0f0cd7c134f2f8efa336dea9d824e187",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This doesn't seem right.  Just because the _parent_ is disowned, doesn't mean that `.opener` should return null.\n\nShould this be checking whether the current browsing context is disowned instead?\n",
+    "created_at": "2016-02-26T22:52:28Z",
+    "updated_at": "2017-06-07T23:45:48Z",
+    "html_url": "https://github.com/whatwg/html/pull/323#discussion_r54313667",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/323",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54313667"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/323#discussion_r54313667"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/323"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54313667/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 51,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54314310",
+    "pull_request_review_id": null,
+    "id": 54314310,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0MzE0MzEw",
+    "diff_hunk": "@@ -77768,9 +77773,11 @@ dictionary <dfn>DragEventInit</dfn> : <span>MouseEventInit</span> {\n    <li>The <span>browsing context</span>'s <span>parent browsing context</span>.</li>\n \n    <li>All the <span data-x=\"browsing context\">browsing contexts</span> that have the <span>browsing\n-   context</span> as their <span>opener browsing context</span>.</li>\n+   context</span> as their <span>opener browsing context</span> as long as neither side is\n+   <span>disowned</span>.</li>",
+    "path": "source",
+    "commit_id": "a401d52c459908684312d7525f4e409f8f32a7c7",
+    "original_commit_id": "852a6eab0f0cd7c134f2f8efa336dea9d824e187",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Again, this does not seem right.  If A is disowned and then A opens B, B is directly reachable from A, no?  And A from B, for that matter...\n",
+    "created_at": "2016-02-26T22:58:55Z",
+    "updated_at": "2016-04-28T12:18:11Z",
+    "html_url": "https://github.com/whatwg/html/pull/323#discussion_r54314310",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/323",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54314310"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/323#discussion_r54314310"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/323"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54314310/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 77777,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 75,
+    "position": 115,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54314330",
+    "pull_request_review_id": null,
+    "id": 54314330,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0MzE0MzMw",
+    "diff_hunk": "@@ -77768,9 +77773,11 @@ dictionary <dfn>DragEventInit</dfn> : <span>MouseEventInit</span> {\n    <li>The <span>browsing context</span>'s <span>parent browsing context</span>.</li>\n \n    <li>All the <span data-x=\"browsing context\">browsing contexts</span> that have the <span>browsing\n-   context</span> as their <span>opener browsing context</span>.</li>\n+   context</span> as their <span>opener browsing context</span> as long as neither side is\n+   <span>disowned</span>.</li>\n \n-   <li>The <span>browsing context</span>'s <span>opener browsing context</span>.</li>\n+   <li>The <span>browsing context</span>'s <span>opener browsing context</span> as long as neither\n+   side is <span>disowned</span>.</li>",
+    "path": "source",
+    "commit_id": "a401d52c459908684312d7525f4e409f8f32a7c7",
+    "original_commit_id": "852a6eab0f0cd7c134f2f8efa336dea9d824e187",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Same issue here.\n",
+    "created_at": "2016-02-26T22:59:09Z",
+    "updated_at": "2016-04-28T12:18:11Z",
+    "html_url": "https://github.com/whatwg/html/pull/323#discussion_r54314330",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/323",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54314330"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/323#discussion_r54314330"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/323"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54314330/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 77780,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 79,
+    "position": 119,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/61418484",
+    "pull_request_review_id": null,
+    "id": 61418484,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDYxNDE4NDg0",
+    "diff_hunk": "@@ -78152,37 +78155,54 @@ dictionary <dfn>DragEventInit</dfn> : <span>MouseEventInit</span> {\n   the <span>browsing context</span> from which the <span>auxiliary browsing context</span> was\n   created.</p>\n \n+  <p>An <span>auxiliary browsing context</span> can be <dfn id=\"disowned-its-opener\">disowned</dfn>.\n+  This means it is no longer <span data-x=\"directly reachable browsing contexts\">directly\n+  reachable</span>.</p>",
+    "path": "source",
+    "commit_id": "a401d52c459908684312d7525f4e409f8f32a7c7",
+    "original_commit_id": "a401d52c459908684312d7525f4e409f8f32a7c7",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Per your comments it seems this is flawed too. I'm not sure that leaves much in this PR other than cleanup. I think I lost track 😟\n",
+    "created_at": "2016-04-28T12:30:02Z",
+    "updated_at": "2016-04-28T12:30:02Z",
+    "html_url": "https://github.com/whatwg/html/pull/323#discussion_r61418484",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/323",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/61418484"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/323#discussion_r61418484"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/323"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/61418484/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 78160,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 47,
+    "position": 47,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

@@ -1,0 +1,1209 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54785827",
+    "pull_request_review_id": null,
+    "id": 54785827,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0Nzg1ODI3",
+    "diff_hunk": "@@ -7853,17 +7859,25 @@ interface <dfn>DOMStringMap</dfn> {\n     </ol>\n    </li>\n \n+   <li><p>Otherwise, if <var>input</var> has a [[<span>Clone</span>]] internal method, then let\n+   <var>output</var> be ? <var>input</var>.[[<span>Clone</span>]](<var>targetRealm</var>).</p></li>\n+\n    <li><p>Otherwise, if <span>IsCallable</span>(<var>input</var>) is true, then throw a\n    <code>DataCloneError</code> exception.</p></li>\n \n-   <li><p>Otherwise, if <var>input</var> has an [[ErrorData]] internal slot, then throw a\n-   <code>DataCloneError</code> exception.</p></li>\n+   <li>\n+    <p>Otherwise, if <var>input</var> has a any internal slot other than [[Prototype]] or",
+    "path": "source",
+    "commit_id": "32e3822b17be39ad2d6dea96f5c5a6b88cd5c47a",
+    "original_commit_id": "f0ed52e2b04e71d1a296b0435b0ce891345677f1",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "s/a any/any\n\nLinter caught this\n",
+    "created_at": "2016-03-02T20:29:58Z",
+    "updated_at": "2016-03-03T17:17:06Z",
+    "html_url": "https://github.com/whatwg/html/pull/783#discussion_r54785827",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/783",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54785827"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/783#discussion_r54785827"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/783"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54785827/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7869,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 47,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54788408",
+    "pull_request_review_id": null,
+    "id": 54788408,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0Nzg4NDA4",
+    "diff_hunk": "@@ -7607,16 +7607,19 @@ interface <dfn>DOMStringMap</dfn> {\n   <span>cloneable objects</span> and not all aspects of objects that are <span>cloneable\n   objects</span> are necessarily preserved when cloned.</p>\n \n-  <p>IDL-defined cloneable objects are <span>cloneable objects</span> defined through IDL that have\n-  the following internal method:</p>\n+  <p>All IDL-defined objects are <span>cloneable objects</span> that have the following internal\n+  method:</p>\n \n   <p>[[<dfn>Clone</dfn>]] ( <var>targetRealm</var>, <var>memory</var> )</p>\n   <!-- For /deepClone/ support /memory/ would need to be changed as per StructuredClone or we would\n        need to add a [[DeepClone]] abstract operation. -->\n \n-  <p>IDL-defined clonable objects must define the [[<span>Clone</span>]] internal method such that\n+  <p>Unless specified otherwise, invoking the [[<span>Clone</span>]] internal method throws a\n+  <code>DataCloneError</code> exception.</p>\n+\n+  <p>When specified otherwise, the [[<span>Clone</span>]] internal method must be defined such that\n   it either throws or returns a clone of <b>this</b>, created in <var>targetRealm</var>. It is up to\n-  IDL-defined cloneable objects to define what cloning means for them.</p>\n+  IDL-defined objects to define what cloning means for them.</p>\n \n   <p>Objects defined in the JavaScript specification are handled by the <span>StructuredClone</span>",
+    "path": "source",
+    "commit_id": "32e3822b17be39ad2d6dea96f5c5a6b88cd5c47a",
+    "original_commit_id": "f0ed52e2b04e71d1a296b0435b0ce891345677f1",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Maybe this should be \"All other objects, including objects defined in the JavaScript specification\"? to emphasis that e.g. `{}` is included even though it's not necessarily obvious that that is defined in the JS specification. (Any more than `new Audio()` is defined in the JS specification`.)\n",
+    "created_at": "2016-03-02T20:47:57Z",
+    "updated_at": "2016-03-03T17:17:06Z",
+    "html_url": "https://github.com/whatwg/html/pull/783#discussion_r54788408",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/783",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54788408"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/783#discussion_r54788408"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/783"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54788408/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7624,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 22,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54855950",
+    "pull_request_review_id": null,
+    "id": 54855950,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0ODU1OTUw",
+    "diff_hunk": "@@ -7607,16 +7607,19 @@ interface <dfn>DOMStringMap</dfn> {\n   <span>cloneable objects</span> and not all aspects of objects that are <span>cloneable\n   objects</span> are necessarily preserved when cloned.</p>\n \n-  <p>IDL-defined cloneable objects are <span>cloneable objects</span> defined through IDL that have\n-  the following internal method:</p>\n+  <p>All IDL-defined objects are <span>cloneable objects</span> that have the following internal\n+  method:</p>\n \n   <p>[[<dfn>Clone</dfn>]] ( <var>targetRealm</var>, <var>memory</var> )</p>\n   <!-- For /deepClone/ support /memory/ would need to be changed as per StructuredClone or we would\n        need to add a [[DeepClone]] abstract operation. -->\n \n-  <p>IDL-defined clonable objects must define the [[<span>Clone</span>]] internal method such that\n+  <p>Unless specified otherwise, invoking the [[<span>Clone</span>]] internal method throws a\n+  <code>DataCloneError</code> exception.</p>\n+\n+  <p>When specified otherwise, the [[<span>Clone</span>]] internal method must be defined such that\n   it either throws or returns a clone of <b>this</b>, created in <var>targetRealm</var>. It is up to\n-  IDL-defined cloneable objects to define what cloning means for them.</p>\n+  IDL-defined objects to define what cloning means for them.</p>\n \n   <p>Objects defined in the JavaScript specification are handled by the <span>StructuredClone</span>",
+    "path": "source",
+    "commit_id": "32e3822b17be39ad2d6dea96f5c5a6b88cd5c47a",
+    "original_commit_id": "f0ed52e2b04e71d1a296b0435b0ce891345677f1",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Where else would `{}` be defined? I think this is pretty clear. Rewording it as suggested gives the impression there's a third source of objects.\n",
+    "created_at": "2016-03-03T09:41:41Z",
+    "updated_at": "2016-03-03T17:17:06Z",
+    "html_url": "https://github.com/whatwg/html/pull/783#discussion_r54855950",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/783",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54855950"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/783#discussion_r54855950"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/783"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54855950/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7624,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 22,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54902236",
+    "pull_request_review_id": null,
+    "id": 54902236,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0OTAyMjM2",
+    "diff_hunk": "@@ -7640,6 +7644,9 @@ interface <dfn>DOMStringMap</dfn> {\n   <!-- If we ever add /memory/ support here we need to update the language around replacing\n        references -->\n \n+  <p class=\"note\">Whereas all IDL-defined objects are <span>cloneable objects</span>, not all are",
+    "path": "source",
+    "commit_id": "32e3822b17be39ad2d6dea96f5c5a6b88cd5c47a",
+    "original_commit_id": "dae34fd3d0f52f22252f414c6b426deb0c3af0c0",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This isn't true with the new phrasing\n",
+    "created_at": "2016-03-03T16:11:23Z",
+    "updated_at": "2016-03-03T17:17:06Z",
+    "html_url": "https://github.com/whatwg/html/pull/783#discussion_r54902236",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/783",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54902236"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/783#discussion_r54902236"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/783"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54902236/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7647,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 30,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54902413",
+    "pull_request_review_id": null,
+    "id": 54902413,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0OTAyNDEz",
+    "diff_hunk": "@@ -7640,6 +7644,9 @@ interface <dfn>DOMStringMap</dfn> {\n   <!-- If we ever add /memory/ support here we need to update the language around replacing\n        references -->\n \n+  <p class=\"note\">Whereas all IDL-defined objects are <span>cloneable objects</span>, not all are",
+    "path": "source",
+    "commit_id": "32e3822b17be39ad2d6dea96f5c5a6b88cd5c47a",
+    "original_commit_id": "dae34fd3d0f52f22252f414c6b426deb0c3af0c0",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Thanks!\n",
+    "created_at": "2016-03-03T16:12:27Z",
+    "updated_at": "2016-03-03T17:17:06Z",
+    "html_url": "https://github.com/whatwg/html/pull/783#discussion_r54902413",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/783",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54902413"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/783#discussion_r54902413"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/783"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54902413/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7647,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 30,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54902425",
+    "pull_request_review_id": null,
+    "id": 54902425,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0OTAyNDI1",
+    "diff_hunk": "@@ -7607,16 +7607,20 @@ interface <dfn>DOMStringMap</dfn> {\n   <span>cloneable objects</span> and not all aspects of objects that are <span>cloneable\n   objects</span> are necessarily preserved when cloned.</p>\n \n-  <p>IDL-defined cloneable objects are <span>cloneable objects</span> defined through IDL that have\n-  the following internal method:</p>\n+  <p>IDL-defined objects have the following internal method:</p>\n \n   <p>[[<dfn>Clone</dfn>]] ( <var>targetRealm</var>, <var>memory</var> )</p>\n   <!-- For /deepClone/ support /memory/ would need to be changed as per StructuredClone or we would\n        need to add a [[DeepClone]] abstract operation. -->\n \n-  <p>IDL-defined clonable objects must define the [[<span>Clone</span>]] internal method such that\n-  it either throws or returns a clone of <b>this</b>, created in <var>targetRealm</var>. It is up to\n-  IDL-defined cloneable objects to define what cloning means for them.</p>\n+  <p>Unless specified otherwise, invoking the [[<span>Clone</span>]] internal method throws a\n+  <code>DataCloneError</code> exception. (By default, IDL-defined objects are not <span>cloneable\n+  objects</span>.)</p>\n+\n+  <p>IDL-defined cloneable objects are <span>cloneable objects</span> that define the",
+    "path": "source",
+    "commit_id": "32e3822b17be39ad2d6dea96f5c5a6b88cd5c47a",
+    "original_commit_id": "dae34fd3d0f52f22252f414c6b426deb0c3af0c0",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I'd rephrase this a bit to \"IDL-defined objects are [cloneable] when they specify a non-default implementation for their [[Clone]] internal method. Such implementations must either...\"\n",
+    "created_at": "2016-03-03T16:12:31Z",
+    "updated_at": "2016-03-03T17:17:06Z",
+    "html_url": "https://github.com/whatwg/html/pull/783#discussion_r54902425",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/783",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54902425"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/783#discussion_r54902425"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/783"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54902425/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7620,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 19,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54903496",
+    "pull_request_review_id": null,
+    "id": 54903496,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0OTAzNDk2",
+    "diff_hunk": "@@ -7607,16 +7607,20 @@ interface <dfn>DOMStringMap</dfn> {\n   <span>cloneable objects</span> and not all aspects of objects that are <span>cloneable\n   objects</span> are necessarily preserved when cloned.</p>\n \n-  <p>IDL-defined cloneable objects are <span>cloneable objects</span> defined through IDL that have\n-  the following internal method:</p>\n+  <p>IDL-defined objects have the following internal method:</p>\n \n   <p>[[<dfn>Clone</dfn>]] ( <var>targetRealm</var>, <var>memory</var> )</p>\n   <!-- For /deepClone/ support /memory/ would need to be changed as per StructuredClone or we would\n        need to add a [[DeepClone]] abstract operation. -->\n \n-  <p>IDL-defined clonable objects must define the [[<span>Clone</span>]] internal method such that\n-  it either throws or returns a clone of <b>this</b>, created in <var>targetRealm</var>. It is up to\n-  IDL-defined cloneable objects to define what cloning means for them.</p>\n+  <p>Unless specified otherwise, invoking the [[<span>Clone</span>]] internal method throws a\n+  <code>DataCloneError</code> exception. (By default, IDL-defined objects are not <span>cloneable\n+  objects</span>.)</p>\n+\n+  <p>IDL-defined cloneable objects are <span>cloneable objects</span> that define the",
+    "path": "source",
+    "commit_id": "32e3822b17be39ad2d6dea96f5c5a6b88cd5c47a",
+    "original_commit_id": "dae34fd3d0f52f22252f414c6b426deb0c3af0c0",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I would prefer \"IDL-defined cloneable objects are cloneable objects\" as that's consistent with the language we have for transferred objects.\n",
+    "created_at": "2016-03-03T16:19:21Z",
+    "updated_at": "2016-03-03T17:17:06Z",
+    "html_url": "https://github.com/whatwg/html/pull/783#discussion_r54903496",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/783",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54903496"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/783#discussion_r54903496"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/783"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54903496/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7620,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 19,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54904384",
+    "pull_request_review_id": null,
+    "id": 54904384,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0OTA0Mzg0",
+    "diff_hunk": "@@ -7607,16 +7607,20 @@ interface <dfn>DOMStringMap</dfn> {\n   <span>cloneable objects</span> and not all aspects of objects that are <span>cloneable\n   objects</span> are necessarily preserved when cloned.</p>\n \n-  <p>IDL-defined cloneable objects are <span>cloneable objects</span> defined through IDL that have\n-  the following internal method:</p>\n+  <p>IDL-defined objects have the following internal method:</p>\n \n   <p>[[<dfn>Clone</dfn>]] ( <var>targetRealm</var>, <var>memory</var> )</p>\n   <!-- For /deepClone/ support /memory/ would need to be changed as per StructuredClone or we would\n        need to add a [[DeepClone]] abstract operation. -->\n \n-  <p>IDL-defined clonable objects must define the [[<span>Clone</span>]] internal method such that\n-  it either throws or returns a clone of <b>this</b>, created in <var>targetRealm</var>. It is up to\n-  IDL-defined cloneable objects to define what cloning means for them.</p>\n+  <p>Unless specified otherwise, invoking the [[<span>Clone</span>]] internal method throws a\n+  <code>DataCloneError</code> exception. (By default, IDL-defined objects are not <span>cloneable\n+  objects</span>.)</p>\n+\n+  <p>IDL-defined cloneable objects are <span>cloneable objects</span> that define the",
+    "path": "source",
+    "commit_id": "32e3822b17be39ad2d6dea96f5c5a6b88cd5c47a",
+    "original_commit_id": "dae34fd3d0f52f22252f414c6b426deb0c3af0c0",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "It's just so repetitive for no clear reason (We don't use the term \"IDL-defined cloneable objects\" anywhere). And all IDL-defined objects define a [[Clone]] internal method that throws, so the sentence is still a bit wonky; it needs to talk about non-default implementations or something similar.\n",
+    "created_at": "2016-03-03T16:24:42Z",
+    "updated_at": "2016-03-03T17:17:06Z",
+    "html_url": "https://github.com/whatwg/html/pull/783#discussion_r54904384",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/783",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54904384"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/783#discussion_r54904384"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/783"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54904384/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7620,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 19,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54904646",
+    "pull_request_review_id": null,
+    "id": 54904646,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0OTA0NjQ2",
+    "diff_hunk": "@@ -7607,16 +7607,20 @@ interface <dfn>DOMStringMap</dfn> {\n   <span>cloneable objects</span> and not all aspects of objects that are <span>cloneable\n   objects</span> are necessarily preserved when cloned.</p>\n \n-  <p>IDL-defined cloneable objects are <span>cloneable objects</span> defined through IDL that have\n-  the following internal method:</p>\n+  <p>IDL-defined objects have the following internal method:</p>\n \n   <p>[[<dfn>Clone</dfn>]] ( <var>targetRealm</var>, <var>memory</var> )</p>\n   <!-- For /deepClone/ support /memory/ would need to be changed as per StructuredClone or we would\n        need to add a [[DeepClone]] abstract operation. -->\n \n-  <p>IDL-defined clonable objects must define the [[<span>Clone</span>]] internal method such that\n-  it either throws or returns a clone of <b>this</b>, created in <var>targetRealm</var>. It is up to\n-  IDL-defined cloneable objects to define what cloning means for them.</p>\n+  <p>Unless specified otherwise, invoking the [[<span>Clone</span>]] internal method throws a\n+  <code>DataCloneError</code> exception. (By default, IDL-defined objects are not <span>cloneable\n+  objects</span>.)</p>\n+\n+  <p>IDL-defined cloneable objects are <span>cloneable objects</span> that define the",
+    "path": "source",
+    "commit_id": "32e3822b17be39ad2d6dea96f5c5a6b88cd5c47a",
+    "original_commit_id": "dae34fd3d0f52f22252f414c6b426deb0c3af0c0",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "We do use it, later in that paragraph.\n",
+    "created_at": "2016-03-03T16:26:10Z",
+    "updated_at": "2016-03-03T17:17:06Z",
+    "html_url": "https://github.com/whatwg/html/pull/783#discussion_r54904646",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/783",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54904646"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/783#discussion_r54904646"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/783"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54904646/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7620,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 19,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54904837",
+    "pull_request_review_id": null,
+    "id": 54904837,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0OTA0ODM3",
+    "diff_hunk": "@@ -7607,16 +7607,20 @@ interface <dfn>DOMStringMap</dfn> {\n   <span>cloneable objects</span> and not all aspects of objects that are <span>cloneable\n   objects</span> are necessarily preserved when cloned.</p>\n \n-  <p>IDL-defined cloneable objects are <span>cloneable objects</span> defined through IDL that have\n-  the following internal method:</p>\n+  <p>IDL-defined objects have the following internal method:</p>\n \n   <p>[[<dfn>Clone</dfn>]] ( <var>targetRealm</var>, <var>memory</var> )</p>\n   <!-- For /deepClone/ support /memory/ would need to be changed as per StructuredClone or we would\n        need to add a [[DeepClone]] abstract operation. -->\n \n-  <p>IDL-defined clonable objects must define the [[<span>Clone</span>]] internal method such that\n-  it either throws or returns a clone of <b>this</b>, created in <var>targetRealm</var>. It is up to\n-  IDL-defined cloneable objects to define what cloning means for them.</p>\n+  <p>Unless specified otherwise, invoking the [[<span>Clone</span>]] internal method throws a\n+  <code>DataCloneError</code> exception. (By default, IDL-defined objects are not <span>cloneable\n+  objects</span>.)</p>\n+\n+  <p>IDL-defined cloneable objects are <span>cloneable objects</span> that define the",
+    "path": "source",
+    "commit_id": "32e3822b17be39ad2d6dea96f5c5a6b88cd5c47a",
+    "original_commit_id": "dae34fd3d0f52f22252f414c6b426deb0c3af0c0",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Sure but not in any real way. We could say \"such objects\" and be equally as clear.\n",
+    "created_at": "2016-03-03T16:27:05Z",
+    "updated_at": "2016-03-03T17:17:06Z",
+    "html_url": "https://github.com/whatwg/html/pull/783#discussion_r54904837",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/783",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54904837"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/783#discussion_r54904837"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/783"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54904837/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7620,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 19,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54904942",
+    "pull_request_review_id": null,
+    "id": 54904942,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0OTA0OTQy",
+    "diff_hunk": "@@ -7607,16 +7607,20 @@ interface <dfn>DOMStringMap</dfn> {\n   <span>cloneable objects</span> and not all aspects of objects that are <span>cloneable\n   objects</span> are necessarily preserved when cloned.</p>\n \n-  <p>IDL-defined cloneable objects are <span>cloneable objects</span> defined through IDL that have\n-  the following internal method:</p>\n+  <p>IDL-defined objects have the following internal method:</p>\n \n   <p>[[<dfn>Clone</dfn>]] ( <var>targetRealm</var>, <var>memory</var> )</p>\n   <!-- For /deepClone/ support /memory/ would need to be changed as per StructuredClone or we would\n        need to add a [[DeepClone]] abstract operation. -->\n \n-  <p>IDL-defined clonable objects must define the [[<span>Clone</span>]] internal method such that\n-  it either throws or returns a clone of <b>this</b>, created in <var>targetRealm</var>. It is up to\n-  IDL-defined cloneable objects to define what cloning means for them.</p>\n+  <p>Unless specified otherwise, invoking the [[<span>Clone</span>]] internal method throws a\n+  <code>DataCloneError</code> exception. (By default, IDL-defined objects are not <span>cloneable\n+  objects</span>.)</p>\n+\n+  <p>IDL-defined cloneable objects are <span>cloneable objects</span> that define the",
+    "path": "source",
+    "commit_id": "32e3822b17be39ad2d6dea96f5c5a6b88cd5c47a",
+    "original_commit_id": "dae34fd3d0f52f22252f414c6b426deb0c3af0c0",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "If you think it's important to have that term around just so you can use it one sentence later then I won't push it. But we do need to fix the throws issue.\n",
+    "created_at": "2016-03-03T16:27:43Z",
+    "updated_at": "2016-03-03T17:17:06Z",
+    "html_url": "https://github.com/whatwg/html/pull/783#discussion_r54904942",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/783",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54904942"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/783#discussion_r54904942"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/783"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54904942/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7620,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 19,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54905131",
+    "pull_request_review_id": null,
+    "id": 54905131,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0OTA1MTMx",
+    "diff_hunk": "@@ -7607,16 +7607,20 @@ interface <dfn>DOMStringMap</dfn> {\n   <span>cloneable objects</span> and not all aspects of objects that are <span>cloneable\n   objects</span> are necessarily preserved when cloned.</p>\n \n-  <p>IDL-defined cloneable objects are <span>cloneable objects</span> defined through IDL that have\n-  the following internal method:</p>\n+  <p>IDL-defined objects have the following internal method:</p>\n \n   <p>[[<dfn>Clone</dfn>]] ( <var>targetRealm</var>, <var>memory</var> )</p>\n   <!-- For /deepClone/ support /memory/ would need to be changed as per StructuredClone or we would\n        need to add a [[DeepClone]] abstract operation. -->\n \n-  <p>IDL-defined clonable objects must define the [[<span>Clone</span>]] internal method such that\n-  it either throws or returns a clone of <b>this</b>, created in <var>targetRealm</var>. It is up to\n-  IDL-defined cloneable objects to define what cloning means for them.</p>\n+  <p>Unless specified otherwise, invoking the [[<span>Clone</span>]] internal method throws a\n+  <code>DataCloneError</code> exception. (By default, IDL-defined objects are not <span>cloneable\n+  objects</span>.)</p>\n+\n+  <p>IDL-defined cloneable objects are <span>cloneable objects</span> that define the",
+    "path": "source",
+    "commit_id": "32e3822b17be39ad2d6dea96f5c5a6b88cd5c47a",
+    "original_commit_id": "dae34fd3d0f52f22252f414c6b426deb0c3af0c0",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I could make it \"IDL-defined cloneable object are cloneable objects that must specify their [[Clone]] internal method otherwise, such that it ...\"\n",
+    "created_at": "2016-03-03T16:28:54Z",
+    "updated_at": "2016-03-03T17:17:06Z",
+    "html_url": "https://github.com/whatwg/html/pull/783#discussion_r54905131",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/783",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54905131"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/783#discussion_r54905131"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/783"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54905131/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7620,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 19,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54905404",
+    "pull_request_review_id": null,
+    "id": 54905404,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0OTA1NDA0",
+    "diff_hunk": "@@ -7607,16 +7607,20 @@ interface <dfn>DOMStringMap</dfn> {\n   <span>cloneable objects</span> and not all aspects of objects that are <span>cloneable\n   objects</span> are necessarily preserved when cloned.</p>\n \n-  <p>IDL-defined cloneable objects are <span>cloneable objects</span> defined through IDL that have\n-  the following internal method:</p>\n+  <p>IDL-defined objects have the following internal method:</p>\n \n   <p>[[<dfn>Clone</dfn>]] ( <var>targetRealm</var>, <var>memory</var> )</p>\n   <!-- For /deepClone/ support /memory/ would need to be changed as per StructuredClone or we would\n        need to add a [[DeepClone]] abstract operation. -->\n \n-  <p>IDL-defined clonable objects must define the [[<span>Clone</span>]] internal method such that\n-  it either throws or returns a clone of <b>this</b>, created in <var>targetRealm</var>. It is up to\n-  IDL-defined cloneable objects to define what cloning means for them.</p>\n+  <p>Unless specified otherwise, invoking the [[<span>Clone</span>]] internal method throws a\n+  <code>DataCloneError</code> exception. (By default, IDL-defined objects are not <span>cloneable\n+  objects</span>.)</p>\n+\n+  <p>IDL-defined cloneable objects are <span>cloneable objects</span> that define the",
+    "path": "source",
+    "commit_id": "32e3822b17be39ad2d6dea96f5c5a6b88cd5c47a",
+    "original_commit_id": "dae34fd3d0f52f22252f414c6b426deb0c3af0c0",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Close, but reads weird. \"Blue fruits are fruits that must be blue\" is awkward; \"Blue fruits are fruits that are blue\" is better.\n",
+    "created_at": "2016-03-03T16:30:27Z",
+    "updated_at": "2016-03-03T17:17:06Z",
+    "html_url": "https://github.com/whatwg/html/pull/783#discussion_r54905404",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/783",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54905404"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/783#discussion_r54905404"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/783"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54905404/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7620,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 19,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54905436",
+    "pull_request_review_id": null,
+    "id": 54905436,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0OTA1NDM2",
+    "diff_hunk": "@@ -7607,16 +7607,20 @@ interface <dfn>DOMStringMap</dfn> {\n   <span>cloneable objects</span> and not all aspects of objects that are <span>cloneable\n   objects</span> are necessarily preserved when cloned.</p>\n \n-  <p>IDL-defined cloneable objects are <span>cloneable objects</span> defined through IDL that have\n-  the following internal method:</p>\n+  <p>IDL-defined objects have the following internal method:</p>\n \n   <p>[[<dfn>Clone</dfn>]] ( <var>targetRealm</var>, <var>memory</var> )</p>\n   <!-- For /deepClone/ support /memory/ would need to be changed as per StructuredClone or we would\n        need to add a [[DeepClone]] abstract operation. -->\n \n-  <p>IDL-defined clonable objects must define the [[<span>Clone</span>]] internal method such that\n-  it either throws or returns a clone of <b>this</b>, created in <var>targetRealm</var>. It is up to\n-  IDL-defined cloneable objects to define what cloning means for them.</p>\n+  <p>Unless specified otherwise, invoking the [[<span>Clone</span>]] internal method throws a\n+  <code>DataCloneError</code> exception. (By default, IDL-defined objects are not <span>cloneable\n+  objects</span>.)</p>\n+\n+  <p>IDL-defined cloneable objects are <span>cloneable objects</span> that define the",
+    "path": "source",
+    "commit_id": "32e3822b17be39ad2d6dea96f5c5a6b88cd5c47a",
+    "original_commit_id": "dae34fd3d0f52f22252f414c6b426deb0c3af0c0",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Oh, your comments appeared late, will look at the throws thing too.\n",
+    "created_at": "2016-03-03T16:30:37Z",
+    "updated_at": "2016-03-03T17:17:06Z",
+    "html_url": "https://github.com/whatwg/html/pull/783#discussion_r54905436",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/783",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54905436"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/783#discussion_r54905436"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/783"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54905436/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7620,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 19,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54905545",
+    "pull_request_review_id": null,
+    "id": 54905545,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0OTA1NTQ1",
+    "diff_hunk": "@@ -7607,16 +7607,20 @@ interface <dfn>DOMStringMap</dfn> {\n   <span>cloneable objects</span> and not all aspects of objects that are <span>cloneable\n   objects</span> are necessarily preserved when cloned.</p>\n \n-  <p>IDL-defined cloneable objects are <span>cloneable objects</span> defined through IDL that have\n-  the following internal method:</p>\n+  <p>IDL-defined objects have the following internal method:</p>\n \n   <p>[[<dfn>Clone</dfn>]] ( <var>targetRealm</var>, <var>memory</var> )</p>\n   <!-- For /deepClone/ support /memory/ would need to be changed as per StructuredClone or we would\n        need to add a [[DeepClone]] abstract operation. -->\n \n-  <p>IDL-defined clonable objects must define the [[<span>Clone</span>]] internal method such that\n-  it either throws or returns a clone of <b>this</b>, created in <var>targetRealm</var>. It is up to\n-  IDL-defined cloneable objects to define what cloning means for them.</p>\n+  <p>Unless specified otherwise, invoking the [[<span>Clone</span>]] internal method throws a\n+  <code>DataCloneError</code> exception. (By default, IDL-defined objects are not <span>cloneable\n+  objects</span>.)</p>\n+\n+  <p>IDL-defined cloneable objects are <span>cloneable objects</span> that define the",
+    "path": "source",
+    "commit_id": "32e3822b17be39ad2d6dea96f5c5a6b88cd5c47a",
+    "original_commit_id": "dae34fd3d0f52f22252f414c6b426deb0c3af0c0",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "In other words I think it needs to be something like \"\"IDL-defined cloneable object are cloneable objects that must specify a non-default [[Clone]] internal method. These definitions must either ...\"\n",
+    "created_at": "2016-03-03T16:31:15Z",
+    "updated_at": "2016-03-03T17:17:06Z",
+    "html_url": "https://github.com/whatwg/html/pull/783#discussion_r54905545",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/783",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54905545"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/783#discussion_r54905545"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/783"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54905545/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7620,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 19,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54907395",
+    "pull_request_review_id": null,
+    "id": 54907395,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0OTA3Mzk1",
+    "diff_hunk": "@@ -7607,16 +7607,20 @@ interface <dfn>DOMStringMap</dfn> {\n   <span>cloneable objects</span> and not all aspects of objects that are <span>cloneable\n   objects</span> are necessarily preserved when cloned.</p>\n \n-  <p>IDL-defined cloneable objects are <span>cloneable objects</span> defined through IDL that have\n-  the following internal method:</p>\n+  <p>IDL-defined objects have the following internal method:</p>\n \n   <p>[[<dfn>Clone</dfn>]] ( <var>targetRealm</var>, <var>memory</var> )</p>\n   <!-- For /deepClone/ support /memory/ would need to be changed as per StructuredClone or we would\n        need to add a [[DeepClone]] abstract operation. -->\n \n-  <p>IDL-defined clonable objects must define the [[<span>Clone</span>]] internal method such that\n-  it either throws or returns a clone of <b>this</b>, created in <var>targetRealm</var>. It is up to\n-  IDL-defined cloneable objects to define what cloning means for them.</p>\n+  <p>Unless specified otherwise, invoking the [[<span>Clone</span>]] internal method throws a\n+  <code>DataCloneError</code> exception. (By default, IDL-defined objects are not <span>cloneable\n+  objects</span>.)</p>\n+\n+  <p>IDL-defined cloneable objects are <span>cloneable objects</span> that must specify the",
+    "path": "source",
+    "commit_id": "32e3822b17be39ad2d6dea96f5c5a6b88cd5c47a",
+    "original_commit_id": "b8d95c69548c8368002a2f292679ae6aab3250cb",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I still think this phrasing is weird. (\"Blue fruits are fruits that must specify that they are blue.\") You need to separate out the definition of IDL-defined cloneable objects (they have a non-default [[Clone]]) from the normative requirements on what that non-default [[Clone]] must do.\n",
+    "created_at": "2016-03-03T16:42:11Z",
+    "updated_at": "2016-03-03T17:17:06Z",
+    "html_url": "https://github.com/whatwg/html/pull/783#discussion_r54907395",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/783",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54907395"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/783#discussion_r54907395"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/783"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54907395/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7620,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 19,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54909314",
+    "pull_request_review_id": null,
+    "id": 54909314,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0OTA5MzE0",
+    "diff_hunk": "@@ -7607,16 +7607,20 @@ interface <dfn>DOMStringMap</dfn> {\n   <span>cloneable objects</span> and not all aspects of objects that are <span>cloneable\n   objects</span> are necessarily preserved when cloned.</p>\n \n-  <p>IDL-defined cloneable objects are <span>cloneable objects</span> defined through IDL that have\n-  the following internal method:</p>\n+  <p>IDL-defined objects have the following internal method:</p>\n \n   <p>[[<dfn>Clone</dfn>]] ( <var>targetRealm</var>, <var>memory</var> )</p>\n   <!-- For /deepClone/ support /memory/ would need to be changed as per StructuredClone or we would\n        need to add a [[DeepClone]] abstract operation. -->\n \n-  <p>IDL-defined clonable objects must define the [[<span>Clone</span>]] internal method such that\n-  it either throws or returns a clone of <b>this</b>, created in <var>targetRealm</var>. It is up to\n-  IDL-defined cloneable objects to define what cloning means for them.</p>\n+  <p>Unless specified otherwise, invoking the [[<span>Clone</span>]] internal method throws a\n+  <code>DataCloneError</code> exception. (By default, IDL-defined objects are not <span>cloneable\n+  objects</span>.)</p>\n+\n+  <p>IDL-defined cloneable objects are <span>cloneable objects</span> that must specify the",
+    "path": "source",
+    "commit_id": "32e3822b17be39ad2d6dea96f5c5a6b88cd5c47a",
+    "original_commit_id": "b8d95c69548c8368002a2f292679ae6aab3250cb",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Gave it another shot.\n",
+    "created_at": "2016-03-03T16:53:44Z",
+    "updated_at": "2016-03-03T17:17:06Z",
+    "html_url": "https://github.com/whatwg/html/pull/783#discussion_r54909314",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/783",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54909314"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/783#discussion_r54909314"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/783"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54909314/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7620,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 19,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

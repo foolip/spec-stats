@@ -1,0 +1,286 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/60718119",
+    "pull_request_review_id": null,
+    "id": 60718119,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDYwNzE4MTE5",
+    "diff_hunk": "@@ -32303,34 +32303,44 @@ interface <dfn>HTMLMediaElement</dfn> : <span>HTMLElement</span> {\n \n   <ol>\n \n-   <li><p>For each promise in the <span>media element</span>'s <span>list of pending play\n-   promises</span>, resolve it with undefined.</p></li>\n+   <li><p>Let <var>promises</var> be an empty list of promises.</p></li>\n+\n+   <li><p>Copy the <span>media element</span>'s <span>list of pending play promises</span> to\n+   <var>promises</var>.</p></li>\n \n    <li><p>Clear the <span>media element</span>'s <span>list of pending play\n    promises</span>.</p></li>\n \n+   <li><p><span>Queue a task</span> to resolve each promise in <var>promises</var> with\n+   undefined.</p></li>\n+\n   </ol>\n \n   <p>To <dfn>reject pending play promises</dfn> for a <span>media element</span> with an exception\n   name <var>error</var>, the user agent must run the following steps:</p>\n \n   <ol>\n \n-   <li><p>For each promise in the <span>media element</span>'s <span>list of pending play\n-   promises</span>, reject it with an <var>error</var> exception.</p></li>\n+   <li><p>Let <var>promises</var> be an empty list of promises.</p></li>\n+\n+   <li><p>Copy the <span>media element</span>'s <span>list of pending play promises</span> to\n+   <var>promises</var>.</p></li>\n \n    <li><p>Clear the <span>media element</span>'s <span>list of pending play\n    promises</span>.</p></li>\n \n+   <li><p><span>Queue a task</span> to resolve each promise in <var>promises</var> with an\n+   <var>error</var> exception.</p></li>\n+\n   </ol>\n \n   <p>To <dfn>notify about playing</dfn> for a <span>media element</span>, the user agent must run\n   the following steps:</p>\n \n   <ol>\n \n-   <li><p><span>Fire a simple event</span> named <code data-x=\"event-media-playing\">playing</code>\n-   at the element.</p></li>\n+   <li><p><span>Queue a task</span> to <span>fire a simple event</span> named",
+    "path": "source",
+    "commit_id": "ab1ac3f7b494ee9103477a49c0c8f7f5058507cf",
+    "original_commit_id": "c2d17016bd427e0a99184c7f08d7e2b70984e5e0",
+    "user": {
+      "login": "foolip",
+      "id": 498917,
+      "node_id": "MDQ6VXNlcjQ5ODkxNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/498917?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/foolip",
+      "html_url": "https://github.com/foolip",
+      "followers_url": "https://api.github.com/users/foolip/followers",
+      "following_url": "https://api.github.com/users/foolip/following{/other_user}",
+      "gists_url": "https://api.github.com/users/foolip/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/foolip/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/foolip/subscriptions",
+      "organizations_url": "https://api.github.com/users/foolip/orgs",
+      "repos_url": "https://api.github.com/users/foolip/repos",
+      "events_url": "https://api.github.com/users/foolip/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/foolip/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This change I think could become a problem, because it means that the promise will be resolved before the event is fired, and the order relative to other events could change. For the most part, the spec currently makes sure that there's a single task where observable state (`error`) is changed, the event is fired and then promises are rejected or resolved. At least I find it easier to reason about things when that is upheld.\n\nWill comment separately on other options.\n",
+    "created_at": "2016-04-22T10:12:04Z",
+    "updated_at": "2016-06-02T11:09:22Z",
+    "html_url": "https://github.com/whatwg/html/pull/1038#discussion_r60718119",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1038",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/60718119"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1038#discussion_r60718119"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1038"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/60718119/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 32342,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 75,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/65351561",
+    "pull_request_review_id": null,
+    "id": 65351561,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY1MzUxNTYx",
+    "diff_hunk": "@@ -30821,7 +30821,8 @@ interface <dfn>HTMLMediaElement</dfn> : <span>HTMLElement</span> {\n     data-x=\"task queue\">task queues</span>, then remove those tasks.</p>\n -->\n \n-    <p><span>Reject pending play promises</span> with an <span>\"<code>AbortError</code>\"</span>\n+    <p><span>Reject pending play promises</span> with the result of running the <span>move pending",
+    "path": "source",
+    "commit_id": "ab1ac3f7b494ee9103477a49c0c8f7f5058507cf",
+    "original_commit_id": "51306745d0bae7525bf1dc55c8e1987c7ba646e2",
+    "user": {
+      "login": "foolip",
+      "id": 498917,
+      "node_id": "MDQ6VXNlcjQ5ODkxNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/498917?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/foolip",
+      "html_url": "https://github.com/foolip",
+      "followers_url": "https://api.github.com/users/foolip/followers",
+      "following_url": "https://api.github.com/users/foolip/following{/other_user}",
+      "gists_url": "https://api.github.com/users/foolip/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/foolip/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/foolip/subscriptions",
+      "organizations_url": "https://api.github.com/users/foolip/orgs",
+      "repos_url": "https://api.github.com/users/foolip/repos",
+      "events_url": "https://api.github.com/users/foolip/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/foolip/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "There's an extra \"the\" here\n",
+    "created_at": "2016-06-01T12:38:18Z",
+    "updated_at": "2016-06-02T11:09:22Z",
+    "html_url": "https://github.com/whatwg/html/pull/1038#discussion_r65351561",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1038",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/65351561"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1038#discussion_r65351561"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1038"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/65351561/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 30824,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 5,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/65351782",
+    "pull_request_review_id": null,
+    "id": 65351782,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY1MzUxNzgy",
+    "diff_hunk": "@@ -31199,7 +31202,8 @@ interface <dfn>HTMLMediaElement</dfn> : <span>HTMLElement</span> {\n \n     </dl>\n \n-    <p>The <dfn>dedicated media source failure steps</dfn> are the following steps:</p>\n+    <p>The <dfn>dedicated media source failure steps</dfn> with a list of promise",
+    "path": "source",
+    "commit_id": "ab1ac3f7b494ee9103477a49c0c8f7f5058507cf",
+    "original_commit_id": "51306745d0bae7525bf1dc55c8e1987c7ba646e2",
+    "user": {
+      "login": "foolip",
+      "id": 498917,
+      "node_id": "MDQ6VXNlcjQ5ODkxNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/498917?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/foolip",
+      "html_url": "https://github.com/foolip",
+      "followers_url": "https://api.github.com/users/foolip/followers",
+      "following_url": "https://api.github.com/users/foolip/following{/other_user}",
+      "gists_url": "https://api.github.com/users/foolip/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/foolip/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/foolip/subscriptions",
+      "organizations_url": "https://api.github.com/users/foolip/orgs",
+      "repos_url": "https://api.github.com/users/foolip/repos",
+      "events_url": "https://api.github.com/users/foolip/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/foolip/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "s/promise/promises/\n",
+    "created_at": "2016-06-01T12:39:00Z",
+    "updated_at": "2016-06-02T11:09:22Z",
+    "html_url": "https://github.com/whatwg/html/pull/1038#discussion_r65351782",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1038",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/65351782"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1038#discussion_r65351782"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1038"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/65351782/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 31205,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 39,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/65353168",
+    "pull_request_review_id": null,
+    "id": 65353168,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY1MzUzMTY4",
+    "diff_hunk": "@@ -32763,41 +32767,49 @@ interface <dfn>HTMLMediaElement</dfn> : <span>HTMLElement</span> {\n   <p>Each <span>media element</span> has a <dfn>list of pending play promises</dfn>, which must\n   initially be empty.</p>\n \n-  <p>To <dfn>resolve pending play promises</dfn> for a <span>media element</span>, the user agent\n-  must run the following steps:</p>\n+  <p>To <dfn>move pending play promises</dfn> for a <span>media element</span>, the user agent must\n+  run the following steps:</p>\n \n   <ol>\n \n-   <li><p>For each promise in the <span>media element</span>'s <span>list of pending play\n-   promises</span>, resolve it with undefined.</p></li>\n+   <li><p>Let <var>promises</var> be an empty list of promises.</p></li>\n+\n+   <li><p>Copy the <span>media element</span>'s <span>list of pending play promises</span> to\n+   <var>promises</var>.</p></li>\n \n    <li><p>Clear the <span>media element</span>'s <span>list of pending play\n    promises</span>.</p></li>\n \n+   <li>Return <var>promises</var>.</li>\n+\n   </ol>\n \n-  <p>To <dfn>reject pending play promises</dfn> for a <span>media element</span> with an exception\n-  name <var>error</var>, the user agent must run the following steps:</p>\n+  <p>To <dfn>resolve pending play promises</dfn> for a <span>media element</span> with a list of\n+  promise <var>promises</var>, the user agent must resolve each promise in <var>promises</var> with",
+    "path": "source",
+    "commit_id": "ab1ac3f7b494ee9103477a49c0c8f7f5058507cf",
+    "original_commit_id": "51306745d0bae7525bf1dc55c8e1987c7ba646e2",
+    "user": {
+      "login": "foolip",
+      "id": 498917,
+      "node_id": "MDQ6VXNlcjQ5ODkxNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/498917?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/foolip",
+      "html_url": "https://github.com/foolip",
+      "followers_url": "https://api.github.com/users/foolip/followers",
+      "following_url": "https://api.github.com/users/foolip/following{/other_user}",
+      "gists_url": "https://api.github.com/users/foolip/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/foolip/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/foolip/subscriptions",
+      "organizations_url": "https://api.github.com/users/foolip/orgs",
+      "repos_url": "https://api.github.com/users/foolip/repos",
+      "events_url": "https://api.github.com/users/foolip/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/foolip/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "s/promise/promises/ here too and below\n",
+    "created_at": "2016-06-01T12:47:34Z",
+    "updated_at": "2016-06-02T11:09:22Z",
+    "html_url": "https://github.com/whatwg/html/pull/1038#discussion_r65353168",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1038",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/65353168"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1038#discussion_r65353168"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1038"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/65353168/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 32788,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 110,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

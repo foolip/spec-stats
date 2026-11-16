@@ -1,0 +1,1280 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54810120",
+    "pull_request_review_id": null,
+    "id": 54810120,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0ODEwMTIw",
+    "diff_hunk": "@@ -59508,10 +59505,8 @@ callback <dfn>BlobCallback</dfn> = void (<span>Blob</span>? blob);</pre>\n   what kind of rendering context it is, a <code>canvas</code> also has a <dfn\n   data-x=\"concept-canvas-context-mode\">canvas context mode</dfn>, which is initially <dfn\n   data-x=\"concept-canvas-none\">none</dfn> but can be changed to either <dfn\n-  data-x=\"concept-canvas-direct-2d\">direct-2d</dfn>, <dfn\n-  data-x=\"concept-canvas-direct-webgl\">direct-webgl</dfn>, <dfn\n-  data-x=\"concept-canvas-indirect\">indirect</dfn>, or <dfn\n-  data-x=\"concept-canvas-proxied\">proxied</dfn> by algorithms defined in this specification.</p>\n+  data-x=\"concept-canvas-2d\">2d</dfn>, or <dfn",
+    "path": "source",
+    "commit_id": "7e54b7d0214083c161e61d0e4499b474343b7572",
+    "original_commit_id": "1108fcb6901686825a543d3a391604107acc2e50",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "s/, or/ or/\n",
+    "created_at": "2016-03-02T23:17:35Z",
+    "updated_at": "2016-03-03T22:22:45Z",
+    "html_url": "https://github.com/whatwg/html/pull/790#discussion_r54810120",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/790",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54810120"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/790#discussion_r54810120"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/790"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54810120/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 59508,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 18,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54810217",
+    "pull_request_review_id": null,
+    "id": 54810217,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0ODEwMjE3",
+    "diff_hunk": "@@ -59581,52 +59569,16 @@ callback <dfn>BlobCallback</dfn> = void (<span>Blob</span>? blob);</pre>\n     data-x=\"dom-canvas-getContext\">getContext()</code> will or will not return an object, as\n     conditions (e.g. availability of system resources) can vary over time.</p>\n \n-    <p>Throws an <code>InvalidStateError</code> exception if the <code\n-    data-x=\"dom-canvas-setContext\">setContext()</code> or <code\n-    data-x=\"dom-canvas-transferControlToProxy\">transferControlToProxy()</code> methods have been\n-    used.</p>\n-\n-   </dd>\n-\n-   <dt><var>canvas</var> . <code subdfn data-x=\"dom-canvas-setContext\">setContext</code>(<var>context</var>)</dt>\n-\n-   <dd>\n-\n-    <p>Sets the <code>canvas</code>' rendering context to the given object.</p>\n-\n-    <p>Throws an <code>InvalidStateError</code> exception if the <code\n-    data-x=\"dom-canvas-getContext\">getContext()</code> or <code\n-    data-x=\"dom-canvas-transferControlToProxy\">transferControlToProxy()</code> methods have been\n-    used.</p>\n-\n    </dd>\n \n   </dl>\n \n   <div w-nodev>\n \n-  <p>There are two ways for a <code>canvas</code> element to acquire a rendering context: the\n-  <code>canvas</code> element can provide one via the <code\n-  data-x=\"dom-canvas-getContext\">getContext()</code> method, and one can be assigned to it via the\n-  <code data-x=\"dom-canvas-setContext\">setContext()</code> method. In addition, the whole issue of a\n-  rendering context can be taken out of the <code>canvas</code> element's hands and passed to a\n-  <code>CanvasProxy</code> object, which itself can then be assigned a rendering context using its\n-  <code data-x=\"dom-CanvasProxy-setContext\">setContext()</code> method.</p>\n-\n-  <p>These three methods are mutually exclusive; calling any of the three makes the other two start\n-  throwing <code>InvalidStateError</code> exceptions when called.</p>\n-\n-  <p>Each rendering context has a <dfn data-x=\"concept-canvas-context-bitmap-mode\">context bitmap\n-  mode</dfn>, which is one of <dfn data-x=\"concept-canvas-fixed\">fixed</dfn>, <dfn\n-  data-x=\"concept-canvas-unbound\">unbound</dfn>, or <dfn data-x=\"concept-canvas-bound\">bound</dfn>.\n-  Initially, rendering contexts must be in the <span data-x=\"concept-canvas-bound\">unbound</span>\n-  mode.</p>\n-\n-  <hr>\n-\n   <p>The <dfn><code data-x=\"dom-canvas-getContext\">getContext(<var>contextId</var>, <var>arguments...</var>)</code></dfn> method of the <code>canvas</code> element, when invoked,\n   must run the steps in the cell of the following table whose column header describes the\n-  <code>canvas</code> element's <span data-x=\"concept-canvas-context-mode\">canvas context mode</span>\n+  <code>canvas</code> element's <span data-x=\"concept-canvas-context-mode\">canvas context\n+  mode</span>",
+    "path": "source",
+    "commit_id": "7e54b7d0214083c161e61d0e4499b474343b7572",
+    "original_commit_id": "1108fcb6901686825a543d3a391604107acc2e50",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "If you're gonna rewrap, pull the next line onto this one :P\n",
+    "created_at": "2016-03-02T23:18:21Z",
+    "updated_at": "2016-03-03T22:22:45Z",
+    "html_url": "https://github.com/whatwg/html/pull/790#discussion_r54810217",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/790",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54810217"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/790#discussion_r54810217"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/790"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54810217/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 59581,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 101,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54810633",
+    "pull_request_review_id": null,
+    "id": 54810633,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0ODEwNjMz",
+    "diff_hunk": "@@ -60353,15 +60098,6 @@ interface <dfn>Path2D</dfn> {\n \n    </dd>\n \n-   <dt><var>context</var> = new <code data-x=\"dom-context-2d\">CanvasRenderingContext2D</code>( [ <var>width</var>, <var>height</var> ] )</dt>\n-\n-   <dd>\n-\n-    <p>Returns an unbound <code>CanvasRenderingContext2D</code> object with an implied bitmap with\n-    the given dimensions in CSS pixels (300x150, if the arguments are omitted).</p>\n-\n-   </dd>\n-\n    <dt><var>context</var> . <code subdfn data-x=\"dom-context-2d-canvas\">canvas</code></dt>",
+    "path": "source",
+    "commit_id": "7e54b7d0214083c161e61d0e4499b474343b7572",
+    "original_commit_id": "1108fcb6901686825a543d3a391604107acc2e50",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The `dd` following this has an \", if the rendering context was obtained using the getContext() method\" which can now be removed.\n",
+    "created_at": "2016-03-02T23:21:33Z",
+    "updated_at": "2016-03-03T22:22:45Z",
+    "html_url": "https://github.com/whatwg/html/pull/790#discussion_r54810633",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/790",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54810633"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/790#discussion_r54810633"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/790"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54810633/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 60101,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 422,
+    "position": 583,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54810675",
+    "pull_request_review_id": null,
+    "id": 54810675,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0ODEwNjc1",
+    "diff_hunk": "@@ -60383,64 +60119,41 @@ interface <dfn>Path2D</dfn> {\n \n    </dd>",
+    "path": "source",
+    "commit_id": "7e54b7d0214083c161e61d0e4499b474343b7572",
+    "original_commit_id": "1108fcb6901686825a543d3a391604107acc2e50",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Similarly context.width/height's dd has \"If the rendering context is bound to a canvas, \"\n",
+    "created_at": "2016-03-02T23:21:55Z",
+    "updated_at": "2016-03-03T22:22:45Z",
+    "html_url": "https://github.com/whatwg/html/pull/790#discussion_r54810675",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/790",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54810675"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/790#discussion_r54810675"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/790"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54810675/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 60120,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 427,
+    "position": 572,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54810743",
+    "pull_request_review_id": null,
+    "id": 54810743,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0ODEwNzQz",
+    "diff_hunk": "@@ -60383,64 +60119,41 @@ interface <dfn>Path2D</dfn> {\n \n    </dd>\n \n-   <dt><var>context</var> . <code subdfn data-x=\"dom-context-2d-commit\">commit</code>()</dt>\n-\n-   <dd>\n-\n-    <p>If the rendering context is bound to a <code>canvas</code>, display the current frame.</p>\n-\n-   </dd>\n-\n   </dl>\n \n   <div w-nodev>\n \n-  <p>A <code>CanvasRenderingContext2D</code> object can be obtained in two ways: the <code\n-  data-x=\"dom-canvas-getContext\">getContext()</code> method on a <code>canvas</code> element (which\n-  invokes the <span>2D context creation algorithm</span>), and the <code\n-  data-x=\"dom-context-2d\">CanvasRenderingContext2D()</code> constructor.</p>\n-\n-  <p>A <code>CanvasRenderingContext2D</code> object has a <dfn>scratch bitmap</dfn> and can be bound\n-  to an <dfn>output bitmap</dfn>. These are initialised when the object is created, and can be\n-  subsequently adjusted when the rendering context is <span\n-  data-x=\"concept-canvas-binding-steps\">bound</span> or <span\n-  data-x=\"concept-canvas-unbinding-steps\">unbound</span>. In some cases, these bitmaps are the same\n-  underlying bitmap. In general, the <span>scratch bitmap</span> is what scripts interact with, and\n-  the <span>output bitmap</span> is what is being displayed. These bitmaps always have the same\n-  dimensions.</p>\n+  <p>A <code>CanvasRenderingContext2D</code> object has an <dfn>output bitmap</dfn> that\n+  initialised when the object is created",
+    "path": "source",
+    "commit_id": "7e54b7d0214083c161e61d0e4499b474343b7572",
+    "original_commit_id": "1108fcb6901686825a543d3a391604107acc2e50",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Missing period and `</p>`. And, \"is initialised\", not \"initialised\".\n",
+    "created_at": "2016-03-02T23:22:30Z",
+    "updated_at": "2016-03-03T22:22:45Z",
+    "html_url": "https://github.com/whatwg/html/pull/790#discussion_r54810743",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/790",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54810743"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/790#discussion_r54810743"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/790"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54810743/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 60127,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 455,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54810846",
+    "pull_request_review_id": null,
+    "id": 54810846,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0ODEwODQ2",
+    "diff_hunk": "@@ -60477,9 +60191,7 @@ interface <dfn>Path2D</dfn> {\n    <li><p>Initialise its <code data-x=\"dom-context-2d-canvas\">canvas</code> attribute to point to\n    <var>target</var>.</p></li>\n \n-   <li><p>Let the new <code>CanvasRenderingContext2D</code> object's <span>output bitmap</span> and\n-   <span>scratch bitmap</span> both be the same bitmap as <var>target</var>'s bitmap (so\n-   that they are shared).</p></li>\n+   <li><p>Let the new <code>CanvasRenderingContext2D</code> object's <span>output bitmap</span> be the same bitmap as <var>target</var>'s bitmap (so that they are shared).</p></li>",
+    "path": "source",
+    "commit_id": "7e54b7d0214083c161e61d0e4499b474343b7572",
+    "original_commit_id": "1108fcb6901686825a543d3a391604107acc2e50",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "wrapping\n",
+    "created_at": "2016-03-02T23:23:27Z",
+    "updated_at": "2016-03-03T22:22:45Z",
+    "html_url": "https://github.com/whatwg/html/pull/790#discussion_r54810846",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/790",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54810846"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/790#discussion_r54810846"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/790"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54810846/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 60194,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 543,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54811092",
+    "pull_request_review_id": null,
+    "id": 54811092,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0ODExMDky",
+    "diff_hunk": "@@ -64081,29 +63629,8 @@ v6DVT (also check for '- -' bits in the part above) -->\n \n    </li>\n \n-   <li>\n-\n-    <p>Optionally, run the appropriate step from the following list:</p>\n-\n-    <dl>\n-\n-     <dt>If the <code>CanvasRenderingContext2D</code> object's <span\n-     data-x=\"concept-canvas-context-bitmap-mode\">context bitmap mode</span> is <span\n-     data-x=\"concept-canvas-fixed\">fixed</span></dt>\n-\n-     <dd><p><a href=\"#inform\">Inform the user</a> that the focus is at the location given by the\n-     intended path. User agents may wait until the next time the <span>event loop</span> reaches its\n-     <i>update the rendering</i> step to optionally inform the user.</p></dd>\n-\n-     <dt>Otherwise</dt>\n-\n-     <dd><p>Add instructions to the <span>scratch bitmap</span>'s <span>list of pending interface",
+    "path": "source",
+    "commit_id": "7e54b7d0214083c161e61d0e4499b474343b7572",
+    "original_commit_id": "1108fcb6901686825a543d3a391604107acc2e50",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Hmm, was the list of pending interface actions something only applicable to the CanvasProxy setup? I didn't see it mentioned in the commit message exactly. Why not move it to the CanvasRenderingContext2D?\n",
+    "created_at": "2016-03-02T23:25:26Z",
+    "updated_at": "2016-03-03T22:22:45Z",
+    "html_url": "https://github.com/whatwg/html/pull/790#discussion_r54811092",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/790",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54811092"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/790#discussion_r54811092"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/790"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54811092/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 64100,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 972,
+    "position": 1146,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54811112",
+    "pull_request_review_id": null,
+    "id": 54811112,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0ODExMTEy",
+    "diff_hunk": "@@ -64081,29 +63629,8 @@ v6DVT (also check for '- -' bits in the part above) -->\n \n    </li>\n \n-   <li>\n-\n-    <p>Optionally, run the appropriate step from the following list:</p>\n-\n-    <dl>\n-\n-     <dt>If the <code>CanvasRenderingContext2D</code> object's <span\n-     data-x=\"concept-canvas-context-bitmap-mode\">context bitmap mode</span> is <span\n-     data-x=\"concept-canvas-fixed\">fixed</span></dt>\n-\n-     <dd><p><a href=\"#inform\">Inform the user</a> that the focus is at the location given by the\n-     intended path. User agents may wait until the next time the <span>event loop</span> reaches its\n-     <i>update the rendering</i> step to optionally inform the user.</p></dd>\n-\n-     <dt>Otherwise</dt>\n-\n-     <dd><p>Add instructions to the <span>scratch bitmap</span>'s <span>list of pending interface\n-     actions</span> that <a href=\"#inform\">inform the user</a> that the focus is at the location of\n-     the bitmap given by the intended path.</p></dd>\n-\n-    </dl>\n-\n-   </li>\n+   <li><p><a href=\"#inform\">Inform the user</a> that the focus is at the location given by the\n+   intended path. User agents may wait until the next time the <span>event loop</span> reaches its <i>update the rendering</i> step to optionally inform the user.</p></li>",
+    "path": "source",
+    "commit_id": "7e54b7d0214083c161e61d0e4499b474343b7572",
+    "original_commit_id": "1108fcb6901686825a543d3a391604107acc2e50",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "wrapping\n",
+    "created_at": "2016-03-02T23:25:32Z",
+    "updated_at": "2016-03-03T22:22:45Z",
+    "html_url": "https://github.com/whatwg/html/pull/790#discussion_r54811112",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/790",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54811112"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/790#discussion_r54811112"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/790"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54811112/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 63633,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 980,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54811175",
+    "pull_request_review_id": null,
+    "id": 54811175,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0ODExMTc1",
+    "diff_hunk": "@@ -60671,43 +60249,25 @@ interface <dfn>Path2D</dfn> {\n \n    <li><p><span>Reset the rendering context to its default state</span>.</p></li>\n \n-   <li><p>Clear the <span>scratch bitmap</span>'s <span>hit region list</span> and its <span>list of\n-   pending interface actions</span>.</p></li>\n+   <li><p>Clear the rendering context's <span>hit region list</span>.</p></li>\n \n-   <li><p>Resize the <span>scratch bitmap</span> to the new <var>width</var> and <var>height</var> and clear it to fully transparent black.</p></li>\n-\n-   <li><p>If the rendering context has an <span>output bitmap</span>, and the <span>scratch\n-   bitmap</span> is a different bitmap than the <span>output bitmap</span>, then resize the\n-   <span>output bitmap</span> to the new <var>width</var> and <var>height</var>\n+   <li><p>Resize the <span>output bitmap</span> to the new <var>width</var> and <var>height</var>\n    and clear it to fully transparent black.</p></li>\n \n-   <li>\n-\n-    <p>If the rendering context's <span data-x=\"concept-canvas-context-bitmap-mode\">context bitmap\n-    mode</span> is <span data-x=\"concept-canvas-fixed\">fixed</span>, then run these substeps:</p>\n-\n-    <ol>\n-\n-     <li><p>Let <var>canvas</var> be the <code>canvas</code> element to which the rendering\n-     context's <code data-x=\"dom-context-2d-canvas\">canvas</code> attribute was initialised.</p></li>\n-\n-     <li><p>If the rendering context's <span data-x=\"concept-canvas-context-bitmap-mode\">context\n-     bitmap mode</span> is <span data-x=\"concept-canvas-fixed\">fixed</span> and the numeric value of\n-     the <var>canvas</var>' <code data-x=\"attr-canvas-width\">width</code> content attribute\n-     differs from <var>width</var>, then set <var>canvas</var>' <code\n-     data-x=\"attr-canvas-width\">width</code> content attribute to the shortest possible string\n-     representing <var>width</var> as a <span>valid non-negative integer</span>.</p></li>\n-\n-     <li><p>If the rendering context's <span data-x=\"concept-canvas-context-bitmap-mode\">context\n-     bitmap mode</span> is <span data-x=\"concept-canvas-fixed\">fixed</span> and the numeric value of\n-     the <var>canvas</var>' <code data-x=\"attr-canvas-height\">height</code> content attribute\n-     differs from <var>height</var>, then set <var>canvas</var>' <code\n-     data-x=\"attr-canvas-height\">height</code> content attribute to the shortest possible string\n-     representing <var>height</var> as a <span>valid non-negative integer</span>.</p></li>\n+   <li><p>Let <var>canvas</var> be the <code>canvas</code> element to which the rendering\n+   context's <code data-x=\"dom-context-2d-canvas\">canvas</code> attribute was initialised.</p></li>\n \n-    </ol>\n+   <li><p>If the numeric value of the <var>canvas</var>' <code\n+   data-x=\"attr-canvas-width\">width</code> content attribute differs from <var>width</var>, then\n+   set <var>canvas</var>' <code data-x=\"attr-canvas-width\">width</code> content attribute to the",
+    "path": "source",
+    "commit_id": "7e54b7d0214083c161e61d0e4499b474343b7572",
+    "original_commit_id": "1108fcb6901686825a543d3a391604107acc2e50",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "'s, not '\n",
+    "created_at": "2016-03-02T23:26:02Z",
+    "updated_at": "2016-03-03T22:22:45Z",
+    "html_url": "https://github.com/whatwg/html/pull/790#discussion_r54811175",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/790",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54811175"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/790#discussion_r54811175"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/790"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54811175/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 60262,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 740,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54811196",
+    "pull_request_review_id": null,
+    "id": 54811196,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0ODExMTk2",
+    "diff_hunk": "@@ -60671,43 +60249,25 @@ interface <dfn>Path2D</dfn> {\n \n    <li><p><span>Reset the rendering context to its default state</span>.</p></li>\n \n-   <li><p>Clear the <span>scratch bitmap</span>'s <span>hit region list</span> and its <span>list of\n-   pending interface actions</span>.</p></li>\n+   <li><p>Clear the rendering context's <span>hit region list</span>.</p></li>\n \n-   <li><p>Resize the <span>scratch bitmap</span> to the new <var>width</var> and <var>height</var> and clear it to fully transparent black.</p></li>\n-\n-   <li><p>If the rendering context has an <span>output bitmap</span>, and the <span>scratch\n-   bitmap</span> is a different bitmap than the <span>output bitmap</span>, then resize the\n-   <span>output bitmap</span> to the new <var>width</var> and <var>height</var>\n+   <li><p>Resize the <span>output bitmap</span> to the new <var>width</var> and <var>height</var>\n    and clear it to fully transparent black.</p></li>\n \n-   <li>\n-\n-    <p>If the rendering context's <span data-x=\"concept-canvas-context-bitmap-mode\">context bitmap\n-    mode</span> is <span data-x=\"concept-canvas-fixed\">fixed</span>, then run these substeps:</p>\n-\n-    <ol>\n-\n-     <li><p>Let <var>canvas</var> be the <code>canvas</code> element to which the rendering\n-     context's <code data-x=\"dom-context-2d-canvas\">canvas</code> attribute was initialised.</p></li>\n-\n-     <li><p>If the rendering context's <span data-x=\"concept-canvas-context-bitmap-mode\">context\n-     bitmap mode</span> is <span data-x=\"concept-canvas-fixed\">fixed</span> and the numeric value of\n-     the <var>canvas</var>' <code data-x=\"attr-canvas-width\">width</code> content attribute\n-     differs from <var>width</var>, then set <var>canvas</var>' <code\n-     data-x=\"attr-canvas-width\">width</code> content attribute to the shortest possible string\n-     representing <var>width</var> as a <span>valid non-negative integer</span>.</p></li>\n-\n-     <li><p>If the rendering context's <span data-x=\"concept-canvas-context-bitmap-mode\">context\n-     bitmap mode</span> is <span data-x=\"concept-canvas-fixed\">fixed</span> and the numeric value of\n-     the <var>canvas</var>' <code data-x=\"attr-canvas-height\">height</code> content attribute\n-     differs from <var>height</var>, then set <var>canvas</var>' <code\n-     data-x=\"attr-canvas-height\">height</code> content attribute to the shortest possible string\n-     representing <var>height</var> as a <span>valid non-negative integer</span>.</p></li>\n+   <li><p>Let <var>canvas</var> be the <code>canvas</code> element to which the rendering\n+   context's <code data-x=\"dom-context-2d-canvas\">canvas</code> attribute was initialised.</p></li>\n \n-    </ol>\n+   <li><p>If the numeric value of the <var>canvas</var>' <code\n+   data-x=\"attr-canvas-width\">width</code> content attribute differs from <var>width</var>, then\n+   set <var>canvas</var>' <code data-x=\"attr-canvas-width\">width</code> content attribute to the\n+   shortest possible string representing <var>width</var> as a <span>valid non-negative\n+   integer</span>.</p></li>\n \n-   </li>\n+   <li><p>If the numeric value of the <var>canvas</var>' <code",
+    "path": "source",
+    "commit_id": "7e54b7d0214083c161e61d0e4499b474343b7572",
+    "original_commit_id": "1108fcb6901686825a543d3a391604107acc2e50",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "'s, not '\n",
+    "created_at": "2016-03-02T23:26:14Z",
+    "updated_at": "2016-03-03T22:22:45Z",
+    "html_url": "https://github.com/whatwg/html/pull/790#discussion_r54811196",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/790",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54811196"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/790#discussion_r54811196"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/790"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54811196/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 60266,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 745,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54811214",
+    "pull_request_review_id": null,
+    "id": 54811214,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0ODExMjE0",
+    "diff_hunk": "@@ -60671,43 +60249,25 @@ interface <dfn>Path2D</dfn> {\n \n    <li><p><span>Reset the rendering context to its default state</span>.</p></li>\n \n-   <li><p>Clear the <span>scratch bitmap</span>'s <span>hit region list</span> and its <span>list of\n-   pending interface actions</span>.</p></li>\n+   <li><p>Clear the rendering context's <span>hit region list</span>.</p></li>\n \n-   <li><p>Resize the <span>scratch bitmap</span> to the new <var>width</var> and <var>height</var> and clear it to fully transparent black.</p></li>\n-\n-   <li><p>If the rendering context has an <span>output bitmap</span>, and the <span>scratch\n-   bitmap</span> is a different bitmap than the <span>output bitmap</span>, then resize the\n-   <span>output bitmap</span> to the new <var>width</var> and <var>height</var>\n+   <li><p>Resize the <span>output bitmap</span> to the new <var>width</var> and <var>height</var>\n    and clear it to fully transparent black.</p></li>\n \n-   <li>\n-\n-    <p>If the rendering context's <span data-x=\"concept-canvas-context-bitmap-mode\">context bitmap\n-    mode</span> is <span data-x=\"concept-canvas-fixed\">fixed</span>, then run these substeps:</p>\n-\n-    <ol>\n-\n-     <li><p>Let <var>canvas</var> be the <code>canvas</code> element to which the rendering\n-     context's <code data-x=\"dom-context-2d-canvas\">canvas</code> attribute was initialised.</p></li>\n-\n-     <li><p>If the rendering context's <span data-x=\"concept-canvas-context-bitmap-mode\">context\n-     bitmap mode</span> is <span data-x=\"concept-canvas-fixed\">fixed</span> and the numeric value of\n-     the <var>canvas</var>' <code data-x=\"attr-canvas-width\">width</code> content attribute\n-     differs from <var>width</var>, then set <var>canvas</var>' <code\n-     data-x=\"attr-canvas-width\">width</code> content attribute to the shortest possible string\n-     representing <var>width</var> as a <span>valid non-negative integer</span>.</p></li>\n-\n-     <li><p>If the rendering context's <span data-x=\"concept-canvas-context-bitmap-mode\">context\n-     bitmap mode</span> is <span data-x=\"concept-canvas-fixed\">fixed</span> and the numeric value of\n-     the <var>canvas</var>' <code data-x=\"attr-canvas-height\">height</code> content attribute\n-     differs from <var>height</var>, then set <var>canvas</var>' <code\n-     data-x=\"attr-canvas-height\">height</code> content attribute to the shortest possible string\n-     representing <var>height</var> as a <span>valid non-negative integer</span>.</p></li>\n+   <li><p>Let <var>canvas</var> be the <code>canvas</code> element to which the rendering\n+   context's <code data-x=\"dom-context-2d-canvas\">canvas</code> attribute was initialised.</p></li>\n \n-    </ol>\n+   <li><p>If the numeric value of the <var>canvas</var>' <code\n+   data-x=\"attr-canvas-width\">width</code> content attribute differs from <var>width</var>, then\n+   set <var>canvas</var>' <code data-x=\"attr-canvas-width\">width</code> content attribute to the\n+   shortest possible string representing <var>width</var> as a <span>valid non-negative\n+   integer</span>.</p></li>\n \n-   </li>\n+   <li><p>If the numeric value of the <var>canvas</var>' <code\n+   data-x=\"attr-canvas-height\">height</code> content attribute differs from <var>height</var>,\n+   then set <var>canvas</var>' <code data-x=\"attr-canvas-height\">height</code> content attribute",
+    "path": "source",
+    "commit_id": "7e54b7d0214083c161e61d0e4499b474343b7572",
+    "original_commit_id": "1108fcb6901686825a543d3a391604107acc2e50",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "'s, not '\n",
+    "created_at": "2016-03-02T23:26:24Z",
+    "updated_at": "2016-03-03T22:22:45Z",
+    "html_url": "https://github.com/whatwg/html/pull/790#discussion_r54811214",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/790",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54811214"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/790#discussion_r54811214"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/790"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54811214/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 60268,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 747,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54811333",
+    "pull_request_review_id": null,
+    "id": 54811333,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0ODExMzMz",
+    "diff_hunk": "@@ -60898,19 +60456,12 @@ context.fillRect(100,0,50,50); // only this square remains</pre>\n \n   <!-- NON-NORMATIVE SECTION -->\n \n-  <p>Although the way the specification is written it might sound like an implementation needs to\n-  track up to four bitmaps per canvas or rendering context &mdash; one <span>scratch bitmap</span>,\n-  one <span>output bitmap</span> for the rendering context, one bitmap for the <code>canvas</code>,\n-  and one bitmap for the actually currently rendered image &mdash; user agents can in fact generally\n-  optimise this to only one or two.</p>\n-\n-  <p>The <span>scratch bitmap</span>, when it isn't the same bitmap as the <span>output\n-  bitmap</span>, is only directly observable if it is read, and therefore implementations can,\n-  instead of updating this bitmap, merely remember the sequence of drawing operations that have been\n-  applied to it until such time as the bitmap's actual data is needed (for example because of a call\n-  to <code data-x=\"dom-context-2d-commit\">commit()</code>, <code\n-  data-x=\"dom-context-2d-drawImage\">drawImage()</code>, or the <code data-x=\"dom-createImageBitmap\">createImageBitmap()</code>\n-  factory method). In many cases, this will be more memory efficient.</p>\n+  <p>The <span>output bitmap</span>, when it is only directly observable if it is read,",
+    "path": "source",
+    "commit_id": "7e54b7d0214083c161e61d0e4499b474343b7572",
+    "original_commit_id": "1108fcb6901686825a543d3a391604107acc2e50",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This is awkward. Try \"The output bitmap is only directly observable if it is read. Implementations can, instead of...\"\n",
+    "created_at": "2016-03-02T23:27:40Z",
+    "updated_at": "2016-03-03T22:22:45Z",
+    "html_url": "https://github.com/whatwg/html/pull/790#discussion_r54811333",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/790",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54811333"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/790#discussion_r54811333"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/790"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54811333/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 60459,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 853,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54811421",
+    "pull_request_review_id": null,
+    "id": 54811421,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0ODExNDIx",
+    "diff_hunk": "@@ -60898,19 +60456,12 @@ context.fillRect(100,0,50,50); // only this square remains</pre>\n \n   <!-- NON-NORMATIVE SECTION -->\n \n-  <p>Although the way the specification is written it might sound like an implementation needs to",
+    "path": "source",
+    "commit_id": "7e54b7d0214083c161e61d0e4499b474343b7572",
+    "original_commit_id": "1108fcb6901686825a543d3a391604107acc2e50",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Would it make sense to keep this paragraph and just say three instead of four?\n",
+    "created_at": "2016-03-02T23:28:21Z",
+    "updated_at": "2016-03-03T22:22:45Z",
+    "html_url": "https://github.com/whatwg/html/pull/790#discussion_r54811421",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/790",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54811421"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/790#discussion_r54811421"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/790"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54811421/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 60901,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 840,
+    "position": 1014,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54851467",
+    "pull_request_review_id": null,
+    "id": 54851467,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0ODUxNDY3",
+    "diff_hunk": "@@ -60043,9 +59792,7 @@ dictionary <dfn>CanvasRenderingContext2DSettings</dfn> {\n \n enum <dfn>ImageSmoothingQuality</dfn> { \"<span data-x=\"dom-context-2d-imageSmoothingQuality-low\">low</span>\", \"<span data-x=\"dom-context-2d-imageSmoothingQuality-medium\">medium</span>\", \"<span data-x=\"dom-context-2d-imageSmoothingQuality-high\">high</span>\" };\n \n-[<span data-x=\"dom-context-2d\">Constructor</span>(),\n- <span data-x=\"dom-context-2d\">Constructor</span>(unsigned long width, unsigned long height),\n- Exposed=(Window,Worker)]\n+[Exposed=(Window,Worker)]",
+    "path": "source",
+    "commit_id": "7e54b7d0214083c161e61d0e4499b474343b7572",
+    "original_commit_id": "1108fcb6901686825a543d3a391604107acc2e50",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This should probably be just Window right or removed altogether?\n",
+    "created_at": "2016-03-03T08:58:47Z",
+    "updated_at": "2016-03-03T22:22:45Z",
+    "html_url": "https://github.com/whatwg/html/pull/790#discussion_r54851467",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/790",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54851467"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/790#discussion_r54851467"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/790"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54851467/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 59795,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 396,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54942465",
+    "pull_request_review_id": null,
+    "id": 54942465,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0OTQyNDY1",
+    "diff_hunk": "@@ -64081,29 +63629,8 @@ v6DVT (also check for '- -' bits in the part above) -->\n \n    </li>\n \n-   <li>\n-\n-    <p>Optionally, run the appropriate step from the following list:</p>\n-\n-    <dl>\n-\n-     <dt>If the <code>CanvasRenderingContext2D</code> object's <span\n-     data-x=\"concept-canvas-context-bitmap-mode\">context bitmap mode</span> is <span\n-     data-x=\"concept-canvas-fixed\">fixed</span></dt>\n-\n-     <dd><p><a href=\"#inform\">Inform the user</a> that the focus is at the location given by the\n-     intended path. User agents may wait until the next time the <span>event loop</span> reaches its\n-     <i>update the rendering</i> step to optionally inform the user.</p></dd>\n-\n-     <dt>Otherwise</dt>\n-\n-     <dd><p>Add instructions to the <span>scratch bitmap</span>'s <span>list of pending interface",
+    "path": "source",
+    "commit_id": "7e54b7d0214083c161e61d0e4499b474343b7572",
+    "original_commit_id": "1108fcb6901686825a543d3a391604107acc2e50",
+    "user": {
+      "login": "junov",
+      "id": 2607864,
+      "node_id": "MDQ6VXNlcjI2MDc4NjQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2607864?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/junov",
+      "html_url": "https://github.com/junov",
+      "followers_url": "https://api.github.com/users/junov/followers",
+      "following_url": "https://api.github.com/users/junov/following{/other_user}",
+      "gists_url": "https://api.github.com/users/junov/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/junov/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/junov/subscriptions",
+      "organizations_url": "https://api.github.com/users/junov/orgs",
+      "repos_url": "https://api.github.com/users/junov/repos",
+      "events_url": "https://api.github.com/users/junov/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/junov/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "On Wed, Mar 2, 2016 at 6:25 PM, Domenic Denicola notifications@github.com\nwrote:\n\n> Hmm, was the list of pending interface actions something only applicable\n> to the CanvasProxy setup? I didn't see it mentioned in the commit message\n> exactly. Why not move it to the CanvasRenderingContext2D?\n> \n> Actually, it is mentionned in commit(): in steps 4 and 5 of the \"commit the\n> scratch bitmap\" algorithm, which is used by commit().\n\nThe idea of the actions being deferred by storing them into a list was to\nsynchronise the user interface actions with the presentation of canvas\ncontent, which happens at commit() time.  Without CanvasProxy, the user\ninterface actions no longer need a formal deferral mechanism.\n\n—\n\n> Reply to this email directly or view it on GitHub\n> https://github.com/whatwg/html/pull/790/files#r54811092.\n",
+    "created_at": "2016-03-03T20:23:44Z",
+    "updated_at": "2016-03-03T22:22:45Z",
+    "html_url": "https://github.com/whatwg/html/pull/790#discussion_r54942465",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/790",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54942465"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/790#discussion_r54942465"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/790"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54942465/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 64100,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 972,
+    "position": 1146,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54942678",
+    "pull_request_review_id": null,
+    "id": 54942678,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0OTQyNjc4",
+    "diff_hunk": "@@ -64081,29 +63629,8 @@ v6DVT (also check for '- -' bits in the part above) -->\n \n    </li>\n \n-   <li>\n-\n-    <p>Optionally, run the appropriate step from the following list:</p>\n-\n-    <dl>\n-\n-     <dt>If the <code>CanvasRenderingContext2D</code> object's <span\n-     data-x=\"concept-canvas-context-bitmap-mode\">context bitmap mode</span> is <span\n-     data-x=\"concept-canvas-fixed\">fixed</span></dt>\n-\n-     <dd><p><a href=\"#inform\">Inform the user</a> that the focus is at the location given by the\n-     intended path. User agents may wait until the next time the <span>event loop</span> reaches its\n-     <i>update the rendering</i> step to optionally inform the user.</p></dd>\n-\n-     <dt>Otherwise</dt>\n-\n-     <dd><p>Add instructions to the <span>scratch bitmap</span>'s <span>list of pending interface",
+    "path": "source",
+    "commit_id": "7e54b7d0214083c161e61d0e4499b474343b7572",
+    "original_commit_id": "1108fcb6901686825a543d3a391604107acc2e50",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Got it, thanks! That makes sense.\n",
+    "created_at": "2016-03-03T20:25:13Z",
+    "updated_at": "2016-03-03T22:22:45Z",
+    "html_url": "https://github.com/whatwg/html/pull/790#discussion_r54942678",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/790",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54942678"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/790#discussion_r54942678"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/790"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54942678/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 64100,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 972,
+    "position": 1146,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54943365",
+    "pull_request_review_id": null,
+    "id": 54943365,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0OTQzMzY1",
+    "diff_hunk": "@@ -60671,43 +60249,25 @@ interface <dfn>Path2D</dfn> {\n \n    <li><p><span>Reset the rendering context to its default state</span>.</p></li>\n \n-   <li><p>Clear the <span>scratch bitmap</span>'s <span>hit region list</span> and its <span>list of\n-   pending interface actions</span>.</p></li>\n+   <li><p>Clear the rendering context's <span>hit region list</span>.</p></li>\n \n-   <li><p>Resize the <span>scratch bitmap</span> to the new <var>width</var> and <var>height</var> and clear it to fully transparent black.</p></li>\n-\n-   <li><p>If the rendering context has an <span>output bitmap</span>, and the <span>scratch\n-   bitmap</span> is a different bitmap than the <span>output bitmap</span>, then resize the\n-   <span>output bitmap</span> to the new <var>width</var> and <var>height</var>\n+   <li><p>Resize the <span>output bitmap</span> to the new <var>width</var> and <var>height</var>\n    and clear it to fully transparent black.</p></li>\n \n-   <li>\n-\n-    <p>If the rendering context's <span data-x=\"concept-canvas-context-bitmap-mode\">context bitmap\n-    mode</span> is <span data-x=\"concept-canvas-fixed\">fixed</span>, then run these substeps:</p>\n-\n-    <ol>\n-\n-     <li><p>Let <var>canvas</var> be the <code>canvas</code> element to which the rendering\n-     context's <code data-x=\"dom-context-2d-canvas\">canvas</code> attribute was initialised.</p></li>\n-\n-     <li><p>If the rendering context's <span data-x=\"concept-canvas-context-bitmap-mode\">context\n-     bitmap mode</span> is <span data-x=\"concept-canvas-fixed\">fixed</span> and the numeric value of\n-     the <var>canvas</var>' <code data-x=\"attr-canvas-width\">width</code> content attribute\n-     differs from <var>width</var>, then set <var>canvas</var>' <code\n-     data-x=\"attr-canvas-width\">width</code> content attribute to the shortest possible string\n-     representing <var>width</var> as a <span>valid non-negative integer</span>.</p></li>\n-\n-     <li><p>If the rendering context's <span data-x=\"concept-canvas-context-bitmap-mode\">context\n-     bitmap mode</span> is <span data-x=\"concept-canvas-fixed\">fixed</span> and the numeric value of\n-     the <var>canvas</var>' <code data-x=\"attr-canvas-height\">height</code> content attribute\n-     differs from <var>height</var>, then set <var>canvas</var>' <code\n-     data-x=\"attr-canvas-height\">height</code> content attribute to the shortest possible string\n-     representing <var>height</var> as a <span>valid non-negative integer</span>.</p></li>\n+   <li><p>Let <var>canvas</var> be the <code>canvas</code> element to which the rendering\n+   context's <code data-x=\"dom-context-2d-canvas\">canvas</code> attribute was initialised.</p></li>\n \n-    </ol>\n+   <li><p>If the numeric value of the <var>canvas</var>' <code\n+   data-x=\"attr-canvas-width\">width</code> content attribute differs from <var>width</var>, then\n+   set <var>canvas</var>' <code data-x=\"attr-canvas-width\">width</code> content attribute to the",
+    "path": "source",
+    "commit_id": "7e54b7d0214083c161e61d0e4499b474343b7572",
+    "original_commit_id": "1108fcb6901686825a543d3a391604107acc2e50",
+    "user": {
+      "login": "junov",
+      "id": 2607864,
+      "node_id": "MDQ6VXNlcjI2MDc4NjQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2607864?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/junov",
+      "html_url": "https://github.com/junov",
+      "followers_url": "https://api.github.com/users/junov/followers",
+      "following_url": "https://api.github.com/users/junov/following{/other_user}",
+      "gists_url": "https://api.github.com/users/junov/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/junov/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/junov/subscriptions",
+      "organizations_url": "https://api.github.com/users/junov/orgs",
+      "repos_url": "https://api.github.com/users/junov/repos",
+      "events_url": "https://api.github.com/users/junov/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/junov/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "On Wed, Mar 2, 2016 at 6:26 PM, Domenic Denicola notifications@github.com\nwrote:\n\n> In source https://github.com/whatwg/html/pull/790#discussion_r54811175:\n> \n> > -    </ol>\n> > -   <li><p>If the numeric value of the <var>canvas</var>' <code\n> > -   data-x=\"attr-canvas-width\">width</code> content attribute differs from <var>width</var>, then\n> > -   set <var>canvas</var>' <code data-x=\"attr-canvas-width\">width</code> content attribute to the\n> \n> 's, not '\n> \n> \"To make a possessive of a word ending with an s, simply append an apostrophe. \"\n\nSource: http://ian.hixie.ch/bible/english\n\nI think I should remove the \"the\" in front of \"canvas\" though, since\nit is a name, not a noun.\n\n—\n\n> Reply to this email directly or view it on GitHub\n> https://github.com/whatwg/html/pull/790/files#r54811175.\n",
+    "created_at": "2016-03-03T20:30:20Z",
+    "updated_at": "2016-03-03T22:22:45Z",
+    "html_url": "https://github.com/whatwg/html/pull/790#discussion_r54943365",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/790",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54943365"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/790#discussion_r54943365"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/790"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54943365/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 60262,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 740,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54944102",
+    "pull_request_review_id": null,
+    "id": 54944102,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU0OTQ0MTAy",
+    "diff_hunk": "@@ -60671,43 +60249,25 @@ interface <dfn>Path2D</dfn> {\n \n    <li><p><span>Reset the rendering context to its default state</span>.</p></li>\n \n-   <li><p>Clear the <span>scratch bitmap</span>'s <span>hit region list</span> and its <span>list of\n-   pending interface actions</span>.</p></li>\n+   <li><p>Clear the rendering context's <span>hit region list</span>.</p></li>\n \n-   <li><p>Resize the <span>scratch bitmap</span> to the new <var>width</var> and <var>height</var> and clear it to fully transparent black.</p></li>\n-\n-   <li><p>If the rendering context has an <span>output bitmap</span>, and the <span>scratch\n-   bitmap</span> is a different bitmap than the <span>output bitmap</span>, then resize the\n-   <span>output bitmap</span> to the new <var>width</var> and <var>height</var>\n+   <li><p>Resize the <span>output bitmap</span> to the new <var>width</var> and <var>height</var>\n    and clear it to fully transparent black.</p></li>\n \n-   <li>\n-\n-    <p>If the rendering context's <span data-x=\"concept-canvas-context-bitmap-mode\">context bitmap\n-    mode</span> is <span data-x=\"concept-canvas-fixed\">fixed</span>, then run these substeps:</p>\n-\n-    <ol>\n-\n-     <li><p>Let <var>canvas</var> be the <code>canvas</code> element to which the rendering\n-     context's <code data-x=\"dom-context-2d-canvas\">canvas</code> attribute was initialised.</p></li>\n-\n-     <li><p>If the rendering context's <span data-x=\"concept-canvas-context-bitmap-mode\">context\n-     bitmap mode</span> is <span data-x=\"concept-canvas-fixed\">fixed</span> and the numeric value of\n-     the <var>canvas</var>' <code data-x=\"attr-canvas-width\">width</code> content attribute\n-     differs from <var>width</var>, then set <var>canvas</var>' <code\n-     data-x=\"attr-canvas-width\">width</code> content attribute to the shortest possible string\n-     representing <var>width</var> as a <span>valid non-negative integer</span>.</p></li>\n-\n-     <li><p>If the rendering context's <span data-x=\"concept-canvas-context-bitmap-mode\">context\n-     bitmap mode</span> is <span data-x=\"concept-canvas-fixed\">fixed</span> and the numeric value of\n-     the <var>canvas</var>' <code data-x=\"attr-canvas-height\">height</code> content attribute\n-     differs from <var>height</var>, then set <var>canvas</var>' <code\n-     data-x=\"attr-canvas-height\">height</code> content attribute to the shortest possible string\n-     representing <var>height</var> as a <span>valid non-negative integer</span>.</p></li>\n+   <li><p>Let <var>canvas</var> be the <code>canvas</code> element to which the rendering\n+   context's <code data-x=\"dom-context-2d-canvas\">canvas</code> attribute was initialised.</p></li>\n \n-    </ol>\n+   <li><p>If the numeric value of the <var>canvas</var>' <code\n+   data-x=\"attr-canvas-width\">width</code> content attribute differs from <var>width</var>, then\n+   set <var>canvas</var>' <code data-x=\"attr-canvas-width\">width</code> content attribute to the",
+    "path": "source",
+    "commit_id": "7e54b7d0214083c161e61d0e4499b474343b7572",
+    "original_commit_id": "1108fcb6901686825a543d3a391604107acc2e50",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Oh damn, and I hounded @annevk on that one too in another PR :(. That english guidance would be clearer if it used a non-plural example though.\n\nRegardless, right now the spec pretty consistently uses 's, so we should probably stick with that :(. Search for `s's` and there's 28 hits, 27 of which appear to be real and 3 of which (CSS's x2, template contents's) seem to be from Hixie. There are a few instances of `s'` that are for non-plurals, but they're rare and almost all canvas-related.\n",
+    "created_at": "2016-03-03T20:35:38Z",
+    "updated_at": "2016-03-03T22:22:45Z",
+    "html_url": "https://github.com/whatwg/html/pull/790#discussion_r54944102",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/790",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/54944102"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/790#discussion_r54944102"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/790"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/54944102/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 60262,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 740,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

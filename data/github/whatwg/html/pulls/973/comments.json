@@ -1,0 +1,144 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/59007378",
+    "pull_request_review_id": null,
+    "id": 59007378,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU5MDA3Mzc4",
+    "diff_hunk": "@@ -72948,6 +72948,45 @@ interface <dfn>ElementContentEditable</dfn> {\n   indicates that the element is editable if its parent is. The <i>false</i> state indicates that the\n   element is not editable.</p>\n \n+  <div class=\"example\">\n+   <p>For example, consider a page that has a <code>form</code> and a <code>textarea</code> to\n+   publish a new article, where the user is expected to write the article using HTML:</p>\n+\n+   <pre>&lt;form method=POST>\n+ &lt;fieldset>\n+  &lt;legend>New article&lt;/legend>\n+  &lt;textarea name=article>&amp;lt;p>Hello world.&amp;lt;/p>&lt;/textarea>\n+ &lt;/fieldset>\n+ &lt;p>&lt;button>Publish&lt;/button>&lt;/p>\n+&lt;/form></pre>\n+\n+   <p>When scripting is enabled, the <code>textarea</code> element could be replaced with a rich\n+   text field instead, using the <code data-x=\"attr-contenteditable\">contenteditable</code>\n+   attribute:</p>\n+\n+   <pre>&lt;form method=POST>\n+ &lt;fieldset>\n+  &lt;legend>New article&lt;/legend>\n+  &lt;textarea id=textarea name=article>&amp;lt;p>Hello world.&amp;lt;/p>&lt;/textarea>\n+  &lt;div id=div style=\"white-space: pre-wrap\" hidden>&lt;p>Hello world.&lt;/p>&lt;/div>\n+  &lt;script>\n+   textarea.hidden = true;\n+   div.hidden = false;\n+   div.contentEditable = \"true\";\n+   div.oninput = (e) => {\n+     textarea.value = div.innerHTML;\n+   };",
+    "path": "source",
+    "commit_id": "944049cd56ca2a0071e3f82f480ce853222612e0",
+    "original_commit_id": "15714ff009a343f47e3d4a889104b77cb240fcb5",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "We should probably use `document.getElementById()`.\n\nAlso, couldn't my example be the second non-functional but fun example?\n",
+    "created_at": "2016-04-08T10:36:42Z",
+    "updated_at": "2016-04-08T11:30:11Z",
+    "html_url": "https://github.com/whatwg/html/pull/973#discussion_r59007378",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/973",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/59007378"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/973#discussion_r59007378"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/973"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/59007378/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 72978,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 31,
+    "position": 33,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/59012051",
+    "pull_request_review_id": null,
+    "id": 59012051,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU5MDEyMDUx",
+    "diff_hunk": "@@ -72948,6 +72948,45 @@ interface <dfn>ElementContentEditable</dfn> {\n   indicates that the element is editable if its parent is. The <i>false</i> state indicates that the\n   element is not editable.</p>\n \n+  <div class=\"example\">\n+   <p>For example, consider a page that has a <code>form</code> and a <code>textarea</code> to\n+   publish a new article, where the user is expected to write the article using HTML:</p>\n+\n+   <pre>&lt;form method=POST>\n+ &lt;fieldset>\n+  &lt;legend>New article&lt;/legend>\n+  &lt;textarea name=article>&amp;lt;p>Hello world.&amp;lt;/p>&lt;/textarea>\n+ &lt;/fieldset>\n+ &lt;p>&lt;button>Publish&lt;/button>&lt;/p>\n+&lt;/form></pre>\n+\n+   <p>When scripting is enabled, the <code>textarea</code> element could be replaced with a rich\n+   text field instead, using the <code data-x=\"attr-contenteditable\">contenteditable</code>\n+   attribute:</p>\n+\n+   <pre>&lt;form method=POST>\n+ &lt;fieldset>\n+  &lt;legend>New article&lt;/legend>\n+  &lt;textarea id=textarea name=article>&amp;lt;p>Hello world.&amp;lt;/p>&lt;/textarea>\n+  &lt;div id=div style=\"white-space: pre-wrap\" hidden>&lt;p>Hello world.&lt;/p>&lt;/div>\n+  &lt;script>\n+   textarea.hidden = true;\n+   div.hidden = false;\n+   div.contentEditable = \"true\";\n+   div.oninput = (e) => {\n+     textarea.value = div.innerHTML;\n+   };",
+    "path": "source",
+    "commit_id": "944049cd56ca2a0071e3f82f480ce853222612e0",
+    "original_commit_id": "15714ff009a343f47e3d4a889104b77cb240fcb5",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Sure; done. Thanks.\n",
+    "created_at": "2016-04-08T11:32:07Z",
+    "updated_at": "2016-04-08T11:32:07Z",
+    "html_url": "https://github.com/whatwg/html/pull/973#discussion_r59012051",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/973",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/59012051"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/973#discussion_r59012051"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/973"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/59012051/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 72978,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 31,
+    "position": 33,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

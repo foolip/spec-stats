@@ -1,0 +1,73 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/65258397",
+    "pull_request_review_id": null,
+    "id": 65258397,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY1MjU4Mzk3",
+    "diff_hunk": "@@ -81482,26 +81482,16 @@ State: &lt;OUTPUT NAME=I>1&lt;/OUTPUT> &lt;INPUT VALUE=\"Increment\" TYPE=BUTTON O\n        <var>browsingContext</var>, then let <var>result</var> be undefined, and jump to the step\n        labeled <i>process result</i> below.</p></li>\n \n-       <li><p>Let <var>urlRecord</var> be the result of running the <span>URL parser</span> on the\n-       <span>URL</span> of <var>resource</var>.</p></li>\n+       <li><p>Let <var>urlString</var> be the result of running the <span\n+       data-x=\"concept-url-serialiser\">URL serialiser</span> on <var>resource</var>.</p></li>\n \n-       <li><p>Let <var>script source</var> be the empty string.</p></li>\n-\n-       <li><p>Append the first string of <var>urlRecord</var>'s <span\n-       data-x=\"concept-url-path\">path</span> component to <var>script source</var>.</p></li>\n-\n-       <li><p>If <var>urlRecord</var>'s <span data-x=\"concept-url-query\">query</span> component is\n-       not null, then first append a U+003F QUESTION MARK character (?) to <var>script source</var>,\n-       and then append <var>urlRecord</var>'s <span data-x=\"concept-url-query\">query</span>\n-       component to <var>script source</var>.</p></li>\n+       <li><p>Remove the leading \"<code data-x=\"\">javascript:</code>\" string from\n+       <var>urlString</var>.</p></li>\n \n-       <li><p>If <var>urlRecord</var>'s <span data-x=\"concept-url-fragment\">fragment</span>\n-       component is not null, then first append a U+0023 NUMBER SIGN character (#) to <var>script\n-       source</var>, and then append <var>urlRecord</var>'s <span\n-       data-x=\"concept-url-fragment\">fragment</span> component to <var>script source</var>.</p></li>\n+       <li><p>Let <var>script source</var> be the empty string.</p></li>\n \n        <li><p>Replace <var>script source</var> with the result of applying the",
+    "path": "source",
+    "commit_id": "861007b942f594cac485a86f9da4ab1508a8f03c",
+    "original_commit_id": "5e99c80bb1fb602e21edc0fa38784bdbe51f40f1",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Let's consolidate these two steps into \"Let _script source_ be the result of applying the percent decode algorithm to _urlString_.\"\n",
+    "created_at": "2016-05-31T20:40:07Z",
+    "updated_at": "2016-06-01T07:35:46Z",
+    "html_url": "https://github.com/whatwg/html/pull/1316#discussion_r65258397",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1316",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/65258397"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1316#discussion_r65258397"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1316"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/65258397/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 81493,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 27,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

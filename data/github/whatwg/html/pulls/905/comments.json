@@ -1,0 +1,286 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/56752279",
+    "pull_request_review_id": null,
+    "id": 56752279,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU2NzUyMjc5",
+    "diff_hunk": "@@ -85693,22 +85691,24 @@ interface <dfn>NavigatorOnLine</dfn> {\n   <p>The JavaScript specification defines the JavaScript job and job queue abstractions in order to\n   specify certain invariants about how promise operations execute with a clean <span>JavaScript\n   execution context stack</span> and in a certain order. However, as of the time of this writing\n-  the definitions of <span data-x=\"js-EnqueueJob\">EnqueueJob</span> and <span\n-  data-x=\"js-NextJob\">NextJob</span> in that specification are not sufficiently flexible to\n-  integrate with HTML as a host environment. <ref spec=\"ECMA262\"></p>\n+  the definition of <span data-x=\"js-EnqueueJob\">EnqueueJob</span> in that specification is not\n+  sufficiently flexible to integrate with HTML as a host environment. <ref spec=\"ECMA262\"></p>\n \n   <p class=\"note\">This is not strictly true. It is in fact possible, by taking liberal advantage of\n-  the many \"implementation defined\" sections of those algorithms, to contort them to our purposes.\n+  the many \"implementation defined\" sections of the algorithm, to contort it to our purposes.\n   However, the end result is a mass of messy indirection and workarounds that essentially bypasses\n   the job queue infrastructure entirely, albeit in a way that is technically sanctioned within the\n   bounds of implementation-defined behavior. We do not take this path, and instead introduce the\n-  following <span data-x=\"willful violation\">willful violations</span>.</p>\n+  following <span data-x=\"willful violation\">willful violation</span>.</p>",
+    "path": "source",
+    "commit_id": "5af258f33e3e2f55eb30e611cb7aee625a8bd16a",
+    "original_commit_id": "2ac6a416033b95d70ac5325e0e56367204b3d0c5",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "No need for data-x here.\n",
+    "created_at": "2016-03-19T17:48:55Z",
+    "updated_at": "2016-03-19T23:26:21Z",
+    "html_url": "https://github.com/whatwg/html/pull/905#discussion_r56752279",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/905",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/56752279"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/905#discussion_r56752279"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/905"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/56752279/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 85702,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 41,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/56752284",
+    "pull_request_review_id": null,
+    "id": 56752284,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU2NzUyMjg0",
+    "diff_hunk": "@@ -85728,28 +85728,15 @@ interface <dfn>NavigatorOnLine</dfn> {\n      <li><p><span>Check if we can run script</span> with <var>settings</var>. If this returns \"do\n      not run\" then abort these steps.</p></li>\n      <li><p><span>Prepare to run script</span> with <var>settings</var>.</p></li>\n-     <li><p>Perform the abstract operation specified by <var>job</var>, using the elements of\n-     <var>arguments</var> as its arguments.</p></li>\n+     <li><p>Let <var>result</var> be the result of performing the abstract operation specified by\n+     <var>job</var>, using the elements of <var>arguments</var> as its arguments.</p></li>\n      <li><p><span>Clean up after running script</span> with <var>settings</var>.</p></li>\n+     <li><p>If <var>result</var> is an abrupt completion, <span>report the exception</span> given by\n+     <var>result</var>.[[Value]].</p></li>",
+    "path": "source",
+    "commit_id": "5af258f33e3e2f55eb30e611cb7aee625a8bd16a",
+    "original_commit_id": "2ac6a416033b95d70ac5325e0e56367204b3d0c5",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This fix seems noteworthy in the commit message?\n",
+    "created_at": "2016-03-19T17:49:12Z",
+    "updated_at": "2016-03-19T23:26:21Z",
+    "html_url": "https://github.com/whatwg/html/pull/905#discussion_r56752284",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/905",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/56752284"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/905#discussion_r56752284"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/905"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/56752284/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 85735,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 65,
+    "position": 65,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/56756739",
+    "pull_request_review_id": null,
+    "id": 56756739,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU2NzU2NzM5",
+    "diff_hunk": "@@ -85728,28 +85728,15 @@ interface <dfn>NavigatorOnLine</dfn> {\n      <li><p><span>Check if we can run script</span> with <var>settings</var>. If this returns \"do\n      not run\" then abort these steps.</p></li>\n      <li><p><span>Prepare to run script</span> with <var>settings</var>.</p></li>\n-     <li><p>Perform the abstract operation specified by <var>job</var>, using the elements of\n-     <var>arguments</var> as its arguments.</p></li>\n+     <li><p>Let <var>result</var> be the result of performing the abstract operation specified by\n+     <var>job</var>, using the elements of <var>arguments</var> as its arguments.</p></li>\n      <li><p><span>Clean up after running script</span> with <var>settings</var>.</p></li>\n+     <li><p>If <var>result</var> is an abrupt completion, <span>report the exception</span> given by\n+     <var>result</var>.[[Value]].</p></li>",
+    "path": "source",
+    "commit_id": "5af258f33e3e2f55eb30e611cb7aee625a8bd16a",
+    "original_commit_id": "2ac6a416033b95d70ac5325e0e56367204b3d0c5",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "It is:\n\n> stop overriding NextJob, instead moving the reaction step to our definition of EnqueueJob.\n",
+    "created_at": "2016-03-19T23:25:29Z",
+    "updated_at": "2016-03-19T23:26:21Z",
+    "html_url": "https://github.com/whatwg/html/pull/905#discussion_r56756739",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/905",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/56756739"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/905#discussion_r56756739"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/905"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/56756739/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 85735,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 65,
+    "position": 65,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/56756752",
+    "pull_request_review_id": null,
+    "id": 56756752,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU2NzU2NzUy",
+    "diff_hunk": "@@ -85693,22 +85691,24 @@ interface <dfn>NavigatorOnLine</dfn> {\n   <p>The JavaScript specification defines the JavaScript job and job queue abstractions in order to\n   specify certain invariants about how promise operations execute with a clean <span>JavaScript\n   execution context stack</span> and in a certain order. However, as of the time of this writing\n-  the definitions of <span data-x=\"js-EnqueueJob\">EnqueueJob</span> and <span\n-  data-x=\"js-NextJob\">NextJob</span> in that specification are not sufficiently flexible to\n-  integrate with HTML as a host environment. <ref spec=\"ECMA262\"></p>\n+  the definition of <span data-x=\"js-EnqueueJob\">EnqueueJob</span> in that specification is not\n+  sufficiently flexible to integrate with HTML as a host environment. <ref spec=\"ECMA262\"></p>\n \n   <p class=\"note\">This is not strictly true. It is in fact possible, by taking liberal advantage of\n-  the many \"implementation defined\" sections of those algorithms, to contort them to our purposes.\n+  the many \"implementation defined\" sections of the algorithm, to contort it to our purposes.\n   However, the end result is a mass of messy indirection and workarounds that essentially bypasses\n   the job queue infrastructure entirely, albeit in a way that is technically sanctioned within the\n   bounds of implementation-defined behavior. We do not take this path, and instead introduce the\n-  following <span data-x=\"willful violation\">willful violations</span>.</p>\n+  following <span data-x=\"willful violation\">willful violation</span>.</p>",
+    "path": "source",
+    "commit_id": "5af258f33e3e2f55eb30e611cb7aee625a8bd16a",
+    "original_commit_id": "2ac6a416033b95d70ac5325e0e56367204b3d0c5",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Nice catch, thanks! Fixed and pushed.\n",
+    "created_at": "2016-03-19T23:26:30Z",
+    "updated_at": "2016-03-19T23:26:30Z",
+    "html_url": "https://github.com/whatwg/html/pull/905#discussion_r56756752",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/905",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/56756752"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/905#discussion_r56756752"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/905"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/56756752/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 85702,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 41,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

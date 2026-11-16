@@ -1,0 +1,641 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/58289793",
+    "pull_request_review_id": null,
+    "id": 58289793,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU4Mjg5Nzkz",
+    "diff_hunk": "@@ -65665,7 +65685,81 @@ function AddCloud(data, x, y) { ... }</pre>\n   <p>If the current composition operation is <code data-x=\"gcop-copy\">copy</code>, shadows\n   effectively won't render (since the shape will overwrite the shadow).</p>\n \n+  <h6>Filters</h6>\n+\n+  <p>All drawing operations on an object which implements the <code>CanvasFilters</code>\n+  interface are affected by the global <dfn><code data-x=\"dom-context-2d-filter\">filter</code></dfn>\n+  attribute.</p>\n+\n+  <dl class=\"domintro\">\n+\n+   <dt><var>context</var> . <code subdfn data-x=\"dom-context-2d-filter\">filter</code> [ = <var>value</var> ]</dt>\n+\n+   <dd>\n+\n+    <p>Returns the current filter.</p>\n+\n+    <p>Can be set, to change the filter. Values that cannot be parsed as a\n+    <span>&lt;filter-function-list&gt;</span> value are ignored.</p>\n+\n+   </dd>\n+\n+  </dl>\n+\n+  <div w-nodev>\n+\n+  <p>The <code data-x=\"dom-context-2d-filter\">filter</code> attribute, on getting, must\n+  return the last value it was successfully set to. The value must not be re-serialized. On setting,\n+  if the new value is 'none' (not the empty string, null, or undefined), filters must be disabled\n+  for the context. Otherwise, the value must be parsed as a\n+  <span>&lt;filter-function-list&gt;</span> value. If the value cannot be parsed as a\n+  <span>&lt;filter-function-list&gt;</span> value, where using property-independent style sheet\n+  syntax like 'inherit' or 'initial' is considered an invalid value, then it must be ignored, and\n+  the attribute must retain its previous value. When creating the object implementing the\n+  <code>CanvasFilters</code> interface, the attribute must be set to 'none'.</p>\n+\n+  <p>A <span>&lt;filter-function-list&gt;</span> value consists of a sequence of one or more\n+  filter functions or references to SVG filters. The input to the filter is used as the input\n+  to the first item in the list. Subsequent items take the output of the previous item as\n+  their input. <ref spec=\"FILTERS\"></p>\n+\n+  <p>Coordinates used in the value of the <code\n+  data-x=\"dom-context-2d-filter\">filter</code> attribute are interpreted such that one pixel is\n+  equivalent to one SVG user space unit and to one canvas coordinate space unit. Filter coordinates\n+  are not affected by the <span data-x=\"dom-context-2d-transformation\">current transformation\n+  matrix</span>. The current transformation matrix affects only the input to the filter. Filters\n+  are applied in the <span>output bitmap</span>'s coordinate space.</p>\n+\n+  <p>When the value of the <code data-x=\"dom-context-2d-filter\">filter</code> attribute defines\n+  lengths using percentages or using <span>'em'</span> or <span>'ex'</span> units, these must be\n+  interpreted relative to the <span>computed value</span> of the <span>'font-size'</span> property\n+  of the <span>font style source object</span> at the time that the attribute is set, if it is an\n+  element. If the <span data-x=\"computed value\">computed values</span> are undefined for a\n+  particular case (e.g. because the <span>font style source object</span> is not an element or is\n+  not <span>being rendered</span>), then the relative keywords must be interpreted relative to the\n+  default value of the <code data-x=\"dom-context-2d-font\">font</code> attribute. The 'larger' and\n+  'smaller' keywords are not supported.</p>\n+\n+  <p>If the value of the <code data-x=\"dom-context-2d-filter\">filter</code> attribute refers to an\n+  SVG filter, and this SVG filter changes, the changed filter is used for the next draw\n+  operation.</p>\n+\n+  <p>If the value of the <code data-x=\"dom-context-2d-filter\">filter</code> attribute refers to an\n+  SVG filter in an external resource document and that document is not loaded when a drawing\n+  operation is invoked, the drawing operation must proceed with no filtering.</p>",
+    "path": "source",
+    "commit_id": "03aebe56b63510ef845c0288996773e090045d17",
+    "original_commit_id": "e4111769ebbfe7e1a7a96dc7d2a239b9a61d4b8b",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "How does this affect tainting? Are those documents always loaded using request mode \"cors\"?\n",
+    "created_at": "2016-04-02T06:58:21Z",
+    "updated_at": "2016-04-05T14:55:12Z",
+    "html_url": "https://github.com/whatwg/html/pull/978#discussion_r58289793",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/978",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/58289793"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/978#discussion_r58289793"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/978"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/58289793/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 65749,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 113,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/58289798",
+    "pull_request_review_id": null,
+    "id": 58289798,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU4Mjg5Nzk4",
+    "diff_hunk": "@@ -65665,7 +65685,81 @@ function AddCloud(data, x, y) { ... }</pre>\n   <p>If the current composition operation is <code data-x=\"gcop-copy\">copy</code>, shadows\n   effectively won't render (since the shape will overwrite the shadow).</p>\n \n+  <h6>Filters</h6>\n+\n+  <p>All drawing operations on an object which implements the <code>CanvasFilters</code>\n+  interface are affected by the global <dfn><code data-x=\"dom-context-2d-filter\">filter</code></dfn>\n+  attribute.</p>\n+\n+  <dl class=\"domintro\">\n+\n+   <dt><var>context</var> . <code subdfn data-x=\"dom-context-2d-filter\">filter</code> [ = <var>value</var> ]</dt>\n+\n+   <dd>\n+\n+    <p>Returns the current filter.</p>\n+\n+    <p>Can be set, to change the filter. Values that cannot be parsed as a\n+    <span>&lt;filter-function-list&gt;</span> value are ignored.</p>\n+\n+   </dd>\n+\n+  </dl>\n+\n+  <div w-nodev>\n+\n+  <p>The <code data-x=\"dom-context-2d-filter\">filter</code> attribute, on getting, must\n+  return the last value it was successfully set to. The value must not be re-serialized. On setting,\n+  if the new value is 'none' (not the empty string, null, or undefined), filters must be disabled\n+  for the context. Otherwise, the value must be parsed as a\n+  <span>&lt;filter-function-list&gt;</span> value. If the value cannot be parsed as a\n+  <span>&lt;filter-function-list&gt;</span> value, where using property-independent style sheet\n+  syntax like 'inherit' or 'initial' is considered an invalid value, then it must be ignored, and\n+  the attribute must retain its previous value. When creating the object implementing the\n+  <code>CanvasFilters</code> interface, the attribute must be set to 'none'.</p>\n+\n+  <p>A <span>&lt;filter-function-list&gt;</span> value consists of a sequence of one or more\n+  filter functions or references to SVG filters. The input to the filter is used as the input\n+  to the first item in the list. Subsequent items take the output of the previous item as\n+  their input. <ref spec=\"FILTERS\"></p>\n+\n+  <p>Coordinates used in the value of the <code\n+  data-x=\"dom-context-2d-filter\">filter</code> attribute are interpreted such that one pixel is\n+  equivalent to one SVG user space unit and to one canvas coordinate space unit. Filter coordinates\n+  are not affected by the <span data-x=\"dom-context-2d-transformation\">current transformation\n+  matrix</span>. The current transformation matrix affects only the input to the filter. Filters\n+  are applied in the <span>output bitmap</span>'s coordinate space.</p>\n+\n+  <p>When the value of the <code data-x=\"dom-context-2d-filter\">filter</code> attribute defines\n+  lengths using percentages or using <span>'em'</span> or <span>'ex'</span> units, these must be\n+  interpreted relative to the <span>computed value</span> of the <span>'font-size'</span> property\n+  of the <span>font style source object</span> at the time that the attribute is set, if it is an\n+  element. If the <span data-x=\"computed value\">computed values</span> are undefined for a\n+  particular case (e.g. because the <span>font style source object</span> is not an element or is\n+  not <span>being rendered</span>), then the relative keywords must be interpreted relative to the\n+  default value of the <code data-x=\"dom-context-2d-font\">font</code> attribute. The 'larger' and\n+  'smaller' keywords are not supported.</p>\n+\n+  <p>If the value of the <code data-x=\"dom-context-2d-filter\">filter</code> attribute refers to an\n+  SVG filter, and this SVG filter changes, the changed filter is used for the next draw\n+  operation.</p>\n+\n+  <p>If the value of the <code data-x=\"dom-context-2d-filter\">filter</code> attribute refers to an\n+  SVG filter in an external resource document and that document is not loaded when a drawing\n+  operation is invoked, the drawing operation must proceed with no filtering.</p>\n \n+  </div>\n+\n+  <h6>Working with externally-defined SVG filters</h6>\n+\n+  <!-- NON-NORMATIVE SECTION -->\n+\n+  Since drawing is peformed using filter value 'none' until an externally-defined\n+  filter has finished loading, authors may wish to determine whether such a filter\n+  has finished loading before proceeding with a drawing operation. One way to accomplish\n+  this is to load the externally-defined filter elsewhere within the same page in some\n+  element that sends a 'load' event (for example, an SVG 'use' element), and wait for the\n+  'load' event to be dispatched.",
+    "path": "source",
+    "commit_id": "03aebe56b63510ef845c0288996773e090045d17",
+    "original_commit_id": "e4111769ebbfe7e1a7a96dc7d2a239b9a61d4b8b",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This paragraph needs to be wrapped in a `<p>`.\n",
+    "created_at": "2016-04-02T06:59:06Z",
+    "updated_at": "2016-04-05T14:55:12Z",
+    "html_url": "https://github.com/whatwg/html/pull/978#discussion_r58289798",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/978",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/58289798"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/978#discussion_r58289798"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/978"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/58289798/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 65762,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 126,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/58289810",
+    "pull_request_review_id": null,
+    "id": 58289810,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU4Mjg5ODEw",
+    "diff_hunk": "@@ -65665,7 +65685,81 @@ function AddCloud(data, x, y) { ... }</pre>\n   <p>If the current composition operation is <code data-x=\"gcop-copy\">copy</code>, shadows\n   effectively won't render (since the shape will overwrite the shadow).</p>\n \n+  <h6>Filters</h6>\n+\n+  <p>All drawing operations on an object which implements the <code>CanvasFilters</code>\n+  interface are affected by the global <dfn><code data-x=\"dom-context-2d-filter\">filter</code></dfn>\n+  attribute.</p>\n+\n+  <dl class=\"domintro\">\n+\n+   <dt><var>context</var> . <code subdfn data-x=\"dom-context-2d-filter\">filter</code> [ = <var>value</var> ]</dt>\n+\n+   <dd>\n+\n+    <p>Returns the current filter.</p>\n+\n+    <p>Can be set, to change the filter. Values that cannot be parsed as a\n+    <span>&lt;filter-function-list&gt;</span> value are ignored.</p>\n+\n+   </dd>\n+\n+  </dl>\n+\n+  <div w-nodev>\n+\n+  <p>The <code data-x=\"dom-context-2d-filter\">filter</code> attribute, on getting, must\n+  return the last value it was successfully set to. The value must not be re-serialized. On setting,\n+  if the new value is 'none' (not the empty string, null, or undefined), filters must be disabled\n+  for the context. Otherwise, the value must be parsed as a\n+  <span>&lt;filter-function-list&gt;</span> value. If the value cannot be parsed as a\n+  <span>&lt;filter-function-list&gt;</span> value, where using property-independent style sheet\n+  syntax like 'inherit' or 'initial' is considered an invalid value, then it must be ignored, and\n+  the attribute must retain its previous value. When creating the object implementing the\n+  <code>CanvasFilters</code> interface, the attribute must be set to 'none'.</p>\n+\n+  <p>A <span>&lt;filter-function-list&gt;</span> value consists of a sequence of one or more\n+  filter functions or references to SVG filters. The input to the filter is used as the input\n+  to the first item in the list. Subsequent items take the output of the previous item as\n+  their input. <ref spec=\"FILTERS\"></p>\n+\n+  <p>Coordinates used in the value of the <code\n+  data-x=\"dom-context-2d-filter\">filter</code> attribute are interpreted such that one pixel is\n+  equivalent to one SVG user space unit and to one canvas coordinate space unit. Filter coordinates\n+  are not affected by the <span data-x=\"dom-context-2d-transformation\">current transformation\n+  matrix</span>. The current transformation matrix affects only the input to the filter. Filters\n+  are applied in the <span>output bitmap</span>'s coordinate space.</p>\n+\n+  <p>When the value of the <code data-x=\"dom-context-2d-filter\">filter</code> attribute defines\n+  lengths using percentages or using <span>'em'</span> or <span>'ex'</span> units, these must be\n+  interpreted relative to the <span>computed value</span> of the <span>'font-size'</span> property\n+  of the <span>font style source object</span> at the time that the attribute is set, if it is an\n+  element. If the <span data-x=\"computed value\">computed values</span> are undefined for a\n+  particular case (e.g. because the <span>font style source object</span> is not an element or is\n+  not <span>being rendered</span>), then the relative keywords must be interpreted relative to the\n+  default value of the <code data-x=\"dom-context-2d-font\">font</code> attribute. The 'larger' and\n+  'smaller' keywords are not supported.</p>\n+\n+  <p>If the value of the <code data-x=\"dom-context-2d-filter\">filter</code> attribute refers to an\n+  SVG filter, and this SVG filter changes, the changed filter is used for the next draw\n+  operation.</p>\n+\n+  <p>If the value of the <code data-x=\"dom-context-2d-filter\">filter</code> attribute refers to an\n+  SVG filter in an external resource document and that document is not loaded when a drawing\n+  operation is invoked, the drawing operation must proceed with no filtering.</p>\n \n+  </div>\n+\n+  <h6>Working with externally-defined SVG filters</h6>\n+\n+  <!-- NON-NORMATIVE SECTION -->\n+\n+  Since drawing is peformed using filter value 'none' until an externally-defined\n+  filter has finished loading, authors may wish to determine whether such a filter\n+  has finished loading before proceeding with a drawing operation. One way to accomplish\n+  this is to load the externally-defined filter elsewhere within the same page in some\n+  element that sends a 'load' event (for example, an SVG 'use' element), and wait for the\n+  'load' event to be dispatched.",
+    "path": "source",
+    "commit_id": "03aebe56b63510ef845c0288996773e090045d17",
+    "original_commit_id": "e4111769ebbfe7e1a7a96dc7d2a239b9a61d4b8b",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "SVG 'use' should be `<span>SVG <code>use</code></span>` and needs to be added to the list of SVG features we reference.\n\nThe load event should be marked up with code, probably using `data-x=\"\"` since it's not a load event HTML defines.\n",
+    "created_at": "2016-04-02T07:00:59Z",
+    "updated_at": "2016-04-05T14:55:12Z",
+    "html_url": "https://github.com/whatwg/html/pull/978#discussion_r58289810",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/978",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/58289810"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/978#discussion_r58289810"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/978"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/58289810/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 65762,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 126,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/58289813",
+    "pull_request_review_id": null,
+    "id": 58289813,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU4Mjg5ODEz",
+    "diff_hunk": "@@ -116735,6 +116835,10 @@ INSERT INTERFACES HERE\n    <dt id=\"refsFILEAPI\">[FILEAPI]</dt>\n    <dd><cite><a href=\"https://w3c.github.io/FileAPI/\">File API</a></cite>, A. Ranganathan. W3C.</dd>\n \n+   <dt id=\"refsFILTERS\">[FILTERS]</dt>\n+   <dd><cite><a href=\"https://drafts.fxtf.org/filters/\">Filter Effects</a></cite>, D. Jackson, E.\n+   Dahlström, D. Schulze. W3C.</dd>",
+    "path": "source",
+    "commit_id": "03aebe56b63510ef845c0288996773e090045d17",
+    "original_commit_id": "e4111769ebbfe7e1a7a96dc7d2a239b9a61d4b8b",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "It's fine to exceed the 100 column limit for references.\n",
+    "created_at": "2016-04-02T07:01:43Z",
+    "updated_at": "2016-04-05T14:55:12Z",
+    "html_url": "https://github.com/whatwg/html/pull/978#discussion_r58289813",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/978",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/58289813"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/978#discussion_r58289813"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/978"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/58289813/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 116840,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 168,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/58384282",
+    "pull_request_review_id": null,
+    "id": 58384282,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU4Mzg0Mjgy",
+    "diff_hunk": "@@ -116735,6 +116835,10 @@ INSERT INTERFACES HERE\n    <dt id=\"refsFILEAPI\">[FILEAPI]</dt>\n    <dd><cite><a href=\"https://w3c.github.io/FileAPI/\">File API</a></cite>, A. Ranganathan. W3C.</dd>\n \n+   <dt id=\"refsFILTERS\">[FILTERS]</dt>\n+   <dd><cite><a href=\"https://drafts.fxtf.org/filters/\">Filter Effects</a></cite>, D. Jackson, E.\n+   Dahlström, D. Schulze. W3C.</dd>",
+    "path": "source",
+    "commit_id": "03aebe56b63510ef845c0288996773e090045d17",
+    "original_commit_id": "e4111769ebbfe7e1a7a96dc7d2a239b9a61d4b8b",
+    "user": {
+      "login": "junov",
+      "id": 2607864,
+      "node_id": "MDQ6VXNlcjI2MDc4NjQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2607864?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/junov",
+      "html_url": "https://github.com/junov",
+      "followers_url": "https://api.github.com/users/junov/followers",
+      "following_url": "https://api.github.com/users/junov/following{/other_user}",
+      "gists_url": "https://api.github.com/users/junov/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/junov/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/junov/subscriptions",
+      "organizations_url": "https://api.github.com/users/junov/orgs",
+      "repos_url": "https://api.github.com/users/junov/repos",
+      "events_url": "https://api.github.com/users/junov/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/junov/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "FWIW, I have already reviewed this privately prior to the PR, and I have nothing more to add.\n",
+    "created_at": "2016-04-04T14:29:36Z",
+    "updated_at": "2016-04-05T14:55:12Z",
+    "html_url": "https://github.com/whatwg/html/pull/978#discussion_r58384282",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/978",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/58384282"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/978#discussion_r58384282"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/978"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/58384282/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 116840,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 168,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/58385002",
+    "pull_request_review_id": null,
+    "id": 58385002,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU4Mzg1MDAy",
+    "diff_hunk": "@@ -116735,6 +116835,10 @@ INSERT INTERFACES HERE\n    <dt id=\"refsFILEAPI\">[FILEAPI]</dt>\n    <dd><cite><a href=\"https://w3c.github.io/FileAPI/\">File API</a></cite>, A. Ranganathan. W3C.</dd>\n \n+   <dt id=\"refsFILTERS\">[FILTERS]</dt>\n+   <dd><cite><a href=\"https://drafts.fxtf.org/filters/\">Filter Effects</a></cite>, D. Jackson, E.\n+   Dahlström, D. Schulze. W3C.</dd>",
+    "path": "source",
+    "commit_id": "03aebe56b63510ef845c0288996773e090045d17",
+    "original_commit_id": "e4111769ebbfe7e1a7a96dc7d2a239b9a61d4b8b",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Great, I'll land this then when the remaining nits are addressed.\n",
+    "created_at": "2016-04-04T14:33:27Z",
+    "updated_at": "2016-04-05T14:55:12Z",
+    "html_url": "https://github.com/whatwg/html/pull/978#discussion_r58385002",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/978",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/58385002"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/978#discussion_r58385002"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/978"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/58385002/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 116840,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 168,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/58386252",
+    "pull_request_review_id": null,
+    "id": 58386252,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU4Mzg2MjUy",
+    "diff_hunk": "@@ -65665,7 +65685,81 @@ function AddCloud(data, x, y) { ... }</pre>\n   <p>If the current composition operation is <code data-x=\"gcop-copy\">copy</code>, shadows\n   effectively won't render (since the shape will overwrite the shadow).</p>\n \n+  <h6>Filters</h6>\n+\n+  <p>All drawing operations on an object which implements the <code>CanvasFilters</code>\n+  interface are affected by the global <dfn><code data-x=\"dom-context-2d-filter\">filter</code></dfn>\n+  attribute.</p>\n+\n+  <dl class=\"domintro\">\n+\n+   <dt><var>context</var> . <code subdfn data-x=\"dom-context-2d-filter\">filter</code> [ = <var>value</var> ]</dt>\n+\n+   <dd>\n+\n+    <p>Returns the current filter.</p>\n+\n+    <p>Can be set, to change the filter. Values that cannot be parsed as a\n+    <span>&lt;filter-function-list&gt;</span> value are ignored.</p>\n+\n+   </dd>\n+\n+  </dl>\n+\n+  <div w-nodev>\n+\n+  <p>The <code data-x=\"dom-context-2d-filter\">filter</code> attribute, on getting, must\n+  return the last value it was successfully set to. The value must not be re-serialized. On setting,\n+  if the new value is 'none' (not the empty string, null, or undefined), filters must be disabled\n+  for the context. Otherwise, the value must be parsed as a\n+  <span>&lt;filter-function-list&gt;</span> value. If the value cannot be parsed as a\n+  <span>&lt;filter-function-list&gt;</span> value, where using property-independent style sheet\n+  syntax like 'inherit' or 'initial' is considered an invalid value, then it must be ignored, and\n+  the attribute must retain its previous value. When creating the object implementing the\n+  <code>CanvasFilters</code> interface, the attribute must be set to 'none'.</p>\n+\n+  <p>A <span>&lt;filter-function-list&gt;</span> value consists of a sequence of one or more\n+  filter functions or references to SVG filters. The input to the filter is used as the input\n+  to the first item in the list. Subsequent items take the output of the previous item as\n+  their input. <ref spec=\"FILTERS\"></p>\n+\n+  <p>Coordinates used in the value of the <code\n+  data-x=\"dom-context-2d-filter\">filter</code> attribute are interpreted such that one pixel is\n+  equivalent to one SVG user space unit and to one canvas coordinate space unit. Filter coordinates\n+  are not affected by the <span data-x=\"dom-context-2d-transformation\">current transformation\n+  matrix</span>. The current transformation matrix affects only the input to the filter. Filters\n+  are applied in the <span>output bitmap</span>'s coordinate space.</p>\n+\n+  <p>When the value of the <code data-x=\"dom-context-2d-filter\">filter</code> attribute defines\n+  lengths using percentages or using <span>'em'</span> or <span>'ex'</span> units, these must be\n+  interpreted relative to the <span>computed value</span> of the <span>'font-size'</span> property\n+  of the <span>font style source object</span> at the time that the attribute is set, if it is an\n+  element. If the <span data-x=\"computed value\">computed values</span> are undefined for a\n+  particular case (e.g. because the <span>font style source object</span> is not an element or is\n+  not <span>being rendered</span>), then the relative keywords must be interpreted relative to the\n+  default value of the <code data-x=\"dom-context-2d-font\">font</code> attribute. The 'larger' and\n+  'smaller' keywords are not supported.</p>\n+\n+  <p>If the value of the <code data-x=\"dom-context-2d-filter\">filter</code> attribute refers to an\n+  SVG filter, and this SVG filter changes, the changed filter is used for the next draw\n+  operation.</p>\n+\n+  <p>If the value of the <code data-x=\"dom-context-2d-filter\">filter</code> attribute refers to an\n+  SVG filter in an external resource document and that document is not loaded when a drawing\n+  operation is invoked, the drawing operation must proceed with no filtering.</p>",
+    "path": "source",
+    "commit_id": "03aebe56b63510ef845c0288996773e090045d17",
+    "original_commit_id": "e4111769ebbfe7e1a7a96dc7d2a239b9a61d4b8b",
+    "user": {
+      "login": "junov",
+      "id": 2607864,
+      "node_id": "MDQ6VXNlcjI2MDc4NjQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2607864?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/junov",
+      "html_url": "https://github.com/junov",
+      "followers_url": "https://api.github.com/users/junov/followers",
+      "following_url": "https://api.github.com/users/junov/following{/other_user}",
+      "gists_url": "https://api.github.com/users/junov/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/junov/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/junov/subscriptions",
+      "organizations_url": "https://api.github.com/users/junov/orgs",
+      "repos_url": "https://api.github.com/users/junov/repos",
+      "events_url": "https://api.github.com/users/junov/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/junov/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "> How does this affect tainting?\n\nIf the svg resource's DOM is accessible to the point that it is possible to reference a filter node, I think it is safe to assume that the resource is accessible to script. So I don't think there is any need for tainting. \nDisclaimer: I am not a cors/security expert\n",
+    "created_at": "2016-04-04T14:40:21Z",
+    "updated_at": "2016-04-05T14:55:12Z",
+    "html_url": "https://github.com/whatwg/html/pull/978#discussion_r58386252",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/978",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/58386252"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/978#discussion_r58386252"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/978"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/58386252/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 65749,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 113,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/58485885",
+    "pull_request_review_id": null,
+    "id": 58485885,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU4NDg1ODg1",
+    "diff_hunk": "@@ -65674,7 +65696,82 @@ function AddCloud(data, x, y) { ... }</pre>\n   <p>If the current composition operation is <code data-x=\"gcop-copy\">copy</code>, shadows\n   effectively won't render (since the shape will overwrite the shadow).</p>\n \n+  <h6>Filters</h6>\n+\n+  <p>All drawing operations on an object which implements the <code>CanvasFilters</code>\n+  interface are affected by the global <dfn><code data-x=\"dom-context-2d-filter\">filter</code></dfn>\n+  attribute.</p>\n+\n+  <dl class=\"domintro\">\n+\n+   <dt><var>context</var> . <code subdfn data-x=\"dom-context-2d-filter\">filter</code> [ = <var>value</var> ]</dt>\n+\n+   <dd>\n \n+    <p>Returns the current filter.</p>\n+\n+    <p>Can be set, to change the filter. Values that cannot be parsed as a\n+    <span>&lt;filter-function-list&gt;</span> value are ignored.</p>\n+\n+   </dd>\n+\n+  </dl>\n+\n+  <div w-nodev>\n+\n+  <p>The <code data-x=\"dom-context-2d-filter\">filter</code> attribute, on getting, must\n+  return the last value it was successfully set to. The value must not be re-serialized. On setting,\n+  if the new value is 'none' (not the empty string, null, or undefined), filters must be disabled\n+  for the context. Otherwise, the value must be parsed as a\n+  <span>&lt;filter-function-list&gt;</span> value. If the value cannot be parsed as a\n+  <span>&lt;filter-function-list&gt;</span> value, where using property-independent style sheet\n+  syntax like 'inherit' or 'initial' is considered an invalid value, then it must be ignored, and\n+  the attribute must retain its previous value. When creating the object implementing the\n+  <code>CanvasFilters</code> interface, the attribute must be set to 'none'.</p>\n+\n+  <p>A <span>&lt;filter-function-list&gt;</span> value consists of a sequence of one or more\n+  filter functions or references to SVG filters. The input to the filter is used as the input\n+  to the first item in the list. Subsequent items take the output of the previous item as\n+  their input. <ref spec=\"FILTERS\"></p>\n+\n+  <p>Coordinates used in the value of the <code\n+  data-x=\"dom-context-2d-filter\">filter</code> attribute are interpreted such that one pixel is\n+  equivalent to one SVG user space unit and to one canvas coordinate space unit. Filter coordinates\n+  are not affected by the <span data-x=\"dom-context-2d-transformation\">current transformation\n+  matrix</span>. The current transformation matrix affects only the input to the filter. Filters\n+  are applied in the <span>output bitmap</span>'s coordinate space.</p>\n+\n+  <p>When the value of the <code data-x=\"dom-context-2d-filter\">filter</code> attribute defines\n+  lengths using percentages or using <span>'em'</span> or <span>'ex'</span> units, these must be\n+  interpreted relative to the <span>computed value</span> of the <span>'font-size'</span> property\n+  of the <span>font style source object</span> at the time that the attribute is set, if it is an\n+  element. If the <span data-x=\"computed value\">computed values</span> are undefined for a\n+  particular case (e.g. because the <span>font style source object</span> is not an element or is\n+  not <span>being rendered</span>), then the relative keywords must be interpreted relative to the\n+  default value of the <code data-x=\"dom-context-2d-font\">font</code> attribute. The 'larger' and\n+  'smaller' keywords are not supported.</p>\n+\n+  <p>If the value of the <code data-x=\"dom-context-2d-filter\">filter</code> attribute refers to an\n+  SVG filter in the same document, and this SVG filter changes, the changed filter is used for the\n+  next draw operation.</p>\n+\n+  <p>If the value of the <code data-x=\"dom-context-2d-filter\">filter</code> attribute refers to an\n+  SVG filter in an external resource document and that document is not loaded when a drawing\n+  operation is invoked, the drawing operation must proceed with no filtering.</p>\n+\n+  </div>\n+\n+  <h6>Working with externally-defined SVG filters</h6>\n+\n+  <!-- NON-NORMATIVE SECTION -->\n+\n+  <p>Since drawing is peformed using filter value 'none' until an externally-defined\n+  filter has finished loading, authors may wish to determine whether such a filter",
+    "path": "source",
+    "commit_id": "03aebe56b63510ef845c0288996773e090045d17",
+    "original_commit_id": "e058566bf77e8f96fe03699cf585ac947f92ae25",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This should use \"might\" instead of \"may\" since it's non-normative (\"may\" is a normative keyword).\n",
+    "created_at": "2016-04-05T04:37:16Z",
+    "updated_at": "2016-04-05T14:55:12Z",
+    "html_url": "https://github.com/whatwg/html/pull/978#discussion_r58485885",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/978",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/58485885"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/978#discussion_r58485885"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/978"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/58485885/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 65769,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 124,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/58542476",
+    "pull_request_review_id": null,
+    "id": 58542476,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU4NTQyNDc2",
+    "diff_hunk": "@@ -65674,7 +65696,82 @@ function AddCloud(data, x, y) { ... }</pre>\n   <p>If the current composition operation is <code data-x=\"gcop-copy\">copy</code>, shadows\n   effectively won't render (since the shape will overwrite the shadow).</p>\n \n+  <h6>Filters</h6>\n+\n+  <p>All drawing operations on an object which implements the <code>CanvasFilters</code>\n+  interface are affected by the global <dfn><code data-x=\"dom-context-2d-filter\">filter</code></dfn>\n+  attribute.</p>\n+\n+  <dl class=\"domintro\">\n+\n+   <dt><var>context</var> . <code subdfn data-x=\"dom-context-2d-filter\">filter</code> [ = <var>value</var> ]</dt>\n+\n+   <dd>\n \n+    <p>Returns the current filter.</p>\n+\n+    <p>Can be set, to change the filter. Values that cannot be parsed as a\n+    <span>&lt;filter-function-list&gt;</span> value are ignored.</p>\n+\n+   </dd>\n+\n+  </dl>\n+\n+  <div w-nodev>\n+\n+  <p>The <code data-x=\"dom-context-2d-filter\">filter</code> attribute, on getting, must\n+  return the last value it was successfully set to. The value must not be re-serialized. On setting,\n+  if the new value is 'none' (not the empty string, null, or undefined), filters must be disabled\n+  for the context. Otherwise, the value must be parsed as a\n+  <span>&lt;filter-function-list&gt;</span> value. If the value cannot be parsed as a\n+  <span>&lt;filter-function-list&gt;</span> value, where using property-independent style sheet\n+  syntax like 'inherit' or 'initial' is considered an invalid value, then it must be ignored, and\n+  the attribute must retain its previous value. When creating the object implementing the\n+  <code>CanvasFilters</code> interface, the attribute must be set to 'none'.</p>\n+\n+  <p>A <span>&lt;filter-function-list&gt;</span> value consists of a sequence of one or more\n+  filter functions or references to SVG filters. The input to the filter is used as the input\n+  to the first item in the list. Subsequent items take the output of the previous item as\n+  their input. <ref spec=\"FILTERS\"></p>\n+\n+  <p>Coordinates used in the value of the <code\n+  data-x=\"dom-context-2d-filter\">filter</code> attribute are interpreted such that one pixel is\n+  equivalent to one SVG user space unit and to one canvas coordinate space unit. Filter coordinates\n+  are not affected by the <span data-x=\"dom-context-2d-transformation\">current transformation\n+  matrix</span>. The current transformation matrix affects only the input to the filter. Filters\n+  are applied in the <span>output bitmap</span>'s coordinate space.</p>\n+\n+  <p>When the value of the <code data-x=\"dom-context-2d-filter\">filter</code> attribute defines\n+  lengths using percentages or using <span>'em'</span> or <span>'ex'</span> units, these must be\n+  interpreted relative to the <span>computed value</span> of the <span>'font-size'</span> property\n+  of the <span>font style source object</span> at the time that the attribute is set, if it is an\n+  element. If the <span data-x=\"computed value\">computed values</span> are undefined for a\n+  particular case (e.g. because the <span>font style source object</span> is not an element or is\n+  not <span>being rendered</span>), then the relative keywords must be interpreted relative to the\n+  default value of the <code data-x=\"dom-context-2d-font\">font</code> attribute. The 'larger' and\n+  'smaller' keywords are not supported.</p>\n+\n+  <p>If the value of the <code data-x=\"dom-context-2d-filter\">filter</code> attribute refers to an\n+  SVG filter in the same document, and this SVG filter changes, the changed filter is used for the\n+  next draw operation.</p>\n+\n+  <p>If the value of the <code data-x=\"dom-context-2d-filter\">filter</code> attribute refers to an\n+  SVG filter in an external resource document and that document is not loaded when a drawing\n+  operation is invoked, the drawing operation must proceed with no filtering.</p>\n+\n+  </div>\n+\n+  <h6>Working with externally-defined SVG filters</h6>\n+\n+  <!-- NON-NORMATIVE SECTION -->\n+\n+  <p>Since drawing is peformed using filter value 'none' until an externally-defined\n+  filter has finished loading, authors may wish to determine whether such a filter",
+    "path": "source",
+    "commit_id": "03aebe56b63510ef845c0288996773e090045d17",
+    "original_commit_id": "e058566bf77e8f96fe03699cf585ac947f92ae25",
+    "user": {
+      "login": "alijuma",
+      "id": 1504648,
+      "node_id": "MDQ6VXNlcjE1MDQ2NDg=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1504648?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/alijuma",
+      "html_url": "https://github.com/alijuma",
+      "followers_url": "https://api.github.com/users/alijuma/followers",
+      "following_url": "https://api.github.com/users/alijuma/following{/other_user}",
+      "gists_url": "https://api.github.com/users/alijuma/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/alijuma/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/alijuma/subscriptions",
+      "organizations_url": "https://api.github.com/users/alijuma/orgs",
+      "repos_url": "https://api.github.com/users/alijuma/repos",
+      "events_url": "https://api.github.com/users/alijuma/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/alijuma/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Fixed.\n",
+    "created_at": "2016-04-05T13:59:47Z",
+    "updated_at": "2016-04-05T14:55:12Z",
+    "html_url": "https://github.com/whatwg/html/pull/978#discussion_r58542476",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/978",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/58542476"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/978#discussion_r58542476"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/978"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/58542476/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 65769,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 124,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

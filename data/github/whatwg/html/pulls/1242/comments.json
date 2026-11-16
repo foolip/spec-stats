@@ -1,0 +1,428 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/64700911",
+    "pull_request_review_id": null,
+    "id": 64700911,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY0NzAwOTEx",
+    "diff_hunk": "@@ -66430,8 +66449,24 @@ fetch(articleURL)\n \n    <li><p>Let <var>constructResult</var> be <span>Construct</span>(<var>C</var>).</p></li>\n \n-   <li><p>Remove <var>element</var> from the end of <var>definition</var>'s <span\n-   data-x=\"concept-custom-element-definition-construction-stack\">construction stack</span>.</p></li>\n+   <li>\n+    <p>Remove the last entry from the end of <var>definition</var>'s <span\n+    data-x=\"concept-custom-element-definition-construction-stack\">construction stack</span>.</p>\n+\n+    <div class=\"note\">\n+     <p>Assuming <var>C</var> calls <code data-x=\"\">super()</code> (as it <a\n+     href=\"#custom-element-conformance\">should</a>), and that the call succeeds, this will be the\n+     <span data-x=\"concept-already-constructed-marker\"><i>already\n+     constructed</i> marker</span> that replaced the <var>element</var> we pushed at the beginning\n+     of this algorithm. (The <span data-x=\"dom-HTMLElement\"><code>HTMLElement</code>\n+     constructor</span> carries out this replacement.)</p>\n+\n+     <p>If <var>C</var> does not call <code data-x=\"\">super()</code> (i.e. it is not <a\n+     href=\"#custom-element-conformance\">conformant</a>), or if any step in the <span\n+     data-x=\"dom-HTMLElement\"><code>HTMLElement</code> constructor</span> throws, then this entry\n+     will still be <var>element</var>.</p>\n+    </div>\n+   </li>\n \n    <li><p>If <var>constructResult</var> is an abrupt completion, then return\n    <var>constructResult</var> (i.e., rethrow the exception).</p></li>",
+    "path": "source",
+    "commit_id": "349b2fc313e50927fdb35c88d996fbd33d7cf153",
+    "original_commit_id": "e8c3ea5fc0a24a0cbbfcbef3bb0504b68031eb0e",
+    "user": {
+      "login": "dominiccooney",
+      "id": 55120,
+      "node_id": "MDQ6VXNlcjU1MTIw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/55120?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/dominiccooney",
+      "html_url": "https://github.com/dominiccooney",
+      "followers_url": "https://api.github.com/users/dominiccooney/followers",
+      "following_url": "https://api.github.com/users/dominiccooney/following{/other_user}",
+      "gists_url": "https://api.github.com/users/dominiccooney/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/dominiccooney/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/dominiccooney/subscriptions",
+      "organizations_url": "https://api.github.com/users/dominiccooney/orgs",
+      "repos_url": "https://api.github.com/users/dominiccooney/repos",
+      "events_url": "https://api.github.com/users/dominiccooney/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/dominiccooney/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This LGTM\n",
+    "created_at": "2016-05-26T07:20:31Z",
+    "updated_at": "2016-05-28T19:12:45Z",
+    "html_url": "https://github.com/whatwg/html/pull/1242#discussion_r64700911",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1242",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/64700911"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1242#discussion_r64700911"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1242"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/64700911/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 66472,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 75,
+    "position": 107,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/64983870",
+    "pull_request_review_id": null,
+    "id": 64983870,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY0OTgzODcw",
+    "diff_hunk": "@@ -66388,8 +66424,24 @@ fetch(articleURL)\n \n    <li><p>Let <var>constructResult</var> be <span>Construct</span>(<var>C</var>).</p></li>\n \n-   <li><p>Remove <var>element</var> from the end of <var>definition</var>'s <span\n-   data-x=\"concept-custom-element-definition-construction-stack\">construction stack</span>.</p></li>\n+   <li>\n+    <p>Remove the last entry from the end of <var>definition</var>'s <span\n+    data-x=\"concept-custom-element-definition-construction-stack\">construction stack</span>.</p>\n+\n+    <div class=\"note\">\n+     <p>Assuming <var>C</var> calls <code data-x=\"\">super()</code> (as it <a\n+     href=\"#custom-element-conformance\">should</a>), and that the call succeeds, this will be the",
+    "path": "source",
+    "commit_id": "349b2fc313e50927fdb35c88d996fbd33d7cf153",
+    "original_commit_id": "b37130729093eb34a55e2fba3c5165097fa3c6fe",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "s/should/has to/\n",
+    "created_at": "2016-05-28T04:28:46Z",
+    "updated_at": "2016-05-28T19:12:45Z",
+    "html_url": "https://github.com/whatwg/html/pull/1242#discussion_r64983870",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1242",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/64983870"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1242#discussion_r64983870"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1242"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/64983870/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 66433,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 93,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/64992752",
+    "pull_request_review_id": null,
+    "id": 64992752,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY0OTkyNzUy",
+    "diff_hunk": "@@ -66388,8 +66424,24 @@ fetch(articleURL)\n \n    <li><p>Let <var>constructResult</var> be <span>Construct</span>(<var>C</var>).</p></li>\n \n-   <li><p>Remove <var>element</var> from the end of <var>definition</var>'s <span\n-   data-x=\"concept-custom-element-definition-construction-stack\">construction stack</span>.</p></li>\n+   <li>\n+    <p>Remove the last entry from the end of <var>definition</var>'s <span\n+    data-x=\"concept-custom-element-definition-construction-stack\">construction stack</span>.</p>\n+\n+    <div class=\"note\">\n+     <p>Assuming <var>C</var> calls <code data-x=\"\">super()</code> (as it <a\n+     href=\"#custom-element-conformance\">should</a>), and that the call succeeds, this will be the",
+    "path": "source",
+    "commit_id": "349b2fc313e50927fdb35c88d996fbd33d7cf153",
+    "original_commit_id": "b37130729093eb34a55e2fba3c5165097fa3c6fe",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I guess it should be \"must\", since this is a normative authoring conformance requirement? \"has to\" is not really correct since authors don't have to do what we tell them. I guess \"must\" is a bit dubious from that perspective too.\n\nMaybe \"will if it is conformant\".\n",
+    "created_at": "2016-05-28T19:10:46Z",
+    "updated_at": "2016-05-28T19:12:45Z",
+    "html_url": "https://github.com/whatwg/html/pull/1242#discussion_r64992752",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1242",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/64992752"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1242#discussion_r64992752"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1242"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/64992752/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 66433,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 93,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/64992787",
+    "pull_request_review_id": null,
+    "id": 64992787,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY0OTkyNzg3",
+    "diff_hunk": "@@ -66388,8 +66424,24 @@ fetch(articleURL)\n \n    <li><p>Let <var>constructResult</var> be <span>Construct</span>(<var>C</var>).</p></li>\n \n-   <li><p>Remove <var>element</var> from the end of <var>definition</var>'s <span\n-   data-x=\"concept-custom-element-definition-construction-stack\">construction stack</span>.</p></li>\n+   <li>\n+    <p>Remove the last entry from the end of <var>definition</var>'s <span\n+    data-x=\"concept-custom-element-definition-construction-stack\">construction stack</span>.</p>\n+\n+    <div class=\"note\">\n+     <p>Assuming <var>C</var> calls <code data-x=\"\">super()</code> (as it <a\n+     href=\"#custom-element-conformance\">should</a>), and that the call succeeds, this will be the",
+    "path": "source",
+    "commit_id": "349b2fc313e50927fdb35c88d996fbd33d7cf153",
+    "original_commit_id": "b37130729093eb34a55e2fba3c5165097fa3c6fe",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "pushed a fixup\n",
+    "created_at": "2016-05-28T19:13:03Z",
+    "updated_at": "2016-05-28T19:13:03Z",
+    "html_url": "https://github.com/whatwg/html/pull/1242#discussion_r64992787",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1242",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/64992787"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1242#discussion_r64992787"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1242"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/64992787/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 66433,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 93,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/64998004",
+    "pull_request_review_id": null,
+    "id": 64998004,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY0OTk4MDA0",
+    "diff_hunk": "@@ -66388,8 +66424,24 @@ fetch(articleURL)\n \n    <li><p>Let <var>constructResult</var> be <span>Construct</span>(<var>C</var>).</p></li>\n \n-   <li><p>Remove <var>element</var> from the end of <var>definition</var>'s <span\n-   data-x=\"concept-custom-element-definition-construction-stack\">construction stack</span>.</p></li>\n+   <li>\n+    <p>Remove the last entry from the end of <var>definition</var>'s <span\n+    data-x=\"concept-custom-element-definition-construction-stack\">construction stack</span>.</p>\n+\n+    <div class=\"note\">\n+     <p>Assuming <var>C</var> calls <code data-x=\"\">super()</code> (as it <a\n+     href=\"#custom-element-conformance\">should</a>), and that the call succeeds, this will be the",
+    "path": "source",
+    "commit_id": "349b2fc313e50927fdb35c88d996fbd33d7cf153",
+    "original_commit_id": "b37130729093eb34a55e2fba3c5165097fa3c6fe",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The main reason I said this is because you can't require things in notes.\n",
+    "created_at": "2016-05-29T05:55:08Z",
+    "updated_at": "2016-05-29T05:55:08Z",
+    "html_url": "https://github.com/whatwg/html/pull/1242#discussion_r64998004",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1242",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/64998004"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1242#discussion_r64998004"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1242"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/64998004/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 66433,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 93,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/64998011",
+    "pull_request_review_id": null,
+    "id": 64998011,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY0OTk4MDEx",
+    "diff_hunk": "@@ -66388,8 +66424,24 @@ fetch(articleURL)\n \n    <li><p>Let <var>constructResult</var> be <span>Construct</span>(<var>C</var>).</p></li>\n \n-   <li><p>Remove <var>element</var> from the end of <var>definition</var>'s <span\n-   data-x=\"concept-custom-element-definition-construction-stack\">construction stack</span>.</p></li>\n+   <li>\n+    <p>Remove the last entry from the end of <var>definition</var>'s <span\n+    data-x=\"concept-custom-element-definition-construction-stack\">construction stack</span>.</p>\n+\n+    <div class=\"note\">\n+     <p>Assuming <var>C</var> calls <code data-x=\"\">super()</code> (as it <a\n+     href=\"#custom-element-conformance\">should</a>), and that the call succeeds, this will be the",
+    "path": "source",
+    "commit_id": "349b2fc313e50927fdb35c88d996fbd33d7cf153",
+    "original_commit_id": "b37130729093eb34a55e2fba3c5165097fa3c6fe",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Sure, it's just referring to a requirement defined elsewhere though.\n",
+    "created_at": "2016-05-29T05:56:04Z",
+    "updated_at": "2016-05-29T05:56:04Z",
+    "html_url": "https://github.com/whatwg/html/pull/1242#discussion_r64998011",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1242",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/64998011"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1242#discussion_r64998011"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1242"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/64998011/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 66433,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 93,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

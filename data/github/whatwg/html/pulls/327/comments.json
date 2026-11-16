@@ -1,0 +1,925 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/44509836",
+    "pull_request_review_id": null,
+    "id": 44509836,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDQ0NTA5ODM2",
+    "diff_hunk": "@@ -37272,16 +37272,61 @@ dictionary <dfn>TrackEventInit</dfn> : <span>EventInit</span> {\n \n   </div>\n \n-  <p>When the SVG <code data-x=\"\">foreignObject</code> element contains elements from the <span>HTML\n-  namespace</span>, such elements must all be <span>flow content</span>. <ref spec=SVG></p>\n+  <p>When the SVG <code data-x=\"svg:foreignObject\">foreignObject</code> element contains elements",
+    "path": "source",
+    "commit_id": "c4f995cccb6f3f633d58fc0891f3bd41f4df3abf",
+    "original_commit_id": "6eea5a691ab46099644615c2f961de13112caa7a",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "If you are not referencing a `<dfn>`, just keep `data-x` set to the empty string. I don't think this change will go through the build script as-is.\n",
+    "created_at": "2015-11-11T08:13:10Z",
+    "updated_at": "2015-11-16T17:22:54Z",
+    "html_url": "https://github.com/whatwg/html/pull/327#discussion_r44509836",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/327",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/44509836"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/327#discussion_r44509836"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/327"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/44509836/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 37275,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 6,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/44514221",
+    "pull_request_review_id": null,
+    "id": 44514221,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDQ0NTE0MjIx",
+    "diff_hunk": "@@ -37272,16 +37272,61 @@ dictionary <dfn>TrackEventInit</dfn> : <span>EventInit</span> {\n \n   </div>\n \n-  <p>When the SVG <code data-x=\"\">foreignObject</code> element contains elements from the <span>HTML\n-  namespace</span>, such elements must all be <span>flow content</span>. <ref spec=SVG></p>\n+  <p>When the SVG <code data-x=\"svg:foreignObject\">foreignObject</code> element contains elements\n+  from the <span>HTML namespace</span>, such elements must all be <span>flow content</span>.\n+  <ref spec=SVG></p>\n \n-  <p>The content model for <code data-x=\"\">title</code> elements in the <span>SVG namespace</span>\n-  inside <span>HTML documents</span> is <span>phrasing content</span>. (This further constrains the\n-  requirements given in the SVG specification.)</p>\n+  <p>The content model for <code data-x=\"svg:title\">title</code> elements in the\n+  <span>SVG namespace</span> inside <span>HTML documents</span> is <span>phrasing content</span>.\n+  (This further constrains the requirements given in the SVG specification.)</p>\n \n   <p>The semantics of SVG elements are defined by the SVG specification and <span>other applicable\n   specifications</span>. <ref spec=SVG></p>\n \n+  <p><strong>User agent requirements</strong>: SVG as implemented today follows neither SVG 1.1 nor\n+  SVG Tiny 1.2 precisely, instead implementing subsets of each. Although it is hoped that the\n+  in-progress SVG 2 specification is a more realistic target for implementations, until that\n+  specification is ready, user agents must implement the SVG 1.1 specification with the following\n+  willful violations and additions. <ref spec=SVG11> <ref spec=SVGTiny12> <ref spec=SVG2></p>\n+\n+  <p>The following features from SVG 1.1 must not be implemented:</p>\n+\n+  <ul>\n+    <li>The <code data-x=\"svg:tref\">&lt;tref></code> element</li>",
+    "path": "source",
+    "commit_id": "c4f995cccb6f3f633d58fc0891f3bd41f4df3abf",
+    "original_commit_id": "6eea5a691ab46099644615c2f961de13112caa7a",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Remove `&lt;` and `>` (for all elements)\n",
+    "created_at": "2015-11-11T09:19:57Z",
+    "updated_at": "2015-11-16T17:22:54Z",
+    "html_url": "https://github.com/whatwg/html/pull/327#discussion_r44514221",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/327",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/44514221"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/327#discussion_r44514221"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/327"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/44514221/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 37295,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 29,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/44514266",
+    "pull_request_review_id": null,
+    "id": 44514266,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDQ0NTE0MjY2",
+    "diff_hunk": "@@ -37272,16 +37272,61 @@ dictionary <dfn>TrackEventInit</dfn> : <span>EventInit</span> {\n \n   </div>\n \n-  <p>When the SVG <code data-x=\"\">foreignObject</code> element contains elements from the <span>HTML\n-  namespace</span>, such elements must all be <span>flow content</span>. <ref spec=SVG></p>\n+  <p>When the SVG <code data-x=\"svg:foreignObject\">foreignObject</code> element contains elements\n+  from the <span>HTML namespace</span>, such elements must all be <span>flow content</span>.\n+  <ref spec=SVG></p>\n \n-  <p>The content model for <code data-x=\"\">title</code> elements in the <span>SVG namespace</span>\n-  inside <span>HTML documents</span> is <span>phrasing content</span>. (This further constrains the\n-  requirements given in the SVG specification.)</p>\n+  <p>The content model for <code data-x=\"svg:title\">title</code> elements in the\n+  <span>SVG namespace</span> inside <span>HTML documents</span> is <span>phrasing content</span>.\n+  (This further constrains the requirements given in the SVG specification.)</p>\n \n   <p>The semantics of SVG elements are defined by the SVG specification and <span>other applicable\n   specifications</span>. <ref spec=SVG></p>\n \n+  <p><strong>User agent requirements</strong>: SVG as implemented today follows neither SVG 1.1 nor\n+  SVG Tiny 1.2 precisely, instead implementing subsets of each. Although it is hoped that the\n+  in-progress SVG 2 specification is a more realistic target for implementations, until that\n+  specification is ready, user agents must implement the SVG 1.1 specification with the following\n+  willful violations and additions. <ref spec=SVG11> <ref spec=SVGTiny12> <ref spec=SVG2></p>\n+\n+  <p>The following features from SVG 1.1 must not be implemented:</p>\n+\n+  <ul>\n+    <li>The <code data-x=\"svg:tref\">&lt;tref></code> element</li>\n+    <li>The <code data-x=\"svg:cursor\">&lt;cursor></code> element (use CSS's <code>cursor</code>",
+    "path": "source",
+    "commit_id": "c4f995cccb6f3f633d58fc0891f3bd41f4df3abf",
+    "original_commit_id": "6eea5a691ab46099644615c2f961de13112caa7a",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "`data-x=\"\"` on cursor\n",
+    "created_at": "2015-11-11T09:20:30Z",
+    "updated_at": "2015-11-16T17:22:54Z",
+    "html_url": "https://github.com/whatwg/html/pull/327#discussion_r44514266",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/327",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/44514266"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/327#discussion_r44514266"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/327"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/44514266/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 37296,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 30,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/44514343",
+    "pull_request_review_id": null,
+    "id": 44514343,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDQ0NTE0MzQz",
+    "diff_hunk": "@@ -37272,16 +37272,61 @@ dictionary <dfn>TrackEventInit</dfn> : <span>EventInit</span> {\n \n   </div>\n \n-  <p>When the SVG <code data-x=\"\">foreignObject</code> element contains elements from the <span>HTML\n-  namespace</span>, such elements must all be <span>flow content</span>. <ref spec=SVG></p>\n+  <p>When the SVG <code data-x=\"svg:foreignObject\">foreignObject</code> element contains elements\n+  from the <span>HTML namespace</span>, such elements must all be <span>flow content</span>.\n+  <ref spec=SVG></p>\n \n-  <p>The content model for <code data-x=\"\">title</code> elements in the <span>SVG namespace</span>\n-  inside <span>HTML documents</span> is <span>phrasing content</span>. (This further constrains the\n-  requirements given in the SVG specification.)</p>\n+  <p>The content model for <code data-x=\"svg:title\">title</code> elements in the\n+  <span>SVG namespace</span> inside <span>HTML documents</span> is <span>phrasing content</span>.\n+  (This further constrains the requirements given in the SVG specification.)</p>\n \n   <p>The semantics of SVG elements are defined by the SVG specification and <span>other applicable\n   specifications</span>. <ref spec=SVG></p>\n \n+  <p><strong>User agent requirements</strong>: SVG as implemented today follows neither SVG 1.1 nor\n+  SVG Tiny 1.2 precisely, instead implementing subsets of each. Although it is hoped that the\n+  in-progress SVG 2 specification is a more realistic target for implementations, until that\n+  specification is ready, user agents must implement the SVG 1.1 specification with the following\n+  willful violations and additions. <ref spec=SVG11> <ref spec=SVGTiny12> <ref spec=SVG2></p>\n+\n+  <p>The following features from SVG 1.1 must not be implemented:</p>\n+\n+  <ul>\n+    <li>The <code data-x=\"svg:tref\">&lt;tref></code> element</li>\n+    <li>The <code data-x=\"svg:cursor\">&lt;cursor></code> element (use CSS's <code>cursor</code>\n+      property instead)</li>\n+    <li>The font-defining elements: <code data-x=\"svg:font\">&lt;font></code>,\n+      <code data-x=\"svg:glyph\">&lt;glyph></code>,\n+      <code data-x=\"svg:missing-glyph\">&lt;missing-glyph></code>,\n+      <code data-x=\"svg:hkern\">&lt;hkern></code>, <code data-x=\"svg:vkern\">&lt;vkern></code>,\n+      <code data-x=\"svg:font-face\">&lt;font-face></code>,\n+      <code data-x=\"svg:font-face-src\">&lt;font-face-src></code>,\n+      <code data-x=\"svg:font-face-uri\">&lt;font-face-uri></code>,\n+      <code data-x=\"svg:font-face-format\">&lt;font-face-format></code>, and\n+      <code data-x=\"svg:font-face-name\">&lt;font-face-name></code> (use CSS's\n+      <code>@font-face</code> instead)</li>",
+    "path": "source",
+    "commit_id": "c4f995cccb6f3f633d58fc0891f3bd41f4df3abf",
+    "original_commit_id": "6eea5a691ab46099644615c2f961de13112caa7a",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "`data-x=\"\"` on font-face\n",
+    "created_at": "2015-11-11T09:21:27Z",
+    "updated_at": "2015-11-16T17:22:54Z",
+    "html_url": "https://github.com/whatwg/html/pull/327#discussion_r44514343",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/327",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/44514343"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/327#discussion_r44514343"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/327"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/44514343/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 37307,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 41,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/44514410",
+    "pull_request_review_id": null,
+    "id": 44514410,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDQ0NTE0NDEw",
+    "diff_hunk": "@@ -37272,16 +37272,61 @@ dictionary <dfn>TrackEventInit</dfn> : <span>EventInit</span> {\n \n   </div>\n \n-  <p>When the SVG <code data-x=\"\">foreignObject</code> element contains elements from the <span>HTML\n-  namespace</span>, such elements must all be <span>flow content</span>. <ref spec=SVG></p>\n+  <p>When the SVG <code data-x=\"svg:foreignObject\">foreignObject</code> element contains elements\n+  from the <span>HTML namespace</span>, such elements must all be <span>flow content</span>.\n+  <ref spec=SVG></p>\n \n-  <p>The content model for <code data-x=\"\">title</code> elements in the <span>SVG namespace</span>\n-  inside <span>HTML documents</span> is <span>phrasing content</span>. (This further constrains the\n-  requirements given in the SVG specification.)</p>\n+  <p>The content model for <code data-x=\"svg:title\">title</code> elements in the\n+  <span>SVG namespace</span> inside <span>HTML documents</span> is <span>phrasing content</span>.\n+  (This further constrains the requirements given in the SVG specification.)</p>\n \n   <p>The semantics of SVG elements are defined by the SVG specification and <span>other applicable\n   specifications</span>. <ref spec=SVG></p>\n \n+  <p><strong>User agent requirements</strong>: SVG as implemented today follows neither SVG 1.1 nor\n+  SVG Tiny 1.2 precisely, instead implementing subsets of each. Although it is hoped that the\n+  in-progress SVG 2 specification is a more realistic target for implementations, until that\n+  specification is ready, user agents must implement the SVG 1.1 specification with the following\n+  willful violations and additions. <ref spec=SVG11> <ref spec=SVGTiny12> <ref spec=SVG2></p>\n+\n+  <p>The following features from SVG 1.1 must not be implemented:</p>\n+\n+  <ul>\n+    <li>The <code data-x=\"svg:tref\">&lt;tref></code> element</li>\n+    <li>The <code data-x=\"svg:cursor\">&lt;cursor></code> element (use CSS's <code>cursor</code>\n+      property instead)</li>\n+    <li>The font-defining elements: <code data-x=\"svg:font\">&lt;font></code>,\n+      <code data-x=\"svg:glyph\">&lt;glyph></code>,\n+      <code data-x=\"svg:missing-glyph\">&lt;missing-glyph></code>,\n+      <code data-x=\"svg:hkern\">&lt;hkern></code>, <code data-x=\"svg:vkern\">&lt;vkern></code>,\n+      <code data-x=\"svg:font-face\">&lt;font-face></code>,\n+      <code data-x=\"svg:font-face-src\">&lt;font-face-src></code>,\n+      <code data-x=\"svg:font-face-uri\">&lt;font-face-uri></code>,\n+      <code data-x=\"svg:font-face-format\">&lt;font-face-format></code>, and\n+      <code data-x=\"svg:font-face-name\">&lt;font-face-name></code> (use CSS's\n+      <code>@font-face</code> instead)</li>\n+    <li>The <code data-x=\"svg:externalResourcesRequired\">externalResourcesRequired</code>\n+      attribute</li>\n+    <li>The <code data-x=\"svg:enable-background\">enable-background</code> property</li>\n+    <li>The <code data-x=\"svg:contentScriptType\">contentScriptType</code> and\n+      <code data-x=\"svg:contentStyleType\">contentStyleType</code> attributes (use the\n+      <code data-x=\"svg:type\">type</code> attribute on the\n+      <code data-x=\"svg:script\">&lt;script></code> and <code data-x=\"svg:style\">&lt;style></code>\n+      elements instead)</li>\n+  </ul>\n+\n+  <p>The following features from SVG Tiny 1.2 must be implemented:</p>\n+\n+  <ul>\n+    <li>The <code data-x=\"svg:non-scaling-stroke\">non-scaling-stroke</code> value for the\n+      <code data-x=\"svg:vector-effect\">vector-effect</code> property</li>\n+    <li>The <code>class</code> attribute is allowed on all SVG elements</li>",
+    "path": "source",
+    "commit_id": "c4f995cccb6f3f633d58fc0891f3bd41f4df3abf",
+    "original_commit_id": "6eea5a691ab46099644615c2f961de13112caa7a",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "`data-x=\"\"`\n",
+    "created_at": "2015-11-11T09:22:30Z",
+    "updated_at": "2015-11-16T17:22:54Z",
+    "html_url": "https://github.com/whatwg/html/pull/327#discussion_r44514410",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/327",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/44514410"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/327#discussion_r44514410"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/327"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/44514410/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 37323,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 57,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/44514416",
+    "pull_request_review_id": null,
+    "id": 44514416,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDQ0NTE0NDE2",
+    "diff_hunk": "@@ -37272,16 +37272,61 @@ dictionary <dfn>TrackEventInit</dfn> : <span>EventInit</span> {\n \n   </div>\n \n-  <p>When the SVG <code data-x=\"\">foreignObject</code> element contains elements from the <span>HTML\n-  namespace</span>, such elements must all be <span>flow content</span>. <ref spec=SVG></p>\n+  <p>When the SVG <code data-x=\"svg:foreignObject\">foreignObject</code> element contains elements\n+  from the <span>HTML namespace</span>, such elements must all be <span>flow content</span>.\n+  <ref spec=SVG></p>\n \n-  <p>The content model for <code data-x=\"\">title</code> elements in the <span>SVG namespace</span>\n-  inside <span>HTML documents</span> is <span>phrasing content</span>. (This further constrains the\n-  requirements given in the SVG specification.)</p>\n+  <p>The content model for <code data-x=\"svg:title\">title</code> elements in the\n+  <span>SVG namespace</span> inside <span>HTML documents</span> is <span>phrasing content</span>.\n+  (This further constrains the requirements given in the SVG specification.)</p>\n \n   <p>The semantics of SVG elements are defined by the SVG specification and <span>other applicable\n   specifications</span>. <ref spec=SVG></p>\n \n+  <p><strong>User agent requirements</strong>: SVG as implemented today follows neither SVG 1.1 nor\n+  SVG Tiny 1.2 precisely, instead implementing subsets of each. Although it is hoped that the\n+  in-progress SVG 2 specification is a more realistic target for implementations, until that\n+  specification is ready, user agents must implement the SVG 1.1 specification with the following\n+  willful violations and additions. <ref spec=SVG11> <ref spec=SVGTiny12> <ref spec=SVG2></p>\n+\n+  <p>The following features from SVG 1.1 must not be implemented:</p>\n+\n+  <ul>\n+    <li>The <code data-x=\"svg:tref\">&lt;tref></code> element</li>\n+    <li>The <code data-x=\"svg:cursor\">&lt;cursor></code> element (use CSS's <code>cursor</code>\n+      property instead)</li>\n+    <li>The font-defining elements: <code data-x=\"svg:font\">&lt;font></code>,\n+      <code data-x=\"svg:glyph\">&lt;glyph></code>,\n+      <code data-x=\"svg:missing-glyph\">&lt;missing-glyph></code>,\n+      <code data-x=\"svg:hkern\">&lt;hkern></code>, <code data-x=\"svg:vkern\">&lt;vkern></code>,\n+      <code data-x=\"svg:font-face\">&lt;font-face></code>,\n+      <code data-x=\"svg:font-face-src\">&lt;font-face-src></code>,\n+      <code data-x=\"svg:font-face-uri\">&lt;font-face-uri></code>,\n+      <code data-x=\"svg:font-face-format\">&lt;font-face-format></code>, and\n+      <code data-x=\"svg:font-face-name\">&lt;font-face-name></code> (use CSS's\n+      <code>@font-face</code> instead)</li>\n+    <li>The <code data-x=\"svg:externalResourcesRequired\">externalResourcesRequired</code>\n+      attribute</li>\n+    <li>The <code data-x=\"svg:enable-background\">enable-background</code> property</li>\n+    <li>The <code data-x=\"svg:contentScriptType\">contentScriptType</code> and\n+      <code data-x=\"svg:contentStyleType\">contentStyleType</code> attributes (use the\n+      <code data-x=\"svg:type\">type</code> attribute on the\n+      <code data-x=\"svg:script\">&lt;script></code> and <code data-x=\"svg:style\">&lt;style></code>\n+      elements instead)</li>\n+  </ul>\n+\n+  <p>The following features from SVG Tiny 1.2 must be implemented:</p>\n+\n+  <ul>\n+    <li>The <code data-x=\"svg:non-scaling-stroke\">non-scaling-stroke</code> value for the\n+      <code data-x=\"svg:vector-effect\">vector-effect</code> property</li>\n+    <li>The <code>class</code> attribute is allowed on all SVG elements</li>\n+    <li>The <code>tabindex</code> attribute is allowed on visible SVG elements</li>",
+    "path": "source",
+    "commit_id": "c4f995cccb6f3f633d58fc0891f3bd41f4df3abf",
+    "original_commit_id": "6eea5a691ab46099644615c2f961de13112caa7a",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "`data-x=\"\"`\n",
+    "created_at": "2015-11-11T09:22:35Z",
+    "updated_at": "2015-11-16T17:22:54Z",
+    "html_url": "https://github.com/whatwg/html/pull/327#discussion_r44514416",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/327",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/44514416"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/327#discussion_r44514416"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/327"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/44514416/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 37324,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 58,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/44514737",
+    "pull_request_review_id": null,
+    "id": 44514737,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDQ0NTE0NzM3",
+    "diff_hunk": "@@ -37272,16 +37272,61 @@ dictionary <dfn>TrackEventInit</dfn> : <span>EventInit</span> {\n \n   </div>\n \n-  <p>When the SVG <code data-x=\"\">foreignObject</code> element contains elements from the <span>HTML\n-  namespace</span>, such elements must all be <span>flow content</span>. <ref spec=SVG></p>\n+  <p>When the SVG <code data-x=\"svg:foreignObject\">foreignObject</code> element contains elements\n+  from the <span>HTML namespace</span>, such elements must all be <span>flow content</span>.\n+  <ref spec=SVG></p>\n \n-  <p>The content model for <code data-x=\"\">title</code> elements in the <span>SVG namespace</span>\n-  inside <span>HTML documents</span> is <span>phrasing content</span>. (This further constrains the\n-  requirements given in the SVG specification.)</p>\n+  <p>The content model for <code data-x=\"svg:title\">title</code> elements in the\n+  <span>SVG namespace</span> inside <span>HTML documents</span> is <span>phrasing content</span>.\n+  (This further constrains the requirements given in the SVG specification.)</p>\n \n   <p>The semantics of SVG elements are defined by the SVG specification and <span>other applicable\n   specifications</span>. <ref spec=SVG></p>\n \n+  <p><strong>User agent requirements</strong>: SVG as implemented today follows neither SVG 1.1 nor\n+  SVG Tiny 1.2 precisely, instead implementing subsets of each. Although it is hoped that the\n+  in-progress SVG 2 specification is a more realistic target for implementations, until that\n+  specification is ready, user agents must implement the SVG 1.1 specification with the following\n+  willful violations and additions. <ref spec=SVG11> <ref spec=SVGTiny12> <ref spec=SVG2></p>\n+\n+  <p>The following features from SVG 1.1 must not be implemented:</p>\n+\n+  <ul>\n+    <li>The <code data-x=\"svg:tref\">&lt;tref></code> element</li>\n+    <li>The <code data-x=\"svg:cursor\">&lt;cursor></code> element (use CSS's <code>cursor</code>\n+      property instead)</li>\n+    <li>The font-defining elements: <code data-x=\"svg:font\">&lt;font></code>,\n+      <code data-x=\"svg:glyph\">&lt;glyph></code>,\n+      <code data-x=\"svg:missing-glyph\">&lt;missing-glyph></code>,\n+      <code data-x=\"svg:hkern\">&lt;hkern></code>, <code data-x=\"svg:vkern\">&lt;vkern></code>,\n+      <code data-x=\"svg:font-face\">&lt;font-face></code>,\n+      <code data-x=\"svg:font-face-src\">&lt;font-face-src></code>,\n+      <code data-x=\"svg:font-face-uri\">&lt;font-face-uri></code>,\n+      <code data-x=\"svg:font-face-format\">&lt;font-face-format></code>, and\n+      <code data-x=\"svg:font-face-name\">&lt;font-face-name></code> (use CSS's\n+      <code>@font-face</code> instead)</li>\n+    <li>The <code data-x=\"svg:externalResourcesRequired\">externalResourcesRequired</code>\n+      attribute</li>\n+    <li>The <code data-x=\"svg:enable-background\">enable-background</code> property</li>\n+    <li>The <code data-x=\"svg:contentScriptType\">contentScriptType</code> and\n+      <code data-x=\"svg:contentStyleType\">contentStyleType</code> attributes (use the\n+      <code data-x=\"svg:type\">type</code> attribute on the\n+      <code data-x=\"svg:script\">&lt;script></code> and <code data-x=\"svg:style\">&lt;style></code>\n+      elements instead)</li>\n+  </ul>\n+\n+  <p>The following features from SVG Tiny 1.2 must be implemented:</p>\n+\n+  <ul>\n+    <li>The <code data-x=\"svg:non-scaling-stroke\">non-scaling-stroke</code> value for the\n+      <code data-x=\"svg:vector-effect\">vector-effect</code> property</li>\n+    <li>The <code>class</code> attribute is allowed on all SVG elements</li>\n+    <li>The <code>tabindex</code> attribute is allowed on visible SVG elements</li>\n+    <li>The ARIA accessibility attributes are allowed on all SVG elements</li>\n+  </ul>\n+\n+  <p>Additionally, <code>data-*</code> attributes are allowed on all SVG elements.</p>",
+    "path": "source",
+    "commit_id": "c4f995cccb6f3f633d58fc0891f3bd41f4df3abf",
+    "original_commit_id": "6eea5a691ab46099644615c2f961de13112caa7a",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This has no impact on implementations, just validators? I don't see `data-` mentioned in SVG Tiny 1.2 nor SVG2 (editor's draft). Maybe we should remove this paragraph?\n",
+    "created_at": "2015-11-11T09:27:20Z",
+    "updated_at": "2015-11-16T17:22:54Z",
+    "html_url": "https://github.com/whatwg/html/pull/327#discussion_r44514737",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/327",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/44514737"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/327#discussion_r44514737"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/327"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/44514737/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 37328,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 62,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/44515035",
+    "pull_request_review_id": null,
+    "id": 44515035,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDQ0NTE1MDM1",
+    "diff_hunk": "@@ -37272,16 +37272,61 @@ dictionary <dfn>TrackEventInit</dfn> : <span>EventInit</span> {\n \n   </div>\n \n-  <p>When the SVG <code data-x=\"\">foreignObject</code> element contains elements from the <span>HTML\n-  namespace</span>, such elements must all be <span>flow content</span>. <ref spec=SVG></p>\n+  <p>When the SVG <code data-x=\"svg:foreignObject\">foreignObject</code> element contains elements\n+  from the <span>HTML namespace</span>, such elements must all be <span>flow content</span>.\n+  <ref spec=SVG></p>\n \n-  <p>The content model for <code data-x=\"\">title</code> elements in the <span>SVG namespace</span>\n-  inside <span>HTML documents</span> is <span>phrasing content</span>. (This further constrains the\n-  requirements given in the SVG specification.)</p>\n+  <p>The content model for <code data-x=\"svg:title\">title</code> elements in the\n+  <span>SVG namespace</span> inside <span>HTML documents</span> is <span>phrasing content</span>.\n+  (This further constrains the requirements given in the SVG specification.)</p>\n \n   <p>The semantics of SVG elements are defined by the SVG specification and <span>other applicable\n   specifications</span>. <ref spec=SVG></p>\n \n+  <p><strong>User agent requirements</strong>: SVG as implemented today follows neither SVG 1.1 nor\n+  SVG Tiny 1.2 precisely, instead implementing subsets of each. Although it is hoped that the\n+  in-progress SVG 2 specification is a more realistic target for implementations, until that\n+  specification is ready, user agents must implement the SVG 1.1 specification with the following\n+  willful violations and additions. <ref spec=SVG11> <ref spec=SVGTiny12> <ref spec=SVG2></p>\n+\n+  <p>The following features from SVG 1.1 must not be implemented:</p>\n+\n+  <ul>\n+    <li>The <code data-x=\"svg:tref\">&lt;tref></code> element</li>\n+    <li>The <code data-x=\"svg:cursor\">&lt;cursor></code> element (use CSS's <code>cursor</code>\n+      property instead)</li>\n+    <li>The font-defining elements: <code data-x=\"svg:font\">&lt;font></code>,\n+      <code data-x=\"svg:glyph\">&lt;glyph></code>,\n+      <code data-x=\"svg:missing-glyph\">&lt;missing-glyph></code>,\n+      <code data-x=\"svg:hkern\">&lt;hkern></code>, <code data-x=\"svg:vkern\">&lt;vkern></code>,\n+      <code data-x=\"svg:font-face\">&lt;font-face></code>,\n+      <code data-x=\"svg:font-face-src\">&lt;font-face-src></code>,\n+      <code data-x=\"svg:font-face-uri\">&lt;font-face-uri></code>,\n+      <code data-x=\"svg:font-face-format\">&lt;font-face-format></code>, and\n+      <code data-x=\"svg:font-face-name\">&lt;font-face-name></code> (use CSS's\n+      <code>@font-face</code> instead)</li>\n+    <li>The <code data-x=\"svg:externalResourcesRequired\">externalResourcesRequired</code>\n+      attribute</li>\n+    <li>The <code data-x=\"svg:enable-background\">enable-background</code> property</li>\n+    <li>The <code data-x=\"svg:contentScriptType\">contentScriptType</code> and\n+      <code data-x=\"svg:contentStyleType\">contentStyleType</code> attributes (use the\n+      <code data-x=\"svg:type\">type</code> attribute on the\n+      <code data-x=\"svg:script\">&lt;script></code> and <code data-x=\"svg:style\">&lt;style></code>\n+      elements instead)</li>\n+  </ul>\n+\n+  <p>The following features from SVG Tiny 1.2 must be implemented:</p>\n+\n+  <ul>\n+    <li>The <code data-x=\"svg:non-scaling-stroke\">non-scaling-stroke</code> value for the\n+      <code data-x=\"svg:vector-effect\">vector-effect</code> property</li>\n+    <li>The <code>class</code> attribute is allowed on all SVG elements</li>\n+    <li>The <code>tabindex</code> attribute is allowed on visible SVG elements</li>\n+    <li>The ARIA accessibility attributes are allowed on all SVG elements</li>",
+    "path": "source",
+    "commit_id": "c4f995cccb6f3f633d58fc0891f3bd41f4df3abf",
+    "original_commit_id": "6eea5a691ab46099644615c2f961de13112caa7a",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I only see the `role` attribute mentioned in SVG Tiny 1.2 -- not the other `aria-*` attributes. (SVG2 lists `aria-` attributes.)\n",
+    "created_at": "2015-11-11T09:31:49Z",
+    "updated_at": "2015-11-16T17:22:54Z",
+    "html_url": "https://github.com/whatwg/html/pull/327#discussion_r44515035",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/327",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/44515035"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/327#discussion_r44515035"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/327"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/44515035/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 37325,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 59,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/44541071",
+    "pull_request_review_id": null,
+    "id": 44541071,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDQ0NTQxMDcx",
+    "diff_hunk": "@@ -37272,16 +37272,61 @@ dictionary <dfn>TrackEventInit</dfn> : <span>EventInit</span> {\n \n   </div>\n \n-  <p>When the SVG <code data-x=\"\">foreignObject</code> element contains elements from the <span>HTML\n-  namespace</span>, such elements must all be <span>flow content</span>. <ref spec=SVG></p>\n+  <p>When the SVG <code data-x=\"svg:foreignObject\">foreignObject</code> element contains elements\n+  from the <span>HTML namespace</span>, such elements must all be <span>flow content</span>.\n+  <ref spec=SVG></p>\n \n-  <p>The content model for <code data-x=\"\">title</code> elements in the <span>SVG namespace</span>\n-  inside <span>HTML documents</span> is <span>phrasing content</span>. (This further constrains the\n-  requirements given in the SVG specification.)</p>\n+  <p>The content model for <code data-x=\"svg:title\">title</code> elements in the\n+  <span>SVG namespace</span> inside <span>HTML documents</span> is <span>phrasing content</span>.\n+  (This further constrains the requirements given in the SVG specification.)</p>\n \n   <p>The semantics of SVG elements are defined by the SVG specification and <span>other applicable\n   specifications</span>. <ref spec=SVG></p>\n \n+  <p><strong>User agent requirements</strong>: SVG as implemented today follows neither SVG 1.1 nor\n+  SVG Tiny 1.2 precisely, instead implementing subsets of each. Although it is hoped that the\n+  in-progress SVG 2 specification is a more realistic target for implementations, until that\n+  specification is ready, user agents must implement the SVG 1.1 specification with the following\n+  willful violations and additions. <ref spec=SVG11> <ref spec=SVGTiny12> <ref spec=SVG2></p>\n+\n+  <p>The following features from SVG 1.1 must not be implemented:</p>\n+\n+  <ul>\n+    <li>The <code data-x=\"svg:tref\">&lt;tref></code> element</li>\n+    <li>The <code data-x=\"svg:cursor\">&lt;cursor></code> element (use CSS's <code>cursor</code>\n+      property instead)</li>\n+    <li>The font-defining elements: <code data-x=\"svg:font\">&lt;font></code>,\n+      <code data-x=\"svg:glyph\">&lt;glyph></code>,\n+      <code data-x=\"svg:missing-glyph\">&lt;missing-glyph></code>,\n+      <code data-x=\"svg:hkern\">&lt;hkern></code>, <code data-x=\"svg:vkern\">&lt;vkern></code>,\n+      <code data-x=\"svg:font-face\">&lt;font-face></code>,\n+      <code data-x=\"svg:font-face-src\">&lt;font-face-src></code>,\n+      <code data-x=\"svg:font-face-uri\">&lt;font-face-uri></code>,\n+      <code data-x=\"svg:font-face-format\">&lt;font-face-format></code>, and\n+      <code data-x=\"svg:font-face-name\">&lt;font-face-name></code> (use CSS's\n+      <code>@font-face</code> instead)</li>\n+    <li>The <code data-x=\"svg:externalResourcesRequired\">externalResourcesRequired</code>\n+      attribute</li>\n+    <li>The <code data-x=\"svg:enable-background\">enable-background</code> property</li>\n+    <li>The <code data-x=\"svg:contentScriptType\">contentScriptType</code> and\n+      <code data-x=\"svg:contentStyleType\">contentStyleType</code> attributes (use the\n+      <code data-x=\"svg:type\">type</code> attribute on the\n+      <code data-x=\"svg:script\">&lt;script></code> and <code data-x=\"svg:style\">&lt;style></code>\n+      elements instead)</li>\n+  </ul>\n+\n+  <p>The following features from SVG Tiny 1.2 must be implemented:</p>\n+\n+  <ul>\n+    <li>The <code data-x=\"svg:non-scaling-stroke\">non-scaling-stroke</code> value for the\n+      <code data-x=\"svg:vector-effect\">vector-effect</code> property</li>\n+    <li>The <code>class</code> attribute is allowed on all SVG elements</li>\n+    <li>The <code>tabindex</code> attribute is allowed on visible SVG elements</li>\n+    <li>The ARIA accessibility attributes are allowed on all SVG elements</li>\n+  </ul>\n+\n+  <p>Additionally, <code>data-*</code> attributes are allowed on all SVG elements.</p>",
+    "path": "source",
+    "commit_id": "c4f995cccb6f3f633d58fc0891f3bd41f4df3abf",
+    "original_commit_id": "6eea5a691ab46099644615c2f961de13112caa7a",
+    "user": {
+      "login": "tigt",
+      "id": 8072522,
+      "node_id": "MDQ6VXNlcjgwNzI1MjI=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8072522?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/tigt",
+      "html_url": "https://github.com/tigt",
+      "followers_url": "https://api.github.com/users/tigt/followers",
+      "following_url": "https://api.github.com/users/tigt/following{/other_user}",
+      "gists_url": "https://api.github.com/users/tigt/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/tigt/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/tigt/subscriptions",
+      "organizations_url": "https://api.github.com/users/tigt/orgs",
+      "repos_url": "https://api.github.com/users/tigt/repos",
+      "events_url": "https://api.github.com/users/tigt/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/tigt/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "@zcorpan That's true, that part is more stolen from HTML5. However, the old-and-busted `xmlns:aria` doesn't work with any accessibility APIs that I know of.\n",
+    "created_at": "2015-11-11T15:03:29Z",
+    "updated_at": "2015-11-16T17:22:54Z",
+    "html_url": "https://github.com/whatwg/html/pull/327#discussion_r44541071",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/327",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/44541071"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/327#discussion_r44541071"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/327"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/44541071/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 37328,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 62,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/44561138",
+    "pull_request_review_id": null,
+    "id": 44561138,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDQ0NTYxMTM4",
+    "diff_hunk": "@@ -37272,16 +37272,61 @@ dictionary <dfn>TrackEventInit</dfn> : <span>EventInit</span> {\n \n   </div>\n \n-  <p>When the SVG <code data-x=\"\">foreignObject</code> element contains elements from the <span>HTML\n-  namespace</span>, such elements must all be <span>flow content</span>. <ref spec=SVG></p>\n+  <p>When the SVG <code data-x=\"svg:foreignObject\">foreignObject</code> element contains elements\n+  from the <span>HTML namespace</span>, such elements must all be <span>flow content</span>.\n+  <ref spec=SVG></p>\n \n-  <p>The content model for <code data-x=\"\">title</code> elements in the <span>SVG namespace</span>\n-  inside <span>HTML documents</span> is <span>phrasing content</span>. (This further constrains the\n-  requirements given in the SVG specification.)</p>\n+  <p>The content model for <code data-x=\"svg:title\">title</code> elements in the\n+  <span>SVG namespace</span> inside <span>HTML documents</span> is <span>phrasing content</span>.\n+  (This further constrains the requirements given in the SVG specification.)</p>\n \n   <p>The semantics of SVG elements are defined by the SVG specification and <span>other applicable\n   specifications</span>. <ref spec=SVG></p>\n \n+  <p><strong>User agent requirements</strong>: SVG as implemented today follows neither SVG 1.1 nor\n+  SVG Tiny 1.2 precisely, instead implementing subsets of each. Although it is hoped that the\n+  in-progress SVG 2 specification is a more realistic target for implementations, until that\n+  specification is ready, user agents must implement the SVG 1.1 specification with the following\n+  willful violations and additions. <ref spec=SVG11> <ref spec=SVGTiny12> <ref spec=SVG2></p>\n+\n+  <p>The following features from SVG 1.1 must not be implemented:</p>\n+\n+  <ul>\n+    <li>The <code data-x=\"svg:tref\">&lt;tref></code> element</li>\n+    <li>The <code data-x=\"svg:cursor\">&lt;cursor></code> element (use CSS's <code>cursor</code>\n+      property instead)</li>\n+    <li>The font-defining elements: <code data-x=\"svg:font\">&lt;font></code>,\n+      <code data-x=\"svg:glyph\">&lt;glyph></code>,\n+      <code data-x=\"svg:missing-glyph\">&lt;missing-glyph></code>,\n+      <code data-x=\"svg:hkern\">&lt;hkern></code>, <code data-x=\"svg:vkern\">&lt;vkern></code>,\n+      <code data-x=\"svg:font-face\">&lt;font-face></code>,\n+      <code data-x=\"svg:font-face-src\">&lt;font-face-src></code>,\n+      <code data-x=\"svg:font-face-uri\">&lt;font-face-uri></code>,\n+      <code data-x=\"svg:font-face-format\">&lt;font-face-format></code>, and\n+      <code data-x=\"svg:font-face-name\">&lt;font-face-name></code> (use CSS's\n+      <code>@font-face</code> instead)</li>\n+    <li>The <code data-x=\"svg:externalResourcesRequired\">externalResourcesRequired</code>\n+      attribute</li>\n+    <li>The <code data-x=\"svg:enable-background\">enable-background</code> property</li>\n+    <li>The <code data-x=\"svg:contentScriptType\">contentScriptType</code> and\n+      <code data-x=\"svg:contentStyleType\">contentStyleType</code> attributes (use the\n+      <code data-x=\"svg:type\">type</code> attribute on the\n+      <code data-x=\"svg:script\">&lt;script></code> and <code data-x=\"svg:style\">&lt;style></code>\n+      elements instead)</li>\n+  </ul>\n+\n+  <p>The following features from SVG Tiny 1.2 must be implemented:</p>\n+\n+  <ul>\n+    <li>The <code data-x=\"svg:non-scaling-stroke\">non-scaling-stroke</code> value for the\n+      <code data-x=\"svg:vector-effect\">vector-effect</code> property</li>\n+    <li>The <code>class</code> attribute is allowed on all SVG elements</li>\n+    <li>The <code>tabindex</code> attribute is allowed on visible SVG elements</li>\n+    <li>The ARIA accessibility attributes are allowed on all SVG elements</li>",
+    "path": "source",
+    "commit_id": "c4f995cccb6f3f633d58fc0891f3bd41f4df3abf",
+    "original_commit_id": "6eea5a691ab46099644615c2f961de13112caa7a",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "SVG Tiny 1.2 references http://www.w3.org/TR/2008/WD-wai-aria-20080806/ which uses `role` and `aria-` attributes, not the old-and-busted namespaced stuff. Yet, SVG Tiny 1.2 does not allow `aria-` attributes, only `role`, AFAICT. Possibly that was not intentional in SVG Tiny 1.2, I don't know.\n",
+    "created_at": "2015-11-11T17:40:34Z",
+    "updated_at": "2015-11-16T17:22:54Z",
+    "html_url": "https://github.com/whatwg/html/pull/327#discussion_r44561138",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/327",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/44561138"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/327#discussion_r44561138"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/327"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/44561138/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 37325,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 59,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/44563983",
+    "pull_request_review_id": null,
+    "id": 44563983,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDQ0NTYzOTgz",
+    "diff_hunk": "@@ -37272,16 +37272,61 @@ dictionary <dfn>TrackEventInit</dfn> : <span>EventInit</span> {\n \n   </div>\n \n-  <p>When the SVG <code data-x=\"\">foreignObject</code> element contains elements from the <span>HTML\n-  namespace</span>, such elements must all be <span>flow content</span>. <ref spec=SVG></p>\n+  <p>When the SVG <code data-x=\"svg:foreignObject\">foreignObject</code> element contains elements\n+  from the <span>HTML namespace</span>, such elements must all be <span>flow content</span>.\n+  <ref spec=SVG></p>\n \n-  <p>The content model for <code data-x=\"\">title</code> elements in the <span>SVG namespace</span>\n-  inside <span>HTML documents</span> is <span>phrasing content</span>. (This further constrains the\n-  requirements given in the SVG specification.)</p>\n+  <p>The content model for <code data-x=\"svg:title\">title</code> elements in the\n+  <span>SVG namespace</span> inside <span>HTML documents</span> is <span>phrasing content</span>.\n+  (This further constrains the requirements given in the SVG specification.)</p>\n \n   <p>The semantics of SVG elements are defined by the SVG specification and <span>other applicable\n   specifications</span>. <ref spec=SVG></p>\n \n+  <p><strong>User agent requirements</strong>: SVG as implemented today follows neither SVG 1.1 nor\n+  SVG Tiny 1.2 precisely, instead implementing subsets of each. Although it is hoped that the\n+  in-progress SVG 2 specification is a more realistic target for implementations, until that\n+  specification is ready, user agents must implement the SVG 1.1 specification with the following\n+  willful violations and additions. <ref spec=SVG11> <ref spec=SVGTiny12> <ref spec=SVG2></p>\n+\n+  <p>The following features from SVG 1.1 must not be implemented:</p>\n+\n+  <ul>\n+    <li>The <code data-x=\"svg:tref\">&lt;tref></code> element</li>\n+    <li>The <code data-x=\"svg:cursor\">&lt;cursor></code> element (use CSS's <code>cursor</code>\n+      property instead)</li>\n+    <li>The font-defining elements: <code data-x=\"svg:font\">&lt;font></code>,\n+      <code data-x=\"svg:glyph\">&lt;glyph></code>,\n+      <code data-x=\"svg:missing-glyph\">&lt;missing-glyph></code>,\n+      <code data-x=\"svg:hkern\">&lt;hkern></code>, <code data-x=\"svg:vkern\">&lt;vkern></code>,\n+      <code data-x=\"svg:font-face\">&lt;font-face></code>,\n+      <code data-x=\"svg:font-face-src\">&lt;font-face-src></code>,\n+      <code data-x=\"svg:font-face-uri\">&lt;font-face-uri></code>,\n+      <code data-x=\"svg:font-face-format\">&lt;font-face-format></code>, and\n+      <code data-x=\"svg:font-face-name\">&lt;font-face-name></code> (use CSS's\n+      <code>@font-face</code> instead)</li>\n+    <li>The <code data-x=\"svg:externalResourcesRequired\">externalResourcesRequired</code>\n+      attribute</li>\n+    <li>The <code data-x=\"svg:enable-background\">enable-background</code> property</li>\n+    <li>The <code data-x=\"svg:contentScriptType\">contentScriptType</code> and\n+      <code data-x=\"svg:contentStyleType\">contentStyleType</code> attributes (use the\n+      <code data-x=\"svg:type\">type</code> attribute on the\n+      <code data-x=\"svg:script\">&lt;script></code> and <code data-x=\"svg:style\">&lt;style></code>\n+      elements instead)</li>\n+  </ul>\n+\n+  <p>The following features from SVG Tiny 1.2 must be implemented:</p>\n+\n+  <ul>\n+    <li>The <code data-x=\"svg:non-scaling-stroke\">non-scaling-stroke</code> value for the\n+      <code data-x=\"svg:vector-effect\">vector-effect</code> property</li>\n+    <li>The <code>class</code> attribute is allowed on all SVG elements</li>\n+    <li>The <code>tabindex</code> attribute is allowed on visible SVG elements</li>\n+    <li>The ARIA accessibility attributes are allowed on all SVG elements</li>",
+    "path": "source",
+    "commit_id": "c4f995cccb6f3f633d58fc0891f3bd41f4df3abf",
+    "original_commit_id": "6eea5a691ab46099644615c2f961de13112caa7a",
+    "user": {
+      "login": "tigt",
+      "id": 8072522,
+      "node_id": "MDQ6VXNlcjgwNzI1MjI=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8072522?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/tigt",
+      "html_url": "https://github.com/tigt",
+      "followers_url": "https://api.github.com/users/tigt/followers",
+      "following_url": "https://api.github.com/users/tigt/following{/other_user}",
+      "gists_url": "https://api.github.com/users/tigt/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/tigt/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/tigt/subscriptions",
+      "organizations_url": "https://api.github.com/users/tigt/orgs",
+      "repos_url": "https://api.github.com/users/tigt/repos",
+      "events_url": "https://api.github.com/users/tigt/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/tigt/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "@zcorpan I'd prefer allowing it, since using `aria-` attributes [are absolutely essential in normalizing browser behavior for assistive tech](https://www.paciellogroup.com/blog/2013/12/using-aria-enhance-svg-accessibility/).\n",
+    "created_at": "2015-11-11T18:04:30Z",
+    "updated_at": "2015-11-16T17:22:54Z",
+    "html_url": "https://github.com/whatwg/html/pull/327#discussion_r44563983",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/327",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/44563983"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/327#discussion_r44563983"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/327"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/44563983/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 37325,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 59,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/44573640",
+    "pull_request_review_id": null,
+    "id": 44573640,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDQ0NTczNjQw",
+    "diff_hunk": "@@ -37272,16 +37272,61 @@ dictionary <dfn>TrackEventInit</dfn> : <span>EventInit</span> {\n \n   </div>\n \n-  <p>When the SVG <code data-x=\"\">foreignObject</code> element contains elements from the <span>HTML\n-  namespace</span>, such elements must all be <span>flow content</span>. <ref spec=SVG></p>\n+  <p>When the SVG <code data-x=\"svg:foreignObject\">foreignObject</code> element contains elements\n+  from the <span>HTML namespace</span>, such elements must all be <span>flow content</span>.\n+  <ref spec=SVG></p>\n \n-  <p>The content model for <code data-x=\"\">title</code> elements in the <span>SVG namespace</span>\n-  inside <span>HTML documents</span> is <span>phrasing content</span>. (This further constrains the\n-  requirements given in the SVG specification.)</p>\n+  <p>The content model for <code data-x=\"svg:title\">title</code> elements in the\n+  <span>SVG namespace</span> inside <span>HTML documents</span> is <span>phrasing content</span>.\n+  (This further constrains the requirements given in the SVG specification.)</p>\n \n   <p>The semantics of SVG elements are defined by the SVG specification and <span>other applicable\n   specifications</span>. <ref spec=SVG></p>\n \n+  <p><strong>User agent requirements</strong>: SVG as implemented today follows neither SVG 1.1 nor\n+  SVG Tiny 1.2 precisely, instead implementing subsets of each. Although it is hoped that the\n+  in-progress SVG 2 specification is a more realistic target for implementations, until that\n+  specification is ready, user agents must implement the SVG 1.1 specification with the following\n+  willful violations and additions. <ref spec=SVG11> <ref spec=SVGTiny12> <ref spec=SVG2></p>\n+\n+  <p>The following features from SVG 1.1 must not be implemented:</p>\n+\n+  <ul>\n+    <li>The <code data-x=\"svg:tref\">&lt;tref></code> element</li>\n+    <li>The <code data-x=\"svg:cursor\">&lt;cursor></code> element (use CSS's <code>cursor</code>\n+      property instead)</li>\n+    <li>The font-defining elements: <code data-x=\"svg:font\">&lt;font></code>,\n+      <code data-x=\"svg:glyph\">&lt;glyph></code>,\n+      <code data-x=\"svg:missing-glyph\">&lt;missing-glyph></code>,\n+      <code data-x=\"svg:hkern\">&lt;hkern></code>, <code data-x=\"svg:vkern\">&lt;vkern></code>,\n+      <code data-x=\"svg:font-face\">&lt;font-face></code>,\n+      <code data-x=\"svg:font-face-src\">&lt;font-face-src></code>,\n+      <code data-x=\"svg:font-face-uri\">&lt;font-face-uri></code>,\n+      <code data-x=\"svg:font-face-format\">&lt;font-face-format></code>, and\n+      <code data-x=\"svg:font-face-name\">&lt;font-face-name></code> (use CSS's\n+      <code>@font-face</code> instead)</li>\n+    <li>The <code data-x=\"svg:externalResourcesRequired\">externalResourcesRequired</code>\n+      attribute</li>\n+    <li>The <code data-x=\"svg:enable-background\">enable-background</code> property</li>\n+    <li>The <code data-x=\"svg:contentScriptType\">contentScriptType</code> and\n+      <code data-x=\"svg:contentStyleType\">contentStyleType</code> attributes (use the\n+      <code data-x=\"svg:type\">type</code> attribute on the\n+      <code data-x=\"svg:script\">&lt;script></code> and <code data-x=\"svg:style\">&lt;style></code>\n+      elements instead)</li>\n+  </ul>\n+\n+  <p>The following features from SVG Tiny 1.2 must be implemented:</p>\n+\n+  <ul>\n+    <li>The <code data-x=\"svg:non-scaling-stroke\">non-scaling-stroke</code> value for the\n+      <code data-x=\"svg:vector-effect\">vector-effect</code> property</li>\n+    <li>The <code>class</code> attribute is allowed on all SVG elements</li>\n+    <li>The <code>tabindex</code> attribute is allowed on visible SVG elements</li>\n+    <li>The ARIA accessibility attributes are allowed on all SVG elements</li>",
+    "path": "source",
+    "commit_id": "c4f995cccb6f3f633d58fc0891f3bd41f4df3abf",
+    "original_commit_id": "6eea5a691ab46099644615c2f961de13112caa7a",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Yeah, OK.\n",
+    "created_at": "2015-11-11T19:21:08Z",
+    "updated_at": "2015-11-16T17:22:54Z",
+    "html_url": "https://github.com/whatwg/html/pull/327#discussion_r44573640",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/327",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/44573640"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/327#discussion_r44573640"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/327"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/44573640/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 37325,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 59,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/44573825",
+    "pull_request_review_id": null,
+    "id": 44573825,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDQ0NTczODI1",
+    "diff_hunk": "@@ -37272,16 +37272,61 @@ dictionary <dfn>TrackEventInit</dfn> : <span>EventInit</span> {\n \n   </div>\n \n-  <p>When the SVG <code data-x=\"\">foreignObject</code> element contains elements from the <span>HTML\n-  namespace</span>, such elements must all be <span>flow content</span>. <ref spec=SVG></p>\n+  <p>When the SVG <code data-x=\"svg:foreignObject\">foreignObject</code> element contains elements\n+  from the <span>HTML namespace</span>, such elements must all be <span>flow content</span>.\n+  <ref spec=SVG></p>\n \n-  <p>The content model for <code data-x=\"\">title</code> elements in the <span>SVG namespace</span>\n-  inside <span>HTML documents</span> is <span>phrasing content</span>. (This further constrains the\n-  requirements given in the SVG specification.)</p>\n+  <p>The content model for <code data-x=\"svg:title\">title</code> elements in the\n+  <span>SVG namespace</span> inside <span>HTML documents</span> is <span>phrasing content</span>.\n+  (This further constrains the requirements given in the SVG specification.)</p>\n \n   <p>The semantics of SVG elements are defined by the SVG specification and <span>other applicable\n   specifications</span>. <ref spec=SVG></p>\n \n+  <p><strong>User agent requirements</strong>: SVG as implemented today follows neither SVG 1.1 nor\n+  SVG Tiny 1.2 precisely, instead implementing subsets of each. Although it is hoped that the\n+  in-progress SVG 2 specification is a more realistic target for implementations, until that\n+  specification is ready, user agents must implement the SVG 1.1 specification with the following\n+  willful violations and additions. <ref spec=SVG11> <ref spec=SVGTiny12> <ref spec=SVG2></p>\n+\n+  <p>The following features from SVG 1.1 must not be implemented:</p>\n+\n+  <ul>\n+    <li>The <code data-x=\"svg:tref\">&lt;tref></code> element</li>\n+    <li>The <code data-x=\"svg:cursor\">&lt;cursor></code> element (use CSS's <code>cursor</code>\n+      property instead)</li>\n+    <li>The font-defining elements: <code data-x=\"svg:font\">&lt;font></code>,\n+      <code data-x=\"svg:glyph\">&lt;glyph></code>,\n+      <code data-x=\"svg:missing-glyph\">&lt;missing-glyph></code>,\n+      <code data-x=\"svg:hkern\">&lt;hkern></code>, <code data-x=\"svg:vkern\">&lt;vkern></code>,\n+      <code data-x=\"svg:font-face\">&lt;font-face></code>,\n+      <code data-x=\"svg:font-face-src\">&lt;font-face-src></code>,\n+      <code data-x=\"svg:font-face-uri\">&lt;font-face-uri></code>,\n+      <code data-x=\"svg:font-face-format\">&lt;font-face-format></code>, and\n+      <code data-x=\"svg:font-face-name\">&lt;font-face-name></code> (use CSS's\n+      <code>@font-face</code> instead)</li>\n+    <li>The <code data-x=\"svg:externalResourcesRequired\">externalResourcesRequired</code>\n+      attribute</li>\n+    <li>The <code data-x=\"svg:enable-background\">enable-background</code> property</li>\n+    <li>The <code data-x=\"svg:contentScriptType\">contentScriptType</code> and\n+      <code data-x=\"svg:contentStyleType\">contentStyleType</code> attributes (use the\n+      <code data-x=\"svg:type\">type</code> attribute on the\n+      <code data-x=\"svg:script\">&lt;script></code> and <code data-x=\"svg:style\">&lt;style></code>\n+      elements instead)</li>\n+  </ul>\n+\n+  <p>The following features from SVG Tiny 1.2 must be implemented:</p>\n+\n+  <ul>\n+    <li>The <code data-x=\"svg:non-scaling-stroke\">non-scaling-stroke</code> value for the\n+      <code data-x=\"svg:vector-effect\">vector-effect</code> property</li>\n+    <li>The <code>class</code> attribute is allowed on all SVG elements</li>\n+    <li>The <code>tabindex</code> attribute is allowed on visible SVG elements</li>\n+    <li>The ARIA accessibility attributes are allowed on all SVG elements</li>\n+  </ul>\n+\n+  <p>Additionally, <code>data-*</code> attributes are allowed on all SVG elements.</p>",
+    "path": "source",
+    "commit_id": "c4f995cccb6f3f633d58fc0891f3bd41f4df3abf",
+    "original_commit_id": "6eea5a691ab46099644615c2f961de13112caa7a",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This comment was about `data-`. Please remove the paragraph or explain why we should get ahead of SVG2 editor's draft here, or explain what I'm missing. :-)\n",
+    "created_at": "2015-11-11T19:22:50Z",
+    "updated_at": "2015-11-16T17:22:54Z",
+    "html_url": "https://github.com/whatwg/html/pull/327#discussion_r44573825",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/327",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/44573825"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/327#discussion_r44573825"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/327"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/44573825/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 37328,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 62,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

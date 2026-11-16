@@ -1,0 +1,925 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/61847278",
+    "pull_request_review_id": null,
+    "id": 61847278,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDYxODQ3Mjc4",
+    "diff_hunk": "@@ -9589,9 +9588,13 @@ interface <dfn>HTMLUnknownElement</dfn> : <span>HTMLElement</span> { };</pre>\n     empty, then:</p>\n \n     <ol>\n-     <li><p>Let <var>localName</var> be the <var>definition</var>'s <span\n+     <li><p>Let <var>localName</var> be <var>definition</var>'s <span\n      data-x=\"concept-custom-element-definition-local-name\">local name</span>.</p></li>\n \n+     <li><p>Let <var>document</var> be <var>realm</var>'s <span data-x=\"concept-realm-global\">global\n+     object</span>'s <span data-x=\"concept-document-window\">newest <code>Document</code>\n+     object</span>.</p></li>",
+    "path": "source",
+    "commit_id": "c9d898386d7b79cf1c7e104b5768e393c924078f",
+    "original_commit_id": "75da8f111c8fee36f6f737c4be10b14f4dace4d8",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "We only use \"newest\" twice so far. Window's document, document's Window, Window's associated, document's associated, are all more common. (By the way, should we have two separate pointers for those cases? I guess it's clear enough...)\n",
+    "created_at": "2016-05-03T07:42:49Z",
+    "updated_at": "2016-05-04T16:14:31Z",
+    "html_url": "https://github.com/whatwg/html/pull/1168#discussion_r61847278",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1168",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/61847278"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1168#discussion_r61847278"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1168"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/61847278/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 9596,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 29,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/61847359",
+    "pull_request_review_id": null,
+    "id": 61847359,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDYxODQ3MzU5",
+    "diff_hunk": "@@ -26224,14 +26227,27 @@ interface <dfn>HTMLImageElement</dfn> : <span>HTMLElement</span> {\n   <p>A constructor is provided for creating <code>HTMLImageElement</code> objects (in addition to\n   the factory methods from DOM such as <code\n   data-x=\"dom-Document-createElement\">createElement()</code>): <dfn\n-  data-x=\"dom-image\"><code>Image(<var>width</var>, <var>height</var>)</code></dfn>.\n-  When invoked as a constructor, this must return a new <code>HTMLImageElement</code> object (a new\n-  <code>img</code> element). If the <var>width</var> argument is present, the new object's\n-  <code data-x=\"attr-dim-width\">width</code> content attribute must be set to <var>width</var>. If the <var>height</var> argument is also present, the new object's\n-  <code data-x=\"attr-dim-height\">height</code> content attribute must be set to <var>height</var>.\n-  The element's <span>node document</span> must be the <span>active document</span> of the\n-  <span>browsing context</span> of the <code>Window</code> object on which the interface object of\n-  the invoked constructor is found.</p>\n+  data-x=\"dom-image\"><code>Image(<var>width</var>, <var>height</var>)</code></dfn>. When invoked,\n+  the constructor must perform the following steps:</p>\n+\n+  <ol>\n+   <li><p>Let <var>document</var> be the <span>current Realm Record</span>'s <span\n+   data-x=\"concept-document-window\">newest <code>Document</code> object</span>.</p></li>",
+    "path": "source",
+    "commit_id": "c9d898386d7b79cf1c7e104b5768e393c924078f",
+    "original_commit_id": "75da8f111c8fee36f6f737c4be10b14f4dace4d8",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Needs `<span data-x=\"concept-realm-global\">global object</span>'s`.\n",
+    "created_at": "2016-05-03T07:43:45Z",
+    "updated_at": "2016-05-04T16:14:31Z",
+    "html_url": "https://github.com/whatwg/html/pull/1168#discussion_r61847359",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1168",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/61847359"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1168#discussion_r61847359"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1168"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/61847359/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 26235,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 51,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/61847462",
+    "pull_request_review_id": null,
+    "id": 61847462,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDYxODQ3NDYy",
+    "diff_hunk": "@@ -29666,17 +29682,30 @@ interface <dfn>HTMLAudioElement</dfn> : <span>HTMLMediaElement</span> {};</pre>\n   <p>A constructor is provided for creating <code>HTMLAudioElement</code> objects (in addition to\n   the factory methods from DOM such as <code\n   data-x=\"dom-Document-createElement\">createElement()</code>):\n-  <dfn><code data-x=\"dom-Audio\">Audio(<var>src</var>)</code></dfn>. When invoked as a\n-  constructor, it must return a new <code>HTMLAudioElement</code> object (a new <code>audio</code>\n-  element). The element must be created with its <code data-x=\"attr-media-preload\">preload</code>\n-  attribute set to the literal value \"<code data-x=\"attr-media-preload-auto\">auto</code>\". If the\n-  <var>src</var> argument is present, the object created must be created with its <code\n-  data-x=\"attr-media-src\">src</code> content attribute set to the provided value (this will <a\n-  href=\"#concept-media-load-algorithm-at-creation\">cause the user agent to invoke</a> the object's\n-  <span data-x=\"concept-media-load-algorithm\">resource selection algorithm</span> before returning).\n-  The element's <span>node document</span> must be the <span>active document</span> of the <span>browsing\n-  context</span> of the <code>Window</code> object on which the interface object of the invoked\n-  constructor is found.</p>\n+  <dfn><code data-x=\"dom-Audio\">Audio(<var>src</var>)</code></dfn>. When invoked,\n+  the constructor must perform the following steps:</p>\n+\n+  <ol>\n+   <li><p>Let <var>document</var> be the <span>current Realm Record</span>'s <span\n+   data-x=\"concept-document-window\">newest <code>Document</code> object</span>.</p></li>",
+    "path": "source",
+    "commit_id": "c9d898386d7b79cf1c7e104b5768e393c924078f",
+    "original_commit_id": "75da8f111c8fee36f6f737c4be10b14f4dace4d8",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Same.\n",
+    "created_at": "2016-05-03T07:44:56Z",
+    "updated_at": "2016-05-04T16:14:31Z",
+    "html_url": "https://github.com/whatwg/html/pull/1168#discussion_r61847462",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1168",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/61847462"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1168#discussion_r61847462"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1168"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/61847462/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 29690,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 90,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/61847513",
+    "pull_request_review_id": null,
+    "id": 61847513,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDYxODQ3NTEz",
+    "diff_hunk": "@@ -29666,17 +29682,30 @@ interface <dfn>HTMLAudioElement</dfn> : <span>HTMLMediaElement</span> {};</pre>\n   <p>A constructor is provided for creating <code>HTMLAudioElement</code> objects (in addition to\n   the factory methods from DOM such as <code\n   data-x=\"dom-Document-createElement\">createElement()</code>):\n-  <dfn><code data-x=\"dom-Audio\">Audio(<var>src</var>)</code></dfn>. When invoked as a\n-  constructor, it must return a new <code>HTMLAudioElement</code> object (a new <code>audio</code>\n-  element). The element must be created with its <code data-x=\"attr-media-preload\">preload</code>\n-  attribute set to the literal value \"<code data-x=\"attr-media-preload-auto\">auto</code>\". If the\n-  <var>src</var> argument is present, the object created must be created with its <code\n-  data-x=\"attr-media-src\">src</code> content attribute set to the provided value (this will <a\n-  href=\"#concept-media-load-algorithm-at-creation\">cause the user agent to invoke</a> the object's\n-  <span data-x=\"concept-media-load-algorithm\">resource selection algorithm</span> before returning).\n-  The element's <span>node document</span> must be the <span>active document</span> of the <span>browsing\n-  context</span> of the <code>Window</code> object on which the interface object of the invoked\n-  constructor is found.</p>\n+  <dfn><code data-x=\"dom-Audio\">Audio(<var>src</var>)</code></dfn>. When invoked,\n+  the constructor must perform the following steps:</p>\n+\n+  <ol>\n+   <li><p>Let <var>document</var> be the <span>current Realm Record</span>'s <span\n+   data-x=\"concept-document-window\">newest <code>Document</code> object</span>.</p></li>\n+\n+   <li><p>Let <var>audio</var> be the result of <span data-x=\"create an element\">creating an\n+   element</span> given <var>document</var>, <code>audio</code>, and the <span>HTML\n+   namespace</span>.</p></li>\n+\n+   <li><p><span data-x=\"concept-element-attributes-set-value\">Set an attribute value</span> for\n+   <var>audio</var> using \"<code data-x=\"attr-media-preload\">preload</code>\" and \"<code\n+   data-x=\"attr-media-preload-auto\">auto</code>\".</p></li>\n+\n+   <li><p>If the <var>src</var> argument is present, <span",
+    "path": "source",
+    "commit_id": "c9d898386d7b79cf1c7e104b5768e393c924078f",
+    "original_commit_id": "75da8f111c8fee36f6f737c4be10b14f4dace4d8",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "\"If _src_ is given, then\"\n",
+    "created_at": "2016-05-03T07:45:31Z",
+    "updated_at": "2016-05-04T16:14:31Z",
+    "html_url": "https://github.com/whatwg/html/pull/1168#discussion_r61847513",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1168",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/61847513"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1168#discussion_r61847513"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1168"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/61847513/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 29700,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 100,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/61847553",
+    "pull_request_review_id": null,
+    "id": 61847553,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDYxODQ3NTUz",
+    "diff_hunk": "@@ -26224,14 +26227,27 @@ interface <dfn>HTMLImageElement</dfn> : <span>HTMLElement</span> {\n   <p>A constructor is provided for creating <code>HTMLImageElement</code> objects (in addition to\n   the factory methods from DOM such as <code\n   data-x=\"dom-Document-createElement\">createElement()</code>): <dfn\n-  data-x=\"dom-image\"><code>Image(<var>width</var>, <var>height</var>)</code></dfn>.\n-  When invoked as a constructor, this must return a new <code>HTMLImageElement</code> object (a new\n-  <code>img</code> element). If the <var>width</var> argument is present, the new object's\n-  <code data-x=\"attr-dim-width\">width</code> content attribute must be set to <var>width</var>. If the <var>height</var> argument is also present, the new object's\n-  <code data-x=\"attr-dim-height\">height</code> content attribute must be set to <var>height</var>.\n-  The element's <span>node document</span> must be the <span>active document</span> of the\n-  <span>browsing context</span> of the <code>Window</code> object on which the interface object of\n-  the invoked constructor is found.</p>\n+  data-x=\"dom-image\"><code>Image(<var>width</var>, <var>height</var>)</code></dfn>. When invoked,\n+  the constructor must perform the following steps:</p>\n+\n+  <ol>\n+   <li><p>Let <var>document</var> be the <span>current Realm Record</span>'s <span\n+   data-x=\"concept-document-window\">newest <code>Document</code> object</span>.</p></li>\n+\n+   <li><p>Let <var>img</var> be the result of <span data-x=\"create an element\">creating an\n+   element</span> given <var>document</var>, <code>img</code>, and the <span>HTML\n+   namespace</span>.</p></li>\n+\n+   <li><p>If the <var>width</var> argument is present, <span",
+    "path": "source",
+    "commit_id": "c9d898386d7b79cf1c7e104b5768e393c924078f",
+    "original_commit_id": "75da8f111c8fee36f6f737c4be10b14f4dace4d8",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "\"If _width_ is given, then\"\n",
+    "created_at": "2016-05-03T07:45:57Z",
+    "updated_at": "2016-05-04T16:14:31Z",
+    "html_url": "https://github.com/whatwg/html/pull/1168#discussion_r61847553",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1168",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/61847553"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1168#discussion_r61847553"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1168"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/61847553/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 26241,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 57,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/61847563",
+    "pull_request_review_id": null,
+    "id": 61847563,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDYxODQ3NTYz",
+    "diff_hunk": "@@ -26224,14 +26227,27 @@ interface <dfn>HTMLImageElement</dfn> : <span>HTMLElement</span> {\n   <p>A constructor is provided for creating <code>HTMLImageElement</code> objects (in addition to\n   the factory methods from DOM such as <code\n   data-x=\"dom-Document-createElement\">createElement()</code>): <dfn\n-  data-x=\"dom-image\"><code>Image(<var>width</var>, <var>height</var>)</code></dfn>.\n-  When invoked as a constructor, this must return a new <code>HTMLImageElement</code> object (a new\n-  <code>img</code> element). If the <var>width</var> argument is present, the new object's\n-  <code data-x=\"attr-dim-width\">width</code> content attribute must be set to <var>width</var>. If the <var>height</var> argument is also present, the new object's\n-  <code data-x=\"attr-dim-height\">height</code> content attribute must be set to <var>height</var>.\n-  The element's <span>node document</span> must be the <span>active document</span> of the\n-  <span>browsing context</span> of the <code>Window</code> object on which the interface object of\n-  the invoked constructor is found.</p>\n+  data-x=\"dom-image\"><code>Image(<var>width</var>, <var>height</var>)</code></dfn>. When invoked,\n+  the constructor must perform the following steps:</p>\n+\n+  <ol>\n+   <li><p>Let <var>document</var> be the <span>current Realm Record</span>'s <span\n+   data-x=\"concept-document-window\">newest <code>Document</code> object</span>.</p></li>\n+\n+   <li><p>Let <var>img</var> be the result of <span data-x=\"create an element\">creating an\n+   element</span> given <var>document</var>, <code>img</code>, and the <span>HTML\n+   namespace</span>.</p></li>\n+\n+   <li><p>If the <var>width</var> argument is present, <span\n+   data-x=\"concept-element-attributes-set-value\">set an attribute value</span> for <var>img</var>\n+   using \"<code data-x=\"attr-dim-width\">width</code>\" and <var>width</var>.</p></li>\n+\n+   <li><p>If the <var>height</var> argument is present, <span",
+    "path": "source",
+    "commit_id": "c9d898386d7b79cf1c7e104b5768e393c924078f",
+    "original_commit_id": "75da8f111c8fee36f6f737c4be10b14f4dace4d8",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "\"If _height_ is given, then\"\n",
+    "created_at": "2016-05-03T07:46:06Z",
+    "updated_at": "2016-05-04T16:14:31Z",
+    "html_url": "https://github.com/whatwg/html/pull/1168#discussion_r61847563",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1168",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/61847563"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1168#discussion_r61847563"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1168"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/61847563/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 26245,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 61,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/61847598",
+    "pull_request_review_id": null,
+    "id": 61847598,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDYxODQ3NTk4",
+    "diff_hunk": "@@ -50031,18 +50060,36 @@ interface <dfn>HTMLOptionElement</dfn> : <span>HTMLElement</span> {\n   <p>A constructor is provided for creating <code>HTMLOptionElement</code> objects (in addition to\n   the factory methods from DOM such as <code\n   data-x=\"dom-Document-createElement\">createElement()</code>):\n-  <dfn><code data-x=\"dom-option\">Option(<var>text</var>, <var>value</var>, <var>defaultSelected</var>, <var>selected</var>)</code></dfn>. When invoked as a\n-  constructor, it must return a new <code>HTMLOptionElement</code> object (a new <code>option</code>\n-  element). If the first argument is not the empty string, the new object must have as its only\n-  child a <code>Text</code> node whose data is the value of that argument. Otherwise, it must have\n-  no children. If the <var>value</var> argument is present, the new object must have a\n-  <code data-x=\"attr-option-value\">value</code> attribute set with the value of the argument as its\n-  value. If the <var>defaultSelected</var> argument is true, the new object must have a\n-  <code data-x=\"attr-option-selected\">selected</code> attribute set with no value. If the <var>selected</var> argument is true, the new object must have its <span\n-  data-x=\"concept-option-selectedness\">selectedness</span> set to true; otherwise the <span\n-  data-x=\"concept-option-selectedness\">selectedness</span> must be set to false, even if the <var>defaultSelected</var> argument is true. The element's <span>node document</span> must be the <span>active\n-  document</span> of the <span>browsing context</span> of the <code>Window</code> object on which\n-  the interface object of the invoked constructor is found.</p>\n+  <dfn><code data-x=\"dom-option\">Option(<var>text</var>, <var>value</var>,\n+  <var>defaultSelected</var>, <var>selected</var>)</code></dfn>.  When invoked, the constructor must\n+  perform the following steps:</p>\n+\n+  <ol>\n+   <li><p>Let <var>document</var> be the <span>current Realm Record</span>'s <span\n+   data-x=\"concept-document-window\">newest <code>Document</code> object</span>.</p></li>",
+    "path": "source",
+    "commit_id": "c9d898386d7b79cf1c7e104b5768e393c924078f",
+    "original_commit_id": "75da8f111c8fee36f6f737c4be10b14f4dace4d8",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "global object's\\* per above\n",
+    "created_at": "2016-05-03T07:46:25Z",
+    "updated_at": "2016-05-04T16:14:31Z",
+    "html_url": "https://github.com/whatwg/html/pull/1168#discussion_r61847598",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1168",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/61847598"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1168#discussion_r61847598"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1168"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/61847598/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 50069,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 134,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/61847625",
+    "pull_request_review_id": null,
+    "id": 61847625,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDYxODQ3NjI1",
+    "diff_hunk": "@@ -50031,18 +50060,36 @@ interface <dfn>HTMLOptionElement</dfn> : <span>HTMLElement</span> {\n   <p>A constructor is provided for creating <code>HTMLOptionElement</code> objects (in addition to\n   the factory methods from DOM such as <code\n   data-x=\"dom-Document-createElement\">createElement()</code>):\n-  <dfn><code data-x=\"dom-option\">Option(<var>text</var>, <var>value</var>, <var>defaultSelected</var>, <var>selected</var>)</code></dfn>. When invoked as a\n-  constructor, it must return a new <code>HTMLOptionElement</code> object (a new <code>option</code>\n-  element). If the first argument is not the empty string, the new object must have as its only\n-  child a <code>Text</code> node whose data is the value of that argument. Otherwise, it must have\n-  no children. If the <var>value</var> argument is present, the new object must have a\n-  <code data-x=\"attr-option-value\">value</code> attribute set with the value of the argument as its\n-  value. If the <var>defaultSelected</var> argument is true, the new object must have a\n-  <code data-x=\"attr-option-selected\">selected</code> attribute set with no value. If the <var>selected</var> argument is true, the new object must have its <span\n-  data-x=\"concept-option-selectedness\">selectedness</span> set to true; otherwise the <span\n-  data-x=\"concept-option-selectedness\">selectedness</span> must be set to false, even if the <var>defaultSelected</var> argument is true. The element's <span>node document</span> must be the <span>active\n-  document</span> of the <span>browsing context</span> of the <code>Window</code> object on which\n-  the interface object of the invoked constructor is found.</p>\n+  <dfn><code data-x=\"dom-option\">Option(<var>text</var>, <var>value</var>,\n+  <var>defaultSelected</var>, <var>selected</var>)</code></dfn>.  When invoked, the constructor must\n+  perform the following steps:</p>\n+\n+  <ol>\n+   <li><p>Let <var>document</var> be the <span>current Realm Record</span>'s <span\n+   data-x=\"concept-document-window\">newest <code>Document</code> object</span>.</p></li>\n+\n+   <li><p>Let <var>option</var> be the result of <span data-x=\"create an element\">creating an\n+   element</span> given <var>document</var>, <code>option</code>, and the <span>HTML\n+   namespace</span>.</p></li>\n+\n+   <li><p>If the <var>text</var> argument is not an empty string, append to <var>option</var> a new",
+    "path": "source",
+    "commit_id": "c9d898386d7b79cf1c7e104b5768e393c924078f",
+    "original_commit_id": "75da8f111c8fee36f6f737c4be10b14f4dace4d8",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "\"If _text_ is not the empty string\"\n",
+    "created_at": "2016-05-03T07:46:42Z",
+    "updated_at": "2016-05-04T16:14:31Z",
+    "html_url": "https://github.com/whatwg/html/pull/1168#discussion_r61847625",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1168",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/61847625"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1168#discussion_r61847625"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1168"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/61847625/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 50075,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 140,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/61847663",
+    "pull_request_review_id": null,
+    "id": 61847663,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDYxODQ3NjYz",
+    "diff_hunk": "@@ -50031,18 +50060,36 @@ interface <dfn>HTMLOptionElement</dfn> : <span>HTMLElement</span> {\n   <p>A constructor is provided for creating <code>HTMLOptionElement</code> objects (in addition to\n   the factory methods from DOM such as <code\n   data-x=\"dom-Document-createElement\">createElement()</code>):\n-  <dfn><code data-x=\"dom-option\">Option(<var>text</var>, <var>value</var>, <var>defaultSelected</var>, <var>selected</var>)</code></dfn>. When invoked as a\n-  constructor, it must return a new <code>HTMLOptionElement</code> object (a new <code>option</code>\n-  element). If the first argument is not the empty string, the new object must have as its only\n-  child a <code>Text</code> node whose data is the value of that argument. Otherwise, it must have\n-  no children. If the <var>value</var> argument is present, the new object must have a\n-  <code data-x=\"attr-option-value\">value</code> attribute set with the value of the argument as its\n-  value. If the <var>defaultSelected</var> argument is true, the new object must have a\n-  <code data-x=\"attr-option-selected\">selected</code> attribute set with no value. If the <var>selected</var> argument is true, the new object must have its <span\n-  data-x=\"concept-option-selectedness\">selectedness</span> set to true; otherwise the <span\n-  data-x=\"concept-option-selectedness\">selectedness</span> must be set to false, even if the <var>defaultSelected</var> argument is true. The element's <span>node document</span> must be the <span>active\n-  document</span> of the <span>browsing context</span> of the <code>Window</code> object on which\n-  the interface object of the invoked constructor is found.</p>\n+  <dfn><code data-x=\"dom-option\">Option(<var>text</var>, <var>value</var>,\n+  <var>defaultSelected</var>, <var>selected</var>)</code></dfn>.  When invoked, the constructor must\n+  perform the following steps:</p>\n+\n+  <ol>\n+   <li><p>Let <var>document</var> be the <span>current Realm Record</span>'s <span\n+   data-x=\"concept-document-window\">newest <code>Document</code> object</span>.</p></li>\n+\n+   <li><p>Let <var>option</var> be the result of <span data-x=\"create an element\">creating an\n+   element</span> given <var>document</var>, <code>option</code>, and the <span>HTML\n+   namespace</span>.</p></li>\n+\n+   <li><p>If the <var>text</var> argument is not an empty string, append to <var>option</var> a new",
+    "path": "source",
+    "commit_id": "c9d898386d7b79cf1c7e104b5768e393c924078f",
+    "original_commit_id": "75da8f111c8fee36f6f737c4be10b14f4dace4d8",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Etc. for the other arguments.\n",
+    "created_at": "2016-05-03T07:47:14Z",
+    "updated_at": "2016-05-04T16:14:31Z",
+    "html_url": "https://github.com/whatwg/html/pull/1168#discussion_r61847663",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1168",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/61847663"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1168#discussion_r61847663"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1168"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/61847663/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 50075,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 140,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/61891588",
+    "pull_request_review_id": null,
+    "id": 61891588,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDYxODkxNTg4",
+    "diff_hunk": "@@ -9570,8 +9570,7 @@ interface <dfn>HTMLUnknownElement</dfn> : <span>HTMLElement</span> { };</pre>\n   <div w-nodev>\n \n   <ol>\n-   <li><p>Let <var>realm</var> be the result of <span>GetFunctionRealm</span>(the currently\n-   executing <code>HTMLElement</code> function).</p></li>\n+   <li><p>Let <var>realm</var> be the <span>current Realm Record</span>.</p></li>",
+    "path": "source",
+    "commit_id": "c9d898386d7b79cf1c7e104b5768e393c924078f",
+    "original_commit_id": "16bbe083813614cc5e7068f1ccd9be175249389f",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "It seems this can become \"Let _global_ be [current global object]\" given that we only get stuff from the global in two later steps.\n",
+    "created_at": "2016-05-03T14:36:14Z",
+    "updated_at": "2016-05-04T16:14:31Z",
+    "html_url": "https://github.com/whatwg/html/pull/1168#discussion_r61891588",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1168",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/61891588"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1168#discussion_r61891588"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1168"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/61891588/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 9573,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 15,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/62008387",
+    "pull_request_review_id": null,
+    "id": 62008387,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDYyMDA4Mzg3",
+    "diff_hunk": "@@ -9589,12 +9593,10 @@ interface <dfn>HTMLUnknownElement</dfn> : <span>HTMLElement</span> { };</pre>\n     empty, then:</p>\n \n     <ol>\n-     <li><p>Let <var>localName</var> be the <var>definition</var>'s <span\n-     data-x=\"concept-custom-element-definition-local-name\">local name</span>.</p></li>\n-\n      <li><p>Let <var>element</var> be a new element that implements the <code>HTMLElement</code>\n      interface, with no attributes, namespace set to the <span>HTML namespace</span>, local name set\n-     to <var>localName</var>, and <span>node document</span> set to <var>document</var>.</p></li>\n+     to <var>definition</var>'s <span data-x=\"concept-custom-element-definition-local-name\">local\n+     name</span>, and <span>node document</span> set to <var>document</var>.</p></li>",
+    "path": "source",
+    "commit_id": "c9d898386d7b79cf1c7e104b5768e393c924078f",
+    "original_commit_id": "f5ac26d53b3fc575a94d3930cae132e65b29491d",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Can't we just inline `<span>current global object</span>'s <code>Document</code> object` here?\n",
+    "created_at": "2016-05-04T09:01:58Z",
+    "updated_at": "2016-05-04T16:14:31Z",
+    "html_url": "https://github.com/whatwg/html/pull/1168#discussion_r62008387",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1168",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/62008387"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1168#discussion_r62008387"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1168"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/62008387/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 9599,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 57,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/62008472",
+    "pull_request_review_id": null,
+    "id": 62008472,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDYyMDA4NDcy",
+    "diff_hunk": "@@ -9589,12 +9593,10 @@ interface <dfn>HTMLUnknownElement</dfn> : <span>HTMLElement</span> { };</pre>\n     empty, then:</p>\n \n     <ol>\n-     <li><p>Let <var>localName</var> be the <var>definition</var>'s <span\n-     data-x=\"concept-custom-element-definition-local-name\">local name</span>.</p></li>\n-\n      <li><p>Let <var>element</var> be a new element that implements the <code>HTMLElement</code>\n      interface, with no attributes, namespace set to the <span>HTML namespace</span>, local name set\n-     to <var>localName</var>, and <span>node document</span> set to <var>document</var>.</p></li>\n+     to <var>definition</var>'s <span data-x=\"concept-custom-element-definition-local-name\">local\n+     name</span>, and <span>node document</span> set to <var>document</var>.</p></li>",
+    "path": "source",
+    "commit_id": "c9d898386d7b79cf1c7e104b5768e393c924078f",
+    "original_commit_id": "f5ac26d53b3fc575a94d3930cae132e65b29491d",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Also, I guess we should use `concept-document-window`?\n",
+    "created_at": "2016-05-04T09:02:39Z",
+    "updated_at": "2016-05-04T16:14:31Z",
+    "html_url": "https://github.com/whatwg/html/pull/1168#discussion_r62008472",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1168",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/62008472"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1168#discussion_r62008472"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1168"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/62008472/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 9599,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 57,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/62008538",
+    "pull_request_review_id": null,
+    "id": 62008538,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDYyMDA4NTM4",
+    "diff_hunk": "@@ -26235,14 +26233,27 @@ interface <dfn>HTMLImageElement</dfn> : <span>HTMLElement</span> {\n   <p>A constructor is provided for creating <code>HTMLImageElement</code> objects (in addition to\n   the factory methods from DOM such as <code\n   data-x=\"dom-Document-createElement\">createElement()</code>): <dfn\n-  data-x=\"dom-image\"><code>Image(<var>width</var>, <var>height</var>)</code></dfn>.\n-  When invoked as a constructor, this must return a new <code>HTMLImageElement</code> object (a new\n-  <code>img</code> element). If the <var>width</var> argument is present, the new object's\n-  <code data-x=\"attr-dim-width\">width</code> content attribute must be set to <var>width</var>. If the <var>height</var> argument is also present, the new object's\n-  <code data-x=\"attr-dim-height\">height</code> content attribute must be set to <var>height</var>.\n-  The element's <span>node document</span> must be the <span>active document</span> of the\n-  <span>browsing context</span> of the <code>Window</code> object on which the interface object of\n-  the invoked constructor is found.</p>\n+  data-x=\"dom-image\"><code>Image(<var>width</var>, <var>height</var>)</code></dfn>. When invoked,\n+  the constructor must perform the following steps:</p>\n+\n+  <ol>\n+   <li><p>Let <var>document</var> be the <span>current global object</span>'s <span\n+   data-x=\"concept-document-window\"><code>Document</code> object</span>.</p></li>\n+\n+   <li><p>Let <var>img</var> be the result of <span data-x=\"create an element\">creating an\n+   element</span> given <var>document</var>, <code>img</code>, and the <span>HTML\n+   namespace</span>.</p></li>\n+\n+   <li><p>If <var>width</var> is given, then <span data-x=\"concept-element-attributes-set-value\">set\n+   an attribute value</span> for <var>img</var> using \"<code data-x=\"attr-dim-width\">width</code>\"\n+   and <var>width</var>.</p></li>\n+\n+   <li><p>If <var>height</var> is given, <span data-x=\"concept-element-attributes-set-value\">set an",
+    "path": "source",
+    "commit_id": "c9d898386d7b79cf1c7e104b5768e393c924078f",
+    "original_commit_id": "f5ac26d53b3fc575a94d3930cae132e65b29491d",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Missing \"then\"\n",
+    "created_at": "2016-05-04T09:03:14Z",
+    "updated_at": "2016-05-04T16:14:31Z",
+    "html_url": "https://github.com/whatwg/html/pull/1168#discussion_r62008538",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1168",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/62008538"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1168#discussion_r62008538"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1168"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/62008538/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 26251,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 99,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

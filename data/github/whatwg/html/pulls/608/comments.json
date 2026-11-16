@@ -1,0 +1,783 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/51626969",
+    "pull_request_review_id": null,
+    "id": 51626969,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDUxNjI2OTY5",
+    "diff_hunk": "@@ -94412,13 +94488,22 @@ interface <dfn>AbstractWorker</dfn> {\n \n   <h5>Dedicated workers and the <code>Worker</code> interface</h5>\n \n-  <pre class=\"idl\">[<span data-x=\"dom-Worker\">Constructor</span>(DOMString scriptURL), Exposed=(Window,Worker)]\n+  <pre class=\"idl\">[<span data-x=\"dom-Worker\">Constructor</span>(DOMString scriptURL, optional <span>WorkerOptions</span> options), Exposed=(Window,Worker)]\n interface <dfn>Worker</dfn> : <span>EventTarget</span> {\n   void <span data-x=\"dom-Worker-terminate\">terminate</span>();\n \n   void <span data-x=\"dom-Worker-postMessage\">postMessage</span>(any message, optional sequence&lt;<span>Transferable</span>&gt; transfer);\n   attribute <span>EventHandler</span> <span data-x=\"handler-Worker-onmessage\">onmessage</span>;\n };\n+\n+dictionary <dfn>WorkerOptions</dfn> {\n+  <span>WorkerType</span> type = \"classic\";\n+  <span>WorkerCrossOriginMode</span>? crossOrigin = null;\n+};\n+\n+enum <dfn>WorkerType</dfn> { \"classic\", \"module\" };\n+enum <dfn>WorkerCrossOriginMode</dfn> { \"anonymous\", \"use-credentials\" };",
+    "path": "source",
+    "commit_id": "e3a5bb757f64374c37d8c4528c01298463ef0b2a",
+    "original_commit_id": "d5c09d09bcd67b052ab86f549eeace46153a5aec",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "When you pass \"omit\" here it's not a crossOrigin mode. How about we name this `WorkerModuleCredentialsMode` and `moduleCredentials` as member (or just `credentials` as all new features will require the opt-in anyway)?\n",
+    "created_at": "2016-02-02T20:08:00Z",
+    "updated_at": "2016-02-12T19:18:35Z",
+    "html_url": "https://github.com/whatwg/html/pull/608#discussion_r51626969",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/608",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/51626969"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/608#discussion_r51626969"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/608"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/51626969/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 94505,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 210,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/51628061",
+    "pull_request_review_id": null,
+    "id": 51628061,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDUxNjI4MDYx",
+    "diff_hunk": "@@ -94412,13 +94488,22 @@ interface <dfn>AbstractWorker</dfn> {\n \n   <h5>Dedicated workers and the <code>Worker</code> interface</h5>\n \n-  <pre class=\"idl\">[<span data-x=\"dom-Worker\">Constructor</span>(DOMString scriptURL), Exposed=(Window,Worker)]\n+  <pre class=\"idl\">[<span data-x=\"dom-Worker\">Constructor</span>(DOMString scriptURL, optional <span>WorkerOptions</span> options), Exposed=(Window,Worker)]\n interface <dfn>Worker</dfn> : <span>EventTarget</span> {\n   void <span data-x=\"dom-Worker-terminate\">terminate</span>();\n \n   void <span data-x=\"dom-Worker-postMessage\">postMessage</span>(any message, optional sequence&lt;<span>Transferable</span>&gt; transfer);\n   attribute <span>EventHandler</span> <span data-x=\"handler-Worker-onmessage\">onmessage</span>;\n };\n+\n+dictionary <dfn>WorkerOptions</dfn> {\n+  <span>WorkerType</span> type = \"classic\";\n+  <span>WorkerCrossOriginMode</span>? crossOrigin = null;\n+};\n+\n+enum <dfn>WorkerType</dfn> { \"classic\", \"module\" };\n+enum <dfn>WorkerCrossOriginMode</dfn> { \"anonymous\", \"use-credentials\" };",
+    "path": "source",
+    "commit_id": "e3a5bb757f64374c37d8c4528c01298463ef0b2a",
+    "original_commit_id": "d5c09d09bcd67b052ab86f549eeace46153a5aec",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "You don't pass omit. It mirrors the `crossOrigin` IDL attribute/`crossorigin=\"\"` content attribute: missing (null) = omit, anonymous = same-origin, use-credentials = include.\n\nWe could use fetch()'s RequestCredentials enum, but I thought it'd be better to stick with the terms and API from HTML. WDYT?\n",
+    "created_at": "2016-02-02T20:15:49Z",
+    "updated_at": "2016-02-12T19:18:35Z",
+    "html_url": "https://github.com/whatwg/html/pull/608#discussion_r51628061",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/608",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/51628061"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/608#discussion_r51628061"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/608"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/51628061/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 94505,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 210,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/51628388",
+    "pull_request_review_id": null,
+    "id": 51628388,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDUxNjI4Mzg4",
+    "diff_hunk": "@@ -94412,13 +94488,22 @@ interface <dfn>AbstractWorker</dfn> {\n \n   <h5>Dedicated workers and the <code>Worker</code> interface</h5>\n \n-  <pre class=\"idl\">[<span data-x=\"dom-Worker\">Constructor</span>(DOMString scriptURL), Exposed=(Window,Worker)]\n+  <pre class=\"idl\">[<span data-x=\"dom-Worker\">Constructor</span>(DOMString scriptURL, optional <span>WorkerOptions</span> options), Exposed=(Window,Worker)]\n interface <dfn>Worker</dfn> : <span>EventTarget</span> {\n   void <span data-x=\"dom-Worker-terminate\">terminate</span>();\n \n   void <span data-x=\"dom-Worker-postMessage\">postMessage</span>(any message, optional sequence&lt;<span>Transferable</span>&gt; transfer);\n   attribute <span>EventHandler</span> <span data-x=\"handler-Worker-onmessage\">onmessage</span>;\n };\n+\n+dictionary <dfn>WorkerOptions</dfn> {\n+  <span>WorkerType</span> type = \"classic\";\n+  <span>WorkerCrossOriginMode</span>? crossOrigin = null;\n+};\n+\n+enum <dfn>WorkerType</dfn> { \"classic\", \"module\" };\n+enum <dfn>WorkerCrossOriginMode</dfn> { \"anonymous\", \"use-credentials\" };",
+    "path": "source",
+    "commit_id": "e3a5bb757f64374c37d8c4528c01298463ef0b2a",
+    "original_commit_id": "d5c09d09bcd67b052ab86f549eeace46153a5aec",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "It seemed a little ugly to me to reuse that for a new API. Nullable enum still feels wrong. Workers happen to be in HTML, but that's it.\n",
+    "created_at": "2016-02-02T20:18:03Z",
+    "updated_at": "2016-02-12T19:18:35Z",
+    "html_url": "https://github.com/whatwg/html/pull/608#discussion_r51628388",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/608",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/51628388"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/608#discussion_r51628388"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/608"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/51628388/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 94505,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 210,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/51628935",
+    "pull_request_review_id": null,
+    "id": 51628935,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDUxNjI4OTM1",
+    "diff_hunk": "@@ -94412,13 +94488,22 @@ interface <dfn>AbstractWorker</dfn> {\n \n   <h5>Dedicated workers and the <code>Worker</code> interface</h5>\n \n-  <pre class=\"idl\">[<span data-x=\"dom-Worker\">Constructor</span>(DOMString scriptURL), Exposed=(Window,Worker)]\n+  <pre class=\"idl\">[<span data-x=\"dom-Worker\">Constructor</span>(DOMString scriptURL, optional <span>WorkerOptions</span> options), Exposed=(Window,Worker)]\n interface <dfn>Worker</dfn> : <span>EventTarget</span> {\n   void <span data-x=\"dom-Worker-terminate\">terminate</span>();\n \n   void <span data-x=\"dom-Worker-postMessage\">postMessage</span>(any message, optional sequence&lt;<span>Transferable</span>&gt; transfer);\n   attribute <span>EventHandler</span> <span data-x=\"handler-Worker-onmessage\">onmessage</span>;\n };\n+\n+dictionary <dfn>WorkerOptions</dfn> {\n+  <span>WorkerType</span> type = \"classic\";\n+  <span>WorkerCrossOriginMode</span>? crossOrigin = null;\n+};\n+\n+enum <dfn>WorkerType</dfn> { \"classic\", \"module\" };\n+enum <dfn>WorkerCrossOriginMode</dfn> { \"anonymous\", \"use-credentials\" };",
+    "path": "source",
+    "commit_id": "e3a5bb757f64374c37d8c4528c01298463ef0b2a",
+    "original_commit_id": "d5c09d09bcd67b052ab86f549eeace46153a5aec",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "One advantage of the existing setup is that we can use null to mean different defaults if we extend CORS to classic workers (there null -> same-origin, for back-compat). I guess we could do that with the new scheme though too; we just use `RequestCredentials? credentials = null` and determine what `null` means based on classic vs. module.\n\nI'm happy to switch this to `RequestCredentials credentials = \"omit\"` for now if you think that's best for new APIs.\n",
+    "created_at": "2016-02-02T20:22:11Z",
+    "updated_at": "2016-02-12T19:18:35Z",
+    "html_url": "https://github.com/whatwg/html/pull/608#discussion_r51628935",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/608",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/51628935"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/608#discussion_r51628935"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/608"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/51628935/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 94505,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 210,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/51632750",
+    "pull_request_review_id": null,
+    "id": 51632750,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDUxNjMyNzUw",
+    "diff_hunk": "@@ -94412,13 +94488,22 @@ interface <dfn>AbstractWorker</dfn> {\n \n   <h5>Dedicated workers and the <code>Worker</code> interface</h5>\n \n-  <pre class=\"idl\">[<span data-x=\"dom-Worker\">Constructor</span>(DOMString scriptURL), Exposed=(Window,Worker)]\n+  <pre class=\"idl\">[<span data-x=\"dom-Worker\">Constructor</span>(DOMString scriptURL, optional <span>WorkerOptions</span> options), Exposed=(Window,Worker)]\n interface <dfn>Worker</dfn> : <span>EventTarget</span> {\n   void <span data-x=\"dom-Worker-terminate\">terminate</span>();\n \n   void <span data-x=\"dom-Worker-postMessage\">postMessage</span>(any message, optional sequence&lt;<span>Transferable</span>&gt; transfer);\n   attribute <span>EventHandler</span> <span data-x=\"handler-Worker-onmessage\">onmessage</span>;\n };\n+\n+dictionary <dfn>WorkerOptions</dfn> {\n+  <span>WorkerType</span> type = \"classic\";\n+  <span>WorkerCrossOriginMode</span>? crossOrigin = null;\n+};\n+\n+enum <dfn>WorkerType</dfn> { \"classic\", \"module\" };\n+enum <dfn>WorkerCrossOriginMode</dfn> { \"anonymous\", \"use-credentials\" };",
+    "path": "source",
+    "commit_id": "e3a5bb757f64374c37d8c4528c01298463ef0b2a",
+    "original_commit_id": "d5c09d09bcd67b052ab86f549eeace46153a5aec",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Fixed in a separate commit.\n",
+    "created_at": "2016-02-02T20:50:33Z",
+    "updated_at": "2016-02-12T19:18:35Z",
+    "html_url": "https://github.com/whatwg/html/pull/608#discussion_r51632750",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/608",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/51632750"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/608#discussion_r51632750"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/608"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/51632750/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 94505,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 210,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/52714329",
+    "pull_request_review_id": null,
+    "id": 52714329,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDUyNzE0MzI5",
+    "diff_hunk": "@@ -93430,6 +93505,11 @@ function showLogout() {\n \n   <pre>var worker = new Worker('helper.js');</pre>\n \n+  <p>If you want your worker script to be interpreted as a <span>module script</span> instead of\n+  the default <span>classic script</span>, you can use a slightly different signature:</p>",
+    "path": "source",
+    "commit_id": "e3a5bb757f64374c37d8c4528c01298463ef0b2a",
+    "original_commit_id": "780cdd431cb34f2386c1a7b7a00cd83c0805cbe0",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "s/can/need to/\n",
+    "created_at": "2016-02-12T08:14:21Z",
+    "updated_at": "2016-02-12T19:18:35Z",
+    "html_url": "https://github.com/whatwg/html/pull/608#discussion_r52714329",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/608",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/52714329"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/608#discussion_r52714329"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/608"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/52714329/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 93509,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 101,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/52714551",
+    "pull_request_review_id": null,
+    "id": 52714551,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDUyNzE0NTUx",
+    "diff_hunk": "@@ -93931,11 +94011,10 @@ interface <dfn>WorkerGlobalScope</dfn> : <span>EventTarget</span> {\n \n    <!-- SCRIPT EXEC -->\n \n-   <li><p>Let <var>script</var> be the result of <span>creating a classic script</span> using\n-   <var>source</var> and <var>settings object</var>.</p></li>\n-\n    <li>\n-    <p><span data-x=\"run a classic script\">Run the classic script</span> <var>script</var>.</p>\n+    <p>Perform either the <span>run a classic script</span> or <span>run a module script</span>\n+    algorithms on <var>script</var>, depending on whether it is a <span>classic script</span> or\n+    <span>module script</span>.</p>",
+    "path": "source",
+    "commit_id": "e3a5bb757f64374c37d8c4528c01298463ef0b2a",
+    "original_commit_id": "780cdd431cb34f2386c1a7b7a00cd83c0805cbe0",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This doesn't clearly tie them together other than through intuition that \"classic script\" is coupled with \"run a classic script\". It's also not entirely clear to me what \"it\" is referring to. Something like \"Run a classic script\" if /x/ is a \"classic\" script\", and \"run a module script\" otherwise.\" would be better I think.\n",
+    "created_at": "2016-02-12T08:18:01Z",
+    "updated_at": "2016-02-12T19:18:35Z",
+    "html_url": "https://github.com/whatwg/html/pull/608#discussion_r52714551",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/608",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/52714551"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/608#discussion_r52714551"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/608"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/52714551/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 94017,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 218,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/52714649",
+    "pull_request_review_id": null,
+    "id": 52714649,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDUyNzE0NjQ5",
+    "diff_hunk": "@@ -94228,13 +94307,21 @@ interface <dfn>AbstractWorker</dfn> {\n \n   <h5>Dedicated workers and the <code>Worker</code> interface</h5>\n \n-  <pre class=\"idl\">[<span data-x=\"dom-Worker\">Constructor</span>(DOMString scriptURL), Exposed=(Window,Worker)]\n+  <pre class=\"idl\">[<span data-x=\"dom-Worker\">Constructor</span>(DOMString scriptURL, optional <span>WorkerOptions</span> options), Exposed=(Window,Worker)]\n interface <dfn>Worker</dfn> : <span>EventTarget</span> {\n   void <span data-x=\"dom-Worker-terminate\">terminate</span>();\n \n   void <span data-x=\"dom-Worker-postMessage\">postMessage</span>(any message, optional sequence&lt;<span>Transferable</span>&gt; transfer);\n   attribute <span>EventHandler</span> <span data-x=\"handler-Worker-onmessage\">onmessage</span>;\n };\n+\n+dictionary <dfn>WorkerOptions</dfn> {\n+  <span>WorkerType</span> type = \"classic\";\n+  <span>RequestCredentials</span> credentials = \"omit\";",
+    "path": "source",
+    "commit_id": "e3a5bb757f64374c37d8c4528c01298463ef0b2a",
+    "original_commit_id": "780cdd431cb34f2386c1a7b7a00cd83c0805cbe0",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Perhaps add an IDL comment here that \"credentials\" is only used if WorkerType is not \"classic\"?\n",
+    "created_at": "2016-02-12T08:19:28Z",
+    "updated_at": "2016-02-12T19:18:35Z",
+    "html_url": "https://github.com/whatwg/html/pull/608#discussion_r52714649",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/608",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/52714649"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/608#discussion_r52714649"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/608"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/52714649/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 94320,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 237,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/52715256",
+    "pull_request_review_id": null,
+    "id": 52715256,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDUyNzE1MjU2",
+    "diff_hunk": "@@ -94528,6 +94617,8 @@ interface <dfn>SharedWorker</dfn> : <span>EventTarget</span> {\n   <p>To <dfn>import scripts into worker global scope</dfn>, the user agent must run the following steps:</p>\n \n   <ol>\n+   <li><p>If this <code>WorkerGlobalScope</code> object's <span data-x=\"concept-WorkerGlobalScope-type\">type</span> is\n+   \"<code data-x=\"\">module</code>\", throw a <code>TypeError</code> and abort these steps.</p></li>",
+    "path": "source",
+    "commit_id": "e3a5bb757f64374c37d8c4528c01298463ef0b2a",
+    "original_commit_id": "780cdd431cb34f2386c1a7b7a00cd83c0805cbe0",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I have two thoughts here:\n1. It would be nicer if the method was simply not exposed.\n2. The way we designed this setup for service workers was that it could overwrite certain algorithms here. Should we not be overwriting the \"validate the state\" algorithm? I do think that would be less readable so perhaps it's simply a manner of the current setup not being ideal.\n",
+    "created_at": "2016-02-12T08:27:54Z",
+    "updated_at": "2016-02-12T19:18:35Z",
+    "html_url": "https://github.com/whatwg/html/pull/608#discussion_r52715256",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/608",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/52715256"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/608#discussion_r52715256"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/608"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/52715256/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 94621,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 301,
+    "position": 302,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/52742766",
+    "pull_request_review_id": null,
+    "id": 52742766,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDUyNzQyNzY2",
+    "diff_hunk": "@@ -94528,6 +94617,8 @@ interface <dfn>SharedWorker</dfn> : <span>EventTarget</span> {\n   <p>To <dfn>import scripts into worker global scope</dfn>, the user agent must run the following steps:</p>\n \n   <ol>\n+   <li><p>If this <code>WorkerGlobalScope</code> object's <span data-x=\"concept-WorkerGlobalScope-type\">type</span> is\n+   \"<code data-x=\"\">module</code>\", throw a <code>TypeError</code> and abort these steps.</p></li>",
+    "path": "source",
+    "commit_id": "e3a5bb757f64374c37d8c4528c01298463ef0b2a",
+    "original_commit_id": "780cdd431cb34f2386c1a7b7a00cd83c0805cbe0",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "1. That would require creating a new type of WorkerGlobalScope (and thus creating new DedicatedWorkerGlobalScope/SharedWorkerGlobalScope/ServiceWorkerGlobalScope derivatives). I'd really like to avoid that. They're still workers.\n2. I thought about that, but then I said: does any caller ever want to customize this behavior? E.g. should we allow service workers to do importScripts in modules, via a different validation step? And the answer is no, I think. We want to enforce at the HTML spec level that this never works.\n",
+    "created_at": "2016-02-12T13:51:22Z",
+    "updated_at": "2016-02-12T19:18:35Z",
+    "html_url": "https://github.com/whatwg/html/pull/608#discussion_r52742766",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/608",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/52742766"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/608#discussion_r52742766"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/608"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/52742766/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 94621,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 301,
+    "position": 302,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/52742884",
+    "pull_request_review_id": null,
+    "id": 52742884,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDUyNzQyODg0",
+    "diff_hunk": "@@ -94528,6 +94617,8 @@ interface <dfn>SharedWorker</dfn> : <span>EventTarget</span> {\n   <p>To <dfn>import scripts into worker global scope</dfn>, the user agent must run the following steps:</p>\n \n   <ol>\n+   <li><p>If this <code>WorkerGlobalScope</code> object's <span data-x=\"concept-WorkerGlobalScope-type\">type</span> is\n+   \"<code data-x=\"\">module</code>\", throw a <code>TypeError</code> and abort these steps.</p></li>",
+    "path": "source",
+    "commit_id": "e3a5bb757f64374c37d8c4528c01298463ef0b2a",
+    "original_commit_id": "780cdd431cb34f2386c1a7b7a00cd83c0805cbe0",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Satisfactory.\n",
+    "created_at": "2016-02-12T13:52:15Z",
+    "updated_at": "2016-02-12T19:18:35Z",
+    "html_url": "https://github.com/whatwg/html/pull/608#discussion_r52742884",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/608",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/52742884"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/608#discussion_r52742884"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/608"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/52742884/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 94621,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 301,
+    "position": 302,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

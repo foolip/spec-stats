@@ -1,0 +1,144 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/60036881",
+    "pull_request_review_id": null,
+    "id": 60036881,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDYwMDM2ODgx",
+    "diff_hunk": "@@ -12095,47 +12096,46 @@ gave me some of the songs they wrote. I love sharing my music.&lt;/p>\n   <ol>\n    <li><p>Let <var>document</var> be <var>element</var>'s <span>node document</span>.\n \n-   <li><p><span data-x=\"parse a URL\">Parse</span> the value of <var>element</var>'s <code\n-   data-x=\"attr-base-href\">href</code> content attribute relative to <var>document</var>.</p></li>\n-\n-   <li>\n-    <p>If that algorithm fails or if running <span>Is base allowed for Document?</span> on the\n-    <span>resulting URL record</span> and <var>document</var> returns \"<code\n-    data-x=\"\">Blocked</code>\", then set <var>element</var>'s <span>frozen base URL</span> to the\n-    <span>fallback base URL</span>.</p>\n+   <li><p>Let <var>urlRecord</var> be the result of <span data-x=\"URL parser\">parsing</span> the\n+   value of <var>element</var>'s <code data-x=\"attr-base-href\">href</code> content attribute with\n+   <var>document</var>'s <span>fallback base URL</span>, and <var>document</var>'s <span\n+   data-x=\"document's character encoding\">character encoding</span>. (Thus, the <code>base</code>\n+   element isn't affected by itself.)</p></li>\n+   <!-- This uses the URL parser rather than parse a URL since otherwise we'd have to unnessarily\n+        complicate the latter for two callsites. -->\n \n-    <p>Otherwise, set <var>element</var>'s <span>frozen base URL</span> to the <var>resulting URL\n-    record</var>.</p>\n-   </li>\n+   <li><p>Set <var>element</var>'s <span>frozen base URL</span> to <var>document</var>'s\n+   <span>fallback base URL</span>, if <var>urlRecord</var> is failure or running <span>Is base\n+   allowed for Document?</span> on the <span>resulting URL record</span> and <var>document</var>\n+   returns \"<code data-x=\"\">Blocked</code>\", and to <var>urlRecord</var> otherwise.</p></li>\n   </ol>\n \n   <p>The <dfn><code data-x=\"dom-base-href\">href</code></dfn> IDL attribute, on getting, must return\n   the result of running the following algorithm:\n+  <!-- http://software.hixie.ch/utilities/js/live-dom-viewer/saved/1715\n+       https://github.com/whatwg/html/issues/1060#issuecomment-211221664 -->\n \n-  <ol> <!-- http://software.hixie.ch/utilities/js/live-dom-viewer/saved/1715 -->\n-\n-   <li><p>If the <code>base</code> element has no <code data-x=\"attr-base-href\">href</code> content\n-   attribute, then return the <span>document base URL</span> and abort these steps.</p></li>\n+  <ol>\n+   <li><p>If this element has a <span>frozen base URL</span>, return it, <span\n+   data-x=\"concept-url-serialiser\">serialised</span>.</p></li>",
+    "path": "source",
+    "commit_id": "76db6bb5adb4c62cafe2f5689bb2f587de0b677d",
+    "original_commit_id": "732a605f02e789243b860250f9faddcb1540b617",
+    "user": {
+      "login": "mikewest",
+      "id": 1497,
+      "node_id": "MDQ6VXNlcjE0OTc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1497?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mikewest",
+      "html_url": "https://github.com/mikewest",
+      "followers_url": "https://api.github.com/users/mikewest/followers",
+      "following_url": "https://api.github.com/users/mikewest/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mikewest/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mikewest/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mikewest/subscriptions",
+      "organizations_url": "https://api.github.com/users/mikewest/orgs",
+      "repos_url": "https://api.github.com/users/mikewest/repos",
+      "events_url": "https://api.github.com/users/mikewest/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mikewest/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Nit: \"return its <span data-x=\"concept-url-serialiser\">serialization</span>\" sounds a little better to my ear.\n",
+    "created_at": "2016-04-18T10:34:31Z",
+    "updated_at": "2016-04-19T14:18:56Z",
+    "html_url": "https://github.com/whatwg/html/pull/1064#discussion_r60036881",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1064",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/60036881"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1064#discussion_r60036881"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1064"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/60036881/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 12120,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 54,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/60036959",
+    "pull_request_review_id": null,
+    "id": 60036959,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDYwMDM2OTU5",
+    "diff_hunk": "@@ -12095,47 +12096,46 @@ gave me some of the songs they wrote. I love sharing my music.&lt;/p>\n   <ol>\n    <li><p>Let <var>document</var> be <var>element</var>'s <span>node document</span>.\n \n-   <li><p><span data-x=\"parse a URL\">Parse</span> the value of <var>element</var>'s <code\n-   data-x=\"attr-base-href\">href</code> content attribute relative to <var>document</var>.</p></li>\n-\n-   <li>\n-    <p>If that algorithm fails or if running <span>Is base allowed for Document?</span> on the\n-    <span>resulting URL record</span> and <var>document</var> returns \"<code\n-    data-x=\"\">Blocked</code>\", then set <var>element</var>'s <span>frozen base URL</span> to the\n-    <span>fallback base URL</span>.</p>\n+   <li><p>Let <var>urlRecord</var> be the result of <span data-x=\"URL parser\">parsing</span> the\n+   value of <var>element</var>'s <code data-x=\"attr-base-href\">href</code> content attribute with\n+   <var>document</var>'s <span>fallback base URL</span>, and <var>document</var>'s <span\n+   data-x=\"document's character encoding\">character encoding</span>. (Thus, the <code>base</code>\n+   element isn't affected by itself.)</p></li>\n+   <!-- This uses the URL parser rather than parse a URL since otherwise we'd have to unnessarily\n+        complicate the latter for two callsites. -->\n \n-    <p>Otherwise, set <var>element</var>'s <span>frozen base URL</span> to the <var>resulting URL\n-    record</var>.</p>\n-   </li>\n+   <li><p>Set <var>element</var>'s <span>frozen base URL</span> to <var>document</var>'s\n+   <span>fallback base URL</span>, if <var>urlRecord</var> is failure or running <span>Is base\n+   allowed for Document?</span> on the <span>resulting URL record</span> and <var>document</var>\n+   returns \"<code data-x=\"\">Blocked</code>\", and to <var>urlRecord</var> otherwise.</p></li>",
+    "path": "source",
+    "commit_id": "76db6bb5adb4c62cafe2f5689bb2f587de0b677d",
+    "original_commit_id": "732a605f02e789243b860250f9faddcb1540b617",
+    "user": {
+      "login": "mikewest",
+      "id": 1497,
+      "node_id": "MDQ6VXNlcjE0OTc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1497?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mikewest",
+      "html_url": "https://github.com/mikewest",
+      "followers_url": "https://api.github.com/users/mikewest/followers",
+      "following_url": "https://api.github.com/users/mikewest/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mikewest/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mikewest/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mikewest/subscriptions",
+      "organizations_url": "https://api.github.com/users/mikewest/orgs",
+      "repos_url": "https://api.github.com/users/mikewest/repos",
+      "events_url": "https://api.github.com/users/mikewest/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mikewest/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The CSP integration LGTM.\n",
+    "created_at": "2016-04-18T10:35:20Z",
+    "updated_at": "2016-04-19T14:18:56Z",
+    "html_url": "https://github.com/whatwg/html/pull/1064#discussion_r60036959",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1064",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/60036959"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1064#discussion_r60036959"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1064"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/60036959/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 12110,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 40,
+    "position": 40,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

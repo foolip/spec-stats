@@ -1,0 +1,144 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/60188421",
+    "pull_request_review_id": null,
+    "id": 60188421,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDYwMTg4NDIx",
+    "diff_hunk": "@@ -91308,11 +91308,15 @@ dictionary <dfn>ImageBitmapOptions</dfn> {\n \n   </ol>\n \n-  <p>The <dfn><code data-x=\"dom-ImageBitmap-width\">width</code></dfn> attribute must return the\n-  <code>ImageBitmap</code> object's width, in <span data-x=\"'px'\">CSS pixels</span>.</p>\n-\n-  <p>The <dfn><code data-x=\"dom-ImageBitmap-height\">height</code></dfn> attribute must return the\n-  <code>ImageBitmap</code> object's height, in <span data-x=\"'px'\">CSS pixels</span>.</p>\n+  <p>If the value of an <code>ImageBitmap</code> object's [[<span>Detached</span>]] internal slot\n+  is false, then the <dfn><code data-x=\"dom-ImageBitmap-width\">width</code></dfn> attribute must\n+  return the <code>ImageBitmap</code> object's width, in <span data-x=\"'px'\">CSS pixels</span>. \n+  Otherwise, the <code data-x=\"dom-ImageBitmap-width\">width</code> attribute must return 0.</p>\n+\n+  <p>If the value of an <code>ImageBitmap</code> object's [[<span>Detached</span>]] internal slot\n+  is false, then the <dfn><code data-x=\"dom-ImageBitmap-height\">height</code></dfn> attribute must\n+  return the <code>ImageBitmap</code> object's height, in <span data-x=\"'px'\">CSS pixels</span>. \n+  Otherwise, the <code data-x=\"dom-ImageBitmap-height\">height</code> attribute must return 0.</p>",
+    "path": "source",
+    "commit_id": "e63d9a976af4a4f057a489f4f0aa783b4554a58f",
+    "original_commit_id": "e30586968e680128a9918e2409c8da475e8adc72",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This needs to be checked the other way around. [[Detached]] is never explicitly set to false so it could be missing/undefined. Internal slots are not defined in that level of detail at the moment. So it's better to check for true.\n",
+    "created_at": "2016-04-19T08:10:17Z",
+    "updated_at": "2016-04-19T18:05:37Z",
+    "html_url": "https://github.com/whatwg/html/pull/1067#discussion_r60188421",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1067",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/60188421"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1067#discussion_r60188421"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1067"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/60188421/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 91319,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 17,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/60273339",
+    "pull_request_review_id": null,
+    "id": 60273339,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDYwMjczMzM5",
+    "diff_hunk": "@@ -91308,11 +91308,16 @@ dictionary <dfn>ImageBitmapOptions</dfn> {\n \n   </ol>\n \n-  <p>The <dfn><code data-x=\"dom-ImageBitmap-width\">width</code></dfn> attribute must return the\n-  <code>ImageBitmap</code> object's width, in <span data-x=\"'px'\">CSS pixels</span>.</p>\n-\n-  <p>The <dfn><code data-x=\"dom-ImageBitmap-height\">height</code></dfn> attribute must return the\n-  <code>ImageBitmap</code> object's height, in <span data-x=\"'px'\">CSS pixels</span>.</p>\n+  <p>If an <code>ImageBitmap</code> object's [[<span>Detached</span>]] internal slot's value is\n+  set to true, then the <dfn><code data-x=\"dom-ImageBitmap-width\">width</code></dfn> attribute\n+  must return 0. Otherwise, the <code data-x=\"dom-ImageBitmap-width\">width</code> attribute must\n+  return the <code>ImageBitmap</code> object's width, in <span data-x=\"'px'\">CSS pixels</span>.</p>",
+    "path": "source",
+    "commit_id": "e63d9a976af4a4f057a489f4f0aa783b4554a58f",
+    "original_commit_id": "09e94e14bdde0a180d84d0be1cdda0ec2c4116ac",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Sorry for going another round on this, but I just realized that @domenic, I, and others have slowly been setting a new style which I think we should try to follow here. It would basically look something like:\n\n``` html\n<p>The ...width... attribute's getter must run these steps:</p>\n\n<ol>\n <li><p>If this <code>ImageBitMap</code> object's [[<span>Detached</span>]] internal slot's value is\n true, then return 0.</p></li>\n\n <li><p>Return this <code>ImageBitmap</code> object's width, in ...CSS pixels....</p></li>\n</ol>\n```\n",
+    "created_at": "2016-04-19T17:25:09Z",
+    "updated_at": "2016-04-19T18:05:37Z",
+    "html_url": "https://github.com/whatwg/html/pull/1067#discussion_r60273339",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1067",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/60273339"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1067#discussion_r60273339"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1067"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/60273339/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 91314,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 12,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]
