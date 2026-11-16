@@ -57,13 +57,13 @@ updates work, and how holes are caught: [`docs/extraction.md`](docs/extraction.m
 
 ### In GitHub Actions
 
-`.github/workflows/fetch.yml` runs the extractor on demand (Actions →
-"Fetch GitHub data" → Run workflow). Each run stops itself after 300
+`.github/workflows/fetch.yml` runs the extractor every hour (at :48),
+and on demand (Actions → "Fetch GitHub data" → Run workflow). Each run stops itself after 300
 minutes and commits what it fetched to `data/github/`, even if it failed,
 and the next run resumes from there. If `main` moved during the run, it
 fails without committing, as the collection code may have changed; don't
 merge into `main` while a run is going. A backfill bigger than one
-hour's budget (whatwg/html: about 10) takes several runs.
+hour's budget (whatwg/html: about 12) takes several runs, one an hour.
 
 - The built-in token is enough: it has had 5,000 requests an hour here
   (each run logs the limit). A run doesn't wait for the hourly limit to
