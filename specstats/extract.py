@@ -44,7 +44,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from . import paths
-from .github import GitHubError, Gone, PaginationLimit
+from .github import GitHubError, Gone, Unprocessable
 
 OVERLAP = timedelta(days=1)
 PER_PAGE = 100
@@ -150,10 +150,22 @@ class RepoStore:
     def unset_gone(self, number):
         self.state.get("gone", {}).pop(str(number), None)
 
+    def refused(self):
+        """number -> {resource: GitHub's message}: what GitHub answered with
+        HTTP 422 for an item that's otherwise stored."""
+        return {int(n): r for n, r in self.state.get("refused", {}).items()}
+
+    def set_refused(self, number, refused):
+        if refused:
+            self.state.setdefault("refused", {})[str(number)] = dict(refused, checked_at=now())
+        else:
+            self.state.get("refused", {}).pop(str(number), None)
+
     def save_state(self):
         s = dict(self.state)
-        if "gone" in s:
-            s["gone"] = {k: s["gone"][k] for k in sorted(s["gone"], key=int)}
+        for key in ("gone", "refused"):
+            if key in s:
+                s[key] = {k: s[key][k] for k in sorted(s[key], key=int)}
         write_json(self.dir / "state.json", s)
 
     # objects
@@ -240,6 +252,11 @@ def sync_item(client, store, number, resources):
     a run stopped midway refetches the item. A number that's deleted,
     transferred elsewhere (a redirect, not followed) or never existed is
     recorded as gone, and anything stored for it is removed.
+
+    GET /pulls/{n} answers HTTP 422 for a PR with too many changed files
+    (whatwg/dom #548). The rest of the number is stored without
+    pulls/{n}/index.json, and GitHub's message is recorded in state.json
+    under "refused". Any other 422 fails the run.
     """
     repo = store.repo
     try:
@@ -247,20 +264,28 @@ def sync_item(client, store, number, resources):
         comments = (list(_all_pages(client, f"/repos/{repo}/issues/{number}/comments"))
                     if obj["comments"] else None)
         events = [_without_issue(e) for e in _all_pages(client, f"/repos/{repo}/issues/{number}/events")]
-        pr = {}
+        pr, refused = {}, {}
         if "pull_request" in obj:
             for res in resources:
                 path, _, paged = PR_RESOURCES[res]
                 url = path.format(repo=repo, n=number)
-                pr[res] = list(_all_pages(client, url)) if paged else client.rest(url).data
+                if paged:
+                    pr[res] = list(_all_pages(client, url))
+                    continue
+                try:
+                    pr[res] = client.rest(url).data
+                except Unprocessable as e:  # only /pulls/{n} is unpaged
+                    pr[res], refused[res] = None, e.message
             pull = pr.get("pull")
             pr["review_comments"] = (list(_all_pages(client, f"/repos/{repo}/pulls/{number}/comments"))
                                      if pull is None or pull["review_comments"] else None)
     except Gone:
         store.remove_item(number)
         store.set_gone(number)
+        store.set_refused(number, None)
         return None
     store.unset_gone(number)
+    store.set_refused(number, refused)
     store.put("issues", number, "comments", comments)
     store.put("issues", number, "events", events)
     for res, data in pr.items():
@@ -354,8 +379,8 @@ def list_ascending(client, path, params, on_page):
         else:
             try:
                 resp = client.rest(resp.next)
-            except PaginationLimit:
-                raise GitHubError(f"{path}: more rows at {newest} than GitHub will page through")
+            except Unprocessable as e:
+                raise GitHubError(f"{path}: more rows at {newest} than GitHub will page through ({e.message})")
 
 
 def _sync_changed(client, store, rows, resources):
@@ -469,8 +494,8 @@ def sync_events(client, store, log=print):
             break
         try:
             resp = client.rest(resp.next)
-        except PaginationLimit:
-            raise CheckFailed(f"{store.repo}: GitHub won't page /issues/events back to {stop}")
+        except Unprocessable as e:
+            raise CheckFailed(f"{store.repo}: GitHub won't page /issues/events back to {stop} ({e.message})")
     s["cursor"] = newest
     store.save_state()
     log(f"{store.repo} events: stored {stored}")

@@ -300,7 +300,39 @@ class ExtractTest(TempDirs):
             f.unlink()
         self.assertEqual(check.check_repo(extract.RepoStore(REPO)), [
             ("neither stored nor gone", [1]),
-            ("a PR with no pulls/{n}/index.json", [3])])
+            ("a PR with no pulls/{n}/index.json (and no 422 recorded for it)", [3])])
+
+    def test_pull_refused_with_422_is_recorded_and_the_rest_stored(self):
+        # whatwg/dom #548: GET /pulls/548 answers 422 "too many files changed".
+        gh = populated()
+        too_many = "The request could not be processed because too many files changed"
+        gh.unprocessable["/pulls/2"] = too_many
+        c = client(gh)
+        self.sync(gh, c)
+        store = self.store()
+        self.assertIsNone(store.get("pulls", 2))
+        self.assertIsNotNone(store.get("pulls", 2, "reviews"))
+        self.assertEqual(len(store.get("pulls", 2, "comments")), 2)  # fetched: no count to say there are none
+        self.assertEqual(store.get("issues", 2)["number"], 2)
+        self.assertEqual({n: {k: v for k, v in r.items() if k != "checked_at"} for n, r in store.refused().items()},
+                         {2: {"pull": too_many}})
+        self.assertEqual(check.check_repo(store), [])
+        text, found = check.report()
+        self.assertFalse(found)
+        self.assertIn(f"(refused by GitHub, not a finding) #2 pull: {too_many}", text)
+        # Once GitHub answers again, the next sync of the item stores it and
+        # drops the record.
+        del gh.unprocessable["/pulls/2"]
+        gh.touch(2, "2025-06-01T00:00:00Z")
+        self.sync(gh)
+        self.assertIsNotNone(self.store().get("pulls", 2))
+        self.assertEqual(self.store().refused(), {})
+
+    def test_other_422s_still_fail(self):
+        gh = populated()
+        gh.unprocessable["/pulls/2/reviews"] = "something else"
+        with self.assertRaisesRegex(github.Unprocessable, "something else"):
+            self.sync(gh)
 
     def test_check_covers_only_what_the_backfill_reached(self):
         gh = populated()

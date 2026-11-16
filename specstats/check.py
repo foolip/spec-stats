@@ -23,7 +23,7 @@ def check_repo(store):
     if "highest" not in items:
         return None
     reached = items["next"] - 1 if "next" in items else items["highest"]
-    idx, gone = store.index(), store.gone()
+    idx, gone, refused = store.index(), store.gone(), store.refused()
     pull_fetched = "pull" in state.get("pr_resources", [])
     found = []
 
@@ -40,14 +40,22 @@ def check_repo(store):
             no_closed.append(n)
         if info["merged"] and "merged" not in kinds:
             no_merged.append(n)
-        if pull_fetched and info["is_pr"] and store.get("pulls", n) is None:
+        if (pull_fetched and info["is_pr"] and store.get("pulls", n) is None
+                and "pull" not in refused.get(n, {})):
             no_pull.append(n)
     add("closed with no `closed` event", no_closed)
     add("merged with no `merged` event", no_merged)
-    add("a PR with no pulls/{n}/index.json", no_pull)
+    add("a PR with no pulls/{n}/index.json (and no 422 recorded for it)", no_pull)
     add("events stored for a number neither stored nor gone",
         [n for n, _ in store.lists("issues", "events") if n <= reached and n not in idx and n not in gone])
     return found
+
+
+def notes(store):
+    """Lines about what GitHub refused (HTTP 422), recorded by the fetch.
+    Not findings: GitHub's limits, not bugs in the process."""
+    return [f"#{n} {res}: {message}" for n, r in sorted(store.refused().items())
+            for res, message in r.items() if res != "checked_at"]
 
 
 def report(repos=None, root=None):
@@ -64,4 +72,5 @@ def report(repos=None, root=None):
             any_found = True
             lines.append(f"- {repo}:")
             lines += [f"  - {name}: {_some(numbers)}" for name, numbers in found]
+        lines += [f"  - (refused by GitHub, not a finding) {line}" for line in notes(store)]
     return "\n".join(lines) + "\n", any_found

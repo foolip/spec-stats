@@ -60,7 +60,7 @@ Everything for one number is fetched together and replaces what's stored:
 | `GET /issues/{n}` | always |
 | `GET /issues/{n}/comments` | if the issue's `comments` count isn't 0 |
 | `GET /issues/{n}/events` | always (the issue has no count of them) |
-| `GET /pulls/{n}` | PRs, if `pull` is in `config/fetch.json` (default) |
+| `GET /pulls/{n}` | PRs, if `pull` is in `config/fetch.json` (default); see below for HTTP 422 |
 | `GET /pulls/{n}/reviews` | PRs, if `reviews` is in `config/fetch.json` (default) |
 | `GET /pulls/{n}/commits`, `/files` | PRs, if turned on in `config/fetch.json` (off) |
 | `GET /pulls/{n}/comments` | PRs, unless `pull` says `review_comments` is 0 |
@@ -170,6 +170,19 @@ itself can't be done right:
   events: HTTP 422, or a full page (100 events) with no next link, which
   is how GitHub cut off whatwg/html's listing at page 300.
 - `config/fetch.json` changed its per-PR resources.
+- Any other HTTP 422, except the one below.
+
+**HTTP 422** (`Unprocessable`) isn't a rate limit (those are 403 and
+429, and stop the run instead): GitHub won't process that request, now
+or later, and uses it for unrelated reasons. The request tells which.
+`GET /pulls/{n}` answers it for a PR with too many changed files
+(whatwg/dom #548, 2026-11-16: "The request could not be processed because
+too many files changed"); the rest of the number is stored as usual,
+without `pulls/{n}/index.json` (so inline comments are fetched, with no
+count to say there are none), and GitHub's message is recorded in
+`state.json` under `refused`. The record goes when the item is next
+fetched in full. Lost for such a PR: what only the pull object has, such
+as size and `merged_by` (the `merged` event names who merged it).
 
 ## Consistency checks (`check`)
 
@@ -178,10 +191,12 @@ reports, per repo, for the numbers the backfill has reached:
 
 - numbers neither stored nor gone, or both;
 - closed items with no `closed` event, merged PRs with no `merged` event;
-- PRs with no `pulls/{n}/index.json`;
+- PRs with no `pulls/{n}/index.json` and no 422 recorded for them;
 - events stored under a number that's neither stored nor gone.
 
-It exits with an error if it finds anything. These are for finding bugs
+It also lists what GitHub refused with HTTP 422 (`refused` in
+`state.json`), as notes, not findings. It exits with an error if it finds
+anything. These are for finding bugs
 in the whole process (fetching, storing, committing); a finding can also
 be GitHub's own inconsistency, such as whatwg/fullscreen #220, a closed
 PR for which GitHub returns no events at all. The "Check data" workflow

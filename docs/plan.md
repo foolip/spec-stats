@@ -105,6 +105,7 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-15 | **The fetch stores what GitHub returns, consistent or not; consistency checks run separately** (`specstats check`, offline, in its own workflow, `check.yml`, triggered manually for now; not in the fetch workflow or triggered by it, at the maintainer's instruction). The fetch fails only when fetching can't be done right (the events listing won't reach back far enough, or `config/fetch.json` changed). The checks: every number reached is stored or gone, closed items have a `closed` event, merged PRs a `merged` event, PRs a `pulls/{n}/index.json`, no events under numbers neither stored nor gone | Maintainer's choice: GitHub's data isn't perfectly consistent (whatwg/fullscreen #220, a probable spam PR closed by its author, has no events at all, not even `closed`), so failing the fetch on it stops collection for no fault of ours. The checks are for finding bugs in the end-to-end process; a finding may turn out to be GitHub's |
 | 2026-11-15 | The fetch workflow uses the built-in token; no personal token. Each run logs the rate limit GitHub reports. ETags don't save requests there | Maintainer's choice. The built-in token has had 5,000 requests an hour (run 4 stopped at the 500 reserve, about every 4,500 requests; run 5 made 1,017), not the 1,000 the docs said. It's new every run and GitHub's ETags are per token (`Vary: Authorization`; same token: stable ETag and a 304 after 70 s), so runs 6 and 7 of an unchanged whatwg/fullscreen got 200s with new ETags. That costs two requests per run |
 | 2026-11-16 | Fetch whatwg/dom again, by the current design, alongside whatwg/fullscreen: its old-format `state.json` is removed (so the backfill starts from #1), its files are kept and replaced number by number | Maintainer's instruction. Each number's files are replaced whole when the backfill reaches it (deleted and transferred numbers, 81 of them with only events stored, are removed), so nothing needs deleting first, and git shows how the two designs' data differ |
+| 2026-11-16 | **HTTP 422 from `GET /pulls/{n}` means the PR is too big**: the rest of the number is stored, the pull object isn't, and GitHub's message is recorded (`refused` in `state.json`); `check` lists it as a note. Any other 422 still fails the run. `PaginationLimit` is renamed `Unprocessable`, and the caller decides what a 422 means | Run 10 (whatwg/dom) stopped at #548: "too many files changed". Treating every 422 as a paging limit crashed the run and would have blocked the backfill at #548 for good. A 422 isn't a rate limit (403, 429); GitHub uses it for unrelated refusals, which the request tells apart more reliably than the message text |
 | 2026-11-16 | **No ETags**: no conditional requests, and none stored in `state.json` (removed from whatwg/fullscreen's and whatwg/dom's) | Maintainer's instruction. With the built-in token they never matched, and saving the new ones made every run of an unchanged repo commit a changed `state.json` (runs 6–8). With a stable token they'd save at most two requests per run per repo; `since` and the cursors are what keep runs small |
 | 2026-11-16 | The workflows no longer read a `SPECSTATS_TOKEN` secret; they use only the built-in token | Maintainer's instruction. The secret was never set, and the built-in token's 5,000 an hour is enough |
 | 2026-11-16 | No contact address in the User-Agent: `SPECSTATS_CONTACT` and `data/private/settings.json` removed | Maintainer's instruction. Every request is authenticated, so GitHub already knows who is making it (the repo's Actions installation, or the operator's own token), and its docs only ask for a username or app name in the User-Agent |
@@ -136,11 +137,16 @@ removed on 2026-11-14 (decisions log); its last version is at commit
   137 PRs, as GitHub's search counts) and 6 gone. The only
   inconsistency: #220, a closed PR with no events at all, which then
   failed the run; the checks are now separate (decisions log).
+- Run 10 (2026-11-16) started whatwg/dom's refetch: #1–#547 in about 16
+  minutes (2,005 requests, about 2 a second), then crashed on #548, whose
+  pull object GitHub refuses (HTTP 422, too many files changed). #1–#547
+  are committed and `check` finds nothing in them. Now handled
+  (decisions log).
 
 ## Next steps
 
-1. Run the fetch for whatwg/dom's backfill (about 1,530 numbers, roughly
-   5,500 requests: two runs, an hour apart), then "Check data" by hand,
+1. Run the fetch to finish whatwg/dom's backfill (#548–#1530, roughly
+   3,500 requests), then "Check data" by hand,
    and look at the git diff against the 2026-11-14 data. (Run 9 of an
    unchanged whatwg/fullscreen: two requests, no commit.)
 2. Then switch to whatwg/html and run the fetch workflow until the
