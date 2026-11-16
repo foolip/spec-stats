@@ -1,6 +1,5 @@
 """An in-memory GitHub, enough of the REST API for the extractor's tests."""
 
-import hashlib
 import json
 import re
 import urllib.parse
@@ -164,12 +163,9 @@ class FakeGitHub:
         page = int(q.get("page", 1))
         if self.page_limit and page > self.page_limit:
             return 422, {}, b'{"message": "pagination is limited"}'
-        etag = '"%s"' % hashlib.sha1(json.dumps(rows, sort_keys=True).encode()).hexdigest()
-        if page == 1 and headers.get("If-None-Match") == etag:
-            return 304, {"ETag": etag}, b""
         size = int(q.get("per_page", self.page))
         chunk = rows[(page - 1) * size: page * size]
-        out = {"ETag": etag}
+        out = {}
         if page * size < len(rows) and not (self.page_cap and page >= self.page_cap):
             base = url.split("&page=")[0].split("?page=")[0]
             out["Link"] = f'<{base}{"&" if "?" in base else "?"}page={page + 1}>; rel="next"'

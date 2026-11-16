@@ -4,9 +4,7 @@ Ground rule 2 (docs/plan.md): one request at a time, with no gap between
 them (GitHub asks for serial requests, not slow ones; Octokit doesn't space
 out GETs either), keep a reserve of the hourly budget, stop the run rather
 than wait whenever GitHub says to wait for quota (the next run continues),
-send ETags so unchanged listings come back as free 304s (only with the
-token that got the ETag: Actions' built-in token is new every run), and
-identify ourselves in the User-Agent.
+and identify ourselves in the User-Agent.
 """
 
 import json
@@ -115,10 +113,6 @@ class Response:
         self.data = data
 
     @property
-    def etag(self):
-        return self.headers.get("etag")
-
-    @property
     def next(self):
         return next_link(self.headers)
 
@@ -135,7 +129,6 @@ class Client:
         self.clock = clock
         self.log = log
         self.requests = 0
-        self.not_modified = 0
         # In clock() time: no request starts, and no retry delay runs, past this.
         self.deadline = clock() + seconds_left if seconds_left is not None else None
         self._out_of_quota = None  # why the run stops before its next request
@@ -189,15 +182,12 @@ class Client:
             return status, resp_headers, raw
         raise GitHubError(f"giving up on {url} after {MAX_RETRIES} attempts")
 
-    def rest(self, path_or_url, params=None, etag=None):
-        """GET a REST resource. Returns a Response; status 304 has data None."""
+    def rest(self, path_or_url, params=None):
+        """GET a REST resource. Returns a Response."""
         url = path_or_url if path_or_url.startswith("http") else API + path_or_url
         if params:
             url += ("&" if "?" in url else "?") + urllib.parse.urlencode(params)
-        status, headers, raw = self._send("GET", url, extra_headers={"If-None-Match": etag} if etag else None)
-        if status == 304:
-            self.not_modified += 1
-            return Response(304, headers, None)
+        status, headers, raw = self._send("GET", url)
         if status in (301, 302, 307, 308, 404, 410):
             raise Gone(status, url)
         if status == 422:

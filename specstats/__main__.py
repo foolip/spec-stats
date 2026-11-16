@@ -80,7 +80,7 @@ def main(argv=None):
         except github.Stopped as e:
             print(f"Stopped during {repo}: {e}. The next run continues from here.")
             break
-    print(f"Done: {client.requests} requests, {client.not_modified} of them unchanged (304).")
+    print(f"Done: {client.requests} requests.")
     for f in failed:
         print(f"CHECK FAILED: {f}")
     return 1 if failed else 0

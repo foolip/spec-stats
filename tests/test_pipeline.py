@@ -82,16 +82,15 @@ class ExtractTest(TempDirs):
         return [u.split("?")[0].replace(f"https://api.github.com/repos/{REPO}", "")
                 for _, u in gh.calls[-c.requests:]]
 
-    def test_backfill_then_unchanged_is_two_304s(self):
+    def test_backfill_then_unchanged_is_two_requests(self):
         gh = populated()
         self.sync(gh)
         self.assertEqual(self.store().counts(), FULL)
-        # The first update re-reads what changed during the backfill; after
-        # that, one conditional request for items and one for events.
-        self.sync(gh)
+        # One request for items and one for events, and nothing to store.
         c = client(gh)
         self.sync(gh, c)
-        self.assertEqual((c.requests, c.not_modified), (2, 2))
+        self.assertEqual(self.calls(gh, c), ["/issues", "/issues/events"])
+        self.assertEqual(self.store().counts(), FULL)
 
     def test_backfill_fetches_by_number(self):
         gh = populated()
@@ -228,7 +227,7 @@ class ExtractTest(TempDirs):
         self.assertEqual(self.count("events"), 6)
         c = client(gh)
         self.sync(gh, c)
-        self.assertEqual((c.requests, c.not_modified), (2, 2))
+        self.assertEqual(c.requests, 2)
 
     def test_events_of_deleted_issues_are_dropped(self):
         gh = populated()
