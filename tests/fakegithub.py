@@ -24,6 +24,7 @@ class FakeGitHub:
         self.pulls = {}               # number -> REST pull request object
         self.reviews = {}             # number -> [REST review objects]
         self.timeline_drop = set()    # ids left out of timelines
+        self.unprocessable = {}       # path (after the repo) -> message, answered with HTTP 422
         self.transferred = set()      # issue numbers moved to another repo (served as a redirect)
         self.calls = []
         self.before_request = None    # called with the request count, to change state mid-run
@@ -102,6 +103,8 @@ class FakeGitHub:
         parsed = urllib.parse.urlparse(url)
         q = dict(urllib.parse.parse_qsl(parsed.query))
         path = parsed.path[len(f"/repos/{REPO}"):]
+        if path in self.unprocessable:
+            return 422, {}, json.dumps({"message": self.unprocessable[path], "status": "422"}).encode()
         if path == "/issues":
             key = "created_at" if q.get("sort") == "created" else "updated_at"
             rows = sorted(self.issues.values(), key=lambda o: (o[key], o["number"]),

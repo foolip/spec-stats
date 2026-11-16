@@ -39,8 +39,17 @@ class Gone(GitHubError):
         self.status = status
 
 
-class PaginationLimit(GitHubError):
-    """GitHub refused to page this deep (HTTP 422)."""
+class Unprocessable(GitHubError):
+    """HTTP 422: GitHub won't process this request, and won't later either.
+    Not a rate limit (those are 403 and 429). GitHub uses it for unrelated
+    things, e.g. paging a listing too deep, or a PR with too many changed
+    files for GET /pulls/{n}; the caller knows which from the request.
+    `message` is GitHub's."""
+
+    def __init__(self, url, message):
+        super().__init__(f"HTTP 422 for {url}: {message}")
+        self.url = url
+        self.message = message
 
 
 class Stopped(Exception):
@@ -191,7 +200,11 @@ class Client:
         if status in (301, 302, 307, 308, 404, 410):
             raise Gone(status, url)
         if status == 422:
-            raise PaginationLimit(f"HTTP 422 for {url}: {raw[:300]!r}")
+            try:
+                message = json.loads(raw).get("message") or ""
+            except ValueError:
+                message = raw[:300].decode("utf-8", "replace")
+            raise Unprocessable(url, message)
         if status != 200:
             raise GitHubError(f"HTTP {status} for {url}: {raw[:500]!r}")
         return Response(status, headers, json.loads(raw))
