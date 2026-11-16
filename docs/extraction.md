@@ -100,11 +100,8 @@ missed (identical timestamps, a briefly stale API) is listed again. After
 the backfill, the cursor starts at the time the backfill started, so
 everything that changed during it is fetched again.
 
-- The first page carries the ETag from the last run with the same
-  `since`. `S` only moves when something changed, so an unchanged repo
-  is one request, which comes back as a free `304 Not Modified` **only
-  if the token is the same**: GitHub's ETags are per token, and Actions'
-  built-in token is new every run, so there it's an ordinary request.
+- `S` only moves when something changed, so an unchanged repo is one
+  request, returning an empty page.
 - A listed number above the highest known one (new issues, transfers in)
   first syncs every number in between, so deleted ones are recorded as
   gone, and the "every number below is stored or gone" rule keeps
@@ -125,11 +122,11 @@ comment. It doesn't hold for events, hence the listing below.
   in `sync_item`), so every number below the backfill's position is
   complete, events included.
 - **Updates:** once the items backfill is done, each run reads the
-  repo-wide `GET /issues/events` (newest first): page 1 with its ETag (a
-  free 304 if there's nothing new and the token is the same), and on
-  back to a day before the newest event seen; the first time, back to a
-  day before the backfill started. New events are merged into each item's `events.json` by id. A
-  changed item is refetched whole, events included.
+  repo-wide `GET /issues/events` (newest first), back to a day before
+  the newest event seen (usually one page); the first time, back to a
+  day before the backfill started. New events are merged into each
+  item's `events.json` by id. A changed item is refetched whole, events
+  included.
 - Events of numbers recorded as gone are dropped: the listing keeps
   events of deleted and transferred issues (whatwg/dom had 81 such
   numbers).
@@ -198,8 +195,13 @@ reconcile, then (once the backfill is done) the events listing. Events
 filed under a number above the highest that turns out to be gone are
 removed when an update reaches it.
 
-A caught-up run of an unchanged repo is two requests: free 304s with the
-same token as the last run, ordinary ones with Actions' built-in token.
+A caught-up run of an unchanged repo is two requests, and changes no
+files, so there's nothing to commit.
+
+No ETags or conditional requests are used: GitHub's ETags are per token
+(`Vary: Authorization`), and Actions' built-in token is new every run,
+so a saved ETag never matched (2026-11-15). With a stable token they
+would save at most those two requests per run.
 
 ## Stopping: deadlines and rate limits
 

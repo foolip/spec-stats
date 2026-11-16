@@ -50,8 +50,7 @@ python3 -m unittest discover tests
 
 The first `extract` fetches each repo's whole history, one issue or PR at a
 time; later runs fetch only what changed, and an unchanged repo costs two
-requests (free 304s when the token is the same as the last run's). It
-stores what GitHub returns, consistent or not; `python3 -m specstats
+requests. It stores what GitHub returns, consistent or not; `python3 -m specstats
 check` (offline) then looks for inconsistencies in the stored data, which
 may be bugs in the process or GitHub's own. The data is plain JSON files, so `jq`, `grep` and `git log -p` work on it directly. How
 updates work, and how holes are caught: [`docs/extraction.md`](docs/extraction.md).

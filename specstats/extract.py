@@ -20,8 +20,7 @@ Git keeps every earlier version, so nothing here keeps history itself.
 Items (issues and PRs) are fetched one number at a time, everything for a
 number together (sync_item). The backfill walks the numbers from 1 to the
 highest; after it, each run lists the items updated since the last run
-(one request, a free 304 if nothing changed and the token is the same as
-the last run's: GitHub's ETags are per token) and syncs those whose updated_at differs
+(one request if nothing changed) and syncs those whose updated_at differs
 from the stored one.
 
 Events are part of an item (GET /issues/{n}/events, fetched with it).
@@ -330,7 +329,7 @@ def backfill_items(client, store, resources, log=print):
     log(f"{store.repo} items: backfilled numbers 1..{s['highest']} ({done} this run)")
 
 
-def list_ascending(client, path, params, on_page, first=None):
+def list_ascending(client, path, params, on_page):
     """Page through an ascending listing by *keyset*: each next page is page 1
     again with `since` just before the newest timestamp seen so far.
 
@@ -339,11 +338,10 @@ def list_ascending(client, path, params, on_page, first=None):
     page boundary slides back unread). Only if a whole page shares one
     second does this follow the offset link for that stretch.
 
-    `first` is the already-requested first page, if any. `on_page(rows)`
-    handles a page and returns its newest updated_at.
+    `on_page(rows)` handles a page and returns its newest updated_at.
     """
     per_page = int(params.get("per_page", PER_PAGE))
-    resp = first or client.rest(path, params)
+    resp = client.rest(path, params)
     since = params.get("since")
     while True:
         newest = on_page(resp.data)
@@ -376,17 +374,12 @@ def _sync_changed(client, store, rows, resources):
 
 
 def update_items(client, store, resources, log=print):
-    """Items updated since the cursor (minus OVERLAP). The first page carries
-    the last ETag for the same `since`, so an unchanged repo is one request,
-    a free 304 if the token is the same as the last run's."""
+    """Items updated since the cursor (minus OVERLAP): one request if
+    nothing changed."""
     s = store.section("items")
     since = _minus_overlap(s["cursor"])
     path = f"/repos/{store.repo}/issues"
     params = dict(ITEMS, per_page=PER_PAGE, since=since)
-    first = client.rest(path, params, etag=s.get("etag") if s.get("etag_since") == since else None)
-    if first.status == 304:
-        log(f"{store.repo} items: unchanged")
-        return 0
     total = [0]
 
     def on_page(rows):
@@ -396,8 +389,7 @@ def update_items(client, store, resources, log=print):
         store.save_state()  # resume point
         return max((r["updated_at"] for r in rows), default=None)
 
-    list_ascending(client, path, params, on_page, first=first)
-    s["etag"], s["etag_since"] = first.etag, since
+    list_ascending(client, path, params, on_page)
     store.save_state()
     log(f"{store.repo} items: synced {total[0]} changed")
     return total[0]
@@ -459,11 +451,8 @@ def sync_events(client, store, log=print):
     if "cursor" not in s:
         return  # set when the items backfill finishes
     path = f"/repos/{store.repo}/issues/events"
-    resp = client.rest(path, {"per_page": PER_PAGE}, etag=s.get("etag"))
-    if resp.status == 304:
-        log(f"{store.repo} events: unchanged")
-        return
-    first_etag, stop, newest, stored = resp.etag, _minus_overlap(s["cursor"]), s["cursor"], 0
+    resp = client.rest(path, {"per_page": PER_PAGE})
+    stop, newest, stored = _minus_overlap(s["cursor"]), s["cursor"], 0
     while True:
         rows = [e for e in resp.data if e["created_at"] >= stop]
         _store_events(store, rows)
@@ -482,7 +471,7 @@ def sync_events(client, store, log=print):
             resp = client.rest(resp.next)
         except PaginationLimit:
             raise CheckFailed(f"{store.repo}: GitHub won't page /issues/events back to {stop}")
-    s["cursor"], s["etag"] = newest, first_etag
+    s["cursor"] = newest
     store.save_state()
     log(f"{store.repo} events: stored {stored}")
 
