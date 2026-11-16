@@ -66,10 +66,9 @@ merge into `main` while a run is going. A backfill bigger than one
 hour's budget (whatwg/html: about 10) takes several runs.
 
 - The built-in token is enough: it has had 5,000 requests an hour here
-  (each run logs the limit). A `SPECSTATS_TOKEN` secret, if set, is used
-  instead. A run doesn't wait for the hourly limit to reset: it stops and
-  commits when the budget is down to its reserve, so a backfill is one
-  run an hour (about 4,500 requests each).
+  (each run logs the limit). A run doesn't wait for the hourly limit to
+  reset: it stops and commits when the budget is down to its reserve, so
+  a backfill is one run an hour (about 4,500 requests each).
 - Set a `SPECSTATS_CONTACT` variable to put a contact address in the
   User-Agent.
 - Each run's summary page shows what's stored and the cursors

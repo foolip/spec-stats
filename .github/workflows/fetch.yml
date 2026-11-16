@@ -9,10 +9,9 @@
 # repo's whole history; later runs only what changed.
 #
 # Token: the built-in token, which is enough (5,000 requests an hour here:
-# run 4 stopped at a 500 reserve; each run logs the limit), or the
-# SPECSTATS_TOKEN secret if set (not set). The hourly budget is shared by
-# every run in the repo. An unchanged repo costs two requests and commits
-# nothing. A run never waits for quota: it stops
+# run 4 stopped at a 500 reserve; each run logs the limit). The hourly
+# budget is shared by every run in the repo. An unchanged repo costs two
+# requests and commits nothing. A run never waits for quota: it stops
 # when the hourly budget is down to its reserve (about 20 minutes into a
 # backfill), commits, and the next run, an hour later, continues.
 # Contact for the User-Agent: the SPECSTATS_CONTACT variable, if set.
@@ -42,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 350
     env:
-      GITHUB_TOKEN: ${{ secrets.SPECSTATS_TOKEN || github.token }}
+      GITHUB_TOKEN: ${{ github.token }}
       SPECSTATS_CONTACT: ${{ vars.SPECSTATS_CONTACT }}
       PYTHONUNBUFFERED: "1"  # log lines appear as they're printed, not at exit
     steps:
