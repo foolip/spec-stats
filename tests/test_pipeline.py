@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-from specstats import check, extract, github, timeline_check
+from specstats import check, extract, github, listing_check, timeline_check
 from tests.fakegithub import REPO, FakeGitHub
 
 QUIET = dict(log=lambda *a: None)
@@ -413,6 +413,33 @@ class TimelineCheckTest(TempDirs):
         self.assertIn("Timeline entries without an id: `line-commented` (1)", out)
         self.assertTrue((Path(self.tmp.name) / "private/timeline" / REPO / "2.json").exists())
         self.assertFalse((self.files / REPO / "issues/1/timeline.json").exists())
+
+
+class ListingCheckTest(unittest.TestCase):
+    def test_report(self):
+        gh = populated()
+        self.assertIn("of the 3 compared (1 issues, 2 PRs), 3 are identical",
+                      listing_check.check(client(gh), REPO, size=2, **QUIET))
+        self.assertIn("No differences", listing_check.check(client(gh), REPO, size=2, **QUIET))
+
+        def transport(method, url, body, headers):
+            status, h, data = gh(method, url, body, headers)
+            if "/issues/" in url:  # GET /issues/{n}: one field more, one less, one different
+                obj = json.loads(data)
+                obj["extra"], obj["user"]["login"] = 1, "someone"
+                del obj["labels"]
+                data = json.dumps(obj).encode()
+            elif url.endswith("direction=desc&per_page=2"):  # changed in between
+                rows = json.loads(data)
+                rows[0]["updated_at"] = "2020-01-01T00:00:00Z"
+                data = json.dumps(rows).encode()
+            return status, h, data
+        c = github.Client(token="t", transport=transport, sleep=lambda s: None, **QUIET)
+        out = listing_check.check(c, REPO, size=2, **QUIET)
+        self.assertIn("1 skipped (changed in between); of the 2 compared (1 issues, 1 PRs), 0 are identical", out)
+        self.assertIn("| only in GET /issues/{n} | `extra` | 2 | #2: 1 |", out)
+        self.assertIn("| only in the listing | `labels` | 2 | #2: [] |", out)
+        self.assertIn("| different values | `user.login` | 2 | #2: listing 'alice', GET 'someone' |", out)
 
 
 class ClientTest(unittest.TestCase):
