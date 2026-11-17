@@ -5,6 +5,7 @@
   python3 -m specstats check      offline: consistency checks on what's stored
   python3 -m specstats listing-check [--repo whatwg/dom] [--size 50]
                                   are listing rows the same as GET /issues/{n}?
+  python3 -m specstats repos      update config/repos.txt from whatwg/sg's db.json
 
 extract fetches everything that changed since the last run into
 data/github/. Only items (issues and PRs) updated since `updated_since` in
@@ -25,7 +26,7 @@ normally, and the next run continues from there.
 import argparse
 import sys
 
-from . import check, extract, github, listing_check, paths, timeline_check
+from . import check, extract, github, listing_check, paths, repolist, timeline_check
 
 
 def main(argv=None):
@@ -49,6 +50,8 @@ def main(argv=None):
     p.add_argument("--repo", default="whatwg/dom", help="owner/name (default: whatwg/dom)")
     p.add_argument("--size", type=int, default=50,
                    help="how many of the most, and of the least, recently updated items (default: 50)")
+    sub.add_parser("repos", help="update config/repos.txt from whatwg/sg's db.json "
+                   "(keeps which repos are fetched; new ones come in commented out)")
     args = ap.parse_args(argv)
     # Show each line as it's printed, even when stdout is a pipe (as in
     # GitHub Actions), where Python would otherwise hold it in a buffer.
@@ -57,6 +60,9 @@ def main(argv=None):
 
     if args.cmd == "stats":
         print(stats())
+        return 0
+    if args.cmd == "repos":
+        repolist.update()
         return 0
     if args.cmd == "check":
         text, found = check.report(args.repo)
