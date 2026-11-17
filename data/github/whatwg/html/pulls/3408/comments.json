@@ -1,0 +1,216 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/164149971",
+    "pull_request_review_id": 91883964,
+    "id": 164149971,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE2NDE0OTk3MQ==",
+    "diff_hunk": "@@ -92941,14 +92941,23 @@ dictionary <dfn>ImageBitmapOptions</dfn> {\n   <var>options</var>)</code></dfn> and <code data-x=\"\">createImageBitmap(<var>image</var>\n   <var>sx</var>, <var>sy</var>, <var>sw</var>, <var>sh</var>, <var>options</var>)</code> methods,\n   when invoked, must run these steps:</p>\n-  <!-- the canvas createPattern() and drawImage() methods have similar requirements -->\n \n   <ol>\n    <li><p>Let <var>p</var> be a new promise.</p></li>\n \n    <li><p>If either <var>sw</var> or <var>sh</var> is given and is 0, then return <var>p</var>\n    rejected with a <code data-x=\"js-RangeError\">RangeError</code>.</p></li>\n \n+   <li><p>If either <var>options</var>'s <dfn><code\n+   data-x=\"dom-ImageBitmapOptions-resizeWidth\">resizeWidth</code></dfn> or <var>options</var>'s\n+   <dfn><code data-x=\"dom-ImageBitmapOptions-resizeHeight\">resizeHeight</code></dfn> is present and",
+    "path": "source",
+    "commit_id": "c552d0b89e95aab885ed7bc45a1426cecc2efa45",
+    "original_commit_id": "5493f14cc9ce76b9cc9b4b6e4f7ae56a52584e6e",
+    "user": {
+      "login": "junov",
+      "id": 2607864,
+      "node_id": "MDQ6VXNlcjI2MDc4NjQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2607864?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/junov",
+      "html_url": "https://github.com/junov",
+      "followers_url": "https://api.github.com/users/junov/followers",
+      "following_url": "https://api.github.com/users/junov/following{/other_user}",
+      "gists_url": "https://api.github.com/users/junov/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/junov/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/junov/subscriptions",
+      "organizations_url": "https://api.github.com/users/junov/orgs",
+      "repos_url": "https://api.github.com/users/junov/repos",
+      "events_url": "https://api.github.com/users/junov/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/junov/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "is -> are",
+    "created_at": "2018-01-26T16:04:40Z",
+    "updated_at": "2018-01-26T17:32:12Z",
+    "html_url": "https://github.com/whatwg/html/pull/3408#discussion_r164149971",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/3408",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/164149971"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/3408#discussion_r164149971"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/3408"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/164149971/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 92953,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 14,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/164150587",
+    "pull_request_review_id": 91883964,
+    "id": 164150587,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE2NDE1MDU4Nw==",
+    "diff_hunk": "@@ -92941,14 +92941,23 @@ dictionary <dfn>ImageBitmapOptions</dfn> {\n   <var>options</var>)</code></dfn> and <code data-x=\"\">createImageBitmap(<var>image</var>\n   <var>sx</var>, <var>sy</var>, <var>sw</var>, <var>sh</var>, <var>options</var>)</code> methods,\n   when invoked, must run these steps:</p>\n-  <!-- the canvas createPattern() and drawImage() methods have similar requirements -->\n \n   <ol>\n    <li><p>Let <var>p</var> be a new promise.</p></li>\n \n    <li><p>If either <var>sw</var> or <var>sh</var> is given and is 0, then return <var>p</var>\n    rejected with a <code data-x=\"js-RangeError\">RangeError</code>.</p></li>\n \n+   <li><p>If either <var>options</var>'s <dfn><code\n+   data-x=\"dom-ImageBitmapOptions-resizeWidth\">resizeWidth</code></dfn> or <var>options</var>'s\n+   <dfn><code data-x=\"dom-ImageBitmapOptions-resizeHeight\">resizeHeight</code></dfn> is present and\n+   is 0, then return <var>p</var> rejected with an <span>\"<code>InvalidStateError</code>\"</span>\n+   <code>DOMException</code>.</p></li>\n+\n+   <li><p><span>Check the usability of the <var>image</var> argument</span>. If this throws an\n+   exception or returns <i>bad</i>, then return <var>p</var> rejected with an",
+    "path": "source",
+    "commit_id": "c552d0b89e95aab885ed7bc45a1426cecc2efa45",
+    "original_commit_id": "5493f14cc9ce76b9cc9b4b6e4f7ae56a52584e6e",
+    "user": {
+      "login": "junov",
+      "id": 2607864,
+      "node_id": "MDQ6VXNlcjI2MDc4NjQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2607864?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/junov",
+      "html_url": "https://github.com/junov",
+      "followers_url": "https://api.github.com/users/junov/followers",
+      "following_url": "https://api.github.com/users/junov/following{/other_user}",
+      "gists_url": "https://api.github.com/users/junov/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/junov/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/junov/subscriptions",
+      "organizations_url": "https://api.github.com/users/junov/orgs",
+      "repos_url": "https://api.github.com/users/junov/repos",
+      "events_url": "https://api.github.com/users/junov/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/junov/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I see what you did here. Nice way to adapt the check usability algorithm for createImageBitmap. ;-)",
+    "created_at": "2018-01-26T16:07:08Z",
+    "updated_at": "2018-01-26T17:32:12Z",
+    "html_url": "https://github.com/whatwg/html/pull/3408#discussion_r164150587",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/3408",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/164150587"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/3408#discussion_r164150587"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/3408"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/164150587/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 92958,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 19,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/164155677",
+    "pull_request_review_id": 91890871,
+    "id": 164155677,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE2NDE1NTY3Nw==",
+    "diff_hunk": "@@ -92941,14 +92941,23 @@ dictionary <dfn>ImageBitmapOptions</dfn> {\n   <var>options</var>)</code></dfn> and <code data-x=\"\">createImageBitmap(<var>image</var>\n   <var>sx</var>, <var>sy</var>, <var>sw</var>, <var>sh</var>, <var>options</var>)</code> methods,\n   when invoked, must run these steps:</p>\n-  <!-- the canvas createPattern() and drawImage() methods have similar requirements -->\n \n   <ol>\n    <li><p>Let <var>p</var> be a new promise.</p></li>\n \n    <li><p>If either <var>sw</var> or <var>sh</var> is given and is 0, then return <var>p</var>\n    rejected with a <code data-x=\"js-RangeError\">RangeError</code>.</p></li>\n \n+   <li><p>If either <var>options</var>'s <dfn><code\n+   data-x=\"dom-ImageBitmapOptions-resizeWidth\">resizeWidth</code></dfn> or <var>options</var>'s\n+   <dfn><code data-x=\"dom-ImageBitmapOptions-resizeHeight\">resizeHeight</code></dfn> is present and",
+    "path": "source",
+    "commit_id": "c552d0b89e95aab885ed7bc45a1426cecc2efa45",
+    "original_commit_id": "5493f14cc9ce76b9cc9b4b6e4f7ae56a52584e6e",
+    "user": {
+      "login": "junov",
+      "id": 2607864,
+      "node_id": "MDQ6VXNlcjI2MDc4NjQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2607864?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/junov",
+      "html_url": "https://github.com/junov",
+      "followers_url": "https://api.github.com/users/junov/followers",
+      "following_url": "https://api.github.com/users/junov/following{/other_user}",
+      "gists_url": "https://api.github.com/users/junov/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/junov/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/junov/subscriptions",
+      "organizations_url": "https://api.github.com/users/junov/orgs",
+      "repos_url": "https://api.github.com/users/junov/repos",
+      "events_url": "https://api.github.com/users/junov/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/junov/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I looked this up. \"either\" requires a singular form of the verb when all the enumerated things are singular.  So \"is\" was grammatically correct.  However, since you mean \"inclusive or\" and not \"exclusive or\", I think you should remove the word \"either\" and use the plural \"are\".",
+    "created_at": "2018-01-26T16:25:56Z",
+    "updated_at": "2018-01-26T17:32:12Z",
+    "html_url": "https://github.com/whatwg/html/pull/3408#discussion_r164155677",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/3408",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/164155677"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/3408#discussion_r164155677"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/3408"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/164155677/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 92953,
+    "side": "RIGHT",
+    "in_reply_to_id": 164149971,
+    "author_association": "MEMBER",
+    "original_position": 14,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

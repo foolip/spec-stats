@@ -1,0 +1,359 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/127218698",
+    "pull_request_review_id": 49779904,
+    "id": 127218698,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEyNzIxODY5OA==",
+    "diff_hunk": "@@ -22863,16 +22863,18 @@ interface <dfn>HTMLHyperlinkElementUtils</dfn> {\n    <code>base</code> element.</p></li>\n    <!-- c.f. concept-fs-target -->\n \n+   <li><p>Let <var>noopener</var> be true if <var>subject</var>'s <a href=\"#linkTypes\">link\n+   types</a> include the <code data-x=\"rel-noreferrer\">noreferrer</code>\n+   or <code data-x=\"rel-noopener\">noopener</code> keyword</p></li>\n+\n    <li><p>Let <var>target</var> and <var>replace</var> be the result of applying <span>the rules for\n-   choosing a browsing context</span> given <var>targetAttributeValue</var> and\n-   <var>source</var>.</p></li>\n+   choosing a browsing context</span> given <var>targetAttributeValue</var>, <var>source</var>, and\n+   <var>noopener</var>.</p></li>\n \n    <li><p>If <var>target</var> is null, then return.</p></li>\n \n-   <li><p>If <var>subject</var>'s <a href=\"#linkTypes\">link types</a> include the <code\n-   data-x=\"rel-noreferrer\">noreferrer</code> or <code data-x=\"rel-noopener\">noopener</code> keyword,\n-   and <var>replace</var> is true, then <span data-x=\"disowned its opener\">disown\n-   <var>target</var>'s opener</span>.</p></li>\n+   <li><p>If <var>noopener</var> and <var>replace</var> is true, then",
+    "path": "source",
+    "commit_id": "d9ef904c08c3d1fe130f574a01c976199f03d44b",
+    "original_commit_id": "d3cce3313eacf1da7f8220e2d788478caa5649bd",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "are true",
+    "created_at": "2017-07-13T13:39:42Z",
+    "updated_at": "2017-09-05T21:48:44Z",
+    "html_url": "https://github.com/whatwg/html/pull/2832#discussion_r127218698",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2832",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/127218698"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2832#discussion_r127218698"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2832"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/127218698/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 22876,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 20,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/127219718",
+    "pull_request_review_id": 49779904,
+    "id": 127219718,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEyNzIxOTcxOA==",
+    "diff_hunk": "@@ -76884,6 +76887,13 @@ dictionary <dfn>DragEventInit</dfn> : <span>MouseEventInit</span> {\n    <li><p>Add <var>document</var> to <var>browsingContext</var>'s <span>session\n    history</span>.</p></li>\n \n+   <li><p>If <var>noopener</var> is not true, and <var>browsingContext</var> is a <span>top-level\n+   browsing context</span> which has a <span>creator browsing context</span>, then copy\n+   the <code data-x=\"dom-sessionStorage\">sessionStorage</code> storage area of\n+   the <span>origin</span> of <var>document</var> from the <span>creator browsing context</span>\n+   into <var>browsingContext</var>. These areas must be considered separate, not affecting each\n+   other in any way.</p></li>",
+    "path": "source",
+    "commit_id": "d9ef904c08c3d1fe130f574a01c976199f03d44b",
+    "original_commit_id": "d3cce3313eacf1da7f8220e2d788478caa5649bd",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Maybe we should call out in a comment that this language needs to be further cleaned up at some point. Since ownership of storage and such is rather unclear.",
+    "created_at": "2017-07-13T13:43:28Z",
+    "updated_at": "2017-09-05T21:48:44Z",
+    "html_url": "https://github.com/whatwg/html/pull/2832#discussion_r127219718",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2832",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/127219718"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2832#discussion_r127219718"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2832"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/127219718/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 76895,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 44,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/127247374",
+    "pull_request_review_id": 49812631,
+    "id": 127247374,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEyNzI0NzM3NA==",
+    "diff_hunk": "@@ -76884,6 +76887,13 @@ dictionary <dfn>DragEventInit</dfn> : <span>MouseEventInit</span> {\n    <li><p>Add <var>document</var> to <var>browsingContext</var>'s <span>session\n    history</span>.</p></li>\n \n+   <li><p>If <var>noopener</var> is not true, and <var>browsingContext</var> is a <span>top-level\n+   browsing context</span> which has a <span>creator browsing context</span>, then copy\n+   the <code data-x=\"dom-sessionStorage\">sessionStorage</code> storage area of\n+   the <span>origin</span> of <var>document</var> from the <span>creator browsing context</span>\n+   into <var>browsingContext</var>. These areas must be considered separate, not affecting each\n+   other in any way.</p></li>",
+    "path": "source",
+    "commit_id": "d9ef904c08c3d1fe130f574a01c976199f03d44b",
+    "original_commit_id": "d3cce3313eacf1da7f8220e2d788478caa5649bd",
+    "user": {
+      "login": "mystor",
+      "id": 1261662,
+      "node_id": "MDQ6VXNlcjEyNjE2NjI=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1261662?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mystor",
+      "html_url": "https://github.com/mystor",
+      "followers_url": "https://api.github.com/users/mystor/followers",
+      "following_url": "https://api.github.com/users/mystor/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mystor/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mystor/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mystor/subscriptions",
+      "organizations_url": "https://api.github.com/users/mystor/orgs",
+      "repos_url": "https://api.github.com/users/mystor/repos",
+      "events_url": "https://api.github.com/users/mystor/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mystor/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I tried to re-use the wording from the session storage section, but I agree that it isn't super clear.",
+    "created_at": "2017-07-13T15:18:37Z",
+    "updated_at": "2017-09-05T21:48:44Z",
+    "html_url": "https://github.com/whatwg/html/pull/2832#discussion_r127247374",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2832",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/127247374"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2832#discussion_r127247374"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2832"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/127247374/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 76895,
+    "side": "RIGHT",
+    "in_reply_to_id": 127219718,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 44,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/127465554",
+    "pull_request_review_id": 50056588,
+    "id": 127465554,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEyNzQ2NTU1NA==",
+    "diff_hunk": "@@ -76884,6 +76889,17 @@ dictionary <dfn>DragEventInit</dfn> : <span>MouseEventInit</span> {\n    <li><p>Add <var>document</var> to <var>browsingContext</var>'s <span>session\n    history</span>.</p></li>\n \n+   <!--\n+    NOTE: Clean up this logic in the future. SessionStorage ownership is unclear.\n+    https://github.com/whatwg/html/pull/2832#issuecomment-315239343\n+   -->\n+   <li><p>If <var>noopener</var> is false, and <var>browsingContext</var> is a <span>top-level\n+   browsing context</span> which has a <span>creator browsing context</span>, then copy the <code\n+   data-x=\"dom-sessionStorage\">sessionStorage</code> storage area of the <span>origin</span> of\n+   <var>document</var> from the <span>creator browsing context</span> into\n+   <var>browsingContext</var>'s set of session storage areas. These areas must be considered\n+   separate, not affecting each other in any way.</p></li>",
+    "path": "source",
+    "commit_id": "d9ef904c08c3d1fe130f574a01c976199f03d44b",
+    "original_commit_id": "5d0d95d1010d7ae212133ff5ffe96457aac6ce51",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think what you want to be doing here is that if _noopener_ is false, _browsingContext_ is a top-level browsing context, and \"creator origin\" is \"same origin\" with _document_'s \"origin\", you then copy the storage area across.",
+    "created_at": "2017-07-14T14:12:59Z",
+    "updated_at": "2017-09-05T21:48:44Z",
+    "html_url": "https://github.com/whatwg/html/pull/2832#discussion_r127465554",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2832",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/127465554"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2832#discussion_r127465554"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2832"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/127465554/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 76901,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 52,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/127482170",
+    "pull_request_review_id": 50075799,
+    "id": 127482170,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEyNzQ4MjE3MA==",
+    "diff_hunk": "@@ -76884,6 +76889,17 @@ dictionary <dfn>DragEventInit</dfn> : <span>MouseEventInit</span> {\n    <li><p>Add <var>document</var> to <var>browsingContext</var>'s <span>session\n    history</span>.</p></li>\n \n+   <!--\n+    NOTE: Clean up this logic in the future. SessionStorage ownership is unclear.\n+    https://github.com/whatwg/html/pull/2832#issuecomment-315239343\n+   -->\n+   <li><p>If <var>noopener</var> is false, and <var>browsingContext</var> is a <span>top-level\n+   browsing context</span> which has a <span>creator browsing context</span>, then copy the <code\n+   data-x=\"dom-sessionStorage\">sessionStorage</code> storage area of the <span>origin</span> of\n+   <var>document</var> from the <span>creator browsing context</span> into\n+   <var>browsingContext</var>'s set of session storage areas. These areas must be considered\n+   separate, not affecting each other in any way.</p></li>",
+    "path": "source",
+    "commit_id": "d9ef904c08c3d1fe130f574a01c976199f03d44b",
+    "original_commit_id": "5d0d95d1010d7ae212133ff5ffe96457aac6ce51",
+    "user": {
+      "login": "mystor",
+      "id": 1261662,
+      "node_id": "MDQ6VXNlcjEyNjE2NjI=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1261662?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mystor",
+      "html_url": "https://github.com/mystor",
+      "followers_url": "https://api.github.com/users/mystor/followers",
+      "following_url": "https://api.github.com/users/mystor/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mystor/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mystor/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mystor/subscriptions",
+      "organizations_url": "https://api.github.com/users/mystor/orgs",
+      "repos_url": "https://api.github.com/users/mystor/repos",
+      "events_url": "https://api.github.com/users/mystor/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mystor/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Yeah, that's probably a more clear explanation. I originally tried to copy the wording from the sessionStorage section, but it probably came across less clear than it needed to.",
+    "created_at": "2017-07-14T15:23:21Z",
+    "updated_at": "2017-09-05T21:48:44Z",
+    "html_url": "https://github.com/whatwg/html/pull/2832#discussion_r127482170",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2832",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/127482170"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2832#discussion_r127482170"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2832"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/127482170/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 76901,
+    "side": "RIGHT",
+    "in_reply_to_id": 127465554,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 52,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

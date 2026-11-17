@@ -1,0 +1,431 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/183396063",
+    "pull_request_review_id": 114384680,
+    "id": 183396063,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE4MzM5NjA2Mw==",
+    "diff_hunk": "@@ -83073,21 +83073,31 @@ interface <dfn>Location</dfn> { // but see also <a href=\"#the-location-interface\n   <ol>\n \n    <li>\n+    <p>If <var>entry</var> no longer holds a <code>Document</code> object, then run the following\n+    substeps:</p>\n+\n+    <ol>\n+",
+    "path": "source",
+    "commit_id": "7d24a9f3d0da8f3ef664c4d2a349286e030215e8",
+    "original_commit_id": "206d0222bb2e7951146feb70b74b86bebba231bc",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Please remove this newline.",
+    "created_at": "2018-04-23T13:34:54Z",
+    "updated_at": "2018-04-26T00:34:13Z",
+    "html_url": "https://github.com/whatwg/html/pull/3642#discussion_r183396063",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/3642",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/183396063"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/3642#discussion_r183396063"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/3642"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/183396063/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 83080,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 8,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/183396094",
+    "pull_request_review_id": 114384723,
+    "id": 183396094,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE4MzM5NjA5NA==",
+    "diff_hunk": "@@ -83073,21 +83073,31 @@ interface <dfn>Location</dfn> { // but see also <a href=\"#the-location-interface\n   <ol>\n \n    <li>\n+    <p>If <var>entry</var> no longer holds a <code>Document</code> object, then run the following\n+    substeps:</p>\n+\n+    <ol>\n+\n+     <li><p>Let <var>request</var> be a new <span data-x=\"concept-request\">request</span> whose\n+     <span data-x=\"concept-request-url\">url</span> is <var>entry</var>'s <span>URL</span>.</p></li>\n \n-    <p>If <var>entry</var> no longer holds a <code>Document</code> object, then\n-    <span>navigate</span><!--DONAV history traversal after eviction--> the <span>browsing\n-    context</span> to <var>entry</var>'s <span>URL</span> to perform an <span>entry update</span> of\n-    <var>entry</var>, and return. The \"<span>navigate</span>\" algorithm reinvokes this\n-    \"traverse\" algorithm to complete the traversal, at which point there <em>is</em> a\n-    <code>Document</code> object and so this step gets skipped. The navigation must be done using\n-    the same <span>source browsing context</span> as was used the first time <var>entry</var> was\n-    created. (This can never happen with <span>replacement enabled</span>.)</p>\n-\n-    <p class=\"note\">If the resource was obtained using a non-idempotent action, for example a POST\n-    form submission, or if the resource is no longer available, for example because the computer is\n-    now offline and the page wasn't cached, navigating to it again might not be possible. In this\n-    case, the navigation will result in a different page than previously; for example, it might be\n-    an error message explaining the problem or offering to resubmit the form.</p>\n+     <li>\n+      <p><span>Navigate</span><!--DONAV history traversal after eviction--> the <span>browsing\n+      context</span> to <var>request</var> to perform an <span>entry update</span> of\n+      <var>entry</var>. The \"<span>navigate</span>\" algorithm reinvokes this \"traverse\" algorithm\n+      to complete the traversal, at which point there <em>is</em> a <code>Document</code> object and\n+      so this step gets skipped. The navigation must be done using the same <span>source browsing\n+      context</span> as was used the first time <var>entry</var> was created. (This can never happen\n+      with <span>replacement enabled</span>.)</p>\n+\n+      <p class=\"note\">If the resource was obtained using a non-idempotent action, for example a POST\n+      form submission, or if the resource is no longer available, for example because the computer\n+      is now offline and the page wasn't cached, navigating to it again might not be possible. In\n+      this case, the navigation will result in a different page than previously; for example, it\n+      might be an error message explaining the problem or offering to resubmit the form.</p>\n+     </li>\n+",
+    "path": "source",
+    "commit_id": "7d24a9f3d0da8f3ef664c4d2a349286e030215e8",
+    "original_commit_id": "206d0222bb2e7951146feb70b74b86bebba231bc",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "As well as this.",
+    "created_at": "2018-04-23T13:35:00Z",
+    "updated_at": "2018-04-26T00:34:13Z",
+    "html_url": "https://github.com/whatwg/html/pull/3642#discussion_r183396094",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/3642",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/183396094"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/3642#discussion_r183396094"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/3642"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/183396094/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 83099,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 41,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/183611895",
+    "pull_request_review_id": 114640614,
+    "id": 183611895,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE4MzYxMTg5NQ==",
+    "diff_hunk": "@@ -83073,21 +83073,31 @@ interface <dfn>Location</dfn> { // but see also <a href=\"#the-location-interface\n   <ol>\n \n    <li>\n+    <p>If <var>entry</var> no longer holds a <code>Document</code> object, then run the following\n+    substeps:</p>\n+\n+    <ol>\n+",
+    "path": "source",
+    "commit_id": "7d24a9f3d0da8f3ef664c4d2a349286e030215e8",
+    "original_commit_id": "206d0222bb2e7951146feb70b74b86bebba231bc",
+    "user": {
+      "login": "yutakahirano",
+      "id": 5187874,
+      "node_id": "MDQ6VXNlcjUxODc4NzQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5187874?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yutakahirano",
+      "html_url": "https://github.com/yutakahirano",
+      "followers_url": "https://api.github.com/users/yutakahirano/followers",
+      "following_url": "https://api.github.com/users/yutakahirano/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yutakahirano/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yutakahirano/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yutakahirano/subscriptions",
+      "organizations_url": "https://api.github.com/users/yutakahirano/orgs",
+      "repos_url": "https://api.github.com/users/yutakahirano/repos",
+      "events_url": "https://api.github.com/users/yutakahirano/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yutakahirano/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2018-04-24T05:56:14Z",
+    "updated_at": "2018-04-26T00:34:13Z",
+    "html_url": "https://github.com/whatwg/html/pull/3642#discussion_r183611895",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/3642",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/183611895"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/3642#discussion_r183611895"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/3642"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/183611895/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 83080,
+    "side": "RIGHT",
+    "in_reply_to_id": 183396063,
+    "author_association": "MEMBER",
+    "original_position": 8,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/183611903",
+    "pull_request_review_id": 114640624,
+    "id": 183611903,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE4MzYxMTkwMw==",
+    "diff_hunk": "@@ -83073,21 +83073,31 @@ interface <dfn>Location</dfn> { // but see also <a href=\"#the-location-interface\n   <ol>\n \n    <li>\n+    <p>If <var>entry</var> no longer holds a <code>Document</code> object, then run the following\n+    substeps:</p>\n+\n+    <ol>\n+\n+     <li><p>Let <var>request</var> be a new <span data-x=\"concept-request\">request</span> whose\n+     <span data-x=\"concept-request-url\">url</span> is <var>entry</var>'s <span>URL</span>.</p></li>\n \n-    <p>If <var>entry</var> no longer holds a <code>Document</code> object, then\n-    <span>navigate</span><!--DONAV history traversal after eviction--> the <span>browsing\n-    context</span> to <var>entry</var>'s <span>URL</span> to perform an <span>entry update</span> of\n-    <var>entry</var>, and return. The \"<span>navigate</span>\" algorithm reinvokes this\n-    \"traverse\" algorithm to complete the traversal, at which point there <em>is</em> a\n-    <code>Document</code> object and so this step gets skipped. The navigation must be done using\n-    the same <span>source browsing context</span> as was used the first time <var>entry</var> was\n-    created. (This can never happen with <span>replacement enabled</span>.)</p>\n-\n-    <p class=\"note\">If the resource was obtained using a non-idempotent action, for example a POST\n-    form submission, or if the resource is no longer available, for example because the computer is\n-    now offline and the page wasn't cached, navigating to it again might not be possible. In this\n-    case, the navigation will result in a different page than previously; for example, it might be\n-    an error message explaining the problem or offering to resubmit the form.</p>\n+     <li>\n+      <p><span>Navigate</span><!--DONAV history traversal after eviction--> the <span>browsing\n+      context</span> to <var>request</var> to perform an <span>entry update</span> of\n+      <var>entry</var>. The \"<span>navigate</span>\" algorithm reinvokes this \"traverse\" algorithm\n+      to complete the traversal, at which point there <em>is</em> a <code>Document</code> object and\n+      so this step gets skipped. The navigation must be done using the same <span>source browsing\n+      context</span> as was used the first time <var>entry</var> was created. (This can never happen\n+      with <span>replacement enabled</span>.)</p>\n+\n+      <p class=\"note\">If the resource was obtained using a non-idempotent action, for example a POST\n+      form submission, or if the resource is no longer available, for example because the computer\n+      is now offline and the page wasn't cached, navigating to it again might not be possible. In\n+      this case, the navigation will result in a different page than previously; for example, it\n+      might be an error message explaining the problem or offering to resubmit the form.</p>\n+     </li>\n+",
+    "path": "source",
+    "commit_id": "7d24a9f3d0da8f3ef664c4d2a349286e030215e8",
+    "original_commit_id": "206d0222bb2e7951146feb70b74b86bebba231bc",
+    "user": {
+      "login": "yutakahirano",
+      "id": 5187874,
+      "node_id": "MDQ6VXNlcjUxODc4NzQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5187874?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yutakahirano",
+      "html_url": "https://github.com/yutakahirano",
+      "followers_url": "https://api.github.com/users/yutakahirano/followers",
+      "following_url": "https://api.github.com/users/yutakahirano/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yutakahirano/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yutakahirano/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yutakahirano/subscriptions",
+      "organizations_url": "https://api.github.com/users/yutakahirano/orgs",
+      "repos_url": "https://api.github.com/users/yutakahirano/repos",
+      "events_url": "https://api.github.com/users/yutakahirano/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yutakahirano/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2018-04-24T05:56:20Z",
+    "updated_at": "2018-04-26T00:34:13Z",
+    "html_url": "https://github.com/whatwg/html/pull/3642#discussion_r183611903",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/3642",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/183611903"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/3642#discussion_r183611903"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/3642"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/183611903/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 83099,
+    "side": "RIGHT",
+    "in_reply_to_id": 183396094,
+    "author_association": "MEMBER",
+    "original_position": 41,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/184191191",
+    "pull_request_review_id": 115336482,
+    "id": 184191191,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE4NDE5MTE5MQ==",
+    "diff_hunk": "@@ -83071,24 +83071,31 @@ interface <dfn>Location</dfn> { // but see also <a href=\"#the-location-interface\n   with the new page</span>.</p>\n \n   <ol>\n-\n    <li>\n+    <p>If <var>entry</var> no longer holds a <code>Document</code> object, then:</p>\n \n-    <p>If <var>entry</var> no longer holds a <code>Document</code> object, then\n-    <span>navigate</span><!--DONAV history traversal after eviction--> the <span>browsing\n-    context</span> to <var>entry</var>'s <span>URL</span> to perform an <span>entry update</span> of\n-    <var>entry</var>, and return. The \"<span>navigate</span>\" algorithm reinvokes this\n-    \"traverse\" algorithm to complete the traversal, at which point there <em>is</em> a\n-    <code>Document</code> object and so this step gets skipped. The navigation must be done using\n-    the same <span>source browsing context</span> as was used the first time <var>entry</var> was\n-    created. (This can never happen with <span>replacement enabled</span>.)</p>\n-\n-    <p class=\"note\">If the resource was obtained using a non-idempotent action, for example a POST\n-    form submission, or if the resource is no longer available, for example because the computer is\n-    now offline and the page wasn't cached, navigating to it again might not be possible. In this\n-    case, the navigation will result in a different page than previously; for example, it might be\n-    an error message explaining the problem or offering to resubmit the form.</p>\n+    <ol>\n+     <li><p>Let <var>request</var> be a new <span data-x=\"concept-request\">request</span> whose\n+     <span data-x=\"concept-request-url\">url</span> is <var>entry</var>'s <span>URL</span>.</p></li>\n \n+     <li>\n+      <p><span>Navigate</span><!--DONAV history traversal after eviction--> the <span>browsing\n+      context</span> to <var>request</var> to perform an <span>entry update</span> of\n+      <var>entry</var> and return. The navigation must be done using the same <span>source browsing",
+    "path": "source",
+    "commit_id": "7d24a9f3d0da8f3ef664c4d2a349286e030215e8",
+    "original_commit_id": "964c9765e22e8c86be7a80137577f76b0275e21b",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "\"And return\" was really easy to miss here since there's a sentence and two notes after it. I'd suggest making it step 1.3.",
+    "created_at": "2018-04-25T20:12:11Z",
+    "updated_at": "2018-04-26T00:34:13Z",
+    "html_url": "https://github.com/whatwg/html/pull/3642#discussion_r184191191",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/3642",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/184191191"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/3642#discussion_r184191191"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/3642"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/184191191/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 83084,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 29,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/184243585",
+    "pull_request_review_id": 115399263,
+    "id": 184243585,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE4NDI0MzU4NQ==",
+    "diff_hunk": "@@ -83071,24 +83071,31 @@ interface <dfn>Location</dfn> { // but see also <a href=\"#the-location-interface\n   with the new page</span>.</p>\n \n   <ol>\n-\n    <li>\n+    <p>If <var>entry</var> no longer holds a <code>Document</code> object, then:</p>\n \n-    <p>If <var>entry</var> no longer holds a <code>Document</code> object, then\n-    <span>navigate</span><!--DONAV history traversal after eviction--> the <span>browsing\n-    context</span> to <var>entry</var>'s <span>URL</span> to perform an <span>entry update</span> of\n-    <var>entry</var>, and return. The \"<span>navigate</span>\" algorithm reinvokes this\n-    \"traverse\" algorithm to complete the traversal, at which point there <em>is</em> a\n-    <code>Document</code> object and so this step gets skipped. The navigation must be done using\n-    the same <span>source browsing context</span> as was used the first time <var>entry</var> was\n-    created. (This can never happen with <span>replacement enabled</span>.)</p>\n-\n-    <p class=\"note\">If the resource was obtained using a non-idempotent action, for example a POST\n-    form submission, or if the resource is no longer available, for example because the computer is\n-    now offline and the page wasn't cached, navigating to it again might not be possible. In this\n-    case, the navigation will result in a different page than previously; for example, it might be\n-    an error message explaining the problem or offering to resubmit the form.</p>\n+    <ol>\n+     <li><p>Let <var>request</var> be a new <span data-x=\"concept-request\">request</span> whose\n+     <span data-x=\"concept-request-url\">url</span> is <var>entry</var>'s <span>URL</span>.</p></li>\n \n+     <li>\n+      <p><span>Navigate</span><!--DONAV history traversal after eviction--> the <span>browsing\n+      context</span> to <var>request</var> to perform an <span>entry update</span> of\n+      <var>entry</var> and return. The navigation must be done using the same <span>source browsing",
+    "path": "source",
+    "commit_id": "7d24a9f3d0da8f3ef664c4d2a349286e030215e8",
+    "original_commit_id": "964c9765e22e8c86be7a80137577f76b0275e21b",
+    "user": {
+      "login": "yutakahirano",
+      "id": 5187874,
+      "node_id": "MDQ6VXNlcjUxODc4NzQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5187874?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yutakahirano",
+      "html_url": "https://github.com/yutakahirano",
+      "followers_url": "https://api.github.com/users/yutakahirano/followers",
+      "following_url": "https://api.github.com/users/yutakahirano/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yutakahirano/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yutakahirano/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yutakahirano/subscriptions",
+      "organizations_url": "https://api.github.com/users/yutakahirano/orgs",
+      "repos_url": "https://api.github.com/users/yutakahirano/repos",
+      "events_url": "https://api.github.com/users/yutakahirano/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yutakahirano/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2018-04-26T00:34:42Z",
+    "updated_at": "2018-04-26T00:34:42Z",
+    "html_url": "https://github.com/whatwg/html/pull/3642#discussion_r184243585",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/3642",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/184243585"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/3642#discussion_r184243585"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/3642"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/184243585/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 83084,
+    "side": "RIGHT",
+    "in_reply_to_id": 184191191,
+    "author_association": "MEMBER",
+    "original_position": 29,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

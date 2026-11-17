@@ -1,0 +1,73 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/114833995",
+    "pull_request_review_id": 36327862,
+    "id": 114833995,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDExNDgzMzk5NQ==",
+    "diff_hunk": "@@ -88526,14 +88526,39 @@ import \"https://example.com/foo/../module2.js\";</pre>\n    object</span>'s <span data-x=\"concept-settings-object-module-map\">module map</span>.</p></li>\n \n    <li><p>Let <var>url</var> be the result of <span data-x=\"resolve a module specifier\">resolving a\n-   module specifier</span> given <var>referencing module script</var> and <var>specifier</var>. If\n-   the result is failure, then throw a <code>TypeError</code> exception and abort these\n-   steps.</p></li>\n+   module specifier</span> given <var>referencing module script</var> and\n+   <var>specifier</var>.</p></li>\n \n-   <li><p>Let <var>resolved module script</var> be <var>moduleMap</var>[<var>url</var>]. If no such\n-   entry <span data-x=\"map exists\">exists</span>, or if <var>resolved module script</var> is null or\n-   \"<code data-x=\"\">fetching</code>\", then throw a <code>TypeError</code> exception and abort these\n-   steps.</p></li>\n+   <li><p>Assert: <var>url</var> is never failure, because <span data-x=\"resolve a module\n+   specifier\">resolving a module specifier</span> must have been previously successful with these\n+   same two arguments during the appropriate invocation of <span>fetch the descendants of and\n+   instantiate a module script</span>.</p></li>\n+\n+   <li><p>Let <var>resolved module script</var> be <var>moduleMap</var>[<var>url</var>]. (This entry\n+   must <span data-x=\"map exists\">exist</span> for us to have gotten to this point.)</p></li>\n+\n+   <li>",
+    "path": "source",
+    "commit_id": "2a286f3d79f42c8267fb5b03c9992496cbf96839",
+    "original_commit_id": "56b7bcb9b87097ab24b6d07170785e78b2beb1f7",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Note that depending on how we fix https://github.com/whatwg/html/issues/2629 and https://github.com/whatwg/html/issues/2630 this may no longer be possible, if we step away from our strategy of \"store some error sentinel then just instantiate anyway to get the error to propagate\". That strategy is seeming increasingly unwise.",
+    "created_at": "2017-05-04T17:01:15Z",
+    "updated_at": "2017-05-12T16:55:43Z",
+    "html_url": "https://github.com/whatwg/html/pull/2625#discussion_r114833995",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2625",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/114833995"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2625#discussion_r114833995"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2625"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/114833995/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 88540,
+    "original_line": 88540,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 53,
+    "position": 53,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

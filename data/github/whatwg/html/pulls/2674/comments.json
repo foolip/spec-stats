@@ -1,0 +1,144 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/122748955",
+    "pull_request_review_id": 44891852,
+    "id": 122748955,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEyMjc0ODk1NQ==",
+    "diff_hunk": "@@ -87657,27 +87689,8 @@ import \"https://example.com/foo/../module2.js\";</pre>\n    <li><p>Assert: <var>resolved module script</var> is a <span>module script</span> (i.e., is not\n    null or \"<code data-x=\"\">fetching</code>\").</p></li>\n \n-   <li>\n-    <p>If <var>resolved module script</var>'s <span\n-    data-x=\"concept-module-script-module-record\">module record</span>  is null, then throw\n-    <var>resolved module script</var>'s <span data-x=\"concept-module-script-parse-error\">parse\n-    error</span>.</p>\n-\n-    <div class=\"example\">\n-     <p>This occurs when we have previously fetched <var>url</var>, but attempting to parse its\n-     contents failed, and now a new module script graph also depends on that module script. For\n-     example, given a file <code data-x=\"\">module.js</code> whose contents\n-     are</p>\n-\n-     <pre>import \"./syntax-error.js\";</pre>\n-\n-     <p>then we could get here as part of instantiating the graph for the second <code>script</code>\n-     element in the following HTML:</p>\n-\n-     <pre>&lt;script type=\"module\" src=\"syntax-error.js\">&lt;/script>\n-&lt;script type=\"module\" src=\"module.js\">&lt;/script></pre>\n-    </div>\n-   </li>\n+   <li><p>Assert: <var>resolved module script</var>'s <span\n+   data-x=\"concept-module-script-module-record\">module record</span> is not null.</p>",
+    "path": "source",
+    "commit_id": "a8357cd9b6af4ee415c800b71fa4de822b766466",
+    "original_commit_id": "f094c778eec1ccaee19a092897f0b18f1b0be165",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Should assert it's not \"is errored\"",
+    "created_at": "2017-06-19T15:58:14Z",
+    "updated_at": "2017-08-03T20:06:14Z",
+    "html_url": "https://github.com/whatwg/html/pull/2674#discussion_r122748955",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2674",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/122748955"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2674#discussion_r122748955"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2674"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/122748955/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 87693,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 122,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/122749191",
+    "pull_request_review_id": 44892126,
+    "id": 122749191,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEyMjc0OTE5MQ==",
+    "diff_hunk": "@@ -86663,10 +86697,8 @@ interface <dfn>NavigatorOnLine</dfn> {\n       <ol>\n        <li><p>Let <var>error</var> be a new <code>TypeError</code> exception.</p></li>\n \n-       <li><p>Set <var>record</var>'s [[HostDefined]] field to undefined.</p></li>\n-\n-       <li><p>Set <var>script</var>'s <span data-x=\"concept-module-script-parse-error\">parse\n-       error</span> to <var>error</var>.</p></li>\n+       <li><p><span data-x=\"concept-module-script-set-parse-error\">Set the parse error</span> of",
+    "path": "source",
+    "commit_id": "a8357cd9b6af4ee415c800b71fa4de822b766466",
+    "original_commit_id": "f094c778eec1ccaee19a092897f0b18f1b0be165",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "\"Parse error\" is no longer accurate since this stores dependency errors which might be instantiation errors etc. It's still \"errors that allow us to short-circuit and not evaluate\"",
+    "created_at": "2017-06-19T15:59:00Z",
+    "updated_at": "2017-08-03T20:06:14Z",
+    "html_url": "https://github.com/whatwg/html/pull/2674#discussion_r122749191",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2674",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/122749191"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2674#discussion_r122749191"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2674"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/122749191/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 86700,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 91,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]
