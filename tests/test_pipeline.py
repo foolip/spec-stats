@@ -107,7 +107,8 @@ class ExtractTest(TempDirs):
             "/issues",  # updated since the start: #1 and #2
             "/issues/1/comments", "/issues/1/events",
             "/issues/2/events", "/pulls/2", "/pulls/2/reviews", "/pulls/2/comments",
-            "/issues",  # keyset: since a second before #2's updated_at: #2 again, and #3
+            "/issues",  # keyset: since a second before the page's mark (#1's updated_at): the same page,
+            "/issues",  # so the offset link, page 2: #3
             "/issues/3/events", "/pulls/3", "/pulls/3/reviews",  # no review comments to fetch
             "/issues/events"])  # after the first listing: events since it started
         self.assertEqual(gh.calls[0][1].split("?")[1],
@@ -132,8 +133,8 @@ class ExtractTest(TempDirs):
         lines = []
         extract.sync_repo(client(gh), self.store(), log=lines.append)
         self.assertEqual([l.split(" (")[0] for l in lines], [
-            f"{REPO} items: synced 2 of 2 listed, up to 2025-02-10T00:00:00Z",
-            f"{REPO} items: synced 1 of 2 listed, up to 2025-03-02T00:00:00Z",
+            f"{REPO} items: synced 2 of 2 listed, up to 2025-01-03T00:00:00Z",  # the page's mark
+            f"{REPO} items: synced 1 of 1 listed, up to 2025-03-02T00:00:00Z",
             f"{REPO} items: synced 3 changed",
             f"{REPO} events: stored 0"])
     def test_file_layout_and_format(self):
@@ -251,6 +252,20 @@ class ExtractTest(TempDirs):
         self.sync(gh)
         self.assertEqual(sorted(self.store().index()), list(range(1, 10)))
         self.assertEqual(self.store().get("issues", 4)["updated_at"], "2025-07-01T00:00:00Z")
+
+    def test_rows_out_of_place_in_the_listing_skip_nothing(self):
+        # whatwg/html #127, #2973, #1518 and #7617 came among rows updated by
+        # 2026-10-02 with updated_at from 2026-10-08 to 2026-10-19; going on
+        # from the newest skipped the 98 items in between.
+        gh = FakeGitHub()
+        for n in range(1, 13):
+            gh.add_issue(n, f"2025-01-{n:02d}T00:00:00Z")
+        for n in (3, 4):  # sorted where they were, returned as updated later
+            gh.sort_keys[n] = gh.issues[n]["updated_at"]
+            gh.touch(n, f"2025-01-2{n}T00:00:00Z")
+        with mock.patch.object(extract, "PER_PAGE", 4):
+            self.sync(gh)
+        self.assertEqual(sorted(self.store().index()), list(range(1, 13)))
 
     def test_events_without_an_item_update_are_picked_up(self):
         gh = populated()
@@ -404,7 +419,9 @@ class ExtractTest(TempDirs):
             self.sync(gh, c)
         self.assertEqual(self.calls(gh, c), [
             "/issues",  # updates: nothing changed
-            "/issues", "/issues/4/events",  # since the new start, stopping at the old one
+            "/issues", "/issues/4/events",  # since the new start: #4, and #1 (after the old start)
+            "/issues", "/issues",  # the keyset (the same page) and the offset link, until the mark
+            # passes the old start
             "/issues/events"])
         self.assertEqual(sorted(self.store().index()), [1, 2, 3, 4])
         items = self.store().section("items")
@@ -461,8 +478,8 @@ class ExtractTest(TempDirs):
         self.assertEqual(self.store().refused(), {})
         self.assertEqual(sorted(self.store().index()), [1, 2, 3])
         self.assertFalse((self.issue_dir() / "4").exists())
-        self.assertEqual(self.store().section("items"),
-                         {"cursor": "2025-03-02T00:00:00Z", "from": START})
+        self.assertEqual(self.store().section("items"),  # the last page's mark: #2
+                         {"cursor": "2025-02-10T00:00:00Z", "from": START})
         # An unfinished one: the listing starts from the start date, and
         # skips what's stored unchanged.
         store = self.store()

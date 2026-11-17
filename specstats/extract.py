@@ -316,28 +316,44 @@ def sync_item(client, store, number, resources, obj=None):
 ITEMS = {"state": "all", "sort": "updated", "direction": "asc"}
 
 
+def page_mark(rows):
+    """How far a page of the updated_at listing safely got: its lower
+    median updated_at, not its newest.
+
+    GitHub sorts and filters by a timestamp that's sometimes older than the
+    updated_at it returns: whatwg/html #127, #2973, #1518 and #7617 came
+    among rows updated by 2026-10-02 with updated_at from 2026-10-08 to
+    2026-10-19 (2026-11-17). Continuing from the newest skipped the 98
+    items in between. Any row's place in the order is at most its
+    updated_at, so the median is safe unless half the page is out of
+    place; the cost is pages that overlap by about half."""
+    values = sorted(r["updated_at"] for r in rows)
+    return values[(len(values) - 1) // 2] if values else None
+
+
 def list_ascending(client, path, params, on_page, until=None):
     """Page through an ascending listing by *keyset*: each next page is page 1
-    again with `since` just before the newest timestamp seen so far.
+    again with `since` just before the page's mark (page_mark).
 
     Following page 2, 3, ... links would skip a row whenever a row already
     read is updated mid-listing (it moves to the end, and the row after the
-    page boundary slides back unread). Only if a whole page shares one
-    second does this follow the offset link for that stretch.
+    page boundary slides back unread). Only if the keyset can't move on
+    (half a page sharing one second) does this follow the offset link for
+    that stretch.
 
-    `on_page(rows)` handles a page and returns its newest updated_at. With
-    `until`, rows updated at or after it are left out, and the listing
-    stops at the first of them.
+    `on_page(rows, mark)` handles a page; `mark` is where the listing is
+    known to have got to. With `until`, rows updated at or after it are
+    left out, and the listing stops once the mark reaches it.
     """
     per_page = int(params.get("per_page", PER_PAGE))
     resp = client.rest(path, params)
     since = params.get("since")
     while True:
-        rows = [r for r in resp.data if until is None or r["updated_at"] < until]
-        newest = on_page(rows)
-        if len(rows) < len(resp.data) or len(resp.data) < per_page or not resp.next:
+        mark = page_mark(resp.data)
+        on_page([r for r in resp.data if until is None or r["updated_at"] < until], mark)
+        if len(resp.data) < per_page or not resp.next or (until is not None and mark >= until):
             return
-        next_since = _fmt(_parse(newest) - timedelta(seconds=1))
+        next_since = _fmt(_parse(mark) - timedelta(seconds=1))
         if since is None or next_since > since:
             since = next_since
             resp = client.rest(path, dict(params, since=since))
@@ -345,7 +361,7 @@ def list_ascending(client, path, params, on_page, until=None):
             try:
                 resp = client.rest(resp.next)
             except Unprocessable as e:
-                raise GitHubError(f"{path}: more rows at {newest} than GitHub will page through ({e.message})")
+                raise GitHubError(f"{path}: more rows at {mark} than GitHub will page through ({e.message})")
 
 
 def _sync_changed(client, store, rows, resources):
@@ -362,22 +378,21 @@ def _sync_changed(client, store, rows, resources):
 
 def _list_and_sync(client, store, resources, since, part, until=None, log=print):
     """List the items updated since `since` (and before `until`), syncing
-    the changed ones, and save `part["cursor"]`, the newest updated_at
-    seen, after every page: the resume point. A run stopped mid-page lists
+    the changed ones, and save `part["cursor"]`, the listing's mark
+    (page_mark), after every page: the resume point. A run stopped mid-page lists
     that page again, and skips the items it already synced. Returns how
     many were synced."""
     total = [0]
 
-    def on_page(rows):
+    def on_page(rows, mark):
         synced = _sync_changed(client, store, rows, resources)
         total[0] += synced
-        if rows:
-            part["cursor"] = max([r["updated_at"] for r in rows] + [part.get("cursor", "")])
+        if mark:
+            part["cursor"] = max(mark, part.get("cursor", ""))
         store.save_state()
         if synced:
             log(f"{store.repo} items: synced {synced} of {len(rows)} listed, up to {part['cursor']} "
                 f"({client.requests} requests so far)")
-        return max((r["updated_at"] for r in rows), default=None)
 
     list_ascending(client, f"/repos/{store.repo}/issues", dict(ITEMS, per_page=PER_PAGE, since=since),
                    on_page, until=until)
@@ -466,10 +481,9 @@ def reconcile(client, store, resources, log=print):
     s = store.section("items")
     listed = {}
 
-    def on_page(rows):
+    def on_page(rows, mark):
         for r in rows:
             listed[r["number"]] = r
-        return rows[-1]["updated_at"] if rows else None
 
     list_ascending(client, f"/repos/{store.repo}/issues", dict(ITEMS, per_page=PER_PAGE, since=s["from"]),
                    on_page)

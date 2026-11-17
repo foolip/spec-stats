@@ -121,10 +121,21 @@ timestamps, a briefly stale API) is listed again.
 - `S` only moves when something changed, so an unchanged repo is one
   request, returning an empty page.
 - Pages are fetched by *keyset*: each next page is page 1 again, with
-  `since` a second before the newest timestamp seen. Following page 2,
-  3, … links instead would skip a row whenever an item already read is
-  updated mid-listing. A run stopped mid-page lists the page again and
-  skips the items it already synced.
+  `since` a second before the page's *mark*, the lower median of its
+  `updated_at` values, not the newest. Following page 2, 3, … links
+  instead would skip a row whenever an item already read is updated
+  mid-listing. A run stopped mid-page lists the page again and skips the
+  items it already synced. The cursor is the mark too.
+- **Why the median:** GitHub sorts and filters the listing by a
+  timestamp that's sometimes older than the `updated_at` it returns. On
+  2026-11-17, whatwg/html #127, #2973, #1518 and #7617 came among rows
+  updated by 2026-10-02, with `updated_at` from 2026-10-08 to 2026-10-19;
+  going on from the page's newest skipped the 98 items updated in
+  between (found by comparing with GitHub search's counts). A row's place
+  in the order is never later than its `updated_at`, so the median is a
+  safe place to go on from unless half a page is out of place. Pages
+  overlap by about half, so a listing takes about twice the requests
+  (one per 50 items instead of 100), still a small share of a run.
 - An item last updated before `from` isn't fetched; once it's updated
   (a comment, a label, a transfer into the repo), it's listed and fetched
   whole, history included. So the data has every item active since
@@ -311,6 +322,10 @@ keyset), and:
 
 ## Known gaps
 
+- An item that GitHub's listing sorts by an older timestamp than its
+  `updated_at` (above) may not be in an update's listing when it
+  changes, if that timestamp doesn't move. The weekly reconcile lists
+  everything since `from` and compares `updated_at`, which catches it.
 - Items last updated before `from` aren't fetched (by design since
   2026-11-17), and nothing records that their numbers exist. Numbers
   deleted or transferred out are only recorded as gone if they were
