@@ -182,5 +182,51 @@
     },
     "performed_via_github_app": null,
     "minimized": null
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/6959622376",
+    "html_url": "https://github.com/whatwg/html/pull/13211#issuecomment-6959622376",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/13211",
+    "id": 6959622376,
+    "node_id": "IC_kwDOALaj488AAAABntNo6A",
+    "user": {
+      "login": "noamr",
+      "id": 88566,
+      "node_id": "MDQ6VXNlcjg4NTY2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88566?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/noamr",
+      "html_url": "https://github.com/noamr",
+      "followers_url": "https://api.github.com/users/noamr/followers",
+      "following_url": "https://api.github.com/users/noamr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/noamr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/noamr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/noamr/subscriptions",
+      "organizations_url": "https://api.github.com/users/noamr/orgs",
+      "repos_url": "https://api.github.com/users/noamr/repos",
+      "events_url": "https://api.github.com/users/noamr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/noamr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-17T20:11:42Z",
+    "updated_at": "2026-11-17T20:11:42Z",
+    "body": "Update after review:\n\n- **Q1 changed to option b (WebKit behavior).** When a `<source>` has no `sizes` attribute, *update the source set* now uses the following `<img>`'s `sizes` attribute value, if any (170f0302196cd16ba1427d47cc02c893da329caa). This applies whether or not the `img` allows auto-sizes, which matches WebKit's `HTMLImageElement` (`sourceSizesAttr.isNull() ? imgSizesAttr : sourceSizesAttr`). If neither element has `sizes`, the result is still `100vw`. An explicit `<source sizes=\"\">` still falls back to `100vw`. The `source` and `img` `sizes` notes were updated to match.\n  - The authoring requirement is unchanged: `<source sizes>` must still be present when the `img` doesn't allow auto-sizes. It could later be relaxed to \"when the `img` has no `sizes`\".\n  - The PR description should be updated to say *childSizes* is set to the `img`'s `sizes` value, not \"auto\".\n- **D1 applied in web-platform-tests/wpt#64904.** Candidate widths are now `Math.ceil`ed, so fractional DPRs no longer land on a density boundary.\n- **wpt** (b4504a17b019c90608282cca65043ac328abfa8f): the unrendered `sizes=\"auto, 300px\"` case now expects 300px. Added tests for `<img sizes=\"300px\">`, for no `sizes` on either element, and for changing `img.sizes` while the selected `source` has none.\n\nLocal results for `sizes-auto-parsing.html`:\n- Safari TP: passes 13/14, including all the omitted-source-sizes tests. The one failure is the non-first bare `auto` recovery case.\n- Chrome Canary: passes 11/14. All 3 failures are the new inherit-from-img expectations.\n- Firefox Nightly: still fails the Gecko cases it already failed, plus the new expectations.\n",
+    "author_association": "CONTRIBUTOR",
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/6959622376/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
   }
 ]
