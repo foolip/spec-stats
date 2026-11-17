@@ -18,17 +18,3 @@ def private_dir():
     d.mkdir(parents=True, exist_ok=True)
     return d
 
-
-def repos():
-    """The WHATWG repos to track, from config/repos.txt."""
-    return parse_repos((CONFIG / "repos.txt").read_text())
-
-
-def parse_repos(text):
-    """The uncommented repos in a repos.txt, in order."""
-    out = []
-    for line in text.splitlines():
-        line = line.split("#", 1)[0].strip()
-        if line:
-            out.append(line)
-    return out

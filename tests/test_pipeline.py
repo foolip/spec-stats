@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-from specstats import check, extract, github, listing_check, paths, repolist, timeline_check
+from specstats import check, extract, github, listing_check, sgdb, timeline_check
 from tests.fakegithub import REPO, FakeGitHub
 
 QUIET = dict(log=lambda *a: None)
@@ -545,6 +545,13 @@ class ExtractTest(TempDirs):
         self.assertEqual(self.store().counts(), dict(FULL, events=7))
         self.assertFalse(list(self.files.rglob("*.tmp")))
 
+    def test_missing_repo_is_skipped_and_leaves_no_files(self):
+        gh = FakeGitHub()
+        gh.missing = True
+        with self.assertRaises(extract.RepoGone):
+            self.sync(gh)
+        self.assertFalse((self.files / REPO).exists())
+
     def test_stored_repos(self):
         self.assertEqual(extract.stored_repos(), [])
         self.sync(populated())
@@ -691,40 +698,32 @@ if __name__ == "__main__":
     unittest.main()
 
 
-class RepoListTest(unittest.TestCase):
+
+class SgDbTest(unittest.TestCase):
     DB = {"workstreams": [
         {"id": "html", "standards": [{"name": "HTML", "href": "https://html.spec.whatwg.org/multipage/"},
                                      {"name": "WebSockets", "href": "https://websockets.spec.whatwg.org/"}]},
         {"id": "dom", "standards": [{"name": "DOM", "href": "https://dom.spec.whatwg.org/"}]},
     ], "ideas": [{"name": "CSS Books", "href": "https://books.idea.whatwg.org/"}]}
 
-    def setUp(self):
-        self.tmp = tempfile.TemporaryDirectory()
-        self.addCleanup(self.tmp.cleanup)
-        self.path = Path(self.tmp.name) / "repos.txt"
-
-    def update(self, old):
-        self.path.write_text(old)
-        self.log = []
-        changed = repolist.update(self.DB, self.path, log=self.log.append)
-        return changed, self.path.read_text()
-
-    def test_from_db(self):
-        self.assertEqual(repolist.from_db(self.DB), ["whatwg/dom", "whatwg/html", "whatwg/websockets"])
+    def test_repos(self):
+        self.assertEqual(sgdb.repos(self.DB), ["whatwg/dom", "whatwg/html", "whatwg/websockets"])
         with self.assertRaises(ValueError):
-            repolist.from_db({"workstreams": [{"standards": [{"name": "X", "href": "https://example.com/"}]}]})
+            sgdb.repos({"workstreams": [{"standards": [{"name": "X", "href": "https://example.com/"}]}]})
 
-    def test_keeps_what_is_fetched_and_comments_out_new_repos(self):
-        changed, text = self.update("# old header, see whatwg/sg (prose)\nwhatwg/html\n# whatwg/dom\n")
-        self.assertTrue(changed)
-        self.assertEqual(text, repolist.HEADER + "# whatwg/dom\nwhatwg/html\n# whatwg/websockets\n")
-        self.assertEqual(paths.parse_repos(text), ["whatwg/html"])
-        self.assertEqual(self.log[0], "new: whatwg/websockets (commented out)")
-        self.assertNotIn("not in db.json", " ".join(self.log))
-        self.assertEqual(self.update(text), (False, text))
+    def test_sync_copies_byte_for_byte(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "db.json"
+            raw = json.dumps(self.DB, indent=3).encode() + b"\n"
+            log = []
+            self.assertTrue(sgdb.sync(raw, path, log=log.append))
+            self.assertEqual(path.read_bytes(), raw)
+            self.assertIn("new: whatwg/websockets", log)
+            self.assertFalse(sgdb.sync(raw, path, log=log.append))
+            with self.assertRaises(ValueError):
+                sgdb.sync(b'{"workstreams": []}', path, log=log.append)
+            self.assertEqual(path.read_bytes(), raw)
 
-    def test_fetched_repo_not_in_db_is_kept(self):
-        _, text = self.update("whatwg/dom\nwhatwg/gone\n# whatwg/old\n")
-        self.assertEqual(paths.parse_repos(text), ["whatwg/dom", "whatwg/gone"])
-        self.assertNotIn("whatwg/old", text)
-        self.assertIn("whatwg/gone  # not in db.json", text)
+    def test_config_db_lists_the_fetched_repos(self):
+        repos = sgdb.repos()
+        self.assertTrue({"whatwg/dom", "whatwg/fullscreen", "whatwg/html"} <= set(repos))

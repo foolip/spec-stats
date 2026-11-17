@@ -29,6 +29,7 @@ class FakeGitHub:
         self.sort_keys = {}           # number -> the updated_at /issues sorts and filters it by, if not
                                       # its own (GitHub's is sometimes older: whatwg/html #127)
         self.calls = []
+        self.missing = False          # the repo itself answers 404 (not public)
         self.before_request = None    # called with the request count, to change state mid-run
         self._id = 1000
 
@@ -105,6 +106,8 @@ class FakeGitHub:
         parsed = urllib.parse.urlparse(url)
         q = dict(urllib.parse.parse_qsl(parsed.query))
         path = parsed.path[len(f"/repos/{REPO}"):]
+        if self.missing:
+            return 404, {}, b'{"message": "Not Found"}'
         if path in self.unprocessable:
             return 422, {}, json.dumps({"message": self.unprocessable[path], "status": "422"}).encode()
         if path == "/issues":

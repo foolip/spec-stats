@@ -5,7 +5,7 @@
   python3 -m specstats check      offline: consistency checks on what's stored
   python3 -m specstats listing-check [--repo whatwg/dom] [--size 50]
                                   are listing rows the same as GET /issues/{n}?
-  python3 -m specstats repos      update config/repos.txt from whatwg/sg's db.json
+  python3 -m specstats sync-db    copy whatwg/sg's db.json into config/db.json
 
 extract fetches everything that changed since the last run into
 data/github/. Only items (issues and PRs) updated since `updated_since` in
@@ -26,14 +26,14 @@ normally, and the next run continues from there.
 import argparse
 import sys
 
-from . import check, extract, github, listing_check, paths, repolist, timeline_check
+from . import check, extract, github, listing_check, sgdb, timeline_check
 
 
 def main(argv=None):
     ap = argparse.ArgumentParser(prog="specstats")
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("extract", help="fetch everything changed since the last run")
-    p.add_argument("--repo", action="append", help="owner/name; default: config/repos.txt")
+    p.add_argument("--repo", action="append", help="owner/name; default: every standard in config/db.json")
     p.add_argument("--reconcile", action="store_true", help="also check every issue and PR number (weekly)")
     p.add_argument("--max-minutes", type=float, help="stop starting requests after this many minutes")
     p.add_argument("--dry-run", action="store_true", help="print the plan, fetch nothing")
@@ -50,8 +50,8 @@ def main(argv=None):
     p.add_argument("--repo", default="whatwg/dom", help="owner/name (default: whatwg/dom)")
     p.add_argument("--size", type=int, default=50,
                    help="how many of the most, and of the least, recently updated items (default: 50)")
-    sub.add_parser("repos", help="update config/repos.txt from whatwg/sg's db.json "
-                   "(keeps which repos are fetched; new ones come in commented out)")
+    sub.add_parser("sync-db", help="copy whatwg/sg's db.json (the Living Standards, whose repos "
+                   "are fetched) into config/db.json")
     args = ap.parse_args(argv)
     # Show each line as it's printed, even when stdout is a pipe (as in
     # GitHub Actions), where Python would otherwise hold it in a buffer.
@@ -61,8 +61,8 @@ def main(argv=None):
     if args.cmd == "stats":
         print(stats())
         return 0
-    if args.cmd == "repos":
-        repolist.update()
+    if args.cmd == "sync-db":
+        sgdb.sync()
         return 0
     if args.cmd == "check":
         text, found = check.report(args.repo)
@@ -80,7 +80,7 @@ def main(argv=None):
         print(listing_check.check(github.Client(log=log), args.repo, args.size, log=log), end="")
         return 0
 
-    repos = args.repo or paths.repos()
+    repos = args.repo or sgdb.repos()
     print(f"Plan: extract {len(repos)} repos{', reconciling each' if args.reconcile else ''}, "
           f"one request at a time: items updated since {extract.load_updated_since()}. "
           f"Per-PR resources: {', '.join(extract.load_pr_resources())}.")
@@ -90,17 +90,22 @@ def main(argv=None):
         print("Dry run: nothing fetched.")
         return 0
     client = github.Client(seconds_left=args.max_minutes * 60 if args.max_minutes is not None else None)
-    failed = []
+    failed, skipped = [], []
     for repo in repos:
         store = extract.RepoStore(repo)
         try:
             extract.sync_repo(client, store, reconcile_=args.reconcile)
         except extract.CheckFailed as e:
             failed.append(str(e))
+        except extract.RepoGone as e:
+            print(f"Skipped {e}")
+            skipped.append(str(e))
         except github.Stopped as e:
             print(f"Stopped during {repo}: {e}. The next run continues from here.")
             break
     print(f"Done: {client.requests} requests.")
+    for s in skipped:
+        print(f"SKIPPED (repo not found; not public yet?): {s}")
     for f in failed:
         print(f"CHECK FAILED: {f}")
     return 1 if failed else 0
