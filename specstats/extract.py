@@ -316,40 +316,33 @@ def sync_item(client, store, number, resources, obj=None):
 ITEMS = {"state": "all", "sort": "updated", "direction": "asc"}
 
 
-def page_mark(rows):
-    """How far a page of the updated_at listing safely got: its lower
-    median updated_at, not its newest.
-
-    GitHub sorts and filters by a timestamp that's sometimes older than the
-    updated_at it returns: whatwg/html #127, #2973, #1518 and #7617 came
-    among rows updated by 2026-10-02 with updated_at from 2026-10-08 to
-    2026-10-19 (2026-11-17). Continuing from the newest skipped the 98
-    items in between. Any row's place in the order is at most its
-    updated_at, so the median is safe unless half the page is out of
-    place; the cost is pages that overlap by about half."""
-    values = sorted(r["updated_at"] for r in rows)
-    return values[(len(values) - 1) // 2] if values else None
-
-
 def list_ascending(client, path, params, on_page, until=None):
     """Page through an ascending listing by *keyset*: each next page is page 1
-    again with `since` just before the page's mark (page_mark).
+    again with `since` just before the page's *mark*, the updated_at of its
+    last row.
 
     Following page 2, 3, ... links would skip a row whenever a row already
     read is updated mid-listing (it moves to the end, and the row after the
-    page boundary slides back unread). Only if the keyset can't move on
-    (half a page sharing one second) does this follow the offset link for
+    page boundary slides back unread). Only if the keyset can't move on (a
+    whole page sharing one second) does this follow the offset link for
     that stretch.
 
-    `on_page(rows, mark)` handles a page; `mark` is where the listing is
-    known to have got to. With `until`, rows updated at or after it are
-    left out, and the listing stops once the mark reaches it.
+    The last row, not the newest: GitHub sorts by a timestamp that's
+    sometimes older than the updated_at it returns (whatwg/html #127,
+    #2973, #1518 and #7617, 2026-11-17, came among rows updated by
+    2026-10-02 with updated_at from 2026-10-08 to 2026-10-19), and going on
+    from the page's newest skipped the 98 items in between. A skip is
+    still possible if such a row ends a page; the reconcile, which lists
+    by creation time, catches it.
+
+    `on_page(rows, mark)` handles a page. With `until`, rows updated at or
+    after it are left out, and the listing stops once the mark reaches it.
     """
     per_page = int(params.get("per_page", PER_PAGE))
     resp = client.rest(path, params)
     since = params.get("since")
     while True:
-        mark = page_mark(resp.data)
+        mark = resp.data[-1]["updated_at"] if resp.data else None
         on_page([r for r in resp.data if until is None or r["updated_at"] < until], mark)
         if len(resp.data) < per_page or not resp.next or (until is not None and mark >= until):
             return
@@ -379,7 +372,7 @@ def _sync_changed(client, store, rows, resources):
 def _list_and_sync(client, store, resources, since, part, until=None, log=print):
     """List the items updated since `since` (and before `until`), syncing
     the changed ones, and save `part["cursor"]`, the listing's mark
-    (page_mark), after every page: the resume point. A run stopped mid-page lists
+    (the last row's updated_at), after every page: the resume point. A run stopped mid-page lists
     that page again, and skips the items it already synced. Returns how
     many were synced."""
     total = [0]
@@ -473,28 +466,46 @@ def set_start(store, since, log=print):
 
 
 def reconcile(client, store, resources, log=print):
-    """Weekly: list every item updated since `from`, and sync any whose
-    updated_at differs (missed updates) or that's stored with an updated_at
-    since `from` but no longer listed (deleted or transferred). (While a
-    listing back to an earlier date is under way, its items aren't
-    checked yet.)"""
+    """Weekly: a second, independent listing of the items. Every item, in
+    order of creation, by offset pages (created_at doesn't change, so
+    nothing moves around; an item deleted mid-listing can shift one row
+    past a page boundary), keeping those updated since `from` on the
+    client. Then sync any listed item whose updated_at differs from the
+    stored one or that isn't stored (an update listing missed it), and any
+    stored item updated since `from` that isn't listed (deleted or
+    transferred). (While a listing back to an earlier date is under way,
+    its items aren't checked yet.)"""
     s = store.section("items")
-    listed = {}
-
-    def on_page(rows, mark):
-        for r in rows:
-            listed[r["number"]] = r
-
-    list_ascending(client, f"/repos/{store.repo}/issues", dict(ITEMS, per_page=PER_PAGE, since=s["from"]),
-                   on_page)
+    path = f"/repos/{store.repo}/issues"
+    params = {"state": "all", "sort": "created", "direction": "asc", "per_page": PER_PAGE}
+    listed, total, page = {}, 0, 1
+    resp = client.rest(path, params)
+    while True:
+        total += len(resp.data)
+        listed.update((r["number"], r) for r in resp.data if r["updated_at"] >= s["from"])
+        if len(resp.data) < PER_PAGE:
+            break
+        page += 1
+        try:
+            # A full page with no next link is either the last page or, as
+            # GitHub ends /issues/events after 300 pages, a cut-off: ask
+            # for the next page by number to tell.
+            resp = client.rest(resp.next) if resp.next else client.rest(path, dict(params, page=page))
+        except Unprocessable as e:
+            raise CheckFailed(f"{store.repo}: GitHub won't page the reconcile's listing past {total} items "
+                              f"({e.message})")
+        if not resp.data:
+            break
     idx = store.index()
-    rows = [listed[n] for n in sorted(listed)]
-    changed = _sync_changed(client, store, rows, resources)
+    missed = [n for n in sorted(listed) if n not in idx]
+    changed = _sync_changed(client, store, [listed[n] for n in sorted(listed)], resources)
     unlisted = sorted(n for n, i in idx.items() if n not in listed and i["updated_at"] >= s["from"])
     for n in unlisted:
         sync_item(client, store, n, resources)
     store.save_state()
-    log(f"{store.repo} reconcile: synced {changed} changed and {len(unlisted)} unlisted; "
+    log(f"{store.repo} reconcile: {total} items listed by creation time, {len(listed)} updated since "
+        f"{s['from']}; synced {changed} changed or missing ({len(missed)} weren't stored"
+        f"{': ' + _list(missed[:20]) if missed else ''}) and {len(unlisted)} unlisted; "
         f"{len(store.index())} stored, {len(store.gone())} gone")
 
 

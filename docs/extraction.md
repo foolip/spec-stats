@@ -121,21 +121,20 @@ timestamps, a briefly stale API) is listed again.
 - `S` only moves when something changed, so an unchanged repo is one
   request, returning an empty page.
 - Pages are fetched by *keyset*: each next page is page 1 again, with
-  `since` a second before the page's *mark*, the lower median of its
-  `updated_at` values, not the newest. Following page 2, 3, … links
-  instead would skip a row whenever an item already read is updated
-  mid-listing. A run stopped mid-page lists the page again and skips the
-  items it already synced. The cursor is the mark too.
-- **Why the median:** GitHub sorts and filters the listing by a
+  `since` a second before the page's *mark*, the `updated_at` of its
+  last row. Following page 2, 3, … links instead would skip a row
+  whenever an item already read is updated mid-listing. A run stopped
+  mid-page lists the page again and skips the items it already synced.
+  The cursor is the mark too.
+- **Why the last row, not the newest:** GitHub sorts the listing by a
   timestamp that's sometimes older than the `updated_at` it returns. On
   2026-11-17, whatwg/html #127, #2973, #1518 and #7617 came among rows
   updated by 2026-10-02, with `updated_at` from 2026-10-08 to 2026-10-19;
   going on from the page's newest skipped the 98 items updated in
-  between (found by comparing with GitHub search's counts). A row's place
-  in the order is never later than its `updated_at`, so the median is a
-  safe place to go on from unless half a page is out of place. Pages
-  overlap by about half, so a listing takes about twice the requests
-  (one per 50 items instead of 100), still a small share of a run.
+  between (found by comparing with GitHub search's counts; a run with
+  `--reconcile` then fetched them). From the last row, such a row only
+  causes a skip if it ends a page. The reconcile, which lists the items a
+  different way, catches that.
 - An item last updated before `from` isn't fetched; once it's updated
   (a comment, a label, a transfer into the repo), it's listed and fetched
   whole, history included. So the data has every item active since
@@ -310,22 +309,34 @@ deadline, inside the job's 350-minute limit, is a backstop.
 
 ## The weekly reconcile (`extract --reconcile`)
 
-No update listing shows a deleted or transferred item, so once a week
-every item updated since `from` is listed (one request per 100 items, by
-keyset), and:
+A second, independent listing of the items, once a week. No update
+listing shows a deleted or transferred item, and the updates' listing
+can skip items (above), so the reconcile lists *every* item in order of
+creation (`sort=created&direction=asc`, one request per 100 items: about
+130 for whatwg/html), by offset pages, and keeps the ones updated since
+`from` on the client. `created_at` doesn't change, so rows don't move
+around as they're updated; new items go at the end. An item deleted
+mid-listing can shift one row past a page boundary, so a skip is still
+possible, but not the same skip as the updates'. Then:
 
-1. any item whose `updated_at` differs from the stored one is synced (a
-   missed update, or one never stored);
-2. any stored item updated since `from` that's no longer listed is
-   synced, which records it as gone if it is.
+1. any listed item whose `updated_at` differs from the stored one, or
+   that isn't stored, is synced (a missed update, or an item the updates'
+   listing skipped; the log names up to 20 of those);
+2. any stored item updated since `from` that isn't listed is synced,
+   which records it as gone if it is.
+
+If the listing ends on a full page with no next link, the next page is
+asked for by number: an empty page is the end; HTTP 422 (GitHub won't
+page that far) fails the run.
 
 
 ## Known gaps
 
-- An item that GitHub's listing sorts by an older timestamp than its
-  `updated_at` (above) may not be in an update's listing when it
-  changes, if that timestamp doesn't move. The weekly reconcile lists
-  everything since `from` and compares `updated_at`, which catches it.
+- The updates' listing can skip items when a row out of place ends a
+  page, and an item that GitHub sorts by an older timestamp than its
+  `updated_at` may not be in an update's listing when it changes, if that
+  timestamp doesn't move. The reconcile, by creation time, catches both,
+  within a week.
 - Items last updated before `from` aren't fetched (by design since
   2026-11-17), and nothing records that their numbers exist. Numbers
   deleted or transferred out are only recorded as gone if they were
