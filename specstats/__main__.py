@@ -5,8 +5,9 @@
   python3 -m specstats check      offline: consistency checks on what's stored
 
 extract fetches everything that changed since the last run into
-data/github/. With --reconcile (weekly), it also re-lists every issue and PR,
-to catch deletions and missed updates. It stores what GitHub returns,
+data/github/. Only items (issues and PRs) updated since `updated_since` in
+config/fetch.json are fetched. With --reconcile (weekly), it also re-lists
+every one of them, to catch deletions and missed updates. It stores what GitHub returns,
 consistent or not, and exits with an error (extract.CheckFailed), after
 storing what it fetched, only if fetching itself can't be done right.
 check looks for inconsistencies in the stored data (bugs in the process,
@@ -63,7 +64,8 @@ def main(argv=None):
 
     repos = args.repo or paths.repos()
     print(f"Plan: extract {len(repos)} repos{', reconciling each' if args.reconcile else ''}, "
-          f"one request at a time. Per-PR resources: {', '.join(extract.load_pr_resources())}.")
+          f"one request at a time: items updated since {extract.load_updated_since()}. "
+          f"Per-PR resources: {', '.join(extract.load_pr_resources())}.")
     for repo in repos:
         print(f"  {repo}: {progress(extract.RepoStore(repo).state)}")
     if args.dry_run:
@@ -91,10 +93,15 @@ def progress(state):
     items, events = state.get("items", {}), state.get("events", {})
     if not items:
         return "nothing yet"
-    if "next" in items:
-        out = f"items backfill at {items['next']} of {items['highest']}"
+    if "highest" in items:
+        out = "by-number state, converted on the next run"
+    elif "started" in items:
+        out = f"first listing of items updated since {items['from']}: up to {items.get('cursor', 'the start')}"
     else:
-        out = f"items up to {items['cursor']} (numbers 1..{items['highest']})"
+        out = f"items updated since {items['from']}: up to {items['cursor']}"
+    if "extend" in items:
+        ext = items["extend"]
+        out += f"; extending back to {ext['from']}: up to {ext.get('cursor', 'the start')}"
     if "cursor" in events:
         out += f"; events up to {events['cursor']}"
     return out

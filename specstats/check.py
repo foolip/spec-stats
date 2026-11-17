@@ -16,13 +16,12 @@ def _some(numbers, limit=20):
 
 def check_repo(store):
     """[(check, [numbers])] for one repo's files, only the checks that found
-    something, or None if nothing's fetched yet. Covers the numbers the
-    backfill has reached."""
+    something, or None if nothing's fetched yet. Which items should be
+    stored (those updated since `from`) can't be told offline; `extract
+    --reconcile` checks that."""
     state = store.state
-    items = state.get("items", {})
-    if "highest" not in items:
+    if not state.get("items"):
         return None
-    reached = items["next"] - 1 if "next" in items else items["highest"]
     idx, gone, refused = store.index(), store.gone(), store.refused()
     pull_fetched = "pull" in state.get("pr_resources", [])
     found = []
@@ -31,7 +30,6 @@ def check_repo(store):
         if numbers:
             found.append((name, sorted(numbers)))
 
-    add("neither stored nor gone", [n for n in range(1, reached + 1) if n not in idx and n not in gone])
     add("stored and also recorded as gone", [n for n in idx if n in gone])
     no_closed, no_merged, no_pull = [], [], []
     for n, info in idx.items():
@@ -46,8 +44,8 @@ def check_repo(store):
     add("closed with no `closed` event", no_closed)
     add("merged with no `merged` event", no_merged)
     add("a PR with no pulls/{n}/index.json (and no 422 recorded for it)", no_pull)
-    add("events stored for a number neither stored nor gone",
-        [n for n, _ in store.lists("issues", "events") if n <= reached and n not in idx and n not in gone])
+    add("events stored for a number with no issues/{n}/index.json",
+        [n for n, _ in store.lists("issues", "events") if n not in idx])
     return found
 
 

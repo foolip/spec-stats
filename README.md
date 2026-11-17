@@ -17,7 +17,7 @@ dashboards are in [`docs/plan.md`](docs/plan.md).
 
 | Source | What it gives | Status |
 |---|---|---|
-| GitHub REST API, the repos in `config/repos.txt` | Every issue and PR with their comments, inline review comments, timeline events and reviews (commits and changed files optional); public profiles (approved, not fetched for now) | Approved 2026-11-13. whatwg/dom fetched 2026-11-14; whatwg/html next. Stored in `data/github/` |
+| GitHub REST API, the repos in `config/repos.txt` | Every issue and PR updated since 2024-01-01 (`config/fetch.json`) with their comments, inline review comments, timeline events and reviews (commits and changed files optional); public profiles (approved, not fetched for now) | Approved 2026-11-13. whatwg/dom fetched 2026-11-14; whatwg/html next. Stored in `data/github/` |
 | git history of the spec repos | Diffs of spec text (how much prose is written) | Deferred: API data first (2026-11-13) |
 | Browser bug trackers (crbug, Bugzilla, WebKit) | Status of implementation bugs linked from PRs | Not approved |
 | wpt.fyi | Test results for tests linked from PRs | Not approved |
@@ -43,13 +43,14 @@ python3 -m specstats extract --dry-run            # print the plan, fetch nothin
 python3 -m specstats extract --repo whatwg/html
 python3 -m specstats extract                      # all repos; incremental after the first run
 python3 -m specstats extract --max-minutes 60     # stop cleanly after an hour; the next run continues
-python3 -m specstats extract --reconcile          # weekly: also re-list every issue/PR (deletions, missed updates)
+python3 -m specstats extract --reconcile          # weekly: also re-list every issue/PR since the start (deletions, missed updates)
 python3 -m specstats stats                        # what's stored (offline)
 python3 -m unittest discover tests
 ```
 
-The first `extract` fetches each repo's whole history, one issue or PR at a
-time; later runs fetch only what changed, and an unchanged repo costs two
+The first `extract` fetches each repo's issues and PRs updated since
+`updated_since` in `config/fetch.json` (2024-01-01), one at a time, each
+with its whole history; later runs fetch only what changed, and an unchanged repo costs two
 requests. It stores what GitHub returns, consistent or not; `python3 -m specstats
 check` (offline) then looks for inconsistencies in the stored data, which
 may be bugs in the process or GitHub's own. The data is plain JSON files, so `jq`, `grep` and `git log -p` work on it directly. How
@@ -63,7 +64,7 @@ minutes and commits what it fetched to `data/github/`, even if it failed,
 and the next run resumes from there. If `main` moved during the run, it
 fails without committing, as the collection code may have changed; don't
 merge into `main` while a run is going. A backfill bigger than one
-hour's budget (whatwg/html: about 12) takes several runs, one an hour.
+hour's budget takes several runs, one an hour.
 
 - The built-in token is enough: it has had 5,000 requests an hour here
   (each run logs the limit). A run doesn't wait for the hourly limit to

@@ -18,13 +18,16 @@ JSON files committed to this repo, laid out like the API paths
 Git keeps every earlier version, so nothing here keeps history itself.
 
 Items (issues and PRs) are fetched one number at a time, everything for a
-number together (sync_item). The backfill walks the numbers from 1 to the
-highest; after it, each run lists the items updated since the last run
-(one request if nothing changed) and syncs those whose updated_at differs
-from the stored one.
+number together (sync_item). Which ones: those updated since a start date
+(`updated_since` in config/fetch.json), found by listing the repo's items
+in order of updated_at. The first listing is the backfill; after it, each
+run lists the items updated since the last run (one request if nothing
+changed) and syncs those whose updated_at differs from the stored one.
+Moving the start date back later lists just the stretch before the old
+one (extend_items).
 
 Events are part of an item (GET /issues/{n}/events, fetched with it).
-After the backfill, each run also reads the repo-wide /issues/events
+After the first listing, each run also reads the repo-wide /issues/events
 listing, newest first, back to the last run's newest event (one request
 if there are none, as above): it has the events that don't move an item's
 updated_at, so the item isn't refetched for them. The listing can't be
@@ -48,11 +51,6 @@ from .github import GitHubError, Gone, Unprocessable
 
 OVERLAP = timedelta(days=1)
 PER_PAGE = 100
-STATE_EVERY = 50  # save state.json after this many items
-# Log backfill progress about every 10-20 requests: an item takes about 3.7
-# (whatwg/dom: the issue, its events, comments if any, and for a PR the
-# pull, reviews and review comments if any).
-PROGRESS_EVERY = 5  # items
 
 PR_RESOURCES = {
     # resource -> (API path, file under pulls/{n}/, paged)
@@ -86,9 +84,20 @@ def _minus_overlap(ts):
     return _fmt(_parse(ts) - OVERLAP)
 
 
-def load_pr_resources():
+def _config():
     p = paths.CONFIG / "fetch.json"
-    names = json.loads(p.read_text())["pr_resources"] if p.exists() else ["pull", "reviews"]
+    return json.loads(p.read_text()) if p.exists() else {}
+
+
+def load_updated_since():
+    """The start date: items updated at or after it are fetched."""
+    ts = _config().get("updated_since", "2024-01-01T00:00:00Z")
+    _parse(ts)  # the format the listings use
+    return ts
+
+
+def load_pr_resources():
+    names = _config().get("pr_resources", ["pull", "reviews"])
     unknown = set(names) - set(PR_RESOURCES)
     if unknown:
         raise ValueError(f"unknown pr_resources in config/fetch.json: {sorted(unknown)}")
@@ -295,66 +304,12 @@ def sync_item(client, store, number, resources):
     return obj
 
 
-def _sync_through(client, store, number, resources):
-    """Make every number up to `number` stored or gone: sync the numbers
-    between the highest known and `number`, which is new."""
-    s = store.section("items")
-    while s["highest"] < number:
-        sync_item(client, store, s["highest"] + 1, resources)
-        s["highest"] += 1
-
-
 # --- items -------------------------------------------------------------------
 
 ITEMS = {"state": "all", "sort": "updated", "direction": "asc"}
 
 
-def find_highest(client, repo):
-    """The highest issue or PR number. The newest-created item usually has
-    it, but an issue transferred in later keeps its creation date and gets
-    a higher number; a transfer moves updated_at, so it's among the items
-    updated since the newest was created."""
-    newest = client.rest(f"/repos/{repo}/issues",
-                         {"state": "all", "sort": "created", "direction": "desc", "per_page": 1}).data
-    if not newest:
-        return 0
-    highest = newest[0]["number"]
-    for row in _all_pages(client, f"/repos/{repo}/issues",
-                          {"state": "all", "sort": "updated", "direction": "desc",
-                           "since": newest[0]["created_at"]}):
-        highest = max(highest, row["number"])
-    return highest
-
-
-def backfill_items(client, store, resources, log=print):
-    """Every number from 1 to the highest, one at a time. Resumes from `next`."""
-    s = store.section("items")
-    if "highest" not in s:
-        s["started"] = now()
-        s["highest"] = find_highest(client, store.repo)
-        s["next"] = 1
-        store.save_state()
-    done = 0
-    while s["next"] <= s["highest"]:
-        sync_item(client, store, s["next"], resources)
-        s["next"] += 1
-        done += 1
-        if done % STATE_EVERY == 0:
-            store.save_state()
-        if done % PROGRESS_EVERY == 0:
-            log(f"{store.repo} items: backfilled up to {s['next'] - 1} of {s['highest']} "
-                f"({done} this run, {client.requests} requests so far)")
-    # Anything created, transferred in or updated since the backfill
-    # started is in the first update's listing, and any event since then
-    # in the first read of the events listing.
-    s["cursor"] = s.pop("started")
-    store.section("events").setdefault("cursor", s["cursor"])
-    del s["next"]
-    store.save_state()
-    log(f"{store.repo} items: backfilled numbers 1..{s['highest']} ({done} this run)")
-
-
-def list_ascending(client, path, params, on_page):
+def list_ascending(client, path, params, on_page, until=None):
     """Page through an ascending listing by *keyset*: each next page is page 1
     again with `since` just before the newest timestamp seen so far.
 
@@ -363,14 +318,17 @@ def list_ascending(client, path, params, on_page):
     page boundary slides back unread). Only if a whole page shares one
     second does this follow the offset link for that stretch.
 
-    `on_page(rows)` handles a page and returns its newest updated_at.
+    `on_page(rows)` handles a page and returns its newest updated_at. With
+    `until`, rows updated at or after it are left out, and the listing
+    stops at the first of them.
     """
     per_page = int(params.get("per_page", PER_PAGE))
     resp = client.rest(path, params)
     since = params.get("since")
     while True:
-        newest = on_page(resp.data)
-        if len(resp.data) < per_page or not resp.next:
+        rows = [r for r in resp.data if until is None or r["updated_at"] < until]
+        newest = on_page(rows)
+        if len(rows) < len(resp.data) or len(resp.data) < per_page or not resp.next:
             return
         next_since = _fmt(_parse(newest) - timedelta(seconds=1))
         if since is None or next_since > since:
@@ -388,43 +346,98 @@ def _sync_changed(client, store, rows, resources):
     (or that isn't stored). Returns how many were synced."""
     idx, synced = store.index(), 0
     for row in rows:
-        n = row["number"]
-        _sync_through(client, store, n - 1, resources)
-        if idx.get(n, {}).get("updated_at") != row["updated_at"]:
-            sync_item(client, store, n, resources)
+        if idx.get(row["number"], {}).get("updated_at") != row["updated_at"]:
+            sync_item(client, store, row["number"], resources)
             synced += 1
-        s = store.section("items")
-        s["highest"] = max(s["highest"], n)
     return synced
 
 
-def update_items(client, store, resources, log=print):
-    """Items updated since the cursor (minus OVERLAP): one request if
-    nothing changed."""
-    s = store.section("items")
-    since = _minus_overlap(s["cursor"])
-    path = f"/repos/{store.repo}/issues"
-    params = dict(ITEMS, per_page=PER_PAGE, since=since)
+def _list_and_sync(client, store, resources, since, part, until=None, log=print):
+    """List the items updated since `since` (and before `until`), syncing
+    the changed ones, and save `part["cursor"]`, the newest updated_at
+    seen, after every page: the resume point. A run stopped mid-page lists
+    that page again, and skips the items it already synced. Returns how
+    many were synced."""
     total = [0]
 
     def on_page(rows):
-        total[0] += _sync_changed(client, store, rows, resources)
+        synced = _sync_changed(client, store, rows, resources)
+        total[0] += synced
         if rows:
-            s["cursor"] = max(s["cursor"], max(r["updated_at"] for r in rows))
-        store.save_state()  # resume point
+            part["cursor"] = max([r["updated_at"] for r in rows] + [part.get("cursor", "")])
+        store.save_state()
+        if synced:
+            log(f"{store.repo} items: synced {synced} of {len(rows)} listed, up to {part['cursor']} "
+                f"({client.requests} requests so far)")
         return max((r["updated_at"] for r in rows), default=None)
 
-    list_ascending(client, path, params, on_page)
-    store.save_state()
-    log(f"{store.repo} items: synced {total[0]} changed")
+    list_ascending(client, f"/repos/{store.repo}/issues", dict(ITEMS, per_page=PER_PAGE, since=since),
+                   on_page, until=until)
     return total[0]
 
 
+def update_items(client, store, resources, log=print):
+    """Items updated since the cursor (minus OVERLAP, but not before
+    `from`): one request if nothing changed. The first time, there's no
+    cursor and this is the backfill: every item updated since `from`."""
+    s = store.section("items")
+    first = "cursor" not in s
+    if first:
+        s.setdefault("started", now())
+    since = max(s["from"], _minus_overlap(s["cursor"])) if not first else s["from"]
+    synced = _list_and_sync(client, store, resources, since, s, log=log)
+    s.setdefault("cursor", s["from"])  # nothing updated since `from`
+    if "started" in s:
+        # The first listing is done. Anything that changed since it
+        # started is in the next listing, and any event since then in the
+        # first read of the events listing.
+        store.section("events").setdefault("cursor", s.pop("started"))
+    store.save_state()
+    log(f"{store.repo} items: synced {synced} changed (updated since {s['from']})")
+    return synced
+
+
+def extend_items(client, store, resources, since, log=print):
+    """When `updated_since` is moved back before `from`: the items updated
+    in between, listed by keyset from `since` and stopping at `from`, with
+    their own resume point (`items.extend`). Items updated since then are
+    the updates' business. Once done, `from` is `since`."""
+    s = store.section("items")
+    ext = s.get("extend")
+    if not ext or ext["from"] != since:
+        ext = s["extend"] = {"from": since}
+    start = max(since, _minus_overlap(ext["cursor"])) if "cursor" in ext else since
+    synced = _list_and_sync(client, store, resources, start, ext, until=s["from"], log=log)
+    del s["extend"]
+    s["from"] = since
+    store.save_state()
+    log(f"{store.repo} items: synced {synced} updated since {since}, before the earlier start")
+
+
+def migrate_state(store, since):
+    """state.json from the by-number backfill (items.highest, until
+    2026-11-17) to the by-updated_at one (items.from). A finished backfill
+    stored every item, so it covers any start: `from` is the earliest
+    updated_at stored, or `since` if that's earlier. An unfinished one
+    starts listing from `since`; what it stored is kept, and the listing
+    skips the items it has unchanged."""
+    s = store.section("items")
+    if "highest" not in s:
+        return
+    if "next" in s:
+        s.clear()
+        s["from"] = since
+    else:
+        del s["highest"]
+        s["from"] = min([i["updated_at"] for i in store.index().values()] + [since])
+    store.save_state()
+
+
 def reconcile(client, store, resources, log=print):
-    """Weekly: list every item, and sync any whose updated_at differs (missed
-    updates) or that's stored but no longer listed (deleted or transferred).
-    `check` then finds any number up to the highest that's neither stored
-    nor gone."""
+    """Weekly: list every item updated since `from`, and sync any whose
+    updated_at differs (missed updates) or that's stored with an updated_at
+    since `from` but no longer listed (deleted or transferred)."""
+    s = store.section("items")
     listed = {}
 
     def on_page(rows):
@@ -432,17 +445,17 @@ def reconcile(client, store, resources, log=print):
             listed[r["number"]] = r["updated_at"]
         return rows[-1]["updated_at"] if rows else None
 
-    list_ascending(client, f"/repos/{store.repo}/issues", dict(ITEMS, per_page=PER_PAGE), on_page)
+    list_ascending(client, f"/repos/{store.repo}/issues", dict(ITEMS, per_page=PER_PAGE, since=s["from"]),
+                   on_page)
     idx = store.index()
     rows = [{"number": n, "updated_at": u} for n, u in sorted(listed.items())]
     changed = _sync_changed(client, store, rows, resources)
-    unlisted = sorted(set(idx) - set(listed))
+    unlisted = sorted(n for n, i in idx.items() if n not in listed and i["updated_at"] >= s["from"])
     for n in unlisted:
         sync_item(client, store, n, resources)
     store.save_state()
-    highest = store.section("items")["highest"]
     log(f"{store.repo} reconcile: synced {changed} changed and {len(unlisted)} unlisted; "
-        f"numbers 1..{highest}: {len(store.index())} stored, {len(store.gone())} gone")
+        f"{len(store.index())} stored, {len(store.gone())} gone")
 
 
 # --- events ------------------------------------------------------------------
@@ -454,27 +467,28 @@ def _without_issue(event):
 
 
 def _store_events(store, events):
-    """Listed events under their issue's number, merged by id. Events of
-    numbers recorded as gone are dropped: the listing keeps deleted issues'
-    events. Events stored before their number is found to be gone are
-    removed with it."""
-    gone = store.gone()
+    """Listed events under their issue's number, merged by id, for stored
+    items only. The rest are dropped: an item updated before `from` (its
+    events come with it if it's updated again), one not fetched yet (they
+    will), and deleted and transferred ones (the listing keeps their
+    events)."""
+    idx = store.index()
     groups = defaultdict(list)
     for obj in events:
         n = obj["issue"]["number"]
-        if n not in gone:
+        if n in idx:
             groups[n].append(_without_issue(obj))
     for n, objs in groups.items():
         store.merge("issues", n, "events", objs)
 
 
 def sync_events(client, store, log=print):
-    """After the items backfill: the repo-wide events listing, newest
+    """After the first items listing: the repo-wide events listing, newest
     first, back to OVERLAP before the newest event seen (at first, before
-    the backfill started). Merged into each item's events."""
+    that listing started). Merged into each stored item's events."""
     s = store.section("events")
     if "cursor" not in s:
-        return  # set when the items backfill finishes
+        return  # set when the first items listing finishes
     path = f"/repos/{store.repo}/issues/events"
     resp = client.rest(path, {"per_page": PER_PAGE})
     stop, newest, stored = _minus_overlap(s["cursor"]), s["cursor"], 0
@@ -528,16 +542,17 @@ def sync_repo(client, store, reconcile_=False, log=print):
     if fixed != resources:
         raise CheckFailed(f"{store.repo}: config/fetch.json pr_resources is {resources}, but stored PRs "
                           f"have {fixed}; fetching a changed set for every PR isn't implemented")
+    since = load_updated_since()
     try:
+        migrate_state(store, since)
+        store.section("items").setdefault("from", since)
         retry_refused(client, store, resources, log=log)
-        items = store.section("items")
-        if "cursor" not in items:
-            backfill_items(client, store, resources, log=log)
-        else:
-            update_items(client, store, resources, log=log)
-            if reconcile_:
-                reconcile(client, store, resources, log=log)
-        # After items: the events cursor is set when the backfill finishes.
+        update_items(client, store, resources, log=log)
+        if since < store.section("items")["from"]:
+            extend_items(client, store, resources, since, log=log)
+        if reconcile_:
+            reconcile(client, store, resources, log=log)
+        # After items: the events cursor is set when the first listing finishes.
         sync_events(client, store, log=log)
     finally:
         store.save_state()

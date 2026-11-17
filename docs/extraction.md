@@ -8,6 +8,9 @@ run offline, and rerun with new definitions at any time.
 The design goal (2026-11-15) is the simplest approach that's complete as
 it goes: fetch one issue or PR number at a time, and check assumptions
 about GitHub's data by failing loudly rather than working around them.
+Since 2026-11-17, "complete" means every item *updated since a start
+date* (`updated_since` in `config/fetch.json`, 2024-01-01), not every
+item ever: the backfill by number was too slow for its value.
 
 ## Where it's stored
 
@@ -80,37 +83,58 @@ The set of per-PR resources is recorded in `state.json`. Changing it in
 `config/fetch.json` makes the run fail: fetching a newly enabled
 resource for every existing PR isn't implemented yet.
 
-## Items: backfill by number, then updates
+## Items: updated since a start date
 
-**Backfill.** Find the highest number, then `sync_item` every number from
-1 to it. The cursor is just the next number (`items.next` in
-`state.json`), so a run can stop between any two items and the next run
-continues there, and every number below the cursor is stored or gone.
+Everything is driven by one listing,
+`GET /issues?state=all&sort=updated&direction=asc&since=S`, and each
+listed item whose `updated_at` differs from the stored one (or that isn't
+stored) is synced. `state.json` keeps two dates under `items`:
 
-The highest number is that of the newest-created item, or higher if an
-issue was transferred in since: a transferred issue keeps its creation
-date but gets the next number (whatwg/dom #1340 is one). A transfer
-moves `updated_at`, so the highest number is the most of the newest-created
-item and the items updated since it was created.
+- `from`: every item updated at or after it is stored, once the first
+  listing is done. It starts as `updated_since`.
+- `cursor`: the newest `updated_at` seen, saved after every page.
 
-**Updates.** Each later run lists
-`GET /issues?state=all&sort=updated&direction=asc&since=S` and syncs each
-listed item whose `updated_at` differs from the stored one. `S` is the
-newest `updated_at` seen, minus a day of overlap, so anything a run
-missed (identical timestamps, a briefly stale API) is listed again. After
-the backfill, the cursor starts at the time the backfill started, so
-everything that changed during it is fetched again.
+**Backfill.** The first listing, from `S` = `from`. It's an update with
+no cursor yet: a run can stop anywhere and the next continues from the
+cursor. When it's done, the events listing starts from when it started
+(`items.started`, then removed), so whatever changed during it is
+fetched again.
+
+**Updates.** Each later run lists from `S` = the cursor minus a day of
+overlap (but not before `from`), so anything a run missed (identical
+timestamps, a briefly stale API) is listed again.
 
 - `S` only moves when something changed, so an unchanged repo is one
   request, returning an empty page.
-- A listed number above the highest known one (new issues, transfers in)
-  first syncs every number in between, so deleted ones are recorded as
-  gone, and the "every number below is stored or gone" rule keeps
-  holding.
 - Pages are fetched by *keyset*: each next page is page 1 again, with
   `since` a second before the newest timestamp seen. Following page 2,
   3, … links instead would skip a row whenever an item already read is
-  updated mid-listing. The cursor is saved after every page.
+  updated mid-listing. A run stopped mid-page lists the page again and
+  skips the items it already synced.
+- An item last updated before `from` isn't fetched; once it's updated
+  (a comment, a label, a transfer into the repo), it's listed and fetched
+  whole, history included. So the data has every item active since
+  `from`, with all of its activity, also from before `from`.
+- Deleted and transferred-out numbers are never listed, so they aren't
+  fetched or recorded as gone, unless they were stored (the reconcile).
+
+**Moving the start date.** Moving `updated_since` back, before `from`,
+lists just the items updated in between: from the new date by keyset,
+stopping at the first row updated at or after `from` (those are the
+updates' business). It has its own resume point (`items.extend`: its
+`from` and `cursor`), runs after each run's update until done, and then
+`from` becomes the new date. Items updated while it runs move past `from`
+and are picked up by the next update. Moving `updated_since` forward
+does nothing: nothing new to fetch, and nothing stored is dropped.
+
+**Before 2026-11-17** items were backfilled by number, 1 to the highest
+(`items.highest` and `items.next`). The first run of the new code
+converts that state: a finished backfill (whatwg/fullscreen,
+whatwg/dom) stored every item, so `from` becomes its earliest
+`updated_at`; an unfinished one (whatwg/html, at #3,753 of 13,270)
+starts the listing from `updated_since`, keeps what it stored, and skips
+those items it has unchanged. Items stored that were last updated before
+`from` stay, and are kept up to date like any other.
 
 This relies on every change to an item's comments, reviews or inline
 comments also moving the item's `updated_at`. In whatwg/dom's data that
@@ -120,17 +144,18 @@ comment. It doesn't hold for events, hence the listing below.
 ## Events: per item, then the repo-wide listing
 
 - **Backfill:** each item's events come with it (`/issues/{n}/events`
-  in `sync_item`), so every number below the backfill's position is
-  complete, events included.
-- **Updates:** once the items backfill is done, each run reads the
+  in `sync_item`), so every stored item is complete, events included.
+- **Updates:** once the first items listing is done, each run reads the
   repo-wide `GET /issues/events` (newest first), back to a day before
   the newest event seen (usually one page); the first time, back to a
-  day before the backfill started. New events are merged into each
-  item's `events.json` by id. A changed item is refetched whole, events
-  included.
-- Events of numbers recorded as gone are dropped: the listing keeps
-  events of deleted and transferred issues (whatwg/dom had 81 such
-  numbers).
+  day before the first listing started. New events are merged into each
+  stored item's `events.json` by id. A changed item is refetched whole,
+  events included.
+- Events of items that aren't stored are dropped: items last updated
+  before `from` (an event that moves `updated_at` gets the item listed
+  and fetched whole, events included), items not fetched yet, and
+  deleted and transferred ones, whose events the listing keeps
+  (whatwg/dom had 81 such numbers).
 
 The listing catches events that don't move the item's `updated_at`, so
 the item isn't refetched for them. In whatwg/dom that's 1,965 of 14,960
@@ -198,12 +223,17 @@ as size and `merged_by` (the `merged` event names who merged it).
 ## Consistency checks (`check`)
 
 `python3 -m specstats check` reads the stored files (no requests) and
-reports, per repo, for the numbers the backfill has reached:
+reports, per repo:
 
-- numbers neither stored nor gone, or both;
+- numbers both stored and recorded as gone;
 - closed items with no `closed` event, merged PRs with no `merged` event;
 - PRs with no `pulls/{n}/index.json` and no 422 recorded for them;
-- events stored under a number that's neither stored nor gone.
+- events stored under a number with no `issues/{n}/index.json`.
+
+Which items *should* be stored, those updated since `from`, can't be told
+offline; the weekly reconcile compares them with GitHub's listing. (Until
+2026-11-17 it also reported numbers from 1 to the highest that were
+neither stored nor gone.)
 
 It also lists what GitHub refused with HTTP 422 (`refused` in
 `state.json`), as notes, not findings. It exits with an error if it finds
@@ -216,10 +246,10 @@ manually for now.
 
 ## A run (`extract`)
 
-Per repo: the items backfill or an update, then with `--reconcile` the
-reconcile, then (once the backfill is done) the events listing. Events
-filed under a number above the highest that turns out to be gone are
-removed when an update reaches it.
+Per repo: items refused with HTTP 422 earlier, the items listing (the
+backfill or an update), then the listing back to a moved start date if
+there is one, then with `--reconcile` the reconcile, then (once the first
+listing is done) the events listing.
 
 A caught-up run of an unchanged repo is two requests, and changes no
 files, so there's nothing to commit.
@@ -236,13 +266,14 @@ A run stops cleanly, between requests, in two cases: `--max-minutes N`
 for rate-limit quota: the hourly budget is down to its reserve (500, or a
 tenth of a smaller budget), or GitHub answers with a 429, a secondary
 rate limit or an exhausted primary limit. It never idles until a reset.
-A stopped run exits normally. The items backfill continues from
-`items.next` and item updates from the cursor saved per page. An events
-read stopped midway saves nothing and re-reads from the newest next time.
+A stopped run exits normally. The items listing (backfill or update)
+continues from the cursor saved per page, and the listing back to a moved
+start date from its own. An events read stopped midway saves nothing and
+re-reads from the newest next time.
 
-The smallest unit of work is one PR: four to six requests, more for very
-long lists. Once the backfill is done, every run also spends at least one
-request on the events listing.
+The smallest unit of work is a page of the listing and one PR: five to
+seven requests, more for very long lists. Once the first listing is
+done, every run also spends at least one request on the events listing.
 
 Each run logs the hourly limit GitHub reports for its token. The
 workflow commits after every run. With a 5,000-an-hour token (the
@@ -253,17 +284,23 @@ deadline, inside the job's 350-minute limit, is a backstop.
 ## The weekly reconcile (`extract --reconcile`)
 
 No update listing shows a deleted or transferred item, so once a week
-every item is listed (one request per 100 items, by keyset), and:
+every item updated since `from` is listed (one request per 100 items, by
+keyset), and:
 
 1. any item whose `updated_at` differs from the stored one is synced (a
-   missed update);
-2. any stored item that's no longer listed is synced, which records it as
-   gone if it is;
-3. `check` then reports any number from 1 to the highest that's neither
-   stored nor gone.
+   missed update, or one never stored);
+2. any stored item updated since `from` that's no longer listed is
+   synced, which records it as gone if it is.
+
+Stored items last updated before `from` aren't checked: their deletion
+goes unnoticed.
 
 ## Known gaps
 
+- Items last updated before `from` aren't fetched (by design since
+  2026-11-17), and nothing records that their numbers exist. Numbers
+  deleted or transferred out are only recorded as gone if they were
+  stored.
 - An event skipped by a deletion during a multi-page events read stays
   missing (accepted on 2026-11-15).
 - A change that doesn't move an item's `updated_at` (other than events) is

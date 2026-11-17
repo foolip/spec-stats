@@ -69,7 +69,7 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-13 | Per-PR commits and files are optional (`config/fetch.json`), off for now | Not sure they're needed; each resource is tracked separately, so turning one on later fetches only that |
 | 2026-11-13 | Raw objects are stored as plain JSON text, uncompressed (in files since 2026-11-14) | The maintainer wants to query the database and see the JSON directly. A few GB is fine |
 | 2026-11-13 | Keep previous versions of changed objects (~~`history`~~ git, since 2026-11-14) | Edits, label changes and profile changes are otherwise lost; future analyses may want them, and it's cheap |
-| 2026-11-13 | Reconcile by issue number: every number from 1 to the highest is stored or recorded as deleted/transferred | Numbers are one sequence per repo, so completeness can be checked exactly |
+| 2026-11-13 | ~~Reconcile by issue number: every number from 1 to the highest is stored or recorded as deleted/transferred~~ (superseded on 2026-11-17: items updated since a start date) | Numbers are one sequence per repo, so completeness can be checked exactly |
 | 2026-11-14 | Page listings by keyset (`since` just before the newest row seen), not offset links | An offset page skips a row whenever an already-read item is updated mid-listing; that would happen during a long backfill. Also avoids GitHub's deep-pagination limit |
 | 2026-11-14 | ~~Start with whatwg/dom only~~ (whatwg/html since 2026-11-15), fetched by a manually triggered GitHub Actions workflow; ~~the raw cache is kept as a workflow artifact (90 days)~~ the data is committed (below) | Maintainer's instruction: populate and check one repo first |
 | 2026-11-13 | PR diffs and git history deferred | Spec text written is interesting, but needs git (API patches are truncated for large PRs); API data first |
@@ -91,7 +91,7 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-15 | Removed `data/github/users/` (1,125 profiles fetched on 2026-11-14 before profile fetching was dropped); profiles stay out of the repo until there's a decision on what of them to publish | 438 of them held public email addresses; republishing those in bulk is the riskiest part of the data under GitHub's Acceptable Use Policies and GDPR. They remain in git history (commit `d2eb8fc`) |
 | 2026-11-15 | An issue or PR is stored as `issues/{n}/index.json` and `pulls/{n}/index.json`, not `issues/{n}.json` and `pulls/{n}.json`; existing files moved | Maintainer's choice: everything for one number is in one directory |
 | 2026-11-15 | Requests send `X-GitHub-Api-Version: 2026-03-10` (was `2022-11-28`) | Maintainer's instruction: use the current REST API version. Stored objects fetched before this were returned under `2022-11-28` |
-| 2026-11-15 | **Items are fetched by number:** the backfill runs `GET /issues/{n}` and everything for that number (comments, and for PRs `pull`, reviews, inline comments) for n = 1 … highest; later runs list items updated since the cursor and refetch each changed item the same way. Lists are replaced whole, not merged | Complete as it goes: every number below the cursor is stored or gone, and stopping and resuming are the same thing. A listing paged by number can skip rows when items are deleted or transferred in mid-read (whatwg/dom #1340 was transferred in, with an older creation date than lower numbers). One API form for every stored object. Costs one request per item more than storing listing rows |
+| 2026-11-15 | ~~**Items are fetched by number:**~~ (which items is superseded on 2026-11-17: those updated since a start date; each is still fetched by number) the backfill runs `GET /issues/{n}` and everything for that number (comments, and for PRs `pull`, reviews, inline comments) for n = 1 … highest; later runs list items updated since the cursor and refetch each changed item the same way. Lists are replaced whole, not merged | Complete as it goes: every number below the cursor is stored or gone, and stopping and resuming are the same thing. A listing paged by number can skip rows when items are deleted or transferred in mid-read (whatwg/dom #1340 was transferred in, with an older creation date than lower numbers). One API form for every stored object. Costs one request per item more than storing listing rows |
 | 2026-11-15 | Redirects aren't followed; a transferred issue is treated like a deleted one (recorded as gone) | Maintainer's choice. Following the redirect fetches from another repo, possibly outside `whatwg/` |
 | 2026-11-15 | ~~**Events come only from the repo-wide `/issues/events` listing**, read back to the beginning once, then the new ones each run (a free 304 if none); no per-item event requests~~ (superseded the same day: per-item events, below). The run fails ~~if GitHub won't page back far enough, or~~ if a closed item has no `closed` event or a merged PR no `merged` event | Fewest requests (one per 100 events). It catches the events that don't move an item's `updated_at` (1,965 of 14,960 in whatwg/dom, mostly `referenced`). It paged back to 2012 for whatwg/dom; whatwg/html, the biggest, is the test, so the code fails rather than fall back. An event skipped by a deletion during the read is accepted as missing |
 | 2026-11-15 | Events (`/issues/{n}/events` form), not the timeline API (confirmed by `timeline-check`, below) | The timeline's only unique data is `cross-referenced`, which embeds issues from other repos; it also repeats comments and reviews, and some of its items have no id |
@@ -116,11 +116,13 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-15 | **Events are fetched per item** (`GET /issues/{n}/events` with everything else for the number, every item); the repo-wide `/issues/events` listing is read only after the items backfill, from a day before the backfill started, then back to the last run's newest event | Maintainer's choice. GitHub ends the repo-wide listing after 300 pages, so it can't be the backfill for whatwg/html; per item, a backfilled number is complete with its events. Costs one request per item more (about 11,000 for whatwg/html). The listing still catches the events that don't move an item's `updated_at` |
 | 2026-11-15 | A run never waits for rate-limit quota: at the hourly reserve, or on a 429, secondary or primary rate limit, it stops cleanly as at its deadline (`RateLimited`), and the next run continues | Maintainer's instruction: the runner mustn't idle. Run 4 spent about 3¼ of its 4⅓ hours paused for the reset |
 | 2026-11-15 | If main moved during a fetch run, the run fails without committing its data (it was rebased onto the new main) | Maintainer's choice: the collection code may have changed under the run. Run 4's rebase failed anyway, for want of a git identity |
+| 2026-11-17 | **Only items updated since a start date are fetched** (`updated_since` in `config/fetch.json`: 2024-01-01), found by the ascending `updated_at` listing by keyset. The first listing is the backfill; updates are the same listing from the cursor. Each item is still fetched whole by number, with its history. `items.from` in `state.json` records the date covered; moving `updated_since` back lists just the items updated in between (`items.extend`, resumable), then moves `from`; moving it forward does nothing. `highest`, `next` and the "every number from 1 to the highest is stored or gone" check go; the reconcile covers items updated since `from`. The first run converts the by-number state: whatwg/fullscreen and whatwg/dom were complete, so `from` is their earliest `updated_at`; whatwg/html's unfinished backfill (#3,753 of 13,270) becomes a listing from 2024-01-01 that skips the 3,633 items it stored unchanged, which are kept. Repo-wide events are stored only for stored items | Maintainer's choice: backfilling every issue and PR of every repo takes too long for its value. A start date keeps it extendable: moving it back costs only the items in between, and the "items updated since `from`" rule holds either way. Gives up: items last updated before the start (and their numbers' fate), and an offline completeness check |
 
 ## Status
 
-- Extractor (REST only, items by number with their events, then the
-  repo-wide events listing for updates, all committed as JSON files,
+- Extractor (REST only, the items updated since 2024-01-01, each fetched
+  by number with its events, then the repo-wide events listing for
+  updates, all committed as JSON files,
   failing loudly when an assumption doesn't hold) and its tests are
   written. Tests run against an
   in-memory fake GitHub.
@@ -152,11 +154,15 @@ removed on 2026-11-14 (decisions log); its last version is at commit
   full. 48 items exist that the old design's repo-wide listing never
   returned (e.g. #63, #95), so it took them for deleted. `check` flags
   only #831, closed with no `closed` event in its per-item list.
+- 2026-11-17: switched to fetching only items updated since 2024-01-01
+  (decisions log). whatwg/html's by-number backfill had reached #3,753 of
+  13,270 in the hourly runs; the next run carries on as a listing from
+  2024-01-01.
 
 ## Next steps
 
-1. Let the hourly runs finish whatwg/html's backfill (highest number
-   13,270, about 4.2 requests each: roughly 12 runs), look at what "Check
+1. Let the hourly runs finish whatwg/html's listing of items updated
+   since 2024-01-01 (at about 4.2 requests each), look at what "Check
    data" finds, and cross-check against the earlier prototype's figures
    (1,171 PRs and 2,167 issues in 2024–2026).
 2. Run `--reconcile` once on whatwg/fullscreen and whatwg/dom, to see it
