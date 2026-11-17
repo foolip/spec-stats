@@ -1,0 +1,721 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2410613201",
+    "pull_request_review_id": 3310089724,
+    "id": 2410613201,
+    "node_id": "PRRC_kwDOALaj486PrwnR",
+    "diff_hunk": "",
+    "path": "source",
+    "commit_id": "7f94c8b36e4d7e596f0c07e374301e949c816c5d",
+    "original_commit_id": "7f94c8b36e4d7e596f0c07e374301e949c816c5d",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "It's not really clear to me what changed here overall to address the comments given during WHATNOT, but this seems wrong. Why would the \"entry global object\" (a concept we don't really want to use in new places) be the parent?",
+    "created_at": "2025-10-07T13:19:39Z",
+    "updated_at": "2025-10-07T13:19:46Z",
+    "html_url": "https://github.com/whatwg/html/pull/11519#discussion_r2410613201",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11519",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2410613201"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11519#discussion_r2410613201"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11519"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2410613201/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 82547,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 1,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2412169731",
+    "pull_request_review_id": 3312242449,
+    "id": 2412169731,
+    "node_id": "PRRC_kwDOALaj486PxsoD",
+    "diff_hunk": "",
+    "path": "source",
+    "commit_id": "7f94c8b36e4d7e596f0c07e374301e949c816c5d",
+    "original_commit_id": "7f94c8b36e4d7e596f0c07e374301e949c816c5d",
+    "user": {
+      "login": "ffiori",
+      "id": 9297306,
+      "node_id": "MDQ6VXNlcjkyOTczMDY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9297306?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ffiori",
+      "html_url": "https://github.com/ffiori",
+      "followers_url": "https://api.github.com/users/ffiori/followers",
+      "following_url": "https://api.github.com/users/ffiori/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ffiori/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ffiori/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ffiori/subscriptions",
+      "organizations_url": "https://api.github.com/users/ffiori/orgs",
+      "repos_url": "https://api.github.com/users/ffiori/repos",
+      "events_url": "https://api.github.com/users/ffiori/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ffiori/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Hi @annevk! Thanks for having a look, I made this commit to match the proposal because the previous change wasn't right. I updated the description to try and make it clearer what this PR's intention is.\n\nI was taking some time to comment here because I was contacting Microsoft Teams (who's our customer) to discuss the corner case that came up during WHATNOT with this proposal: **A hosting B hosting C, B and C have the policy denied, C is focused, B tries to move focus somewhere else**. This PR would allow that to happen. Teams supports this behavior arguing that there might be apps relying on this, and that this wouldn't really constitute a security concern because:\n1. B could have other mechanisms to regain focus (deleting C for example)\n2. B could trick the user into typing inside an element that belongs to B (for example with a transparent div on top of C's input element)\n3. C could avoid this by using [CSP frame-ancestors](https://content-security-policy.com/frame-ancestors/) to avoid being embedded by B.\n\nThe fact that some webpages might be counting on behaviors like the case discussed here is my original motivation for this PR. I would try to avoid breaking existing sites that are embedded with this policy denied so it can be more easily adopted, while still fulfilling the market need for the policy to avoid frames from stealing focus.\n\n> Why would the \"entry global object\" (a concept we don't really want to use in new places) be the parent?\n\nSorry I wasn't aware that this concept is not meant to be used in new places. As far as I understand, the entry global object's associated document is the document that initiates the action, e.g. the one calling `element.focus()`. I named it `parentDocument` because that's its relationship with the `descendantDocument`s I define below in the `For each`. I'm open to rename it to something else if `parentDocument` is confusing, maybe `initiatorDocument` or `callerDocument` could be other options that come to my mind.\n\nOtherwise, if `entry global object` is discouraged, what would you suggest instead? I'm thinking of having the caller document passed explicitly into the `allow focus steps` algorithm, although that would imply modifying every place where the algorithm is called.",
+    "created_at": "2025-10-07T23:35:27Z",
+    "updated_at": "2025-10-07T23:35:27Z",
+    "html_url": "https://github.com/whatwg/html/pull/11519#discussion_r2412169731",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11519",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2412169731"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11519#discussion_r2412169731"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11519"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2412169731/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 82547,
+    "side": "RIGHT",
+    "in_reply_to_id": 2410613201,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 1,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2412942298",
+    "pull_request_review_id": 3313489969,
+    "id": 2412942298,
+    "node_id": "PRRC_kwDOALaj486P0pPa",
+    "diff_hunk": "",
+    "path": "source",
+    "commit_id": "7f94c8b36e4d7e596f0c07e374301e949c816c5d",
+    "original_commit_id": "7f94c8b36e4d7e596f0c07e374301e949c816c5d",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I don't think your assumptions hold. For all we know it's a document in a popup that calls `element.focus()`.",
+    "created_at": "2025-10-08T07:59:55Z",
+    "updated_at": "2025-10-08T07:59:55Z",
+    "html_url": "https://github.com/whatwg/html/pull/11519#discussion_r2412942298",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11519",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2412942298"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11519#discussion_r2412942298"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11519"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2412942298/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 82547,
+    "side": "RIGHT",
+    "in_reply_to_id": 2410613201,
+    "author_association": "MEMBER",
+    "original_position": 1,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2414602650",
+    "pull_request_review_id": 3315903340,
+    "id": 2414602650,
+    "node_id": "PRRC_kwDOALaj486P6-ma",
+    "diff_hunk": "",
+    "path": "source",
+    "commit_id": "7f94c8b36e4d7e596f0c07e374301e949c816c5d",
+    "original_commit_id": "7f94c8b36e4d7e596f0c07e374301e949c816c5d",
+    "user": {
+      "login": "ffiori",
+      "id": 9297306,
+      "node_id": "MDQ6VXNlcjkyOTczMDY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9297306?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ffiori",
+      "html_url": "https://github.com/ffiori",
+      "followers_url": "https://api.github.com/users/ffiori/followers",
+      "following_url": "https://api.github.com/users/ffiori/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ffiori/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ffiori/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ffiori/subscriptions",
+      "organizations_url": "https://api.github.com/users/ffiori/orgs",
+      "repos_url": "https://api.github.com/users/ffiori/repos",
+      "events_url": "https://api.github.com/users/ffiori/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ffiori/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Sorry, what assumptions are you referring to specifically?\n\n> For all we know it's a document in a popup that calls element.focus()\n\nHere my understanding is that the entry global object's associated document is the popup's document, then the algorithm looks at all its descendants and if any of them (or the popup's document itself) has focus, then it allows `element.focus()`.",
+    "created_at": "2025-10-08T17:48:54Z",
+    "updated_at": "2025-10-08T17:48:54Z",
+    "html_url": "https://github.com/whatwg/html/pull/11519#discussion_r2414602650",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11519",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2414602650"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11519#discussion_r2414602650"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11519"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2414602650/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 82547,
+    "side": "RIGHT",
+    "in_reply_to_id": 2410613201,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 1,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2456117377",
+    "pull_request_review_id": 3371268124,
+    "id": 2456117377,
+    "node_id": "PRRC_kwDOALaj486SZWCB",
+    "diff_hunk": "",
+    "path": "source",
+    "commit_id": "7f94c8b36e4d7e596f0c07e374301e949c816c5d",
+    "original_commit_id": "7f94c8b36e4d7e596f0c07e374301e949c816c5d",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "But that's wrong. We're not talking about whether the document gets to call `focus()`. We're talking about whether the document that `focus()` is called in will respect the call. So if you have a popup and it calls `element.focus()` in its opener, the entry document and its descendants are not that interesting.",
+    "created_at": "2025-10-23T17:04:22Z",
+    "updated_at": "2025-10-23T17:04:22Z",
+    "html_url": "https://github.com/whatwg/html/pull/11519#discussion_r2456117377",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11519",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2456117377"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11519#discussion_r2456117377"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11519"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2456117377/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 82547,
+    "side": "RIGHT",
+    "in_reply_to_id": 2410613201,
+    "author_association": "MEMBER",
+    "original_position": 1,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2610802574",
+    "pull_request_review_id": 3567710858,
+    "id": 2610802574,
+    "node_id": "PRRC_kwDOALaj486bna-O",
+    "diff_hunk": "",
+    "path": "source",
+    "commit_id": "7f94c8b36e4d7e596f0c07e374301e949c816c5d",
+    "original_commit_id": "7f94c8b36e4d7e596f0c07e374301e949c816c5d",
+    "user": {
+      "login": "smaug----",
+      "id": 9219935,
+      "node_id": "MDQ6VXNlcjkyMTk5MzU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9219935?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/smaug----",
+      "html_url": "https://github.com/smaug----",
+      "followers_url": "https://api.github.com/users/smaug----/followers",
+      "following_url": "https://api.github.com/users/smaug----/following{/other_user}",
+      "gists_url": "https://api.github.com/users/smaug----/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/smaug----/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/smaug----/subscriptions",
+      "organizations_url": "https://api.github.com/users/smaug----/orgs",
+      "repos_url": "https://api.github.com/users/smaug----/repos",
+      "events_url": "https://api.github.com/users/smaug----/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/smaug----/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Yeah, use of entry global object is just wrong.",
+    "created_at": "2025-12-11T14:28:00Z",
+    "updated_at": "2025-12-11T14:28:01Z",
+    "html_url": "https://github.com/whatwg/html/pull/11519#discussion_r2610802574",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11519",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2610802574"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11519#discussion_r2610802574"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11519"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2610802574/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 82547,
+    "side": "RIGHT",
+    "in_reply_to_id": 2410613201,
+    "author_association": "NONE",
+    "original_position": 1,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2636495114",
+    "pull_request_review_id": 3600365383,
+    "id": 2636495114,
+    "node_id": "PRRC_kwDOALaj486dJbkK",
+    "diff_hunk": "",
+    "path": "source",
+    "commit_id": "7f94c8b36e4d7e596f0c07e374301e949c816c5d",
+    "original_commit_id": "7f94c8b36e4d7e596f0c07e374301e949c816c5d",
+    "user": {
+      "login": "ffiori",
+      "id": 9297306,
+      "node_id": "MDQ6VXNlcjkyOTczMDY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9297306?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ffiori",
+      "html_url": "https://github.com/ffiori",
+      "followers_url": "https://api.github.com/users/ffiori/followers",
+      "following_url": "https://api.github.com/users/ffiori/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ffiori/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ffiori/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ffiori/subscriptions",
+      "organizations_url": "https://api.github.com/users/ffiori/orgs",
+      "repos_url": "https://api.github.com/users/ffiori/repos",
+      "events_url": "https://api.github.com/users/ffiori/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ffiori/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "So the scenario in discussion is:\r\nA (the opener) opens popup B with the policy denied.\r\nB is currently focused.\r\nB then calls `opener_element.focus()`.\r\n\r\nMy understanding is that this behavior should be allowed, since B is not trying to take focus away from some already‑focused ancestor.\r\n\r\nI put together the table below to capture all possible `focus()` calls in this scenario, assuming B has the policy denied. (If B had the policy allowed, everything would be permitted)\r\n\r\nFocused document | Caller document | Target document | Focus call is allowed\r\n-- | -- | -- | --\r\nA | A | A | Yes\r\nA | A | B | Yes\r\nB | A | A | Yes\r\nB | A | B | Yes\r\nA | B | A | No\r\nA | B | B | No\r\nB | B | A | Yes\r\nB | B | B | Yes\r\n\r\nUnder this model, the only disallowed cases are when B calls `focus()` while A is currently focused, because that represents B trying to move focus away from A without permission.\r\n\r\n@annevk, does this interpretation match what you intended? If this behavior seems reasonable, I can go into the spec details next and update the PR accordingly.",
+    "created_at": "2025-12-19T22:39:57Z",
+    "updated_at": "2025-12-19T22:39:57Z",
+    "html_url": "https://github.com/whatwg/html/pull/11519#discussion_r2636495114",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11519",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2636495114"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11519#discussion_r2636495114"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11519"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2636495114/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 82547,
+    "side": "RIGHT",
+    "in_reply_to_id": 2410613201,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 1,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2741368532",
+    "pull_request_review_id": 3722351522,
+    "id": 2741368532,
+    "node_id": "PRRC_kwDOALaj486jZfbU",
+    "diff_hunk": "",
+    "path": "source",
+    "commit_id": "7f94c8b36e4d7e596f0c07e374301e949c816c5d",
+    "original_commit_id": "7f94c8b36e4d7e596f0c07e374301e949c816c5d",
+    "user": {
+      "login": "smaug----",
+      "id": 9219935,
+      "node_id": "MDQ6VXNlcjkyMTk5MzU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9219935?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/smaug----",
+      "html_url": "https://github.com/smaug----",
+      "followers_url": "https://api.github.com/users/smaug----/followers",
+      "following_url": "https://api.github.com/users/smaug----/following{/other_user}",
+      "gists_url": "https://api.github.com/users/smaug----/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/smaug----/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/smaug----/subscriptions",
+      "organizations_url": "https://api.github.com/users/smaug----/orgs",
+      "repos_url": "https://api.github.com/users/smaug----/repos",
+      "events_url": "https://api.github.com/users/smaug----/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/smaug----/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I'm likely missing something, but why do we need to use now current global's document.  What behavior do we want with this approach vs using target?",
+    "created_at": "2026-01-29T12:19:59Z",
+    "updated_at": "2026-01-29T12:19:59Z",
+    "html_url": "https://github.com/whatwg/html/pull/11519#discussion_r2741368532",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11519",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2741368532"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11519#discussion_r2741368532"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11519"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2741368532/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 82547,
+    "side": "RIGHT",
+    "in_reply_to_id": 2410613201,
+    "author_association": "NONE",
+    "original_position": 1,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2743645696",
+    "pull_request_review_id": 3725164676,
+    "id": 2743645696,
+    "node_id": "PRRC_kwDOALaj486jiLYA",
+    "diff_hunk": "",
+    "path": "source",
+    "commit_id": "7f94c8b36e4d7e596f0c07e374301e949c816c5d",
+    "original_commit_id": "7f94c8b36e4d7e596f0c07e374301e949c816c5d",
+    "user": {
+      "login": "smaug----",
+      "id": 9219935,
+      "node_id": "MDQ6VXNlcjkyMTk5MzU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9219935?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/smaug----",
+      "html_url": "https://github.com/smaug----",
+      "followers_url": "https://api.github.com/users/smaug----/followers",
+      "following_url": "https://api.github.com/users/smaug----/following{/other_user}",
+      "gists_url": "https://api.github.com/users/smaug----/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/smaug----/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/smaug----/subscriptions",
+      "organizations_url": "https://api.github.com/users/smaug----/orgs",
+      "repos_url": "https://api.github.com/users/smaug----/repos",
+      "events_url": "https://api.github.com/users/smaug----/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/smaug----/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "And how does this work with crossSiteWin.focus()? What would current global be when that [focus()](https://html.spec.whatwg.org/#dom-window-focus) algorithm runs? (I'm not sure HTML spec is currently super clear on how that all works if the implementation uses separate processes for different sites.)",
+    "created_at": "2026-01-29T21:32:32Z",
+    "updated_at": "2026-01-29T23:45:16Z",
+    "html_url": "https://github.com/whatwg/html/pull/11519#discussion_r2743645696",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11519",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2743645696"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11519#discussion_r2743645696"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11519"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2743645696/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 82547,
+    "side": "RIGHT",
+    "in_reply_to_id": 2410613201,
+    "author_association": "NONE",
+    "original_position": 1,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2765463521",
+    "pull_request_review_id": 3752723624,
+    "id": 2765463521,
+    "node_id": "PRRC_kwDOALaj486k1Z_h",
+    "diff_hunk": "",
+    "path": "source",
+    "commit_id": "7f94c8b36e4d7e596f0c07e374301e949c816c5d",
+    "original_commit_id": "7f94c8b36e4d7e596f0c07e374301e949c816c5d",
+    "user": {
+      "login": "ffiori",
+      "id": 9297306,
+      "node_id": "MDQ6VXNlcjkyOTczMDY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9297306?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ffiori",
+      "html_url": "https://github.com/ffiori",
+      "followers_url": "https://api.github.com/users/ffiori/followers",
+      "following_url": "https://api.github.com/users/ffiori/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ffiori/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ffiori/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ffiori/subscriptions",
+      "organizations_url": "https://api.github.com/users/ffiori/orgs",
+      "repos_url": "https://api.github.com/users/ffiori/repos",
+      "events_url": "https://api.github.com/users/ffiori/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ffiori/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "> I'm likely missing something, but why do we need to use now current global's document. What behavior do we want with this approach vs using target?\r\n \r\n@smaug----, tl;dr is that the idea behind the policy is to prevent frames from stealing focus from their parent, not to restrict what a frame can do once it has focus.\r\n \r\nIn this PR I'm trying to look at the frame that initiated the action (the \"setter\" or \"initiator\" frame) to see if it (or any of its descendants) has focus before moving it somewhere else. My understanding is that `current` global corresponds to the Realm of the initiator frame here (please correct me if I'm wrong).\r\n \r\nFor example, in a simple case where frame A embeds frame B and A has the policy enabled but it's disabled for B, if A is focused and it calls `b_window.focus()` then that should be allowed (by checking if A has focus, not B).\r\n \r\nThis would close the spec gap after [2024 TPAC resolution](https://github.com/w3c/webappsec-permissions-policy/issues/273#issuecomment-2384287101) that \"Focus delegation should also be allowed (allow parent frame programmatically set focus into child iframe)\".\r\n \r\nThere are more concrete scenarios discussed in this issue https://github.com/whatwg/html/issues/11839.\r\n \r\n> And how does this work with crossSiteWin.focus()? What would current global be when that [focus()](https://html.spec.whatwg.org/#dom-window-focus) algorithm runs? (I'm not sure HTML spec is currently super clear on how that all works if the implementation uses separate processes for different sites.)\r\n \r\nI agree the spec doesn't say much about cross origin execution contexts. But as far as I can tell there's no difference or special case for these, so I understand the current global would still be the initiator's Realm and not the target's.",
+    "created_at": "2026-02-04T18:36:55Z",
+    "updated_at": "2026-02-04T18:36:55Z",
+    "html_url": "https://github.com/whatwg/html/pull/11519#discussion_r2765463521",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11519",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2765463521"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11519#discussion_r2765463521"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11519"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2765463521/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 82547,
+    "side": "RIGHT",
+    "in_reply_to_id": 2410613201,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 1,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

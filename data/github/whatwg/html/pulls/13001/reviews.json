@@ -1,0 +1,44 @@
+[
+  {
+    "id": 5393927511,
+    "node_id": "PRR_kwDOALaj488AAAABQYDNVw",
+    "user": {
+      "login": "mfreed7",
+      "id": 29559695,
+      "node_id": "MDQ6VXNlcjI5NTU5Njk1",
+      "avatar_url": "https://avatars.githubusercontent.com/u/29559695?u=996bfc0df5b5e0a7a210631bfd2760f23fdc8912&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mfreed7",
+      "html_url": "https://github.com/mfreed7",
+      "followers_url": "https://api.github.com/users/mfreed7/followers",
+      "following_url": "https://api.github.com/users/mfreed7/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mfreed7/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mfreed7/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mfreed7/subscriptions",
+      "organizations_url": "https://api.github.com/users/mfreed7/orgs",
+      "repos_url": "https://api.github.com/users/mfreed7/repos",
+      "events_url": "https://api.github.com/users/mfreed7/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mfreed7/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "> The removing steps run the hide popover algorithm, but it started by checking popover validity, which throws if the element is not connected.\n\nSo I was going to say that this is the real crux of this issue - both Chromium and Webkit have \"before remove steps\" which is where these checks happen today. So we don't run into this issue. But then I re-read all of the discussion on https://github.com/whatwg/dom/pull/1185 and https://github.com/whatwg/html/pull/9457 and I'm reminded of what a mess this is. E.g. that at least Chromium's \"before remove\" steps are actually \"mid remove\" steps.\n\nGiven that, I think this solution will \"work\". It does so by just allowing you to call `hidePopover()` on a popover that is not showing, or isn't in an active document. But I guess you're calling \"hide\" anyway, so who's to say it didn't work in this case.\n\nTL;DR this looks good. Thanks for putting it up.\n\n@josepharhar for an additional look",
+    "state": "APPROVED",
+    "html_url": "https://github.com/whatwg/html/pull/13001#pullrequestreview-5393927511",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/13001",
+    "author_association": "CONTRIBUTOR",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/13001#pullrequestreview-5393927511"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/13001"
+      }
+    },
+    "submitted_at": "2026-10-02T16:14:33Z",
+    "commit_id": "7b9c71d6a573a29ca49c64a8f7089d3e36de4079"
+  }
+]
