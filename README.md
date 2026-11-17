@@ -75,6 +75,9 @@ hour's budget takes several runs, one an hour.
 - The separate "Timeline check" workflow (`python3 -m specstats
   timeline-check`) compares the timeline API with the stored lists for a
   sample of whatwg/dom items, and commits nothing.
+- The "Listing check" workflow (`python3 -m specstats listing-check`)
+  compares the items listing's rows with `GET /issues/{n}` for a sample
+  of a repo's items, and commits nothing.
 
 ## Docs
 
