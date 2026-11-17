@@ -272,5 +272,6 @@ every item is listed (one request per 100 items, by keyset), and:
 - Untested against the real API (written in a session that couldn't
   reach it): that redirects for transferred issues are 301s with the
   `Location` of the new issue, and that per-item and listed objects have
-  the same fields (only `GET /issues/{n}` is stored now, so it no longer
-  matters for items).
+  the same fields (only `GET /issues/{n}` is stored now; `listing-check`,
+  2026-11-17, compares them, to see whether the listing's row could be
+  stored instead).

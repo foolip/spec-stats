@@ -1,0 +1,42 @@
+# Compare the items listing's rows with GET /issues/{n}, for a sample of a
+# repo's items (`python3 -m specstats listing-check`): if they're the same
+# objects, the extractor could store the row and save a request per
+# changed item. About 2 + 2 × size requests; commits nothing. The report
+# goes on the run's summary page and into the job log.
+
+name: Listing check
+
+on:
+  workflow_dispatch:
+    inputs:
+      repo:
+        description: "owner/name"
+        default: "whatwg/dom"
+      size:
+        description: "How many of the most, and of the least, recently updated items"
+        default: "50"
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Check
+        env:
+          REPO: ${{ inputs.repo }}
+          SIZE: ${{ inputs.size }}
+        run: |
+          set -o pipefail  # fail the step if the check fails, not only if tee does
+          python3 -m specstats listing-check --repo "$REPO" --size "$SIZE" | tee -a "$GITHUB_STEP_SUMMARY"

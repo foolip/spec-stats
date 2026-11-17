@@ -3,6 +3,8 @@
   python3 -m specstats extract [--repo whatwg/html] [--reconcile] [--max-minutes N] [--dry-run]
   python3 -m specstats stats      offline: what's stored
   python3 -m specstats check      offline: consistency checks on what's stored
+  python3 -m specstats listing-check [--repo whatwg/dom] [--size 50]
+                                  are listing rows the same as GET /issues/{n}?
 
 extract fetches everything that changed since the last run into
 data/github/. With --reconcile (weekly), it also re-lists every issue and PR,
@@ -22,7 +24,7 @@ normally, and the next run continues from there.
 import argparse
 import sys
 
-from . import check, extract, github, paths, timeline_check
+from . import check, extract, github, listing_check, paths, timeline_check
 
 
 def main(argv=None):
@@ -41,6 +43,11 @@ def main(argv=None):
     p.add_argument("--repo", default="whatwg/dom", help="a repo with stored data (default: whatwg/dom)")
     p.add_argument("--size", type=int, default=40, help="how many items to sample (default: 40)")
     p.add_argument("numbers", nargs="*", type=int, help="items to check instead of a sample")
+    p = sub.add_parser("listing-check", help="compare the items listing's rows with GET /issues/{n}, "
+                       "for a sample of items (writes nothing to data/github/)")
+    p.add_argument("--repo", default="whatwg/dom", help="owner/name (default: whatwg/dom)")
+    p.add_argument("--size", type=int, default=50,
+                   help="how many of the most, and of the least, recently updated items (default: 50)")
     args = ap.parse_args(argv)
     # Show each line as it's printed, even when stdout is a pipe (as in
     # GitHub Actions), where Python would otherwise hold it in a buffer.
@@ -59,6 +66,11 @@ def main(argv=None):
         numbers = args.numbers or timeline_check.sample(store, args.size)
         log = lambda m: print(m, file=sys.stderr)  # the report alone goes to stdout
         print(timeline_check.check(github.Client(log=log), store, numbers, log=log))
+        return 0
+
+    if args.cmd == "listing-check":
+        log = lambda m: print(m, file=sys.stderr)  # the report alone goes to stdout
+        print(listing_check.check(github.Client(log=log), args.repo, args.size, log=log), end="")
         return 0
 
     repos = args.repo or paths.repos()
