@@ -148,6 +148,8 @@ class FakeGitHub:
         m = re.fullmatch(r"/(issues|pulls)/(\d+)/(comments|events)", path)
         if m:
             kind, n, what = m.group(1), int(m.group(2)), m.group(3)
+            if n in self.transferred or n not in self.issues:  # as GET /issues/{n} answers
+                return 410, {}, b'{"message": "This issue was deleted"}'
             if what == "events":
                 rows = [dict((k, v) for k, v in e.items() if k != "issue") for e in self.events
                         if e["issue"]["number"] == n]

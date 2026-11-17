@@ -102,12 +102,13 @@ class ExtractTest(TempDirs):
         gh = populated()
         c = client(gh)
         self.sync(gh, c)
+        # The listing's rows are stored as the items: no GET /issues/{n}.
         self.assertEqual(self.calls(gh, c), [
             "/issues",  # updated since the start: #1 and #2
-            "/issues/1", "/issues/1/comments", "/issues/1/events",
-            "/issues/2", "/issues/2/events", "/pulls/2", "/pulls/2/reviews", "/pulls/2/comments",
+            "/issues/1/comments", "/issues/1/events",
+            "/issues/2/events", "/pulls/2", "/pulls/2/reviews", "/pulls/2/comments",
             "/issues",  # keyset: since a second before #2's updated_at: #2 again, and #3
-            "/issues/3", "/issues/3/events", "/pulls/3", "/pulls/3/reviews",  # no review comments to fetch
+            "/issues/3/events", "/pulls/3", "/pulls/3/reviews",  # no review comments to fetch
             "/issues/events"])  # after the first listing: events since it started
         self.assertEqual(gh.calls[0][1].split("?")[1],
                          "state=all&sort=updated&direction=asc&per_page=2&since=2024-06-01T00%3A00%3A00Z")
@@ -162,6 +163,18 @@ class ExtractTest(TempDirs):
         self.assertFalse([u for u in self.calls(gh, c) if u.startswith(("/issues/4", "/issues/5"))])
         self.assertEqual(self.store().gone(), set())
         self.assertEqual(sorted(int(p.name) for p in self.issue_dir().iterdir()), [1, 2, 3, 6])
+    def test_listed_item_deleted_before_it_is_synced_is_gone(self):
+        gh = populated()
+
+        def delete(n):
+            if gh.calls[-1][1].split("?")[0].endswith("/issues/1/comments"):
+                del gh.issues[1]  # after the listing returned it
+        gh.before_request = delete
+        self.sync(gh)
+        self.assertEqual(self.store().gone(), {1})
+        self.assertFalse((self.issue_dir() / "1").exists())
+        self.assertIn(2, self.store().index())
+
     def test_an_issue_transferred_in_is_listed(self):
         gh = populated()
         # Transferred in after #3 was created: it keeps its older creation
@@ -177,7 +190,7 @@ class ExtractTest(TempDirs):
         gh.add_comment(1, "2025-06-01T00:00:00Z", "bob")
         c = client(gh)
         self.sync(gh, c)
-        self.assertEqual(self.calls(gh, c), ["/issues", "/issues/1", "/issues/1/comments", "/issues/1/events",
+        self.assertEqual(self.calls(gh, c), ["/issues", "/issues/1/comments", "/issues/1/events",
                                              "/issues/events"])
         self.assertEqual(self.count("comments"), 2)
 
@@ -228,9 +241,10 @@ class ExtractTest(TempDirs):
             gh.add_issue(i, f"2025-06-{i:02d}T00:00:00Z")
 
         def update_read_item(n):
-            # Once #4 has been synced from the first page of the listing,
-            # it's updated, so it moves to the end of the listing.
-            if gh.calls[-1][1].endswith("/issues/4/comments") or gh.calls[-1][1].endswith("/issues/4"):
+            # While #4, from the first page of the listing, is being
+            # synced, it's updated, so it moves to the end of the listing,
+            # and the stored row is out of date until it's listed again.
+            if gh.calls[-1][1].split("?")[0].endswith("/issues/4/events"):
                 gh.before_request = None
                 gh.touch(4, "2025-07-01T00:00:00Z")
         gh.before_request = update_read_item
@@ -390,7 +404,7 @@ class ExtractTest(TempDirs):
             self.sync(gh, c)
         self.assertEqual(self.calls(gh, c), [
             "/issues",  # updates: nothing changed
-            "/issues", "/issues/4", "/issues/4/events",  # since the new start, stopping at the old one
+            "/issues", "/issues/4/events",  # since the new start, stopping at the old one
             "/issues/events"])
         self.assertEqual(sorted(self.store().index()), [1, 2, 3, 4])
         items = self.store().section("items")
@@ -445,7 +459,7 @@ class ExtractTest(TempDirs):
         c = client(gh)
         self.sync(gh, c)
         self.assertEqual([u for u in self.calls(gh, c) if u != "/issues"],
-                         ["/issues/3", "/issues/3/comments", "/issues/3/events", "/pulls/3", "/pulls/3/reviews",
+                         ["/issues/3/comments", "/issues/3/events", "/pulls/3", "/pulls/3/reviews",
                           "/issues/events"])
         self.assertEqual(self.store().section("items"), {"from": START, "cursor": "2025-05-01T00:00:00Z"})
 

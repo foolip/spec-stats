@@ -60,7 +60,7 @@ Everything for one number is fetched together and replaces what's stored:
 
 | Request | When |
 |---|---|
-| `GET /issues/{n}` | always |
+| `GET /issues/{n}` | only if the item wasn't listed: its row from the items listing is stored instead (below) |
 | `GET /issues/{n}/comments` | if the issue's `comments` count isn't 0 |
 | `GET /issues/{n}/events` | always (the issue has no count of them) |
 | `GET /pulls/{n}` | PRs, if `pull` is in `config/fetch.json` (default); see below for HTTP 422 |
@@ -68,8 +68,19 @@ Everything for one number is fetched together and replaces what's stored:
 | `GET /pulls/{n}/commits`, `/files` | PRs, if turned on in `config/fetch.json` (off) |
 | `GET /pulls/{n}/comments` | PRs, unless `pull` says `review_comments` is 0 |
 
-So an issue costs two or three requests and a PR four to six, plus one
-per extra page of a long list. `index.json` is written last: its
+So a listed issue costs one or two requests and a PR three to five, plus
+one per extra page of a long list (one more each when fetched by number:
+retrying a 422, or the reconcile's unlisted items).
+
+**The listing's row is the item.** A listed item's row from
+`GET /issues?…` is stored as `issues/{n}/index.json`, not fetched again
+with `GET /issues/{n}`: `listing-check` (2026-11-17) found them identical
+for all 100 whatwg/dom items it compared (the 50 most and 50 least
+recently updated, 44 issues and 56 PRs), field for field. An item deleted
+or transferred after it was listed is still caught: its other requests
+answer 404, 410 or a redirect, and it's recorded as gone. One updated
+after it was listed is stored as listed, and is listed again with its new
+`updated_at`. `index.json` is written last: its
 `updated_at` is what says the item is synced, so a run stopped midway
 fetches the item again.
 
@@ -308,7 +319,5 @@ goes unnoticed.
   the listing's `updated_at` differs. None was seen in whatwg/dom's data.
 - Untested against the real API (written in a session that couldn't
   reach it): that redirects for transferred issues are 301s with the
-  `Location` of the new issue, and that per-item and listed objects have
-  the same fields (only `GET /issues/{n}` is stored now; `listing-check`,
-  2026-11-17, compares them, to see whether the listing's row could be
-  stored instead).
+  `Location` of the new issue. (That per-item and listed objects have
+  the same fields was checked by `listing-check` on 2026-11-17, above.)

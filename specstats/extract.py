@@ -254,13 +254,18 @@ def _all_pages(client, path, params=None):
 
 # --- one item ------------------------------------------------------------------
 
-def sync_item(client, store, number, resources):
+def sync_item(client, store, number, resources, obj=None):
     """Fetch everything for one issue or PR number and replace what's stored.
+
+    `obj` is the item's row from the items listing, if it was listed: the
+    same object as GET /issues/{n} returns (`listing-check`, 2026-11-17),
+    so that request is saved. Without it, the item is fetched by number.
 
     index.json is written last, so its updated_at says the item is synced:
     a run stopped midway refetches the item. A number that's deleted,
     transferred elsewhere (a redirect, not followed) or never existed is
-    recorded as gone, and anything stored for it is removed.
+    recorded as gone, and anything stored for it is removed: any of its
+    requests answers 404, 410 or a redirect then.
 
     GET /pulls/{n} answers HTTP 422 for a PR with too many changed files
     (whatwg/dom #548). The rest of the number is stored without
@@ -269,7 +274,8 @@ def sync_item(client, store, number, resources):
     """
     repo = store.repo
     try:
-        obj = client.rest(f"/repos/{repo}/issues/{number}").data
+        if obj is None:
+            obj = client.rest(f"/repos/{repo}/issues/{number}").data
         comments = (list(_all_pages(client, f"/repos/{repo}/issues/{number}/comments"))
                     if obj["comments"] else None)
         events = [_without_issue(e) for e in _all_pages(client, f"/repos/{repo}/issues/{number}/events")]
@@ -343,11 +349,12 @@ def list_ascending(client, path, params, on_page, until=None):
 
 def _sync_changed(client, store, rows, resources):
     """Sync each listed item whose updated_at differs from the stored one
-    (or that isn't stored). Returns how many were synced."""
+    (or that isn't stored), storing the row as the item. Returns how many
+    were synced."""
     idx, synced = store.index(), 0
     for row in rows:
         if idx.get(row["number"], {}).get("updated_at") != row["updated_at"]:
-            sync_item(client, store, row["number"], resources)
+            sync_item(client, store, row["number"], resources, obj=row)
             synced += 1
     return synced
 
@@ -442,13 +449,13 @@ def reconcile(client, store, resources, log=print):
 
     def on_page(rows):
         for r in rows:
-            listed[r["number"]] = r["updated_at"]
+            listed[r["number"]] = r
         return rows[-1]["updated_at"] if rows else None
 
     list_ascending(client, f"/repos/{store.repo}/issues", dict(ITEMS, per_page=PER_PAGE, since=s["from"]),
                    on_page)
     idx = store.index()
-    rows = [{"number": n, "updated_at": u} for n, u in sorted(listed.items())]
+    rows = [listed[n] for n in sorted(listed)]
     changed = _sync_changed(client, store, rows, resources)
     unlisted = sorted(n for n, i in idx.items() if n not in listed and i["updated_at"] >= s["from"])
     for n in unlisted:
