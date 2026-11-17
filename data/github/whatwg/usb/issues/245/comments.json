@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/issues/comments/1939566711",
+    "html_url": "https://github.com/whatwg/usb/issues/245#issuecomment-1939566711",
+    "issue_url": "https://api.github.com/repos/whatwg/usb/issues/245",
+    "id": 1939566711,
+    "node_id": "IC_kwDOAhq5Lc5zm3B3",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2024-02-12T20:59:05Z",
+    "updated_at": "2024-02-12T20:59:05Z",
+    "body": "I'm closing this issue as off-topic because it is not a specification issue, but either a question on how to use the API or an implementation issue. Questions about how to use the API should be posted to sites like StackOverflow where a wider audience of developers can help you answer them. Specification editors like me do monitor StackOverflow and will file specification issues if the question raised indicates that there is a problem with or feature missing from the specification. If the problem you are encountering suggests an implementation issue that should be filed against the implementation you are using, such as Chromium.\r\n\r\nThe behavior you are seeing likely indicates an issue with the device causing it not to acknowledge the transfer OUT request. Using a tool like Wireshark you can inspect the requests being processed by your USB controller to confirm that the transfer is being sent but has not received a reply. Using a hardware USB analyser you could further inspect the particular NAK reply the device is likely sending.\r\n\r\nNote that if the `transferOut()` call did succeed, `cmdPacket` is not being updated so further transfers would retransmit the full buffer and not use the offset.",
+    "author_association": "COLLABORATOR",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/issues/comments/1939566711/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

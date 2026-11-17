@@ -1,0 +1,783 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66056584",
+    "pull_request_review_id": null,
+    "id": 66056584,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2MDU2NTg0",
+    "diff_hunk": "@@ -601,6 +604,39 @@ or vibrating the device again, unless the <a>renotify preference flag</a> is set\n </ol>\n \n \n+<h3 id=selecting-an-icon-url>Selecting an icon URL</h3>\n+\n+<p>The <dfn>icon URL selection steps</dfn> for selecting a URL given a list <var>icons</var> of type\n+{{NotificationIcon}}, a <var>fallbackURLString</var> of type {{USVString}}, and\n+<a lt=\"base url\">base URL</a> <var>baseURL</var> are:\n+\n+<ol>\n+  <li><p>Let <var>selectedURL</var> and <var>selectedIcon</var> be null\n+\n+  <li><p>For each <var>icon</var> in <var>icons</var> run these substeps:\n+\n+  <ol>",
+    "path": "notifications.bs",
+    "commit_id": "54dd556f6ff5fde8ce89d4c340cd8e1e20af297f",
+    "original_commit_id": "8fbbe485a30a039c80a00bcaab209bf6ed0c24c6",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I know we have this indentation elsewhere, but if the `<p>` is not the sole child of an `<li>` it really should go on its own line and get indented. And this `<ol>` too.\n",
+    "created_at": "2016-06-07T11:56:07Z",
+    "updated_at": "2021-01-15T07:45:58Z",
+    "html_url": "https://github.com/whatwg/notifications/pull/76#discussion_r66056584",
+    "pull_request_url": "https://api.github.com/repos/whatwg/notifications/pulls/76",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66056584"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/notifications/pull/76#discussion_r66056584"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/76"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66056584/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 58,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66056728",
+    "pull_request_review_id": null,
+    "id": 66056728,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2MDU2NzI4",
+    "diff_hunk": "@@ -601,6 +604,39 @@ or vibrating the device again, unless the <a>renotify preference flag</a> is set\n </ol>\n \n \n+<h3 id=selecting-an-icon-url>Selecting an icon URL</h3>\n+\n+<p>The <dfn>icon URL selection steps</dfn> for selecting a URL given a list <var>icons</var> of type\n+{{NotificationIcon}}, a <var>fallbackURLString</var> of type {{USVString}}, and\n+<a lt=\"base url\">base URL</a> <var>baseURL</var> are:\n+\n+<ol>\n+  <li><p>Let <var>selectedURL</var> and <var>selectedIcon</var> be null\n+\n+  <li><p>For each <var>icon</var> in <var>icons</var> run these substeps:\n+\n+  <ol>\n+    <li><p>Let <var>iconURL</var> be the result of <a lt=\"url parser\">parsing</a> <var>icon</var>'s\n+    <code>src</code> using <var>baseURL</var>. If <var>iconURL</var> is failure, abort these\n+    substeps for this <var>icon</var>\n+\n+    <li><p>Let <var>parsedSizes</var> be the result of <a lt=\"attr link sizes\">parsing</a>\n+    <var>icon</var>'s <code>sizes</code>\n+\n+    <li><p>If <var>icon</var> is considered by the implementation to be more suitable than\n+    <var>selectedIcon</var>, taking into account whether <var>icon</var>'s <code>type</code> is\n+    <a lt=\"valid mime type\">valid</a> and <a lt=\"resources\">supported</a>, as well as the value of\n+    <var>parsedSizes</var>, then set <var>selectedURL</var> to <var>iconURL</var> and set\n+    <var>selectedIcon</var> to <var>icon</var>",
+    "path": "notifications.bs",
+    "commit_id": "54dd556f6ff5fde8ce89d4c340cd8e1e20af297f",
+    "original_commit_id": "8fbbe485a30a039c80a00bcaab209bf6ed0c24c6",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Where is this paragraph from?\n",
+    "created_at": "2016-06-07T11:57:19Z",
+    "updated_at": "2021-01-15T07:45:58Z",
+    "html_url": "https://github.com/whatwg/notifications/pull/76#discussion_r66056728",
+    "pull_request_url": "https://api.github.com/repos/whatwg/notifications/pulls/76",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66056728"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/notifications/pull/76#discussion_r66056728"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/76"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66056728/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 70,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66056796",
+    "pull_request_review_id": null,
+    "id": 66056796,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2MDU2Nzk2",
+    "diff_hunk": "@@ -601,6 +604,39 @@ or vibrating the device again, unless the <a>renotify preference flag</a> is set\n </ol>\n \n \n+<h3 id=selecting-an-icon-url>Selecting an icon URL</h3>\n+\n+<p>The <dfn>icon URL selection steps</dfn> for selecting a URL given a list <var>icons</var> of type\n+{{NotificationIcon}}, a <var>fallbackURLString</var> of type {{USVString}}, and\n+<a lt=\"base url\">base URL</a> <var>baseURL</var> are:\n+\n+<ol>",
+    "path": "notifications.bs",
+    "commit_id": "54dd556f6ff5fde8ce89d4c340cd8e1e20af297f",
+    "original_commit_id": "8fbbe485a30a039c80a00bcaab209bf6ed0c24c6",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The steps in this list need to end in dots.\n",
+    "created_at": "2016-06-07T11:57:56Z",
+    "updated_at": "2021-01-15T07:45:58Z",
+    "html_url": "https://github.com/whatwg/notifications/pull/76#discussion_r66056796",
+    "pull_request_url": "https://api.github.com/repos/whatwg/notifications/pulls/76",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66056796"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/notifications/pull/76#discussion_r66056796"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/76"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66056796/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 617,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 53,
+    "position": 57,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66251870",
+    "pull_request_review_id": null,
+    "id": 66251870,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2MjUxODcw",
+    "diff_hunk": "@@ -601,6 +604,39 @@ or vibrating the device again, unless the <a>renotify preference flag</a> is set\n </ol>\n \n \n+<h3 id=selecting-an-icon-url>Selecting an icon URL</h3>\n+\n+<p>The <dfn>icon URL selection steps</dfn> for selecting a URL given a list <var>icons</var> of type\n+{{NotificationIcon}}, a <var>fallbackURLString</var> of type {{USVString}}, and\n+<a lt=\"base url\">base URL</a> <var>baseURL</var> are:\n+\n+<ol>\n+  <li><p>Let <var>selectedURL</var> and <var>selectedIcon</var> be null\n+\n+  <li><p>For each <var>icon</var> in <var>icons</var> run these substeps:\n+\n+  <ol>\n+    <li><p>Let <var>iconURL</var> be the result of <a lt=\"url parser\">parsing</a> <var>icon</var>'s\n+    <code>src</code> using <var>baseURL</var>. If <var>iconURL</var> is failure, abort these\n+    substeps for this <var>icon</var>\n+\n+    <li><p>Let <var>parsedSizes</var> be the result of <a lt=\"attr link sizes\">parsing</a>\n+    <var>icon</var>'s <code>sizes</code>\n+\n+    <li><p>If <var>icon</var> is considered by the implementation to be more suitable than\n+    <var>selectedIcon</var>, taking into account whether <var>icon</var>'s <code>type</code> is\n+    <a lt=\"valid mime type\">valid</a> and <a lt=\"resources\">supported</a>, as well as the value of\n+    <var>parsedSizes</var>, then set <var>selectedURL</var> to <var>iconURL</var> and set\n+    <var>selectedIcon</var> to <var>icon</var>",
+    "path": "notifications.bs",
+    "commit_id": "54dd556f6ff5fde8ce89d4c340cd8e1e20af297f",
+    "original_commit_id": "8fbbe485a30a039c80a00bcaab209bf6ed0c24c6",
+    "user": {
+      "login": "mvano",
+      "id": 5739872,
+      "node_id": "MDQ6VXNlcjU3Mzk4NzI=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5739872?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mvano",
+      "html_url": "https://github.com/mvano",
+      "followers_url": "https://api.github.com/users/mvano/followers",
+      "following_url": "https://api.github.com/users/mvano/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mvano/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mvano/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mvano/subscriptions",
+      "organizations_url": "https://api.github.com/users/mvano/orgs",
+      "repos_url": "https://api.github.com/users/mvano/repos",
+      "events_url": "https://api.github.com/users/mvano/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mvano/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I wrote it, but I'm not sure whether that's what you're asking. It's similar to bits of the manifest spec, but simplified, as WebIDL does a lot of the defining for us, and we don't need to describe how to parse JSON.\n",
+    "created_at": "2016-06-08T13:12:19Z",
+    "updated_at": "2021-01-15T07:45:58Z",
+    "html_url": "https://github.com/whatwg/notifications/pull/76#discussion_r66251870",
+    "pull_request_url": "https://api.github.com/repos/whatwg/notifications/pulls/76",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66251870"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/notifications/pull/76#discussion_r66251870"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/76"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66251870/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 70,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66256372",
+    "pull_request_review_id": null,
+    "id": 66256372,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2MjU2Mzcy",
+    "diff_hunk": "@@ -601,6 +604,39 @@ or vibrating the device again, unless the <a>renotify preference flag</a> is set\n </ol>\n \n \n+<h3 id=selecting-an-icon-url>Selecting an icon URL</h3>\n+\n+<p>The <dfn>icon URL selection steps</dfn> for selecting a URL given a list <var>icons</var> of type\n+{{NotificationIcon}}, a <var>fallbackURLString</var> of type {{USVString}}, and\n+<a lt=\"base url\">base URL</a> <var>baseURL</var> are:\n+\n+<ol>\n+  <li><p>Let <var>selectedURL</var> and <var>selectedIcon</var> be null\n+\n+  <li><p>For each <var>icon</var> in <var>icons</var> run these substeps:\n+\n+  <ol>\n+    <li><p>Let <var>iconURL</var> be the result of <a lt=\"url parser\">parsing</a> <var>icon</var>'s\n+    <code>src</code> using <var>baseURL</var>. If <var>iconURL</var> is failure, abort these\n+    substeps for this <var>icon</var>\n+\n+    <li><p>Let <var>parsedSizes</var> be the result of <a lt=\"attr link sizes\">parsing</a>\n+    <var>icon</var>'s <code>sizes</code>\n+\n+    <li><p>If <var>icon</var> is considered by the implementation to be more suitable than\n+    <var>selectedIcon</var>, taking into account whether <var>icon</var>'s <code>type</code> is\n+    <a lt=\"valid mime type\">valid</a> and <a lt=\"resources\">supported</a>, as well as the value of\n+    <var>parsedSizes</var>, then set <var>selectedURL</var> to <var>iconURL</var> and set\n+    <var>selectedIcon</var> to <var>icon</var>",
+    "path": "notifications.bs",
+    "commit_id": "54dd556f6ff5fde8ce89d4c340cd8e1e20af297f",
+    "original_commit_id": "8fbbe485a30a039c80a00bcaab209bf6ed0c24c6",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I see, I was wondering whether HTML or manifest had a similar algorithm at some point.\n",
+    "created_at": "2016-06-08T13:37:30Z",
+    "updated_at": "2021-01-15T07:45:58Z",
+    "html_url": "https://github.com/whatwg/notifications/pull/76#discussion_r66256372",
+    "pull_request_url": "https://api.github.com/repos/whatwg/notifications/pulls/76",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66256372"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/notifications/pull/76#discussion_r66256372"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/76"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66256372/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 70,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66257337",
+    "pull_request_review_id": null,
+    "id": 66257337,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2MjU3MzM3",
+    "diff_hunk": "@@ -601,6 +604,47 @@ or vibrating the device again, unless the <a>renotify preference flag</a> is set\n </ol>\n \n \n+<h3 id=selecting-an-icon-url>Selecting an icon URL</h3>\n+\n+<p>The user agent should select the most suitable icon while balancing multiple goals and\n+constraints: high quality icon display, screen size, and availability of resources like memory and\n+bandwidth.\n+\n+<p>The <dfn>icon URL selection steps</dfn> for selecting a URL given a list <var>icons</var> of type\n+{{NotificationIconOptions}}, a <var>fallbackURLString</var> of type {{USVString}}, and\n+<a lt=\"base url\">base URL</a> <var>baseURL</var> are:\n+\n+<ol>\n+  <li><p>Let <var>selectedURL</var> and <var>selectedIcon</var> be null.\n+\n+  <li><p>For each <var>icon</var> in <var>icons</var> run these substeps:",
+    "path": "notifications.bs",
+    "commit_id": "54dd556f6ff5fde8ce89d4c340cd8e1e20af297f",
+    "original_commit_id": "5e210470a4c327e18d33b6ffa1ad0dba65384dff",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "`<p>` needs to be on a new line.\n",
+    "created_at": "2016-06-08T13:43:41Z",
+    "updated_at": "2021-01-15T07:45:58Z",
+    "html_url": "https://github.com/whatwg/notifications/pull/76#discussion_r66257337",
+    "pull_request_url": "https://api.github.com/repos/whatwg/notifications/pulls/76",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66257337"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/notifications/pull/76#discussion_r66257337"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/76"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66257337/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 60,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66257386",
+    "pull_request_review_id": null,
+    "id": 66257386,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2MjU3Mzg2",
+    "diff_hunk": "@@ -601,6 +604,47 @@ or vibrating the device again, unless the <a>renotify preference flag</a> is set\n </ol>\n \n \n+<h3 id=selecting-an-icon-url>Selecting an icon URL</h3>\n+\n+<p>The user agent should select the most suitable icon while balancing multiple goals and\n+constraints: high quality icon display, screen size, and availability of resources like memory and\n+bandwidth.\n+\n+<p>The <dfn>icon URL selection steps</dfn> for selecting a URL given a list <var>icons</var> of type\n+{{NotificationIconOptions}}, a <var>fallbackURLString</var> of type {{USVString}}, and\n+<a lt=\"base url\">base URL</a> <var>baseURL</var> are:\n+\n+<ol>\n+  <li><p>Let <var>selectedURL</var> and <var>selectedIcon</var> be null.\n+\n+  <li><p>For each <var>icon</var> in <var>icons</var> run these substeps:\n+\n+    <ol>\n+      <li>\n+        <p>Let <var>iconURL</var> be the result of <a lt=\"url parser\">parsing</a> <var>icon</var>'s\n+        <code>src</code> using <var>baseURL</var>. If <var>iconURL</var> is failure, abort these\n+        substeps for this <var>icon</var>.",
+    "path": "notifications.bs",
+    "commit_id": "54dd556f6ff5fde8ce89d4c340cd8e1e20af297f",
+    "original_commit_id": "5e210470a4c327e18d33b6ffa1ad0dba65384dff",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Now here the `<p>` does not need to be on a new line, since it's the only child.\n",
+    "created_at": "2016-06-08T13:44:03Z",
+    "updated_at": "2016-06-08T14:12:12Z",
+    "html_url": "https://github.com/whatwg/notifications/pull/76#discussion_r66257386",
+    "pull_request_url": "https://api.github.com/repos/whatwg/notifications/pulls/76",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66257386"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/notifications/pull/76#discussion_r66257386"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/76"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66257386/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 627,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 66,
+    "position": 67,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66264331",
+    "pull_request_review_id": null,
+    "id": 66264331,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2MjY0MzMx",
+    "diff_hunk": "@@ -905,19 +964,11 @@ attribute's getter must return the result of the following steps:\n     <li><p>Set <var>action</var>'s {{NotificationAction/icon}} to\n     <var>entry</var>'s <a>action icon URL</a>.\n \n-    <!-- XXX IDL dictionaries are usually returned by value, so don't need to be\n-         immutable. But FrozenArray reifies the dictionaries to mutable JS\n-         objects accessed by reference, so we explicitly freeze them.\n-         It would be better to do this with IDL primitives instead of JS - see\n-         https://www.w3.org/Bugs/Public/show_bug.cgi?id=29004 -->",
+    "path": "notifications.bs",
+    "commit_id": "54dd556f6ff5fde8ce89d4c340cd8e1e20af297f",
+    "original_commit_id": "54dd556f6ff5fde8ce89d4c340cd8e1e20af297f",
+    "user": {
+      "login": "foolip",
+      "id": 498917,
+      "node_id": "MDQ6VXNlcjQ5ODkxNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/498917?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/foolip",
+      "html_url": "https://github.com/foolip",
+      "followers_url": "https://api.github.com/users/foolip/followers",
+      "following_url": "https://api.github.com/users/foolip/following{/other_user}",
+      "gists_url": "https://api.github.com/users/foolip/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/foolip/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/foolip/subscriptions",
+      "organizations_url": "https://api.github.com/users/foolip/orgs",
+      "repos_url": "https://api.github.com/users/foolip/repos",
+      "events_url": "https://api.github.com/users/foolip/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/foolip/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "What's the conclusion of this? Looks like the issue was side-stepped by not exposing an `icons` member on `NotificationAction`, is that a permanent situation?\n",
+    "created_at": "2016-06-08T14:21:03Z",
+    "updated_at": "2021-01-15T07:45:58Z",
+    "html_url": "https://github.com/whatwg/notifications/pull/76#discussion_r66264331",
+    "pull_request_url": "https://api.github.com/repos/whatwg/notifications/pulls/76",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66264331"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/notifications/pull/76#discussion_r66264331"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/76"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66264331/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 154,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66266839",
+    "pull_request_review_id": null,
+    "id": 66266839,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2MjY2ODM5",
+    "diff_hunk": "@@ -905,19 +964,11 @@ attribute's getter must return the result of the following steps:\n     <li><p>Set <var>action</var>'s {{NotificationAction/icon}} to\n     <var>entry</var>'s <a>action icon URL</a>.\n \n-    <!-- XXX IDL dictionaries are usually returned by value, so don't need to be\n-         immutable. But FrozenArray reifies the dictionaries to mutable JS\n-         objects accessed by reference, so we explicitly freeze them.\n-         It would be better to do this with IDL primitives instead of JS - see\n-         https://www.w3.org/Bugs/Public/show_bug.cgi?id=29004 -->",
+    "path": "notifications.bs",
+    "commit_id": "54dd556f6ff5fde8ce89d4c340cd8e1e20af297f",
+    "original_commit_id": "54dd556f6ff5fde8ce89d4c340cd8e1e20af297f",
+    "user": {
+      "login": "mvano",
+      "id": 5739872,
+      "node_id": "MDQ6VXNlcjU3Mzk4NzI=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5739872?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mvano",
+      "html_url": "https://github.com/mvano",
+      "followers_url": "https://api.github.com/users/mvano/followers",
+      "following_url": "https://api.github.com/users/mvano/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mvano/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mvano/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mvano/subscriptions",
+      "organizations_url": "https://api.github.com/users/mvano/orgs",
+      "repos_url": "https://api.github.com/users/mvano/repos",
+      "events_url": "https://api.github.com/users/mvano/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mvano/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Only exposing the selected URL seems much easier to understand. I don't see a strong use case for reflecting all the exact input of the options dictionaries, so I don't expect us to add that. Note that we already didn't expose the exact input of the icon urls, we reflected the result of resolving with baseURL.\n\nAlso, by using an interface with readonly attributes, I don't think we need to freeze the object anymore, which was a strange wrinkle.\n",
+    "created_at": "2016-06-08T14:32:25Z",
+    "updated_at": "2021-01-15T07:45:58Z",
+    "html_url": "https://github.com/whatwg/notifications/pull/76#discussion_r66266839",
+    "pull_request_url": "https://api.github.com/repos/whatwg/notifications/pulls/76",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66266839"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/notifications/pull/76#discussion_r66266839"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/76"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66266839/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 154,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66274245",
+    "pull_request_review_id": null,
+    "id": 66274245,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2Mjc0MjQ1",
+    "diff_hunk": "@@ -905,19 +964,11 @@ attribute's getter must return the result of the following steps:\n     <li><p>Set <var>action</var>'s {{NotificationAction/icon}} to\n     <var>entry</var>'s <a>action icon URL</a>.\n \n-    <!-- XXX IDL dictionaries are usually returned by value, so don't need to be\n-         immutable. But FrozenArray reifies the dictionaries to mutable JS\n-         objects accessed by reference, so we explicitly freeze them.\n-         It would be better to do this with IDL primitives instead of JS - see\n-         https://www.w3.org/Bugs/Public/show_bug.cgi?id=29004 -->",
+    "path": "notifications.bs",
+    "commit_id": "54dd556f6ff5fde8ce89d4c340cd8e1e20af297f",
+    "original_commit_id": "54dd556f6ff5fde8ce89d4c340cd8e1e20af297f",
+    "user": {
+      "login": "foolip",
+      "id": 498917,
+      "node_id": "MDQ6VXNlcjQ5ODkxNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/498917?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/foolip",
+      "html_url": "https://github.com/foolip",
+      "followers_url": "https://api.github.com/users/foolip/followers",
+      "following_url": "https://api.github.com/users/foolip/following{/other_user}",
+      "gists_url": "https://api.github.com/users/foolip/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/foolip/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/foolip/subscriptions",
+      "organizations_url": "https://api.github.com/users/foolip/orgs",
+      "repos_url": "https://api.github.com/users/foolip/repos",
+      "events_url": "https://api.github.com/users/foolip/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/foolip/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "So is the resource chosen synchronously so that it can be immediately reflected through a single `icon` attribute? Doesn't that mean that the bits implementing the notification API need to know quite a bit about the UI of the platform its running on?\n\nAFACIT, the thing that was frozen here wasn't the value returned by the attribute (which is readonly), but the `NotificationAction` objects in that array. Otherwise one can do things like `notification.actions[0].icon = 'newicon.png'` which would have no effect. Exact same problem as discussed for Media Session artwork, in other words.\n",
+    "created_at": "2016-06-08T15:08:21Z",
+    "updated_at": "2021-01-15T07:45:58Z",
+    "html_url": "https://github.com/whatwg/notifications/pull/76#discussion_r66274245",
+    "pull_request_url": "https://api.github.com/repos/whatwg/notifications/pulls/76",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66274245"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/notifications/pull/76#discussion_r66274245"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/76"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66274245/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 154,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66290823",
+    "pull_request_review_id": null,
+    "id": 66290823,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2MjkwODIz",
+    "diff_hunk": "@@ -905,19 +964,11 @@ attribute's getter must return the result of the following steps:\n     <li><p>Set <var>action</var>'s {{NotificationAction/icon}} to\n     <var>entry</var>'s <a>action icon URL</a>.\n \n-    <!-- XXX IDL dictionaries are usually returned by value, so don't need to be\n-         immutable. But FrozenArray reifies the dictionaries to mutable JS\n-         objects accessed by reference, so we explicitly freeze them.\n-         It would be better to do this with IDL primitives instead of JS - see\n-         https://www.w3.org/Bugs/Public/show_bug.cgi?id=29004 -->",
+    "path": "notifications.bs",
+    "commit_id": "54dd556f6ff5fde8ce89d4c340cd8e1e20af297f",
+    "original_commit_id": "54dd556f6ff5fde8ce89d4c340cd8e1e20af297f",
+    "user": {
+      "login": "mvano",
+      "id": 5739872,
+      "node_id": "MDQ6VXNlcjU3Mzk4NzI=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5739872?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mvano",
+      "html_url": "https://github.com/mvano",
+      "followers_url": "https://api.github.com/users/mvano/followers",
+      "following_url": "https://api.github.com/users/mvano/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mvano/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mvano/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mvano/subscriptions",
+      "organizations_url": "https://api.github.com/users/mvano/orgs",
+      "repos_url": "https://api.github.com/users/mvano/repos",
+      "events_url": "https://api.github.com/users/mvano/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mvano/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Good question about synchronously reflecting the selected URL... that might require an async IPC message in Chrome. I'll have to think about that one.\n\nThe general solution to avoid having to freeze dictionaries seems to be to instead return interfaces with readonly attributes. NotificationAction now is an interface that only has readonly attributes, and assigning a new value to `icon` has no effect, intentionally. The property value does not change, and internally nothing changes. No exception is thrown.\n",
+    "created_at": "2016-06-08T16:33:15Z",
+    "updated_at": "2021-01-15T07:45:58Z",
+    "html_url": "https://github.com/whatwg/notifications/pull/76#discussion_r66290823",
+    "pull_request_url": "https://api.github.com/repos/whatwg/notifications/pulls/76",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66290823"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/notifications/pull/76#discussion_r66290823"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/76"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/66290823/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 154,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

@@ -1,0 +1,432 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1735182890",
+    "pull_request_review_id": 2267086121,
+    "id": 1735182890,
+    "node_id": "PRRC_kwDODDHQ585nbMoq",
+    "diff_hunk": "@@ -2049,6 +2054,24 @@ If a specification has an Infra value (e.g., after using [=parse a JSON string t\n \n Specifications may wish to leave room in their formats to accept options for {{URLPatternOptions}}, override the base URL, or similar, since it is not possible to construct a {{URLPattern}} object directly in this case, unlike in a JavaScript API. For example, <cite>Speculation Rules</cite> accepts a \"`relative_to`\" key which can be used to switch to using the [=document base URL=] instead of the JSON resource's URL. [[SPECULATION-RULES]]\n \n+<h3 id=other-specs-http>Integrating with HTTP header fields</h3>\n+\n+HTTP headers which include URL patterns should accept a string in the constructor string syntax, likely as part of a structured field [[RFC8941]].\n+\n+<div class=\"note\">No known header accepts the dictionary syntax for URL patterns. If that changes, this specification will be updated to define it, likely by processing [[RFC8941]] inner lists.</div>\n+\n+Specifications for HTTP headers should operate on [=URL patterns=] (e.g., using the [=URL pattern/match=] algorithm) rather than {{URLPattern}} objects (which imply the existence of a JavaScript [=ECMAScript/realm=]).\n+\n+<div algorithm>\n+  To <dfn export>build a [=URL pattern=] from an HTTP structured field value</dfn> |rawPattern| given [=/URL=] |baseURL|, perform the following steps.",
+    "path": "spec.bs",
+    "commit_id": "667051e1b379fb36c96b678ae33e0103f91ae21d",
+    "original_commit_id": "67f0dcd7cf4e94e4ea940ac7e5a2b350df3df628",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n  To <dfn export>build a [=URL pattern=] from an HTTP structured field value</dfn> |rawPattern| given [=/URL=] |baseURL|:\r\n```\r\n\r\nMaybe \"HTTP structured field string\"?",
+    "created_at": "2024-08-28T19:23:30Z",
+    "updated_at": "2024-08-28T19:25:36Z",
+    "html_url": "https://github.com/whatwg/urlpattern/pull/230#discussion_r1735182890",
+    "pull_request_url": "https://api.github.com/repos/whatwg/urlpattern/pulls/230",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1735182890"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/urlpattern/pull/230#discussion_r1735182890"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/230"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1735182890/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 2066,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 43,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1735264901",
+    "pull_request_review_id": 2267227275,
+    "id": 1735264901,
+    "node_id": "PRRC_kwDODDHQ585nbgqF",
+    "diff_hunk": "@@ -2049,6 +2054,24 @@ If a specification has an Infra value (e.g., after using [=parse a JSON string t\n \n Specifications may wish to leave room in their formats to accept options for {{URLPatternOptions}}, override the base URL, or similar, since it is not possible to construct a {{URLPattern}} object directly in this case, unlike in a JavaScript API. For example, <cite>Speculation Rules</cite> accepts a \"`relative_to`\" key which can be used to switch to using the [=document base URL=] instead of the JSON resource's URL. [[SPECULATION-RULES]]\n \n+<h3 id=other-specs-http>Integrating with HTTP header fields</h3>\n+\n+HTTP headers which include URL patterns should accept a string in the constructor string syntax, likely as part of a structured field [[RFC8941]].\n+\n+<div class=\"note\">No known header accepts the dictionary syntax for URL patterns. If that changes, this specification will be updated to define it, likely by processing [[RFC8941]] inner lists.</div>\n+\n+Specifications for HTTP headers should operate on [=URL patterns=] (e.g., using the [=URL pattern/match=] algorithm) rather than {{URLPattern}} objects (which imply the existence of a JavaScript [=ECMAScript/realm=]).\n+\n+<div algorithm>\n+  To <dfn export>build a [=URL pattern=] from an HTTP structured field value</dfn> |rawPattern| given [=/URL=] |baseURL|, perform the following steps.",
+    "path": "spec.bs",
+    "commit_id": "667051e1b379fb36c96b678ae33e0103f91ae21d",
+    "original_commit_id": "67f0dcd7cf4e94e4ea940ac7e5a2b350df3df628",
+    "user": {
+      "login": "jeremyroman",
+      "id": 156119,
+      "node_id": "MDQ6VXNlcjE1NjExOQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/156119?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jeremyroman",
+      "html_url": "https://github.com/jeremyroman",
+      "followers_url": "https://api.github.com/users/jeremyroman/followers",
+      "following_url": "https://api.github.com/users/jeremyroman/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jeremyroman/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jeremyroman/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jeremyroman/subscriptions",
+      "organizations_url": "https://api.github.com/users/jeremyroman/orgs",
+      "repos_url": "https://api.github.com/users/jeremyroman/repos",
+      "events_url": "https://api.github.com/users/jeremyroman/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jeremyroman/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Well, maybe we would accept non-strings in the future, if callers provided them? It at least to my ear makes it feel more analogous to the other two, but I don't feel very strongly.",
+    "created_at": "2024-08-28T20:39:57Z",
+    "updated_at": "2024-08-28T20:39:57Z",
+    "html_url": "https://github.com/whatwg/urlpattern/pull/230#discussion_r1735264901",
+    "pull_request_url": "https://api.github.com/repos/whatwg/urlpattern/pulls/230",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1735264901"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/urlpattern/pull/230#discussion_r1735264901"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/230"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1735264901/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 2066,
+    "side": "RIGHT",
+    "in_reply_to_id": 1735182890,
+    "author_association": "COLLABORATOR",
+    "original_position": 43,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1735638598",
+    "pull_request_review_id": 2267789837,
+    "id": 1735638598,
+    "node_id": "PRRC_kwDODDHQ585nc75G",
+    "diff_hunk": "@@ -2049,6 +2054,24 @@ If a specification has an Infra value (e.g., after using [=parse a JSON string t\n \n Specifications may wish to leave room in their formats to accept options for {{URLPatternOptions}}, override the base URL, or similar, since it is not possible to construct a {{URLPattern}} object directly in this case, unlike in a JavaScript API. For example, <cite>Speculation Rules</cite> accepts a \"`relative_to`\" key which can be used to switch to using the [=document base URL=] instead of the JSON resource's URL. [[SPECULATION-RULES]]\n \n+<h3 id=other-specs-http>Integrating with HTTP header fields</h3>\n+\n+HTTP headers which include URL patterns should accept a string in the constructor string syntax, likely as part of a structured field [[RFC8941]].",
+    "path": "spec.bs",
+    "commit_id": "667051e1b379fb36c96b678ae33e0103f91ae21d",
+    "original_commit_id": "d75e99aef69d31cd8ed743c653217e367b7e8097",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "What is \"constructor string syntax\"? Is this talking about the `URLPattern` constructor which it below says should not be relied upon?",
+    "created_at": "2024-08-29T06:28:58Z",
+    "updated_at": "2024-08-29T06:29:01Z",
+    "html_url": "https://github.com/whatwg/urlpattern/pull/230#discussion_r1735638598",
+    "pull_request_url": "https://api.github.com/repos/whatwg/urlpattern/pulls/230",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1735638598"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/urlpattern/pull/230#discussion_r1735638598"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/230"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1735638598/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 2059,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 36,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1736452741",
+    "pull_request_review_id": 2269147839,
+    "id": 1736452741,
+    "node_id": "PRRC_kwDODDHQ585ngCqF",
+    "diff_hunk": "@@ -2049,6 +2054,24 @@ If a specification has an Infra value (e.g., after using [=parse a JSON string t\n \n Specifications may wish to leave room in their formats to accept options for {{URLPatternOptions}}, override the base URL, or similar, since it is not possible to construct a {{URLPattern}} object directly in this case, unlike in a JavaScript API. For example, <cite>Speculation Rules</cite> accepts a \"`relative_to`\" key which can be used to switch to using the [=document base URL=] instead of the JSON resource's URL. [[SPECULATION-RULES]]\n \n+<h3 id=other-specs-http>Integrating with HTTP header fields</h3>\n+\n+HTTP headers which include URL patterns should accept a string in the constructor string syntax, likely as part of a structured field [[RFC8941]].",
+    "path": "spec.bs",
+    "commit_id": "667051e1b379fb36c96b678ae33e0103f91ae21d",
+    "original_commit_id": "d75e99aef69d31cd8ed743c653217e367b7e8097",
+    "user": {
+      "login": "jeremyroman",
+      "id": 156119,
+      "node_id": "MDQ6VXNlcjE1NjExOQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/156119?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jeremyroman",
+      "html_url": "https://github.com/jeremyroman",
+      "followers_url": "https://api.github.com/users/jeremyroman/followers",
+      "following_url": "https://api.github.com/users/jeremyroman/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jeremyroman/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jeremyroman/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jeremyroman/subscriptions",
+      "organizations_url": "https://api.github.com/users/jeremyroman/orgs",
+      "repos_url": "https://api.github.com/users/jeremyroman/repos",
+      "events_url": "https://api.github.com/users/jeremyroman/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jeremyroman/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "It refers to the syntax that is accepted when a single string is passed to the constructor (i.e., is accepted by the [constructor string parser](https://urlpattern.spec.whatwg.org/#constructor-string-parsing)), as opposed to the pattern syntax for a single component.\r\n\r\nIt could be renamed something else, but this is how the spec currently refers to that syntax.",
+    "created_at": "2024-08-29T15:14:39Z",
+    "updated_at": "2024-08-29T15:14:39Z",
+    "html_url": "https://github.com/whatwg/urlpattern/pull/230#discussion_r1736452741",
+    "pull_request_url": "https://api.github.com/repos/whatwg/urlpattern/pulls/230",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1736452741"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/urlpattern/pull/230#discussion_r1736452741"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/230"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1736452741/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 2059,
+    "side": "RIGHT",
+    "in_reply_to_id": 1735638598,
+    "author_association": "COLLABORATOR",
+    "original_position": 36,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1737960411",
+    "pull_request_review_id": 2271213415,
+    "id": 1737960411,
+    "node_id": "PRRC_kwDODDHQ585nlyvb",
+    "diff_hunk": "@@ -2049,6 +2054,24 @@ If a specification has an Infra value (e.g., after using [=parse a JSON string t\n \n Specifications may wish to leave room in their formats to accept options for {{URLPatternOptions}}, override the base URL, or similar, since it is not possible to construct a {{URLPattern}} object directly in this case, unlike in a JavaScript API. For example, <cite>Speculation Rules</cite> accepts a \"`relative_to`\" key which can be used to switch to using the [=document base URL=] instead of the JSON resource's URL. [[SPECULATION-RULES]]\n \n+<h3 id=other-specs-http>Integrating with HTTP header fields</h3>\n+\n+HTTP headers which include URL patterns should accept a string in the constructor string syntax, likely as part of a structured field [[RFC8941]].",
+    "path": "spec.bs",
+    "commit_id": "667051e1b379fb36c96b678ae33e0103f91ae21d",
+    "original_commit_id": "d75e99aef69d31cd8ed743c653217e367b7e8097",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think if the syntax is defined somewhere and you can xref it that seems reasonable. Otherwise it seems rather opaque to me.",
+    "created_at": "2024-08-30T05:30:01Z",
+    "updated_at": "2024-08-30T05:30:01Z",
+    "html_url": "https://github.com/whatwg/urlpattern/pull/230#discussion_r1737960411",
+    "pull_request_url": "https://api.github.com/repos/whatwg/urlpattern/pulls/230",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1737960411"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/urlpattern/pull/230#discussion_r1737960411"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/230"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1737960411/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 2059,
+    "side": "RIGHT",
+    "in_reply_to_id": 1735638598,
+    "author_association": "MEMBER",
+    "original_position": 36,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1742453451",
+    "pull_request_review_id": 2278096408,
+    "id": 1742453451,
+    "node_id": "PRRC_kwDODDHQ585n27rL",
+    "diff_hunk": "@@ -2049,6 +2054,24 @@ If a specification has an Infra value (e.g., after using [=parse a JSON string t\n \n Specifications may wish to leave room in their formats to accept options for {{URLPatternOptions}}, override the base URL, or similar, since it is not possible to construct a {{URLPattern}} object directly in this case, unlike in a JavaScript API. For example, <cite>Speculation Rules</cite> accepts a \"`relative_to`\" key which can be used to switch to using the [=document base URL=] instead of the JSON resource's URL. [[SPECULATION-RULES]]\n \n+<h3 id=other-specs-http>Integrating with HTTP header fields</h3>\n+\n+HTTP headers which include URL patterns should accept a string in the constructor string syntax, likely as part of a structured field [[RFC8941]].",
+    "path": "spec.bs",
+    "commit_id": "667051e1b379fb36c96b678ae33e0103f91ae21d",
+    "original_commit_id": "d75e99aef69d31cd8ed743c653217e367b7e8097",
+    "user": {
+      "login": "jeremyroman",
+      "id": 156119,
+      "node_id": "MDQ6VXNlcjE1NjExOQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/156119?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jeremyroman",
+      "html_url": "https://github.com/jeremyroman",
+      "followers_url": "https://api.github.com/users/jeremyroman/followers",
+      "following_url": "https://api.github.com/users/jeremyroman/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jeremyroman/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jeremyroman/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jeremyroman/subscriptions",
+      "organizations_url": "https://api.github.com/users/jeremyroman/orgs",
+      "repos_url": "https://api.github.com/users/jeremyroman/repos",
+      "events_url": "https://api.github.com/users/jeremyroman/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jeremyroman/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Added links to the constructor string parsing section.",
+    "created_at": "2024-09-03T17:50:27Z",
+    "updated_at": "2024-09-03T17:50:27Z",
+    "html_url": "https://github.com/whatwg/urlpattern/pull/230#discussion_r1742453451",
+    "pull_request_url": "https://api.github.com/repos/whatwg/urlpattern/pulls/230",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1742453451"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/urlpattern/pull/230#discussion_r1742453451"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/230"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1742453451/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 2059,
+    "side": "RIGHT",
+    "in_reply_to_id": 1735638598,
+    "author_association": "COLLABORATOR",
+    "original_position": 36,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

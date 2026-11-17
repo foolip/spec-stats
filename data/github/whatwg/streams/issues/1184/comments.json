@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/issues/comments/964502855",
+    "html_url": "https://github.com/whatwg/streams/issues/1184#issuecomment-964502855",
+    "issue_url": "https://api.github.com/repos/whatwg/streams/issues/1184",
+    "id": 964502855,
+    "node_id": "IC_kwDOANUOW845fSVH",
+    "user": {
+      "login": "MattiasBuelens",
+      "id": 649348,
+      "node_id": "MDQ6VXNlcjY0OTM0OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/649348?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/MattiasBuelens",
+      "html_url": "https://github.com/MattiasBuelens",
+      "followers_url": "https://api.github.com/users/MattiasBuelens/followers",
+      "following_url": "https://api.github.com/users/MattiasBuelens/following{/other_user}",
+      "gists_url": "https://api.github.com/users/MattiasBuelens/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/MattiasBuelens/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/MattiasBuelens/subscriptions",
+      "organizations_url": "https://api.github.com/users/MattiasBuelens/orgs",
+      "repos_url": "https://api.github.com/users/MattiasBuelens/repos",
+      "events_url": "https://api.github.com/users/MattiasBuelens/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/MattiasBuelens/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2021-11-09T20:17:17Z",
+    "updated_at": "2021-11-09T20:17:17Z",
+    "body": "This is fairly easy to do in user-land. You can use the fact that `pipeThrough()` accepts a `{ readable, writable }` pair, where the two streams don't necessarily have to come from the same `TransformStream`:\r\n```javascript\r\nfunction pipeline(...transforms) {\r\n  if (transforms.length === 0) return new TransformStream();\r\n  let { readable, writable } = transforms[0];\r\n  for (let i = 1; i < transforms.length; i++) {\r\n    readable = readable.pipeThrough(transforms[i]);\r\n  }\r\n  return { readable, writable };\r\n}\r\n\r\nconst transformChain = pipeline(transform1, transform2, transform3);\r\nconst readable = source.pipeThrough(transformChain, options);\r\n```\r\nThis composes perfectly: `pipeline(pipeline(t1, t2), pipeline(t3, t4))` is equivalent to `pipeline(t1, t2, t3, t4)`. 🙂\r\n\r\nI think, for now, it's fine to keep this in user land. If it gets more wide-spread adoption, we may consider standardizing it.",
+    "author_association": "COLLABORATOR",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/issues/comments/964502855/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

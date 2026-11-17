@@ -1,0 +1,645 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/756848377",
+    "pull_request_review_id": 815931344,
+    "id": 756848377,
+    "node_id": "PRRC_kwDOANUOW84tHJb5",
+    "diff_hunk": "@@ -657,6 +659,9 @@ function WritableStreamDefaultControllerErrorIfNeeded(controller, error) {\n }\n \n function WritableStreamDefaultControllerGetBackpressure(controller) {\n+  if (controller._releaseBackpressure === true) {",
+    "path": "reference-implementation/lib/abstract-ops/writable-streams.js",
+    "commit_id": "89292d394dd4772d3e3dc382da3b6d88c9fc54ba",
+    "original_commit_id": "0287db8728eb2796a9e124011ddf2106f6e9a39a",
+    "user": {
+      "login": "MattiasBuelens",
+      "id": 649348,
+      "node_id": "MDQ6VXNlcjY0OTM0OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/649348?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/MattiasBuelens",
+      "html_url": "https://github.com/MattiasBuelens",
+      "followers_url": "https://api.github.com/users/MattiasBuelens/followers",
+      "following_url": "https://api.github.com/users/MattiasBuelens/following{/other_user}",
+      "gists_url": "https://api.github.com/users/MattiasBuelens/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/MattiasBuelens/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/MattiasBuelens/subscriptions",
+      "organizations_url": "https://api.github.com/users/MattiasBuelens/orgs",
+      "repos_url": "https://api.github.com/users/MattiasBuelens/repos",
+      "events_url": "https://api.github.com/users/MattiasBuelens/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/MattiasBuelens/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "We might have to add `&& controller._queue.length === 0` here. Not sure yet. 🤔",
+    "created_at": "2021-11-25T12:29:55Z",
+    "updated_at": "2021-11-25T12:29:56Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1190#discussion_r756848377",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1190",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/756848377"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1190#discussion_r756848377"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1190"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/756848377/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 662,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 20,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/758823297",
+    "pull_request_review_id": 818423992,
+    "id": 758823297,
+    "node_id": "PRRC_kwDOANUOW84tOrmB",
+    "diff_hunk": "@@ -657,6 +659,9 @@ function WritableStreamDefaultControllerErrorIfNeeded(controller, error) {\n }\n \n function WritableStreamDefaultControllerGetBackpressure(controller) {\n+  if (controller._releaseBackpressure === true) {",
+    "path": "reference-implementation/lib/abstract-ops/writable-streams.js",
+    "commit_id": "89292d394dd4772d3e3dc382da3b6d88c9fc54ba",
+    "original_commit_id": "0287db8728eb2796a9e124011ddf2106f6e9a39a",
+    "user": {
+      "login": "MattiasBuelens",
+      "id": 649348,
+      "node_id": "MDQ6VXNlcjY0OTM0OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/649348?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/MattiasBuelens",
+      "html_url": "https://github.com/MattiasBuelens",
+      "followers_url": "https://api.github.com/users/MattiasBuelens/followers",
+      "following_url": "https://api.github.com/users/MattiasBuelens/following{/other_user}",
+      "gists_url": "https://api.github.com/users/MattiasBuelens/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/MattiasBuelens/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/MattiasBuelens/subscriptions",
+      "organizations_url": "https://api.github.com/users/MattiasBuelens/orgs",
+      "repos_url": "https://api.github.com/users/MattiasBuelens/repos",
+      "events_url": "https://api.github.com/users/MattiasBuelens/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/MattiasBuelens/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This check is indeed necessary. It's covered by this new test: https://github.com/web-platform-tests/wpt/pull/31742/commits/f69d4b733da5cba396b95b7379bffb4f352aacb1",
+    "created_at": "2021-11-29T23:50:14Z",
+    "updated_at": "2021-11-29T23:50:14Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1190#discussion_r758823297",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1190",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/758823297"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1190#discussion_r758823297"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1190"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/758823297/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 662,
+    "side": "RIGHT",
+    "in_reply_to_id": 756848377,
+    "author_association": "COLLABORATOR",
+    "original_position": 20,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/760584134",
+    "pull_request_review_id": 820823179,
+    "id": 760584134,
+    "node_id": "PRRC_kwDOANUOW84tVZfG",
+    "diff_hunk": "@@ -1150,8 +1150,8 @@ interface ReadableStreamDefaultReader {\n ReadableStreamDefaultReader includes ReadableStreamGenericReader;\n \n dictionary ReadableStreamDefaultReadResult {\n- any value;\n- boolean done;\n+  any value;",
+    "path": "index.bs",
+    "commit_id": "89292d394dd4772d3e3dc382da3b6d88c9fc54ba",
+    "original_commit_id": "6616a31a5e720f097d953cf1bcddd0e974adbfe6",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Might be worth pulling the Web IDL and editorial changes out into a separate PR that we can just approve and merge ASAP.",
+    "created_at": "2021-12-01T21:28:50Z",
+    "updated_at": "2021-12-01T21:34:07Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1190#discussion_r760584134",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1190",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/760584134"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1190#discussion_r760584134"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1190"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/760584134/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1168,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 6,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/760584829",
+    "pull_request_review_id": 820823179,
+    "id": 760584829,
+    "node_id": "PRRC_kwDOANUOW84tVZp9",
+    "diff_hunk": "@@ -5147,6 +5179,20 @@ The following abstract operations support the implementation of the\n   1. Perform ! [$WritableStreamFinishInFlightWriteWithError$](|stream|, |reason|).\n </div>\n \n+<div algorithm>\n+ <dfn abstract-op lt=\"WritableStreamDefaultControllerReleaseBackpressure\"\n+ id=\"writable-stream-default-controller-release-backpressure\">WritableStreamDefaultControllerReleaseBackpressure(|controller|)</dfn>",
+    "path": "index.bs",
+    "commit_id": "89292d394dd4772d3e3dc382da3b6d88c9fc54ba",
+    "original_commit_id": "6616a31a5e720f097d953cf1bcddd0e974adbfe6",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "No need for custom IDs for new abstract-ops",
+    "created_at": "2021-12-01T21:29:56Z",
+    "updated_at": "2021-12-01T21:34:07Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1190#discussion_r760584829",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1190",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/760584829"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1190#discussion_r760584829"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1190"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/760584829/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 5184,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 209,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/760585117",
+    "pull_request_review_id": 820823179,
+    "id": 760585117,
+    "node_id": "PRRC_kwDOANUOW84tVZud",
+    "diff_hunk": "@@ -5147,6 +5179,20 @@ The following abstract operations support the implementation of the\n   1. Perform ! [$WritableStreamFinishInFlightWriteWithError$](|stream|, |reason|).\n </div>\n \n+<div algorithm>\n+ <dfn abstract-op lt=\"WritableStreamDefaultControllerReleaseBackpressure\"\n+ id=\"writable-stream-default-controller-release-backpressure\">WritableStreamDefaultControllerReleaseBackpressure(|controller|)</dfn>\n+ performs the following steps:\n+\n+ 1. Let |stream| be |controller|.[=WritableStreamDefaultController/[[stream]]=].\n+ 1. Assert: |stream|.[=WritableStream/[[state]]=] is \"`writable`\".\n+ 1. Set |controller|.[=WritableStreamDefaultController/[[releaseBackpressure]]=] to true.\n+ 1. If ! [$WritableStreamHasOperationMarkedInFlight$](|stream|) is false and\n+    [$WritableStreamCloseQueuedOrInFlight$](|stream|) is false,",
+    "path": "index.bs",
+    "commit_id": "89292d394dd4772d3e3dc382da3b6d88c9fc54ba",
+    "original_commit_id": "6616a31a5e720f097d953cf1bcddd0e974adbfe6",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n    ! [$WritableStreamCloseQueuedOrInFlight$](|stream|) is false,\r\n```",
+    "created_at": "2021-12-01T21:30:24Z",
+    "updated_at": "2021-12-01T21:34:07Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1190#discussion_r760585117",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1190",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/760585117"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1190#discussion_r760585117"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1190"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/760585117/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 5191,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 216,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/760586454",
+    "pull_request_review_id": 820823179,
+    "id": 760586454,
+    "node_id": "PRRC_kwDOANUOW84tVaDW",
+    "diff_hunk": "@@ -6850,14 +6900,22 @@ reason.\n <div algorithm=\"create a TransformStream\">\n  To <dfn export for=\"TransformStream\" lt=\"set up|setting up\">set up</dfn> a\n  newly-[=new|created-via-Web IDL=] {{TransformStream}} |stream| given an algorithm <dfn export\n- for=\"TransformStream/set up\"><var>transformAlgorithm</var></dfn> and an optional algorithm <dfn\n- export for=\"TransformStream/set up\"><var>flushAlgorithm</var></dfn>, perform the following steps.\n+ for=\"TransformStream/set up\"><var>transformAlgorithm</var></dfn>, an optional algorithm <dfn\n+ export for=\"TransformStream/set up\"><var>flushAlgorithm</var></dfn>, an optional number <dfn\n+ export for=\"TransformStream/set up\"><var>writableHighWaterMark</var></dfn> (default 1), an optional\n+ algorithm <dfn export for=\"TransformStream/set up\"><var>writableSizeAlgorithm</var></dfn>, an\n+ optional number <dfn export for=\"TransformStream/set up\"><var>readableHighWaterMark</var></dfn>\n+ (default 0), and an optional algorithm <dfn export\n+ for=\"TransformStream/set up\"><var>readableSizeAlgorithm</var></dfn>, perform the following steps.",
+    "path": "index.bs",
+    "commit_id": "89292d394dd4772d3e3dc382da3b6d88c9fc54ba",
+    "original_commit_id": "6616a31a5e720f097d953cf1bcddd0e974adbfe6",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "We could have separate set up algorithms for sync vs. async transforms, and thus take away the responsibility of picking the right high water mark from the other spec author. So far other specs haven't needed these extra customization points and I think it might be simpler not to give them out.\r\n\r\n(On the other hand, the fact that existing byte-stream-transform specs are calculating the size of all chunks as 1 is a bit unfortunate...)",
+    "created_at": "2021-12-01T21:32:19Z",
+    "updated_at": "2021-12-01T21:34:07Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1190#discussion_r760586454",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1190",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/760586454"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1190#discussion_r760586454"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1190"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/760586454/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7042,
+    "original_line": 7042,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 263,
+    "position": 249,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/760593741",
+    "pull_request_review_id": 820835874,
+    "id": 760593741,
+    "node_id": "PRRC_kwDOANUOW84tVb1N",
+    "diff_hunk": "@@ -1150,8 +1150,8 @@ interface ReadableStreamDefaultReader {\n ReadableStreamDefaultReader includes ReadableStreamGenericReader;\n \n dictionary ReadableStreamDefaultReadResult {\n- any value;\n- boolean done;\n+  any value;",
+    "path": "index.bs",
+    "commit_id": "89292d394dd4772d3e3dc382da3b6d88c9fc54ba",
+    "original_commit_id": "6616a31a5e720f097d953cf1bcddd0e974adbfe6",
+    "user": {
+      "login": "MattiasBuelens",
+      "id": 649348,
+      "node_id": "MDQ6VXNlcjY0OTM0OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/649348?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/MattiasBuelens",
+      "html_url": "https://github.com/MattiasBuelens",
+      "followers_url": "https://api.github.com/users/MattiasBuelens/followers",
+      "following_url": "https://api.github.com/users/MattiasBuelens/following{/other_user}",
+      "gists_url": "https://api.github.com/users/MattiasBuelens/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/MattiasBuelens/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/MattiasBuelens/subscriptions",
+      "organizations_url": "https://api.github.com/users/MattiasBuelens/orgs",
+      "repos_url": "https://api.github.com/users/MattiasBuelens/repos",
+      "events_url": "https://api.github.com/users/MattiasBuelens/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/MattiasBuelens/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Fair point, opened #1192.",
+    "created_at": "2021-12-01T21:44:16Z",
+    "updated_at": "2021-12-01T21:44:17Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1190#discussion_r760593741",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1190",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/760593741"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1190#discussion_r760593741"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1190"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/760593741/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1168,
+    "side": "RIGHT",
+    "in_reply_to_id": 760584134,
+    "author_association": "COLLABORATOR",
+    "original_position": 6,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/760596031",
+    "pull_request_review_id": 820838861,
+    "id": 760596031,
+    "node_id": "PRRC_kwDOANUOW84tVcY_",
+    "diff_hunk": "@@ -1150,8 +1150,8 @@ interface ReadableStreamDefaultReader {\n ReadableStreamDefaultReader includes ReadableStreamGenericReader;\n \n dictionary ReadableStreamDefaultReadResult {\n- any value;\n- boolean done;\n+  any value;",
+    "path": "index.bs",
+    "commit_id": "89292d394dd4772d3e3dc382da3b6d88c9fc54ba",
+    "original_commit_id": "6616a31a5e720f097d953cf1bcddd0e974adbfe6",
+    "user": {
+      "login": "MattiasBuelens",
+      "id": 649348,
+      "node_id": "MDQ6VXNlcjY0OTM0OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/649348?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/MattiasBuelens",
+      "html_url": "https://github.com/MattiasBuelens",
+      "followers_url": "https://api.github.com/users/MattiasBuelens/followers",
+      "following_url": "https://api.github.com/users/MattiasBuelens/following{/other_user}",
+      "gists_url": "https://api.github.com/users/MattiasBuelens/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/MattiasBuelens/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/MattiasBuelens/subscriptions",
+      "organizations_url": "https://api.github.com/users/MattiasBuelens/orgs",
+      "repos_url": "https://api.github.com/users/MattiasBuelens/repos",
+      "events_url": "https://api.github.com/users/MattiasBuelens/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/MattiasBuelens/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Dangit, I probably should have moved https://github.com/whatwg/streams/pull/1190/commits/4a4a5ee94f1f04661f939949944cd5d32c02b629 out to that PR too. 🤦‍♂️",
+    "created_at": "2021-12-01T21:48:00Z",
+    "updated_at": "2021-12-01T21:50:45Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1190#discussion_r760596031",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1190",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/760596031"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1190#discussion_r760596031"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1190"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/760596031/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1168,
+    "side": "RIGHT",
+    "in_reply_to_id": 760584134,
+    "author_association": "COLLABORATOR",
+    "original_position": 6,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/760603139",
+    "pull_request_review_id": 820848380,
+    "id": 760603139,
+    "node_id": "PRRC_kwDOANUOW84tVeID",
+    "diff_hunk": "@@ -6850,14 +6900,22 @@ reason.\n <div algorithm=\"create a TransformStream\">\n  To <dfn export for=\"TransformStream\" lt=\"set up|setting up\">set up</dfn> a\n  newly-[=new|created-via-Web IDL=] {{TransformStream}} |stream| given an algorithm <dfn export\n- for=\"TransformStream/set up\"><var>transformAlgorithm</var></dfn> and an optional algorithm <dfn\n- export for=\"TransformStream/set up\"><var>flushAlgorithm</var></dfn>, perform the following steps.\n+ for=\"TransformStream/set up\"><var>transformAlgorithm</var></dfn>, an optional algorithm <dfn\n+ export for=\"TransformStream/set up\"><var>flushAlgorithm</var></dfn>, an optional number <dfn\n+ export for=\"TransformStream/set up\"><var>writableHighWaterMark</var></dfn> (default 1), an optional\n+ algorithm <dfn export for=\"TransformStream/set up\"><var>writableSizeAlgorithm</var></dfn>, an\n+ optional number <dfn export for=\"TransformStream/set up\"><var>readableHighWaterMark</var></dfn>\n+ (default 0), and an optional algorithm <dfn export\n+ for=\"TransformStream/set up\"><var>readableSizeAlgorithm</var></dfn>, perform the following steps.",
+    "path": "index.bs",
+    "commit_id": "89292d394dd4772d3e3dc382da3b6d88c9fc54ba",
+    "original_commit_id": "6616a31a5e720f097d953cf1bcddd0e974adbfe6",
+    "user": {
+      "login": "MattiasBuelens",
+      "id": 649348,
+      "node_id": "MDQ6VXNlcjY0OTM0OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/649348?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/MattiasBuelens",
+      "html_url": "https://github.com/MattiasBuelens",
+      "followers_url": "https://api.github.com/users/MattiasBuelens/followers",
+      "following_url": "https://api.github.com/users/MattiasBuelens/following{/other_user}",
+      "gists_url": "https://api.github.com/users/MattiasBuelens/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/MattiasBuelens/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/MattiasBuelens/subscriptions",
+      "organizations_url": "https://api.github.com/users/MattiasBuelens/orgs",
+      "repos_url": "https://api.github.com/users/MattiasBuelens/repos",
+      "events_url": "https://api.github.com/users/MattiasBuelens/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/MattiasBuelens/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Shall I remove the HWM and size algorithm arguments from \"set up a `ReadableStream`\" and \"set up a `WritableStream`\" too then?\r\n\r\n> (On the other hand, the fact that existing byte-stream-transform specs are calculating the size of all chunks as 1 is a bit unfortunate...)\r\n\r\nHmm, true. Once we have proper byte support for `WritableStream` and `TransformStream`, we'll have \"set up with byte reading support\" versions for those too, but for now we're in a bit of an awkward position. 😕\r\n\r\nMaybe we can already provide such algorithms, even though they won't vend BYOB readers or BYOB writers yet?",
+    "created_at": "2021-12-01T21:59:49Z",
+    "updated_at": "2021-12-01T21:59:49Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1190#discussion_r760603139",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1190",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/760603139"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1190#discussion_r760603139"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1190"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/760603139/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7042,
+    "original_line": 7042,
+    "side": "RIGHT",
+    "in_reply_to_id": 760586454,
+    "author_association": "COLLABORATOR",
+    "original_position": 263,
+    "position": 249,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

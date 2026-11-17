@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/websockets/issues/comments/1696941359",
+    "html_url": "https://github.com/whatwg/websockets/issues/50#issuecomment-1696941359",
+    "issue_url": "https://api.github.com/repos/whatwg/websockets/issues/50",
+    "id": 1696941359,
+    "node_id": "IC_kwDOE9_IIM5lJUUv",
+    "user": {
+      "login": "ricea",
+      "id": 6678407,
+      "node_id": "MDQ6VXNlcjY2Nzg0MDc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6678407?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ricea",
+      "html_url": "https://github.com/ricea",
+      "followers_url": "https://api.github.com/users/ricea/followers",
+      "following_url": "https://api.github.com/users/ricea/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ricea/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ricea/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ricea/subscriptions",
+      "organizations_url": "https://api.github.com/users/ricea/orgs",
+      "repos_url": "https://api.github.com/users/ricea/repos",
+      "events_url": "https://api.github.com/users/ricea/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ricea/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2023-08-29T07:47:43Z",
+    "updated_at": "2023-08-29T07:47:43Z",
+    "body": "Yes, I think you're right.\r\n\r\n[Main fetch](https://fetch.spec.whatwg.org/#main-fetch) step 7 sets _response_ to a network error, then step 29 runs \"fetch response handover\". Then at step 4 of [fetch response handover](https://fetch.spec.whatwg.org/#fetch-finale) we queue a task to run \"process response\" which takes us back to the WebSocket standard's [establish a WebSocket connection](https://websockets.spec.whatwg.org/#concept-websocket-establish) step 11, which then calls \"fail the WebSocket connection\", which loops through [RFC6455](https://www.rfc-editor.org/rfc/rfc6455) and ends up back at [\"When the WebSocket connection is closed\"](https://websockets.spec.whatwg.org/#feedback-from-the-protocol) which fires \"error\" and \"close\" events.\r\n\r\nI don't really want to add a redundant mixed content check to the WebSocket standard, so I'm leaning towards aligning Blink's behaviour with the standard as written, ie. firing error and close events. I could add a console log to make up for the loss of diagnostic information.\r\n\r\n@zcorpan Do you have opinions?",
+    "author_association": "COLLABORATOR",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/websockets/issues/comments/1696941359/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

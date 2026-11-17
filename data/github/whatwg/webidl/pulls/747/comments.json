@@ -1,0 +1,286 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/311772609",
+    "pull_request_review_id": 272241557,
+    "id": 311772609,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDMxMTc3MjYwOQ==",
+    "diff_hunk": "@@ -5313,22 +5313,32 @@ The following types are known as <dfn id=\"dfn-integer-type\" export>integer types\n {{unsigned short}},\n {{long}},\n {{unsigned long}},\n-{{long long}} and\n-{{unsigned long long}}.\n+{{long long}},\n+{{unsigned long long}},\n+any [=nullable types=] whose [=nullable types/inner type=] is an [=integer type=],\n+and any [=annotated types=] whose [=annotated types/inner type=] is an [=integer type=].\n \n The following types are known as <dfn id=\"dfn-numeric-type\" export>numeric types</dfn>:\n the [=integer types=],\n {{float}},\n {{unrestricted float}},\n-{{double}} and\n-{{unrestricted double}}.\n+{{double}},",
+    "path": "index.bs",
+    "commit_id": "4bb39f3e226fa03855a7466f2282f3944cf8abf3",
+    "original_commit_id": "4bb39f3e226fa03855a7466f2282f3944cf8abf3",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "So... With this change there are a few things that are a bit odd:\r\n\r\n1) https://heycam.github.io/webidl/#es-overloads step 12.12 no longer needs to worry about \"a nullable numeric type\" or \"an annotated type whose inner type is one of the above types\", since those will be included under \"numeric type\", no?  Same thing for step 12.14.  And 12.13 given the \"string type\" changes below.\r\n\r\n2) There are various other places in the spec that mention \"numeric types\" but they all already handle unwrapping nullable and annotated types.  Maybe this is OK; it's just a little confusing to consider the table in the distinguishability section, for example, when \"numeric types\" could in theory include `long?` but in practice can't because we unwrapped that already...",
+    "created_at": "2019-08-07T21:32:31Z",
+    "updated_at": "2019-08-07T21:44:04Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/747#discussion_r311772609",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/747",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/311772609"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/747#discussion_r311772609"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/747"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/311772609/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 5325,
+    "original_line": 5325,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 17,
+    "position": 17,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/311773465",
+    "pull_request_review_id": 272241557,
+    "id": 311773465,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDMxMTc3MzQ2NQ==",
+    "diff_hunk": "@@ -5313,22 +5313,32 @@ The following types are known as <dfn id=\"dfn-integer-type\" export>integer types\n {{unsigned short}},\n {{long}},\n {{unsigned long}},\n-{{long long}} and\n-{{unsigned long long}}.\n+{{long long}},\n+{{unsigned long long}},\n+any [=nullable types=] whose [=nullable types/inner type=] is an [=integer type=],\n+and any [=annotated types=] whose [=annotated types/inner type=] is an [=integer type=].\n \n The following types are known as <dfn id=\"dfn-numeric-type\" export>numeric types</dfn>:\n the [=integer types=],\n {{float}},\n {{unrestricted float}},\n-{{double}} and\n-{{unrestricted double}}.\n+{{double}},\n+{{unrestricted double}},\n+any [=nullable types=] whose [=nullable types/inner type=] is a [=numeric type=],\n+and any [=annotated types=] whose [=annotated types/inner type=] is a [=numeric type=].\n \n The <dfn id=\"dfn-primitive-type\" export>primitive types</dfn> are\n-{{boolean}} and the [=numeric types=].\n+{{boolean}},",
+    "path": "index.bs",
+    "commit_id": "4bb39f3e226fa03855a7466f2282f3944cf8abf3",
+    "original_commit_id": "4bb39f3e226fa03855a7466f2282f3944cf8abf3",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Again, this leads to the slightly odd situation that the `PrimitiveType` production no longer matches the set of \"primitive types\".  Further, the prose around ConstType says:\r\n\r\n> The type of a constant (matching ConstType) must not be any type other than a primitive type.\r\n\r\nwith that last it linking to this definition but it would now actually means a stronger restriction than what that link provides.",
+    "created_at": "2019-08-07T21:35:02Z",
+    "updated_at": "2019-08-07T21:44:04Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/747#discussion_r311773465",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/747",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/311773465"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/747#discussion_r311773465"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/747"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/311773465/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 5331,
+    "original_line": 5331,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 24,
+    "position": 24,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/311774656",
+    "pull_request_review_id": 272241557,
+    "id": 311774656,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDMxMTc3NDY1Ng==",
+    "diff_hunk": "@@ -5338,18 +5348,24 @@ The <dfn id=\"dfn-typed-array-type\" export>typed array types</dfn> are\n {{Uint16Array}},\n {{Uint32Array}},\n {{Uint8ClampedArray}},\n-{{Float32Array}} and\n-{{Float64Array}}.\n+{{Float32Array}},\n+{{Float64Array}},\n+any [=nullable types=] whose [=nullable types/inner type=] is a [=typed array type=],",
+    "path": "index.bs",
+    "commit_id": "4bb39f3e226fa03855a7466f2282f3944cf8abf3",
+    "original_commit_id": "4bb39f3e226fa03855a7466f2282f3944cf8abf3",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "But here we couldn't simplify overload resolution step 12.7 because for the annotated/nullable types the name would not match...",
+    "created_at": "2019-08-07T21:38:38Z",
+    "updated_at": "2019-08-07T21:44:05Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/747#discussion_r311774656",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/747",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/311774656"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/747#discussion_r311774656"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/747"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/311774656/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 5353,
+    "original_line": 5353,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 47,
+    "position": 47,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/311775137",
+    "pull_request_review_id": 272241557,
+    "id": 311775137,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDMxMTc3NTEzNw==",
+    "diff_hunk": "@@ -5338,18 +5348,24 @@ The <dfn id=\"dfn-typed-array-type\" export>typed array types</dfn> are\n {{Uint16Array}},\n {{Uint32Array}},\n {{Uint8ClampedArray}},\n-{{Float32Array}} and\n-{{Float64Array}}.\n+{{Float32Array}},\n+{{Float64Array}},\n+any [=nullable types=] whose [=nullable types/inner type=] is a [=typed array type=],\n+and any [=annotated types=] whose [=annotated types/inner type=] is a [=typed array type=].\n \n-The <dfn id=\"dfn-buffer-source-type\" export>buffer source types</dfn>\n-are {{ArrayBuffer}},\n+The <dfn id=\"dfn-buffer-source-type\" export>buffer source types</dfn> are",
+    "path": "index.bs",
+    "commit_id": "4bb39f3e226fa03855a7466f2282f3944cf8abf3",
+    "original_commit_id": "4bb39f3e226fa03855a7466f2282f3944cf8abf3",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "With this part changed, the claim that \"buffer source types are simply references to objects\" stops being true, no?\r\n\r\nAnd \"Values of the IDL buffer source types are represented by objects of the corresponding ECMAScript class\" also stops beign true.",
+    "created_at": "2019-08-07T21:40:05Z",
+    "updated_at": "2019-08-07T21:44:05Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/747#discussion_r311775137",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/747",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/311775137"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/747#discussion_r311775137"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/747"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/311775137/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 5356,
+    "original_line": 5356,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 52,
+    "position": 52,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

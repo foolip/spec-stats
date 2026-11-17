@@ -1,0 +1,288 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/794286689",
+    "pull_request_review_id": 865808580,
+    "id": 794286689,
+    "node_id": "PRRC_kwDOANeiys4vV9ph",
+    "diff_hunk": "@@ -8465,11 +8465,24 @@ IDL [=promise type=] values are represented by ECMAScript [=PromiseCapability=]\n         1.  [=Reject=] |promise| with |reason|.\n     1.  [=Wait for all=] with |promises|, given |successSteps| and |failureSteps|.\n     1.  Return |promise|.\n+\n+    <p class=\"note\">This definition is useful when you wish to aggregate the results of multiple\n+    promises, and then produce another promise from them, in the same way that\n+    {{Promise/all()|Promise.all()}} functions for JavaScript code. If you do not need to produce\n+    another promise, then [=waiting for all=] is likely better.\n </div>\n \n-This phrase is useful when you wish to aggregate the results of multiple promises, and then produce\n-another promise from them, in the same way that {{Promise/all()|Promise.all()}} functions for\n-JavaScript code.\n+<div algorithm>\n+    To <dfn export lt=\"mark a promise as handled|mark as handled\">mark as handled</dfn> a\n+    <code><a interface>Promise</a>&lt;<var ignore>T</var>&gt;</code> |promise|, set\n+    |promise|.\\[[Promise]].\\[[PromiseIsHandled]] to true.\n+\n+    <p class=\"note\">This definition is useful for promises which you expect rejections to often be",
+    "path": "index.bs",
+    "commit_id": "c930213b950905ef500d8946c5b8fcbcd5166859",
+    "original_commit_id": "4b6e2853f54e7cc9995ce4ae6618947566dab360",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "for which you expect?",
+    "created_at": "2022-01-28T08:20:23Z",
+    "updated_at": "2022-01-28T08:21:43Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1090#discussion_r794286689",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1090",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/794286689"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1090#discussion_r794286689"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1090"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/794286689/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 8480,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 28,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/794287445",
+    "pull_request_review_id": 865808580,
+    "id": 794287445,
+    "node_id": "PRRC_kwDOANeiys4vV91V",
+    "diff_hunk": "@@ -8465,11 +8465,24 @@ IDL [=promise type=] values are represented by ECMAScript [=PromiseCapability=]\n         1.  [=Reject=] |promise| with |reason|.\n     1.  [=Wait for all=] with |promises|, given |successSteps| and |failureSteps|.\n     1.  Return |promise|.\n+\n+    <p class=\"note\">This definition is useful when you wish to aggregate the results of multiple\n+    promises, and then produce another promise from them, in the same way that\n+    {{Promise/all()|Promise.all()}} functions for JavaScript code. If you do not need to produce\n+    another promise, then [=waiting for all=] is likely better.\n </div>\n \n-This phrase is useful when you wish to aggregate the results of multiple promises, and then produce\n-another promise from them, in the same way that {{Promise/all()|Promise.all()}} functions for\n-JavaScript code.\n+<div algorithm>\n+    To <dfn export lt=\"mark a promise as handled|mark as handled\">mark as handled</dfn> a\n+    <code><a interface>Promise</a>&lt;<var ignore>T</var>&gt;</code> |promise|, set\n+    |promise|.\\[[Promise]].\\[[PromiseIsHandled]] to true.\n+\n+    <p class=\"note\">This definition is useful for promises which you expect rejections to often be\n+    ignored; it ensures such promises do not cause {{Window/unhandledrejection}} events. The most\n+    common use case is for promise properties, which the web developer might or might not consult.\n+    An example is the {{WritableStreamDefaultWriter/closed|writableStreamWriter.closed}} promise,\n+    which is [=marked as handled=] immediately after it is [=rejected=].",
+    "path": "index.bs",
+    "commit_id": "c930213b950905ef500d8946c5b8fcbcd5166859",
+    "original_commit_id": "4b6e2853f54e7cc9995ce4ae6618947566dab360",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Would it make sense to offer an operation that rejects and marks as handled as a combined operation? Or are there cases where they need to be disjoint?",
+    "created_at": "2022-01-28T08:21:38Z",
+    "updated_at": "2022-01-28T08:21:43Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1090#discussion_r794287445",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1090",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/794287445"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1090#discussion_r794287445"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1090"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/794287445/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 8484,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 32,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/794725400",
+    "pull_request_review_id": 866477215,
+    "id": 794725400,
+    "node_id": "PRRC_kwDOANeiys4vXowY",
+    "diff_hunk": "@@ -8465,11 +8465,24 @@ IDL [=promise type=] values are represented by ECMAScript [=PromiseCapability=]\n         1.  [=Reject=] |promise| with |reason|.\n     1.  [=Wait for all=] with |promises|, given |successSteps| and |failureSteps|.\n     1.  Return |promise|.\n+\n+    <p class=\"note\">This definition is useful when you wish to aggregate the results of multiple\n+    promises, and then produce another promise from them, in the same way that\n+    {{Promise/all()|Promise.all()}} functions for JavaScript code. If you do not need to produce\n+    another promise, then [=waiting for all=] is likely better.\n </div>\n \n-This phrase is useful when you wish to aggregate the results of multiple promises, and then produce\n-another promise from them, in the same way that {{Promise/all()|Promise.all()}} functions for\n-JavaScript code.\n+<div algorithm>\n+    To <dfn export lt=\"mark a promise as handled|mark as handled\">mark as handled</dfn> a\n+    <code><a interface>Promise</a>&lt;<var ignore>T</var>&gt;</code> |promise|, set\n+    |promise|.\\[[Promise]].\\[[PromiseIsHandled]] to true.\n+\n+    <p class=\"note\">This definition is useful for promises which you expect rejections to often be\n+    ignored; it ensures such promises do not cause {{Window/unhandledrejection}} events. The most\n+    common use case is for promise properties, which the web developer might or might not consult.\n+    An example is the {{WritableStreamDefaultWriter/closed|writableStreamWriter.closed}} promise,\n+    which is [=marked as handled=] immediately after it is [=rejected=].",
+    "path": "index.bs",
+    "commit_id": "c930213b950905ef500d8946c5b8fcbcd5166859",
+    "original_commit_id": "4b6e2853f54e7cc9995ce4ae6618947566dab360",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "So what I've found recently (in app history) is that it's actually simplest to just mark the promise as handled upon creation. What streams does is perhaps unnecessarily complicated, and I wonder if maybe I should remove this example or make it more vague.\r\n\r\nThe advantage of this is that you can centralize your \"this promise is special\" logic at creation time, instead of all the different places you reject it. So if anything maybe a \"new already-handled promise\" algorithm would be useful? But for now my instinct is to just expose the primitive, since so far use cases are pretty rare.",
+    "created_at": "2022-01-28T17:49:41Z",
+    "updated_at": "2022-01-28T17:49:41Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1090#discussion_r794725400",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1090",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/794725400"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1090#discussion_r794725400"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1090"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/794725400/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 8484,
+    "side": "RIGHT",
+    "in_reply_to_id": 794287445,
+    "author_association": "MEMBER",
+    "original_position": 32,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/798058627",
+    "pull_request_review_id": 871169949,
+    "id": 798058627,
+    "node_id": "PRRC_kwDOANeiys4vkWiD",
+    "diff_hunk": "@@ -8465,11 +8465,24 @@ IDL [=promise type=] values are represented by ECMAScript [=PromiseCapability=]\n         1.  [=Reject=] |promise| with |reason|.\n     1.  [=Wait for all=] with |promises|, given |successSteps| and |failureSteps|.\n     1.  Return |promise|.\n+\n+    <p class=\"note\">This definition is useful when you wish to aggregate the results of multiple\n+    promises, and then produce another promise from them, in the same way that\n+    {{Promise/all()|Promise.all()}} functions for JavaScript code. If you do not need to produce\n+    another promise, then [=waiting for all=] is likely better.\n </div>\n \n-This phrase is useful when you wish to aggregate the results of multiple promises, and then produce\n-another promise from them, in the same way that {{Promise/all()|Promise.all()}} functions for\n-JavaScript code.\n+<div algorithm>\n+    To <dfn export lt=\"mark a promise as handled|mark as handled\">mark as handled</dfn> a\n+    <code><a interface>Promise</a>&lt;<var ignore>T</var>&gt;</code> |promise|, set\n+    |promise|.\\[[Promise]].\\[[PromiseIsHandled]] to true.\n+\n+    <p class=\"note\">This definition is useful for promises which you expect rejections to often be\n+    ignored; it ensures such promises do not cause {{Window/unhandledrejection}} events. The most\n+    common use case is for promise properties, which the web developer might or might not consult.\n+    An example is the {{WritableStreamDefaultWriter/closed|writableStreamWriter.closed}} promise,\n+    which is [=marked as handled=] immediately after it is [=rejected=].",
+    "path": "index.bs",
+    "commit_id": "c930213b950905ef500d8946c5b8fcbcd5166859",
+    "original_commit_id": "4b6e2853f54e7cc9995ce4ae6618947566dab360",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "For now I just removed \"which is marked as handled immediately after it is rejected\" to make it a bit more vague.",
+    "created_at": "2022-02-02T22:16:21Z",
+    "updated_at": "2022-02-02T22:16:21Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1090#discussion_r798058627",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1090",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/798058627"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1090#discussion_r798058627"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1090"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/798058627/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 8484,
+    "side": "RIGHT",
+    "in_reply_to_id": 794287445,
+    "author_association": "MEMBER",
+    "original_position": 32,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

@@ -1,0 +1,144 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/2215222781",
+    "pull_request_review_id": 3032320542,
+    "id": 2215222781,
+    "node_id": "PRRC_kwDOANeiys6ECZ39",
+    "diff_hunk": "@@ -5260,70 +5255,115 @@ certain rules, in order to have a predictable shape for developers. Specifically\n <p class=note>These requirements mean that the inherited {{DOMException/code}} property of these\n interfaces will always return 0.\n \n-<div class=example id=example-domexception-derived-interface>\n-    The definition for a {{DOMException}} derived interface which carries along an additional\n-    \"protocol error code\", which is derived from what the server sent over some some hypothetical\n-    network protocol \"protocol X\", could look something like this:\n+To [=exception/create=] or [=exception/throw=] a {{DOMException}} derived interface, supply its\n+[=interface=] [=identifier=] as well as the additional information needed to construct it.\n \n-    <pre highlight=webidl>\n-        [Exposed=Window, Serializable]\n-        interface ProtocolXError : DOMException {\n-          constructor(optional DOMString message = \"\", ProtocolXErrorOptions options);\n+<div class=example id=example-domexception-derived-throwing>\n+    <p>To throw an instance of {{QuotaExceededError}}:\n \n-          readonly attribute unsigned long long errorCode;\n-        };\n+    <blockquote>\n+        <p>[=exception/Throw=] a {{QuotaExceededError}} whose [=QuotaExceededError/quota=] is 42 and\n+        [=QuotaExceededError/requested=] is 50.\n+    </blockquote>\n+</div>\n \n-        dictionary ProtocolXErrorOptions {\n-            required [EnforceRange] unsigned long long errorCode;\n-        };\n-    </pre>\n+<h4 id=\"idl-DOMException-derived-predefineds\" oldids=\"example-domexception-derived-interface\">Predefined {{DOMException}} derived interfaces</h4>\n \n-    Every <code>ProtocolXError</code> instance has an <dfn for=\"ProtocolXError\">error code</dfn>,\n-    a number.\n+This standard so far defines one predefined {{DOMException}} derived interface:\n \n-    <div algorithm=\"ProtocolXError constructor\">\n-        The <b><code>new ProtocolXError(|message|, |options|)</code></b> constructor steps are:\n+<pre class=idl>\n+[Exposed=*, Serializable]\n+interface QuotaExceededError : DOMException {\n+  constructor(optional DOMString message = \"\", optional QuotaExceededErrorOptions options = {});\n \n-        1.  Set [=this=]'s [=DOMException/name=] to \"<code>ProtocolXError</code>\".\n-        1.  Set [=this=]'s [=DOMException/message=] to |message|.\n-        1.  Set [=this=]'s [=ProtocolXError/error code=] to |options|[\"<code>errorCode</code>\"].\n-    </div>\n+  readonly attribute double? quota;\n+  readonly attribute double? requested;\n+};\n \n-    <div algorithm=\"ProtocolXError errorCode\">\n-        The <b><code>errorCode</code></b> getter steps are to return [=this=]'s\n-        [=ProtocolXError/error code=].\n-    </div>\n+dictionary QuotaExceededErrorOptions {\n+  double quota;\n+  double requested;\n+};\n+</pre>\n \n-    <code>ProtocolXError</code> objects are [=serializable objects=].\n+The {{QuotaExceededError}} exception can be thrown when a quota is exceeded. It has two properties\n+that are optionally present, to give more information to the web developer about their request\n+compared to the quota value.\n \n-    <div algorithm=\"ProtocolXError serialization steps\">\n-        Their [=serialization steps=], given |value| and |serialized|, are:\n+<p class=\"note\">Previous versions of this standard defined \"<code>QuotaExceededError</code>\" as one\n+of the <a href=\"#idl-DOMException-error-names\">base <code>DOMException</code> error names</a>. It\n+has been upgraded to a full interface to support including such information.</p>\n \n-        1. Run the {{DOMException}} [=serialization steps=] given |value| and |serialized|.\n-        1. Set |serialized|.\\[[ErrorCode]] to |value|'s [=ProtocolXError/error code=].\n-    </div>\n+Every {{QuotaExceededError}} instance has a <dfn export for=\"QuotaExceededError\">requested</dfn> and\n+a <dfn export for=\"QuotaExceededError\">quota</dfn>, both numbers or null. They are both initially\n+null.\n+\n+<div algorithm>\n+    The <dfn constructor for=\"QuotaExceededError\" lt=\"QuotaExceededError(message, options)\">new QuotaExceededError(|message|, |options|)</dfn>\n+    constructor steps are:\n \n-    <div algorithm=\"ProtocolXError deserialization steps\">\n-        Their [=deserialization steps=], given |serialized| and |value|, are:\n+    1.  Set [=this=]'s [=DOMException/name=] to \"<code>QuotaExceededError</code>\".\n \n-        1. Run the {{DOMException}} [=deserialization steps=] given |serialized| and |value|.\n-        1. Set |value|'s [=ProtocolXError/error code=] to |serialized|.\\[[ErrorCode]].\n-    </div>\n+    1.  Set [=this=]'s [=DOMException/message=] to |message|.\n+\n+    1.  If |options|[\"{{QuotaExceededErrorOptions/quota}}\"] is present, then:",
+    "path": "index.bs",
+    "commit_id": "cf2708e53003f66dfdc5495a786b4616e5bf4c61",
+    "original_commit_id": "a4a4fe4aee9314c3867c9faebb3f490c79446250",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n    1.  If |options|[\"{{QuotaExceededErrorOptions/quota}}\"] is present:\r\n```",
+    "created_at": "2025-07-18T07:20:42Z",
+    "updated_at": "2025-07-18T07:22:55Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1465#discussion_r2215222781",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1465",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/2215222781"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1465#discussion_r2215222781"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1465"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/2215222781/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 5309,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 104,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/2215223109",
+    "pull_request_review_id": 3032320542,
+    "id": 2215223109,
+    "node_id": "PRRC_kwDOANeiys6ECZ9F",
+    "diff_hunk": "@@ -5260,70 +5255,115 @@ certain rules, in order to have a predictable shape for developers. Specifically\n <p class=note>These requirements mean that the inherited {{DOMException/code}} property of these\n interfaces will always return 0.\n \n-<div class=example id=example-domexception-derived-interface>\n-    The definition for a {{DOMException}} derived interface which carries along an additional\n-    \"protocol error code\", which is derived from what the server sent over some some hypothetical\n-    network protocol \"protocol X\", could look something like this:\n+To [=exception/create=] or [=exception/throw=] a {{DOMException}} derived interface, supply its\n+[=interface=] [=identifier=] as well as the additional information needed to construct it.\n \n-    <pre highlight=webidl>\n-        [Exposed=Window, Serializable]\n-        interface ProtocolXError : DOMException {\n-          constructor(optional DOMString message = \"\", ProtocolXErrorOptions options);\n+<div class=example id=example-domexception-derived-throwing>\n+    <p>To throw an instance of {{QuotaExceededError}}:\n \n-          readonly attribute unsigned long long errorCode;\n-        };\n+    <blockquote>\n+        <p>[=exception/Throw=] a {{QuotaExceededError}} whose [=QuotaExceededError/quota=] is 42 and\n+        [=QuotaExceededError/requested=] is 50.\n+    </blockquote>\n+</div>\n \n-        dictionary ProtocolXErrorOptions {\n-            required [EnforceRange] unsigned long long errorCode;\n-        };\n-    </pre>\n+<h4 id=\"idl-DOMException-derived-predefineds\" oldids=\"example-domexception-derived-interface\">Predefined {{DOMException}} derived interfaces</h4>\n \n-    Every <code>ProtocolXError</code> instance has an <dfn for=\"ProtocolXError\">error code</dfn>,\n-    a number.\n+This standard so far defines one predefined {{DOMException}} derived interface:\n \n-    <div algorithm=\"ProtocolXError constructor\">\n-        The <b><code>new ProtocolXError(|message|, |options|)</code></b> constructor steps are:\n+<pre class=idl>\n+[Exposed=*, Serializable]\n+interface QuotaExceededError : DOMException {\n+  constructor(optional DOMString message = \"\", optional QuotaExceededErrorOptions options = {});\n \n-        1.  Set [=this=]'s [=DOMException/name=] to \"<code>ProtocolXError</code>\".\n-        1.  Set [=this=]'s [=DOMException/message=] to |message|.\n-        1.  Set [=this=]'s [=ProtocolXError/error code=] to |options|[\"<code>errorCode</code>\"].\n-    </div>\n+  readonly attribute double? quota;\n+  readonly attribute double? requested;\n+};\n \n-    <div algorithm=\"ProtocolXError errorCode\">\n-        The <b><code>errorCode</code></b> getter steps are to return [=this=]'s\n-        [=ProtocolXError/error code=].\n-    </div>\n+dictionary QuotaExceededErrorOptions {\n+  double quota;\n+  double requested;\n+};\n+</pre>\n \n-    <code>ProtocolXError</code> objects are [=serializable objects=].\n+The {{QuotaExceededError}} exception can be thrown when a quota is exceeded. It has two properties\n+that are optionally present, to give more information to the web developer about their request\n+compared to the quota value.\n \n-    <div algorithm=\"ProtocolXError serialization steps\">\n-        Their [=serialization steps=], given |value| and |serialized|, are:\n+<p class=\"note\">Previous versions of this standard defined \"<code>QuotaExceededError</code>\" as one\n+of the <a href=\"#idl-DOMException-error-names\">base <code>DOMException</code> error names</a>. It\n+has been upgraded to a full interface to support including such information.</p>\n \n-        1. Run the {{DOMException}} [=serialization steps=] given |value| and |serialized|.\n-        1. Set |serialized|.\\[[ErrorCode]] to |value|'s [=ProtocolXError/error code=].\n-    </div>\n+Every {{QuotaExceededError}} instance has a <dfn export for=\"QuotaExceededError\">requested</dfn> and\n+a <dfn export for=\"QuotaExceededError\">quota</dfn>, both numbers or null. They are both initially\n+null.\n+\n+<div algorithm>\n+    The <dfn constructor for=\"QuotaExceededError\" lt=\"QuotaExceededError(message, options)\">new QuotaExceededError(|message|, |options|)</dfn>\n+    constructor steps are:\n \n-    <div algorithm=\"ProtocolXError deserialization steps\">\n-        Their [=deserialization steps=], given |serialized| and |value|, are:\n+    1.  Set [=this=]'s [=DOMException/name=] to \"<code>QuotaExceededError</code>\".\n \n-        1. Run the {{DOMException}} [=deserialization steps=] given |serialized| and |value|.\n-        1. Set |value|'s [=ProtocolXError/error code=] to |serialized|.\\[[ErrorCode]].\n-    </div>\n+    1.  Set [=this=]'s [=DOMException/message=] to |message|.\n+\n+    1.  If |options|[\"{{QuotaExceededErrorOptions/quota}}\"] is present, then:\n+\n+        1.  If |options|[\"{{QuotaExceededErrorOptions/quota}}\"] is less than 0, then throw a\n+            {{RangeError}}.\n+\n+        1.  Set [=this=]'s [=QuotaExceededError/quota=] to\n+            |options|[\"{{QuotaExceededErrorOptions/quota}}\"].\n+\n+    1.  If |options|[\"{{QuotaExceededErrorOptions/requested}}\"] is present, then:",
+    "path": "index.bs",
+    "commit_id": "cf2708e53003f66dfdc5495a786b4616e5bf4c61",
+    "original_commit_id": "a4a4fe4aee9314c3867c9faebb3f490c79446250",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n    1.  If |options|[\"{{QuotaExceededErrorOptions/requested}}\"] is present:\r\n```",
+    "created_at": "2025-07-18T07:20:52Z",
+    "updated_at": "2025-07-18T07:22:55Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1465#discussion_r2215223109",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1465",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/2215223109"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1465#discussion_r2215223109"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1465"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/2215223109/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 5317,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 112,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

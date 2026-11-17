@@ -1,0 +1,216 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/url/pulls/comments/109177928",
+    "pull_request_review_id": 30266195,
+    "id": 109177928,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEwOTE3NzkyOA==",
+    "diff_hunk": "@@ -3090,6 +3089,65 @@ e.g., \"newURL\" and \"oldURL\".\n naming. [[!HTML]]\n \n \n+<h3 id=urlhost-class>URLHost class</h3>\n+\n+<pre class=idl>\n+[Constructor(USVString host),\n+ Exposed=(Window,Worker)]\n+interface URLHost {\n+  USVString unicode();\n+  readonly attribute URLHostType type;\n+\n+  stringifier USVString toJSON();\n+};\n+\n+enum URLHostType { \"ipv4\", \"ipv6\", \"domain\" };</pre>\n+\n+<p>Each {{URLHost}} object has an associated <dfn for=URLHost>host</dfn> (a <a for=/>host</a>).\n+\n+<hr>\n+\n+<p>The <dfn constructor for=URLHost><code>URLHost(<var>input</var>)</code></dfn> constructor, when\n+invoked, must run these steps:\n+\n+<ol>\n+ <li><p>Let <var>host</var> be the result of <a>host parsing</a> <var>input</var> with true.\n+\n+ <li><p>If <var>host</var> is failure, then <a>throw</a> a {{TypeError}}.\n+\n+ <li><p>Return a new {{URLHost}} object whose <a for=URLHost>host</a> is <var>host</var>.\n+</ol>\n+\n+<p>The <dfn method for=URLHost><code>unicode()</code></dfn> method, when invoked, must run these\n+steps:\n+\n+<ol>\n+ <li><p>If <a>context object</a>'s <a for=URLHost>host</a> is not a <a>domain</a>, then <a>throw</a>\n+ a {{TypeError}}.",
+    "path": "url.bs",
+    "commit_id": "e7677bf8d01f81eb85afeb0b769ea8ddc1f8276e",
+    "original_commit_id": "29484f130bccc829fcf5de3305706b5398e2e862",
+    "user": {
+      "login": "TimothyGu",
+      "id": 1538624,
+      "node_id": "MDQ6VXNlcjE1Mzg2MjQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1538624?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/TimothyGu",
+      "html_url": "https://github.com/TimothyGu",
+      "followers_url": "https://api.github.com/users/TimothyGu/followers",
+      "following_url": "https://api.github.com/users/TimothyGu/following{/other_user}",
+      "gists_url": "https://api.github.com/users/TimothyGu/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/TimothyGu/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/TimothyGu/subscriptions",
+      "organizations_url": "https://api.github.com/users/TimothyGu/orgs",
+      "repos_url": "https://api.github.com/users/TimothyGu/repos",
+      "events_url": "https://api.github.com/users/TimothyGu/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/TimothyGu/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Is throwing an error here really necessary? Having to write\r\n\r\n```js\r\nlet hostStr;\r\nif (host.type === \"domain\")\r\n  hostStr = host.unicode();\r\nhostStr = host.toString();\r\n```\r\n\r\neverywhere sounds inconvenient.",
+    "created_at": "2017-03-31T14:52:54Z",
+    "updated_at": "2020-04-26T15:21:38Z",
+    "html_url": "https://github.com/whatwg/url/pull/288#discussion_r109177928",
+    "pull_request_url": "https://api.github.com/repos/whatwg/url/pulls/288",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/comments/109177928"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/url/pull/288#discussion_r109177928"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/288"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/url/pulls/comments/109177928/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 3245,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 117,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/url/pulls/comments/109178127",
+    "pull_request_review_id": 30266432,
+    "id": 109178127,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEwOTE3ODEyNw==",
+    "diff_hunk": "@@ -3090,6 +3089,65 @@ e.g., \"newURL\" and \"oldURL\".\n naming. [[!HTML]]\n \n \n+<h3 id=urlhost-class>URLHost class</h3>\n+\n+<pre class=idl>\n+[Constructor(USVString host),\n+ Exposed=(Window,Worker)]\n+interface URLHost {\n+  USVString unicode();\n+  readonly attribute URLHostType type;\n+\n+  stringifier USVString toJSON();\n+};\n+\n+enum URLHostType { \"ipv4\", \"ipv6\", \"domain\" };</pre>\n+\n+<p>Each {{URLHost}} object has an associated <dfn for=URLHost>host</dfn> (a <a for=/>host</a>).\n+\n+<hr>\n+\n+<p>The <dfn constructor for=URLHost><code>URLHost(<var>input</var>)</code></dfn> constructor, when\n+invoked, must run these steps:\n+\n+<ol>\n+ <li><p>Let <var>host</var> be the result of <a>host parsing</a> <var>input</var> with true.\n+\n+ <li><p>If <var>host</var> is failure, then <a>throw</a> a {{TypeError}}.\n+\n+ <li><p>Return a new {{URLHost}} object whose <a for=URLHost>host</a> is <var>host</var>.\n+</ol>\n+\n+<p>The <dfn method for=URLHost><code>unicode()</code></dfn> method, when invoked, must run these\n+steps:\n+\n+<ol>\n+ <li><p>If <a>context object</a>'s <a for=URLHost>host</a> is not a <a>domain</a>, then <a>throw</a>\n+ a {{TypeError}}.\n+\n+ <li><p>Let <var>unicodeDomain</var> be the result of running <a>domain to Unicode</a> on\n+ <a>context object</a>'s <a for=URLHost>host</a>.\n+\n+ <li><p>Return <var>unicodeDomain</var>, <a lt=\"host serializer\">serialized</a>.\n+</ol>\n+\n+<p>The <dfn attribute for=URLHost><code>type</code></dfn> attribute's getter, must run these steps:",
+    "path": "url.bs",
+    "commit_id": "e7677bf8d01f81eb85afeb0b769ea8ddc1f8276e",
+    "original_commit_id": "29484f130bccc829fcf5de3305706b5398e2e862",
+    "user": {
+      "login": "TimothyGu",
+      "id": 1538624,
+      "node_id": "MDQ6VXNlcjE1Mzg2MjQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1538624?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/TimothyGu",
+      "html_url": "https://github.com/TimothyGu",
+      "followers_url": "https://api.github.com/users/TimothyGu/followers",
+      "following_url": "https://api.github.com/users/TimothyGu/following{/other_user}",
+      "gists_url": "https://api.github.com/users/TimothyGu/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/TimothyGu/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/TimothyGu/subscriptions",
+      "organizations_url": "https://api.github.com/users/TimothyGu/orgs",
+      "repos_url": "https://api.github.com/users/TimothyGu/repos",
+      "events_url": "https://api.github.com/users/TimothyGu/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/TimothyGu/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Either add \"when invoked\" or be more consistent with other getter descriptions in the standard by removing the awkward comma.",
+    "created_at": "2017-03-31T14:53:42Z",
+    "updated_at": "2020-04-26T15:21:38Z",
+    "html_url": "https://github.com/whatwg/url/pull/288#discussion_r109178127",
+    "pull_request_url": "https://api.github.com/repos/whatwg/url/pulls/288",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/comments/109178127"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/url/pull/288#discussion_r109178127"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/288"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/url/pulls/comments/109178127/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 3250,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 125,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/url/pulls/comments/109180290",
+    "pull_request_review_id": 30268836,
+    "id": 109180290,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEwOTE4MDI5MA==",
+    "diff_hunk": "@@ -3090,6 +3089,65 @@ e.g., \"newURL\" and \"oldURL\".\n naming. [[!HTML]]\n \n \n+<h3 id=urlhost-class>URLHost class</h3>\n+\n+<pre class=idl>\n+[Constructor(USVString host),\n+ Exposed=(Window,Worker)]\n+interface URLHost {\n+  USVString unicode();\n+  readonly attribute URLHostType type;\n+\n+  stringifier USVString toJSON();\n+};\n+\n+enum URLHostType { \"ipv4\", \"ipv6\", \"domain\" };</pre>\n+\n+<p>Each {{URLHost}} object has an associated <dfn for=URLHost>host</dfn> (a <a for=/>host</a>).\n+\n+<hr>\n+\n+<p>The <dfn constructor for=URLHost><code>URLHost(<var>input</var>)</code></dfn> constructor, when\n+invoked, must run these steps:\n+\n+<ol>\n+ <li><p>Let <var>host</var> be the result of <a>host parsing</a> <var>input</var> with true.\n+\n+ <li><p>If <var>host</var> is failure, then <a>throw</a> a {{TypeError}}.\n+\n+ <li><p>Return a new {{URLHost}} object whose <a for=URLHost>host</a> is <var>host</var>.\n+</ol>\n+\n+<p>The <dfn method for=URLHost><code>unicode()</code></dfn> method, when invoked, must run these\n+steps:\n+\n+<ol>\n+ <li><p>If <a>context object</a>'s <a for=URLHost>host</a> is not a <a>domain</a>, then <a>throw</a>\n+ a {{TypeError}}.",
+    "path": "url.bs",
+    "commit_id": "e7677bf8d01f81eb85afeb0b769ea8ddc1f8276e",
+    "original_commit_id": "29484f130bccc829fcf5de3305706b5398e2e862",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "It's not, was feeling conservative.",
+    "created_at": "2017-03-31T15:02:30Z",
+    "updated_at": "2020-04-26T15:21:38Z",
+    "html_url": "https://github.com/whatwg/url/pull/288#discussion_r109180290",
+    "pull_request_url": "https://api.github.com/repos/whatwg/url/pulls/288",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/comments/109180290"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/url/pull/288#discussion_r109180290"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/288"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/url/pulls/comments/109180290/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 3245,
+    "side": "RIGHT",
+    "in_reply_to_id": 109177928,
+    "author_association": "MEMBER",
+    "original_position": 117,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

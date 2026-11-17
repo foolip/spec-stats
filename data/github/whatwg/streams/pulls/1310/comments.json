@@ -1,0 +1,502 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1538905669",
+    "pull_request_review_id": 1959858514,
+    "id": 1538905669,
+    "node_id": "PRRC_kwDOANUOW85budZF",
+    "diff_hunk": "@@ -2127,39 +2127,21 @@ The following abstract operations operate on {{ReadableStream}} instances at a h\n  ReadableStreamFromIterable(|asyncIterable|)</dfn> performs the following steps:\n \n  1. Let |stream| be undefined.\n- 1. Let |iteratorRecord| be ? [$GetIterator$](|asyncIterable|, async).\n  1. Let |startAlgorithm| be an algorithm that returns undefined.\n  1. Let |pullAlgorithm| be the following steps:\n-  1. Let |nextResult| be [$IteratorNext$](|iteratorRecord|).\n-  1. If |nextResult| is an abrupt completion, return [=a promise rejected with=]\n-     |nextResult|.\\[[Value]].\n-  1. Let |nextPromise| be [=a promise resolved with=] |nextResult|.\\[[Value]].\n-  1. Return the result of [=reacting=] to |nextPromise| with the following fulfillment steps,\n-     given |iterResult|:\n-   1. If [$Type$](|iterResult|) is not Object, throw a {{TypeError}}.\n-   1. Let |done| be ? [$IteratorComplete$](|iterResult|).\n-   1. If |done| is true:\n-    1. Perform ! [$ReadableStreamDefaultControllerClose$](|stream|.[=ReadableStream/[[controller]]=]).\n-   1. Otherwise:\n-    1. Let |value| be ? [$IteratorValue$](|iterResult|).\n-    1. Perform ! [$ReadableStreamDefaultControllerEnqueue$](|stream|.[=ReadableStream/[[controller]]=],\n-       |value|).\n-       <!-- TODO (future): If we allow changing the queuing strategy, this Enqueue might throw.\n-             We'll then need to catch the error and close the async iterator. -->\n+  1. Let |nextPromise| be the result of [=getting the next value/get an async iterable next value=]\n+     from |asyncIterable|.\n+  1. Return the result of [=reacting=] to |nextPromise|:\n+   - If |next| was fulfilled with value |v|:\n+    1. If |v| is [=end of iteration=], perform ! [$ReadableStreamDefaultControllerClose$](|stream|.[=ReadableStream/[[controller]]=]).\n+    1. Otherwise, perform ! [$ReadableStreamDefaultControllerEnqueue$](|stream|.[=ReadableStream/[[controller]]=], |v|).\n+   - If |next| was rejected with reason |r|, perform ! [$ReadableStreamDefaultControllerError$](|stream|.[=ReadableStream/[[controller]]=], |r|).\n  1. Let |cancelAlgorithm| be the following steps, given |reason|:\n-  1. Let |iterator| be |iteratorRecord|.\\[[Iterator]].\n-  1. Let |returnMethod| be [$GetMethod$](|iterator|, \"`return`\").\n-  1. If |returnMethod| is an abrupt completion, return [=a promise rejected with=]\n-     |returnMethod|.\\[[Value]].\n-  1. If |returnMethod|.\\[[Value]] is undefined, return [=a promise resolved with=] undefined.\n-  1. Let |returnResult| be [$Call$](|returnMethod|.\\[[Value]], |iterator|, « |reason| »).",
+    "path": "index.bs",
+    "commit_id": "49e09e9fe26e76ee73aaa1397bf124dbd80887cd",
+    "original_commit_id": "7271cc8cad06b33d18b75e92260358bedcd7de24",
+    "user": {
+      "login": "MattiasBuelens",
+      "id": 649348,
+      "node_id": "MDQ6VXNlcjY0OTM0OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/649348?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/MattiasBuelens",
+      "html_url": "https://github.com/MattiasBuelens",
+      "followers_url": "https://api.github.com/users/MattiasBuelens/followers",
+      "following_url": "https://api.github.com/users/MattiasBuelens/following{/other_user}",
+      "gists_url": "https://api.github.com/users/MattiasBuelens/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/MattiasBuelens/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/MattiasBuelens/subscriptions",
+      "organizations_url": "https://api.github.com/users/MattiasBuelens/orgs",
+      "repos_url": "https://api.github.com/users/MattiasBuelens/repos",
+      "events_url": "https://api.github.com/users/MattiasBuelens/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/MattiasBuelens/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The `reason` argument for the `return()` call is missing in the new spec text.\r\n\r\nI propose we add an optional argument to \"finish iterating an async iterable\" to support this use case, see [my comment on the other PR](https://github.com/whatwg/webidl/pull/1397#discussion_r1538889449).",
+    "created_at": "2024-03-26T09:50:26Z",
+    "updated_at": "2024-03-26T09:55:52Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1310#discussion_r1538905669",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1310",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1538905669"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1310#discussion_r1538905669"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1310"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1538905669/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 2155,
+    "original_line": 2155,
+    "side": "LEFT",
+    "author_association": "COLLABORATOR",
+    "original_position": 45,
+    "position": 46,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1538906201",
+    "pull_request_review_id": 1959858514,
+    "id": 1538906201,
+    "node_id": "PRRC_kwDOANUOW85budhZ",
+    "diff_hunk": "@@ -2127,39 +2127,21 @@ The following abstract operations operate on {{ReadableStream}} instances at a h\n  ReadableStreamFromIterable(|asyncIterable|)</dfn> performs the following steps:\n \n  1. Let |stream| be undefined.\n- 1. Let |iteratorRecord| be ? [$GetIterator$](|asyncIterable|, async).\n  1. Let |startAlgorithm| be an algorithm that returns undefined.\n  1. Let |pullAlgorithm| be the following steps:\n-  1. Let |nextResult| be [$IteratorNext$](|iteratorRecord|).\n-  1. If |nextResult| is an abrupt completion, return [=a promise rejected with=]\n-     |nextResult|.\\[[Value]].\n-  1. Let |nextPromise| be [=a promise resolved with=] |nextResult|.\\[[Value]].\n-  1. Return the result of [=reacting=] to |nextPromise| with the following fulfillment steps,\n-     given |iterResult|:\n-   1. If [$Type$](|iterResult|) is not Object, throw a {{TypeError}}.\n-   1. Let |done| be ? [$IteratorComplete$](|iterResult|).\n-   1. If |done| is true:\n-    1. Perform ! [$ReadableStreamDefaultControllerClose$](|stream|.[=ReadableStream/[[controller]]=]).\n-   1. Otherwise:\n-    1. Let |value| be ? [$IteratorValue$](|iterResult|).\n-    1. Perform ! [$ReadableStreamDefaultControllerEnqueue$](|stream|.[=ReadableStream/[[controller]]=],\n-       |value|).\n-       <!-- TODO (future): If we allow changing the queuing strategy, this Enqueue might throw.\n-             We'll then need to catch the error and close the async iterator. -->",
+    "path": "index.bs",
+    "commit_id": "49e09e9fe26e76ee73aaa1397bf124dbd80887cd",
+    "original_commit_id": "7271cc8cad06b33d18b75e92260358bedcd7de24",
+    "user": {
+      "login": "MattiasBuelens",
+      "id": 649348,
+      "node_id": "MDQ6VXNlcjY0OTM0OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/649348?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/MattiasBuelens",
+      "html_url": "https://github.com/MattiasBuelens",
+      "followers_url": "https://api.github.com/users/MattiasBuelens/followers",
+      "following_url": "https://api.github.com/users/MattiasBuelens/following{/other_user}",
+      "gists_url": "https://api.github.com/users/MattiasBuelens/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/MattiasBuelens/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/MattiasBuelens/subscriptions",
+      "organizations_url": "https://api.github.com/users/MattiasBuelens/orgs",
+      "repos_url": "https://api.github.com/users/MattiasBuelens/repos",
+      "events_url": "https://api.github.com/users/MattiasBuelens/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/MattiasBuelens/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Could you restore this comment in the updated spec text? It's still relevant.",
+    "created_at": "2024-03-26T09:50:49Z",
+    "updated_at": "2024-03-26T09:55:52Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1310#discussion_r1538906201",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1310",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1538906201"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1310#discussion_r1538906201"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1310"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1538906201/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 2147,
+    "original_start_line": 2147,
+    "start_side": "LEFT",
+    "line": null,
+    "original_line": 2148,
+    "side": "LEFT",
+    "author_association": "COLLABORATOR",
+    "original_position": 31,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1681494419",
+    "pull_request_review_id": 2183658059,
+    "id": 1681494419,
+    "node_id": "PRRC_kwDOANUOW85kOZGT",
+    "diff_hunk": "@@ -2123,43 +2123,27 @@ The following abstract operations operate on {{ReadableStream}} instances at a h\n </div>\n \n <div algorithm>\n- <dfn abstract-op lt=\"ReadableStreamFromIterable\" id=\"readable-stream-from-iterable\">\n+ <dfn abstract-op export lt=\"ReadableStreamFromIterable\" id=\"readable-stream-from-iterable\">\n  ReadableStreamFromIterable(|asyncIterable|)</dfn> performs the following steps:\n \n  1. Let |stream| be undefined.\n- 1. Let |iteratorRecord| be ? [$GetIterator$](|asyncIterable|, async).\n  1. Let |startAlgorithm| be an algorithm that returns undefined.\n  1. Let |pullAlgorithm| be the following steps:\n-  1. Let |nextResult| be [$IteratorNext$](|iteratorRecord|).\n-  1. If |nextResult| is an abrupt completion, return [=a promise rejected with=]\n-     |nextResult|.\\[[Value]].\n-  1. Let |nextPromise| be [=a promise resolved with=] |nextResult|.\\[[Value]].\n-  1. Return the result of [=reacting=] to |nextPromise| with the following fulfillment steps,\n-     given |iterResult|:\n-   1. If [$Type$](|iterResult|) is not Object, throw a {{TypeError}}.\n-   1. Let |done| be ? [$IteratorComplete$](|iterResult|).\n-   1. If |done| is true:\n-    1. Perform ! [$ReadableStreamDefaultControllerClose$](|stream|.[=ReadableStream/[[controller]]=]).\n-   1. Otherwise:\n-    1. Let |value| be ? [$IteratorValue$](|iterResult|).\n-    1. Perform ! [$ReadableStreamDefaultControllerEnqueue$](|stream|.[=ReadableStream/[[controller]]=],\n-       |value|).\n+  1. Let |nextPromise| be the result of [=getting the next value/get an async iterable next value=]\n+     from |asyncIterable|.\n+  1. Return the result of [=reacting=] to |nextPromise|:\n+   - If |next| was fulfilled with value |v|:\n+    1. If |v| is [=end of iteration=], perform ! [$ReadableStreamDefaultControllerClose$](|stream|.[=ReadableStream/[[controller]]=]).\n        <!-- TODO (future): If we allow changing the queuing strategy, this Enqueue might throw.\n-             We'll then need to catch the error and close the async iterator. -->\n+          We'll then need to catch the error and close the async iterator. -->\n+    1. Otherwise, perform ! [$ReadableStreamDefaultControllerEnqueue$](|stream|.[=ReadableStream/[[controller]]=], |v|).\n+   - If |next| was rejected with reason |r|, perform ! [$ReadableStreamDefaultControllerError$](|stream|.[=ReadableStream/[[controller]]=], |r|).\n  1. Let |cancelAlgorithm| be the following steps, given |reason|:\n-  1. Let |iterator| be |iteratorRecord|.\\[[Iterator]].\n-  1. Let |returnMethod| be [$GetMethod$](|iterator|, \"`return`\").\n-  1. If |returnMethod| is an abrupt completion, return [=a promise rejected with=]\n-     |returnMethod|.\\[[Value]].\n-  1. If |returnMethod|.\\[[Value]] is undefined, return [=a promise resolved with=] undefined.\n-  1. Let |returnResult| be [$Call$](|returnMethod|.\\[[Value]], |iterator|, « |reason| »).\n-  1. If |returnResult| is an abrupt completion, return [=a promise rejected with=]\n-     |returnResult|.\\[[Value]].\n-  1. Let |returnPromise| be [=a promise resolved with=] |returnResult|.\\[[Value]].\n-  1. Return the result of [=reacting=] to |returnPromise| with the following fulfillment steps,\n-     given |iterResult|:\n-   1. If [$Type$](|iterResult|) is not Object, throw a {{TypeError}}.\n-   1. Return undefined.\n+  1. Let |finishPromise| be the result of [=closing/close an async iterable=] |asyncIterable| with\n+     reason |reason|.\n+  1. Return the result of [=reacting=] to |finishPromise|:\n+    - If |finishPromise| was fulfilled, return undefined.\n+    - If |finishPromise| was rejected with reason |r|, throw |r|.",
+    "path": "index.bs",
+    "commit_id": "49e09e9fe26e76ee73aaa1397bf124dbd80887cd",
+    "original_commit_id": "e85e52a0882624cab753b57d3f33ea8f5c942e54",
+    "user": {
+      "login": "MattiasBuelens",
+      "id": 649348,
+      "node_id": "MDQ6VXNlcjY0OTM0OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/649348?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/MattiasBuelens",
+      "html_url": "https://github.com/MattiasBuelens",
+      "followers_url": "https://api.github.com/users/MattiasBuelens/followers",
+      "following_url": "https://api.github.com/users/MattiasBuelens/following{/other_user}",
+      "gists_url": "https://api.github.com/users/MattiasBuelens/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/MattiasBuelens/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/MattiasBuelens/subscriptions",
+      "organizations_url": "https://api.github.com/users/MattiasBuelens/orgs",
+      "repos_url": "https://api.github.com/users/MattiasBuelens/repos",
+      "events_url": "https://api.github.com/users/MattiasBuelens/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/MattiasBuelens/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Nit-pick: can we return `finishPromise` as-is? It looks like [the close algorithm in IDL](https://whatpr.org/webidl/1397.html#async-iterable-close) already does the right thing.",
+    "created_at": "2024-07-17T18:06:05Z",
+    "updated_at": "2024-07-17T18:09:01Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1310#discussion_r1681494419",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1310",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1681494419"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1310#discussion_r1681494419"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1310"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1681494419/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 2144,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 2146,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 63,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1681807270",
+    "pull_request_review_id": 2184144497,
+    "id": 1681807270,
+    "node_id": "PRRC_kwDOANUOW85kPlem",
+    "diff_hunk": "@@ -2123,43 +2123,27 @@ The following abstract operations operate on {{ReadableStream}} instances at a h\n </div>\n \n <div algorithm>\n- <dfn abstract-op lt=\"ReadableStreamFromIterable\" id=\"readable-stream-from-iterable\">\n+ <dfn abstract-op export lt=\"ReadableStreamFromIterable\" id=\"readable-stream-from-iterable\">",
+    "path": "index.bs",
+    "commit_id": "49e09e9fe26e76ee73aaa1397bf124dbd80887cd",
+    "original_commit_id": "e85e52a0882624cab753b57d3f33ea8f5c942e54",
+    "user": {
+      "login": "saschanaz",
+      "id": 3396686,
+      "node_id": "MDQ6VXNlcjMzOTY2ODY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3396686?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/saschanaz",
+      "html_url": "https://github.com/saschanaz",
+      "followers_url": "https://api.github.com/users/saschanaz/followers",
+      "following_url": "https://api.github.com/users/saschanaz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/saschanaz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/saschanaz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/saschanaz/subscriptions",
+      "organizations_url": "https://api.github.com/users/saschanaz/orgs",
+      "repos_url": "https://api.github.com/users/saschanaz/repos",
+      "events_url": "https://api.github.com/users/saschanaz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/saschanaz/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Why export, btw?",
+    "created_at": "2024-07-17T21:49:06Z",
+    "updated_at": "2024-07-17T21:49:07Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1310#discussion_r1681807270",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1310",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1681807270"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1310#discussion_r1681807270"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1310"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1681807270/reactions",
+      "total_count": 2,
+      "+1": 2,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 2126,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 14,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1682464078",
+    "pull_request_review_id": 2185146295,
+    "id": 1682464078,
+    "node_id": "PRRC_kwDOANUOW85kSF1O",
+    "diff_hunk": "@@ -2123,43 +2123,27 @@ The following abstract operations operate on {{ReadableStream}} instances at a h\n </div>\n \n <div algorithm>\n- <dfn abstract-op lt=\"ReadableStreamFromIterable\" id=\"readable-stream-from-iterable\">\n+ <dfn abstract-op export lt=\"ReadableStreamFromIterable\" id=\"readable-stream-from-iterable\">",
+    "path": "index.bs",
+    "commit_id": "49e09e9fe26e76ee73aaa1397bf124dbd80887cd",
+    "original_commit_id": "e85e52a0882624cab753b57d3f33ea8f5c942e54",
+    "user": {
+      "login": "lucacasonato",
+      "id": 7829205,
+      "node_id": "MDQ6VXNlcjc4MjkyMDU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7829205?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lucacasonato",
+      "html_url": "https://github.com/lucacasonato",
+      "followers_url": "https://api.github.com/users/lucacasonato/followers",
+      "following_url": "https://api.github.com/users/lucacasonato/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lucacasonato/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lucacasonato/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lucacasonato/subscriptions",
+      "organizations_url": "https://api.github.com/users/lucacasonato/orgs",
+      "repos_url": "https://api.github.com/users/lucacasonato/repos",
+      "events_url": "https://api.github.com/users/lucacasonato/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lucacasonato/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Will be needed to resolve https://github.com/whatwg/fetch/issues/1291, which is my next project :)",
+    "created_at": "2024-07-18T08:49:23Z",
+    "updated_at": "2024-07-18T08:49:23Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1310#discussion_r1682464078",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1310",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1682464078"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1310#discussion_r1682464078"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1310"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1682464078/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 2126,
+    "side": "RIGHT",
+    "in_reply_to_id": 1681807270,
+    "author_association": "MEMBER",
+    "original_position": 14,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1682469720",
+    "pull_request_review_id": 2185155685,
+    "id": 1682469720,
+    "node_id": "PRRC_kwDOANUOW85kSHNY",
+    "diff_hunk": "@@ -2123,43 +2123,27 @@ The following abstract operations operate on {{ReadableStream}} instances at a h\n </div>\n \n <div algorithm>\n- <dfn abstract-op lt=\"ReadableStreamFromIterable\" id=\"readable-stream-from-iterable\">\n+ <dfn abstract-op export lt=\"ReadableStreamFromIterable\" id=\"readable-stream-from-iterable\">",
+    "path": "index.bs",
+    "commit_id": "49e09e9fe26e76ee73aaa1397bf124dbd80887cd",
+    "original_commit_id": "e85e52a0882624cab753b57d3f33ea8f5c942e54",
+    "user": {
+      "login": "saschanaz",
+      "id": 3396686,
+      "node_id": "MDQ6VXNlcjMzOTY2ODY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3396686?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/saschanaz",
+      "html_url": "https://github.com/saschanaz",
+      "followers_url": "https://api.github.com/users/saschanaz/followers",
+      "following_url": "https://api.github.com/users/saschanaz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/saschanaz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/saschanaz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/saschanaz/subscriptions",
+      "organizations_url": "https://api.github.com/users/saschanaz/orgs",
+      "repos_url": "https://api.github.com/users/saschanaz/repos",
+      "events_url": "https://api.github.com/users/saschanaz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/saschanaz/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "In that case you would want a separate op in section 9, this one is in section 4 and not supposed to be directly used by other specs.",
+    "created_at": "2024-07-18T08:53:21Z",
+    "updated_at": "2024-07-18T08:53:22Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1310#discussion_r1682469720",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1310",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1682469720"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1310#discussion_r1682469720"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1310"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1682469720/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 2126,
+    "side": "RIGHT",
+    "in_reply_to_id": 1681807270,
+    "author_association": "MEMBER",
+    "original_position": 14,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1682754960",
+    "pull_request_review_id": 2185677204,
+    "id": 1682754960,
+    "node_id": "PRRC_kwDOANUOW85kTM2Q",
+    "diff_hunk": "@@ -2123,43 +2123,27 @@ The following abstract operations operate on {{ReadableStream}} instances at a h\n </div>\n \n <div algorithm>\n- <dfn abstract-op lt=\"ReadableStreamFromIterable\" id=\"readable-stream-from-iterable\">\n+ <dfn abstract-op export lt=\"ReadableStreamFromIterable\" id=\"readable-stream-from-iterable\">",
+    "path": "index.bs",
+    "commit_id": "49e09e9fe26e76ee73aaa1397bf124dbd80887cd",
+    "original_commit_id": "e85e52a0882624cab753b57d3f33ea8f5c942e54",
+    "user": {
+      "login": "lucacasonato",
+      "id": 7829205,
+      "node_id": "MDQ6VXNlcjc4MjkyMDU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7829205?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lucacasonato",
+      "html_url": "https://github.com/lucacasonato",
+      "followers_url": "https://api.github.com/users/lucacasonato/followers",
+      "following_url": "https://api.github.com/users/lucacasonato/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lucacasonato/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lucacasonato/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lucacasonato/subscriptions",
+      "organizations_url": "https://api.github.com/users/lucacasonato/orgs",
+      "repos_url": "https://api.github.com/users/lucacasonato/repos",
+      "events_url": "https://api.github.com/users/lucacasonato/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lucacasonato/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Ok, will revert this here",
+    "created_at": "2024-07-18T12:30:40Z",
+    "updated_at": "2024-07-18T12:30:40Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1310#discussion_r1682754960",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1310",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1682754960"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1310#discussion_r1682754960"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1310"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1682754960/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 2126,
+    "side": "RIGHT",
+    "in_reply_to_id": 1681807270,
+    "author_association": "MEMBER",
+    "original_position": 14,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

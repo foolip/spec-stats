@@ -1,0 +1,787 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046658677",
+    "pull_request_review_id": 1214714592,
+    "id": 1046658677,
+    "node_id": "PRRC_kwDOANUOW84-Yr51",
+    "diff_hunk": "@@ -6809,36 +6809,41 @@ a chunk</dfn> from a {{ReadableStreamDefaultReader}} |reader|, given a [=read re\n \n <div algorithm=\"read all bytes\">\n  <p>To <dfn export for=\"ReadableStreamDefaultReader\" lt=\"read all bytes|reading all bytes\">read all\n- bytes</dfn> from a {{ReadableStreamDefaultReader}} |reader|, perform the following steps. The\n- result will be a {{Promise}} for a [=byte sequence=].\n+ bytes as a promise</dfn> from a {{ReadableStreamDefaultReader}} |reader|, perform the following\n+ steps. The result will be a {{Promise}} for a [=byte sequence=].\n \n  1. Let |promise| be [=a new promise=].\n- 1. Let |bytes| be an empty [=byte sequence=].\n- 1. [=Read-loop=] given |reader|, |bytes|, and |promise|.\n- 1. Return |promise|.\n+ 1. Let |success steps| given a [=byte sequence=] |data| be to [=resolve=] |promise| with |data|.\n+ 1. Let |failure steps| given a JavaScript value |error| be to [=reject=] |promise| with |error|.\n+ 1. [=Consume all bytes=] from |reader| given |success steps| and |failure steps|.",
+    "path": "index.bs",
+    "commit_id": "52dc6af1315124dfaf166704db72e9826e618a89",
+    "original_commit_id": "81f9a1f0f9a99c531cda4ec13e82dc76c32fba3e",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I'd like to get rid of \"read all bytes as a promise\". Nobody should use it, for various reasons (e.g. having to deal with `then` tampering). https://dontcallmedom.github.io/webdex/r.html#read%20all%20bytes%40%40ReadableStreamDefaultReader%40dfn implies it wouldn't be so bad to break some consumers; I think we could fix Fetch ourselves, file issues on the rest, then move on.",
+    "created_at": "2022-12-13T04:53:30Z",
+    "updated_at": "2022-12-13T04:54:33Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1250#discussion_r1046658677",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1250",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046658677"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1250#discussion_r1046658677"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1250"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046658677/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 6818,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 15,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046658823",
+    "pull_request_review_id": 1214714592,
+    "id": 1046658823,
+    "node_id": "PRRC_kwDOANUOW84-Yr8H",
+    "diff_hunk": "@@ -6809,36 +6809,41 @@ a chunk</dfn> from a {{ReadableStreamDefaultReader}} |reader|, given a [=read re\n \n <div algorithm=\"read all bytes\">\n  <p>To <dfn export for=\"ReadableStreamDefaultReader\" lt=\"read all bytes|reading all bytes\">read all\n- bytes</dfn> from a {{ReadableStreamDefaultReader}} |reader|, perform the following steps. The\n- result will be a {{Promise}} for a [=byte sequence=].\n+ bytes as a promise</dfn> from a {{ReadableStreamDefaultReader}} |reader|, perform the following\n+ steps. The result will be a {{Promise}} for a [=byte sequence=].\n \n  1. Let |promise| be [=a new promise=].\n- 1. Let |bytes| be an empty [=byte sequence=].\n- 1. [=Read-loop=] given |reader|, |bytes|, and |promise|.\n- 1. Return |promise|.\n+ 1. Let |success steps| given a [=byte sequence=] |data| be to [=resolve=] |promise| with |data|.\n+ 1. Let |failure steps| given a JavaScript value |error| be to [=reject=] |promise| with |error|.\n+ 1. [=Consume all bytes=] from |reader| given |success steps| and |failure steps|.\n+\n+ <p>To <dfn export for=\"ReadableStreamDefaultReader\">consume all bytes</dfn> from\n+ {{ReadableStreamDefaultReader}} |reader|, given |success steps|, which is an algorithm accepting a",
+    "path": "index.bs",
+    "commit_id": "52dc6af1315124dfaf166704db72e9826e618a89",
+    "original_commit_id": "81f9a1f0f9a99c531cda4ec13e82dc76c32fba3e",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "successSteps and failureSteps, per more modern style, here and below.",
+    "created_at": "2022-12-13T04:53:52Z",
+    "updated_at": "2022-12-13T04:54:33Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1250#discussion_r1046658823",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1250",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046658823"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1250#discussion_r1046658823"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1250"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046658823/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 6821,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 18,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046659014",
+    "pull_request_review_id": 1214714592,
+    "id": 1046659014,
+    "node_id": "PRRC_kwDOANUOW84-Yr_G",
+    "diff_hunk": "@@ -6809,36 +6809,41 @@ a chunk</dfn> from a {{ReadableStreamDefaultReader}} |reader|, given a [=read re\n \n <div algorithm=\"read all bytes\">\n  <p>To <dfn export for=\"ReadableStreamDefaultReader\" lt=\"read all bytes|reading all bytes\">read all\n- bytes</dfn> from a {{ReadableStreamDefaultReader}} |reader|, perform the following steps. The\n- result will be a {{Promise}} for a [=byte sequence=].\n+ bytes as a promise</dfn> from a {{ReadableStreamDefaultReader}} |reader|, perform the following\n+ steps. The result will be a {{Promise}} for a [=byte sequence=].\n \n  1. Let |promise| be [=a new promise=].\n- 1. Let |bytes| be an empty [=byte sequence=].\n- 1. [=Read-loop=] given |reader|, |bytes|, and |promise|.\n- 1. Return |promise|.\n+ 1. Let |success steps| given a [=byte sequence=] |data| be to [=resolve=] |promise| with |data|.\n+ 1. Let |failure steps| given a JavaScript value |error| be to [=reject=] |promise| with |error|.\n+ 1. [=Consume all bytes=] from |reader| given |success steps| and |failure steps|.\n+\n+ <p>To <dfn export for=\"ReadableStreamDefaultReader\">consume all bytes</dfn> from\n+ {{ReadableStreamDefaultReader}} |reader|, given |success steps|, which is an algorithm accepting a\n+ [=byte sequence=], and |failure steps|, which is an algorithm accepting a JavaScript value,\n+ [=read-loop=] given |reader|, a new [=byte sequence=], |success steps|, and |failure steps|.\n \n  <div algorithm=\"read-loop\">\n-  For the purposes of the above algorithm, to <dfn>read-loop</dfn> given |reader|, |bytes|, and\n-  |promise|:\n+  For the purposes of the above algorithm, to <dfn>read-loop</dfn> given |reader|, |bytes|,\n+  |success steps|, and |failure steps|:\n \n   1. Let |readRequest| be a new [=read request=] with the following [=struct/items=]:\n    : [=read request/chunk steps=], given |chunk|\n    ::\n-    1. If |chunk| is not a {{Uint8Array}} object, [=reject=] |promise| with a {{TypeError}} and\n+    1. If |chunk| is not a {{Uint8Array}} object, call |failure steps| with a {{TypeError}} and\n        abort these steps.\n     1. Append the bytes represented by |chunk| to |bytes|.",
+    "path": "index.bs",
+    "commit_id": "52dc6af1315124dfaf166704db72e9826e618a89",
+    "original_commit_id": "81f9a1f0f9a99c531cda4ec13e82dc76c32fba3e",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "While here, it might be best to use https://webidl.spec.whatwg.org/#dfn-get-buffer-source-copy to more rigorously convert |chunk| to a byte sequence.",
+    "created_at": "2022-12-13T04:54:17Z",
+    "updated_at": "2022-12-13T04:54:33Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1250#discussion_r1046659014",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1250",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046659014"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1250#discussion_r1046659014"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1250"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046659014/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 6826,
+    "original_line": 6834,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 34,
+    "position": 28,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046698203",
+    "pull_request_review_id": 1214769432,
+    "id": 1046698203,
+    "node_id": "PRRC_kwDOANUOW84-Y1jb",
+    "diff_hunk": "@@ -6809,36 +6809,41 @@ a chunk</dfn> from a {{ReadableStreamDefaultReader}} |reader|, given a [=read re\n \n <div algorithm=\"read all bytes\">\n  <p>To <dfn export for=\"ReadableStreamDefaultReader\" lt=\"read all bytes|reading all bytes\">read all\n- bytes</dfn> from a {{ReadableStreamDefaultReader}} |reader|, perform the following steps. The\n- result will be a {{Promise}} for a [=byte sequence=].\n+ bytes as a promise</dfn> from a {{ReadableStreamDefaultReader}} |reader|, perform the following\n+ steps. The result will be a {{Promise}} for a [=byte sequence=].\n \n  1. Let |promise| be [=a new promise=].\n- 1. Let |bytes| be an empty [=byte sequence=].\n- 1. [=Read-loop=] given |reader|, |bytes|, and |promise|.\n- 1. Return |promise|.\n+ 1. Let |success steps| given a [=byte sequence=] |data| be to [=resolve=] |promise| with |data|.\n+ 1. Let |failure steps| given a JavaScript value |error| be to [=reject=] |promise| with |error|.\n+ 1. [=Consume all bytes=] from |reader| given |success steps| and |failure steps|.",
+    "path": "index.bs",
+    "commit_id": "52dc6af1315124dfaf166704db72e9826e618a89",
+    "original_commit_id": "81f9a1f0f9a99c531cda4ec13e82dc76c32fba3e",
+    "user": {
+      "login": "noamr",
+      "id": 88566,
+      "node_id": "MDQ6VXNlcjg4NTY2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88566?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/noamr",
+      "html_url": "https://github.com/noamr",
+      "followers_url": "https://api.github.com/users/noamr/followers",
+      "following_url": "https://api.github.com/users/noamr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/noamr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/noamr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/noamr/subscriptions",
+      "organizations_url": "https://api.github.com/users/noamr/orgs",
+      "repos_url": "https://api.github.com/users/noamr/repos",
+      "events_url": "https://api.github.com/users/noamr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/noamr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "sounds good, once this is reviewed I'll post a Fetch patch and issues to the other specs.",
+    "created_at": "2022-12-13T06:16:16Z",
+    "updated_at": "2022-12-13T06:16:17Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1250#discussion_r1046698203",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1250",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046698203"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1250#discussion_r1046698203"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1250"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046698203/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 6818,
+    "side": "RIGHT",
+    "in_reply_to_id": 1046658677,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 15,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046698280",
+    "pull_request_review_id": 1214769554,
+    "id": 1046698280,
+    "node_id": "PRRC_kwDOANUOW84-Y1ko",
+    "diff_hunk": "@@ -6809,36 +6809,41 @@ a chunk</dfn> from a {{ReadableStreamDefaultReader}} |reader|, given a [=read re\n \n <div algorithm=\"read all bytes\">\n  <p>To <dfn export for=\"ReadableStreamDefaultReader\" lt=\"read all bytes|reading all bytes\">read all\n- bytes</dfn> from a {{ReadableStreamDefaultReader}} |reader|, perform the following steps. The\n- result will be a {{Promise}} for a [=byte sequence=].\n+ bytes as a promise</dfn> from a {{ReadableStreamDefaultReader}} |reader|, perform the following\n+ steps. The result will be a {{Promise}} for a [=byte sequence=].\n \n  1. Let |promise| be [=a new promise=].\n- 1. Let |bytes| be an empty [=byte sequence=].\n- 1. [=Read-loop=] given |reader|, |bytes|, and |promise|.\n- 1. Return |promise|.\n+ 1. Let |success steps| given a [=byte sequence=] |data| be to [=resolve=] |promise| with |data|.\n+ 1. Let |failure steps| given a JavaScript value |error| be to [=reject=] |promise| with |error|.\n+ 1. [=Consume all bytes=] from |reader| given |success steps| and |failure steps|.\n+\n+ <p>To <dfn export for=\"ReadableStreamDefaultReader\">consume all bytes</dfn> from\n+ {{ReadableStreamDefaultReader}} |reader|, given |success steps|, which is an algorithm accepting a",
+    "path": "index.bs",
+    "commit_id": "52dc6af1315124dfaf166704db72e9826e618a89",
+    "original_commit_id": "81f9a1f0f9a99c531cda4ec13e82dc76c32fba3e",
+    "user": {
+      "login": "noamr",
+      "id": 88566,
+      "node_id": "MDQ6VXNlcjg4NTY2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88566?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/noamr",
+      "html_url": "https://github.com/noamr",
+      "followers_url": "https://api.github.com/users/noamr/followers",
+      "following_url": "https://api.github.com/users/noamr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/noamr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/noamr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/noamr/subscriptions",
+      "organizations_url": "https://api.github.com/users/noamr/orgs",
+      "repos_url": "https://api.github.com/users/noamr/repos",
+      "events_url": "https://api.github.com/users/noamr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/noamr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done",
+    "created_at": "2022-12-13T06:16:26Z",
+    "updated_at": "2022-12-13T06:16:26Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1250#discussion_r1046698280",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1250",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046698280"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1250#discussion_r1046698280"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1250"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046698280/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 6821,
+    "side": "RIGHT",
+    "in_reply_to_id": 1046658823,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 18,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046698324",
+    "pull_request_review_id": 1214769635,
+    "id": 1046698324,
+    "node_id": "PRRC_kwDOANUOW84-Y1lU",
+    "diff_hunk": "@@ -6809,36 +6809,41 @@ a chunk</dfn> from a {{ReadableStreamDefaultReader}} |reader|, given a [=read re\n \n <div algorithm=\"read all bytes\">\n  <p>To <dfn export for=\"ReadableStreamDefaultReader\" lt=\"read all bytes|reading all bytes\">read all\n- bytes</dfn> from a {{ReadableStreamDefaultReader}} |reader|, perform the following steps. The\n- result will be a {{Promise}} for a [=byte sequence=].\n+ bytes as a promise</dfn> from a {{ReadableStreamDefaultReader}} |reader|, perform the following\n+ steps. The result will be a {{Promise}} for a [=byte sequence=].\n \n  1. Let |promise| be [=a new promise=].\n- 1. Let |bytes| be an empty [=byte sequence=].\n- 1. [=Read-loop=] given |reader|, |bytes|, and |promise|.\n- 1. Return |promise|.\n+ 1. Let |success steps| given a [=byte sequence=] |data| be to [=resolve=] |promise| with |data|.\n+ 1. Let |failure steps| given a JavaScript value |error| be to [=reject=] |promise| with |error|.\n+ 1. [=Consume all bytes=] from |reader| given |success steps| and |failure steps|.\n+\n+ <p>To <dfn export for=\"ReadableStreamDefaultReader\">consume all bytes</dfn> from\n+ {{ReadableStreamDefaultReader}} |reader|, given |success steps|, which is an algorithm accepting a\n+ [=byte sequence=], and |failure steps|, which is an algorithm accepting a JavaScript value,\n+ [=read-loop=] given |reader|, a new [=byte sequence=], |success steps|, and |failure steps|.\n \n  <div algorithm=\"read-loop\">\n-  For the purposes of the above algorithm, to <dfn>read-loop</dfn> given |reader|, |bytes|, and\n-  |promise|:\n+  For the purposes of the above algorithm, to <dfn>read-loop</dfn> given |reader|, |bytes|,\n+  |success steps|, and |failure steps|:\n \n   1. Let |readRequest| be a new [=read request=] with the following [=struct/items=]:\n    : [=read request/chunk steps=], given |chunk|\n    ::\n-    1. If |chunk| is not a {{Uint8Array}} object, [=reject=] |promise| with a {{TypeError}} and\n+    1. If |chunk| is not a {{Uint8Array}} object, call |failure steps| with a {{TypeError}} and\n        abort these steps.\n     1. Append the bytes represented by |chunk| to |bytes|.",
+    "path": "index.bs",
+    "commit_id": "52dc6af1315124dfaf166704db72e9826e618a89",
+    "original_commit_id": "81f9a1f0f9a99c531cda4ec13e82dc76c32fba3e",
+    "user": {
+      "login": "noamr",
+      "id": 88566,
+      "node_id": "MDQ6VXNlcjg4NTY2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88566?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/noamr",
+      "html_url": "https://github.com/noamr",
+      "followers_url": "https://api.github.com/users/noamr/followers",
+      "following_url": "https://api.github.com/users/noamr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/noamr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/noamr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/noamr/subscriptions",
+      "organizations_url": "https://api.github.com/users/noamr/orgs",
+      "repos_url": "https://api.github.com/users/noamr/repos",
+      "events_url": "https://api.github.com/users/noamr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/noamr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done",
+    "created_at": "2022-12-13T06:16:31Z",
+    "updated_at": "2022-12-13T06:16:32Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1250#discussion_r1046698324",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1250",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046698324"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1250#discussion_r1046698324"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1250"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046698324/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 6826,
+    "original_line": 6834,
+    "side": "RIGHT",
+    "in_reply_to_id": 1046659014,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 34,
+    "position": 28,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046733773",
+    "pull_request_review_id": 1214821748,
+    "id": 1046733773,
+    "node_id": "PRRC_kwDOANUOW84-Y-PN",
+    "diff_hunk": "@@ -6809,36 +6809,32 @@ a chunk</dfn> from a {{ReadableStreamDefaultReader}} |reader|, given a [=read re\n \n <div algorithm=\"read all bytes\">\n  <p>To <dfn export for=\"ReadableStreamDefaultReader\" lt=\"read all bytes|reading all bytes\">read all\n- bytes</dfn> from a {{ReadableStreamDefaultReader}} |reader|, perform the following steps. The\n- result will be a {{Promise}} for a [=byte sequence=].\n-\n- 1. Let |promise| be [=a new promise=].\n- 1. Let |bytes| be an empty [=byte sequence=].\n- 1. [=Read-loop=] given |reader|, |bytes|, and |promise|.\n- 1. Return |promise|.\n+ bytes as a promise</dfn> from a {{ReadableStreamDefaultReader}} |reader|, given |successSteps|,",
+    "path": "index.bs",
+    "commit_id": "52dc6af1315124dfaf166704db72e9826e618a89",
+    "original_commit_id": "3e6683b9b2b0fed2d822deb8dd0a5e49c4d23425",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n bytes</dfn> from a {{ReadableStreamDefaultReader}} |reader|, given |successSteps|,\r\n```",
+    "created_at": "2022-12-13T07:14:22Z",
+    "updated_at": "2022-12-13T07:18:52Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1250#discussion_r1046733773",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1250",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046733773"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1250#discussion_r1046733773"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1250"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046733773/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 6812,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 11,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046733870",
+    "pull_request_review_id": 1214821748,
+    "id": 1046733870,
+    "node_id": "PRRC_kwDOANUOW84-Y-Qu",
+    "diff_hunk": "@@ -6809,36 +6809,32 @@ a chunk</dfn> from a {{ReadableStreamDefaultReader}} |reader|, given a [=read re\n \n <div algorithm=\"read all bytes\">\n  <p>To <dfn export for=\"ReadableStreamDefaultReader\" lt=\"read all bytes|reading all bytes\">read all\n- bytes</dfn> from a {{ReadableStreamDefaultReader}} |reader|, perform the following steps. The\n- result will be a {{Promise}} for a [=byte sequence=].\n-\n- 1. Let |promise| be [=a new promise=].\n- 1. Let |bytes| be an empty [=byte sequence=].\n- 1. [=Read-loop=] given |reader|, |bytes|, and |promise|.\n- 1. Return |promise|.\n+ bytes as a promise</dfn> from a {{ReadableStreamDefaultReader}} |reader|, given |successSteps|,\n+ which is an algorithm accepting a [=byte sequence=], and |failureSteps|, which is an algorithm\n+ accepting a JavaScript value, [=read-loop=] given |reader|, a new [=byte sequence=],",
+    "path": "index.bs",
+    "commit_id": "52dc6af1315124dfaf166704db72e9826e618a89",
+    "original_commit_id": "3e6683b9b2b0fed2d822deb8dd0a5e49c4d23425",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n accepting a JavaScript value: [=read-loop=] given |reader|, a new [=byte sequence=],\r\n```",
+    "created_at": "2022-12-13T07:14:29Z",
+    "updated_at": "2022-12-13T07:18:52Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1250#discussion_r1046733870",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1250",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046733870"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1250#discussion_r1046733870"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1250"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046733870/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 6814,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 13,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046733972",
+    "pull_request_review_id": 1214821748,
+    "id": 1046733972,
+    "node_id": "PRRC_kwDOANUOW84-Y-SU",
+    "diff_hunk": "@@ -6809,36 +6809,32 @@ a chunk</dfn> from a {{ReadableStreamDefaultReader}} |reader|, given a [=read re\n \n <div algorithm=\"read all bytes\">\n  <p>To <dfn export for=\"ReadableStreamDefaultReader\" lt=\"read all bytes|reading all bytes\">read all\n- bytes</dfn> from a {{ReadableStreamDefaultReader}} |reader|, perform the following steps. The\n- result will be a {{Promise}} for a [=byte sequence=].\n-\n- 1. Let |promise| be [=a new promise=].\n- 1. Let |bytes| be an empty [=byte sequence=].\n- 1. [=Read-loop=] given |reader|, |bytes|, and |promise|.\n- 1. Return |promise|.\n+ bytes as a promise</dfn> from a {{ReadableStreamDefaultReader}} |reader|, given |successSteps|,\n+ which is an algorithm accepting a [=byte sequence=], and |failureSteps|, which is an algorithm\n+ accepting a JavaScript value, [=read-loop=] given |reader|, a new [=byte sequence=],\n+ |successSteps|, and |failureSteps|.\n \n  <div algorithm=\"read-loop\">\n-  For the purposes of the above algorithm, to <dfn>read-loop</dfn> given |reader|, |bytes|, and\n-  |promise|:\n+  For the purposes of the above algorithm, to <dfn>read-loop</dfn> given |reader|, |bytes|,\n+  |successSteps|, and |failureSteps:",
+    "path": "index.bs",
+    "commit_id": "52dc6af1315124dfaf166704db72e9826e618a89",
+    "original_commit_id": "3e6683b9b2b0fed2d822deb8dd0a5e49c4d23425",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n  |successSteps|, and |failureSteps|:\r\n```",
+    "created_at": "2022-12-13T07:14:35Z",
+    "updated_at": "2022-12-13T07:18:52Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1250#discussion_r1046733972",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1250",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046733972"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1250#discussion_r1046733972"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1250"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046733972/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 6819,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 20,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046734557",
+    "pull_request_review_id": 1214821748,
+    "id": 1046734557,
+    "node_id": "PRRC_kwDOANUOW84-Y-bd",
+    "diff_hunk": "@@ -6809,36 +6809,32 @@ a chunk</dfn> from a {{ReadableStreamDefaultReader}} |reader|, given a [=read re\n \n <div algorithm=\"read all bytes\">\n  <p>To <dfn export for=\"ReadableStreamDefaultReader\" lt=\"read all bytes|reading all bytes\">read all\n- bytes</dfn> from a {{ReadableStreamDefaultReader}} |reader|, perform the following steps. The\n- result will be a {{Promise}} for a [=byte sequence=].\n-\n- 1. Let |promise| be [=a new promise=].\n- 1. Let |bytes| be an empty [=byte sequence=].\n- 1. [=Read-loop=] given |reader|, |bytes|, and |promise|.\n- 1. Return |promise|.\n+ bytes as a promise</dfn> from a {{ReadableStreamDefaultReader}} |reader|, given |successSteps|,\n+ which is an algorithm accepting a [=byte sequence=], and |failureSteps|, which is an algorithm\n+ accepting a JavaScript value, [=read-loop=] given |reader|, a new [=byte sequence=],\n+ |successSteps|, and |failureSteps|.\n \n  <div algorithm=\"read-loop\">\n-  For the purposes of the above algorithm, to <dfn>read-loop</dfn> given |reader|, |bytes|, and\n-  |promise|:\n+  For the purposes of the above algorithm, to <dfn>read-loop</dfn> given |reader|, |bytes|,\n+  |successSteps|, and |failureSteps:\n \n   1. Let |readRequest| be a new [=read request=] with the following [=struct/items=]:\n    : [=read request/chunk steps=], given |chunk|\n    ::\n-    1. If |chunk| is not a {{Uint8Array}} object, [=reject=] |promise| with a {{TypeError}} and",
+    "path": "index.bs",
+    "commit_id": "52dc6af1315124dfaf166704db72e9826e618a89",
+    "original_commit_id": "3e6683b9b2b0fed2d822deb8dd0a5e49c4d23425",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Hmm, I realized I made this more complicated because \"get a copy of the bytes held\" expects a BufferSource, but chunk steps get arbitrary values, which given the current state of the spec I'm not sure if they're even IDL versus JavaScript values.\r\n\r\nProbably best to just revert this to the previous imprecise wording (including the type check and reject). Eventually we can do a pass through the spec to use the new-ish IDL BufferSource manipulation stuff everywhere. Sorry for thinking that this sub-case would be easier and thus worth doing while you were in the area.",
+    "created_at": "2022-12-13T07:15:25Z",
+    "updated_at": "2022-12-13T07:18:52Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1250#discussion_r1046734557",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1250",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046734557"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1250#discussion_r1046734557"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1250"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046734557/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 6827,
+    "original_line": 6827,
+    "side": "LEFT",
+    "author_association": "MEMBER",
+    "original_position": 25,
+    "position": 25,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046741348",
+    "pull_request_review_id": 1214832796,
+    "id": 1046741348,
+    "node_id": "PRRC_kwDOANUOW84-ZAFk",
+    "diff_hunk": "@@ -6809,36 +6809,32 @@ a chunk</dfn> from a {{ReadableStreamDefaultReader}} |reader|, given a [=read re\n \n <div algorithm=\"read all bytes\">\n  <p>To <dfn export for=\"ReadableStreamDefaultReader\" lt=\"read all bytes|reading all bytes\">read all\n- bytes</dfn> from a {{ReadableStreamDefaultReader}} |reader|, perform the following steps. The\n- result will be a {{Promise}} for a [=byte sequence=].\n-\n- 1. Let |promise| be [=a new promise=].\n- 1. Let |bytes| be an empty [=byte sequence=].\n- 1. [=Read-loop=] given |reader|, |bytes|, and |promise|.\n- 1. Return |promise|.\n+ bytes as a promise</dfn> from a {{ReadableStreamDefaultReader}} |reader|, given |successSteps|,\n+ which is an algorithm accepting a [=byte sequence=], and |failureSteps|, which is an algorithm\n+ accepting a JavaScript value, [=read-loop=] given |reader|, a new [=byte sequence=],\n+ |successSteps|, and |failureSteps|.\n \n  <div algorithm=\"read-loop\">\n-  For the purposes of the above algorithm, to <dfn>read-loop</dfn> given |reader|, |bytes|, and\n-  |promise|:\n+  For the purposes of the above algorithm, to <dfn>read-loop</dfn> given |reader|, |bytes|,\n+  |successSteps|, and |failureSteps:\n \n   1. Let |readRequest| be a new [=read request=] with the following [=struct/items=]:\n    : [=read request/chunk steps=], given |chunk|\n    ::\n-    1. If |chunk| is not a {{Uint8Array}} object, [=reject=] |promise| with a {{TypeError}} and",
+    "path": "index.bs",
+    "commit_id": "52dc6af1315124dfaf166704db72e9826e618a89",
+    "original_commit_id": "3e6683b9b2b0fed2d822deb8dd0a5e49c4d23425",
+    "user": {
+      "login": "noamr",
+      "id": 88566,
+      "node_id": "MDQ6VXNlcjg4NTY2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88566?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/noamr",
+      "html_url": "https://github.com/noamr",
+      "followers_url": "https://api.github.com/users/noamr/followers",
+      "following_url": "https://api.github.com/users/noamr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/noamr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/noamr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/noamr/subscriptions",
+      "organizations_url": "https://api.github.com/users/noamr/orgs",
+      "repos_url": "https://api.github.com/users/noamr/repos",
+      "events_url": "https://api.github.com/users/noamr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/noamr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "No worries. Reverted",
+    "created_at": "2022-12-13T07:23:57Z",
+    "updated_at": "2022-12-13T07:23:58Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1250#discussion_r1046741348",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1250",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046741348"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1250#discussion_r1046741348"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1250"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1046741348/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 6827,
+    "original_line": 6827,
+    "side": "LEFT",
+    "in_reply_to_id": 1046734557,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 25,
+    "position": 25,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

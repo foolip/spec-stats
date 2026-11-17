@@ -1,0 +1,288 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/808403641",
+    "pull_request_review_id": 885074564,
+    "id": 808403641,
+    "node_id": "PRRC_kwDOAhq5Lc4wL0K5",
+    "diff_hunk": "@@ -701,6 +701,18 @@ the UA MUST run the following steps:\n   5. Add |device| to |allowedDevice|@{{[[devices]]}}.\n   6. Return |allowedDevice|.\n \n+To <dfn data-lt=\"remove device from storage\">remove an allowed <a>USB\n+device</a></dfn> |device|, given a {{USBPermissionStorage}} |storage|,\n+the UA MUST run the following steps:\n+\n+  1. Search for an element |allowedDevice| in\n+     <code>|storage|.{{USBPermissionStorage/allowedDevices}}</code> where\n+     |device| is in |allowedDevice|@{{[[devices]]}}, if no such element exists,\n+     abort these steps.\n+  2. Remove |device| from |allowedDevice|@{{[[devices]]}}.",
+    "path": "index.bs",
+    "commit_id": "de492f1d9fad9fbe27e03d641e2cd0ad7b9e7cca",
+    "original_commit_id": "b312701ef0b12c74a589fb4ee0512e4d9a29e7ee",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Is this step necessary since `allowedDevice` is being removed completely?",
+    "created_at": "2022-02-16T19:56:56Z",
+    "updated_at": "2022-02-16T19:58:47Z",
+    "html_url": "https://github.com/whatwg/usb/pull/214#discussion_r808403641",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/214",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/808403641"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/214#discussion_r808403641"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/214"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/808403641/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 712,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 12,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/808404966",
+    "pull_request_review_id": 885074564,
+    "id": 808404966,
+    "node_id": "PRRC_kwDOAhq5Lc4wL0fm",
+    "diff_hunk": "@@ -930,6 +943,20 @@ The {{USBDevice/close()}} method, when invoked, MUST return a new {{Promise}}\n When no [[!ECMAScript]] code can observe an instance of {{USBDevice}} |device|\n anymore, the UA SHOULD run |device|.{{USBDevice/close()}}.\n \n+The {{USBDevice/forget()}} method, when invoked, MUST return a new {{Promise}}\n+|promise| and run the following steps <a>in parallel</a>:\n+\n+  1. Let |device| be the target {{USBDevice}} object.\n+  2. Let |storage| be the {{USBPermissionStorage}} object in the current\n+     script execution environment.\n+  3. <a>Remove |device| from storage</a> with |storage|.\n+  4. <a>Resolve</a> |promise|.\n+\n+Note: The user agent MAY decide to combine permissions across APIs, for instance\n+tracking WebHID + WebUSB device access under a unified low-level device access\n+permission. This is why this method may also revoke additional (unspecified yet)",
+    "path": "index.bs",
+    "commit_id": "de492f1d9fad9fbe27e03d641e2cd0ad7b9e7cca",
+    "original_commit_id": "b312701ef0b12c74a589fb4ee0512e4d9a29e7ee",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\npermission. For this reason this method may also revoke additional (unspecified yet)\r\n```",
+    "created_at": "2022-02-16T19:58:40Z",
+    "updated_at": "2022-02-16T19:58:47Z",
+    "html_url": "https://github.com/whatwg/usb/pull/214#discussion_r808404966",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/214",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/808404966"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/214#discussion_r808404966"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/214"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/808404966/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 957,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 42,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/808739716",
+    "pull_request_review_id": 885527544,
+    "id": 808739716,
+    "node_id": "PRRC_kwDOAhq5Lc4wNGOE",
+    "diff_hunk": "@@ -701,6 +701,18 @@ the UA MUST run the following steps:\n   5. Add |device| to |allowedDevice|@{{[[devices]]}}.\n   6. Return |allowedDevice|.\n \n+To <dfn data-lt=\"remove device from storage\">remove an allowed <a>USB\n+device</a></dfn> |device|, given a {{USBPermissionStorage}} |storage|,\n+the UA MUST run the following steps:\n+\n+  1. Search for an element |allowedDevice| in\n+     <code>|storage|.{{USBPermissionStorage/allowedDevices}}</code> where\n+     |device| is in |allowedDevice|@{{[[devices]]}}, if no such element exists,\n+     abort these steps.\n+  2. Remove |device| from |allowedDevice|@{{[[devices]]}}.",
+    "path": "index.bs",
+    "commit_id": "de492f1d9fad9fbe27e03d641e2cd0ad7b9e7cca",
+    "original_commit_id": "b312701ef0b12c74a589fb4ee0512e4d9a29e7ee",
+    "user": {
+      "login": "beaufortfrancois",
+      "id": 634478,
+      "node_id": "MDQ6VXNlcjYzNDQ3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/634478?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/beaufortfrancois",
+      "html_url": "https://github.com/beaufortfrancois",
+      "followers_url": "https://api.github.com/users/beaufortfrancois/followers",
+      "following_url": "https://api.github.com/users/beaufortfrancois/following{/other_user}",
+      "gists_url": "https://api.github.com/users/beaufortfrancois/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/beaufortfrancois/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/beaufortfrancois/subscriptions",
+      "organizations_url": "https://api.github.com/users/beaufortfrancois/orgs",
+      "repos_url": "https://api.github.com/users/beaufortfrancois/repos",
+      "events_url": "https://api.github.com/users/beaufortfrancois/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/beaufortfrancois/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Good catch!",
+    "created_at": "2022-02-17T07:22:29Z",
+    "updated_at": "2022-02-17T07:25:05Z",
+    "html_url": "https://github.com/whatwg/usb/pull/214#discussion_r808739716",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/214",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/808739716"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/214#discussion_r808739716"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/214"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/808739716/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 712,
+    "side": "RIGHT",
+    "in_reply_to_id": 808403641,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 12,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/808739825",
+    "pull_request_review_id": 885527544,
+    "id": 808739825,
+    "node_id": "PRRC_kwDOAhq5Lc4wNGPx",
+    "diff_hunk": "@@ -930,6 +943,20 @@ The {{USBDevice/close()}} method, when invoked, MUST return a new {{Promise}}\n When no [[!ECMAScript]] code can observe an instance of {{USBDevice}} |device|\n anymore, the UA SHOULD run |device|.{{USBDevice/close()}}.\n \n+The {{USBDevice/forget()}} method, when invoked, MUST return a new {{Promise}}\n+|promise| and run the following steps <a>in parallel</a>:\n+\n+  1. Let |device| be the target {{USBDevice}} object.\n+  2. Let |storage| be the {{USBPermissionStorage}} object in the current\n+     script execution environment.\n+  3. <a>Remove |device| from storage</a> with |storage|.\n+  4. <a>Resolve</a> |promise|.\n+\n+Note: The user agent MAY decide to combine permissions across APIs, for instance\n+tracking WebHID + WebUSB device access under a unified low-level device access\n+permission. This is why this method may also revoke additional (unspecified yet)",
+    "path": "index.bs",
+    "commit_id": "de492f1d9fad9fbe27e03d641e2cd0ad7b9e7cca",
+    "original_commit_id": "b312701ef0b12c74a589fb4ee0512e4d9a29e7ee",
+    "user": {
+      "login": "beaufortfrancois",
+      "id": 634478,
+      "node_id": "MDQ6VXNlcjYzNDQ3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/634478?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/beaufortfrancois",
+      "html_url": "https://github.com/beaufortfrancois",
+      "followers_url": "https://api.github.com/users/beaufortfrancois/followers",
+      "following_url": "https://api.github.com/users/beaufortfrancois/following{/other_user}",
+      "gists_url": "https://api.github.com/users/beaufortfrancois/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/beaufortfrancois/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/beaufortfrancois/subscriptions",
+      "organizations_url": "https://api.github.com/users/beaufortfrancois/orgs",
+      "repos_url": "https://api.github.com/users/beaufortfrancois/repos",
+      "events_url": "https://api.github.com/users/beaufortfrancois/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/beaufortfrancois/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2022-02-17T07:22:40Z",
+    "updated_at": "2022-02-17T07:25:05Z",
+    "html_url": "https://github.com/whatwg/usb/pull/214#discussion_r808739825",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/214",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/808739825"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/214#discussion_r808739825"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/214"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/808739825/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 957,
+    "side": "RIGHT",
+    "in_reply_to_id": 808404966,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 42,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

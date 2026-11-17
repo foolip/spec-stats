@@ -1,0 +1,288 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/quirks/pulls/comments/1833517648",
+    "pull_request_review_id": 2422389638,
+    "id": 1833517648,
+    "node_id": "PRRC_kwDOAGMBL85tSUJQ",
+    "diff_hunk": "@@ -237,8 +237,8 @@ the first step that returns a value:\n  ''height/auto'', then return |element|.\n \n  <li><p>If |element| has a <a>computed value</a> of the 'position' property that is\n- ''position/absolute'', or if |element| is a not a <a>block container</a> or a\n- <a>table wrapper box</a>, then return |element|.\n+ ''position/absolute'', or if |element| is a not a <a>block box</a>, a\n+ <a>table wrapper box</a>, a <a>flex item</a>, or a <a>grid item</a>, then return |element|.",
+    "path": "quirks.bs",
+    "commit_id": "e9fd219fb8e2dd6481cbed003629fd0bf28e53a4",
+    "original_commit_id": "a770bf0102a303de00fa5504d6b5b8904d30bc52",
+    "user": {
+      "login": "Loirooriol",
+      "id": 7477678,
+      "node_id": "MDQ6VXNlcjc0Nzc2Nzg=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7477678?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Loirooriol",
+      "html_url": "https://github.com/Loirooriol",
+      "followers_url": "https://api.github.com/users/Loirooriol/followers",
+      "following_url": "https://api.github.com/users/Loirooriol/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Loirooriol/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Loirooriol/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Loirooriol/subscriptions",
+      "organizations_url": "https://api.github.com/users/Loirooriol/orgs",
+      "repos_url": "https://api.github.com/users/Loirooriol/repos",
+      "events_url": "https://api.github.com/users/Loirooriol/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Loirooriol/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This should be restricting the quirk rather than applying it more frequently...\r\nSo we need to return element if some of these conditions holds:\r\n - computed value of `position` is `absolute`\r\n - element is not a block box nor an inline-block\r\n - element is a flex item or grid item\r\n\r\nThe 3rd condition is superfluous, but the CSSWG wanted to be extra explicit :shrug: \r\n\r\nIn CSS2 table wrapper boxes are either block boxes or inline-block boxes as per https://drafts.csswg.org/css2/#model, so I think the above handles them well. If you want to be extra explicit, the 2nd condition should be\r\n\r\n - element is not a block box, nor an inline-block, nor a block-level or inline-level table wrapper box\r\n\r\nE.g. if we add `display: masonry`, a masonry-level table wrapper box will not be covered by the 3rd condition, so it should be covered by the 2nd one, so it can't exclude all table wrapper boxes.",
+    "created_at": "2024-11-07T23:55:46Z",
+    "updated_at": "2024-12-21T15:15:00Z",
+    "html_url": "https://github.com/whatwg/quirks/pull/76#discussion_r1833517648",
+    "pull_request_url": "https://api.github.com/repos/whatwg/quirks/pulls/76",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/quirks/pulls/comments/1833517648"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/quirks/pull/76#discussion_r1833517648"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/quirks/pulls/76"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/quirks/pulls/comments/1833517648/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 240,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 241,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 7,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/quirks/pulls/comments/1958731922",
+    "pull_request_review_id": 2621877240,
+    "id": 1958731922,
+    "node_id": "PRRC_kwDOAGMBL850v-CS",
+    "diff_hunk": "@@ -237,8 +237,8 @@ the first step that returns a value:\n  ''height/auto'', then return |element|.\n \n  <li><p>If |element| has a <a>computed value</a> of the 'position' property that is\n- ''position/absolute'', or if |element| is a not a <a>block container</a> or a\n- <a>table wrapper box</a>, then return |element|.\n+ ''position/absolute'', or if |element| is a not a <a>block box</a>, a\n+ <a>table wrapper box</a>, a <a>flex item</a>, or a <a>grid item</a>, then return |element|.",
+    "path": "quirks.bs",
+    "commit_id": "e9fd219fb8e2dd6481cbed003629fd0bf28e53a4",
+    "original_commit_id": "a770bf0102a303de00fa5504d6b5b8904d30bc52",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Thanks, fixed.",
+    "created_at": "2025-02-17T20:03:19Z",
+    "updated_at": "2025-02-17T20:03:19Z",
+    "html_url": "https://github.com/whatwg/quirks/pull/76#discussion_r1958731922",
+    "pull_request_url": "https://api.github.com/repos/whatwg/quirks/pulls/76",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/quirks/pulls/comments/1958731922"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/quirks/pull/76#discussion_r1958731922"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/quirks/pulls/76"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/quirks/pulls/comments/1958731922/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 240,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 241,
+    "side": "RIGHT",
+    "in_reply_to_id": 1833517648,
+    "author_association": "MEMBER",
+    "original_position": 7,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/quirks/pulls/comments/1958765423",
+    "pull_request_review_id": 2621934500,
+    "id": 1958765423,
+    "node_id": "PRRC_kwDOAGMBL850wGNv",
+    "diff_hunk": "@@ -236,9 +236,18 @@ the first step that returns a value:\n  <li><p>If |element| has a <a>computed value</a> of the 'height' property that is not\n  ''height/auto'', then return |element|.\n \n- <li><p>If |element| has a <a>computed value</a> of the 'position' property that is\n- ''position/absolute'', or if |element| is a not a <a>block container</a> or a\n- <a>table wrapper box</a>, then return |element|.\n+ <li>\n+  <p>If the following conditions are true, then return |element|:</p>",
+    "path": "quirks.bs",
+    "commit_id": "e9fd219fb8e2dd6481cbed003629fd0bf28e53a4",
+    "original_commit_id": "9dd9607138eee8ddf23afdf1ffa7c79f3d41aa25",
+    "user": {
+      "login": "Loirooriol",
+      "id": 7477678,
+      "node_id": "MDQ6VXNlcjc0Nzc2Nzg=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7477678?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Loirooriol",
+      "html_url": "https://github.com/Loirooriol",
+      "followers_url": "https://api.github.com/users/Loirooriol/followers",
+      "following_url": "https://api.github.com/users/Loirooriol/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Loirooriol/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Loirooriol/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Loirooriol/subscriptions",
+      "organizations_url": "https://api.github.com/users/Loirooriol/orgs",
+      "repos_url": "https://api.github.com/users/Loirooriol/repos",
+      "events_url": "https://api.github.com/users/Loirooriol/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Loirooriol/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Just one condition suffices\r\n\r\n```suggestion\r\n  <p>If any of the following conditions is true, then return |element|:</p>\r\n```",
+    "created_at": "2025-02-17T20:55:22Z",
+    "updated_at": "2025-02-17T20:55:23Z",
+    "html_url": "https://github.com/whatwg/quirks/pull/76#discussion_r1958765423",
+    "pull_request_url": "https://api.github.com/repos/whatwg/quirks/pulls/76",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/quirks/pulls/comments/1958765423"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/quirks/pull/76#discussion_r1958765423"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/quirks/pulls/76"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/quirks/pulls/comments/1958765423/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 240,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 8,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/quirks/pulls/comments/1959571500",
+    "pull_request_review_id": 2623270734,
+    "id": 1959571500,
+    "node_id": "PRRC_kwDOAGMBL850zLAs",
+    "diff_hunk": "@@ -236,9 +236,18 @@ the first step that returns a value:\n  <li><p>If |element| has a <a>computed value</a> of the 'height' property that is not\n  ''height/auto'', then return |element|.\n \n- <li><p>If |element| has a <a>computed value</a> of the 'position' property that is\n- ''position/absolute'', or if |element| is a not a <a>block container</a> or a\n- <a>table wrapper box</a>, then return |element|.\n+ <li>\n+  <p>If the following conditions are true, then return |element|:</p>",
+    "path": "quirks.bs",
+    "commit_id": "e9fd219fb8e2dd6481cbed003629fd0bf28e53a4",
+    "original_commit_id": "9dd9607138eee8ddf23afdf1ffa7c79f3d41aa25",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Multiple conditions can match, so using \"are\" seems better.",
+    "created_at": "2025-02-18T11:39:51Z",
+    "updated_at": "2025-02-18T11:39:51Z",
+    "html_url": "https://github.com/whatwg/quirks/pull/76#discussion_r1959571500",
+    "pull_request_url": "https://api.github.com/repos/whatwg/quirks/pulls/76",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/quirks/pulls/comments/1959571500"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/quirks/pull/76#discussion_r1959571500"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/quirks/pulls/76"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/quirks/pulls/comments/1959571500/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 240,
+    "side": "RIGHT",
+    "in_reply_to_id": 1958765423,
+    "author_association": "MEMBER",
+    "original_position": 8,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

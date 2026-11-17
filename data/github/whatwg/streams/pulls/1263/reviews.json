@@ -1,0 +1,170 @@
+[
+  {
+    "id": 1366276447,
+    "node_id": "PRR_kwDOANUOW85Rb7lf",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "So one issue here is that this \"buffer\" type, and the operations on it, are undefined. The operations seem to be:\r\n\r\n- \"extracting from\" which returns a byte sequence while presumably modifying the buffer;\r\n- \"size\" which returns an integer; and\r\n- \"append\" in fetch\r\n\r\nI was OK with this as a one-off over in fetch, but since we're encountering this a couple times, we should think a bit harder about whether it's the route we want to go down. I.e., how should we represent underlying platform byte buffers in specs.\r\n\r\nOptions I can see:\r\n\r\n- Leave it as-is in this PR. It's fine, probably people know what it means.\r\n- Define a \"platform byte buffer\" type, probably in Streams, with a couple sentences describing what it generally corresponds to and explaining the two operations you can apply to one of these platform byte buffers.\r\n- Use byte sequences instead. Then specs like Fetch would say something like \"Let |buffer| be an empty [=byte sequence=]. NOTE: this represents the internal buffer inside the network layer of the user agent\".\r\n\r\nI think using byte sequences would be most reasonable. WDYT?",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/streams/pull/1263#pullrequestreview-1366276447",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1263",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1263#pullrequestreview-1366276447"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1263"
+      }
+    },
+    "submitted_at": "2023-03-31T05:37:58Z",
+    "commit_id": "2e09d3d6f8725e8fb11862a107ce9eb3a897e93c"
+  },
+  {
+    "id": 1368335592,
+    "node_id": "PRR_kwDOANUOW85RjyTo",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Thanks, this algorithm looks great now! I pushed a commit to move it around and integrate it with the rest of that section; if those changes look good to you, then I think we can merge.",
+    "state": "APPROVED",
+    "html_url": "https://github.com/whatwg/streams/pull/1263#pullrequestreview-1368335592",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1263",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1263#pullrequestreview-1368335592"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1263"
+      }
+    },
+    "submitted_at": "2023-04-03T06:02:38Z",
+    "commit_id": "dedb4fa40f536bea4c1069cb20eecb04825c2edd"
+  },
+  {
+    "id": 1368481125,
+    "node_id": "PRR_kwDOANUOW85RkV1l",
+    "user": {
+      "login": "saschanaz",
+      "id": 3396686,
+      "node_id": "MDQ6VXNlcjMzOTY2ODY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3396686?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/saschanaz",
+      "html_url": "https://github.com/saschanaz",
+      "followers_url": "https://api.github.com/users/saschanaz/followers",
+      "following_url": "https://api.github.com/users/saschanaz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/saschanaz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/saschanaz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/saschanaz/subscriptions",
+      "organizations_url": "https://api.github.com/users/saschanaz/orgs",
+      "repos_url": "https://api.github.com/users/saschanaz/repos",
+      "events_url": "https://api.github.com/users/saschanaz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/saschanaz/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "LGTM, thanks for the cleanup!",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/streams/pull/1263#pullrequestreview-1368481125",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1263",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1263#pullrequestreview-1368481125"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1263"
+      }
+    },
+    "submitted_at": "2023-04-03T07:59:42Z",
+    "commit_id": "96a27e548a5db0edeaebcc2801966c717a9d3cb1"
+  },
+  {
+    "id": 1372004588,
+    "node_id": "PRR_kwDOANUOW85RxyDs",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/streams/pull/1263#pullrequestreview-1372004588",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1263",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1263#pullrequestreview-1372004588"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1263"
+      }
+    },
+    "submitted_at": "2023-04-05T01:21:11Z",
+    "commit_id": "96a27e548a5db0edeaebcc2801966c717a9d3cb1"
+  }
+]

@@ -1,0 +1,785 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/url/pulls/comments/666567778",
+    "pull_request_review_id": 702561609,
+    "id": 666567778,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2NjU2Nzc3OA==",
+    "diff_hunk": "@@ -655,17 +655,40 @@ runs these steps:\n  <li><p>If <var>asciiDomain</var> contains a <a>forbidden host code point</a>,\n  <a>validation error</a>, return failure.\n \n- <li><p>Let <var>ipv4Host</var> be the result of <a lt=\"IPv4 parser\">IPv4 parsing</a>\n- <var>asciiDomain</var>.\n-\n- <li><p>If <var>ipv4Host</var> is an <a>IPv4 address</a> or failure, return\n- <var>ipv4Host</var>.\n+ <li><p>If <var>asciiDomain</var> <a lt=\"ends in a number\"> ends in a numer, return\n+ the result of <a lt=\"IPv4 parser\">IPv4 parsing</a> <var>asciiDomain</var>.\n \n  <li><p>Return <var>asciiDomain</var>.\n </ol>\n \n <hr>\n \n+<p>The <dfn id=ends-in-a-number>ends in a number checker</dfn> takes a string <var>input</var> and\n+then runs these steps:\n+\n+<ol>\n+ <li><p>Let <var>parts</var> be the result of <a>strictly splitting</a> <var>input</var> on\n+ U+002E (.).\n+\n+ <li>\n+  <p>If the last <a for=list>item</a> in <var>parts</var> is the empty string, then:\n+\n+  <ol>\n+   <li><p>If <var>parts</var>'s <a for=list>size</a> is 1, return false.\n+\n+   <li>Otherwise, <a for=list>remove</a> the last <a for=list>item</a> from <var>parts</var>.\n+  </ol>\n+\n+ <li><p>Let <var>last</var> be the last <a for=list>item</a> from <var>parts</var>.\n+\n+ <li>If parsing <var>last</var> as an <a lt=\"IPv4 number parser\">IPv4 number</a> does not\n+ return failure, return true.\n+\n+ <li><p>If <var>last</var> is non-empty and contains only <a>ASCII digits</a>, return true.",
+    "path": "url.bs",
+    "commit_id": "c09bcfa55c55537d51dc86980190285bd6e7563f",
+    "original_commit_id": "cd9dfdc342b808874b21f25a353c59ad0aa5f840",
+    "user": {
+      "login": "TimothyGu",
+      "id": 1538624,
+      "node_id": "MDQ6VXNlcjE1Mzg2MjQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1538624?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/TimothyGu",
+      "html_url": "https://github.com/TimothyGu",
+      "followers_url": "https://api.github.com/users/TimothyGu/followers",
+      "following_url": "https://api.github.com/users/TimothyGu/following{/other_user}",
+      "gists_url": "https://api.github.com/users/TimothyGu/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/TimothyGu/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/TimothyGu/subscriptions",
+      "organizations_url": "https://api.github.com/users/TimothyGu/orgs",
+      "repos_url": "https://api.github.com/users/TimothyGu/repos",
+      "events_url": "https://api.github.com/users/TimothyGu/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/TimothyGu/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Maybe mention in a note we could get here for _last_ = \"`09`\", because IPv4 number parser would treat it as octal?",
+    "created_at": "2021-07-08T22:58:36Z",
+    "updated_at": "2021-07-08T22:58:36Z",
+    "html_url": "https://github.com/whatwg/url/pull/619#discussion_r666567778",
+    "pull_request_url": "https://api.github.com/repos/whatwg/url/pulls/619",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/comments/666567778"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/url/pull/619#discussion_r666567778"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/619"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/url/pulls/comments/666567778/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 687,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 38,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/url/pulls/comments/666607512",
+    "pull_request_review_id": 702608209,
+    "id": 666607512,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2NjYwNzUxMg==",
+    "diff_hunk": "@@ -655,17 +655,40 @@ runs these steps:\n  <li><p>If <var>asciiDomain</var> contains a <a>forbidden host code point</a>,\n  <a>validation error</a>, return failure.\n \n- <li><p>Let <var>ipv4Host</var> be the result of <a lt=\"IPv4 parser\">IPv4 parsing</a>\n- <var>asciiDomain</var>.\n-\n- <li><p>If <var>ipv4Host</var> is an <a>IPv4 address</a> or failure, return\n- <var>ipv4Host</var>.\n+ <li><p>If <var>asciiDomain</var> <a lt=\"ends in a number\"> ends in a numer, return\n+ the result of <a lt=\"IPv4 parser\">IPv4 parsing</a> <var>asciiDomain</var>.\n \n  <li><p>Return <var>asciiDomain</var>.\n </ol>\n \n <hr>\n \n+<p>The <dfn id=ends-in-a-number>ends in a number checker</dfn> takes a string <var>input</var> and\n+then runs these steps:\n+\n+<ol>\n+ <li><p>Let <var>parts</var> be the result of <a>strictly splitting</a> <var>input</var> on\n+ U+002E (.).\n+\n+ <li>\n+  <p>If the last <a for=list>item</a> in <var>parts</var> is the empty string, then:\n+\n+  <ol>\n+   <li><p>If <var>parts</var>'s <a for=list>size</a> is 1, return false.\n+\n+   <li>Otherwise, <a for=list>remove</a> the last <a for=list>item</a> from <var>parts</var>.\n+  </ol>\n+\n+ <li><p>Let <var>last</var> be the last <a for=list>item</a> from <var>parts</var>.\n+\n+ <li>If parsing <var>last</var> as an <a lt=\"IPv4 number parser\">IPv4 number</a> does not\n+ return failure, return true.\n+\n+ <li><p>If <var>last</var> is non-empty and contains only <a>ASCII digits</a>, return true.",
+    "path": "url.bs",
+    "commit_id": "c09bcfa55c55537d51dc86980190285bd6e7563f",
+    "original_commit_id": "cd9dfdc342b808874b21f25a353c59ad0aa5f840",
+    "user": {
+      "login": "MattMenke2",
+      "id": 20997105,
+      "node_id": "MDQ6VXNlcjIwOTk3MTA1",
+      "avatar_url": "https://avatars.githubusercontent.com/u/20997105?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/MattMenke2",
+      "html_url": "https://github.com/MattMenke2",
+      "followers_url": "https://api.github.com/users/MattMenke2/followers",
+      "following_url": "https://api.github.com/users/MattMenke2/following{/other_user}",
+      "gists_url": "https://api.github.com/users/MattMenke2/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/MattMenke2/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/MattMenke2/subscriptions",
+      "organizations_url": "https://api.github.com/users/MattMenke2/orgs",
+      "repos_url": "https://api.github.com/users/MattMenke2/repos",
+      "events_url": "https://api.github.com/users/MattMenke2/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/MattMenke2/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Good idea, done",
+    "created_at": "2021-07-09T01:11:28Z",
+    "updated_at": "2021-07-09T01:11:28Z",
+    "html_url": "https://github.com/whatwg/url/pull/619#discussion_r666607512",
+    "pull_request_url": "https://api.github.com/repos/whatwg/url/pulls/619",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/comments/666607512"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/url/pull/619#discussion_r666607512"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/619"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/url/pulls/comments/666607512/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 687,
+    "side": "RIGHT",
+    "in_reply_to_id": 666567778,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 38,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/url/pulls/comments/669985148",
+    "pull_request_review_id": 706759065,
+    "id": 669985148,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2OTk4NTE0OA==",
+    "diff_hunk": "@@ -655,17 +655,44 @@ runs these steps:\n  <li><p>If <var>asciiDomain</var> contains a <a>forbidden host code point</a>,\n  <a>validation error</a>, return failure.\n \n- <li><p>Let <var>ipv4Host</var> be the result of <a lt=\"IPv4 parser\">IPv4 parsing</a>\n- <var>asciiDomain</var>.\n-\n- <li><p>If <var>ipv4Host</var> is an <a>IPv4 address</a> or failure, return\n- <var>ipv4Host</var>.\n+ <li><p>If <var>asciiDomain</var> <a lt=\"ends in a number checker\"> ends in a numer, return",
+    "path": "url.bs",
+    "commit_id": "c09bcfa55c55537d51dc86980190285bd6e7563f",
+    "original_commit_id": "eca9361b54d7b4168719baa9c05deb85eccce779",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n <li><p>If <var>asciiDomain</var> <a lt=\"ends in a number checker\">ends in a number</a>, return\r\n```",
+    "created_at": "2021-07-14T22:03:07Z",
+    "updated_at": "2021-07-14T22:10:03Z",
+    "html_url": "https://github.com/whatwg/url/pull/619#discussion_r669985148",
+    "pull_request_url": "https://api.github.com/repos/whatwg/url/pulls/619",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/comments/669985148"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/url/pull/619#discussion_r669985148"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/619"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/url/pulls/comments/669985148/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 658,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 9,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/url/pulls/comments/669985245",
+    "pull_request_review_id": 706759065,
+    "id": 669985245,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2OTk4NTI0NQ==",
+    "diff_hunk": "@@ -655,17 +655,44 @@ runs these steps:\n  <li><p>If <var>asciiDomain</var> contains a <a>forbidden host code point</a>,\n  <a>validation error</a>, return failure.\n \n- <li><p>Let <var>ipv4Host</var> be the result of <a lt=\"IPv4 parser\">IPv4 parsing</a>\n- <var>asciiDomain</var>.\n-\n- <li><p>If <var>ipv4Host</var> is an <a>IPv4 address</a> or failure, return\n- <var>ipv4Host</var>.\n+ <li><p>If <var>asciiDomain</var> <a lt=\"ends in a number checker\"> ends in a numer, return\n+ the result of <a lt=\"IPv4 parser\">IPv4 parsing</a> <var>asciiDomain</var>.\n \n  <li><p>Return <var>asciiDomain</var>.\n </ol>\n \n <hr>\n \n+<p>The <dfn id=ends-in-a-number>ends in a number checker</dfn> takes a string <var>input</var> and\n+then runs these steps:\n+\n+<ol>\n+ <li><p>Let <var>parts</var> be the result of <a>strictly splitting</a> <var>input</var> on\n+ U+002E (.).\n+\n+ <li>\n+  <p>If the last <a for=list>item</a> in <var>parts</var> is the empty string, then:\n+\n+  <ol>\n+   <li><p>If <var>parts</var>'s <a for=list>size</a> is 1, return false.\n+\n+   <li>Otherwise, <a for=list>remove</a> the last <a for=list>item</a> from <var>parts</var>.",
+    "path": "url.bs",
+    "commit_id": "c09bcfa55c55537d51dc86980190285bd6e7563f",
+    "original_commit_id": "eca9361b54d7b4168719baa9c05deb85eccce779",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n   <li><p><a for=list>remove</a> the last <a for=list>item</a> from <var>parts</var>.\r\n```",
+    "created_at": "2021-07-14T22:03:21Z",
+    "updated_at": "2021-07-14T22:10:03Z",
+    "html_url": "https://github.com/whatwg/url/pull/619#discussion_r669985245",
+    "pull_request_url": "https://api.github.com/repos/whatwg/url/pulls/619",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/comments/669985245"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/url/pull/619#discussion_r669985245"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/619"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/url/pulls/comments/669985245/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 679,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 30,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/url/pulls/comments/669986778",
+    "pull_request_review_id": 706759065,
+    "id": 669986778,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2OTk4Njc3OA==",
+    "diff_hunk": "@@ -754,7 +776,9 @@ these steps:\n <p>The <dfn>IPv4 number parser</dfn> takes a string <var>input</var> and then runs these steps:\n \n <ol>\n- <li><p>Let <var>validationError</var> be false.\n+ <li><p>If <var>input</var> is the empty string, then return failure.\n+\n+<li><p>Let <var>validationError</var> be false.",
+    "path": "url.bs",
+    "commit_id": "c09bcfa55c55537d51dc86980190285bd6e7563f",
+    "original_commit_id": "eca9361b54d7b4168719baa9c05deb85eccce779",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n <li><p>Let <var>validationError</var> be false.\r\n```",
+    "created_at": "2021-07-14T22:06:55Z",
+    "updated_at": "2021-07-14T22:10:03Z",
+    "html_url": "https://github.com/whatwg/url/pull/619#discussion_r669986778",
+    "pull_request_url": "https://api.github.com/repos/whatwg/url/pulls/619",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/comments/669986778"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/url/pull/619#discussion_r669986778"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/619"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/url/pulls/comments/669986778/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 781,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 85,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/url/pulls/comments/670002890",
+    "pull_request_review_id": 706780969,
+    "id": 670002890,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY3MDAwMjg5MA==",
+    "diff_hunk": "@@ -655,17 +655,44 @@ runs these steps:\n  <li><p>If <var>asciiDomain</var> contains a <a>forbidden host code point</a>,\n  <a>validation error</a>, return failure.\n \n- <li><p>Let <var>ipv4Host</var> be the result of <a lt=\"IPv4 parser\">IPv4 parsing</a>\n- <var>asciiDomain</var>.\n-\n- <li><p>If <var>ipv4Host</var> is an <a>IPv4 address</a> or failure, return\n- <var>ipv4Host</var>.\n+ <li><p>If <var>asciiDomain</var> <a lt=\"ends in a number checker\">ends in a number</a>, return\n+ the result of <a lt=\"IPv4 parser\">IPv4 parsing</a> <var>asciiDomain</var>.\n \n  <li><p>Return <var>asciiDomain</var>.\n </ol>\n \n <hr>\n \n+<p>The <dfn id=ends-in-a-number>ends in a number checker</dfn> takes a string <var>input</var> and\n+then runs these steps:\n+\n+<ol>\n+ <li><p>Let <var>parts</var> be the result of <a>strictly splitting</a> <var>input</var> on\n+ U+002E (.).\n+\n+ <li>\n+  <p>If the last <a for=list>item</a> in <var>parts</var> is the empty string, then:\n+\n+  <ol>\n+   <li><p>If <var>parts</var>'s <a for=list>size</a> is 1, return false.\n+\n+   <li><p><a for=list>remove</a> the last <a for=list>item</a> from <var>parts</var>.\n+  </ol>\n+\n+ <li><p>Let <var>last</var> be the last <a for=list>item</a> from <var>parts</var>.\n+\n+ <li>If parsing <var>last</var> as an <a lt=\"IPv4 number parser\">IPv4 number</a> does not\n+ return failure, return true.",
+    "path": "url.bs",
+    "commit_id": "c09bcfa55c55537d51dc86980190285bd6e7563f",
+    "original_commit_id": "ffde8785f7f9f975eeca0b9214111c60cf796f81",
+    "user": {
+      "login": "TimothyGu",
+      "id": 1538624,
+      "node_id": "MDQ6VXNlcjE1Mzg2MjQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1538624?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/TimothyGu",
+      "html_url": "https://github.com/TimothyGu",
+      "followers_url": "https://api.github.com/users/TimothyGu/followers",
+      "following_url": "https://api.github.com/users/TimothyGu/following{/other_user}",
+      "gists_url": "https://api.github.com/users/TimothyGu/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/TimothyGu/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/TimothyGu/subscriptions",
+      "organizations_url": "https://api.github.com/users/TimothyGu/orgs",
+      "repos_url": "https://api.github.com/users/TimothyGu/repos",
+      "events_url": "https://api.github.com/users/TimothyGu/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/TimothyGu/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n <li><p>If parsing <var>last</var> as an <a lt=\"IPv4 number parser\">IPv4 number</a> does not\r\n return failure, return true.\r\n```",
+    "created_at": "2021-07-14T22:45:02Z",
+    "updated_at": "2021-07-14T22:45:02Z",
+    "html_url": "https://github.com/whatwg/url/pull/619#discussion_r670002890",
+    "pull_request_url": "https://api.github.com/repos/whatwg/url/pulls/619",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/comments/670002890"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/url/pull/619#discussion_r670002890"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/619"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/url/pulls/comments/670002890/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 684,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 685,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 36,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/url/pulls/comments/673068168",
+    "pull_request_review_id": 710507288,
+    "id": 673068168,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY3MzA2ODE2OA==",
+    "diff_hunk": "@@ -655,17 +655,44 @@ runs these steps:\n  <li><p>If <var>asciiDomain</var> contains a <a>forbidden host code point</a>,\n  <a>validation error</a>, return failure.\n \n- <li><p>Let <var>ipv4Host</var> be the result of <a lt=\"IPv4 parser\">IPv4 parsing</a>\n- <var>asciiDomain</var>.\n-\n- <li><p>If <var>ipv4Host</var> is an <a>IPv4 address</a> or failure, return\n- <var>ipv4Host</var>.\n+ <li><p>If <var>asciiDomain</var> <a lt=\"ends in a number checker\">ends in a number</a>, return\n+ the result of <a lt=\"IPv4 parser\">IPv4 parsing</a> <var>asciiDomain</var>.\n \n  <li><p>Return <var>asciiDomain</var>.\n </ol>\n \n <hr>\n \n+<p>The <dfn id=ends-in-a-number>ends in a number checker</dfn> takes a string <var>input</var> and\n+then runs these steps:\n+\n+<ol>\n+ <li><p>Let <var>parts</var> be the result of <a>strictly splitting</a> <var>input</var> on\n+ U+002E (.).\n+\n+ <li>\n+  <p>If the last <a for=list>item</a> in <var>parts</var> is the empty string, then:\n+\n+  <ol>\n+   <li><p>If <var>parts</var>'s <a for=list>size</a> is 1, return false.",
+    "path": "url.bs",
+    "commit_id": "c09bcfa55c55537d51dc86980190285bd6e7563f",
+    "original_commit_id": "2a83d0f09cebd3d1c37907332d53cf190fde3632",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n   <li><p>If <var>parts</var>'s <a for=list>size</a> is 1, then return false.\r\n```",
+    "created_at": "2021-07-20T12:16:48Z",
+    "updated_at": "2021-07-20T12:20:09Z",
+    "html_url": "https://github.com/whatwg/url/pull/619#discussion_r673068168",
+    "pull_request_url": "https://api.github.com/repos/whatwg/url/pulls/619",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/comments/673068168"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/url/pull/619#discussion_r673068168"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/619"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/url/pulls/comments/673068168/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 677,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 28,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/url/pulls/comments/673068258",
+    "pull_request_review_id": 710507288,
+    "id": 673068258,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY3MzA2ODI1OA==",
+    "diff_hunk": "@@ -655,17 +655,44 @@ runs these steps:\n  <li><p>If <var>asciiDomain</var> contains a <a>forbidden host code point</a>,\n  <a>validation error</a>, return failure.\n \n- <li><p>Let <var>ipv4Host</var> be the result of <a lt=\"IPv4 parser\">IPv4 parsing</a>\n- <var>asciiDomain</var>.\n-\n- <li><p>If <var>ipv4Host</var> is an <a>IPv4 address</a> or failure, return\n- <var>ipv4Host</var>.\n+ <li><p>If <var>asciiDomain</var> <a lt=\"ends in a number checker\">ends in a number</a>, return\n+ the result of <a lt=\"IPv4 parser\">IPv4 parsing</a> <var>asciiDomain</var>.\n \n  <li><p>Return <var>asciiDomain</var>.\n </ol>\n \n <hr>\n \n+<p>The <dfn id=ends-in-a-number>ends in a number checker</dfn> takes a string <var>input</var> and\n+then runs these steps:\n+\n+<ol>\n+ <li><p>Let <var>parts</var> be the result of <a>strictly splitting</a> <var>input</var> on\n+ U+002E (.).\n+\n+ <li>\n+  <p>If the last <a for=list>item</a> in <var>parts</var> is the empty string, then:\n+\n+  <ol>\n+   <li><p>If <var>parts</var>'s <a for=list>size</a> is 1, return false.\n+\n+   <li><p><a for=list>remove</a> the last <a for=list>item</a> from <var>parts</var>.",
+    "path": "url.bs",
+    "commit_id": "c09bcfa55c55537d51dc86980190285bd6e7563f",
+    "original_commit_id": "2a83d0f09cebd3d1c37907332d53cf190fde3632",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n   <li><p><a for=list>Remove</a> the last <a for=list>item</a> from <var>parts</var>.\r\n```",
+    "created_at": "2021-07-20T12:16:57Z",
+    "updated_at": "2021-07-20T12:20:09Z",
+    "html_url": "https://github.com/whatwg/url/pull/619#discussion_r673068258",
+    "pull_request_url": "https://api.github.com/repos/whatwg/url/pulls/619",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/comments/673068258"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/url/pull/619#discussion_r673068258"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/619"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/url/pulls/comments/673068258/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 679,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 30,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/url/pulls/comments/673068487",
+    "pull_request_review_id": 710507288,
+    "id": 673068487,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY3MzA2ODQ4Nw==",
+    "diff_hunk": "@@ -655,17 +655,44 @@ runs these steps:\n  <li><p>If <var>asciiDomain</var> contains a <a>forbidden host code point</a>,\n  <a>validation error</a>, return failure.\n \n- <li><p>Let <var>ipv4Host</var> be the result of <a lt=\"IPv4 parser\">IPv4 parsing</a>\n- <var>asciiDomain</var>.\n-\n- <li><p>If <var>ipv4Host</var> is an <a>IPv4 address</a> or failure, return\n- <var>ipv4Host</var>.\n+ <li><p>If <var>asciiDomain</var> <a lt=\"ends in a number checker\">ends in a number</a>, return\n+ the result of <a lt=\"IPv4 parser\">IPv4 parsing</a> <var>asciiDomain</var>.\n \n  <li><p>Return <var>asciiDomain</var>.\n </ol>\n \n <hr>\n \n+<p>The <dfn id=ends-in-a-number>ends in a number checker</dfn> takes a string <var>input</var> and\n+then runs these steps:\n+\n+<ol>\n+ <li><p>Let <var>parts</var> be the result of <a>strictly splitting</a> <var>input</var> on\n+ U+002E (.).\n+\n+ <li>\n+  <p>If the last <a for=list>item</a> in <var>parts</var> is the empty string, then:\n+\n+  <ol>\n+   <li><p>If <var>parts</var>'s <a for=list>size</a> is 1, return false.\n+\n+   <li><p><a for=list>remove</a> the last <a for=list>item</a> from <var>parts</var>.\n+  </ol>\n+\n+ <li><p>Let <var>last</var> be the last <a for=list>item</a> from <var>parts</var>.",
+    "path": "url.bs",
+    "commit_id": "c09bcfa55c55537d51dc86980190285bd6e7563f",
+    "original_commit_id": "2a83d0f09cebd3d1c37907332d53cf190fde3632",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n <li><p>Let <var>last</var> be the last <a for=list>item</a> in <var>parts</var>.\r\n```\r\n(for consistency with earlier)",
+    "created_at": "2021-07-20T12:17:20Z",
+    "updated_at": "2021-07-20T12:20:09Z",
+    "html_url": "https://github.com/whatwg/url/pull/619#discussion_r673068487",
+    "pull_request_url": "https://api.github.com/repos/whatwg/url/pulls/619",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/comments/673068487"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/url/pull/619#discussion_r673068487"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/619"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/url/pulls/comments/673068487/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 682,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 33,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/url/pulls/comments/673068609",
+    "pull_request_review_id": 710507288,
+    "id": 673068609,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY3MzA2ODYwOQ==",
+    "diff_hunk": "@@ -655,17 +655,44 @@ runs these steps:\n  <li><p>If <var>asciiDomain</var> contains a <a>forbidden host code point</a>,\n  <a>validation error</a>, return failure.\n \n- <li><p>Let <var>ipv4Host</var> be the result of <a lt=\"IPv4 parser\">IPv4 parsing</a>\n- <var>asciiDomain</var>.\n-\n- <li><p>If <var>ipv4Host</var> is an <a>IPv4 address</a> or failure, return\n- <var>ipv4Host</var>.\n+ <li><p>If <var>asciiDomain</var> <a lt=\"ends in a number checker\">ends in a number</a>, return\n+ the result of <a lt=\"IPv4 parser\">IPv4 parsing</a> <var>asciiDomain</var>.\n \n  <li><p>Return <var>asciiDomain</var>.\n </ol>\n \n <hr>\n \n+<p>The <dfn id=ends-in-a-number>ends in a number checker</dfn> takes a string <var>input</var> and\n+then runs these steps:\n+\n+<ol>\n+ <li><p>Let <var>parts</var> be the result of <a>strictly splitting</a> <var>input</var> on\n+ U+002E (.).\n+\n+ <li>\n+  <p>If the last <a for=list>item</a> in <var>parts</var> is the empty string, then:\n+\n+  <ol>\n+   <li><p>If <var>parts</var>'s <a for=list>size</a> is 1, return false.\n+\n+   <li><p><a for=list>remove</a> the last <a for=list>item</a> from <var>parts</var>.\n+  </ol>\n+\n+ <li><p>Let <var>last</var> be the last <a for=list>item</a> from <var>parts</var>.\n+\n+ <li><p>If parsing <var>last</var> as an <a lt=\"IPv4 number parser\">IPv4 number</a> does not\n+ return failure, return true.",
+    "path": "url.bs",
+    "commit_id": "c09bcfa55c55537d51dc86980190285bd6e7563f",
+    "original_commit_id": "2a83d0f09cebd3d1c37907332d53cf190fde3632",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n return failure, then return true.\r\n```",
+    "created_at": "2021-07-20T12:17:29Z",
+    "updated_at": "2021-07-20T12:20:09Z",
+    "html_url": "https://github.com/whatwg/url/pull/619#discussion_r673068609",
+    "pull_request_url": "https://api.github.com/repos/whatwg/url/pulls/619",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/comments/673068609"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/url/pull/619#discussion_r673068609"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/619"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/url/pulls/comments/673068609/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 685,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 36,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/url/pulls/comments/673069438",
+    "pull_request_review_id": 710507288,
+    "id": 673069438,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY3MzA2OTQzOA==",
+    "diff_hunk": "@@ -655,17 +655,40 @@ runs these steps:\n  <li><p>If <var>asciiDomain</var> contains a <a>forbidden host code point</a>,\n  <a>validation error</a>, return failure.\n \n- <li><p>Let <var>ipv4Host</var> be the result of <a lt=\"IPv4 parser\">IPv4 parsing</a>\n- <var>asciiDomain</var>.\n-\n- <li><p>If <var>ipv4Host</var> is an <a>IPv4 address</a> or failure, return\n- <var>ipv4Host</var>.\n+ <li><p>If <var>asciiDomain</var> <a lt=\"ends in a number\"> ends in a numer, return\n+ the result of <a lt=\"IPv4 parser\">IPv4 parsing</a> <var>asciiDomain</var>.\n \n  <li><p>Return <var>asciiDomain</var>.\n </ol>\n \n <hr>\n \n+<p>The <dfn id=ends-in-a-number>ends in a number checker</dfn> takes a string <var>input</var> and\n+then runs these steps:\n+\n+<ol>\n+ <li><p>Let <var>parts</var> be the result of <a>strictly splitting</a> <var>input</var> on\n+ U+002E (.).\n+\n+ <li>\n+  <p>If the last <a for=list>item</a> in <var>parts</var> is the empty string, then:\n+\n+  <ol>\n+   <li><p>If <var>parts</var>'s <a for=list>size</a> is 1, return false.\n+\n+   <li>Otherwise, <a for=list>remove</a> the last <a for=list>item</a> from <var>parts</var>.\n+  </ol>\n+\n+ <li><p>Let <var>last</var> be the last <a for=list>item</a> from <var>parts</var>.\n+\n+ <li>If parsing <var>last</var> as an <a lt=\"IPv4 number parser\">IPv4 number</a> does not\n+ return failure, return true.\n+\n+ <li><p>If <var>last</var> is non-empty and contains only <a>ASCII digits</a>, return true.",
+    "path": "url.bs",
+    "commit_id": "c09bcfa55c55537d51dc86980190285bd6e7563f",
+    "original_commit_id": "cd9dfdc342b808874b21f25a353c59ad0aa5f840",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The `<p>` needs to be on a newline as the `<li>` has two children now. Also \"then return\".",
+    "created_at": "2021-07-20T12:18:49Z",
+    "updated_at": "2021-07-20T12:20:09Z",
+    "html_url": "https://github.com/whatwg/url/pull/619#discussion_r673069438",
+    "pull_request_url": "https://api.github.com/repos/whatwg/url/pulls/619",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/comments/673069438"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/url/pull/619#discussion_r673069438"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/619"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/url/pulls/comments/673069438/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 687,
+    "side": "RIGHT",
+    "in_reply_to_id": 666567778,
+    "author_association": "MEMBER",
+    "original_position": 38,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

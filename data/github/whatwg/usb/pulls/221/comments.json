@@ -1,0 +1,431 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/904285456",
+    "pull_request_review_id": 1015960163,
+    "id": 904285456,
+    "node_id": "PRRC_kwDOAhq5Lc415k0Q",
+    "diff_hunk": "@@ -635,6 +641,8 @@ run the following steps <a>in parallel</a>:\n \n The {{USB/requestDevice()}} method, when invoked, MUST run the following steps:\n \n+  1. If [=this=]'s [=relevant global object=] is not a {{Window}}, return [=a\n+     promise rejected with=] a \"{{SecurityError}}\" {{DOMException}}.",
+    "path": "index.bs",
+    "commit_id": "26c20ed8c7e387042fad4974dd9a8d2e28c0ef82",
+    "original_commit_id": "554443fc115e9c3da3d5c9b90327dac93eec486c",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This isn't necessary because `requestDevice()` is `[Exposed=Window]` so it can't be called from a worker.",
+    "created_at": "2022-06-22T22:16:51Z",
+    "updated_at": "2022-06-22T22:20:36Z",
+    "html_url": "https://github.com/whatwg/usb/pull/221#discussion_r904285456",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/221",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/904285456"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/221#discussion_r904285456"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/221"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/904285456/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 644,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 645,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 43,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/904288647",
+    "pull_request_review_id": 1015960163,
+    "id": 904288647,
+    "node_id": "PRRC_kwDOAhq5Lc415lmH",
+    "diff_hunk": "@@ -748,19 +756,24 @@ interface USBConnectionEvent : Event {\n When the UA detects a new <a>USB device</a> |device| connected to the host it\n MUST perform the following steps for each script execution environment:\n \n+  1. If |device|'s [=relevant global object=] is not a {{Window}}, abort these\n+     steps.",
+    "path": "index.bs",
+    "commit_id": "26c20ed8c7e387042fad4974dd9a8d2e28c0ef82",
+    "original_commit_id": "554443fc115e9c3da3d5c9b90327dac93eec486c",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The current state is that dedicated workers can register for `connect` events. I think it's reasonable for service workers to do the same, but we should add a note that the event listener will not be invoked if the service worker isn't active. Activating a service worker to deliver a connection event can be left as an issue for the future.",
+    "created_at": "2022-06-22T22:18:50Z",
+    "updated_at": "2022-06-22T22:20:36Z",
+    "html_url": "https://github.com/whatwg/usb/pull/221#discussion_r904288647",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/221",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/904288647"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/221#discussion_r904288647"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/221"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/904288647/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 759,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 760,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 52,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/981796845",
+    "pull_request_review_id": 1122813599,
+    "id": 981796845,
+    "node_id": "PRRC_kwDOAhq5Lc46hQft",
+    "diff_hunk": "@@ -635,6 +641,8 @@ run the following steps <a>in parallel</a>:\n \n The {{USB/requestDevice()}} method, when invoked, MUST run the following steps:\n \n+  1. If [=this=]'s [=relevant global object=] is not a {{Window}}, return [=a\n+     promise rejected with=] a \"{{SecurityError}}\" {{DOMException}}.",
+    "path": "index.bs",
+    "commit_id": "26c20ed8c7e387042fad4974dd9a8d2e28c0ef82",
+    "original_commit_id": "554443fc115e9c3da3d5c9b90327dac93eec486c",
+    "user": {
+      "login": "nondebug",
+      "id": 14099571,
+      "node_id": "MDQ6VXNlcjE0MDk5NTcx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14099571?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nondebug",
+      "html_url": "https://github.com/nondebug",
+      "followers_url": "https://api.github.com/users/nondebug/followers",
+      "following_url": "https://api.github.com/users/nondebug/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nondebug/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nondebug/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nondebug/subscriptions",
+      "organizations_url": "https://api.github.com/users/nondebug/orgs",
+      "repos_url": "https://api.github.com/users/nondebug/repos",
+      "events_url": "https://api.github.com/users/nondebug/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nondebug/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I've removed this check.",
+    "created_at": "2022-09-27T23:03:05Z",
+    "updated_at": "2022-09-27T23:03:05Z",
+    "html_url": "https://github.com/whatwg/usb/pull/221#discussion_r981796845",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/221",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/981796845"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/221#discussion_r981796845"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/221"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/981796845/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 644,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 645,
+    "side": "RIGHT",
+    "in_reply_to_id": 904285456,
+    "author_association": "COLLABORATOR",
+    "original_position": 43,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/981797083",
+    "pull_request_review_id": 1122813964,
+    "id": 981797083,
+    "node_id": "PRRC_kwDOAhq5Lc46hQjb",
+    "diff_hunk": "@@ -748,19 +756,24 @@ interface USBConnectionEvent : Event {\n When the UA detects a new <a>USB device</a> |device| connected to the host it\n MUST perform the following steps for each script execution environment:\n \n+  1. If |device|'s [=relevant global object=] is not a {{Window}}, abort these\n+     steps.",
+    "path": "index.bs",
+    "commit_id": "26c20ed8c7e387042fad4974dd9a8d2e28c0ef82",
+    "original_commit_id": "554443fc115e9c3da3d5c9b90327dac93eec486c",
+    "user": {
+      "login": "nondebug",
+      "id": 14099571,
+      "node_id": "MDQ6VXNlcjE0MDk5NTcx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14099571?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nondebug",
+      "html_url": "https://github.com/nondebug",
+      "followers_url": "https://api.github.com/users/nondebug/followers",
+      "following_url": "https://api.github.com/users/nondebug/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nondebug/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nondebug/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nondebug/subscriptions",
+      "organizations_url": "https://api.github.com/users/nondebug/orgs",
+      "repos_url": "https://api.github.com/users/nondebug/repos",
+      "events_url": "https://api.github.com/users/nondebug/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nondebug/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I've removed this and added a Note for the worker behavior.",
+    "created_at": "2022-09-27T23:03:35Z",
+    "updated_at": "2022-09-27T23:03:36Z",
+    "html_url": "https://github.com/whatwg/usb/pull/221#discussion_r981797083",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/221",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/981797083"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/221#discussion_r981797083"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/221"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/981797083/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 759,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 760,
+    "side": "RIGHT",
+    "in_reply_to_id": 904288647,
+    "author_association": "COLLABORATOR",
+    "original_position": 52,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/981801410",
+    "pull_request_review_id": 1122819859,
+    "id": 981801410,
+    "node_id": "PRRC_kwDOAhq5Lc46hRnC",
+    "diff_hunk": "@@ -754,13 +764,16 @@ MUST perform the following steps for each script execution environment:\n      |allowedDevice| be the result.\n   3. If |allowedDevice| is <code>null</code>, abort these steps.\n   4. Let |deviceObj| be the {{USBDevice}} object representing |device|.\n-  5. [=Fire an event=] named <dfn>connect</dfn> on {{Navigator/usb}}, using \n+  5. [=Fire an event=] named <dfn>connect</dfn> on |device|'s [=relevant global\n+     object=]'s {{Navigator}} object's {{Navigator/usb}}, using\n      {{USBConnectionEvent}}, with the <code>device</code> attribute set to \n      |deviceObj|.\n \n When the UA detects a <a>USB device</a> |device| has been disconnected from the\n host it MUST perform the following steps for each script execution environment:\n \n+  1. If |device|'s [=relevant global object=] is not a {{Window}}, abort these\n+     steps.",
+    "path": "index.bs",
+    "commit_id": "26c20ed8c7e387042fad4974dd9a8d2e28c0ef82",
+    "original_commit_id": "9d3cdb92cc7597b7007404b3e235ac4676c85fa6",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Remove this line since you've added the note above about the worker needing to be active.",
+    "created_at": "2022-09-27T23:12:11Z",
+    "updated_at": "2022-09-27T23:12:31Z",
+    "html_url": "https://github.com/whatwg/usb/pull/221#discussion_r981801410",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/221",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/981801410"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/221#discussion_r981801410"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/221"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/981801410/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 775,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 776,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 63,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/981807550",
+    "pull_request_review_id": 1122828421,
+    "id": 981807550,
+    "node_id": "PRRC_kwDOAhq5Lc46hTG-",
+    "diff_hunk": "@@ -754,13 +764,16 @@ MUST perform the following steps for each script execution environment:\n      |allowedDevice| be the result.\n   3. If |allowedDevice| is <code>null</code>, abort these steps.\n   4. Let |deviceObj| be the {{USBDevice}} object representing |device|.\n-  5. [=Fire an event=] named <dfn>connect</dfn> on {{Navigator/usb}}, using \n+  5. [=Fire an event=] named <dfn>connect</dfn> on |device|'s [=relevant global\n+     object=]'s {{Navigator}} object's {{Navigator/usb}}, using\n      {{USBConnectionEvent}}, with the <code>device</code> attribute set to \n      |deviceObj|.\n \n When the UA detects a <a>USB device</a> |device| has been disconnected from the\n host it MUST perform the following steps for each script execution environment:\n \n+  1. If |device|'s [=relevant global object=] is not a {{Window}}, abort these\n+     steps.",
+    "path": "index.bs",
+    "commit_id": "26c20ed8c7e387042fad4974dd9a8d2e28c0ef82",
+    "original_commit_id": "9d3cdb92cc7597b7007404b3e235ac4676c85fa6",
+    "user": {
+      "login": "nondebug",
+      "id": 14099571,
+      "node_id": "MDQ6VXNlcjE0MDk5NTcx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14099571?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nondebug",
+      "html_url": "https://github.com/nondebug",
+      "followers_url": "https://api.github.com/users/nondebug/followers",
+      "following_url": "https://api.github.com/users/nondebug/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nondebug/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nondebug/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nondebug/subscriptions",
+      "organizations_url": "https://api.github.com/users/nondebug/orgs",
+      "repos_url": "https://api.github.com/users/nondebug/repos",
+      "events_url": "https://api.github.com/users/nondebug/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nondebug/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done",
+    "created_at": "2022-09-27T23:25:31Z",
+    "updated_at": "2022-09-27T23:25:31Z",
+    "html_url": "https://github.com/whatwg/usb/pull/221#discussion_r981807550",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/221",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/981807550"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/221#discussion_r981807550"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/221"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/981807550/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 775,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 776,
+    "side": "RIGHT",
+    "in_reply_to_id": 981801410,
+    "author_association": "COLLABORATOR",
+    "original_position": 63,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

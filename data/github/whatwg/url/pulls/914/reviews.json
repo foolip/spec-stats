@@ -1,0 +1,86 @@
+[
+  {
+    "id": 4464281954,
+    "node_id": "PRR_kwDOAFmX0c8AAAABCheJYg",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "It might be worth considering making the fast-path normative, since that's what implementations are going to want anyway. Right now it appears like the spec code is trying to avoid calling Unicode ToASCII more than once, but that's not really a useful \"optimization\" since the actual implementation code will be quite different.\n\n```\n1. If beStrict is false and domain is an ASCII string:\n   a. If Unicode ToASCII(domain, flags(false)) is failure, domain-to-ASCII validation error // obvious validation-error-only step\n   b. result = ASCII-lowercase(domain)\n2. Otherwise:\n   a. result = Unicode ToASCII(domain, flags(beStrict))\n   b. If result is failure: domain-to-ASCII validation error; return failure\n3. If beStrict is false:\n   a. If result is \"\": domain-to-ASCII validation error; return failure\n   b. If result contains a forbidden domain code point: domain-invalid-code-point validation error; return failure\n4. Return result\n```",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/url/pull/914#pullrequestreview-4464281954",
+    "pull_request_url": "https://api.github.com/repos/whatwg/url/pulls/914",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/url/pull/914#pullrequestreview-4464281954"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/914"
+      }
+    },
+    "submitted_at": "2026-06-10T04:03:33Z",
+    "commit_id": "270cd1ffd1f34ce30468d00c154ff516dbd0aa9d"
+  },
+  {
+    "id": 4482768680,
+    "node_id": "PRR_kwDOAFmX0c8AAAABCzGfKA",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This looks good to me, modulo some wording suggestions.\n\nTwo more options for your consideration, both based around trying to make the \"beStrict vs. not-beStrict\" divergence more obvious (since non-validating parsers only ever implement beStrict = false):\n\n---\n\n1. Let _result_ be null.\n1. If _beStrict_ is true:\n    1. Set _result_ to the result of running Unicode ToASCII with ...\n    1. If _result_ is a failure value, domain-to-ASCII validation error, return failure.\n1. Otherwise:\n    1. If _domain_ is an ASCII string:\n        1. If running Unicode ToASCII with ..., domain-to-ASCII validation error.\n        1. Set _result_ to _domain_, lowercased.\n    1. Otherwise:\n        1. Set _result_ to the result of running Unicode ToASCII with ...\n        1. If _result_ is a failure value, domain-to-ASCII validation error, return failure.\n    1. If _result_ is the empty string, domain-to-ASCII validation error, return failure.\n    1. If _result_ contains a forbidden domain code point, domain-invalid-code-point validation error, return failure.\n1. Assert: result is not the empty string and does not contain a forbidden domain code point.\n1. Return _result_.\n\n---\n\n1. If _beStrict_ is true:\n    1. Let _result_ be the result of running Unicode ToASCII with ...\n    1. If _result_ is a failure value, domain-to-ASCII validation error, return failure.\n    1. Return _result_.\n1. Let _result_ be null.\n1. If _domain_ is an ASCII string:\n    1. If running Unicode ToASCII with ..., domain-to-ASCII validation error.\n    1. Set _result_ to _domain_, lowercased.\n1. Otherwise:\n    1. Set _result_ to the result of running Unicode ToASCII with ...\n    1. If _result_ is a failure value, domain-to-ASCII validation error, return failure.\n1. If _result_ is the empty string, domain-to-ASCII validation error, return failure.\n1. If _result_ contains a forbidden domain code point, domain-invalid-code-point validation error, return failure.\n1. Return _result_.\n\n(drops the assert in the beStrict case)\n",
+    "state": "APPROVED",
+    "html_url": "https://github.com/whatwg/url/pull/914#pullrequestreview-4482768680",
+    "pull_request_url": "https://api.github.com/repos/whatwg/url/pulls/914",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/url/pull/914#pullrequestreview-4482768680"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/914"
+      }
+    },
+    "submitted_at": "2026-06-12T05:42:03Z",
+    "commit_id": "d906311aa6fbe62cd69fb95dab507fc71ac86de7"
+  }
+]

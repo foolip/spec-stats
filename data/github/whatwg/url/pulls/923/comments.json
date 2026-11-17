@@ -1,0 +1,712 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/url/pulls/comments/3509803281",
+    "pull_request_review_id": 4613710575,
+    "id": 3509803281,
+    "node_id": "PRRC_kwDOAFmX0c7RM1kR",
+    "diff_hunk": "@@ -4205,6 +4205,117 @@ examples of proper naming. [[HTML]]\n \n \n \n+<h2 id=uri-iri-differences class=no-num>Differences from RFC 3986 and RFC 3987</h2>\n+\n+<p>This appendix is non-normative. It highlights how this standard differs from RFC 3986 and\n+RFC 3987, and assumes familiarity with all three. [[RFC3986]] [[RFC3987]]\n+\n+<p>Most of these differences also produce a <a>validation error</a>, though in practice those are\n+seldom reported.\n+<!-- file://localhost/ and percent-encoded dot segments are exceptions at least. -->\n+\n+\n+<h3 id=uri-iri-differences-parsers class=no-num>Different parsers</h3>\n+\n+<p>Under this standard, the following inputs parse differently than under RFC 3986 or RFC 3987:\n+\n+<ul>\n+ <li><p>Non-ASCII input is percent-encoded rather than rejected.\n+ <code>https://example.com/café</code> → <code>https://example.com/caf%C3%A9</code>.\n+\n+ <li><p><a>Special schemes</a> treat U+005C (\\) as U+002F (/),\n+ tolerate any number of slashes after the scheme, and mandate an authority (though for\n+ <code>file:</code> the host may be empty).\n+ <code>http:\\\\example.com\\foo</code> → <code>http://example.com/foo</code>;\n+ <code>http:example.com/</code> → <code>http://example.com/</code>.\n+\n+ <li><p>Because non-<code>file</code> special schemes reject an empty host, extra slashes can\n+ consume the input meant to be the path. <code>http:///path</code> → <code>http://path/</code>.\n+ By contrast, <code>file:///path</code> parses as expected (empty host, path\n+ \"<code>/path</code>\").\n+\n+ <li><p>Domain hosts of special URLs go through UTS #46 ToASCII, which converts Unicode labels\n+ to Punycode and lowercases ASCII labels. <code>https://☕.EXAMPLE/</code> →\n+ <code>https://xn--53h.example/</code>. Non-special hosts are preserved verbatim.\n+\n+ <li><p>IPv4 addresses accept octal, hexadecimal, and fewer-than-four parts, and are always\n+ serialized as dotted-decimal. <code>http://0x7f.1</code> → <code>http://127.0.0.1/</code>;\n+ <code>http://1.2.3</code> → <code>http://1.2.0.3/</code>.\n+\n+ <li><p>Whether a host is IPv4 or a domain is decided by whether it ends in a numeric-looking\n+ label. <code>http://255.example</code> parses as a domain; <code>http://example.255</code>\n+ fails.\n+\n+ <li><p>The <code>IPvFuture</code> production is not recognized.\n+ <code>http://[v1.fe80]/</code> fails.\n+\n+ <li><p>RFC 6874 IPv6 zone identifiers are not recognized.\n+ <code>http://[fe80::a%25eth0]/</code> fails.\n+\n+ <li><p>A <code>file:</code> URL with host \"<code>localhost</code>\" normalizes to an empty host.\n+ <code>file://localhost/</code> → <code>file:///</code>.\n+\n+ <li><p><code>file:</code> URLs recognize Windows drive letters (normalizing U+007C (|) to\n+ U+003A (:)) and preserve them across <code>..</code>. <code>file:///C|/demo</code> →\n+ <code>file:///C:/demo</code>; <code>..</code> against <code>file:///C:/demo</code> →\n+ <code>file:///C:/</code>.\n+\n+ <li><p>Percent-encoded dot segments always collapse as \"<code>.</code>\"/\"<code>..</code>\".\n+ <code>/a/%2E%2E/b</code> against <code>http://example.com/</code> →\n+ <code>http://example.com/b</code>. RFC 3986 only reaches the same result with optional\n+ percent-encoding normalization.\n+\n+ <li><p><code>http://example.com/%61</code> and <code>http://example.com/a</code> parse as\n+ distinct URLs; RFC 3986's optional percent-encoding normalization would treat them as the\n+ same.\n+\n+ <li><p>A <a>base URL</a> with an <a for=url>opaque path</a> supports only fragment-only\n+ relative references. <code>?foo</code> against <code>bar:opaque</code> fails; <code>#foo</code>\n+ against the same yields <code>bar:opaque#foo</code>.\n+\n+ <li><p>RFC 3986 non-strict reference resolution is used for special schemes only.\n+ <code>https:example.org</code> against <code>https://example.com/</code> →\n+ <code>https://example.com/example.org</code>.\n+\n+ <li><p>In an HTML document with a non-UTF-8 legacy encoding, the query of a special URL (other\n+ than <code>ws:</code> or <code>wss:</code>) is percent-encoded using that encoding.\n+ <code>?smörgåsbord</code> in a <code>windows-1252</code> document → query\n+ <code>sm%F6rg%E5sbord</code>.\n+\n+ <li><p>Leading and trailing <a>C0 control or space</a> are stripped from the input; interior\n+ U+0009, U+000A, and U+000D are silently removed.\n+ <code>https://exa&#x9;mp&#x0A;le.com/</code> (with a U+0009 between \"<code>exa</code>\" and\n+ \"<code>mp</code>\" and a U+000A between \"<code>mp</code>\" and \"<code>le.com/</code>\") →\n+ <code>https://example.com/</code>.\n+\n+ <li><p>Out-of-grammar code points in the path, query, or fragment are percent-encoded rather\n+ than rejected, and a bare U+0025 (%) is preserved.\n+ <code>https://example.org/foo bar</code> → <code>https://example.org/foo%20bar</code>;\n+ <code>https://example.com/%</code> parses distinctly from <code>https://example.com/%25</code>.\n+</ul>\n+\n+\n+<h3 id=uri-iri-differences-model class=no-num>Different model</h3>",
+    "path": "url.bs",
+    "commit_id": "b7fe60347c69099f8d4877e94dae911a60ca1744",
+    "original_commit_id": "b7fe60347c69099f8d4877e94dae911a60ca1744",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I would lead with this section and make it stronger / change the framing. Something like:\n\n> This standard is based around a parser and serializer, with a structured data type (the URL record) as the intermediary. RFC 3986 and RFC 3987 are based around ABNF grammars, which can be run against input strings to produce a boolean \"matches / doesn't match\" verdict. (In some cases, one can infer a decomposition of the input strings into substrings by looking at which sub-productions of the RFCs match which substrings of the input. But this is tricky to do consistently.)\n\nSimilarly, it may be worth mentioning how the URL Standard approaches normalization and relative URL resolution as something done during parsing, instead of having separate [Reference Resolution](https://datatracker.ietf.org/doc/html/rfc3986#section-5) and [Normalization and Comparison](https://datatracker.ietf.org/doc/html/rfc3986#section-6) steps (especially the complex multi-step comparison ladder). Although that touches on https://github.com/whatwg/url/issues/729 and related issues.",
+    "created_at": "2026-07-02T00:44:23Z",
+    "updated_at": "2026-07-02T01:15:18Z",
+    "html_url": "https://github.com/whatwg/url/pull/923#discussion_r3509803281",
+    "pull_request_url": "https://api.github.com/repos/whatwg/url/pulls/923",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/comments/3509803281"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/url/pull/923#discussion_r3509803281"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/923"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/url/pulls/comments/3509803281/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 4298,
+    "original_line": 4298,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 94,
+    "position": 94,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/url/pulls/comments/3509815722",
+    "pull_request_review_id": 4613710575,
+    "id": 3509815722,
+    "node_id": "PRRC_kwDOAFmX0c7RM4mq",
+    "diff_hunk": "@@ -4205,6 +4205,117 @@ examples of proper naming. [[HTML]]\n \n \n \n+<h2 id=uri-iri-differences class=no-num>Differences from RFC 3986 and RFC 3987</h2>\n+\n+<p>This appendix is non-normative. It highlights how this standard differs from RFC 3986 and\n+RFC 3987, and assumes familiarity with all three. [[RFC3986]] [[RFC3987]]\n+\n+<p>Most of these differences also produce a <a>validation error</a>, though in practice those are\n+seldom reported.\n+<!-- file://localhost/ and percent-encoded dot segments are exceptions at least. -->\n+\n+\n+<h3 id=uri-iri-differences-parsers class=no-num>Different parsers</h3>\n+\n+<p>Under this standard, the following inputs parse differently than under RFC 3986 or RFC 3987:\n+\n+<ul>\n+ <li><p>Non-ASCII input is percent-encoded rather than rejected.\n+ <code>https://example.com/café</code> → <code>https://example.com/caf%C3%A9</code>.\n+\n+ <li><p><a>Special schemes</a> treat U+005C (\\) as U+002F (/),\n+ tolerate any number of slashes after the scheme, and mandate an authority (though for\n+ <code>file:</code> the host may be empty).\n+ <code>http:\\\\example.com\\foo</code> → <code>http://example.com/foo</code>;\n+ <code>http:example.com/</code> → <code>http://example.com/</code>.\n+\n+ <li><p>Because non-<code>file</code> special schemes reject an empty host, extra slashes can\n+ consume the input meant to be the path. <code>http:///path</code> → <code>http://path/</code>.\n+ By contrast, <code>file:///path</code> parses as expected (empty host, path\n+ \"<code>/path</code>\").\n+\n+ <li><p>Domain hosts of special URLs go through UTS #46 ToASCII, which converts Unicode labels",
+    "path": "url.bs",
+    "commit_id": "b7fe60347c69099f8d4877e94dae911a60ca1744",
+    "original_commit_id": "b7fe60347c69099f8d4877e94dae911a60ca1744",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This bullet is inaccurate (\"Non-special hosts are preserved verbatim\") and less informative than it could be. Maybe something like\n\n> Non-ASCII domain host treatment differs. Special URLs go through UTS \\#\\46's ToASCII, which converts Unicode labels to Punycode and lowercases ASCII labels: `https://☕.EXAMPLE/` → `https://xn--53h.example/`. Non-special URLs are percent-encoded: `foo://☕.EXAMPLE/` → `foo://%E2%98%95.EXAMPLE/`. This contrasts with 3986, which rejects non-ASCII hosts and only optionally lowercases them, or 3987, which suggests percent-encoding as a default with an older, buggier version to ToASCII from RFC 3490 as a fallback for an undefined set of schemes.",
+    "created_at": "2026-07-02T00:49:51Z",
+    "updated_at": "2026-07-02T01:15:18Z",
+    "html_url": "https://github.com/whatwg/url/pull/923#discussion_r3509815722",
+    "pull_request_url": "https://api.github.com/repos/whatwg/url/pulls/923",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/comments/3509815722"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/url/pull/923#discussion_r3509815722"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/923"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/url/pulls/comments/3509815722/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 4237,
+    "original_line": 4237,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 33,
+    "position": 33,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/url/pulls/comments/3509829675",
+    "pull_request_review_id": 4613710575,
+    "id": 3509829675,
+    "node_id": "PRRC_kwDOAFmX0c7RM8Ar",
+    "diff_hunk": "@@ -4205,6 +4205,117 @@ examples of proper naming. [[HTML]]\n \n \n \n+<h2 id=uri-iri-differences class=no-num>Differences from RFC 3986 and RFC 3987</h2>\n+\n+<p>This appendix is non-normative. It highlights how this standard differs from RFC 3986 and\n+RFC 3987, and assumes familiarity with all three. [[RFC3986]] [[RFC3987]]\n+\n+<p>Most of these differences also produce a <a>validation error</a>, though in practice those are\n+seldom reported.\n+<!-- file://localhost/ and percent-encoded dot segments are exceptions at least. -->\n+\n+\n+<h3 id=uri-iri-differences-parsers class=no-num>Different parsers</h3>\n+\n+<p>Under this standard, the following inputs parse differently than under RFC 3986 or RFC 3987:\n+\n+<ul>\n+ <li><p>Non-ASCII input is percent-encoded rather than rejected.\n+ <code>https://example.com/café</code> → <code>https://example.com/caf%C3%A9</code>.\n+\n+ <li><p><a>Special schemes</a> treat U+005C (\\) as U+002F (/),\n+ tolerate any number of slashes after the scheme, and mandate an authority (though for\n+ <code>file:</code> the host may be empty).\n+ <code>http:\\\\example.com\\foo</code> → <code>http://example.com/foo</code>;\n+ <code>http:example.com/</code> → <code>http://example.com/</code>.\n+\n+ <li><p>Because non-<code>file</code> special schemes reject an empty host, extra slashes can\n+ consume the input meant to be the path. <code>http:///path</code> → <code>http://path/</code>.\n+ By contrast, <code>file:///path</code> parses as expected (empty host, path\n+ \"<code>/path</code>\").\n+\n+ <li><p>Domain hosts of special URLs go through UTS #46 ToASCII, which converts Unicode labels\n+ to Punycode and lowercases ASCII labels. <code>https://☕.EXAMPLE/</code> →\n+ <code>https://xn--53h.example/</code>. Non-special hosts are preserved verbatim.\n+\n+ <li><p>IPv4 addresses accept octal, hexadecimal, and fewer-than-four parts, and are always\n+ serialized as dotted-decimal. <code>http://0x7f.1</code> → <code>http://127.0.0.1/</code>;\n+ <code>http://1.2.3</code> → <code>http://1.2.0.3/</code>.\n+\n+ <li><p>Whether a host is IPv4 or a domain is decided by whether it ends in a numeric-looking\n+ label. <code>http://255.example</code> parses as a domain; <code>http://example.255</code>\n+ fails.\n+\n+ <li><p>The <code>IPvFuture</code> production is not recognized.\n+ <code>http://[v1.fe80]/</code> fails.\n+\n+ <li><p>RFC 6874 IPv6 zone identifiers are not recognized.\n+ <code>http://[fe80::a%25eth0]/</code> fails.\n+\n+ <li><p>A <code>file:</code> URL with host \"<code>localhost</code>\" normalizes to an empty host.\n+ <code>file://localhost/</code> → <code>file:///</code>.\n+\n+ <li><p><code>file:</code> URLs recognize Windows drive letters (normalizing U+007C (|) to\n+ U+003A (:)) and preserve them across <code>..</code>. <code>file:///C|/demo</code> →\n+ <code>file:///C:/demo</code>; <code>..</code> against <code>file:///C:/demo</code> →\n+ <code>file:///C:/</code>.\n+\n+ <li><p>Percent-encoded dot segments always collapse as \"<code>.</code>\"/\"<code>..</code>\".\n+ <code>/a/%2E%2E/b</code> against <code>http://example.com/</code> →\n+ <code>http://example.com/b</code>. RFC 3986 only reaches the same result with optional\n+ percent-encoding normalization.\n+\n+ <li><p><code>http://example.com/%61</code> and <code>http://example.com/a</code> parse as\n+ distinct URLs; RFC 3986's optional percent-encoding normalization would treat them as the\n+ same.\n+\n+ <li><p>A <a>base URL</a> with an <a for=url>opaque path</a> supports only fragment-only\n+ relative references. <code>?foo</code> against <code>bar:opaque</code> fails; <code>#foo</code>\n+ against the same yields <code>bar:opaque#foo</code>.\n+\n+ <li><p>RFC 3986 non-strict reference resolution is used for special schemes only.\n+ <code>https:example.org</code> against <code>https://example.com/</code> →\n+ <code>https://example.com/example.org</code>.\n+\n+ <li><p>In an HTML document with a non-UTF-8 legacy encoding, the query of a special URL (other\n+ than <code>ws:</code> or <code>wss:</code>) is percent-encoded using that encoding.\n+ <code>?smörgåsbord</code> in a <code>windows-1252</code> document → query\n+ <code>sm%F6rg%E5sbord</code>.\n+\n+ <li><p>Leading and trailing <a>C0 control or space</a> are stripped from the input; interior\n+ U+0009, U+000A, and U+000D are silently removed.\n+ <code>https://exa&#x9;mp&#x0A;le.com/</code> (with a U+0009 between \"<code>exa</code>\" and\n+ \"<code>mp</code>\" and a U+000A between \"<code>mp</code>\" and \"<code>le.com/</code>\") →\n+ <code>https://example.com/</code>.\n+\n+ <li><p>Out-of-grammar code points in the path, query, or fragment are percent-encoded rather\n+ than rejected, and a bare U+0025 (%) is preserved.\n+ <code>https://example.org/foo bar</code> → <code>https://example.org/foo%20bar</code>;\n+ <code>https://example.com/%</code> parses distinctly from <code>https://example.com/%25</code>.\n+</ul>",
+    "path": "url.bs",
+    "commit_id": "b7fe60347c69099f8d4877e94dae911a60ca1744",
+    "original_commit_id": "b7fe60347c69099f8d4877e94dae911a60ca1744",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Notable missing cases probably worth including:\n\n- Port normalization (especially default-port elision and restriction to < 2^16)\n- Host percent-*decoding*, e.g. parsing of `https://exam%70le.org/` and `https://exa%23mple.org/`.\n- IPv6 normalization (similar to what is already mentioned for IPv4)\n- Userinfo format; in particular the URL Standard splits at first `:` into username and password but the RFC deprecates the `username:password` format\n- Allowing `@` in userinfo and percent-encoding it (i.e. `https://a@b@example.com/`)\n- URL code points are a superset of 3987, e.g. `U+FFF0` is allowed by the URL Standard\n- Scheme lowercasing",
+    "created_at": "2026-07-02T00:55:09Z",
+    "updated_at": "2026-07-02T01:15:18Z",
+    "html_url": "https://github.com/whatwg/url/pull/923#discussion_r3509829675",
+    "pull_request_url": "https://api.github.com/repos/whatwg/url/pulls/923",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/comments/3509829675"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/url/pull/923#discussion_r3509829675"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/923"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/url/pulls/comments/3509829675/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 4295,
+    "original_line": 4295,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 91,
+    "position": 91,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/url/pulls/comments/3509832754",
+    "pull_request_review_id": 4613710575,
+    "id": 3509832754,
+    "node_id": "PRRC_kwDOAFmX0c7RM8wy",
+    "diff_hunk": "@@ -4205,6 +4205,117 @@ examples of proper naming. [[HTML]]\n \n \n \n+<h2 id=uri-iri-differences class=no-num>Differences from RFC 3986 and RFC 3987</h2>\n+\n+<p>This appendix is non-normative. It highlights how this standard differs from RFC 3986 and\n+RFC 3987, and assumes familiarity with all three. [[RFC3986]] [[RFC3987]]\n+\n+<p>Most of these differences also produce a <a>validation error</a>, though in practice those are\n+seldom reported.\n+<!-- file://localhost/ and percent-encoded dot segments are exceptions at least. -->\n+\n+\n+<h3 id=uri-iri-differences-parsers class=no-num>Different parsers</h3>\n+\n+<p>Under this standard, the following inputs parse differently than under RFC 3986 or RFC 3987:\n+\n+<ul>\n+ <li><p>Non-ASCII input is percent-encoded rather than rejected.\n+ <code>https://example.com/café</code> → <code>https://example.com/caf%C3%A9</code>.",
+    "path": "url.bs",
+    "commit_id": "b7fe60347c69099f8d4877e94dae911a60ca1744",
+    "original_commit_id": "b7fe60347c69099f8d4877e94dae911a60ca1744",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This is confusing/wrong as written, since 3986 rejects them but 3987 accepts them as IRIS and then tells you how to convert them to URIs.",
+    "created_at": "2026-07-02T00:56:27Z",
+    "updated_at": "2026-07-02T01:15:18Z",
+    "html_url": "https://github.com/whatwg/url/pull/923#discussion_r3509832754",
+    "pull_request_url": "https://api.github.com/repos/whatwg/url/pulls/923",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/comments/3509832754"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/url/pull/923#discussion_r3509832754"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/923"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/url/pulls/comments/3509832754/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 4224,
+    "original_line": 4224,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 20,
+    "position": 20,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/url/pulls/comments/3509857821",
+    "pull_request_review_id": 4613773485,
+    "id": 3509857821,
+    "node_id": "PRRC_kwDOAFmX0c7RNC4d",
+    "diff_hunk": "@@ -4205,6 +4205,117 @@ examples of proper naming. [[HTML]]\n \n \n \n+<h2 id=uri-iri-differences class=no-num>Differences from RFC 3986 and RFC 3987</h2>\n+\n+<p>This appendix is non-normative. It highlights how this standard differs from RFC 3986 and\n+RFC 3987, and assumes familiarity with all three. [[RFC3986]] [[RFC3987]]\n+\n+<p>Most of these differences also produce a <a>validation error</a>, though in practice those are\n+seldom reported.\n+<!-- file://localhost/ and percent-encoded dot segments are exceptions at least. -->\n+\n+\n+<h3 id=uri-iri-differences-parsers class=no-num>Different parsers</h3>\n+\n+<p>Under this standard, the following inputs parse differently than under RFC 3986 or RFC 3987:\n+\n+<ul>\n+ <li><p>Non-ASCII input is percent-encoded rather than rejected.\n+ <code>https://example.com/café</code> → <code>https://example.com/caf%C3%A9</code>.\n+\n+ <li><p><a>Special schemes</a> treat U+005C (\\) as U+002F (/),\n+ tolerate any number of slashes after the scheme, and mandate an authority (though for\n+ <code>file:</code> the host may be empty).\n+ <code>http:\\\\example.com\\foo</code> → <code>http://example.com/foo</code>;\n+ <code>http:example.com/</code> → <code>http://example.com/</code>.\n+\n+ <li><p>Because non-<code>file</code> special schemes reject an empty host, extra slashes can\n+ consume the input meant to be the path. <code>http:///path</code> → <code>http://path/</code>.\n+ By contrast, <code>file:///path</code> parses as expected (empty host, path\n+ \"<code>/path</code>\").\n+\n+ <li><p>Domain hosts of special URLs go through UTS #46 ToASCII, which converts Unicode labels\n+ to Punycode and lowercases ASCII labels. <code>https://☕.EXAMPLE/</code> →\n+ <code>https://xn--53h.example/</code>. Non-special hosts are preserved verbatim.\n+\n+ <li><p>IPv4 addresses accept octal, hexadecimal, and fewer-than-four parts, and are always\n+ serialized as dotted-decimal. <code>http://0x7f.1</code> → <code>http://127.0.0.1/</code>;\n+ <code>http://1.2.3</code> → <code>http://1.2.0.3/</code>.\n+\n+ <li><p>Whether a host is IPv4 or a domain is decided by whether it ends in a numeric-looking\n+ label. <code>http://255.example</code> parses as a domain; <code>http://example.255</code>\n+ fails.\n+\n+ <li><p>The <code>IPvFuture</code> production is not recognized.\n+ <code>http://[v1.fe80]/</code> fails.\n+\n+ <li><p>RFC 6874 IPv6 zone identifiers are not recognized.\n+ <code>http://[fe80::a%25eth0]/</code> fails.",
+    "path": "url.bs",
+    "commit_id": "b7fe60347c69099f8d4877e94dae911a60ca1744",
+    "original_commit_id": "b7fe60347c69099f8d4877e94dae911a60ca1744",
+    "user": {
+      "login": "martinthomson",
+      "id": 67641,
+      "node_id": "MDQ6VXNlcjY3NjQx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/67641?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/martinthomson",
+      "html_url": "https://github.com/martinthomson",
+      "followers_url": "https://api.github.com/users/martinthomson/followers",
+      "following_url": "https://api.github.com/users/martinthomson/following{/other_user}",
+      "gists_url": "https://api.github.com/users/martinthomson/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/martinthomson/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/martinthomson/subscriptions",
+      "organizations_url": "https://api.github.com/users/martinthomson/orgs",
+      "repos_url": "https://api.github.com/users/martinthomson/repos",
+      "events_url": "https://api.github.com/users/martinthomson/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/martinthomson/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "It is worth adding a note to the introduction that mentions that this also includes analysis of other RFCs, like this?\n\nI'm also thinking that [RFC 8089](https://datatracker.ietf.org/doc/html/rfc8089) might be worth a mention, given that there is special treatment.  And I guess, since this is such a large component of the logic here, [Section 4.2 of RFC 9110](https://datatracker.ietf.org/doc/html/rfc9110#section-4.2).",
+    "created_at": "2026-07-02T01:07:03Z",
+    "updated_at": "2026-07-02T01:07:03Z",
+    "html_url": "https://github.com/whatwg/url/pull/923#discussion_r3509857821",
+    "pull_request_url": "https://api.github.com/repos/whatwg/url/pulls/923",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/comments/3509857821"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/url/pull/923#discussion_r3509857821"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/923"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/url/pulls/comments/3509857821/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 4252,
+    "original_start_line": 4252,
+    "start_side": "RIGHT",
+    "line": 4253,
+    "original_line": 4253,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 49,
+    "position": 49,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/url/pulls/comments/3509860078",
+    "pull_request_review_id": 4613710575,
+    "id": 3509860078,
+    "node_id": "PRRC_kwDOAFmX0c7RNDbu",
+    "diff_hunk": "@@ -4205,6 +4205,117 @@ examples of proper naming. [[HTML]]\n \n \n \n+<h2 id=uri-iri-differences class=no-num>Differences from RFC 3986 and RFC 3987</h2>\n+\n+<p>This appendix is non-normative. It highlights how this standard differs from RFC 3986 and\n+RFC 3987, and assumes familiarity with all three. [[RFC3986]] [[RFC3987]]\n+\n+<p>Most of these differences also produce a <a>validation error</a>, though in practice those are",
+    "path": "url.bs",
+    "commit_id": "b7fe60347c69099f8d4877e94dae911a60ca1744",
+    "original_commit_id": "b7fe60347c69099f8d4877e94dae911a60ca1744",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "\"Most\" might be overclaiming, e.g. points 1, 4, 12, 15 do not, plus the ones source-commented already. \"Some\" or \"many\" seems better.",
+    "created_at": "2026-07-02T01:07:58Z",
+    "updated_at": "2026-07-02T01:15:18Z",
+    "html_url": "https://github.com/whatwg/url/pull/923#discussion_r3509860078",
+    "pull_request_url": "https://api.github.com/repos/whatwg/url/pulls/923",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/comments/3509860078"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/url/pull/923#discussion_r3509860078"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/923"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/url/pulls/comments/3509860078/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 4213,
+    "original_line": 4213,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 9,
+    "position": 9,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/url/pulls/comments/3509861152",
+    "pull_request_review_id": 4613710575,
+    "id": 3509861152,
+    "node_id": "PRRC_kwDOAFmX0c7RNDsg",
+    "diff_hunk": "@@ -4205,6 +4205,117 @@ examples of proper naming. [[HTML]]\n \n \n \n+<h2 id=uri-iri-differences class=no-num>Differences from RFC 3986 and RFC 3987</h2>\n+\n+<p>This appendix is non-normative. It highlights how this standard differs from RFC 3986 and\n+RFC 3987, and assumes familiarity with all three. [[RFC3986]] [[RFC3987]]\n+\n+<p>Most of these differences also produce a <a>validation error</a>, though in practice those are\n+seldom reported.\n+<!-- file://localhost/ and percent-encoded dot segments are exceptions at least. -->\n+\n+\n+<h3 id=uri-iri-differences-parsers class=no-num>Different parsers</h3>\n+\n+<p>Under this standard, the following inputs parse differently than under RFC 3986 or RFC 3987:\n+\n+<ul>\n+ <li><p>Non-ASCII input is percent-encoded rather than rejected.\n+ <code>https://example.com/café</code> → <code>https://example.com/caf%C3%A9</code>.\n+\n+ <li><p><a>Special schemes</a> treat U+005C (\\) as U+002F (/),\n+ tolerate any number of slashes after the scheme, and mandate an authority (though for\n+ <code>file:</code> the host may be empty).\n+ <code>http:\\\\example.com\\foo</code> → <code>http://example.com/foo</code>;\n+ <code>http:example.com/</code> → <code>http://example.com/</code>.\n+\n+ <li><p>Because non-<code>file</code> special schemes reject an empty host, extra slashes can\n+ consume the input meant to be the path. <code>http:///path</code> → <code>http://path/</code>.\n+ By contrast, <code>file:///path</code> parses as expected (empty host, path\n+ \"<code>/path</code>\").\n+\n+ <li><p>Domain hosts of special URLs go through UTS #46 ToASCII, which converts Unicode labels\n+ to Punycode and lowercases ASCII labels. <code>https://☕.EXAMPLE/</code> →\n+ <code>https://xn--53h.example/</code>. Non-special hosts are preserved verbatim.\n+\n+ <li><p>IPv4 addresses accept octal, hexadecimal, and fewer-than-four parts, and are always\n+ serialized as dotted-decimal. <code>http://0x7f.1</code> → <code>http://127.0.0.1/</code>;\n+ <code>http://1.2.3</code> → <code>http://1.2.0.3/</code>.\n+\n+ <li><p>Whether a host is IPv4 or a domain is decided by whether it ends in a numeric-looking\n+ label. <code>http://255.example</code> parses as a domain; <code>http://example.255</code>\n+ fails.\n+\n+ <li><p>The <code>IPvFuture</code> production is not recognized.\n+ <code>http://[v1.fe80]/</code> fails.\n+\n+ <li><p>RFC 6874 IPv6 zone identifiers are not recognized.\n+ <code>http://[fe80::a%25eth0]/</code> fails.",
+    "path": "url.bs",
+    "commit_id": "b7fe60347c69099f8d4877e94dae911a60ca1744",
+    "original_commit_id": "b7fe60347c69099f8d4877e94dae911a60ca1744",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "3986 and 3987 also prohibit these, so this is a bit out of place.",
+    "created_at": "2026-07-02T01:08:23Z",
+    "updated_at": "2026-07-02T01:15:18Z",
+    "html_url": "https://github.com/whatwg/url/pull/923#discussion_r3509861152",
+    "pull_request_url": "https://api.github.com/repos/whatwg/url/pulls/923",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/comments/3509861152"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/url/pull/923#discussion_r3509861152"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/923"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/url/pulls/comments/3509861152/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 4253,
+    "original_line": 4253,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 49,
+    "position": 49,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/url/pulls/comments/3509863573",
+    "pull_request_review_id": 4613710575,
+    "id": 3509863573,
+    "node_id": "PRRC_kwDOAFmX0c7RNESV",
+    "diff_hunk": "@@ -4205,6 +4205,117 @@ examples of proper naming. [[HTML]]\n \n \n \n+<h2 id=uri-iri-differences class=no-num>Differences from RFC 3986 and RFC 3987</h2>\n+\n+<p>This appendix is non-normative. It highlights how this standard differs from RFC 3986 and\n+RFC 3987, and assumes familiarity with all three. [[RFC3986]] [[RFC3987]]\n+\n+<p>Most of these differences also produce a <a>validation error</a>, though in practice those are\n+seldom reported.\n+<!-- file://localhost/ and percent-encoded dot segments are exceptions at least. -->\n+\n+\n+<h3 id=uri-iri-differences-parsers class=no-num>Different parsers</h3>\n+\n+<p>Under this standard, the following inputs parse differently than under RFC 3986 or RFC 3987:\n+\n+<ul>\n+ <li><p>Non-ASCII input is percent-encoded rather than rejected.\n+ <code>https://example.com/café</code> → <code>https://example.com/caf%C3%A9</code>.\n+\n+ <li><p><a>Special schemes</a> treat U+005C (\\) as U+002F (/),\n+ tolerate any number of slashes after the scheme, and mandate an authority (though for\n+ <code>file:</code> the host may be empty).\n+ <code>http:\\\\example.com\\foo</code> → <code>http://example.com/foo</code>;\n+ <code>http:example.com/</code> → <code>http://example.com/</code>.\n+\n+ <li><p>Because non-<code>file</code> special schemes reject an empty host, extra slashes can\n+ consume the input meant to be the path. <code>http:///path</code> → <code>http://path/</code>.\n+ By contrast, <code>file:///path</code> parses as expected (empty host, path\n+ \"<code>/path</code>\").\n+\n+ <li><p>Domain hosts of special URLs go through UTS #46 ToASCII, which converts Unicode labels\n+ to Punycode and lowercases ASCII labels. <code>https://☕.EXAMPLE/</code> →\n+ <code>https://xn--53h.example/</code>. Non-special hosts are preserved verbatim.\n+\n+ <li><p>IPv4 addresses accept octal, hexadecimal, and fewer-than-four parts, and are always\n+ serialized as dotted-decimal. <code>http://0x7f.1</code> → <code>http://127.0.0.1/</code>;\n+ <code>http://1.2.3</code> → <code>http://1.2.0.3/</code>.\n+\n+ <li><p>Whether a host is IPv4 or a domain is decided by whether it ends in a numeric-looking\n+ label. <code>http://255.example</code> parses as a domain; <code>http://example.255</code>\n+ fails.\n+\n+ <li><p>The <code>IPvFuture</code> production is not recognized.\n+ <code>http://[v1.fe80]/</code> fails.\n+\n+ <li><p>RFC 6874 IPv6 zone identifiers are not recognized.\n+ <code>http://[fe80::a%25eth0]/</code> fails.\n+\n+ <li><p>A <code>file:</code> URL with host \"<code>localhost</code>\" normalizes to an empty host.\n+ <code>file://localhost/</code> → <code>file:///</code>.",
+    "path": "url.bs",
+    "commit_id": "b7fe60347c69099f8d4877e94dae911a60ca1744",
+    "original_commit_id": "b7fe60347c69099f8d4877e94dae911a60ca1744",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "3986 / 3987's optional scheme normalization also does this; might be worth mentioning similar to other cases.",
+    "created_at": "2026-07-02T01:09:17Z",
+    "updated_at": "2026-07-02T01:15:18Z",
+    "html_url": "https://github.com/whatwg/url/pull/923#discussion_r3509863573",
+    "pull_request_url": "https://api.github.com/repos/whatwg/url/pulls/923",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/comments/3509863573"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/url/pull/923#discussion_r3509863573"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/923"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/url/pulls/comments/3509863573/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 4256,
+    "original_line": 4256,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 52,
+    "position": 52,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/url/pulls/comments/3509864907",
+    "pull_request_review_id": 4613710575,
+    "id": 3509864907,
+    "node_id": "PRRC_kwDOAFmX0c7RNEnL",
+    "diff_hunk": "@@ -4205,6 +4205,117 @@ examples of proper naming. [[HTML]]\n \n \n \n+<h2 id=uri-iri-differences class=no-num>Differences from RFC 3986 and RFC 3987</h2>\n+\n+<p>This appendix is non-normative. It highlights how this standard differs from RFC 3986 and\n+RFC 3987, and assumes familiarity with all three. [[RFC3986]] [[RFC3987]]\n+\n+<p>Most of these differences also produce a <a>validation error</a>, though in practice those are\n+seldom reported.\n+<!-- file://localhost/ and percent-encoded dot segments are exceptions at least. -->\n+\n+\n+<h3 id=uri-iri-differences-parsers class=no-num>Different parsers</h3>\n+\n+<p>Under this standard, the following inputs parse differently than under RFC 3986 or RFC 3987:\n+\n+<ul>\n+ <li><p>Non-ASCII input is percent-encoded rather than rejected.\n+ <code>https://example.com/café</code> → <code>https://example.com/caf%C3%A9</code>.\n+\n+ <li><p><a>Special schemes</a> treat U+005C (\\) as U+002F (/),\n+ tolerate any number of slashes after the scheme, and mandate an authority (though for\n+ <code>file:</code> the host may be empty).\n+ <code>http:\\\\example.com\\foo</code> → <code>http://example.com/foo</code>;\n+ <code>http:example.com/</code> → <code>http://example.com/</code>.\n+\n+ <li><p>Because non-<code>file</code> special schemes reject an empty host, extra slashes can\n+ consume the input meant to be the path. <code>http:///path</code> → <code>http://path/</code>.\n+ By contrast, <code>file:///path</code> parses as expected (empty host, path\n+ \"<code>/path</code>\").\n+\n+ <li><p>Domain hosts of special URLs go through UTS #46 ToASCII, which converts Unicode labels\n+ to Punycode and lowercases ASCII labels. <code>https://☕.EXAMPLE/</code> →\n+ <code>https://xn--53h.example/</code>. Non-special hosts are preserved verbatim.\n+\n+ <li><p>IPv4 addresses accept octal, hexadecimal, and fewer-than-four parts, and are always\n+ serialized as dotted-decimal. <code>http://0x7f.1</code> → <code>http://127.0.0.1/</code>;\n+ <code>http://1.2.3</code> → <code>http://1.2.0.3/</code>.\n+\n+ <li><p>Whether a host is IPv4 or a domain is decided by whether it ends in a numeric-looking\n+ label. <code>http://255.example</code> parses as a domain; <code>http://example.255</code>\n+ fails.\n+\n+ <li><p>The <code>IPvFuture</code> production is not recognized.\n+ <code>http://[v1.fe80]/</code> fails.\n+\n+ <li><p>RFC 6874 IPv6 zone identifiers are not recognized.\n+ <code>http://[fe80::a%25eth0]/</code> fails.\n+\n+ <li><p>A <code>file:</code> URL with host \"<code>localhost</code>\" normalizes to an empty host.\n+ <code>file://localhost/</code> → <code>file:///</code>.\n+\n+ <li><p><code>file:</code> URLs recognize Windows drive letters (normalizing U+007C (|) to\n+ U+003A (:)) and preserve them across <code>..</code>. <code>file:///C|/demo</code> →\n+ <code>file:///C:/demo</code>; <code>..</code> against <code>file:///C:/demo</code> →\n+ <code>file:///C:/</code>.\n+\n+ <li><p>Percent-encoded dot segments always collapse as \"<code>.</code>\"/\"<code>..</code>\".\n+ <code>/a/%2E%2E/b</code> against <code>http://example.com/</code> →\n+ <code>http://example.com/b</code>. RFC 3986 only reaches the same result with optional\n+ percent-encoding normalization.",
+    "path": "url.bs",
+    "commit_id": "b7fe60347c69099f8d4877e94dae911a60ca1744",
+    "original_commit_id": "b7fe60347c69099f8d4877e94dae911a60ca1744",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\n percent-encoding normalization plus optional dot-segment normalization.\n```",
+    "created_at": "2026-07-02T01:09:48Z",
+    "updated_at": "2026-07-02T01:15:18Z",
+    "html_url": "https://github.com/whatwg/url/pull/923#discussion_r3509864907",
+    "pull_request_url": "https://api.github.com/repos/whatwg/url/pulls/923",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/comments/3509864907"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/url/pull/923#discussion_r3509864907"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/923"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/url/pulls/comments/3509864907/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 4266,
+    "original_line": 4266,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 62,
+    "position": 62,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/url/pulls/comments/3509869237",
+    "pull_request_review_id": 4613710575,
+    "id": 3509869237,
+    "node_id": "PRRC_kwDOAFmX0c7RNFq1",
+    "diff_hunk": "@@ -4205,6 +4205,117 @@ examples of proper naming. [[HTML]]\n \n \n \n+<h2 id=uri-iri-differences class=no-num>Differences from RFC 3986 and RFC 3987</h2>\n+\n+<p>This appendix is non-normative. It highlights how this standard differs from RFC 3986 and\n+RFC 3987, and assumes familiarity with all three. [[RFC3986]] [[RFC3987]]\n+\n+<p>Most of these differences also produce a <a>validation error</a>, though in practice those are\n+seldom reported.\n+<!-- file://localhost/ and percent-encoded dot segments are exceptions at least. -->\n+\n+\n+<h3 id=uri-iri-differences-parsers class=no-num>Different parsers</h3>\n+\n+<p>Under this standard, the following inputs parse differently than under RFC 3986 or RFC 3987:\n+\n+<ul>\n+ <li><p>Non-ASCII input is percent-encoded rather than rejected.\n+ <code>https://example.com/café</code> → <code>https://example.com/caf%C3%A9</code>.\n+\n+ <li><p><a>Special schemes</a> treat U+005C (\\) as U+002F (/),\n+ tolerate any number of slashes after the scheme, and mandate an authority (though for\n+ <code>file:</code> the host may be empty).\n+ <code>http:\\\\example.com\\foo</code> → <code>http://example.com/foo</code>;\n+ <code>http:example.com/</code> → <code>http://example.com/</code>.\n+\n+ <li><p>Because non-<code>file</code> special schemes reject an empty host, extra slashes can\n+ consume the input meant to be the path. <code>http:///path</code> → <code>http://path/</code>.\n+ By contrast, <code>file:///path</code> parses as expected (empty host, path\n+ \"<code>/path</code>\").\n+\n+ <li><p>Domain hosts of special URLs go through UTS #46 ToASCII, which converts Unicode labels\n+ to Punycode and lowercases ASCII labels. <code>https://☕.EXAMPLE/</code> →\n+ <code>https://xn--53h.example/</code>. Non-special hosts are preserved verbatim.\n+\n+ <li><p>IPv4 addresses accept octal, hexadecimal, and fewer-than-four parts, and are always\n+ serialized as dotted-decimal. <code>http://0x7f.1</code> → <code>http://127.0.0.1/</code>;\n+ <code>http://1.2.3</code> → <code>http://1.2.0.3/</code>.\n+\n+ <li><p>Whether a host is IPv4 or a domain is decided by whether it ends in a numeric-looking\n+ label. <code>http://255.example</code> parses as a domain; <code>http://example.255</code>\n+ fails.\n+\n+ <li><p>The <code>IPvFuture</code> production is not recognized.\n+ <code>http://[v1.fe80]/</code> fails.\n+\n+ <li><p>RFC 6874 IPv6 zone identifiers are not recognized.\n+ <code>http://[fe80::a%25eth0]/</code> fails.\n+\n+ <li><p>A <code>file:</code> URL with host \"<code>localhost</code>\" normalizes to an empty host.\n+ <code>file://localhost/</code> → <code>file:///</code>.\n+\n+ <li><p><code>file:</code> URLs recognize Windows drive letters (normalizing U+007C (|) to\n+ U+003A (:)) and preserve them across <code>..</code>. <code>file:///C|/demo</code> →\n+ <code>file:///C:/demo</code>; <code>..</code> against <code>file:///C:/demo</code> →\n+ <code>file:///C:/</code>.\n+\n+ <li><p>Percent-encoded dot segments always collapse as \"<code>.</code>\"/\"<code>..</code>\".\n+ <code>/a/%2E%2E/b</code> against <code>http://example.com/</code> →\n+ <code>http://example.com/b</code>. RFC 3986 only reaches the same result with optional\n+ percent-encoding normalization.\n+\n+ <li><p><code>http://example.com/%61</code> and <code>http://example.com/a</code> parse as\n+ distinct URLs; RFC 3986's optional percent-encoding normalization would treat them as the\n+ same.\n+\n+ <li><p>A <a>base URL</a> with an <a for=url>opaque path</a> supports only fragment-only\n+ relative references. <code>?foo</code> against <code>bar:opaque</code> fails; <code>#foo</code>\n+ against the same yields <code>bar:opaque#foo</code>.\n+\n+ <li><p>RFC 3986 non-strict reference resolution is used for special schemes only.\n+ <code>https:example.org</code> against <code>https://example.com/</code> →\n+ <code>https://example.com/example.org</code>.\n+\n+ <li><p>In an HTML document with a non-UTF-8 legacy encoding, the query of a special URL (other\n+ than <code>ws:</code> or <code>wss:</code>) is percent-encoded using that encoding.\n+ <code>?smörgåsbord</code> in a <code>windows-1252</code> document → query\n+ <code>sm%F6rg%E5sbord</code>.\n+\n+ <li><p>Leading and trailing <a>C0 control or space</a> are stripped from the input; interior\n+ U+0009, U+000A, and U+000D are silently removed.\n+ <code>https://exa&#x9;mp&#x0A;le.com/</code> (with a U+0009 between \"<code>exa</code>\" and\n+ \"<code>mp</code>\" and a U+000A between \"<code>mp</code>\" and \"<code>le.com/</code>\") →\n+ <code>https://example.com/</code>.\n+\n+ <li><p>Out-of-grammar code points in the path, query, or fragment are percent-encoded rather\n+ than rejected, and a bare U+0025 (%) is preserved.\n+ <code>https://example.org/foo bar</code> → <code>https://example.org/foo%20bar</code>;\n+ <code>https://example.com/%</code> parses distinctly from <code>https://example.com/%25</code>.\n+</ul>\n+\n+\n+<h3 id=uri-iri-differences-model class=no-num>Different model</h3>\n+\n+<p>This standard can produce a <a for=/>URL</a> whose serialization is not parseable as a URI or\n+IRI. The parser (and API) can leave several ASCII code points in components where RFC 3986 would\n+reject them.\n+\n+<p>Depending on the component, a bare U+0025 (%), U+0022 (\"), U+005B ([), U+005C (\\), U+005D (]),\n+U+005E (^), U+0060 (`), U+007B ({), U+007C (|), or U+007D (}) can survive parsing, and\n+U+0023 (#) can survive inside a fragment. Any URL that carries such a code point serializes to a",
+    "path": "url.bs",
+    "commit_id": "b7fe60347c69099f8d4877e94dae911a60ca1744",
+    "original_commit_id": "b7fe60347c69099f8d4877e94dae911a60ca1744",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This sentence sounds exhaustive but isn't, e.g. it omits `<`, `>`, `\"`, U+0020 in opaque paths.",
+    "created_at": "2026-07-02T01:11:26Z",
+    "updated_at": "2026-07-02T01:15:18Z",
+    "html_url": "https://github.com/whatwg/url/pull/923#discussion_r3509869237",
+    "pull_request_url": "https://api.github.com/repos/whatwg/url/pulls/923",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/comments/3509869237"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/url/pull/923#discussion_r3509869237"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/923"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/url/pulls/comments/3509869237/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 4306,
+    "original_line": 4306,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 102,
+    "position": 102,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

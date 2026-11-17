@@ -1,0 +1,432 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/xhr/pulls/comments/1068257067",
+    "pull_request_review_id": 1245812575,
+    "id": 1068257067,
+    "node_id": "PRRC_kwDOAFf3jc4_rE8r",
+    "diff_hunk": "@@ -1635,16 +1635,23 @@ interface FormData {\n moved to the HTML Standard. [[HTML]]\n \n <p>The\n-<dfn id=dom-formdata constructor for=FormData lt=\"FormData(form)\"><code>new FormData(<var>form</var>)</code></dfn>\n+<dfn id=dom-formdata constructor for=FormData lt=\"FormData(form)\"><code>new FormData(<var>form</var>, <var>submitter</var>)</code></dfn>\n constructor steps are:\n \n <ol>\n  <li>\n   <p>If <var>form</var> is given, then:\n \n   <ol>\n+   <li>\n+    <p>If <var>submitter</var> is not null, then:\n+    <ol>\n+      <li><p>If <var>submitter</var> is not a submit button, then throw a {{TypeError}}.\n+      <li><p>If <var>submitter</var>'s form owner is not <var>form</var>, then throw a \"{{NotFoundError!!exception}}\" {{DOMException}}.\n+    </ol>",
+    "path": "xhr.bs",
+    "commit_id": "e28ed75cbc090a8aef71f53d4b3ab089d8a576ea",
+    "original_commit_id": "29b1df84cfcf6dc972fb49bc6bf3646ba82cda95",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n    <p>If <var>submitter</var> is non-null, then:\r\n\r\n    <ol>\r\n     <li><p>If <var>submitter</var> is not a <a>submit button</a>, then <a>throw</a> a \r\n     {{TypeError}}.\r\n\r\n     <li><p>If <var>submitter</var>'s <a>form owner</a> is not <var>form</var>, then <a>throw</a> a \r\n     \"{{NotFoundError!!exception}}\" {{DOMException}}.\r\n    </ol>\r\n```\r\nThis will require changing the HTML Standard to export \"concept-submit-button\" and \"form owner\" (\"form owner\" maybe also needs a suitable for attribute value).\r\n\r\nGood call on using a `TypeError` and making that check first. That allows some flexibility between enforcing that through Web IDL and an algorithm.",
+    "created_at": "2023-01-12T15:21:01Z",
+    "updated_at": "2023-01-12T15:24:44Z",
+    "html_url": "https://github.com/whatwg/xhr/pull/366#discussion_r1068257067",
+    "pull_request_url": "https://api.github.com/repos/whatwg/xhr/pulls/366",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/xhr/pulls/comments/1068257067"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/xhr/pull/366#discussion_r1068257067"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/xhr/pulls/366"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/xhr/pulls/comments/1068257067/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 1647,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 1651,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 27,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/xhr/pulls/comments/1086962755",
+    "pull_request_review_id": 1269835519,
+    "id": 1086962755,
+    "node_id": "PRRC_kwDOAFf3jc5AybxD",
+    "diff_hunk": "@@ -1609,7 +1609,7 @@ typedef (File or USVString) FormDataEntryValue;\n \n [Exposed=(Window,Worker)]\n interface FormData {\n-  constructor(optional HTMLFormElement form);\n+  constructor(optional HTMLFormElement form, optional HTMLElement? submitter = null);",
+    "path": "xhr.bs",
+    "commit_id": "e28ed75cbc090a8aef71f53d4b3ab089d8a576ea",
+    "original_commit_id": "6e014f7484e70da7a334ac948992f7e89e3db642",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Found a nit after all. Is there a good reason to allow null here? Or would requiring undefined by fine? If there's no use case for passing null we should not allow it and change the language below from \"is non-null\" to \"is given\".\r\n\r\n(And then have an additional test that null throws.)",
+    "created_at": "2023-01-25T17:45:00Z",
+    "updated_at": "2023-01-25T17:45:01Z",
+    "html_url": "https://github.com/whatwg/xhr/pull/366#discussion_r1086962755",
+    "pull_request_url": "https://api.github.com/repos/whatwg/xhr/pulls/366",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/xhr/pulls/comments/1086962755"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/xhr/pull/366#discussion_r1086962755"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/xhr/pulls/366"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/xhr/pulls/comments/1086962755/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 1617,
+    "original_line": 1612,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 5,
+    "position": 17,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/xhr/pulls/comments/1086989423",
+    "pull_request_review_id": 1269863993,
+    "id": 1086989423,
+    "node_id": "PRRC_kwDOAFf3jc5AyiRv",
+    "diff_hunk": "@@ -1609,7 +1609,7 @@ typedef (File or USVString) FormDataEntryValue;\n \n [Exposed=(Window,Worker)]\n interface FormData {\n-  constructor(optional HTMLFormElement form);\n+  constructor(optional HTMLFormElement form, optional HTMLElement? submitter = null);",
+    "path": "xhr.bs",
+    "commit_id": "e28ed75cbc090a8aef71f53d4b3ab089d8a576ea",
+    "original_commit_id": "6e014f7484e70da7a334ac948992f7e89e3db642",
+    "user": {
+      "login": "jenseng",
+      "id": 109489,
+      "node_id": "MDQ6VXNlcjEwOTQ4OQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/109489?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jenseng",
+      "html_url": "https://github.com/jenseng",
+      "followers_url": "https://api.github.com/users/jenseng/followers",
+      "following_url": "https://api.github.com/users/jenseng/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jenseng/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jenseng/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jenseng/subscriptions",
+      "organizations_url": "https://api.github.com/users/jenseng/orgs",
+      "repos_url": "https://api.github.com/users/jenseng/repos",
+      "events_url": "https://api.github.com/users/jenseng/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jenseng/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I don't have a strong preference here, mainly I was making it consistent with [HTMLFormElement.requestSubmit](https://html.spec.whatwg.org/multipage/forms.html#dom-form-requestsubmit) which allows a null `submitter`. \r\n\r\nBut I agree that allowing a null submitter but not a null form is inconsistent, so 🤷‍♂️😆",
+    "created_at": "2023-01-25T18:03:25Z",
+    "updated_at": "2023-01-25T18:37:59Z",
+    "html_url": "https://github.com/whatwg/xhr/pull/366#discussion_r1086989423",
+    "pull_request_url": "https://api.github.com/repos/whatwg/xhr/pulls/366",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/xhr/pulls/comments/1086989423"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/xhr/pull/366#discussion_r1086989423"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/xhr/pulls/366"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/xhr/pulls/comments/1086989423/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 1617,
+    "original_line": 1612,
+    "side": "RIGHT",
+    "in_reply_to_id": 1086962755,
+    "author_association": "MEMBER",
+    "original_position": 5,
+    "position": 17,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/xhr/pulls/comments/1086993845",
+    "pull_request_review_id": 1269868463,
+    "id": 1086993845,
+    "node_id": "PRRC_kwDOAFf3jc5AyjW1",
+    "diff_hunk": "@@ -1609,7 +1609,7 @@ typedef (File or USVString) FormDataEntryValue;\n \n [Exposed=(Window,Worker)]\n interface FormData {\n-  constructor(optional HTMLFormElement form);\n+  constructor(optional HTMLFormElement form, optional HTMLElement? submitter = null);",
+    "path": "xhr.bs",
+    "commit_id": "e28ed75cbc090a8aef71f53d4b3ab089d8a576ea",
+    "original_commit_id": "6e014f7484e70da7a334ac948992f7e89e3db642",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Okay, that's fairly compelling I suppose, although I don't remember the rationale for that one. 😅\r\n\r\nLet's leave this as-is then unless @domenic cares more strongly than I do.",
+    "created_at": "2023-01-25T18:06:50Z",
+    "updated_at": "2023-01-25T18:06:50Z",
+    "html_url": "https://github.com/whatwg/xhr/pull/366#discussion_r1086993845",
+    "pull_request_url": "https://api.github.com/repos/whatwg/xhr/pulls/366",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/xhr/pulls/comments/1086993845"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/xhr/pull/366#discussion_r1086993845"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/xhr/pulls/366"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/xhr/pulls/comments/1086993845/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 1617,
+    "original_line": 1612,
+    "side": "RIGHT",
+    "in_reply_to_id": 1086962755,
+    "author_association": "MEMBER",
+    "original_position": 5,
+    "position": 17,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/xhr/pulls/comments/1087242123",
+    "pull_request_review_id": 1270211292,
+    "id": 1087242123,
+    "node_id": "PRRC_kwDOAFf3jc5Azf-L",
+    "diff_hunk": "@@ -1609,7 +1609,7 @@ typedef (File or USVString) FormDataEntryValue;\n \n [Exposed=(Window,Worker)]\n interface FormData {\n-  constructor(optional HTMLFormElement form);\n+  constructor(optional HTMLFormElement form, optional HTMLElement? submitter = null);",
+    "path": "xhr.bs",
+    "commit_id": "e28ed75cbc090a8aef71f53d4b3ab089d8a576ea",
+    "original_commit_id": "6e014f7484e70da7a334ac948992f7e89e3db642",
+    "user": {
+      "login": "jenseng",
+      "id": 109489,
+      "node_id": "MDQ6VXNlcjEwOTQ4OQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/109489?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jenseng",
+      "html_url": "https://github.com/jenseng",
+      "followers_url": "https://api.github.com/users/jenseng/followers",
+      "following_url": "https://api.github.com/users/jenseng/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jenseng/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jenseng/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jenseng/subscriptions",
+      "organizations_url": "https://api.github.com/users/jenseng/orgs",
+      "repos_url": "https://api.github.com/users/jenseng/repos",
+      "events_url": "https://api.github.com/users/jenseng/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jenseng/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "It's possible it was an oversight, as you had a similar suggestion when [requestSubmit was proposed](https://github.com/whatwg/html/issues/4187#issuecomment-486228427) and afaict it was never directly addressed",
+    "created_at": "2023-01-25T22:16:23Z",
+    "updated_at": "2023-01-25T22:16:24Z",
+    "html_url": "https://github.com/whatwg/xhr/pull/366#discussion_r1087242123",
+    "pull_request_url": "https://api.github.com/repos/whatwg/xhr/pulls/366",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/xhr/pulls/comments/1087242123"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/xhr/pull/366#discussion_r1087242123"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/xhr/pulls/366"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/xhr/pulls/comments/1087242123/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 1617,
+    "original_line": 1612,
+    "side": "RIGHT",
+    "in_reply_to_id": 1086962755,
+    "author_association": "MEMBER",
+    "original_position": 5,
+    "position": 17,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/xhr/pulls/comments/1087256875",
+    "pull_request_review_id": 1270232497,
+    "id": 1087256875,
+    "node_id": "PRRC_kwDOAFf3jc5Azjkr",
+    "diff_hunk": "@@ -1609,7 +1609,7 @@ typedef (File or USVString) FormDataEntryValue;\n \n [Exposed=(Window,Worker)]\n interface FormData {\n-  constructor(optional HTMLFormElement form);\n+  constructor(optional HTMLFormElement form, optional HTMLElement? submitter = null);",
+    "path": "xhr.bs",
+    "commit_id": "e28ed75cbc090a8aef71f53d4b3ab089d8a576ea",
+    "original_commit_id": "6e014f7484e70da7a334ac948992f7e89e3db642",
+    "user": {
+      "login": "jenseng",
+      "id": 109489,
+      "node_id": "MDQ6VXNlcjEwOTQ4OQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/109489?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jenseng",
+      "html_url": "https://github.com/jenseng",
+      "followers_url": "https://api.github.com/users/jenseng/followers",
+      "following_url": "https://api.github.com/users/jenseng/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jenseng/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jenseng/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jenseng/subscriptions",
+      "organizations_url": "https://api.github.com/users/jenseng/orgs",
+      "repos_url": "https://api.github.com/users/jenseng/repos",
+      "events_url": "https://api.github.com/users/jenseng/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jenseng/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Ah here's a good justification for `requestSubmit` accepting null: https://github.com/whatwg/html/issues/3195#issuecomment-547475867\r\n\r\nSimilarly this could be useful for the `FormData` constructor, e.g. `SubmitEvent.submitter` could be null, and it would be nice to avoid null checks:\r\n\r\n```javascript\r\nmyForm.addEventListener(\"submit\", (e) => {\r\n  e.preventDefault();\r\n  const formData = new FormData(e.target, e.submitter);\r\n  // ...\r\n});\r\n```",
+    "created_at": "2023-01-25T22:38:44Z",
+    "updated_at": "2023-01-25T22:40:02Z",
+    "html_url": "https://github.com/whatwg/xhr/pull/366#discussion_r1087256875",
+    "pull_request_url": "https://api.github.com/repos/whatwg/xhr/pulls/366",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/xhr/pulls/comments/1087256875"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/xhr/pull/366#discussion_r1087256875"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/xhr/pulls/366"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/xhr/pulls/comments/1087256875/reactions",
+      "total_count": 1,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 1,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 1617,
+    "original_line": 1612,
+    "side": "RIGHT",
+    "in_reply_to_id": 1086962755,
+    "author_association": "MEMBER",
+    "original_position": 5,
+    "position": 17,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

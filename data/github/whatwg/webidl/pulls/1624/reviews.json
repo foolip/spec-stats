@@ -1,0 +1,170 @@
+[
+  {
+    "id": 4994378162,
+    "node_id": "PRR_kwDOANeiys8AAAABKbApsg",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?u=5d39bb7a31325e2905672ce29876c4c00e2a152e&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This seems like the right direction, WebGL already relies on it (it has `[AllowShared] ArrayBufferView?`), and engines already behave this way.\n\nUnless @saschanaz is prepared to drive the alternative approach and get the world to adopt that, I think we should go ahead with the direction this PR proposes. It's also not clear the alternative is better as it would allow types such as `(long)` potentially.\n\nAI found a couple of issues:\n\n- For each of the four attributes there are two kinds of sentence: a \"must not be associated with\" restriction, and an \"appears on X, it creates a new IDL type…\" definition. The PR edits only the former. The clean fix is to change \"appears on\" → \"is associated with\" in those six sentences, which also repairs the same staleness for the existing union propagation.\n- There is no NullableType production. Null : \"?\" | ε (index.bs:5845) hangs off DistinguishableType : PrimitiveType Null (index.bs:5770). So in long?, the only type node is the whole DistinguishableType; the inner long is a PrimitiveType\n  — not a Type, SingleType, or DistinguishableType. It exists only as the §6187 concept.\n- UnionMemberType : ExtendedAttributeList DistinguishableType (index.bs:5758) is not a TypeWithExtendedAttributes production, and no step consumes it. Step 3 only pushes down from the union. So [AllowShared] ArrayBufferView written as a\n  union member has nothing associating the attribute with it — which is what Web IDL's own AllowSharedBufferSource typedef does at index.bs:15087. That's a hole in the standard today, in the algorithm this PR edits.",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/webidl/pull/1624#pullrequestreview-4994378162",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1624",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1624#pullrequestreview-4994378162"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1624"
+      }
+    },
+    "submitted_at": "2026-08-21T14:31:38Z",
+    "commit_id": "0551182d2ae05308ecdd2215a3c6875161c389d2"
+  },
+  {
+    "id": 4994751347,
+    "node_id": "PRR_kwDOANeiys8AAAABKbXbcw",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?u=5d39bb7a31325e2905672ce29876c4c00e2a152e&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/webidl/pull/1624#pullrequestreview-4994751347",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1624",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1624#pullrequestreview-4994751347"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1624"
+      }
+    },
+    "submitted_at": "2026-08-21T15:15:05Z",
+    "commit_id": "0551182d2ae05308ecdd2215a3c6875161c389d2"
+  },
+  {
+    "id": 5198325933,
+    "node_id": "PRR_kwDOANeiys8AAAABNdgorQ",
+    "user": {
+      "login": "nicolo-ribaudo",
+      "id": 7000710,
+      "node_id": "MDQ6VXNlcjcwMDA3MTA=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7000710?u=9529bd132769a1928a5c15808d0a18c525f09762&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nicolo-ribaudo",
+      "html_url": "https://github.com/nicolo-ribaudo",
+      "followers_url": "https://api.github.com/users/nicolo-ribaudo/followers",
+      "following_url": "https://api.github.com/users/nicolo-ribaudo/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nicolo-ribaudo/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nicolo-ribaudo/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nicolo-ribaudo/subscriptions",
+      "organizations_url": "https://api.github.com/users/nicolo-ribaudo/orgs",
+      "repos_url": "https://api.github.com/users/nicolo-ribaudo/repos",
+      "events_url": "https://api.github.com/users/nicolo-ribaudo/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nicolo-ribaudo/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/webidl/pull/1624#pullrequestreview-5198325933",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1624",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1624#pullrequestreview-5198325933"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1624"
+      }
+    },
+    "submitted_at": "2026-09-14T13:34:30Z",
+    "commit_id": "361a43829e47b811edcb19181a63ba6213415919"
+  },
+  {
+    "id": 5393978701,
+    "node_id": "PRR_kwDOANeiys8AAAABQYGVTQ",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?u=5d39bb7a31325e2905672ce29876c4c00e2a152e&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "APPROVED",
+    "html_url": "https://github.com/whatwg/webidl/pull/1624#pullrequestreview-5393978701",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1624",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1624#pullrequestreview-5393978701"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1624"
+      }
+    },
+    "submitted_at": "2026-10-02T16:02:52Z",
+    "commit_id": "f1a03428a19f98ba6cadd804b5c30209c4405195"
+  }
+]

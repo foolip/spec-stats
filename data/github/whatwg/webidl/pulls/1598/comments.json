@@ -1,0 +1,73 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/3208911105",
+    "pull_request_review_id": 4252513640,
+    "id": 3208911105,
+    "node_id": "PRRC_kwDOANeiys6_RBkB",
+    "diff_hunk": "@@ -9266,16 +9274,25 @@ a reference to the same object that the IDL value represents.\n \n <hr>\n \n-<div algorithm>\n+<div algorithm=\"ArrayBuffer/create\">\n     To <dfn export for=\"ArrayBuffer\">create</dfn> an {{ArrayBuffer}} from a [=byte sequence=]\n-    |bytes| in a [=realm=] |realm|:\n+    |bytes| in a [=realm=] |realm|, optionally given an\n+    <dfn export for=\"ArrayBuffer/create\">|immutable|</dfn> boolean (default\n+    <emu-val>false</emu-val>):\n \n     1.  Let |jsArrayBuffer| be [=?=]\n         [$AllocateArrayBuffer$](|realm|.\\[[Intrinsics]].\\[[{{%ArrayBuffer%}}]], |bytes|'s\n         [=byte sequence/length=]).\n     1.  Let |arrayBuffer| be the result of [=converted to an IDL value|converting=] |jsArrayBuffer|\n         to an IDL value of type {{ArrayBuffer}}.\n     1.  [=ArrayBuffer/Write=] |bytes| into |arrayBuffer|.\n+    1.  If |immutable| is <emu-val>true</emu-val>, then:\n+        1.  Set |jsArrayBuffer| to [=?=]\n+            [$AllocateImmutableArrayBuffer$](|realm|.\\[[Intrinsics]].\\[[{{%ArrayBuffer%}}]],\n+            |bytes|'s [=byte sequence/length=], |jsArrayBuffer|.\\[[ArrayBufferData]], 0,\n+            |bytes|'s [=byte sequence/length=]).\n+        1.  Set |arrayBuffer| to the result of [=converted to an IDL value|converting=]\n+            |jsArrayBuffer| to an IDL value of type {{ArrayBuffer}}.",
+    "path": "index.bs",
+    "commit_id": "a96d8e68c51306974bff34b3dd9838b806d56ce6",
+    "original_commit_id": "a96d8e68c51306974bff34b3dd9838b806d56ce6",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Now the immutable branch ends up doing a bunch of work twice. I think this can be structured a bit better.",
+    "created_at": "2026-05-08T13:19:53Z",
+    "updated_at": "2026-05-08T13:19:56Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1598#discussion_r3208911105",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1598",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/3208911105"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1598#discussion_r3208911105"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1598"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/3208911105/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 9295,
+    "original_line": 9295,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 46,
+    "position": 46,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

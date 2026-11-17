@@ -1,0 +1,145 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1655462863",
+    "pull_request_review_id": 2142856503,
+    "id": 1655462863,
+    "node_id": "PRRC_kwDOANeiys5irFvP",
+    "diff_hunk": "@@ -6539,6 +6539,44 @@ A <dfn id=\"dfn-frozen-array-type\" export>frozen array type</dfn> is a parameteri\n type whose values are references to objects that hold a fixed length array\n of unmodifiable values.  The values in the array are of type |T|.\n \n+Frozen array types must only be used as the type of [=regular attributes=] or [=static attributes=]\n+defined on an [=interface=].\n+\n+<div class=\"example\" id=\"example-frozen-array\">\n+    The following [=IDL fragment=] defines an [=interface=] with two frozen array attributes, one\n+    [=read only=] and one not.\n+\n+    <pre highlight=\"webidl\">\n+        [Exposed=Window]\n+        interface PersonalPreferences {\n+            readonly attribute FrozenArray&lt;DOMString> favoriteColors;\n+            attribute FrozenArray&lt;DOMString> favoriteFoods;\n+\n+            undefined randomizeFavoriteColors();\n+        };\n+    </pre>\n+\n+    The behavior of these attributes could be defined like so:\n+\n+    <blockquote>\n+        Each <code>PersonalPreferences</code> has associated <b>favorite colors</b>, a {{FrozenArray}}&lt;{{DOMString}}>, initially equal to the result of [=creating a frozen array=] from « \"<code>purple</code>\", \"<code>aquamarine</code>\" ».\n+\n+        Each <code>PersonalPreferences</code> has an associated <b>favorite foods</b>, a {{FrozenArray}}&lt;{{DOMString}}>, initially equal to the result of [=creating a frozen array=] from the empty list.\n+\n+        The <code>favoriteColors</code> [=getter steps=] are to return [=this=]'s favorite colors.\n+\n+        The <code>favoriteFoods</code> [=getter steps=] are to return [=this=]'s favorite foods.\n+\n+        The <code>favoriteFoods</code> [=setter steps=] are to set [=this=]'s favorite foods to [=the given value=].",
+    "path": "index.bs",
+    "commit_id": "9492715a28f736ed335f1a6b9181c232d1d5a220",
+    "original_commit_id": "9492715a28f736ed335f1a6b9181c232d1d5a220",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This just works? So if it's not frozen it ends up throwing or some such?",
+    "created_at": "2024-06-26T20:15:13Z",
+    "updated_at": "2024-06-26T20:15:59Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1413#discussion_r1655462863",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1413",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1655462863"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1413#discussion_r1655462863"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1413"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1655462863/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 6570,
+    "original_line": 6570,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 32,
+    "position": 32,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1660624406",
+    "pull_request_review_id": 2150678342,
+    "id": 1660624406,
+    "node_id": "PRRC_kwDOANeiys5i-x4W",
+    "diff_hunk": "@@ -6539,6 +6539,44 @@ A <dfn id=\"dfn-frozen-array-type\" export>frozen array type</dfn> is a parameteri\n type whose values are references to objects that hold a fixed length array\n of unmodifiable values.  The values in the array are of type |T|.\n \n+Frozen array types must only be used as the type of [=regular attributes=] or [=static attributes=]\n+defined on an [=interface=].\n+\n+<div class=\"example\" id=\"example-frozen-array\">\n+    The following [=IDL fragment=] defines an [=interface=] with two frozen array attributes, one\n+    [=read only=] and one not.\n+\n+    <pre highlight=\"webidl\">\n+        [Exposed=Window]\n+        interface PersonalPreferences {\n+            readonly attribute FrozenArray&lt;DOMString> favoriteColors;\n+            attribute FrozenArray&lt;DOMString> favoriteFoods;\n+\n+            undefined randomizeFavoriteColors();\n+        };\n+    </pre>\n+\n+    The behavior of these attributes could be defined like so:\n+\n+    <blockquote>\n+        Each <code>PersonalPreferences</code> has associated <b>favorite colors</b>, a {{FrozenArray}}&lt;{{DOMString}}>, initially equal to the result of [=creating a frozen array=] from « \"<code>purple</code>\", \"<code>aquamarine</code>\" ».\n+\n+        Each <code>PersonalPreferences</code> has an associated <b>favorite foods</b>, a {{FrozenArray}}&lt;{{DOMString}}>, initially equal to the result of [=creating a frozen array=] from the empty list.\n+\n+        The <code>favoriteColors</code> [=getter steps=] are to return [=this=]'s favorite colors.\n+\n+        The <code>favoriteFoods</code> [=getter steps=] are to return [=this=]'s favorite foods.\n+\n+        The <code>favoriteFoods</code> [=setter steps=] are to set [=this=]'s favorite foods to [=the given value=].",
+    "path": "index.bs",
+    "commit_id": "9492715a28f736ed335f1a6b9181c232d1d5a220",
+    "original_commit_id": "9492715a28f736ed335f1a6b9181c232d1d5a220",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The conversion steps for JS values to Web IDL `FrozenArray<T>` types will take any iterable, iterate over it, grab the values into an Infra list, then create a JS array from them, then freeze it, then package it up into a `FrozenArray<T>` pointer. So yeah, it just works.",
+    "created_at": "2024-07-01T07:53:34Z",
+    "updated_at": "2024-07-01T07:53:34Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1413#discussion_r1660624406",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1413",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1660624406"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1413#discussion_r1660624406"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1413"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1660624406/reactions",
+      "total_count": 2,
+      "+1": 2,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 6570,
+    "original_line": 6570,
+    "side": "RIGHT",
+    "in_reply_to_id": 1655462863,
+    "author_association": "MEMBER",
+    "original_position": 32,
+    "position": 32,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

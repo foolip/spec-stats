@@ -1,0 +1,289 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/940944923",
+    "pull_request_review_id": 1066167266,
+    "id": 940944923,
+    "node_id": "PRRC_kwDOANeiys44Fa4b",
+    "diff_hunk": "@@ -9430,26 +9430,33 @@ The <dfn>own exposure set</dfn> is the [=/set=] of identifiers defined as follow\n     1.  Let |H| be |C|'s [=host interface=] if |C| is an [=interface mixin member=], or null otherwise.\n     1.  If |C| is an [=interface member=], [=interface mixin member=], or [=namespace member=], then:\n         1.  If the [{{Exposed}}] [=extended attribute=] is specified on |C|, then:\n-            1.  If |H| is set, return the [=set/intersection=] of |C|'s [=own exposure set=]\n-                and |H|'s [=exposure set=].\n-            1.  Otherwise, return |C|'s [=own exposure set=].\n-        1.  Otherwise, set |C| to be the\n+            1.  If |H| is null, return |C|'s [=own exposure set=].\n+            1.  If |C|'s [=own exposure set=] is <code>*</code>, return |H|'s [=exposure set=].\n+            1.  If |H|'s [=exposure set=] is <code>*</code>, return |C|'s [=own exposure set=].\n+            1.  Return the [=set/intersection=] of |C|'s [=own exposure set=] and |H|'s\n+                [=exposure set=].",
+    "path": "index.bs",
+    "commit_id": "f6dc5d59c2d8a0a76a2828a18c8ab31f7c952514",
+    "original_commit_id": "c0a43a06319a7bff6f836360b62a56ecb044fdae",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "What do you think of pulling these four lines out into a helper function, e.g. \"exposure set intersection of construct |C| and interface-or-null |H|\"?",
+    "created_at": "2022-08-09T06:26:56Z",
+    "updated_at": "2022-08-09T06:27:04Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1177#discussion_r940944923",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1177",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/940944923"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1177#discussion_r940944923"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1177"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/940944923/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 9437,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 32,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/941191814",
+    "pull_request_review_id": 1066512829,
+    "id": 941191814,
+    "node_id": "PRRC_kwDOANeiys44GXKG",
+    "diff_hunk": "@@ -9430,26 +9430,33 @@ The <dfn>own exposure set</dfn> is the [=/set=] of identifiers defined as follow\n     1.  Let |H| be |C|'s [=host interface=] if |C| is an [=interface mixin member=], or null otherwise.\n     1.  If |C| is an [=interface member=], [=interface mixin member=], or [=namespace member=], then:\n         1.  If the [{{Exposed}}] [=extended attribute=] is specified on |C|, then:\n-            1.  If |H| is set, return the [=set/intersection=] of |C|'s [=own exposure set=]\n-                and |H|'s [=exposure set=].\n-            1.  Otherwise, return |C|'s [=own exposure set=].\n-        1.  Otherwise, set |C| to be the\n+            1.  If |H| is null, return |C|'s [=own exposure set=].\n+            1.  If |C|'s [=own exposure set=] is <code>*</code>, return |H|'s [=exposure set=].\n+            1.  If |H|'s [=exposure set=] is <code>*</code>, return |C|'s [=own exposure set=].\n+            1.  Return the [=set/intersection=] of |C|'s [=own exposure set=] and |H|'s\n+                [=exposure set=].",
+    "path": "index.bs",
+    "commit_id": "f6dc5d59c2d8a0a76a2828a18c8ab31f7c952514",
+    "original_commit_id": "c0a43a06319a7bff6f836360b62a56ecb044fdae",
+    "user": {
+      "login": "Ms2ger",
+      "id": 111161,
+      "node_id": "MDQ6VXNlcjExMTE2MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/111161?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Ms2ger",
+      "html_url": "https://github.com/Ms2ger",
+      "followers_url": "https://api.github.com/users/Ms2ger/followers",
+      "following_url": "https://api.github.com/users/Ms2ger/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Ms2ger/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Ms2ger/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Ms2ger/subscriptions",
+      "organizations_url": "https://api.github.com/users/Ms2ger/orgs",
+      "repos_url": "https://api.github.com/users/Ms2ger/repos",
+      "events_url": "https://api.github.com/users/Ms2ger/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Ms2ger/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I'd be happy to. Any other thoughts?",
+    "created_at": "2022-08-09T10:51:27Z",
+    "updated_at": "2022-08-09T10:51:27Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1177#discussion_r941191814",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1177",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/941191814"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1177#discussion_r941191814"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1177"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/941191814/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 9437,
+    "side": "RIGHT",
+    "in_reply_to_id": 940944923,
+    "author_association": "MEMBER",
+    "original_position": 32,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/941913302",
+    "pull_request_review_id": 1067527671,
+    "id": 941913302,
+    "node_id": "PRRC_kwDOANeiys44JHTW",
+    "diff_hunk": "@@ -9430,26 +9430,33 @@ The <dfn>own exposure set</dfn> is the [=/set=] of identifiers defined as follow\n     1.  Let |H| be |C|'s [=host interface=] if |C| is an [=interface mixin member=], or null otherwise.\n     1.  If |C| is an [=interface member=], [=interface mixin member=], or [=namespace member=], then:\n         1.  If the [{{Exposed}}] [=extended attribute=] is specified on |C|, then:\n-            1.  If |H| is set, return the [=set/intersection=] of |C|'s [=own exposure set=]\n-                and |H|'s [=exposure set=].\n-            1.  Otherwise, return |C|'s [=own exposure set=].\n-        1.  Otherwise, set |C| to be the\n+            1.  If |H| is null, return |C|'s [=own exposure set=].\n+            1.  If |C|'s [=own exposure set=] is <code>*</code>, return |H|'s [=exposure set=].\n+            1.  If |H|'s [=exposure set=] is <code>*</code>, return |C|'s [=own exposure set=].\n+            1.  Return the [=set/intersection=] of |C|'s [=own exposure set=] and |H|'s\n+                [=exposure set=].",
+    "path": "index.bs",
+    "commit_id": "f6dc5d59c2d8a0a76a2828a18c8ab31f7c952514",
+    "original_commit_id": "c0a43a06319a7bff6f836360b62a56ecb044fdae",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Seems reasonable otherwise!",
+    "created_at": "2022-08-10T00:43:27Z",
+    "updated_at": "2022-08-10T00:43:27Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1177#discussion_r941913302",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1177",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/941913302"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1177#discussion_r941913302"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1177"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/941913302/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 9437,
+    "side": "RIGHT",
+    "in_reply_to_id": 940944923,
+    "author_association": "MEMBER",
+    "original_position": 32,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/942185975",
+    "pull_request_review_id": 1067901626,
+    "id": 942185975,
+    "node_id": "PRRC_kwDOANeiys44KJ33",
+    "diff_hunk": "@@ -9430,26 +9430,33 @@ The <dfn>own exposure set</dfn> is the [=/set=] of identifiers defined as follow\n     1.  Let |H| be |C|'s [=host interface=] if |C| is an [=interface mixin member=], or null otherwise.\n     1.  If |C| is an [=interface member=], [=interface mixin member=], or [=namespace member=], then:\n         1.  If the [{{Exposed}}] [=extended attribute=] is specified on |C|, then:\n-            1.  If |H| is set, return the [=set/intersection=] of |C|'s [=own exposure set=]\n-                and |H|'s [=exposure set=].\n-            1.  Otherwise, return |C|'s [=own exposure set=].\n-        1.  Otherwise, set |C| to be the\n+            1.  If |H| is null, return |C|'s [=own exposure set=].\n+            1.  If |C|'s [=own exposure set=] is <code>*</code>, return |H|'s [=exposure set=].\n+            1.  If |H|'s [=exposure set=] is <code>*</code>, return |C|'s [=own exposure set=].\n+            1.  Return the [=set/intersection=] of |C|'s [=own exposure set=] and |H|'s\n+                [=exposure set=].",
+    "path": "index.bs",
+    "commit_id": "f6dc5d59c2d8a0a76a2828a18c8ab31f7c952514",
+    "original_commit_id": "c0a43a06319a7bff6f836360b62a56ecb044fdae",
+    "user": {
+      "login": "Ms2ger",
+      "id": 111161,
+      "node_id": "MDQ6VXNlcjExMTE2MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/111161?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Ms2ger",
+      "html_url": "https://github.com/Ms2ger",
+      "followers_url": "https://api.github.com/users/Ms2ger/followers",
+      "following_url": "https://api.github.com/users/Ms2ger/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Ms2ger/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Ms2ger/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Ms2ger/subscriptions",
+      "organizations_url": "https://api.github.com/users/Ms2ger/orgs",
+      "repos_url": "https://api.github.com/users/Ms2ger/repos",
+      "events_url": "https://api.github.com/users/Ms2ger/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Ms2ger/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2022-08-10T08:43:42Z",
+    "updated_at": "2022-08-10T08:43:42Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1177#discussion_r942185975",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1177",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/942185975"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1177#discussion_r942185975"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1177"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/942185975/reactions",
+      "total_count": 1,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 1,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 9437,
+    "side": "RIGHT",
+    "in_reply_to_id": 940944923,
+    "author_association": "MEMBER",
+    "original_position": 32,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

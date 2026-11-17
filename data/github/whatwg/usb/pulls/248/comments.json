@@ -1,0 +1,502 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1612226855",
+    "pull_request_review_id": 2074872493,
+    "id": 1612226855,
+    "node_id": "PRRC_kwDOAhq5Lc5gGKEn",
+    "diff_hunk": "@@ -0,0 +1,125 @@\n+# [Self-Review Questionnaire: Security and Privacy](https://w3ctag.github.io/security-questionnaire/)\n+\n+[Markdown template](https://raw.githubusercontent.com/w3ctag/security-questionnaire/main/questionnaire.markdown)\n+\n+> 01.  What information does this feature expose,\n+>      and for what purposes?\n+\n+(For WebUSB in general:) By default, the API exposes no information about a user's connected devices. Once the user grants permission for a site to access a device, the API exposes details about the device including device identifiers like the serial number string, vendor/product IDs, product name string, device firmware version, USB device class, supported configurations and interfaces.\n+\n+Applications use the vendor ID, product ID, and firmware version to identify the connected device model and determine compatibility.\n+\n+The serial number string is used to identify a specific device and distinguish the device from other devices with the same vendor and product IDs.\n+\n+The product name string is used as a human-facing identifier so that the application can present the device to the user with the same name that is used in permissions surfaces.\n+\n+The device's supported configurations and interfaces describe how to communicate with the device. Applications use this information to deduce the device's capabilities, compose transfers to be sent to the device, and interpret transfers received from the device.\n+\n+By allowing a site to communicate with a peripheral device it is exposed to any information that the device makes available through that connection. Information communicated with the device may include device identifiers that can be used for fingerprinting, private user data, security credentials, and other sensitive data. WebUSB [restricts the classes of devices](https://wicg.github.io/webusb/#has-a-protected-interface-class) that can be accessed through the API to limit the potential for abuse.\n+\n+(For Unrestricted WebUSB:) The Unrestricted WebUSB feature removes the restrictions on protected device classes so that trusted applications can access these devices.\n+\n+> 02.  Do features in your specification expose the minimum amount of information\n+>      necessary to implement the intended functionality?\n+\n+Yes, an application with the `\"usb-unrestricted\"` permission receives the same information that is normally available through WebUSB API, except that the application additionally receives information about protected devices.\n+\n+> 03.  Do the features in your specification expose personal information,\n+>      personally-identifiable information (PII), or information derived from\n+>      either?\n+\n+(For WebUSB in general:) Yes, WebUSB exposes the serial number string descriptor if the device has one. The serial number is assumed to be unique among devices with the same vendor and product IDs and is therefore useful for fingerprinting. Specific devices may expose personal information related to the device capabilities.\n+\n+(For Unrestricted WebUSB:) Yes, the protected devices exposed by this feature are very likely to expose personal information including keystroke data, security credentials, webcam audio and video, and data stored on portable storage devices.\n+\n+> 04.  How do the features in your specification deal with sensitive information?\n+\n+(For WebUSB:) The API is designed to be safe by default, exposing no information about connected devices until a user has granted permission. Additionally, the API blocks access to the most sensitive device classes. Typically these devices are accessible through another higher-level web platform API.\n+\n+(For Unrestricted WebUSB:) The feature does not attempt to protect sensitive information. We expect applications that use this feature will be carefully reviewed before publishing. If a published application is found to be abusing the permission then the application will be unpublished through a process external to this API.\n+\n+> 05.  Do the features in your specification introduce state\n+>      that persists across browsing sessions?\n+\n+(For WebUSB in general:) Yes, permissions may persist across browsing sessions for devices that can be reliably re-identified by the implementation. In Chromium, this requires that the device has a non-empty serial number string descriptor. Permissions for devices without a serial number are revoked when the device is disconnected or the browser is closed.\n+\n+Additionally, a device may have its own state that persists independently of the browser.\n+\n+(For Unrestricted WebUSB:) No new information is persisted for this feature.",
+    "path": "security-and-privacy-questionnaire-unrestricted-webusb.md",
+    "commit_id": "931f7b0a040450c29e64f21d927fdae6b34b0ed0",
+    "original_commit_id": "e223f5e94882058883f99a1474d4f0e32754e215",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Remove this line and the annotation since there's no additional state for Unrestricted WebUSB.",
+    "created_at": "2024-05-23T19:49:39Z",
+    "updated_at": "2024-05-23T19:53:43Z",
+    "html_url": "https://github.com/whatwg/usb/pull/248#discussion_r1612226855",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/248",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/1612226855"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/248#discussion_r1612226855"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/248"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1612226855/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 48,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 48,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1612229892",
+    "pull_request_review_id": 2074872493,
+    "id": 1612229892,
+    "node_id": "PRRC_kwDOAhq5Lc5gGK0E",
+    "diff_hunk": "@@ -0,0 +1,125 @@\n+# [Self-Review Questionnaire: Security and Privacy](https://w3ctag.github.io/security-questionnaire/)\n+\n+[Markdown template](https://raw.githubusercontent.com/w3ctag/security-questionnaire/main/questionnaire.markdown)\n+\n+> 01.  What information does this feature expose,\n+>      and for what purposes?\n+\n+(For WebUSB in general:) By default, the API exposes no information about a user's connected devices. Once the user grants permission for a site to access a device, the API exposes details about the device including device identifiers like the serial number string, vendor/product IDs, product name string, device firmware version, USB device class, supported configurations and interfaces.\n+\n+Applications use the vendor ID, product ID, and firmware version to identify the connected device model and determine compatibility.\n+\n+The serial number string is used to identify a specific device and distinguish the device from other devices with the same vendor and product IDs.\n+\n+The product name string is used as a human-facing identifier so that the application can present the device to the user with the same name that is used in permissions surfaces.\n+\n+The device's supported configurations and interfaces describe how to communicate with the device. Applications use this information to deduce the device's capabilities, compose transfers to be sent to the device, and interpret transfers received from the device.\n+\n+By allowing a site to communicate with a peripheral device it is exposed to any information that the device makes available through that connection. Information communicated with the device may include device identifiers that can be used for fingerprinting, private user data, security credentials, and other sensitive data. WebUSB [restricts the classes of devices](https://wicg.github.io/webusb/#has-a-protected-interface-class) that can be accessed through the API to limit the potential for abuse.\n+\n+(For Unrestricted WebUSB:) The Unrestricted WebUSB feature removes the restrictions on protected device classes so that trusted applications can access these devices.\n+\n+> 02.  Do features in your specification expose the minimum amount of information\n+>      necessary to implement the intended functionality?\n+\n+Yes, an application with the `\"usb-unrestricted\"` permission receives the same information that is normally available through WebUSB API, except that the application additionally receives information about protected devices.",
+    "path": "security-and-privacy-questionnaire-unrestricted-webusb.md",
+    "commit_id": "931f7b0a040450c29e64f21d927fdae6b34b0ed0",
+    "original_commit_id": "e223f5e94882058883f99a1474d4f0e32754e215",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n(For WebUSB in general:) Yes, a site only receives information about the device the user has chosen to share with it.\r\n\r\n(For Unrestricted WebUSB:) Applications must opt-in to the ability to access otherwise protected device by requesting the `\"usb-unrestricted\"` permission which may subject them to additional scrutiny through a process external to this API.\r\n```",
+    "created_at": "2024-05-23T19:52:35Z",
+    "updated_at": "2024-05-23T19:53:43Z",
+    "html_url": "https://github.com/whatwg/usb/pull/248#discussion_r1612229892",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/248",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/1612229892"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/248#discussion_r1612229892"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/248"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1612229892/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 25,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 25,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1612230862",
+    "pull_request_review_id": 2074872493,
+    "id": 1612230862,
+    "node_id": "PRRC_kwDOAhq5Lc5gGLDO",
+    "diff_hunk": "@@ -0,0 +1,125 @@\n+# [Self-Review Questionnaire: Security and Privacy](https://w3ctag.github.io/security-questionnaire/)",
+    "path": "security-and-privacy-questionnaire-unrestricted-webusb.md",
+    "commit_id": "931f7b0a040450c29e64f21d927fdae6b34b0ed0",
+    "original_commit_id": "e223f5e94882058883f99a1474d4f0e32754e215",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Thank you for including notes on where WebUSB and Unrestricted WebUSB differ. I think we can rename this file to `security-and-privacy-questionnaire.md` since it adiquately covers the original API as well.",
+    "created_at": "2024-05-23T19:53:35Z",
+    "updated_at": "2024-05-23T19:53:43Z",
+    "html_url": "https://github.com/whatwg/usb/pull/248#discussion_r1612230862",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/248",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/1612230862"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/248#discussion_r1612230862"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/248"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1612230862/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 1,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1612251740",
+    "pull_request_review_id": 2074913444,
+    "id": 1612251740,
+    "node_id": "PRRC_kwDOAhq5Lc5gGQJc",
+    "diff_hunk": "@@ -0,0 +1,125 @@\n+# [Self-Review Questionnaire: Security and Privacy](https://w3ctag.github.io/security-questionnaire/)\n+\n+[Markdown template](https://raw.githubusercontent.com/w3ctag/security-questionnaire/main/questionnaire.markdown)\n+\n+> 01.  What information does this feature expose,\n+>      and for what purposes?\n+\n+(For WebUSB in general:) By default, the API exposes no information about a user's connected devices. Once the user grants permission for a site to access a device, the API exposes details about the device including device identifiers like the serial number string, vendor/product IDs, product name string, device firmware version, USB device class, supported configurations and interfaces.\n+\n+Applications use the vendor ID, product ID, and firmware version to identify the connected device model and determine compatibility.\n+\n+The serial number string is used to identify a specific device and distinguish the device from other devices with the same vendor and product IDs.\n+\n+The product name string is used as a human-facing identifier so that the application can present the device to the user with the same name that is used in permissions surfaces.\n+\n+The device's supported configurations and interfaces describe how to communicate with the device. Applications use this information to deduce the device's capabilities, compose transfers to be sent to the device, and interpret transfers received from the device.\n+\n+By allowing a site to communicate with a peripheral device it is exposed to any information that the device makes available through that connection. Information communicated with the device may include device identifiers that can be used for fingerprinting, private user data, security credentials, and other sensitive data. WebUSB [restricts the classes of devices](https://wicg.github.io/webusb/#has-a-protected-interface-class) that can be accessed through the API to limit the potential for abuse.\n+\n+(For Unrestricted WebUSB:) The Unrestricted WebUSB feature removes the restrictions on protected device classes so that trusted applications can access these devices.\n+\n+> 02.  Do features in your specification expose the minimum amount of information\n+>      necessary to implement the intended functionality?\n+\n+Yes, an application with the `\"usb-unrestricted\"` permission receives the same information that is normally available through WebUSB API, except that the application additionally receives information about protected devices.\n+\n+> 03.  Do the features in your specification expose personal information,\n+>      personally-identifiable information (PII), or information derived from\n+>      either?\n+\n+(For WebUSB in general:) Yes, WebUSB exposes the serial number string descriptor if the device has one. The serial number is assumed to be unique among devices with the same vendor and product IDs and is therefore useful for fingerprinting. Specific devices may expose personal information related to the device capabilities.\n+\n+(For Unrestricted WebUSB:) Yes, the protected devices exposed by this feature are very likely to expose personal information including keystroke data, security credentials, webcam audio and video, and data stored on portable storage devices.\n+\n+> 04.  How do the features in your specification deal with sensitive information?\n+\n+(For WebUSB:) The API is designed to be safe by default, exposing no information about connected devices until a user has granted permission. Additionally, the API blocks access to the most sensitive device classes. Typically these devices are accessible through another higher-level web platform API.\n+\n+(For Unrestricted WebUSB:) The feature does not attempt to protect sensitive information. We expect applications that use this feature will be carefully reviewed before publishing. If a published application is found to be abusing the permission then the application will be unpublished through a process external to this API.\n+\n+> 05.  Do the features in your specification introduce state\n+>      that persists across browsing sessions?\n+\n+(For WebUSB in general:) Yes, permissions may persist across browsing sessions for devices that can be reliably re-identified by the implementation. In Chromium, this requires that the device has a non-empty serial number string descriptor. Permissions for devices without a serial number are revoked when the device is disconnected or the browser is closed.\n+\n+Additionally, a device may have its own state that persists independently of the browser.\n+\n+(For Unrestricted WebUSB:) No new information is persisted for this feature.",
+    "path": "security-and-privacy-questionnaire-unrestricted-webusb.md",
+    "commit_id": "931f7b0a040450c29e64f21d927fdae6b34b0ed0",
+    "original_commit_id": "e223f5e94882058883f99a1474d4f0e32754e215",
+    "user": {
+      "login": "nondebug",
+      "id": 14099571,
+      "node_id": "MDQ6VXNlcjE0MDk5NTcx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14099571?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nondebug",
+      "html_url": "https://github.com/nondebug",
+      "followers_url": "https://api.github.com/users/nondebug/followers",
+      "following_url": "https://api.github.com/users/nondebug/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nondebug/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nondebug/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nondebug/subscriptions",
+      "organizations_url": "https://api.github.com/users/nondebug/orgs",
+      "repos_url": "https://api.github.com/users/nondebug/repos",
+      "events_url": "https://api.github.com/users/nondebug/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nondebug/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done",
+    "created_at": "2024-05-23T20:14:36Z",
+    "updated_at": "2024-05-23T20:14:37Z",
+    "html_url": "https://github.com/whatwg/usb/pull/248#discussion_r1612251740",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/248",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/1612251740"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/248#discussion_r1612251740"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/248"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1612251740/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 48,
+    "side": "RIGHT",
+    "in_reply_to_id": 1612226855,
+    "author_association": "COLLABORATOR",
+    "original_position": 48,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1612251845",
+    "pull_request_review_id": 2074913646,
+    "id": 1612251845,
+    "node_id": "PRRC_kwDOAhq5Lc5gGQLF",
+    "diff_hunk": "@@ -0,0 +1,125 @@\n+# [Self-Review Questionnaire: Security and Privacy](https://w3ctag.github.io/security-questionnaire/)\n+\n+[Markdown template](https://raw.githubusercontent.com/w3ctag/security-questionnaire/main/questionnaire.markdown)\n+\n+> 01.  What information does this feature expose,\n+>      and for what purposes?\n+\n+(For WebUSB in general:) By default, the API exposes no information about a user's connected devices. Once the user grants permission for a site to access a device, the API exposes details about the device including device identifiers like the serial number string, vendor/product IDs, product name string, device firmware version, USB device class, supported configurations and interfaces.\n+\n+Applications use the vendor ID, product ID, and firmware version to identify the connected device model and determine compatibility.\n+\n+The serial number string is used to identify a specific device and distinguish the device from other devices with the same vendor and product IDs.\n+\n+The product name string is used as a human-facing identifier so that the application can present the device to the user with the same name that is used in permissions surfaces.\n+\n+The device's supported configurations and interfaces describe how to communicate with the device. Applications use this information to deduce the device's capabilities, compose transfers to be sent to the device, and interpret transfers received from the device.\n+\n+By allowing a site to communicate with a peripheral device it is exposed to any information that the device makes available through that connection. Information communicated with the device may include device identifiers that can be used for fingerprinting, private user data, security credentials, and other sensitive data. WebUSB [restricts the classes of devices](https://wicg.github.io/webusb/#has-a-protected-interface-class) that can be accessed through the API to limit the potential for abuse.\n+\n+(For Unrestricted WebUSB:) The Unrestricted WebUSB feature removes the restrictions on protected device classes so that trusted applications can access these devices.\n+\n+> 02.  Do features in your specification expose the minimum amount of information\n+>      necessary to implement the intended functionality?\n+\n+Yes, an application with the `\"usb-unrestricted\"` permission receives the same information that is normally available through WebUSB API, except that the application additionally receives information about protected devices.",
+    "path": "security-and-privacy-questionnaire-unrestricted-webusb.md",
+    "commit_id": "931f7b0a040450c29e64f21d927fdae6b34b0ed0",
+    "original_commit_id": "e223f5e94882058883f99a1474d4f0e32754e215",
+    "user": {
+      "login": "nondebug",
+      "id": 14099571,
+      "node_id": "MDQ6VXNlcjE0MDk5NTcx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14099571?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nondebug",
+      "html_url": "https://github.com/nondebug",
+      "followers_url": "https://api.github.com/users/nondebug/followers",
+      "following_url": "https://api.github.com/users/nondebug/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nondebug/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nondebug/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nondebug/subscriptions",
+      "organizations_url": "https://api.github.com/users/nondebug/orgs",
+      "repos_url": "https://api.github.com/users/nondebug/repos",
+      "events_url": "https://api.github.com/users/nondebug/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nondebug/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done",
+    "created_at": "2024-05-23T20:14:44Z",
+    "updated_at": "2024-05-23T20:14:44Z",
+    "html_url": "https://github.com/whatwg/usb/pull/248#discussion_r1612251845",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/248",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/1612251845"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/248#discussion_r1612251845"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/248"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1612251845/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 25,
+    "side": "RIGHT",
+    "in_reply_to_id": 1612229892,
+    "author_association": "COLLABORATOR",
+    "original_position": 25,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1612252080",
+    "pull_request_review_id": 2074913991,
+    "id": 1612252080,
+    "node_id": "PRRC_kwDOAhq5Lc5gGQOw",
+    "diff_hunk": "@@ -0,0 +1,125 @@\n+# [Self-Review Questionnaire: Security and Privacy](https://w3ctag.github.io/security-questionnaire/)",
+    "path": "security-and-privacy-questionnaire-unrestricted-webusb.md",
+    "commit_id": "931f7b0a040450c29e64f21d927fdae6b34b0ed0",
+    "original_commit_id": "e223f5e94882058883f99a1474d4f0e32754e215",
+    "user": {
+      "login": "nondebug",
+      "id": 14099571,
+      "node_id": "MDQ6VXNlcjE0MDk5NTcx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14099571?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nondebug",
+      "html_url": "https://github.com/nondebug",
+      "followers_url": "https://api.github.com/users/nondebug/followers",
+      "following_url": "https://api.github.com/users/nondebug/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nondebug/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nondebug/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nondebug/subscriptions",
+      "organizations_url": "https://api.github.com/users/nondebug/orgs",
+      "repos_url": "https://api.github.com/users/nondebug/repos",
+      "events_url": "https://api.github.com/users/nondebug/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nondebug/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Renamed",
+    "created_at": "2024-05-23T20:14:57Z",
+    "updated_at": "2024-05-23T20:14:57Z",
+    "html_url": "https://github.com/whatwg/usb/pull/248#discussion_r1612252080",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/248",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/1612252080"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/248#discussion_r1612252080"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/248"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1612252080/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1,
+    "side": "RIGHT",
+    "in_reply_to_id": 1612230862,
+    "author_association": "COLLABORATOR",
+    "original_position": 1,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1612263248",
+    "pull_request_review_id": 2074932344,
+    "id": 1612263248,
+    "node_id": "PRRC_kwDOAhq5Lc5gGS9Q",
+    "diff_hunk": "@@ -0,0 +1,195 @@\n+# [Self-Review Questionnaire: Security and Privacy](https://w3ctag.github.io/security-questionnaire/)\n+\n+[Markdown template](https://raw.githubusercontent.com/w3ctag/security-questionnaire/main/questionnaire.markdown)\n+\n+> 01.  What information does this feature expose,\n+>      and for what purposes?\n+\n+(For WebUSB in general:) By default, the API exposes no information about a\n+user's connected devices. Once the user grants permission for a site to access a\n+device, the API exposes details about the device including device identifiers\n+like the serial number string, vendor/product IDs, product name string, device\n+firmware version, USB device class, supported configurations and interfaces.\n+\n+Applications use the vendor ID, product ID, and firmware version to identify the\n+connected device model and determine compatibility.\n+\n+The serial number string is used to identify a specific device and distinguish\n+the device from other devices with the same vendor and product IDs.\n+\n+The product name string is used as a human-facing identifier so that the\n+application can present the device to the user with the same name that is used\n+in permissions surfaces.\n+\n+The device's supported configurations and interfaces describe how to communicate\n+with the device. Applications use this information to deduce the device's\n+capabilities, compose transfers to be sent to the device, and interpret\n+transfers received from the device.\n+\n+By allowing a site to communicate with a peripheral device it is exposed to any\n+information that the device makes available through that connection. Information\n+communicated with the device may include device identifiers that can be used for\n+fingerprinting, private user data, security credentials, and other sensitive\n+data. WebUSB [restricts the classes of devices](https://wicg.github.io/webusb/#has-a-protected-interface-class)\n+that can be accessed through the API to limit the potential for abuse.\n+\n+(For Unrestricted WebUSB:) The Unrestricted WebUSB feature removes the\n+restrictions on protected device classes so that trusted applications can access\n+these devices.\n+\n+> 02.  Do features in your specification expose the minimum amount of information\n+>      necessary to implement the intended functionality?\n+\n+(For WebUSB in general:) Yes, a site only receives information about the device\n+the user has chosen to share with it.\n+\n+(For Unrestricted WebUSB:) Applications must opt-in to the ability to access\n+otherwise protected devices by requesting the `\"usb-unrestricted\"` permission\n+which may subject them to additional scrutiny through a process external to this\n+API.\n+\n+> 03.  Do the features in your specification expose personal information,\n+>      personally-identifiable information (PII), or information derived from\n+>      either?\n+\n+(For WebUSB in general:) Yes, WebUSB exposes the serial number string descriptor\n+if the device has one. The serial number is assumed to be unique among devices\n+with the same vendor and product IDs and is therefore useful for fingerprinting.\n+Specific devices may expose personal information related to the device\n+capabilities.\n+\n+(For Unrestricted WebUSB:) Yes, the protected devices exposed by this feature\n+are very likely to expose personal information including keystroke data,\n+security credentials, webcam audio and video, and data stored on portable\n+storage devices.\n+\n+> 04.  How do the features in your specification deal with sensitive information?\n+\n+(For WebUSB:) The API is designed to be safe by default, exposing no information\n+about connected devices until a user has granted permission. Additionally, the\n+API blocks access to the most sensitive device classes. Typically these devices\n+are accessible through another higher-level web platform API.\n+\n+(For Unrestricted WebUSB:) The feature does not attempt to protect sensitive\n+information. We expect applications that use this feature will be carefully\n+reviewed before publishing. If a published application is found to be abusing\n+the permission then the application will be unpublished through a process\n+external to this API.\n+\n+> 05.  Do the features in your specification introduce state\n+>      that persists across browsing sessions?\n+\n+Yes, permissions may persist across browsing sessions for devices that can be\n+reliably re-identified by the implementation. In Chromium, this requires that\n+the device has a non-empty serial number string descriptor. Permissions for\n+devices without a serial number are revoked when the device is disconnected or\n+the browser is closed.\n+\n+Additionally, a device may have its own state that persists independently of the\n+browser.\n+\n+> 06.  Do the features in your specification expose information about the\n+>      underlying platform to origins?\n+\n+Yes, the API exposes information about connected devices and enables an origin\n+to communicate with these devices.\n+\n+> 07.  Does this specification allow an origin to send data to the underlying\n+>      platform?\n+\n+Yes.\n+\n+> 08.  Do features in this specification enable access to device sensors?\n+\n+Yes, if they are USB devices. Unrestricted USB additionally exposes low-level\n+access to audio and video sensors that are normally blocked.\n+\n+> 09.  Do features in this specification enable new script execution/loading\n+>      mechanisms?\n+\n+No.\n+\n+> 10.  Do features in this specification allow an origin to access other devices?\n+\n+Yes, the API is intended to provide access to connected USB peripherals. This\n+feature expands the number of devices that a trusted application can access.\n+\n+> 11.  Do features in this specification allow an origin some measure of control over\n+>      a user agent's native UI?\n+\n+No. The `requestDevice()` method, which can cause the user agent to display\n+native UI, requires a user gesture in order to mitigate abuse.\n+\n+> 12.  What temporary identifiers do the features in this specification create or\n+>      expose to the web?\n+\n+This specification does not create temporary identifiers.\n+\n+> 13.  How does this specification distinguish between behavior in first-party and\n+>      third-party contexts?\n+\n+The specification leverages [Feature Policy](https://w3c.github.io/webappsec-feature-policy/)\n+to control access to WebUSB API in third-party contexts. If a third-party\n+context is trusted by the first-party context it can be explicitly granted\n+access to the `\"usb\"` feature.\n+\n+For Unrestricted USB a new `\"usb-unrestricted\"` feature is added. The feature is\n+only available in isolated application contexts which makes all third-party\n+contexts ineligible to access the feature.\n+\n+> 14.  How do the features in this specification work in the context of a browser’s\n+>      Private Browsing or Incognito mode?\n+\n+(For WebUSB in general:) Implementations are expected to implement separate",
+    "path": "security-and-privacy-questionnaire.md",
+    "commit_id": "931f7b0a040450c29e64f21d927fdae6b34b0ed0",
+    "original_commit_id": "f4d59e3cf5803fb11e95de601b61b155572339a9",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\nImplementations are expected to implement separate\r\n```",
+    "created_at": "2024-05-23T20:26:32Z",
+    "updated_at": "2024-05-23T20:26:36Z",
+    "html_url": "https://github.com/whatwg/usb/pull/248#discussion_r1612263248",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/248",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/1612263248"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/248#discussion_r1612263248"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/248"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1612263248/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 143,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 143,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

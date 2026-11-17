@@ -1,0 +1,358 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/744190822",
+    "pull_request_review_id": 799490240,
+    "id": 744190822,
+    "node_id": "PRRC_kwDOANeiys4sW3Nm",
+    "diff_hunk": "@@ -5837,108 +5845,164 @@ The [=type name=] of the\n {{boolean}} type is \"<code>Boolean</code>\".\n \n \n-<h4 oldids=\"dom-byte\" id=\"idl-byte\" interface>byte</h4>\n+<h4 id=\"idl-int8\" oldids=\"dom-byte,idl-byte\" interface>int8</h4>\n \n-The {{byte}} type is a signed integer\n+The {{int8}} type is a signed integer\n type that has values in the range [−128, 127].\n \n-{{byte}} constant values in IDL are\n+{{int8}} constant values in IDL are\n represented with <emu-t class=\"regex\"><a href=\"#prod-integer\">integer</a></emu-t>\n tokens.\n \n The [=type name=] of the\n-{{byte}} type is \"<code>Byte</code>\".\n+{{int8}} type is \"<code>Int8</code>\".\n \n+For legacy compatibility, <code>byte</code> is to be treated\n+as an alias for {{int8}}, similar to:\n \n-<h4 oldids=\"dom-octet\" id=\"idl-octet\" interface>octet</h4>\n+<pre>\n+    typedef (int8) byte;\n+</pre>\n+\n+\n+<h4 id=\"idl-uint8\" oldids=\"dom-octet,idl-octet\" interface>uint8</h4>\n \n-The {{octet}} type is an unsigned integer\n+The {{uint8}} type is an unsigned integer\n type that has values in the range [0, 255].\n \n-{{octet}} constant values in IDL are\n+{{uint8}} constant values in IDL are\n represented with <emu-t class=\"regex\"><a href=\"#prod-integer\">integer</a></emu-t>\n tokens.\n \n The [=type name=] of the\n-{{octet}} type is \"<code>Octet</code>\".\n+{{uint8}} type is \"<code>Uint8</code>\".\n+\n+For legacy compatibility, <code>octet</code> is to be treated\n+as an alias for {{uint8}}, similar to:\n+\n+<pre>\n+    typedef (uint8) octet;\n+</pre>\n \n \n-<h4 oldids=\"dom-short\" id=\"idl-short\" interface>short</h4>\n+<h4 id=\"idl-int16\" oldids=\"dom-short,idl-short\" interface>int16</h4>\n \n-The {{short}} type is a signed integer\n+The {{int16}} type is a signed integer\n type that has values in the range [−32768, 32767].\n \n-{{short}} constant values in IDL are\n+{{int16}} constant values in IDL are\n represented with <emu-t class=\"regex\"><a href=\"#prod-integer\">integer</a></emu-t>\n tokens.\n \n The [=type name=] of the\n-{{short}} type is \"<code>Short</code>\".\n+{{int16}} type is \"<code>Int16</code>\".\n \n+For legacy compatibility, <code>short</code> is to be treated\n+as an alias for {{int16}}, similar to:\n \n-<h4 oldids=\"dom-unsignedshort\" id=\"idl-unsigned-short\" interface>unsigned short</h4>\n+<pre>\n+    typedef (int16) short;\n+</pre>\n+\n+\n+<h4 id=\"idl-uint16\" oldids=\"dom-unsignedshort,idl-unsigned-short\" interface>uint16</h4>\n \n-The {{unsigned short}} type is an unsigned integer\n+The {{uint16}} type is an unsigned integer\n type that has values in the range [0, 65535].\n \n-{{unsigned short}} constant values in IDL are\n+{{uint16}} constant values in IDL are\n represented with <emu-t class=\"regex\"><a href=\"#prod-integer\">integer</a></emu-t>\n tokens.\n \n The [=type name=] of the\n-{{unsigned short}} type is \"<code>UnsignedShort</code>\".\n+{{uint16}} type is \"<code>Uint16</code>\".\n+\n+For legacy compatibility, <code>unsigned short</code> is to be treated\n+as an alias for {{uint16}}, similar to:\n+\n+<pre>\n+    typedef (uint16) unsigned short;",
+    "path": "index.bs",
+    "commit_id": "a1e472bb377e1fe5f3b1f9aece07df798bef377c",
+    "original_commit_id": "c06acfc8802f49c2f3c9a0d6e81b002308de75aa",
+    "user": {
+      "login": "saschanaz",
+      "id": 3396686,
+      "node_id": "MDQ6VXNlcjMzOTY2ODY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3396686?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/saschanaz",
+      "html_url": "https://github.com/saschanaz",
+      "followers_url": "https://api.github.com/users/saschanaz/followers",
+      "following_url": "https://api.github.com/users/saschanaz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/saschanaz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/saschanaz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/saschanaz/subscriptions",
+      "organizations_url": "https://api.github.com/users/saschanaz/orgs",
+      "repos_url": "https://api.github.com/users/saschanaz/repos",
+      "events_url": "https://api.github.com/users/saschanaz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/saschanaz/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I believe this causes syntax error, and not sure it's really needed. Each parser implementation can support both form while autofixes by @autokagami land.\r\n\r\nEdit: Oh sorry, I thought it's a real IDL block but it's just a \"similar to\". But I still agree with bathos.",
+    "created_at": "2021-11-07T02:05:42Z",
+    "updated_at": "2021-11-07T15:12:57Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1030#discussion_r744190822",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1030",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/744190822"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1030#discussion_r744190822"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1030"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/744190822/reactions",
+      "total_count": 2,
+      "+1": 2,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 5924,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 536,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/744200560",
+    "pull_request_review_id": 799495834,
+    "id": 744200560,
+    "node_id": "PRRC_kwDOANeiys4sW5lw",
+    "diff_hunk": "@@ -7512,7 +7584,7 @@ In effect, where <var ignore>x</var> is a Number value,\n         1.  If |signedness| is \"<code>unsigned</code>\", then let |lowerBound| be 0.\n         1.  Otherwise let |lowerBound| be −2<sup>53</sup> + 1.\n \n-            Note: this ensures {{long long}} types\n+            Note: this ensures {{int64}} types",
+    "path": "index.bs",
+    "commit_id": "a1e472bb377e1fe5f3b1f9aece07df798bef377c",
+    "original_commit_id": "c06acfc8802f49c2f3c9a0d6e81b002308de75aa",
+    "user": {
+      "login": "bathos",
+      "id": 6257356,
+      "node_id": "MDQ6VXNlcjYyNTczNTY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6257356?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bathos",
+      "html_url": "https://github.com/bathos",
+      "followers_url": "https://api.github.com/users/bathos/followers",
+      "following_url": "https://api.github.com/users/bathos/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bathos/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bathos/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bathos/subscriptions",
+      "organizations_url": "https://api.github.com/users/bathos/orgs",
+      "repos_url": "https://api.github.com/users/bathos/repos",
+      "events_url": "https://api.github.com/users/bathos/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bathos/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This note pertained to both unsigned long long and long long, which already wasn’t very clear as written, but with “int64,” it’s even less clear that it means both variants (the upper bound clips both). Seems like listing both int64 and uint64 explicitly would fix that (or, given it’s a note, it could probably be worded like “64-bit integer types”).",
+    "created_at": "2021-11-07T04:26:39Z",
+    "updated_at": "2021-11-07T04:26:39Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1030#discussion_r744200560",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1030",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/744200560"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1030#discussion_r744200560"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1030"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/744200560/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 7587,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 1005,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/744200800",
+    "pull_request_review_id": 799495953,
+    "id": 744200800,
+    "node_id": "PRRC_kwDOANeiys4sW5pg",
+    "diff_hunk": "@@ -689,7 +689,7 @@ across [=IDL fragments=].\n         interface A {\n         };\n \n-        typedef sequence&lt;long&gt; SequenceOfLongs;\n+        typedef sequence&lt;int32&gt; SequenceOfLongs;",
+    "path": "index.bs",
+    "commit_id": "a1e472bb377e1fe5f3b1f9aece07df798bef377c",
+    "original_commit_id": "c06acfc8802f49c2f3c9a0d6e81b002308de75aa",
+    "user": {
+      "login": "bathos",
+      "id": 6257356,
+      "node_id": "MDQ6VXNlcjYyNTczNTY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6257356?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bathos",
+      "html_url": "https://github.com/bathos",
+      "followers_url": "https://api.github.com/users/bathos/followers",
+      "following_url": "https://api.github.com/users/bathos/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bathos/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bathos/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bathos/subscriptions",
+      "organizations_url": "https://api.github.com/users/bathos/orgs",
+      "repos_url": "https://api.github.com/users/bathos/repos",
+      "events_url": "https://api.github.com/users/bathos/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bathos/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n        typedef sequence&lt;int32&gt; SequenceOfInt32s;\r\n```\r\n\r\n(or something. just seems weird to leave “longs” here.)",
+    "created_at": "2021-11-07T04:29:49Z",
+    "updated_at": "2021-11-07T04:29:49Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1030#discussion_r744200800",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1030",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/744200800"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1030#discussion_r744200800"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1030"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/744200800/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 692,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 16,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/744201071",
+    "pull_request_review_id": 799496092,
+    "id": 744201071,
+    "node_id": "PRRC_kwDOANeiys4sW5tv",
+    "diff_hunk": "@@ -1694,7 +1694,7 @@ on which they appear.  It is language binding specific whether\n     <pre highlight=\"webidl\">\n         [Exposed=Window]\n         interface A {\n-          const short rambaldi = 47;\n+          const uint16 rambaldi = 47;",
+    "path": "index.bs",
+    "commit_id": "a1e472bb377e1fe5f3b1f9aece07df798bef377c",
+    "original_commit_id": "c06acfc8802f49c2f3c9a0d6e81b002308de75aa",
+    "user": {
+      "login": "bathos",
+      "id": 6257356,
+      "node_id": "MDQ6VXNlcjYyNTczNTY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6257356?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bathos",
+      "html_url": "https://github.com/bathos",
+      "followers_url": "https://api.github.com/users/bathos/followers",
+      "following_url": "https://api.github.com/users/bathos/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bathos/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bathos/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bathos/subscriptions",
+      "organizations_url": "https://api.github.com/users/bathos/orgs",
+      "repos_url": "https://api.github.com/users/bathos/repos",
+      "events_url": "https://api.github.com/users/bathos/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bathos/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n          const int16 rambaldi = 47;\r\n```\r\n\r\nThis one was signed before. Almost certainly doesn’t matter here for the example, but keeping them the same may help avoid tripping reviewers.",
+    "created_at": "2021-11-07T04:33:24Z",
+    "updated_at": "2021-11-07T04:33:24Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1030#discussion_r744201071",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1030",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/744201071"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1030#discussion_r744201071"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1030"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/744201071/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1697,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 34,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/744201916",
+    "pull_request_review_id": 799496575,
+    "id": 744201916,
+    "node_id": "PRRC_kwDOANeiys4sW568",
+    "diff_hunk": "@@ -5837,108 +5845,164 @@ The [=type name=] of the\n {{boolean}} type is \"<code>Boolean</code>\".\n \n \n-<h4 oldids=\"dom-byte\" id=\"idl-byte\" interface>byte</h4>\n+<h4 id=\"idl-int8\" oldids=\"dom-byte,idl-byte\" interface>int8</h4>\n \n-The {{byte}} type is a signed integer\n+The {{int8}} type is a signed integer\n type that has values in the range [−128, 127].\n \n-{{byte}} constant values in IDL are\n+{{int8}} constant values in IDL are\n represented with <emu-t class=\"regex\"><a href=\"#prod-integer\">integer</a></emu-t>\n tokens.\n \n The [=type name=] of the\n-{{byte}} type is \"<code>Byte</code>\".\n+{{int8}} type is \"<code>Int8</code>\".\n \n+For legacy compatibility, <code>byte</code> is to be treated\n+as an alias for {{int8}}, similar to:\n \n-<h4 oldids=\"dom-octet\" id=\"idl-octet\" interface>octet</h4>\n+<pre>\n+    typedef (int8) byte;\n+</pre>\n+\n+\n+<h4 id=\"idl-uint8\" oldids=\"dom-octet,idl-octet\" interface>uint8</h4>\n \n-The {{octet}} type is an unsigned integer\n+The {{uint8}} type is an unsigned integer\n type that has values in the range [0, 255].\n \n-{{octet}} constant values in IDL are\n+{{uint8}} constant values in IDL are\n represented with <emu-t class=\"regex\"><a href=\"#prod-integer\">integer</a></emu-t>\n tokens.\n \n The [=type name=] of the\n-{{octet}} type is \"<code>Octet</code>\".\n+{{uint8}} type is \"<code>Uint8</code>\".\n+\n+For legacy compatibility, <code>octet</code> is to be treated\n+as an alias for {{uint8}}, similar to:\n+\n+<pre>\n+    typedef (uint8) octet;\n+</pre>\n \n \n-<h4 oldids=\"dom-short\" id=\"idl-short\" interface>short</h4>\n+<h4 id=\"idl-int16\" oldids=\"dom-short,idl-short\" interface>int16</h4>\n \n-The {{short}} type is a signed integer\n+The {{int16}} type is a signed integer\n type that has values in the range [−32768, 32767].\n \n-{{short}} constant values in IDL are\n+{{int16}} constant values in IDL are\n represented with <emu-t class=\"regex\"><a href=\"#prod-integer\">integer</a></emu-t>\n tokens.\n \n The [=type name=] of the\n-{{short}} type is \"<code>Short</code>\".\n+{{int16}} type is \"<code>Int16</code>\".\n \n+For legacy compatibility, <code>short</code> is to be treated\n+as an alias for {{int16}}, similar to:\n \n-<h4 oldids=\"dom-unsignedshort\" id=\"idl-unsigned-short\" interface>unsigned short</h4>\n+<pre>\n+    typedef (int16) short;\n+</pre>\n+\n+\n+<h4 id=\"idl-uint16\" oldids=\"dom-unsignedshort,idl-unsigned-short\" interface>uint16</h4>\n \n-The {{unsigned short}} type is an unsigned integer\n+The {{uint16}} type is an unsigned integer\n type that has values in the range [0, 65535].\n \n-{{unsigned short}} constant values in IDL are\n+{{uint16}} constant values in IDL are\n represented with <emu-t class=\"regex\"><a href=\"#prod-integer\">integer</a></emu-t>\n tokens.\n \n The [=type name=] of the\n-{{unsigned short}} type is \"<code>UnsignedShort</code>\".\n+{{uint16}} type is \"<code>Uint16</code>\".\n+\n+For legacy compatibility, <code>unsigned short</code> is to be treated\n+as an alias for {{uint16}}, similar to:\n+\n+<pre>\n+    typedef (uint16) unsigned short;",
+    "path": "index.bs",
+    "commit_id": "a1e472bb377e1fe5f3b1f9aece07df798bef377c",
+    "original_commit_id": "c06acfc8802f49c2f3c9a0d6e81b002308de75aa",
+    "user": {
+      "login": "bathos",
+      "id": 6257356,
+      "node_id": "MDQ6VXNlcjYyNTczNTY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6257356?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bathos",
+      "html_url": "https://github.com/bathos",
+      "followers_url": "https://api.github.com/users/bathos/followers",
+      "following_url": "https://api.github.com/users/bathos/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bathos/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bathos/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bathos/subscriptions",
+      "organizations_url": "https://api.github.com/users/bathos/orgs",
+      "repos_url": "https://api.github.com/users/bathos/repos",
+      "events_url": "https://api.github.com/users/bathos/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bathos/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The “similar to” phrasing may have intended to acknowledge that — but I agree that it seems confusing to have pseudo-idl in the idl spec itself (not very friendly for folks not already familiar enough to know it’s not meant to be valid).\r\n\r\nGiven the original productions are still explicitly part of the grammar in this PR, I don’t think this framing is needed anyway.",
+    "created_at": "2021-11-07T04:46:30Z",
+    "updated_at": "2021-11-07T04:47:01Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1030#discussion_r744201916",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1030",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/744201916"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1030#discussion_r744201916"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1030"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/744201916/reactions",
+      "total_count": 3,
+      "+1": 2,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 1
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 5924,
+    "side": "RIGHT",
+    "in_reply_to_id": 744190822,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 536,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

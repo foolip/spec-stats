@@ -1,0 +1,287 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/4156904929",
+    "pull_request_review_id": 5381145764,
+    "id": 4156904929,
+    "node_id": "PRRC_kwDOAGMBcs73xVXh",
+    "diff_hunk": "@@ -385,109 +385,94 @@ interpreted as a language tag. Validity or well-formedness are not enforced. [[!\n <h3 id=resources>Resources</h3>\n \n <div algorithm>\n-<p>The <dfn>fetch steps</dfn> for a given <a for=/>notification</a> <var>notification</var> are:\n+<p>The <dfn>fetch steps</dfn>, given a <a for=/>notification</a> <var>notification</var> and null or",
+    "path": "notifications.bs",
+    "commit_id": "dd6f213683a6b427c4338a594d6468635e8daccb",
+    "original_commit_id": "dd6f213683a6b427c4338a594d6468635e8daccb",
+    "user": {
+      "login": "saschanaz",
+      "id": 3396686,
+      "node_id": "MDQ6VXNlcjMzOTY2ODY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3396686?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/saschanaz",
+      "html_url": "https://github.com/saschanaz",
+      "followers_url": "https://api.github.com/users/saschanaz/followers",
+      "following_url": "https://api.github.com/users/saschanaz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/saschanaz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/saschanaz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/saschanaz/subscriptions",
+      "organizations_url": "https://api.github.com/users/saschanaz/orgs",
+      "repos_url": "https://api.github.com/users/saschanaz/repos",
+      "events_url": "https://api.github.com/users/saschanaz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/saschanaz/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "> and null or\n\nIs this a new way to make a parameter optional? HTML seems to say [\"optionally\"](https://html.spec.whatwg.org/#shared-declarative-refresh-steps) but it also has \"null or\" pattern, hmm.",
+    "created_at": "2026-10-01T14:59:14Z",
+    "updated_at": "2026-10-01T15:21:59Z",
+    "html_url": "https://github.com/whatwg/notifications/pull/245#discussion_r4156904929",
+    "pull_request_url": "https://api.github.com/repos/whatwg/notifications/pulls/245",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/comments/4156904929"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/notifications/pull/245#discussion_r4156904929"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/245"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/4156904929/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 388,
+    "original_line": 388,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 5,
+    "position": 5,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/4156962883",
+    "pull_request_review_id": 5381145764,
+    "id": 4156962883,
+    "node_id": "PRRC_kwDOAGMBcs73xjhD",
+    "diff_hunk": "@@ -385,109 +385,94 @@ interpreted as a language tag. Validity or well-formedness are not enforced. [[!\n <h3 id=resources>Resources</h3>\n \n <div algorithm>\n-<p>The <dfn>fetch steps</dfn> for a given <a for=/>notification</a> <var>notification</var> are:\n+<p>The <dfn>fetch steps</dfn>, given a <a for=/>notification</a> <var>notification</var> and null or\n+an <a for=/>environment settings object</a> <var>settings</var>, are:\n \n <ol>\n- <!-- XXX image fetching is underspecified: https://github.com/whatwg/html/issues/4474 -->\n- <li>\n-  <p>If the notification platform supports images, <a for=/>fetch</a>\n-  <var>notification</var>'s <a>image URL</a>, if <a>image URL</a> is set.\n-\n-  <p class=note>The intent is to fetch this resource similar to an\n-  <a href=\"https://html.spec.whatwg.org/multipage/images.html#update-the-image-data\"><code>&lt;img&gt;</code></a>,\n-  but this <a href=\"https://www.w3.org/Bugs/Public/show_bug.cgi?id=24055\">needs abstracting</a>.\n-\n-  <p>Then, <a>in parallel</a>:\n-\n-  <ol>\n-   <li><p>Wait for the <a for=/>response</a>.\n+ <li><p>If the notification platform supports images and <var>notification</var>'s\n+ <a for=notification>image URL</a> is set, then <a>fetch a notification resource</a> given\n+ <var>notification</var>, <var>notification</var>'s <a for=notification>image URL</a>,\n+ <var>settings</var>, and the following step given a resource <var>resource</var>: set\n+ <var>notification</var>'s <a for=notification>image resource</a> to <var>resource</var>.\n+\n+ <li><p>If the notification platform supports icons and <var>notification</var>'s\n+ <a for=notification>icon URL</a> is set, then <a>fetch a notification resource</a> given\n+ <var>notification</var>, <var>notification</var>'s <a for=notification>icon URL</a>,\n+ <var>settings</var>, and the following step given a resource <var>resource</var>: set\n+ <var>notification</var>'s <a for=notification>icon resource</a> to <var>resource</var>.\n+\n+ <li><p>If the notification platform supports badges and <var>notification</var>'s\n+ <a for=notification>badge URL</a> is set, then <a>fetch a notification resource</a> given\n+ <var>notification</var>, <var>notification</var>'s <a for=notification>badge URL</a>,\n+ <var>settings</var>, and the following step given a resource <var>resource</var>: set\n+ <var>notification</var>'s <a for=notification>badge resource</a> to <var>resource</var>.\n+\n+ <li><p>If the notification platform supports actions and action icons, then\n+ <a for=list>for each</a> <var>action</var> of <var>notification</var>'s\n+ <a for=notification>actions</a>: if <var>action</var>'s <a for=\"notification action\">icon URL</a>\n+ is non-null, then <a>fetch a notification resource</a> given <var>notification</var>,\n+ <var>action</var>'s <a for=\"notification action\">icon URL</a>, <var>settings</var>, and the\n+ following step given a resource <var>resource</var>: set <var>action</var>'s\n+ <a for=\"notification action\">icon resource</a> to <var>resource</var>.\n+</ol>\n+</div>\n \n-   <li><p>If the <a for=/>response</a>'s <a>internal response</a>'s <a for=response>type</a> is\n-   \"<code>default</code>\", then attempt to decode the resource as image.\n+<div algorithm>\n+<p>To <dfn>fetch a notification resource</dfn>, given a <a for=/>notification</a>\n+<var>notification</var>, a <a for=/>URL</a> <var>url</var>, null or an\n+<a for=/>environment settings object</a> <var>settings</var>, and an algorithm\n+<var>processResource</var> that takes a resource:\n \n-   <li><p>If the image format is supported, set <var>notification</var>'s\n-   <a for=notification>image resource</a> to the decoded resource. (Otherwise\n-   <var>notification</var> has no <a for=notification>image resource</a>.)\n-  </ol>\n+<ol>\n+ <li><p>Let <var>request</var> be a new <a for=/>request</a> whose <a for=request>URL</a> is\n+ <var>url</var>, <a for=request>client</a> is <var>settings</var>, <a for=request>destination</a> is\n+ \"<code>image</code>\", <a for=request>mode</a> is \"<code>no-cors</code>\", and\n+ <a for=request>credentials mode</a> is \"<code>include</code>\".",
+    "path": "notifications.bs",
+    "commit_id": "dd6f213683a6b427c4338a594d6468635e8daccb",
+    "original_commit_id": "dd6f213683a6b427c4338a594d6468635e8daccb",
+    "user": {
+      "login": "saschanaz",
+      "id": 3396686,
+      "node_id": "MDQ6VXNlcjMzOTY2ODY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3396686?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/saschanaz",
+      "html_url": "https://github.com/saschanaz",
+      "followers_url": "https://api.github.com/users/saschanaz/followers",
+      "following_url": "https://api.github.com/users/saschanaz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/saschanaz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/saschanaz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/saschanaz/subscriptions",
+      "organizations_url": "https://api.github.com/users/saschanaz/orgs",
+      "repos_url": "https://api.github.com/users/saschanaz/repos",
+      "events_url": "https://api.github.com/users/saschanaz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/saschanaz/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This is fine, but i wonder five parameters are enough to use the line-by-line \"with the following properties\" form as used by [new Request()](https://fetch.spec.whatwg.org/#dom-request).",
+    "created_at": "2026-10-01T15:04:14Z",
+    "updated_at": "2026-10-01T15:21:59Z",
+    "html_url": "https://github.com/whatwg/notifications/pull/245#discussion_r4156962883",
+    "pull_request_url": "https://api.github.com/repos/whatwg/notifications/pulls/245",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/comments/4156962883"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/notifications/pull/245#discussion_r4156962883"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/245"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/4156962883/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 427,
+    "original_start_line": 427,
+    "start_side": "RIGHT",
+    "line": 430,
+    "original_line": 430,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 66,
+    "position": 66,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/4157152752",
+    "pull_request_review_id": 5381145764,
+    "id": 4157152752,
+    "node_id": "PRRC_kwDOAGMBcs73yR3w",
+    "diff_hunk": "@@ -1300,6 +1287,7 @@ John Mellor,\n Jon Lee,\n Jonas Sicking,\n Kagami Sascha Rosylight<!-- saschanaz; GitHub -->,\n+Leo Tenenbaum,",
+    "path": "notifications.bs",
+    "commit_id": "dd6f213683a6b427c4338a594d6468635e8daccb",
+    "original_commit_id": "dd6f213683a6b427c4338a594d6468635e8daccb",
+    "user": {
+      "login": "saschanaz",
+      "id": 3396686,
+      "node_id": "MDQ6VXNlcjMzOTY2ODY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3396686?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/saschanaz",
+      "html_url": "https://github.com/saschanaz",
+      "followers_url": "https://api.github.com/users/saschanaz/followers",
+      "following_url": "https://api.github.com/users/saschanaz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/saschanaz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/saschanaz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/saschanaz/subscriptions",
+      "organizations_url": "https://api.github.com/users/saschanaz/orgs",
+      "repos_url": "https://api.github.com/users/saschanaz/repos",
+      "events_url": "https://api.github.com/users/saschanaz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/saschanaz/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "🎉",
+    "created_at": "2026-10-01T15:21:13Z",
+    "updated_at": "2026-10-01T15:21:59Z",
+    "html_url": "https://github.com/whatwg/notifications/pull/245#discussion_r4157152752",
+    "pull_request_url": "https://api.github.com/repos/whatwg/notifications/pulls/245",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/comments/4157152752"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/notifications/pull/245#discussion_r4157152752"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/245"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/4157152752/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 1290,
+    "original_line": 1290,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 194,
+    "position": 194,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/4183864818",
+    "pull_request_review_id": 5414341509,
+    "id": 4183864818,
+    "node_id": "PRRC_kwDOAGMBcs75YLXy",
+    "diff_hunk": "@@ -385,109 +385,94 @@ interpreted as a language tag. Validity or well-formedness are not enforced. [[!\n <h3 id=resources>Resources</h3>\n \n <div algorithm>\n-<p>The <dfn>fetch steps</dfn> for a given <a for=/>notification</a> <var>notification</var> are:\n+<p>The <dfn>fetch steps</dfn>, given a <a for=/>notification</a> <var>notification</var> and null or",
+    "path": "notifications.bs",
+    "commit_id": "dd6f213683a6b427c4338a594d6468635e8daccb",
+    "original_commit_id": "dd6f213683a6b427c4338a594d6468635e8daccb",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The parameter is required here. This is just stating the type, which we didn't always do. Even if it were optional it would probably still need \"or null\" as that would be the default value in that case.",
+    "created_at": "2026-10-05T12:16:25Z",
+    "updated_at": "2026-10-05T12:16:26Z",
+    "html_url": "https://github.com/whatwg/notifications/pull/245#discussion_r4183864818",
+    "pull_request_url": "https://api.github.com/repos/whatwg/notifications/pulls/245",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/comments/4183864818"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/notifications/pull/245#discussion_r4183864818"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/245"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/4183864818/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 388,
+    "original_line": 388,
+    "side": "RIGHT",
+    "in_reply_to_id": 4156904929,
+    "author_association": "MEMBER",
+    "original_position": 5,
+    "position": 5,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

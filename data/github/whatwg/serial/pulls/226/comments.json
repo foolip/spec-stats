@@ -1,0 +1,145 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/serial/pulls/comments/3061151281",
+    "pull_request_review_id": 4086031543,
+    "id": 3061151281,
+    "node_id": "PRRC_kwDOANUER862dXYx",
+    "diff_hunk": "@@ -400,6 +400,17 @@ <h3>\n               ports which the user has allowed the site to access\n               as the result of a previous call to {{Serial/requestPort()}}.\n               </li>\n+              <div class=\"note\">\n+                An implementation is allowed to have a storage mechanism that\n+                remembers ports that have been allowed from previous calls of\n+                {{Serial/requestPort()}} from previous times the user has\n+                visited the same site. Implementations should take caution that\n+                a device will not always have the same port name, as this is up\n+                to the operating system, and thus there is a danger that\n+                allowing access to a previously allowed port may grant access\n+                to a different device than the user intended. As such,\n+                implementations should communicate this risk to the user.",
+    "path": "index.html",
+    "commit_id": "862e3897965739afa728344b48529df9143f0300",
+    "original_commit_id": "862e3897965739afa728344b48529df9143f0300",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "From our implementation experience in Chromium we've found that on Windows the situation is actually pretty good and we use the \"device instance ID\" to identify ports. Internally Windows generates this ID using a combination of device identifiers and bus topology information. On other platforms we make the more conservative assumption that device names (e.g. /dev/ttyUSB0 or /dev/tty.usbserial0) are not stable and only persist permissions for USB devices where we have a USB vendor ID, product ID and serial number to match.\n\nI would probably rephrase this as,\n\n> Implementations should take caution that OS-provided device names may or may not allow accurate reidentification of a device between sessions and should only use properties which are highly likely to identify a specific device when remembering a user's permission decision. When no such identifier is present the permission should be time or session-limited.",
+    "created_at": "2026-04-09T23:09:07Z",
+    "updated_at": "2026-04-09T23:10:56Z",
+    "html_url": "https://github.com/whatwg/serial/pull/226#discussion_r3061151281",
+    "pull_request_url": "https://api.github.com/repos/whatwg/serial/pulls/226",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/serial/pulls/comments/3061151281"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/serial/pull/226#discussion_r3061151281"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/serial/pulls/226"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/serial/pulls/comments/3061151281/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 407,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 412,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 13,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/serial/pulls/comments/4155544047",
+    "pull_request_review_id": 5379458342,
+    "id": 4155544047,
+    "node_id": "PRRC_kwDOANUER873sJHv",
+    "diff_hunk": "@@ -400,6 +400,17 @@ <h3>\n               ports which the user has allowed the site to access\n               as the result of a previous call to {{Serial/requestPort()}}.\n               </li>\n+              <div class=\"note\">\n+                An implementation is allowed to have a storage mechanism that\n+                remembers ports that have been allowed from previous calls of\n+                {{Serial/requestPort()}} from previous times the user has\n+                visited the same site. Implementations should take caution that\n+                a device will not always have the same port name, as this is up\n+                to the operating system, and thus there is a danger that\n+                allowing access to a previously allowed port may grant access\n+                to a different device than the user intended. As such,\n+                implementations should communicate this risk to the user.",
+    "path": "index.html",
+    "commit_id": "862e3897965739afa728344b48529df9143f0300",
+    "original_commit_id": "862e3897965739afa728344b48529df9143f0300",
+    "user": {
+      "login": "gregstoll",
+      "id": 4392001,
+      "node_id": "MDQ6VXNlcjQzOTIwMDE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4392001?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/gregstoll",
+      "html_url": "https://github.com/gregstoll",
+      "followers_url": "https://api.github.com/users/gregstoll/followers",
+      "following_url": "https://api.github.com/users/gregstoll/following{/other_user}",
+      "gists_url": "https://api.github.com/users/gregstoll/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/gregstoll/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/gregstoll/subscriptions",
+      "organizations_url": "https://api.github.com/users/gregstoll/orgs",
+      "repos_url": "https://api.github.com/users/gregstoll/repos",
+      "events_url": "https://api.github.com/users/gregstoll/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/gregstoll/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Got it, thank you! (and sorry for the delay)",
+    "created_at": "2026-10-01T12:52:05Z",
+    "updated_at": "2026-10-01T12:52:06Z",
+    "html_url": "https://github.com/whatwg/serial/pull/226#discussion_r4155544047",
+    "pull_request_url": "https://api.github.com/repos/whatwg/serial/pulls/226",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/serial/pulls/comments/4155544047"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/serial/pull/226#discussion_r4155544047"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/serial/pulls/226"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/serial/pulls/comments/4155544047/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 407,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 412,
+    "side": "RIGHT",
+    "in_reply_to_id": 3061151281,
+    "author_association": "NONE",
+    "original_position": 13,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

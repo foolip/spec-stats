@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/issues/comments/1446253106",
+    "html_url": "https://github.com/whatwg/streams/issues/1259#issuecomment-1446253106",
+    "issue_url": "https://api.github.com/repos/whatwg/streams/issues/1259",
+    "id": 1446253106,
+    "node_id": "IC_kwDOANUOW85WNBIy",
+    "user": {
+      "login": "ricea",
+      "id": 6678407,
+      "node_id": "MDQ6VXNlcjY2Nzg0MDc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6678407?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ricea",
+      "html_url": "https://github.com/ricea",
+      "followers_url": "https://api.github.com/users/ricea/followers",
+      "following_url": "https://api.github.com/users/ricea/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ricea/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ricea/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ricea/subscriptions",
+      "organizations_url": "https://api.github.com/users/ricea/orgs",
+      "repos_url": "https://api.github.com/users/ricea/repos",
+      "events_url": "https://api.github.com/users/ricea/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ricea/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2023-02-27T12:35:17Z",
+    "updated_at": "2023-02-27T12:35:17Z",
+    "body": "The short answer is that it's because transferable streams are implemented using a pipe, and pipes propagate cancellation without waiting.\r\n\r\nElaborating a bit, what we have is\r\n```\r\noriginal ---pipe---> writable <==CRIT==> transferred\r\n```\r\n(where \"CRIT\" means cross-realm identity transform). The internal pipe is invisible to developers, except to the extent that it dictates the semantics.\r\n\r\nWhen `transferred` is cancelled, this is propagated back by erroring `writable`. Erroring is a synchronous operation, so there's no opportunity to wait.\r\n\r\nWhen the pipe sees the `writable` is errored, it propagates it back by cancelling the `original` stream. Because `writable` is already errored, the results of cancellation cannot  be propagated back up the pipe.\r\n\r\nSee also https://github.com/whatwg/streams/issues/976.",
+    "author_association": "COLLABORATOR",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/issues/comments/1446253106/reactions",
+      "total_count": 1,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 1
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

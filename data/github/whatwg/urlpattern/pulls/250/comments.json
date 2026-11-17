@@ -1,0 +1,73 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1909627248",
+    "pull_request_review_id": 2541272843,
+    "id": 1909627248,
+    "node_id": "PRRC_kwDODDHQ585x0plw",
+    "diff_hunk": "@@ -1858,7 +1858,7 @@ To <dfn>convert a modifier to a string</dfn> given a [=part/modifier=] |modifier\n     1. If |type| is not \"`pattern`\" and |init| [=map/contains=] none of \"{{URLPatternInit/protocol}}\", \"{{URLPatternInit/hostname}}\", \"{{URLPatternInit/port}}\" and \"{{URLPatternInit/username}}\", then set |result|[\"{{URLPatternInit/username}}\"] to the result of [=processing a base URL string=] given |baseURL|'s [=url/username=] and |type|.\n     1. If |type| is not \"`pattern`\" and |init| [=map/contains=] none of \"{{URLPatternInit/protocol}}\", \"{{URLPatternInit/hostname}}\", \"{{URLPatternInit/port}}\", \"{{URLPatternInit/username}}\" and \"{{URLPatternInit/password}}\", then set |result|[\"{{URLPatternInit/password}}\"] to the result of [=processing a base URL string=] given |baseURL|'s [=url/password=] and |type|.\n     1. If |init| [=map/contains=] neither \"{{URLPatternInit/protocol}}\" nor \"{{URLPatternInit/hostname}}\", then:\n-      1. Let |baseHost| be |baseURL|'s [=url/host=].\n+      1. Let |baseHost| be the [=host serializer|serialization=] of |baseURL|'s [=url/host=].",
+    "path": "spec.bs",
+    "commit_id": "a5b70be1b3b6fa9dcb37e981220e5dc7cb1fdf18",
+    "original_commit_id": "a5b70be1b3b6fa9dcb37e981220e5dc7cb1fdf18",
+    "user": {
+      "login": "shannonbooth",
+      "id": 35911232,
+      "node_id": "MDQ6VXNlcjM1OTExMjMy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/35911232?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/shannonbooth",
+      "html_url": "https://github.com/shannonbooth",
+      "followers_url": "https://api.github.com/users/shannonbooth/followers",
+      "following_url": "https://api.github.com/users/shannonbooth/following{/other_user}",
+      "gists_url": "https://api.github.com/users/shannonbooth/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/shannonbooth/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/shannonbooth/subscriptions",
+      "organizations_url": "https://api.github.com/users/shannonbooth/orgs",
+      "repos_url": "https://api.github.com/users/shannonbooth/repos",
+      "events_url": "https://api.github.com/users/shannonbooth/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/shannonbooth/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Sorry, I didn't happen to catch this MR - but I don't believe the fix here is fully correct. URL's host may be null, and it is not defined in the URL spec how to serialize a null host. This also makes the second step not quite correct, as the serialization of host always returns an ASCII string, so can never be null.",
+    "created_at": "2025-01-10T00:48:01Z",
+    "updated_at": "2025-01-10T00:53:08Z",
+    "html_url": "https://github.com/whatwg/urlpattern/pull/250#discussion_r1909627248",
+    "pull_request_url": "https://api.github.com/repos/whatwg/urlpattern/pulls/250",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1909627248"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/urlpattern/pull/250#discussion_r1909627248"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/250"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1909627248/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 1861,
+    "original_line": 1861,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 5,
+    "position": 5,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

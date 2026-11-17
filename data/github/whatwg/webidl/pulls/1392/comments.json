@@ -1,0 +1,2874 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1521460035",
+    "pull_request_review_id": 1931056391,
+    "id": 1521460035,
+    "node_id": "PRRC_kwDOANeiys5ar6ND",
+    "diff_hunk": "@@ -11092,8 +11141,16 @@ Note: The HTML Standard defines how a security check is performed. [[!HTML]]\n             1.  If the argument at index |i| is declared with a [=optional argument/default value=],\n                 then append to |values| that default value.\n             1.  Otherwise, append to |values| the special value “missing”.\n-        1.  Otherwise, append to |values| the result of [=converted to an IDL value|converting=]\n-            |V| to IDL type |type|.\n+        1. Otherwise:\n+            1.  If |type| is an IDL type [=extended attribute associated with|associated with=] the\n+                [{{StringContext}}] extended attribute, then set |V| to the result of performing\n+                [=validate the string in context=], passing [=this=], |V|, the {{StringContext}}\n+                extended attribute [=identifier=], and the [=identifier=]\n+                of the [{{StringContext}}] extended attribute [=related construct=].\n+\n+                Note: That algorithm may [=JavaScript/throw=] a <l spec=ecmascript>{{TypeError}}</l>.\n+            1.  Append to |values| the result of [=converted to an IDL value|converting=]\n+                |V| to IDL type |type|.",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "000abfeb7748cd6085770c77f400eb112b509444",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I don't understand how this works. The overload resolution algorithm is an algorithm for finding the relevant operation, but somehow this assumes the relevant operation is already known because it's somehow magically tied to the StringContext attribute (despite nothing making it so).\r\n\r\nI recommend attempting without relying on \"related construct\" being a thing. At least it seems to me that is what an implementation would have to do as well. Or perhaps they are taking shortcuts and it stops working the moment you have overloaded methods that each take StringContext?",
+    "created_at": "2024-03-12T13:23:49Z",
+    "updated_at": "2024-03-12T13:23:53Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1521460035",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1521460035"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1521460035"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1521460035/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 11154,
+    "original_line": 11153,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 89,
+    "position": 90,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1521477280",
+    "pull_request_review_id": 1931084499,
+    "id": 1521477280,
+    "node_id": "PRRC_kwDOANeiys5ar-ag",
+    "diff_hunk": "@@ -11092,8 +11141,16 @@ Note: The HTML Standard defines how a security check is performed. [[!HTML]]\n             1.  If the argument at index |i| is declared with a [=optional argument/default value=],\n                 then append to |values| that default value.\n             1.  Otherwise, append to |values| the special value “missing”.\n-        1.  Otherwise, append to |values| the result of [=converted to an IDL value|converting=]\n-            |V| to IDL type |type|.\n+        1. Otherwise:\n+            1.  If |type| is an IDL type [=extended attribute associated with|associated with=] the\n+                [{{StringContext}}] extended attribute, then set |V| to the result of performing\n+                [=validate the string in context=], passing [=this=], |V|, the {{StringContext}}\n+                extended attribute [=identifier=], and the [=identifier=]\n+                of the [{{StringContext}}] extended attribute [=related construct=].\n+\n+                Note: That algorithm may [=JavaScript/throw=] a <l spec=ecmascript>{{TypeError}}</l>.\n+            1.  Append to |values| the result of [=converted to an IDL value|converting=]\n+                |V| to IDL type |type|.",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "000abfeb7748cd6085770c77f400eb112b509444",
+    "user": {
+      "login": "lukewarlow",
+      "id": 32498324,
+      "node_id": "MDQ6VXNlcjMyNDk4MzI0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32498324?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lukewarlow",
+      "html_url": "https://github.com/lukewarlow",
+      "followers_url": "https://api.github.com/users/lukewarlow/followers",
+      "following_url": "https://api.github.com/users/lukewarlow/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lukewarlow/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lukewarlow/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lukewarlow/subscriptions",
+      "organizations_url": "https://api.github.com/users/lukewarlow/orgs",
+      "repos_url": "https://api.github.com/users/lukewarlow/repos",
+      "events_url": "https://api.github.com/users/lukewarlow/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lukewarlow/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "> I don't understand how this works. The overload resolution algorithm is an algorithm for finding the relevant operation, but somehow this assumes the relevant operation is already known because it's somehow magically tied to the StringContext attribute (despite nothing making it so).\r\n\r\nI don't fully understand what you mean by this?\r\n\r\nIf the type has a StringContext we know it must be either a regular attribute or regular operation, so in this case a regular operation, which is the related construct here.\r\n\r\nAre you saying not to rely on related construct \"magic\"?\r\n\r\nAs for implementation, WebKit doesn't fully correlate to these algorithms because of how it's code generator works, so I have the identifier context as a given.",
+    "created_at": "2024-03-12T13:34:36Z",
+    "updated_at": "2024-03-12T13:34:36Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1521477280",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1521477280"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1521477280"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1521477280/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 11154,
+    "original_line": 11153,
+    "side": "RIGHT",
+    "in_reply_to_id": 1521460035,
+    "author_association": "MEMBER",
+    "original_position": 89,
+    "position": 90,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1521500150",
+    "pull_request_review_id": 1931121648,
+    "id": 1521500150,
+    "node_id": "PRRC_kwDOANeiys5asD_2",
+    "diff_hunk": "@@ -11092,8 +11141,16 @@ Note: The HTML Standard defines how a security check is performed. [[!HTML]]\n             1.  If the argument at index |i| is declared with a [=optional argument/default value=],\n                 then append to |values| that default value.\n             1.  Otherwise, append to |values| the special value “missing”.\n-        1.  Otherwise, append to |values| the result of [=converted to an IDL value|converting=]\n-            |V| to IDL type |type|.\n+        1. Otherwise:\n+            1.  If |type| is an IDL type [=extended attribute associated with|associated with=] the\n+                [{{StringContext}}] extended attribute, then set |V| to the result of performing\n+                [=validate the string in context=], passing [=this=], |V|, the {{StringContext}}\n+                extended attribute [=identifier=], and the [=identifier=]\n+                of the [{{StringContext}}] extended attribute [=related construct=].\n+\n+                Note: That algorithm may [=JavaScript/throw=] a <l spec=ecmascript>{{TypeError}}</l>.\n+            1.  Append to |values| the result of [=converted to an IDL value|converting=]\n+                |V| to IDL type |type|.",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "000abfeb7748cd6085770c77f400eb112b509444",
+    "user": {
+      "login": "Ms2ger",
+      "id": 111161,
+      "node_id": "MDQ6VXNlcjExMTE2MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/111161?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Ms2ger",
+      "html_url": "https://github.com/Ms2ger",
+      "followers_url": "https://api.github.com/users/Ms2ger/followers",
+      "following_url": "https://api.github.com/users/Ms2ger/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Ms2ger/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Ms2ger/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Ms2ger/subscriptions",
+      "organizations_url": "https://api.github.com/users/Ms2ger/orgs",
+      "repos_url": "https://api.github.com/users/Ms2ger/repos",
+      "events_url": "https://api.github.com/users/Ms2ger/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Ms2ger/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "If the type has a StringContext we know it must be the type of an argument to a regular operation. We don't know *which* operation, though. Conceptually, a type doesn't have a pointer back to where it is used. I think you want to pass in additional information from `#dfn-create-operation-function`.",
+    "created_at": "2024-03-12T13:49:04Z",
+    "updated_at": "2024-03-12T13:49:05Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1521500150",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1521500150"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1521500150"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1521500150/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 11154,
+    "original_line": 11153,
+    "side": "RIGHT",
+    "in_reply_to_id": 1521460035,
+    "author_association": "MEMBER",
+    "original_position": 89,
+    "position": 90,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1521688355",
+    "pull_request_review_id": 1931425991,
+    "id": 1521688355,
+    "node_id": "PRRC_kwDOANeiys5asx8j",
+    "diff_hunk": "@@ -11092,8 +11141,16 @@ Note: The HTML Standard defines how a security check is performed. [[!HTML]]\n             1.  If the argument at index |i| is declared with a [=optional argument/default value=],\n                 then append to |values| that default value.\n             1.  Otherwise, append to |values| the special value “missing”.\n-        1.  Otherwise, append to |values| the result of [=converted to an IDL value|converting=]\n-            |V| to IDL type |type|.\n+        1. Otherwise:\n+            1.  If |type| is an IDL type [=extended attribute associated with|associated with=] the\n+                [{{StringContext}}] extended attribute, then set |V| to the result of performing\n+                [=validate the string in context=], passing [=this=], |V|, the {{StringContext}}\n+                extended attribute [=identifier=], and the [=identifier=]\n+                of the [{{StringContext}}] extended attribute [=related construct=].\n+\n+                Note: That algorithm may [=JavaScript/throw=] a <l spec=ecmascript>{{TypeError}}</l>.\n+            1.  Append to |values| the result of [=converted to an IDL value|converting=]\n+                |V| to IDL type |type|.",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "000abfeb7748cd6085770c77f400eb112b509444",
+    "user": {
+      "login": "lukewarlow",
+      "id": 32498324,
+      "node_id": "MDQ6VXNlcjMyNDk4MzI0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32498324?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lukewarlow",
+      "html_url": "https://github.com/lukewarlow",
+      "followers_url": "https://api.github.com/users/lukewarlow/followers",
+      "following_url": "https://api.github.com/users/lukewarlow/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lukewarlow/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lukewarlow/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lukewarlow/subscriptions",
+      "organizations_url": "https://api.github.com/users/lukewarlow/orgs",
+      "repos_url": "https://api.github.com/users/lukewarlow/repos",
+      "events_url": "https://api.github.com/users/lukewarlow/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lukewarlow/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I've removed related construct, I realised we had the identifier information in all 3 cases",
+    "created_at": "2024-03-12T15:33:08Z",
+    "updated_at": "2024-03-12T15:33:09Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1521688355",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1521688355"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1521688355"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1521688355/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 11154,
+    "original_line": 11153,
+    "side": "RIGHT",
+    "in_reply_to_id": 1521460035,
+    "author_association": "MEMBER",
+    "original_position": 89,
+    "position": 90,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1521690500",
+    "pull_request_review_id": 1931428872,
+    "id": 1521690500,
+    "node_id": "PRRC_kwDOANeiys5asyeE",
+    "diff_hunk": "@@ -11092,8 +11139,16 @@ Note: The HTML Standard defines how a security check is performed. [[!HTML]]\n             1.  If the argument at index |i| is declared with a [=optional argument/default value=],\n                 then append to |values| that default value.\n             1.  Otherwise, append to |values| the special value “missing”.\n-        1.  Otherwise, append to |values| the result of [=converted to an IDL value|converting=]\n-            |V| to IDL type |type|.\n+        1. Otherwise:\n+            1.  If |type| is an IDL type [=extended attribute associated with|associated with=] the\n+                [{{StringContext}}] extended attribute, then set |V| to the result of performing\n+                [=validate the string in context=], passing [=this=], |V|, the {{StringContext}}\n+                extended attribute [=identifier=], and the [=identifier=]\n+                of the [=operation=] or [=extended attribute=] of the first entry in |S|.",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "86a6e504a78c2f54d1befe64cc8b6a067c7af54c",
+    "user": {
+      "login": "lukewarlow",
+      "id": 32498324,
+      "node_id": "MDQ6VXNlcjMyNDk4MzI0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32498324?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lukewarlow",
+      "html_url": "https://github.com/lukewarlow",
+      "followers_url": "https://api.github.com/users/lukewarlow/followers",
+      "following_url": "https://api.github.com/users/lukewarlow/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lukewarlow/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lukewarlow/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lukewarlow/subscriptions",
+      "organizations_url": "https://api.github.com/users/lukewarlow/orgs",
+      "repos_url": "https://api.github.com/users/lukewarlow/repos",
+      "events_url": "https://api.github.com/users/lukewarlow/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lukewarlow/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Because we only need the identifier which is the same for all overloads we don't actually need to worry about which entry in the overload set is used.",
+    "created_at": "2024-03-12T15:34:17Z",
+    "updated_at": "2024-03-12T15:34:17Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1521690500",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1521690500"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1521690500"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1521690500/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 11150,
+    "original_line": 11147,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 83,
+    "position": 86,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1523105324",
+    "pull_request_review_id": 1933937040,
+    "id": 1523105324,
+    "node_id": "PRRC_kwDOANeiys5ayL4s",
+    "diff_hunk": "@@ -10259,6 +10261,36 @@ that does specify [{{SecureContext}}].\n     </pre>\n </div>\n \n+<h4 id=\"StringContext\" extended-attribute lt=\"StringContext\">[StringContext]</h4>\n+\n+If the [{{StringContext}}] [=extended attribute=] appears on {{DOMString}} or {{USVString}}, it\n+modifies how the value is converted to the IDL type, causing additional value validation to\n+adhere to the context the string is used in.\n+\n+The [{{StringContext}}] extended attribute must [=takes an identifier|take an identifier=]. The [=identifier=]\n+must be one of \"<code>TrustedHTML</code>\", \"<code>TrustedScript</code>\" and \"<code>TrustedScriptURL</code>\".",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "86a6e504a78c2f54d1befe64cc8b6a067c7af54c",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Missing Oxford comma.",
+    "created_at": "2024-03-13T12:05:14Z",
+    "updated_at": "2024-03-13T12:13:40Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1523105324",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1523105324"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1523105324"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1523105324/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 10271,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 24,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1523111375",
+    "pull_request_review_id": 1933937040,
+    "id": 1523111375,
+    "node_id": "PRRC_kwDOANeiys5ayNXP",
+    "diff_hunk": "@@ -11092,8 +11139,16 @@ Note: The HTML Standard defines how a security check is performed. [[!HTML]]\n             1.  If the argument at index |i| is declared with a [=optional argument/default value=],\n                 then append to |values| that default value.\n             1.  Otherwise, append to |values| the special value “missing”.\n-        1.  Otherwise, append to |values| the result of [=converted to an IDL value|converting=]\n-            |V| to IDL type |type|.\n+        1. Otherwise:\n+            1.  If |type| is an IDL type [=extended attribute associated with|associated with=] the\n+                [{{StringContext}}] extended attribute, then set |V| to the result of performing\n+                [=validate the string in context=], passing [=this=], |V|, the {{StringContext}}\n+                extended attribute [=identifier=], and the [=identifier=]\n+                of the [=operation=] or [=extended attribute=] of the first entry in |S|.",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "86a6e504a78c2f54d1befe64cc8b6a067c7af54c",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "But what if that overload doesn't have a StringContext annotated type?\r\n\r\nI guess what this means is that you cannot meaningfully have overloaded StringContext types (or at least not all variants one might imagine to be possible). That seems reasonable, but I wonder if we need to make that more explicit in some way.",
+    "created_at": "2024-03-13T12:09:16Z",
+    "updated_at": "2024-03-13T12:13:40Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1523111375",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1523111375"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1523111375"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1523111375/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 11150,
+    "original_line": 11147,
+    "side": "RIGHT",
+    "in_reply_to_id": 1521690500,
+    "author_association": "MEMBER",
+    "original_position": 83,
+    "position": 86,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1523124234",
+    "pull_request_review_id": 1933969885,
+    "id": 1523124234,
+    "node_id": "PRRC_kwDOANeiys5ayQgK",
+    "diff_hunk": "@@ -11092,8 +11139,16 @@ Note: The HTML Standard defines how a security check is performed. [[!HTML]]\n             1.  If the argument at index |i| is declared with a [=optional argument/default value=],\n                 then append to |values| that default value.\n             1.  Otherwise, append to |values| the special value “missing”.\n-        1.  Otherwise, append to |values| the result of [=converted to an IDL value|converting=]\n-            |V| to IDL type |type|.\n+        1. Otherwise:\n+            1.  If |type| is an IDL type [=extended attribute associated with|associated with=] the\n+                [{{StringContext}}] extended attribute, then set |V| to the result of performing\n+                [=validate the string in context=], passing [=this=], |V|, the {{StringContext}}\n+                extended attribute [=identifier=], and the [=identifier=]\n+                of the [=operation=] or [=extended attribute=] of the first entry in |S|.",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "86a6e504a78c2f54d1befe64cc8b6a067c7af54c",
+    "user": {
+      "login": "lukewarlow",
+      "id": 32498324,
+      "node_id": "MDQ6VXNlcjMyNDk4MzI0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32498324?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lukewarlow",
+      "html_url": "https://github.com/lukewarlow",
+      "followers_url": "https://api.github.com/users/lukewarlow/followers",
+      "following_url": "https://api.github.com/users/lukewarlow/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lukewarlow/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lukewarlow/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lukewarlow/subscriptions",
+      "organizations_url": "https://api.github.com/users/lukewarlow/orgs",
+      "repos_url": "https://api.github.com/users/lukewarlow/repos",
+      "events_url": "https://api.github.com/users/lukewarlow/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lukewarlow/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Yeah based on my understanding you can't really have overloads. Like where you need the type to be different in a sub class we just switch back to using a union type and handling it manually rather than using this attribute. cc @koto in case I'm wrong.\r\n\r\nHappy to add a note or something to make it clearer, not really sure what it should say though?",
+    "created_at": "2024-03-13T12:17:34Z",
+    "updated_at": "2024-03-13T12:17:34Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1523124234",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1523124234"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1523124234"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1523124234/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 11150,
+    "original_line": 11147,
+    "side": "RIGHT",
+    "in_reply_to_id": 1521690500,
+    "author_association": "MEMBER",
+    "original_position": 83,
+    "position": 86,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1524446277",
+    "pull_request_review_id": 1936016172,
+    "id": 1524446277,
+    "node_id": "PRRC_kwDOANeiys5a3TRF",
+    "diff_hunk": "@@ -11092,8 +11139,16 @@ Note: The HTML Standard defines how a security check is performed. [[!HTML]]\n             1.  If the argument at index |i| is declared with a [=optional argument/default value=],\n                 then append to |values| that default value.\n             1.  Otherwise, append to |values| the special value “missing”.\n-        1.  Otherwise, append to |values| the result of [=converted to an IDL value|converting=]\n-            |V| to IDL type |type|.\n+        1. Otherwise:\n+            1.  If |type| is an IDL type [=extended attribute associated with|associated with=] the\n+                [{{StringContext}}] extended attribute, then set |V| to the result of performing\n+                [=validate the string in context=], passing [=this=], |V|, the {{StringContext}}\n+                extended attribute [=identifier=], and the [=identifier=]\n+                of the [=operation=] or [=extended attribute=] of the first entry in |S|.",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "86a6e504a78c2f54d1befe64cc8b6a067c7af54c",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I guess I would add a paragraph to where StringContext is defined that outlines the limitations.",
+    "created_at": "2024-03-14T08:31:06Z",
+    "updated_at": "2024-03-14T08:31:06Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1524446277",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1524446277"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1524446277"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1524446277/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 11150,
+    "original_line": 11147,
+    "side": "RIGHT",
+    "in_reply_to_id": 1521690500,
+    "author_association": "MEMBER",
+    "original_position": 83,
+    "position": 86,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1524619003",
+    "pull_request_review_id": 1936295715,
+    "id": 1524619003,
+    "node_id": "PRRC_kwDOANeiys5a39b7",
+    "diff_hunk": "@@ -10259,6 +10261,36 @@ that does specify [{{SecureContext}}].\n     </pre>\n </div>\n \n+<h4 id=\"StringContext\" extended-attribute lt=\"StringContext\">[StringContext]</h4>\n+\n+If the [{{StringContext}}] [=extended attribute=] appears on {{DOMString}} or {{USVString}}, it\n+modifies how the value is converted to the IDL type, causing additional value validation to\n+adhere to the context the string is used in.\n+\n+The [{{StringContext}}] extended attribute must [=takes an identifier|take an identifier=]. The [=identifier=]\n+must be one of \"<code>TrustedHTML</code>\", \"<code>TrustedScript</code>\", and \"<code>TrustedScriptURL</code>\".\n+\n+[{{StringContext}}] extended attribute may only annotate a type of a [=regular attribute=] or",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "27d5b5eda1fc8812c96ecc99a14dc941c521eb55",
+    "user": {
+      "login": "Ms2ger",
+      "id": 111161,
+      "node_id": "MDQ6VXNlcjExMTE2MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/111161?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Ms2ger",
+      "html_url": "https://github.com/Ms2ger",
+      "followers_url": "https://api.github.com/users/Ms2ger/followers",
+      "following_url": "https://api.github.com/users/Ms2ger/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Ms2ger/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Ms2ger/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Ms2ger/subscriptions",
+      "organizations_url": "https://api.github.com/users/Ms2ger/orgs",
+      "repos_url": "https://api.github.com/users/Ms2ger/repos",
+      "events_url": "https://api.github.com/users/Ms2ger/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Ms2ger/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\nThe [{{StringContext}}] extended attribute may only annotate a type of a [=regular attribute=] or\r\n```",
+    "created_at": "2024-03-14T10:37:15Z",
+    "updated_at": "2024-03-14T10:41:44Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1524619003",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1524619003"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1524619003"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1524619003/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 10273,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 26,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1524620510",
+    "pull_request_review_id": 1936295715,
+    "id": 1524620510,
+    "node_id": "PRRC_kwDOANeiys5a39ze",
+    "diff_hunk": "@@ -11292,8 +11347,16 @@ Note: The HTML Standard defines how a security check is performed. [[!HTML]]\n             1.  If the argument at index |i| is declared with a [=optional argument/default value=],\n                 then append to |values| that default value.\n             1.  Otherwise, append to |values| the special value “missing”.\n-        1.  Otherwise, append to |values| the result of\n-            [=converted to an IDL value|converting=] |V| to IDL type |type|.\n+        1. Otherwise:\n+            1.  If |type| is an IDL type [=extended attribute associated with|associated with=] the\n+                [{{StringContext}}] extended attribute, then set |V| to the result of performing\n+                [=validate the string in context=], passing [=this=], |V|, the {{StringContext}}\n+                extended attribute [=identifier=], and the [=identifier=]\n+                of |callable|.\n+\n+                Note: That algorithm may [=JavaScript/throw=] a <l spec=ecmascript>{{TypeError}}</l>.",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "27d5b5eda1fc8812c96ecc99a14dc941c521eb55",
+    "user": {
+      "login": "Ms2ger",
+      "id": 111161,
+      "node_id": "MDQ6VXNlcjExMTE2MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/111161?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Ms2ger",
+      "html_url": "https://github.com/Ms2ger",
+      "followers_url": "https://api.github.com/users/Ms2ger/followers",
+      "following_url": "https://api.github.com/users/Ms2ger/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Ms2ger/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Ms2ger/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Ms2ger/subscriptions",
+      "organizations_url": "https://api.github.com/users/Ms2ger/orgs",
+      "repos_url": "https://api.github.com/users/Ms2ger/repos",
+      "events_url": "https://api.github.com/users/Ms2ger/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Ms2ger/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n                Note: That algorithm can [=JavaScript/throw=] a <l spec=ecmascript>{{TypeError}}</l>.\r\n```",
+    "created_at": "2024-03-14T10:38:27Z",
+    "updated_at": "2024-03-14T10:41:44Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1524620510",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1524620510"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1524620510"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1524620510/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 11357,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 104,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1524621078",
+    "pull_request_review_id": 1936295715,
+    "id": 1524621078,
+    "node_id": "PRRC_kwDOANeiys5a398W",
+    "diff_hunk": "@@ -11982,8 +12045,14 @@ in which case they are exposed on every object that [=implements=] the interface\n \n                 <dt>Otherwise</dt>\n                 <dd>\n-                    |idlValue| is the result of [=converted to an IDL value|converting=] |V| to an\n-                    IDL value of |attribute|'s type.\n+                    1.  If |attribute|'s type is [=extended attribute associated with|associated with=] the\n+                        [{{StringContext}}] extended attribute, then set |V| to the result of performing\n+                        [=validate the string in context=], passing [=this=], |V|, the {{StringContext}}\n+                        extended attribute [=identifier=], and |id|.\n+\n+                        Note: That algorithm may [=JavaScript/throw=] a <l spec=ecmascript>{{TypeError}}</l>.",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "27d5b5eda1fc8812c96ecc99a14dc941c521eb55",
+    "user": {
+      "login": "Ms2ger",
+      "id": 111161,
+      "node_id": "MDQ6VXNlcjExMTE2MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/111161?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Ms2ger",
+      "html_url": "https://github.com/Ms2ger",
+      "followers_url": "https://api.github.com/users/Ms2ger/followers",
+      "following_url": "https://api.github.com/users/Ms2ger/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Ms2ger/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Ms2ger/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Ms2ger/subscriptions",
+      "organizations_url": "https://api.github.com/users/Ms2ger/orgs",
+      "repos_url": "https://api.github.com/users/Ms2ger/repos",
+      "events_url": "https://api.github.com/users/Ms2ger/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Ms2ger/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n                        Note: That algorithm can [=JavaScript/throw=] a <l spec=ecmascript>{{TypeError}}</l>.\r\n```",
+    "created_at": "2024-03-14T10:38:57Z",
+    "updated_at": "2024-03-14T10:41:44Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1524621078",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1524621078"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1524621078"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1524621078/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 12053,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 121,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1524624169",
+    "pull_request_review_id": 1936295715,
+    "id": 1524624169,
+    "node_id": "PRRC_kwDOANeiys5a3-sp",
+    "diff_hunk": "@@ -11092,8 +11139,16 @@ Note: The HTML Standard defines how a security check is performed. [[!HTML]]\n             1.  If the argument at index |i| is declared with a [=optional argument/default value=],\n                 then append to |values| that default value.\n             1.  Otherwise, append to |values| the special value “missing”.\n-        1.  Otherwise, append to |values| the result of [=converted to an IDL value|converting=]\n-            |V| to IDL type |type|.\n+        1. Otherwise:\n+            1.  If |type| is an IDL type [=extended attribute associated with|associated with=] the\n+                [{{StringContext}}] extended attribute, then set |V| to the result of performing\n+                [=validate the string in context=], passing [=this=], |V|, the {{StringContext}}\n+                extended attribute [=identifier=], and the [=identifier=]\n+                of the [=operation=] or [=extended attribute=] of the first entry in |S|.\n+\n+                Note: That algorithm may [=JavaScript/throw=] a <l spec=ecmascript>{{TypeError}}</l>.",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "27d5b5eda1fc8812c96ecc99a14dc941c521eb55",
+    "user": {
+      "login": "Ms2ger",
+      "id": 111161,
+      "node_id": "MDQ6VXNlcjExMTE2MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/111161?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Ms2ger",
+      "html_url": "https://github.com/Ms2ger",
+      "followers_url": "https://api.github.com/users/Ms2ger/followers",
+      "following_url": "https://api.github.com/users/Ms2ger/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Ms2ger/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Ms2ger/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Ms2ger/subscriptions",
+      "organizations_url": "https://api.github.com/users/Ms2ger/orgs",
+      "repos_url": "https://api.github.com/users/Ms2ger/repos",
+      "events_url": "https://api.github.com/users/Ms2ger/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Ms2ger/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n                Note: That algorithm can [=JavaScript/throw=] a <l spec=ecmascript>{{TypeError}}</l>.\r\n```",
+    "created_at": "2024-03-14T10:41:14Z",
+    "updated_at": "2024-03-14T10:41:44Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1524624169",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1524624169"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1524624169"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1524624169/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 11149,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 85,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1524819025",
+    "pull_request_review_id": 1936615868,
+    "id": 1524819025,
+    "node_id": "PRRC_kwDOANeiys5a4uRR",
+    "diff_hunk": "@@ -11092,8 +11139,16 @@ Note: The HTML Standard defines how a security check is performed. [[!HTML]]\n             1.  If the argument at index |i| is declared with a [=optional argument/default value=],\n                 then append to |values| that default value.\n             1.  Otherwise, append to |values| the special value “missing”.\n-        1.  Otherwise, append to |values| the result of [=converted to an IDL value|converting=]\n-            |V| to IDL type |type|.\n+        1. Otherwise:\n+            1.  If |type| is an IDL type [=extended attribute associated with|associated with=] the\n+                [{{StringContext}}] extended attribute, then set |V| to the result of performing\n+                [=validate the string in context=], passing [=this=], |V|, the {{StringContext}}\n+                extended attribute [=identifier=], and the [=identifier=]\n+                of the [=operation=] or [=extended attribute=] of the first entry in |S|.",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "86a6e504a78c2f54d1befe64cc8b6a067c7af54c",
+    "user": {
+      "login": "lukewarlow",
+      "id": 32498324,
+      "node_id": "MDQ6VXNlcjMyNDk4MzI0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32498324?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lukewarlow",
+      "html_url": "https://github.com/lukewarlow",
+      "followers_url": "https://api.github.com/users/lukewarlow/followers",
+      "following_url": "https://api.github.com/users/lukewarlow/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lukewarlow/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lukewarlow/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lukewarlow/subscriptions",
+      "organizations_url": "https://api.github.com/users/lukewarlow/orgs",
+      "repos_url": "https://api.github.com/users/lukewarlow/repos",
+      "events_url": "https://api.github.com/users/lukewarlow/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lukewarlow/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I've added a paragraph hopefully it makes sense. Happy to adjust it if you'd like.",
+    "created_at": "2024-03-14T12:58:30Z",
+    "updated_at": "2024-03-14T12:58:31Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1524819025",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1524819025"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1524819025"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1524819025/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 11150,
+    "original_line": 11147,
+    "side": "RIGHT",
+    "in_reply_to_id": 1521690500,
+    "author_association": "MEMBER",
+    "original_position": 83,
+    "position": 86,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1528174850",
+    "pull_request_review_id": 1942398068,
+    "id": 1528174850,
+    "node_id": "PRRC_kwDOANeiys5bFhkC",
+    "diff_hunk": "@@ -11092,8 +11142,16 @@ Note: The HTML Standard defines how a security check is performed. [[!HTML]]\n             1.  If the argument at index |i| is declared with a [=optional argument/default value=],\n                 then append to |values| that default value.\n             1.  Otherwise, append to |values| the special value “missing”.\n-        1.  Otherwise, append to |values| the result of [=converted to an IDL value|converting=]\n-            |V| to IDL type |type|.\n+        1. Otherwise:\n+            1.  If |type| is an IDL type [=extended attribute associated with|associated with=] the\n+                [{{StringContext}}] extended attribute, then set |V| to the result of performing\n+                [=validate the string in context=], passing [=this=], |V|, the {{StringContext}}\n+                extended attribute [=identifier=], and the [=identifier=]\n+                of the [=operation=] or [=extended attribute=] of the first entry in |S|.",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "user": null,
+    "body": "\"and the identifier of the operation or extended attribute of the first entry in S\" is confusing. Is the operation's identifier or the extended attribute's identifier passed to \"validate the string in context\"?",
+    "created_at": "2024-03-18T09:29:06Z",
+    "updated_at": "2024-03-18T09:29:06Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1528174850",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1528174850"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1528174850"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1528174850/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 11149,
+    "original_start_line": 11149,
+    "start_side": "RIGHT",
+    "line": 11150,
+    "original_line": 11150,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 86,
+    "position": 86,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1528289839",
+    "pull_request_review_id": 1942567623,
+    "id": 1528289839,
+    "node_id": "PRRC_kwDOANeiys5bF9ov",
+    "diff_hunk": "@@ -11092,8 +11142,16 @@ Note: The HTML Standard defines how a security check is performed. [[!HTML]]\n             1.  If the argument at index |i| is declared with a [=optional argument/default value=],\n                 then append to |values| that default value.\n             1.  Otherwise, append to |values| the special value “missing”.\n-        1.  Otherwise, append to |values| the result of [=converted to an IDL value|converting=]\n-            |V| to IDL type |type|.\n+        1. Otherwise:\n+            1.  If |type| is an IDL type [=extended attribute associated with|associated with=] the\n+                [{{StringContext}}] extended attribute, then set |V| to the result of performing\n+                [=validate the string in context=], passing [=this=], |V|, the {{StringContext}}\n+                extended attribute [=identifier=], and the [=identifier=]\n+                of the [=operation=] or [=extended attribute=] of the first entry in |S|.",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "user": null,
+    "body": "It's either other (https://whatpr.org/webidl/1392/5a2802b...36ddffb.html#dfn-effective-overload-set).",
+    "created_at": "2024-03-18T10:34:25Z",
+    "updated_at": "2024-03-18T10:34:25Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1528289839",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1528289839"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1528289839"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1528289839/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 11149,
+    "original_start_line": 11149,
+    "start_side": "RIGHT",
+    "line": 11150,
+    "original_line": 11150,
+    "side": "RIGHT",
+    "in_reply_to_id": 1528174850,
+    "author_association": "NONE",
+    "original_position": 86,
+    "position": 86,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1528292321",
+    "pull_request_review_id": 1942571640,
+    "id": 1528292321,
+    "node_id": "PRRC_kwDOANeiys5bF-Ph",
+    "diff_hunk": "@@ -11092,8 +11142,16 @@ Note: The HTML Standard defines how a security check is performed. [[!HTML]]\n             1.  If the argument at index |i| is declared with a [=optional argument/default value=],\n                 then append to |values| that default value.\n             1.  Otherwise, append to |values| the special value “missing”.\n-        1.  Otherwise, append to |values| the result of [=converted to an IDL value|converting=]\n-            |V| to IDL type |type|.\n+        1. Otherwise:\n+            1.  If |type| is an IDL type [=extended attribute associated with|associated with=] the\n+                [{{StringContext}}] extended attribute, then set |V| to the result of performing\n+                [=validate the string in context=], passing [=this=], |V|, the {{StringContext}}\n+                extended attribute [=identifier=], and the [=identifier=]\n+                of the [=operation=] or [=extended attribute=] of the first entry in |S|.",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "user": null,
+    "body": "Consider adding a note or feel free to resolve this 'conversation'.",
+    "created_at": "2024-03-18T10:36:27Z",
+    "updated_at": "2024-03-18T10:36:28Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1528292321",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1528292321"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1528292321"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1528292321/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 11149,
+    "original_start_line": 11149,
+    "start_side": "RIGHT",
+    "line": 11150,
+    "original_line": 11150,
+    "side": "RIGHT",
+    "in_reply_to_id": 1528174850,
+    "author_association": "NONE",
+    "original_position": 86,
+    "position": 86,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1538982541",
+    "pull_request_review_id": 1959980499,
+    "id": 1538982541,
+    "node_id": "PRRC_kwDOANeiys5buwKN",
+    "diff_hunk": "@@ -10259,6 +10261,39 @@ that does specify [{{SecureContext}}].\n     </pre>\n </div>\n \n+<h4 id=\"StringContext\" extended-attribute lt=\"StringContext\">[StringContext]</h4>\n+\n+If the [{{StringContext}}] [=extended attribute=] appears on {{DOMString}} or {{USVString}}, it\n+modifies how the value is converted to the IDL type, causing additional value validation to\n+adhere to the context the string is used in.\n+\n+The [{{StringContext}}] extended attribute must [=takes an identifier|take an identifier=]. The [=identifier=]\n+must be one of \"<code>TrustedHTML</code>\", \"<code>TrustedScript</code>\", and \"<code>TrustedScriptURL</code>\".\n+\n+The [{{StringContext}}] extended attribute may only annotate a type of a [=regular attribute=] or\n+a [=regular operation=] argument. A type annotated with the [{{StringContext}}]\n+extended attribute must not appear in a [=read only=] attribute.\n+\n+A type that is not {{DOMString}} or {{USVString}} must not be [=extended attributes associated with|associated with=]",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "user": null,
+    "body": "In the future nullable types might require support too. At least Chromium doesn't need them now.",
+    "created_at": "2024-03-26T10:40:12Z",
+    "updated_at": "2024-03-26T10:40:25Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1538982541",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1538982541"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1538982541"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1538982541/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 10277,
+    "original_line": 10277,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 30,
+    "position": 30,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1543195038",
+    "pull_request_review_id": 1966579769,
+    "id": 1543195038,
+    "node_id": "PRRC_kwDOANeiys5b-0me",
+    "diff_hunk": "@@ -10259,6 +10261,39 @@ that does specify [{{SecureContext}}].\n     </pre>\n </div>\n \n+<h4 id=\"StringContext\" extended-attribute lt=\"StringContext\">[StringContext]</h4>\n+\n+If the [{{StringContext}}] [=extended attribute=] appears on {{DOMString}} or {{USVString}}, it\n+modifies how the value is converted to the IDL type, causing additional value validation to\n+adhere to the context the string is used in.\n+\n+The [{{StringContext}}] extended attribute must [=takes an identifier|take an identifier=]. The [=identifier=]\n+must be one of \"<code>TrustedHTML</code>\", \"<code>TrustedScript</code>\", and \"<code>TrustedScriptURL</code>\".\n+\n+The [{{StringContext}}] extended attribute may only annotate a type of a [=regular attribute=] or\n+a [=regular operation=] argument. A type annotated with the [{{StringContext}}]\n+extended attribute must not appear in a [=read only=] attribute.\n+\n+A type that is not {{DOMString}} or {{USVString}} must not be [=extended attributes associated with|associated with=]",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "user": {
+      "login": "lukewarlow",
+      "id": 32498324,
+      "node_id": "MDQ6VXNlcjMyNDk4MzI0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32498324?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lukewarlow",
+      "html_url": "https://github.com/lukewarlow",
+      "followers_url": "https://api.github.com/users/lukewarlow/followers",
+      "following_url": "https://api.github.com/users/lukewarlow/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lukewarlow/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lukewarlow/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lukewarlow/subscriptions",
+      "organizations_url": "https://api.github.com/users/lukewarlow/orgs",
+      "repos_url": "https://api.github.com/users/lukewarlow/repos",
+      "events_url": "https://api.github.com/users/lukewarlow/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lukewarlow/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "https://w3c.github.io/trusted-types/dist/spec/#setting-slot-values - does require use of `ScriptString?` so this might need updating to account for it.",
+    "created_at": "2024-03-28T15:42:55Z",
+    "updated_at": "2024-03-28T15:42:56Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1543195038",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1543195038"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1543195038"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1543195038/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 10277,
+    "original_line": 10277,
+    "side": "RIGHT",
+    "in_reply_to_id": 1538982541,
+    "author_association": "MEMBER",
+    "original_position": 30,
+    "position": 30,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1549841221",
+    "pull_request_review_id": 1976973675,
+    "id": 1549841221,
+    "node_id": "PRRC_kwDOANeiys5cYLNF",
+    "diff_hunk": "@@ -10259,6 +10261,39 @@ that does specify [{{SecureContext}}].\n     </pre>\n </div>\n \n+<h4 id=\"StringContext\" extended-attribute lt=\"StringContext\">[StringContext]</h4>\n+\n+If the [{{StringContext}}] [=extended attribute=] appears on {{DOMString}} or {{USVString}}, it\n+modifies how the value is converted to the IDL type, causing additional value validation to\n+adhere to the context the string is used in.\n+\n+The [{{StringContext}}] extended attribute must [=takes an identifier|take an identifier=]. The [=identifier=]\n+must be one of \"<code>TrustedHTML</code>\", \"<code>TrustedScript</code>\", and \"<code>TrustedScriptURL</code>\".",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "or?",
+    "created_at": "2024-04-03T14:14:42Z",
+    "updated_at": "2024-04-03T14:27:58Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1549841221",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1549841221"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1549841221"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1549841221/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 10271,
+    "original_line": 10271,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 24,
+    "position": 24,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1549866672",
+    "pull_request_review_id": 1976973675,
+    "id": 1549866672,
+    "node_id": "PRRC_kwDOANeiys5cYRaw",
+    "diff_hunk": "@@ -11056,6 +11091,21 @@ allowed.  The security check takes the following three inputs:\n \n Note: The HTML Standard defines how a security check is performed. [[!HTML]]\n \n+Certain algorithms are defined to\n+<dfn id=\"dfn-validate-the-string-in-context\" export>validate the string in context</dfn> on a given\n+value. This check is used to determine whether a given value\n+is appropriate for its {{StringContext}}. This validation takes the following four inputs:\n+\n+1.  the [=platform object=] on\n+    which the operation invocation or attribute access is being done,\n+1.  the value to validate,\n+1.  the {{StringContext}} [=identifier=], and\n+1.  the [=identifier=] of the operation or attribute.\n+\n+The algorithm returns an ECMAScript value, or [=JavaScript/throws=] a <l spec=ecmascript>{{TypeError}}</l>.\n+\n+Note: The HTML Standard defines how the validation is performed. [[!HTML]]",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I looked into this a bit more and this description appears insufficient.\r\n\r\n1. It's not clear it always ends up throwing a TypeError. Doesn't this involve userland for some bits?\r\n2. It seems this algorithm might also end up reporting violations per step 6.1 of https://w3c.github.io/trusted-types/dist/spec/#abstract-opdef-get-trusted-type-compliant-string.\r\n\r\nI don't think \"validate\" is a sufficiently clear term given the implications. \"Validate\" makes me expect a side-effect-free-boolean-returning operation, not something that can result in network traffic (and events?).\r\n\r\n---\r\n\r\nApart from the above, we'll need some test coverage to ensure that this is invoked at the correct time relative to other exceptions that can be thrown. This will be observable if this can throw non-TypeError exceptions, but even if this always throws a TypeError (and we ignore the message field) it's observable through network traffic.",
+    "created_at": "2024-04-03T14:27:19Z",
+    "updated_at": "2024-04-03T14:27:58Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1549866672",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1549866672"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1549866672"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1549866672/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 11107,
+    "original_line": 11107,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 70,
+    "position": 70,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1549869029",
+    "pull_request_review_id": 1977020807,
+    "id": 1549869029,
+    "node_id": "PRRC_kwDOANeiys5cYR_l",
+    "diff_hunk": "@@ -10259,6 +10261,39 @@ that does specify [{{SecureContext}}].\n     </pre>\n </div>\n \n+<h4 id=\"StringContext\" extended-attribute lt=\"StringContext\">[StringContext]</h4>\n+\n+If the [{{StringContext}}] [=extended attribute=] appears on {{DOMString}} or {{USVString}}, it\n+modifies how the value is converted to the IDL type, causing additional value validation to\n+adhere to the context the string is used in.\n+\n+The [{{StringContext}}] extended attribute must [=takes an identifier|take an identifier=]. The [=identifier=]\n+must be one of \"<code>TrustedHTML</code>\", \"<code>TrustedScript</code>\", and \"<code>TrustedScriptURL</code>\".",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "user": {
+      "login": "lukewarlow",
+      "id": 32498324,
+      "node_id": "MDQ6VXNlcjMyNDk4MzI0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32498324?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lukewarlow",
+      "html_url": "https://github.com/lukewarlow",
+      "followers_url": "https://api.github.com/users/lukewarlow/followers",
+      "following_url": "https://api.github.com/users/lukewarlow/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lukewarlow/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lukewarlow/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lukewarlow/subscriptions",
+      "organizations_url": "https://api.github.com/users/lukewarlow/orgs",
+      "repos_url": "https://api.github.com/users/lukewarlow/repos",
+      "events_url": "https://api.github.com/users/lukewarlow/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lukewarlow/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Good catch!",
+    "created_at": "2024-04-03T14:28:44Z",
+    "updated_at": "2024-04-03T14:28:45Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1549869029",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1549869029"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1549869029"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1549869029/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 10271,
+    "original_line": 10271,
+    "side": "RIGHT",
+    "in_reply_to_id": 1549841221,
+    "author_association": "MEMBER",
+    "original_position": 24,
+    "position": 24,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1549906403",
+    "pull_request_review_id": 1977078715,
+    "id": 1549906403,
+    "node_id": "PRRC_kwDOANeiys5cYbHj",
+    "diff_hunk": "@@ -11056,6 +11091,21 @@ allowed.  The security check takes the following three inputs:\n \n Note: The HTML Standard defines how a security check is performed. [[!HTML]]\n \n+Certain algorithms are defined to\n+<dfn id=\"dfn-validate-the-string-in-context\" export>validate the string in context</dfn> on a given\n+value. This check is used to determine whether a given value\n+is appropriate for its {{StringContext}}. This validation takes the following four inputs:\n+\n+1.  the [=platform object=] on\n+    which the operation invocation or attribute access is being done,\n+1.  the value to validate,\n+1.  the {{StringContext}} [=identifier=], and\n+1.  the [=identifier=] of the operation or attribute.\n+\n+The algorithm returns an ECMAScript value, or [=JavaScript/throws=] a <l spec=ecmascript>{{TypeError}}</l>.\n+\n+Note: The HTML Standard defines how the validation is performed. [[!HTML]]",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "user": {
+      "login": "lukewarlow",
+      "id": 32498324,
+      "node_id": "MDQ6VXNlcjMyNDk4MzI0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32498324?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lukewarlow",
+      "html_url": "https://github.com/lukewarlow",
+      "followers_url": "https://api.github.com/users/lukewarlow/followers",
+      "following_url": "https://api.github.com/users/lukewarlow/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lukewarlow/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lukewarlow/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lukewarlow/subscriptions",
+      "organizations_url": "https://api.github.com/users/lukewarlow/orgs",
+      "repos_url": "https://api.github.com/users/lukewarlow/repos",
+      "events_url": "https://api.github.com/users/lukewarlow/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lukewarlow/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "> It's not clear it always ends up throwing a TypeError. Doesn't this involve userland for some bits?\r\n\r\nYeah you're correct this can throw any error type.\r\n\r\n> It seems this algorithm might also end up reporting violations per step 6.1\r\n\r\nAlso correct it can report CSP violations.\r\n\r\n> I don't think \"validate\" is a sufficiently clear term given the implications. \"Validate\" makes me expect a side-effect-free-boolean-returning operation, not something that can result in network traffic (and events?).\r\n\r\nMaybe verify instead? I'm not sure what prior art there is for this sort of thing.\r\n\r\n> Apart from the above, we'll need some test coverage to ensure that this is invoked at the correct time relative to other exceptions that can be thrown. This will be observable if this can throw non-TypeError exceptions, but even if this always throws a TypeError (and we ignore the message field) it's observable through network traffic.\r\n\r\nAdditional tests to ensure timing wrt to other errors makes sense here. cc @mbrodesser-Igalia \r\n\r\nAs for the network traffic aspect, I'm not familiar with the details of how CSP violation reports work and whether their timing is an observable concern.",
+    "created_at": "2024-04-03T14:50:42Z",
+    "updated_at": "2024-04-03T14:50:42Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1549906403",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1549906403"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1549906403"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1549906403/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 11107,
+    "original_line": 11107,
+    "side": "RIGHT",
+    "in_reply_to_id": 1549866672,
+    "author_association": "MEMBER",
+    "original_position": 70,
+    "position": 70,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551349772",
+    "pull_request_review_id": 1979344378,
+    "id": 1551349772,
+    "node_id": "PRRC_kwDOANeiys5cd7gM",
+    "diff_hunk": "@@ -11056,6 +11091,21 @@ allowed.  The security check takes the following three inputs:\n \n Note: The HTML Standard defines how a security check is performed. [[!HTML]]\n \n+Certain algorithms are defined to\n+<dfn id=\"dfn-validate-the-string-in-context\" export>validate the string in context</dfn> on a given\n+value. This check is used to determine whether a given value\n+is appropriate for its {{StringContext}}. This validation takes the following four inputs:\n+\n+1.  the [=platform object=] on\n+    which the operation invocation or attribute access is being done,\n+1.  the value to validate,\n+1.  the {{StringContext}} [=identifier=], and\n+1.  the [=identifier=] of the operation or attribute.\n+\n+The algorithm returns an ECMAScript value, or [=JavaScript/throws=] a <l spec=ecmascript>{{TypeError}}</l>.\n+\n+Note: The HTML Standard defines how the validation is performed. [[!HTML]]",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The string can also be modified, right? It says it returns an ECMAScript value, but doesn't it really return a string?\r\n\r\nI think \"verify\" is okay. I guess in theory we want this to be able to be used for non-Trusted Types purposes.\r\n\r\nThere's various things that matter with respect to timing:\r\n\r\n1. Does it all happen at the correct point in time relative to other exceptions that may be thrown. I.e., do implementations handle the checks in the correct order.\r\n2. What further side effects may arise from this check happening. It seems that https://w3c.github.io/webappsec-csp/#report-violation always queues a task so we don't have to worry about that for CSP. And I think we don't have to worry in the general case because this happens before any specification algorithms are involved. Although if we add more of these utilities around the edges of IDL we'll run into conflicts at some point of course.",
+    "created_at": "2024-04-04T09:44:14Z",
+    "updated_at": "2024-04-04T09:44:14Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1551349772",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551349772"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1551349772"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551349772/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 11107,
+    "original_line": 11107,
+    "side": "RIGHT",
+    "in_reply_to_id": 1549866672,
+    "author_association": "MEMBER",
+    "original_position": 70,
+    "position": 70,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551474171",
+    "pull_request_review_id": 1979542358,
+    "id": 1551474171,
+    "node_id": "PRRC_kwDOANeiys5ceZ37",
+    "diff_hunk": "@@ -11056,6 +11091,21 @@ allowed.  The security check takes the following three inputs:\n \n Note: The HTML Standard defines how a security check is performed. [[!HTML]]\n \n+Certain algorithms are defined to\n+<dfn id=\"dfn-validate-the-string-in-context\" export>validate the string in context</dfn> on a given\n+value. This check is used to determine whether a given value\n+is appropriate for its {{StringContext}}. This validation takes the following four inputs:\n+\n+1.  the [=platform object=] on\n+    which the operation invocation or attribute access is being done,\n+1.  the value to validate,\n+1.  the {{StringContext}} [=identifier=], and\n+1.  the [=identifier=] of the operation or attribute.\n+\n+The algorithm returns an ECMAScript value, or [=JavaScript/throws=] a <l spec=ecmascript>{{TypeError}}</l>.\n+\n+Note: The HTML Standard defines how the validation is performed. [[!HTML]]",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "user": {
+      "login": "Ms2ger",
+      "id": 111161,
+      "node_id": "MDQ6VXNlcjExMTE2MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/111161?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Ms2ger",
+      "html_url": "https://github.com/Ms2ger",
+      "followers_url": "https://api.github.com/users/Ms2ger/followers",
+      "following_url": "https://api.github.com/users/Ms2ger/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Ms2ger/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Ms2ger/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Ms2ger/subscriptions",
+      "organizations_url": "https://api.github.com/users/Ms2ger/orgs",
+      "repos_url": "https://api.github.com/users/Ms2ger/repos",
+      "events_url": "https://api.github.com/users/Ms2ger/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Ms2ger/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "> doesn't it really return a string?\r\n\r\nDoesn't it return the argument directly in step 2?",
+    "created_at": "2024-04-04T11:12:16Z",
+    "updated_at": "2024-04-04T11:12:16Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1551474171",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551474171"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1551474171"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551474171/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 11107,
+    "original_line": 11107,
+    "side": "RIGHT",
+    "in_reply_to_id": 1549866672,
+    "author_association": "MEMBER",
+    "original_position": 70,
+    "position": 70,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551512708",
+    "pull_request_review_id": 1979614193,
+    "id": 1551512708,
+    "node_id": "PRRC_kwDOANeiys5cejSE",
+    "diff_hunk": "@@ -11056,6 +11091,21 @@ allowed.  The security check takes the following three inputs:\n \n Note: The HTML Standard defines how a security check is performed. [[!HTML]]\n \n+Certain algorithms are defined to\n+<dfn id=\"dfn-validate-the-string-in-context\" export>validate the string in context</dfn> on a given\n+value. This check is used to determine whether a given value\n+is appropriate for its {{StringContext}}. This validation takes the following four inputs:\n+\n+1.  the [=platform object=] on\n+    which the operation invocation or attribute access is being done,\n+1.  the value to validate,\n+1.  the {{StringContext}} [=identifier=], and\n+1.  the [=identifier=] of the operation or attribute.\n+\n+The algorithm returns an ECMAScript value, or [=JavaScript/throws=] a <l spec=ecmascript>{{TypeError}}</l>.\n+\n+Note: The HTML Standard defines how the validation is performed. [[!HTML]]",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "It overwrites it first in 1.2 as far as I can tell. At least judging from https://w3c.github.io/trusted-types/dist/spec/#html-validate-the-string-in-context.",
+    "created_at": "2024-04-04T11:41:07Z",
+    "updated_at": "2024-04-04T11:41:07Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1551512708",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551512708"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1551512708"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551512708/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 11107,
+    "original_line": 11107,
+    "side": "RIGHT",
+    "in_reply_to_id": 1549866672,
+    "author_association": "MEMBER",
+    "original_position": 70,
+    "position": 70,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551516146",
+    "pull_request_review_id": 1979622729,
+    "id": 1551516146,
+    "node_id": "PRRC_kwDOANeiys5cekHy",
+    "diff_hunk": "@@ -11056,6 +11091,21 @@ allowed.  The security check takes the following three inputs:\n \n Note: The HTML Standard defines how a security check is performed. [[!HTML]]\n \n+Certain algorithms are defined to\n+<dfn id=\"dfn-validate-the-string-in-context\" export>validate the string in context</dfn> on a given\n+value. This check is used to determine whether a given value\n+is appropriate for its {{StringContext}}. This validation takes the following four inputs:\n+\n+1.  the [=platform object=] on\n+    which the operation invocation or attribute access is being done,\n+1.  the value to validate,\n+1.  the {{StringContext}} [=identifier=], and\n+1.  the [=identifier=] of the operation or attribute.\n+\n+The algorithm returns an ECMAScript value, or [=JavaScript/throws=] a <l spec=ecmascript>{{TypeError}}</l>.\n+\n+Note: The HTML Standard defines how the validation is performed. [[!HTML]]",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "user": {
+      "login": "lukewarlow",
+      "id": 32498324,
+      "node_id": "MDQ6VXNlcjMyNDk4MzI0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32498324?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lukewarlow",
+      "html_url": "https://github.com/lukewarlow",
+      "followers_url": "https://api.github.com/users/lukewarlow/followers",
+      "following_url": "https://api.github.com/users/lukewarlow/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lukewarlow/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lukewarlow/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lukewarlow/subscriptions",
+      "organizations_url": "https://api.github.com/users/lukewarlow/orgs",
+      "repos_url": "https://api.github.com/users/lukewarlow/repos",
+      "events_url": "https://api.github.com/users/lukewarlow/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lukewarlow/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "> If platformObject’s [relevant global object](https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global) has a [trusted type policy factory](https://w3c.github.io/trusted-types/dist/spec/#window-trusted-type-policy-factory):\r\n\r\nIn the case where this is false it would return the raw value not a string.",
+    "created_at": "2024-04-04T11:43:45Z",
+    "updated_at": "2024-04-04T11:43:46Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1551516146",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551516146"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1551516146"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551516146/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 11107,
+    "original_line": 11107,
+    "side": "RIGHT",
+    "in_reply_to_id": 1549866672,
+    "author_association": "MEMBER",
+    "original_position": 70,
+    "position": 70,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551517582",
+    "pull_request_review_id": 1979626728,
+    "id": 1551517582,
+    "node_id": "PRRC_kwDOANeiys5cekeO",
+    "diff_hunk": "@@ -10259,6 +10261,39 @@ that does specify [{{SecureContext}}].\n     </pre>\n </div>\n \n+<h4 id=\"StringContext\" extended-attribute lt=\"StringContext\">[StringContext]</h4>\n+\n+If the [{{StringContext}}] [=extended attribute=] appears on {{DOMString}} or {{USVString}}, it\n+modifies how the value is converted to the IDL type, causing additional value validation to\n+adhere to the context the string is used in.\n+\n+The [{{StringContext}}] extended attribute must [=takes an identifier|take an identifier=]. The [=identifier=]\n+must be one of \"<code>TrustedHTML</code>\", \"<code>TrustedScript</code>\", and \"<code>TrustedScriptURL</code>\".\n+\n+The [{{StringContext}}] extended attribute may only annotate a type of a [=regular attribute=] or\n+a [=regular operation=] argument. A type annotated with the [{{StringContext}}]\n+extended attribute must not appear in a [=read only=] attribute.\n+\n+A type that is not {{DOMString}} or {{USVString}} must not be [=extended attributes associated with|associated with=]\n+the [{{StringContext}}] extended attribute.\n+\n+The [{{StringContext}}] extended attribute must not be used on only some of the [=overloaded|overloads=] of an\n+[=overloaded=] [=operation=].",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "user": {
+      "login": "petervanderbeken",
+      "id": 7645931,
+      "node_id": "MDQ6VXNlcjc2NDU5MzE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7645931?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/petervanderbeken",
+      "html_url": "https://github.com/petervanderbeken",
+      "followers_url": "https://api.github.com/users/petervanderbeken/followers",
+      "following_url": "https://api.github.com/users/petervanderbeken/following{/other_user}",
+      "gists_url": "https://api.github.com/users/petervanderbeken/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/petervanderbeken/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/petervanderbeken/subscriptions",
+      "organizations_url": "https://api.github.com/users/petervanderbeken/orgs",
+      "repos_url": "https://api.github.com/users/petervanderbeken/repos",
+      "events_url": "https://api.github.com/users/petervanderbeken/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/petervanderbeken/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I find this sentence a bit weird, because it's used on arguments, not on the operation itself. Does this mean that in the case of overloads, either all `DOMString`/`USVString` arguments need to be annotated or none? Or just that if the overloads have a `DOMString`/`USVString` argument in the same position it should be annotated the same way in all overloads?",
+    "created_at": "2024-04-04T11:45:00Z",
+    "updated_at": "2024-04-04T11:45:00Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1551517582",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551517582"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1551517582"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551517582/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 10281,
+    "original_line": 10281,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 34,
+    "position": 34,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551519495",
+    "pull_request_review_id": 1979630178,
+    "id": 1551519495,
+    "node_id": "PRRC_kwDOANeiys5cek8H",
+    "diff_hunk": "@@ -10259,6 +10261,39 @@ that does specify [{{SecureContext}}].\n     </pre>\n </div>\n \n+<h4 id=\"StringContext\" extended-attribute lt=\"StringContext\">[StringContext]</h4>\n+\n+If the [{{StringContext}}] [=extended attribute=] appears on {{DOMString}} or {{USVString}}, it\n+modifies how the value is converted to the IDL type, causing additional value validation to\n+adhere to the context the string is used in.\n+\n+The [{{StringContext}}] extended attribute must [=takes an identifier|take an identifier=]. The [=identifier=]\n+must be one of \"<code>TrustedHTML</code>\", \"<code>TrustedScript</code>\", and \"<code>TrustedScriptURL</code>\".\n+\n+The [{{StringContext}}] extended attribute may only annotate a type of a [=regular attribute=] or\n+a [=regular operation=] argument. A type annotated with the [{{StringContext}}]\n+extended attribute must not appear in a [=read only=] attribute.\n+\n+A type that is not {{DOMString}} or {{USVString}} must not be [=extended attributes associated with|associated with=]",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "user": {
+      "login": "lukewarlow",
+      "id": 32498324,
+      "node_id": "MDQ6VXNlcjMyNDk4MzI0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32498324?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lukewarlow",
+      "html_url": "https://github.com/lukewarlow",
+      "followers_url": "https://api.github.com/users/lukewarlow/followers",
+      "following_url": "https://api.github.com/users/lukewarlow/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lukewarlow/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lukewarlow/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lukewarlow/subscriptions",
+      "organizations_url": "https://api.github.com/users/lukewarlow/orgs",
+      "repos_url": "https://api.github.com/users/lukewarlow/repos",
+      "events_url": "https://api.github.com/users/lukewarlow/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lukewarlow/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I've updated the TT spec to just use a union type there rather than the extended attribute, because that solves dealing with nullable types.",
+    "created_at": "2024-04-04T11:46:39Z",
+    "updated_at": "2024-04-04T11:46:39Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1551519495",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551519495"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1551519495"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551519495/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 10277,
+    "original_line": 10277,
+    "side": "RIGHT",
+    "in_reply_to_id": 1538982541,
+    "author_association": "MEMBER",
+    "original_position": 30,
+    "position": 30,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551525483",
+    "pull_request_review_id": 1979639339,
+    "id": 1551525483,
+    "node_id": "PRRC_kwDOANeiys5cemZr",
+    "diff_hunk": "@@ -11056,6 +11091,21 @@ allowed.  The security check takes the following three inputs:\n \n Note: The HTML Standard defines how a security check is performed. [[!HTML]]\n \n+Certain algorithms are defined to\n+<dfn id=\"dfn-validate-the-string-in-context\" export>validate the string in context</dfn> on a given\n+value. This check is used to determine whether a given value\n+is appropriate for its {{StringContext}}. This validation takes the following four inputs:\n+\n+1.  the [=platform object=] on\n+    which the operation invocation or attribute access is being done,\n+1.  the value to validate,\n+1.  the {{StringContext}} [=identifier=], and\n+1.  the [=identifier=] of the operation or attribute.\n+\n+The algorithm returns an ECMAScript value, or [=JavaScript/throws=] a <l spec=ecmascript>{{TypeError}}</l>.\n+\n+Note: The HTML Standard defines how the validation is performed. [[!HTML]]",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Perhaps it makes more sense to return null in that case. Having something return an Infra string, an ES value (that's always the input value), or throw is a tad confusing.",
+    "created_at": "2024-04-04T11:50:53Z",
+    "updated_at": "2024-04-04T11:50:54Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1551525483",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551525483"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1551525483"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551525483/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 11107,
+    "original_line": 11107,
+    "side": "RIGHT",
+    "in_reply_to_id": 1549866672,
+    "author_association": "MEMBER",
+    "original_position": 70,
+    "position": 70,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551533422",
+    "pull_request_review_id": 1979651976,
+    "id": 1551533422,
+    "node_id": "PRRC_kwDOANeiys5ceoVu",
+    "diff_hunk": "@@ -11056,6 +11091,21 @@ allowed.  The security check takes the following three inputs:\n \n Note: The HTML Standard defines how a security check is performed. [[!HTML]]\n \n+Certain algorithms are defined to\n+<dfn id=\"dfn-validate-the-string-in-context\" export>validate the string in context</dfn> on a given\n+value. This check is used to determine whether a given value\n+is appropriate for its {{StringContext}}. This validation takes the following four inputs:\n+\n+1.  the [=platform object=] on\n+    which the operation invocation or attribute access is being done,\n+1.  the value to validate,\n+1.  the {{StringContext}} [=identifier=], and\n+1.  the [=identifier=] of the operation or attribute.\n+\n+The algorithm returns an ECMAScript value, or [=JavaScript/throws=] a <l spec=ecmascript>{{TypeError}}</l>.\n+\n+Note: The HTML Standard defines how the validation is performed. [[!HTML]]",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "user": {
+      "login": "lukewarlow",
+      "id": 32498324,
+      "node_id": "MDQ6VXNlcjMyNDk4MzI0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32498324?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lukewarlow",
+      "html_url": "https://github.com/lukewarlow",
+      "followers_url": "https://api.github.com/users/lukewarlow/followers",
+      "following_url": "https://api.github.com/users/lukewarlow/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lukewarlow/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lukewarlow/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lukewarlow/subscriptions",
+      "organizations_url": "https://api.github.com/users/lukewarlow/orgs",
+      "repos_url": "https://api.github.com/users/lukewarlow/repos",
+      "events_url": "https://api.github.com/users/lukewarlow/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lukewarlow/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "That's probably fine, I wonder if this is a path that would realistically be hit, I think the factory would always exist in the codepaths where this attribute is used, as it's on workers and windows.\r\n\r\nOnly hesitation is returning null could be destructive. If it's not a path you're likely to ever hit then fine but if you are in a place where this could happen in the \"happy path\" that might not be ideal?",
+    "created_at": "2024-04-04T11:55:59Z",
+    "updated_at": "2024-04-04T11:55:59Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1551533422",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551533422"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1551533422"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551533422/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 11107,
+    "original_line": 11107,
+    "side": "RIGHT",
+    "in_reply_to_id": 1549866672,
+    "author_association": "MEMBER",
+    "original_position": 70,
+    "position": 70,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551539280",
+    "pull_request_review_id": 1979662319,
+    "id": 1551539280,
+    "node_id": "PRRC_kwDOANeiys5cepxQ",
+    "diff_hunk": "@@ -10259,6 +10261,39 @@ that does specify [{{SecureContext}}].\n     </pre>\n </div>\n \n+<h4 id=\"StringContext\" extended-attribute lt=\"StringContext\">[StringContext]</h4>\n+\n+If the [{{StringContext}}] [=extended attribute=] appears on {{DOMString}} or {{USVString}}, it\n+modifies how the value is converted to the IDL type, causing additional value validation to\n+adhere to the context the string is used in.\n+\n+The [{{StringContext}}] extended attribute must [=takes an identifier|take an identifier=]. The [=identifier=]\n+must be one of \"<code>TrustedHTML</code>\", \"<code>TrustedScript</code>\", and \"<code>TrustedScriptURL</code>\".\n+\n+The [{{StringContext}}] extended attribute may only annotate a type of a [=regular attribute=] or\n+a [=regular operation=] argument. A type annotated with the [{{StringContext}}]\n+extended attribute must not appear in a [=read only=] attribute.\n+\n+A type that is not {{DOMString}} or {{USVString}} must not be [=extended attributes associated with|associated with=]\n+the [{{StringContext}}] extended attribute.\n+\n+The [{{StringContext}}] extended attribute must not be used on only some of the [=overloaded|overloads=] of an\n+[=overloaded=] [=operation=].",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "user": {
+      "login": "lukewarlow",
+      "id": 32498324,
+      "node_id": "MDQ6VXNlcjMyNDk4MzI0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32498324?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lukewarlow",
+      "html_url": "https://github.com/lukewarlow",
+      "followers_url": "https://api.github.com/users/lukewarlow/followers",
+      "following_url": "https://api.github.com/users/lukewarlow/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lukewarlow/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lukewarlow/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lukewarlow/subscriptions",
+      "organizations_url": "https://api.github.com/users/lukewarlow/orgs",
+      "repos_url": "https://api.github.com/users/lukewarlow/repos",
+      "events_url": "https://api.github.com/users/lukewarlow/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lukewarlow/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Off the top of my head I *think* it's that if they're in the same position they have to always or never be annotated. It might also be the case that you can't have an overload where it's an annotated string in one branch, and a different type entirely in another.\r\n\r\nThe attribute has a side effect and that means these limitations have to be in place.\r\n\r\nI'll be honest I'm not super familar with the IDL overloading so I might be missing the point entirely.\r\n\r\n@annevk can probably explain it better.\r\n\r\nHappy to reword this paragraph to make more sense :)",
+    "created_at": "2024-04-04T12:00:04Z",
+    "updated_at": "2024-04-04T12:00:04Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1551539280",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551539280"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1551539280"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551539280/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 10281,
+    "original_line": 10281,
+    "side": "RIGHT",
+    "in_reply_to_id": 1551517582,
+    "author_association": "MEMBER",
+    "original_position": 34,
+    "position": 34,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551733549",
+    "pull_request_review_id": 1979986937,
+    "id": 1551733549,
+    "node_id": "PRRC_kwDOANeiys5cfZMt",
+    "diff_hunk": "@@ -11056,6 +11091,21 @@ allowed.  The security check takes the following three inputs:\n \n Note: The HTML Standard defines how a security check is performed. [[!HTML]]\n \n+Certain algorithms are defined to\n+<dfn id=\"dfn-validate-the-string-in-context\" export>validate the string in context</dfn> on a given\n+value. This check is used to determine whether a given value\n+is appropriate for its {{StringContext}}. This validation takes the following four inputs:\n+\n+1.  the [=platform object=] on\n+    which the operation invocation or attribute access is being done,\n+1.  the value to validate,\n+1.  the {{StringContext}} [=identifier=], and\n+1.  the [=identifier=] of the operation or attribute.\n+\n+The algorithm returns an ECMAScript value, or [=JavaScript/throws=] a <l spec=ecmascript>{{TypeError}}</l>.\n+\n+Note: The HTML Standard defines how the validation is performed. [[!HTML]]",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "If you don't expect the code path to be used then you need to use Assert.\r\n\r\nBut given @petervanderbeken's comments I'm starting to wonder if having this as an extended attribute is a good after all. I guess I'm back at https://github.com/whatwg/webidl/pull/841#issuecomment-590988522 where I wonder if we should put most of the complexity in the specification algorithms.\r\n\r\ncc @domenic @koto ",
+    "created_at": "2024-04-04T13:50:48Z",
+    "updated_at": "2024-04-04T13:50:48Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1551733549",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551733549"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1551733549"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551733549/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 11107,
+    "original_line": 11107,
+    "side": "RIGHT",
+    "in_reply_to_id": 1549866672,
+    "author_association": "MEMBER",
+    "original_position": 70,
+    "position": 70,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551790162",
+    "pull_request_review_id": 1980085059,
+    "id": 1551790162,
+    "node_id": "PRRC_kwDOANeiys5cfnBS",
+    "diff_hunk": "@@ -11056,6 +11091,21 @@ allowed.  The security check takes the following three inputs:\n \n Note: The HTML Standard defines how a security check is performed. [[!HTML]]\n \n+Certain algorithms are defined to\n+<dfn id=\"dfn-validate-the-string-in-context\" export>validate the string in context</dfn> on a given\n+value. This check is used to determine whether a given value\n+is appropriate for its {{StringContext}}. This validation takes the following four inputs:\n+\n+1.  the [=platform object=] on\n+    which the operation invocation or attribute access is being done,\n+1.  the value to validate,\n+1.  the {{StringContext}} [=identifier=], and\n+1.  the [=identifier=] of the operation or attribute.\n+\n+The algorithm returns an ECMAScript value, or [=JavaScript/throws=] a <l spec=ecmascript>{{TypeError}}</l>.\n+\n+Note: The HTML Standard defines how the validation is performed. [[!HTML]]",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "user": {
+      "login": "lukewarlow",
+      "id": 32498324,
+      "node_id": "MDQ6VXNlcjMyNDk4MzI0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32498324?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lukewarlow",
+      "html_url": "https://github.com/lukewarlow",
+      "followers_url": "https://api.github.com/users/lukewarlow/followers",
+      "following_url": "https://api.github.com/users/lukewarlow/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lukewarlow/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lukewarlow/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lukewarlow/subscriptions",
+      "organizations_url": "https://api.github.com/users/lukewarlow/orgs",
+      "repos_url": "https://api.github.com/users/lukewarlow/repos",
+      "events_url": "https://api.github.com/users/lukewarlow/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lukewarlow/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Also cc @mbrodesser-Igalia as it will impact his implementation in Gecko",
+    "created_at": "2024-04-04T14:25:29Z",
+    "updated_at": "2024-04-04T14:25:29Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1551790162",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551790162"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1551790162"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551790162/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 11107,
+    "original_line": 11107,
+    "side": "RIGHT",
+    "in_reply_to_id": 1549866672,
+    "author_association": "MEMBER",
+    "original_position": 70,
+    "position": 70,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551791154",
+    "pull_request_review_id": 1980086689,
+    "id": 1551791154,
+    "node_id": "PRRC_kwDOANeiys5cfnQy",
+    "diff_hunk": "@@ -11056,6 +11091,21 @@ allowed.  The security check takes the following three inputs:\n \n Note: The HTML Standard defines how a security check is performed. [[!HTML]]\n \n+Certain algorithms are defined to\n+<dfn id=\"dfn-validate-the-string-in-context\" export>validate the string in context</dfn> on a given\n+value. This check is used to determine whether a given value\n+is appropriate for its {{StringContext}}. This validation takes the following four inputs:\n+\n+1.  the [=platform object=] on\n+    which the operation invocation or attribute access is being done,\n+1.  the value to validate,\n+1.  the {{StringContext}} [=identifier=], and\n+1.  the [=identifier=] of the operation or attribute.\n+\n+The algorithm returns an ECMAScript value, or [=JavaScript/throws=] a <l spec=ecmascript>{{TypeError}}</l>.\n+\n+Note: The HTML Standard defines how the validation is performed. [[!HTML]]",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "user": {
+      "login": "lukewarlow",
+      "id": 32498324,
+      "node_id": "MDQ6VXNlcjMyNDk4MzI0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32498324?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lukewarlow",
+      "html_url": "https://github.com/lukewarlow",
+      "followers_url": "https://api.github.com/users/lukewarlow/followers",
+      "following_url": "https://api.github.com/users/lukewarlow/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lukewarlow/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lukewarlow/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lukewarlow/subscriptions",
+      "organizations_url": "https://api.github.com/users/lukewarlow/orgs",
+      "repos_url": "https://api.github.com/users/lukewarlow/repos",
+      "events_url": "https://api.github.com/users/lukewarlow/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lukewarlow/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "After discussion in the matrix I'm on board with the idea of just using union types and updating algorithms, and closing this PR out",
+    "created_at": "2024-04-04T14:26:06Z",
+    "updated_at": "2024-04-04T14:26:06Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1551791154",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551791154"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1551791154"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1551791154/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 11107,
+    "original_line": 11107,
+    "side": "RIGHT",
+    "in_reply_to_id": 1549866672,
+    "author_association": "MEMBER",
+    "original_position": 70,
+    "position": 70,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1555521460",
+    "pull_request_review_id": 1985918243,
+    "id": 1555521460,
+    "node_id": "PRRC_kwDOANeiys5ct1-0",
+    "diff_hunk": "@@ -11056,6 +11091,21 @@ allowed.  The security check takes the following three inputs:\n \n Note: The HTML Standard defines how a security check is performed. [[!HTML]]\n \n+Certain algorithms are defined to\n+<dfn id=\"dfn-validate-the-string-in-context\" export>validate the string in context</dfn> on a given\n+value. This check is used to determine whether a given value\n+is appropriate for its {{StringContext}}. This validation takes the following four inputs:\n+\n+1.  the [=platform object=] on\n+    which the operation invocation or attribute access is being done,\n+1.  the value to validate,\n+1.  the {{StringContext}} [=identifier=], and\n+1.  the [=identifier=] of the operation or attribute.\n+\n+The algorithm returns an ECMAScript value, or [=JavaScript/throws=] a <l spec=ecmascript>{{TypeError}}</l>.\n+\n+Note: The HTML Standard defines how the validation is performed. [[!HTML]]",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "user": {
+      "login": "lukewarlow",
+      "id": 32498324,
+      "node_id": "MDQ6VXNlcjMyNDk4MzI0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32498324?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lukewarlow",
+      "html_url": "https://github.com/lukewarlow",
+      "followers_url": "https://api.github.com/users/lukewarlow/followers",
+      "following_url": "https://api.github.com/users/lukewarlow/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lukewarlow/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lukewarlow/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lukewarlow/subscriptions",
+      "organizations_url": "https://api.github.com/users/lukewarlow/orgs",
+      "repos_url": "https://api.github.com/users/lukewarlow/repos",
+      "events_url": "https://api.github.com/users/lukewarlow/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lukewarlow/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "@koto or @otherdaniel do you forsee chrome having any issues with this proposed change? It'd be good to get the specs and webkit implementation.\n\nTldr drop the IDL extended attribute and just use unions everywhere we need enforcement (updating the call site directly).",
+    "created_at": "2024-04-08T09:34:05Z",
+    "updated_at": "2024-04-08T09:34:05Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1555521460",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1555521460"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1555521460"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1555521460/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 11107,
+    "original_line": 11107,
+    "side": "RIGHT",
+    "in_reply_to_id": 1549866672,
+    "author_association": "MEMBER",
+    "original_position": 70,
+    "position": 70,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1555583898",
+    "pull_request_review_id": 1986017273,
+    "id": 1555583898,
+    "node_id": "PRRC_kwDOANeiys5cuFOa",
+    "diff_hunk": "@@ -10259,6 +10261,39 @@ that does specify [{{SecureContext}}].\n     </pre>\n </div>\n \n+<h4 id=\"StringContext\" extended-attribute lt=\"StringContext\">[StringContext]</h4>\n+\n+If the [{{StringContext}}] [=extended attribute=] appears on {{DOMString}} or {{USVString}}, it\n+modifies how the value is converted to the IDL type, causing additional value validation to\n+adhere to the context the string is used in.\n+\n+The [{{StringContext}}] extended attribute must [=takes an identifier|take an identifier=]. The [=identifier=]\n+must be one of \"<code>TrustedHTML</code>\", \"<code>TrustedScript</code>\", and \"<code>TrustedScriptURL</code>\".\n+\n+The [{{StringContext}}] extended attribute may only annotate a type of a [=regular attribute=] or\n+a [=regular operation=] argument. A type annotated with the [{{StringContext}}]\n+extended attribute must not appear in a [=read only=] attribute.\n+\n+A type that is not {{DOMString}} or {{USVString}} must not be [=extended attributes associated with|associated with=]",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "user": null,
+    "body": "> https://w3c.github.io/trusted-types/dist/spec/#setting-slot-values - does require use of `ScriptString?` so this might need updating to account for it.\r\n\r\nBtw, Chromium doesn't reflect the spec here (https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/core/html/html_script_element.idl;l=24-52;drc=d1cf902be6fc9ae8654fe5a6c466dfb51f782197).",
+    "created_at": "2024-04-08T10:21:18Z",
+    "updated_at": "2024-04-08T10:21:18Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1555583898",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1555583898"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1555583898"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1555583898/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 10277,
+    "original_line": 10277,
+    "side": "RIGHT",
+    "in_reply_to_id": 1538982541,
+    "author_association": "NONE",
+    "original_position": 30,
+    "position": 30,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1555584781",
+    "pull_request_review_id": 1986018835,
+    "id": 1555584781,
+    "node_id": "PRRC_kwDOANeiys5cuFcN",
+    "diff_hunk": "@@ -10259,6 +10261,39 @@ that does specify [{{SecureContext}}].\n     </pre>\n </div>\n \n+<h4 id=\"StringContext\" extended-attribute lt=\"StringContext\">[StringContext]</h4>\n+\n+If the [{{StringContext}}] [=extended attribute=] appears on {{DOMString}} or {{USVString}}, it\n+modifies how the value is converted to the IDL type, causing additional value validation to\n+adhere to the context the string is used in.\n+\n+The [{{StringContext}}] extended attribute must [=takes an identifier|take an identifier=]. The [=identifier=]\n+must be one of \"<code>TrustedHTML</code>\", \"<code>TrustedScript</code>\", and \"<code>TrustedScriptURL</code>\".\n+\n+The [{{StringContext}}] extended attribute may only annotate a type of a [=regular attribute=] or\n+a [=regular operation=] argument. A type annotated with the [{{StringContext}}]\n+extended attribute must not appear in a [=read only=] attribute.\n+\n+A type that is not {{DOMString}} or {{USVString}} must not be [=extended attributes associated with|associated with=]",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "user": null,
+    "body": "CC @koto ^",
+    "created_at": "2024-04-08T10:22:09Z",
+    "updated_at": "2024-04-08T10:22:09Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1555584781",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1555584781"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1555584781"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1555584781/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 10277,
+    "original_line": 10277,
+    "side": "RIGHT",
+    "in_reply_to_id": 1538982541,
+    "author_association": "NONE",
+    "original_position": 30,
+    "position": 30,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1555591259",
+    "pull_request_review_id": 1986029373,
+    "id": 1555591259,
+    "node_id": "PRRC_kwDOANeiys5cuHBb",
+    "diff_hunk": "@@ -10259,6 +10261,39 @@ that does specify [{{SecureContext}}].\n     </pre>\n </div>\n \n+<h4 id=\"StringContext\" extended-attribute lt=\"StringContext\">[StringContext]</h4>\n+\n+If the [{{StringContext}}] [=extended attribute=] appears on {{DOMString}} or {{USVString}}, it\n+modifies how the value is converted to the IDL type, causing additional value validation to\n+adhere to the context the string is used in.\n+\n+The [{{StringContext}}] extended attribute must [=takes an identifier|take an identifier=]. The [=identifier=]\n+must be one of \"<code>TrustedHTML</code>\", \"<code>TrustedScript</code>\", and \"<code>TrustedScriptURL</code>\".\n+\n+The [{{StringContext}}] extended attribute may only annotate a type of a [=regular attribute=] or\n+a [=regular operation=] argument. A type annotated with the [{{StringContext}}]\n+extended attribute must not appear in a [=read only=] attribute.\n+\n+A type that is not {{DOMString}} or {{USVString}} must not be [=extended attributes associated with|associated with=]",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "user": {
+      "login": "lukewarlow",
+      "id": 32498324,
+      "node_id": "MDQ6VXNlcjMyNDk4MzI0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32498324?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lukewarlow",
+      "html_url": "https://github.com/lukewarlow",
+      "followers_url": "https://api.github.com/users/lukewarlow/followers",
+      "following_url": "https://api.github.com/users/lukewarlow/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lukewarlow/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lukewarlow/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lukewarlow/subscriptions",
+      "organizations_url": "https://api.github.com/users/lukewarlow/orgs",
+      "repos_url": "https://api.github.com/users/lukewarlow/repos",
+      "events_url": "https://api.github.com/users/lukewarlow/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lukewarlow/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Yeah that section specifically is going through a rewrite, Chrome doesn't match it currently and won't in its new form either so that is one change to the chromium implementation that will be needed. (Very minor web facing changes that shouldn't impact anyone)",
+    "created_at": "2024-04-08T10:27:49Z",
+    "updated_at": "2024-04-08T10:27:49Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1555591259",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1555591259"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1555591259"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1555591259/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 10277,
+    "original_line": 10277,
+    "side": "RIGHT",
+    "in_reply_to_id": 1538982541,
+    "author_association": "MEMBER",
+    "original_position": 30,
+    "position": 30,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1555599689",
+    "pull_request_review_id": 1986043476,
+    "id": 1555599689,
+    "node_id": "PRRC_kwDOANeiys5cuJFJ",
+    "diff_hunk": "@@ -10259,6 +10261,39 @@ that does specify [{{SecureContext}}].\n     </pre>\n </div>\n \n+<h4 id=\"StringContext\" extended-attribute lt=\"StringContext\">[StringContext]</h4>\n+\n+If the [{{StringContext}}] [=extended attribute=] appears on {{DOMString}} or {{USVString}}, it\n+modifies how the value is converted to the IDL type, causing additional value validation to\n+adhere to the context the string is used in.\n+\n+The [{{StringContext}}] extended attribute must [=takes an identifier|take an identifier=]. The [=identifier=]\n+must be one of \"<code>TrustedHTML</code>\", \"<code>TrustedScript</code>\", and \"<code>TrustedScriptURL</code>\".\n+\n+The [{{StringContext}}] extended attribute may only annotate a type of a [=regular attribute=] or\n+a [=regular operation=] argument. A type annotated with the [{{StringContext}}]\n+extended attribute must not appear in a [=read only=] attribute.\n+\n+A type that is not {{DOMString}} or {{USVString}} must not be [=extended attributes associated with|associated with=]",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "user": null,
+    "body": "> I've updated the TT spec to just use a union type there rather than the extended attribute, because that solves dealing with nullable types.\r\n\r\nWhere was the TT spec updated? This patch still adds `StringContext` extended attribute.",
+    "created_at": "2024-04-08T10:35:17Z",
+    "updated_at": "2024-04-08T10:35:17Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1555599689",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1555599689"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1555599689"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1555599689/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 10277,
+    "original_line": 10277,
+    "side": "RIGHT",
+    "in_reply_to_id": 1538982541,
+    "author_association": "NONE",
+    "original_position": 30,
+    "position": 30,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1555604491",
+    "pull_request_review_id": 1986050426,
+    "id": 1555604491,
+    "node_id": "PRRC_kwDOANeiys5cuKQL",
+    "diff_hunk": "@@ -10259,6 +10261,39 @@ that does specify [{{SecureContext}}].\n     </pre>\n </div>\n \n+<h4 id=\"StringContext\" extended-attribute lt=\"StringContext\">[StringContext]</h4>\n+\n+If the [{{StringContext}}] [=extended attribute=] appears on {{DOMString}} or {{USVString}}, it\n+modifies how the value is converted to the IDL type, causing additional value validation to\n+adhere to the context the string is used in.\n+\n+The [{{StringContext}}] extended attribute must [=takes an identifier|take an identifier=]. The [=identifier=]\n+must be one of \"<code>TrustedHTML</code>\", \"<code>TrustedScript</code>\", and \"<code>TrustedScriptURL</code>\".\n+\n+The [{{StringContext}}] extended attribute may only annotate a type of a [=regular attribute=] or\n+a [=regular operation=] argument. A type annotated with the [{{StringContext}}]\n+extended attribute must not appear in a [=read only=] attribute.\n+\n+A type that is not {{DOMString}} or {{USVString}} must not be [=extended attributes associated with|associated with=]",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "user": {
+      "login": "lukewarlow",
+      "id": 32498324,
+      "node_id": "MDQ6VXNlcjMyNDk4MzI0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32498324?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lukewarlow",
+      "html_url": "https://github.com/lukewarlow",
+      "followers_url": "https://api.github.com/users/lukewarlow/followers",
+      "following_url": "https://api.github.com/users/lukewarlow/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lukewarlow/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lukewarlow/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lukewarlow/subscriptions",
+      "organizations_url": "https://api.github.com/users/lukewarlow/orgs",
+      "repos_url": "https://api.github.com/users/lukewarlow/repos",
+      "events_url": "https://api.github.com/users/lukewarlow/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lukewarlow/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "https://github.com/w3c/trusted-types/pull/484 - in this PR the textContent one specifically was updated to use a union. I've done a follow up commit that changes them all to unions (which I can easily revert if we decide against that)",
+    "created_at": "2024-04-08T10:38:05Z",
+    "updated_at": "2024-04-08T10:38:05Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1555604491",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1555604491"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1555604491"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1555604491/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 10277,
+    "original_line": 10277,
+    "side": "RIGHT",
+    "in_reply_to_id": 1538982541,
+    "author_association": "MEMBER",
+    "original_position": 30,
+    "position": 30,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1556259543",
+    "pull_request_review_id": 1987144453,
+    "id": 1556259543,
+    "node_id": "PRRC_kwDOANeiys5cwqLX",
+    "diff_hunk": "@@ -11056,6 +11091,21 @@ allowed.  The security check takes the following three inputs:\n \n Note: The HTML Standard defines how a security check is performed. [[!HTML]]\n \n+Certain algorithms are defined to\n+<dfn id=\"dfn-validate-the-string-in-context\" export>validate the string in context</dfn> on a given\n+value. This check is used to determine whether a given value\n+is appropriate for its {{StringContext}}. This validation takes the following four inputs:\n+\n+1.  the [=platform object=] on\n+    which the operation invocation or attribute access is being done,\n+1.  the value to validate,\n+1.  the {{StringContext}} [=identifier=], and\n+1.  the [=identifier=] of the operation or attribute.\n+\n+The algorithm returns an ECMAScript value, or [=JavaScript/throws=] a <l spec=ecmascript>{{TypeError}}</l>.\n+\n+Note: The HTML Standard defines how the validation is performed. [[!HTML]]",
+    "path": "index.bs",
+    "commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "original_commit_id": "36ddffb69d620cc8d35107296c36d74c2b8ef6fc",
+    "user": {
+      "login": "lukewarlow",
+      "id": 32498324,
+      "node_id": "MDQ6VXNlcjMyNDk4MzI0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32498324?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lukewarlow",
+      "html_url": "https://github.com/lukewarlow",
+      "followers_url": "https://api.github.com/users/lukewarlow/followers",
+      "following_url": "https://api.github.com/users/lukewarlow/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lukewarlow/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lukewarlow/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lukewarlow/subscriptions",
+      "organizations_url": "https://api.github.com/users/lukewarlow/orgs",
+      "repos_url": "https://api.github.com/users/lukewarlow/repos",
+      "events_url": "https://api.github.com/users/lukewarlow/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lukewarlow/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "If it helps the discussion I've got a draft commit to update the WebKIt implementation to use union types instead of IDL magic. This doesn't account for DOM timers (webkit impl is different to spec). But otherwise replaces all existing usages of IDL magic.\r\n\r\nhttps://github.com/webkit/webkit/compare/lukewarlow:trusted-types-use-union-over-attribute",
+    "created_at": "2024-04-08T18:34:53Z",
+    "updated_at": "2024-04-08T18:34:53Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/1392#discussion_r1556259543",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/1392",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1556259543"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/1392#discussion_r1556259543"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/1392"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/1556259543/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 11107,
+    "original_line": 11107,
+    "side": "RIGHT",
+    "in_reply_to_id": 1549866672,
+    "author_association": "MEMBER",
+    "original_position": 70,
+    "position": 70,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

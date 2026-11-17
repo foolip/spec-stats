@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/serial/issues/comments/1590171361",
+    "html_url": "https://github.com/whatwg/serial/issues/186#issuecomment-1590171361",
+    "issue_url": "https://api.github.com/repos/whatwg/serial/issues/186",
+    "id": 1590171361,
+    "node_id": "IC_kwDOANUER85eyBbh",
+    "user": {
+      "login": "nondebug",
+      "id": 14099571,
+      "node_id": "MDQ6VXNlcjE0MDk5NTcx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14099571?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nondebug",
+      "html_url": "https://github.com/nondebug",
+      "followers_url": "https://api.github.com/users/nondebug/followers",
+      "following_url": "https://api.github.com/users/nondebug/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nondebug/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nondebug/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nondebug/subscriptions",
+      "organizations_url": "https://api.github.com/users/nondebug/orgs",
+      "repos_url": "https://api.github.com/users/nondebug/repos",
+      "events_url": "https://api.github.com/users/nondebug/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nondebug/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2023-06-13T23:05:00Z",
+    "updated_at": "2023-06-13T23:05:00Z",
+    "body": "Hi Arthur, thanks for taking a look.\r\n\r\n> Are the service UUIDs fixed to this list https://www.bluetooth.com/specifications/specs/ or can you have truly custom ones?\r\n\r\nService UUIDs aren't fixed. Vendors can create their own 128-bit UUIDs to represent vendor-defined services.\r\n\r\nFor this feature, all services with UUIDs reserved by the Bluetooth spec will be blocked except for Serial Port Profile.\r\n\r\n> If truly custom ones exist, do you have an idea of the kind of use cases that would involve them?\r\n\r\nCustom UUIDs are used for any functionality not covered by the standard profiles. A device might expose a serial service with a custom UUID as a debugging interface, or as an interface to access advanced features not included in the standard profile.\r\n\r\n> Do you know if there exists a list of vulnerable devices or would we need to craft one?\r\n\r\nRather than blocking per-device, we plan to maintain a list of vulnerable service UUIDs. There's a [table](https://source.chromium.org/chromium/chromium/src/+/main:chrome/browser/serial/serial_blocklist.h) defined in the Chromium source code but it contains no UUID entries because we don't know of any custom service UUIDs that should be blocked. The standard Bluetooth UUIDs are blocked by a rule that [compares the UUID to the Bluetooth Base UUID](https://source.chromium.org/chromium/chromium/src/+/main:chrome/browser/serial/serial_blocklist.cc;l=94;drc=6ca1a3a114264e380cb849a724d74a784de3beb5); this is less error-prone than maintaining a list of all such services.\r\n\r\n> Is there any reason to not standardize the defense mechanisms? Do you expect for example platforms to matter and the browser would have to mitigate depending on a heuristic?\r\n\r\nThere's no reason not to publish the UUID blocklist as part of the specification and I expect we will update the spec with a blocklist. This is similar to how we handle vulnerable devices for other device APIs: [WebUSB](https://github.com/WICG/webusb/blob/main/blocklist.txt), [WebHID](https://github.com/WICG/webhid/blob/main/blocklist.txt), [Web Bluetooth](https://github.com/WebBluetoothCG/registries/blob/master/gatt_blocklist.txt).\r\n\r\nCurrently there's no serial blocklist because (as described in Security Considerations) a blocklist-based filtering mechanism doesn't work well for RS-232 ports or serial adapters which don't provide any metadata about the connected serial device. That's not the case for Bluetooth, we can identify vulnerable devices by the services they expose.\r\n\r\nI don't expect we would need to change the blocking behavior for different platforms. It will be least confusing for users and developers if device compatibility is consistent across all platforms and implementations.",
+    "author_association": "COLLABORATOR",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/serial/issues/comments/1590171361/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

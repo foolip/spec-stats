@@ -1,0 +1,44 @@
+[
+  {
+    "id": 272241557,
+    "node_id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3MjcyMjQxNTU3",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "If we do this, we should make some more fixups to overload resolution and a few other places, but my main concern is that I think this makes it harder to reason about the types the spec is talking about.\r\n\r\nIt seems to me that we do want to be able to refer to the underlying, non-nullable and non-annotated, types somehow.  If we then want a term that refers to \"that thing, with maybe a nullable or annotation attached\", that would make sense.\r\n\r\nOne option is to define the \"essential type\" (please suggest other names as desired) of a type to be the type with all the nullable/annotation bits stripped off, then use that concept when defining [Clamp] and [EnforceRange] and [AllowShared] as well as some other places that currently worry about needing to strip off those bits by hand.  I suspect that will make it clearer what's really going on with the various consumers....\r\n\r\nThoughts?\r\n",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/webidl/pull/747#pullrequestreview-272241557",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/747",
+    "author_association": "CONTRIBUTOR",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/747#pullrequestreview-272241557"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/747"
+      }
+    },
+    "submitted_at": "2019-08-07T21:44:04Z",
+    "commit_id": "4bb39f3e226fa03855a7466f2282f3944cf8abf3"
+  }
+]

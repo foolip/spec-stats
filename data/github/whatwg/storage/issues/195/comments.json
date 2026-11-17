@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/storage/issues/comments/5976376711",
+    "html_url": "https://github.com/whatwg/storage/issues/195#issuecomment-5976376711",
+    "issue_url": "https://api.github.com/repos/whatwg/storage/issues/195",
+    "id": 5976376711,
+    "node_id": "IC_kwDOAhPbn88AAAABZDhFhw",
+    "user": {
+      "login": "BrianJDrake",
+      "id": 146637241,
+      "node_id": "U_kgDOCL2BuQ",
+      "avatar_url": "https://avatars.githubusercontent.com/u/146637241?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/BrianJDrake",
+      "html_url": "https://github.com/BrianJDrake",
+      "followers_url": "https://api.github.com/users/BrianJDrake/followers",
+      "following_url": "https://api.github.com/users/BrianJDrake/following{/other_user}",
+      "gists_url": "https://api.github.com/users/BrianJDrake/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/BrianJDrake/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/BrianJDrake/subscriptions",
+      "organizations_url": "https://api.github.com/users/BrianJDrake/orgs",
+      "repos_url": "https://api.github.com/users/BrianJDrake/repos",
+      "events_url": "https://api.github.com/users/BrianJDrake/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/BrianJDrake/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-10-04T04:03:36Z",
+    "updated_at": "2026-10-04T04:03:36Z",
+    "body": "To expand on the original issue description:\n\n1. Recently, I had the opportunity to run some quick tests on Firefox, Chrome and Edge. (My own computer has only Firefox.) The information below was written from memory.\n\n2. I checked the following in the `file` scheme and in `about:blank`, and confirmed that their behavior was different (success and failure, respectively), indicating that storage is indeed available to the `file` scheme:\n    \n    - `window.localStorage`\n    - `window.sessionStorage`\n    - `window.caches`\n    - `window.indexedDB.databases()`\n\n3. I confirmed that `location.origin === 'null'`, indicating that the `file` scheme does indeed use opaque origins.\n\n4. I don&#8217;t know about opaque origins in general, but speaking specifically about the `file` scheme, I hope that storage does remain available (and that the standard is updated accordingly).\n\n    I maintain a private web app for a small group of people, which includes &#8216;installing&#8217; and updating this app (by copying it onto their local file systems); the users need only be concerned with opening this app (using a web browser bookmark). This setup needs to be:\n\n    - Simple (both for me as a developer and for the users, who need to use web browsers anyway, and don&#8217;t necessarily use other native apps).\n    - Private (not exposed to the network).\n    - Robust (not subject to issues like web server crashes).\n    \n    The obvious choices are:\n\n    - Implement this private app as a web app.\n    - Have this private web app loaded from the local file system, rather than a web server.\n\n    It works very well &#8211; except that it relies on this undocumented ability for the `file` scheme to access storage.\n\n    I&#8217;m currently rewriting the whole app, including looking for a `localStorage` replacement to get around the 5&nbsp;MiB limit, and it seems like a good idea to get to the bottom of these specification issues. Hopefully, it will end with all forms of storage remaining available to the `file` scheme.",
+    "author_association": "NONE",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/storage/issues/comments/5976376711/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

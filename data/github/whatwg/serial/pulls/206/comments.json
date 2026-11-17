@@ -1,0 +1,289 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/serial/pulls/comments/1735420193",
+    "pull_request_review_id": 2267466520,
+    "id": 1735420193,
+    "node_id": "PRRC_kwDOANUER85ncGkh",
+    "diff_hunk": "@@ -220,6 +220,25 @@ applications identify whether a connection attempt is likely to succeed, a\n `SerialPort.connected` attribute will be added to indicate whether the port is\n logically connected.\n \n+The below examples shows how `SerialPort.connected` attribute can be used to\n+inform user right actions if the Bluetooth device is not powered on or not in\n+the proximity of the system.\n+\n+```javascript\n+// Assuming we have `port`, which is a wireless serial port.\n+try {\n+   await port.open({baudRate: 115200});\n+} catch(e) {\n+   if (!port.connected) {",
+    "path": "EXPLAINER_BLUETOOTH.md",
+    "commit_id": "e3aba28334d1d82f1224846613da3d4a40fe6459",
+    "original_commit_id": "ae3f6838322aa2c4e8146825b1b3349109911d55",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Sorry to ask you to rewrite this, but I think a use case which better highlights where this new attribute is useful is if the site is using `getPorts()` to check what devices are available and potentially connect to them automatically.\r\n\r\nWithout this attribute you have to call `port.open()` blindly, like in your example. With the `connected` attribute and event you can call `port.open()` only when `connected` is true, and otherwise show the port to the user and provide the option to connect (which might fail).\r\n\r\nThis matches the use case for the developer we worked with when designing this change.",
+    "created_at": "2024-08-29T00:21:52Z",
+    "updated_at": "2024-08-29T00:22:14Z",
+    "html_url": "https://github.com/whatwg/serial/pull/206#discussion_r1735420193",
+    "pull_request_url": "https://api.github.com/repos/whatwg/serial/pulls/206",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/serial/pulls/comments/1735420193"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/serial/pull/206#discussion_r1735420193"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/serial/pulls/206"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/serial/pulls/comments/1735420193/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 232,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 13,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/serial/pulls/comments/1735591393",
+    "pull_request_review_id": 2267716439,
+    "id": 1735591393,
+    "node_id": "PRRC_kwDOANUER85ncwXh",
+    "diff_hunk": "@@ -220,6 +220,25 @@ applications identify whether a connection attempt is likely to succeed, a\n `SerialPort.connected` attribute will be added to indicate whether the port is\n logically connected.\n \n+The below examples shows how `SerialPort.connected` attribute can be used to\n+inform user right actions if the Bluetooth device is not powered on or not in\n+the proximity of the system.\n+\n+```javascript\n+// Assuming we have `port`, which is a wireless serial port.\n+try {\n+   await port.open({baudRate: 115200});\n+} catch(e) {\n+   if (!port.connected) {",
+    "path": "EXPLAINER_BLUETOOTH.md",
+    "commit_id": "e3aba28334d1d82f1224846613da3d4a40fe6459",
+    "original_commit_id": "ae3f6838322aa2c4e8146825b1b3349109911d55",
+    "user": {
+      "login": "chengweih001",
+      "id": 97704544,
+      "node_id": "U_kgDOBdLaYA",
+      "avatar_url": "https://avatars.githubusercontent.com/u/97704544?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chengweih001",
+      "html_url": "https://github.com/chengweih001",
+      "followers_url": "https://api.github.com/users/chengweih001/followers",
+      "following_url": "https://api.github.com/users/chengweih001/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chengweih001/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chengweih001/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chengweih001/subscriptions",
+      "organizations_url": "https://api.github.com/users/chengweih001/orgs",
+      "repos_url": "https://api.github.com/users/chengweih001/repos",
+      "events_url": "https://api.github.com/users/chengweih001/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chengweih001/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I see. Thanks for the suggestion. How about an example like this?\r\n\r\n```javascript\r\nlet ports = await navigator.serial.getPorts();\r\nfor (let port of ports) {\r\n  if (port.connected) {\r\n    await port.open({baudRate: 115200});\r\n  } else {\r\n    // Prompt the user to make sure the Bluetooth device is connectable to the system.\r\n    // Once the user thinks the device is ready to connect, the user can press a\r\n    // a button which runs `port.open` to trigger a connection attempt.\r\n}\r\n```\r\n\r\n",
+    "created_at": "2024-08-29T05:32:44Z",
+    "updated_at": "2024-08-29T05:32:44Z",
+    "html_url": "https://github.com/whatwg/serial/pull/206#discussion_r1735591393",
+    "pull_request_url": "https://api.github.com/repos/whatwg/serial/pulls/206",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/serial/pulls/comments/1735591393"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/serial/pull/206#discussion_r1735591393"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/serial/pulls/206"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/serial/pulls/comments/1735591393/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 232,
+    "side": "RIGHT",
+    "in_reply_to_id": 1735420193,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 13,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/serial/pulls/comments/1737251196",
+    "pull_request_review_id": 2270292826,
+    "id": 1737251196,
+    "node_id": "PRRC_kwDOANUER85njFl8",
+    "diff_hunk": "@@ -220,6 +220,25 @@ applications identify whether a connection attempt is likely to succeed, a\n `SerialPort.connected` attribute will be added to indicate whether the port is\n logically connected.\n \n+The below examples shows how `SerialPort.connected` attribute can be used to\n+inform user right actions if the Bluetooth device is not powered on or not in\n+the proximity of the system.\n+\n+```javascript\n+// Assuming we have `port`, which is a wireless serial port.\n+try {\n+   await port.open({baudRate: 115200});\n+} catch(e) {\n+   if (!port.connected) {",
+    "path": "EXPLAINER_BLUETOOTH.md",
+    "commit_id": "e3aba28334d1d82f1224846613da3d4a40fe6459",
+    "original_commit_id": "ae3f6838322aa2c4e8146825b1b3349109911d55",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Yeah, that looks good. Thanks!",
+    "created_at": "2024-08-29T21:49:43Z",
+    "updated_at": "2024-08-29T21:49:43Z",
+    "html_url": "https://github.com/whatwg/serial/pull/206#discussion_r1737251196",
+    "pull_request_url": "https://api.github.com/repos/whatwg/serial/pulls/206",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/serial/pulls/comments/1737251196"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/serial/pull/206#discussion_r1737251196"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/serial/pulls/206"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/serial/pulls/comments/1737251196/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 232,
+    "side": "RIGHT",
+    "in_reply_to_id": 1735420193,
+    "author_association": "COLLABORATOR",
+    "original_position": 13,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/serial/pulls/comments/1737258910",
+    "pull_request_review_id": 2270305909,
+    "id": 1737258910,
+    "node_id": "PRRC_kwDOANUER85njHee",
+    "diff_hunk": "@@ -220,6 +220,25 @@ applications identify whether a connection attempt is likely to succeed, a\n `SerialPort.connected` attribute will be added to indicate whether the port is\n logically connected.\n \n+The below examples shows how `SerialPort.connected` attribute can be used to\n+inform user right actions if the Bluetooth device is not powered on or not in\n+the proximity of the system.\n+\n+```javascript\n+// Assuming we have `port`, which is a wireless serial port.\n+try {\n+   await port.open({baudRate: 115200});\n+} catch(e) {\n+   if (!port.connected) {",
+    "path": "EXPLAINER_BLUETOOTH.md",
+    "commit_id": "e3aba28334d1d82f1224846613da3d4a40fe6459",
+    "original_commit_id": "ae3f6838322aa2c4e8146825b1b3349109911d55",
+    "user": {
+      "login": "chengweih001",
+      "id": 97704544,
+      "node_id": "U_kgDOBdLaYA",
+      "avatar_url": "https://avatars.githubusercontent.com/u/97704544?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chengweih001",
+      "html_url": "https://github.com/chengweih001",
+      "followers_url": "https://api.github.com/users/chengweih001/followers",
+      "following_url": "https://api.github.com/users/chengweih001/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chengweih001/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chengweih001/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chengweih001/subscriptions",
+      "organizations_url": "https://api.github.com/users/chengweih001/orgs",
+      "repos_url": "https://api.github.com/users/chengweih001/repos",
+      "events_url": "https://api.github.com/users/chengweih001/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chengweih001/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Updated the pull request.",
+    "created_at": "2024-08-29T21:56:19Z",
+    "updated_at": "2024-08-29T21:56:19Z",
+    "html_url": "https://github.com/whatwg/serial/pull/206#discussion_r1737258910",
+    "pull_request_url": "https://api.github.com/repos/whatwg/serial/pulls/206",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/serial/pulls/comments/1737258910"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/serial/pull/206#discussion_r1737258910"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/serial/pulls/206"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/serial/pulls/comments/1737258910/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 232,
+    "side": "RIGHT",
+    "in_reply_to_id": 1735420193,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 13,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

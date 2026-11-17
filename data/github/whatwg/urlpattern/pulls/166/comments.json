@@ -1,0 +1,789 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/864114177",
+    "pull_request_review_id": 960892101,
+    "id": 864114177,
+    "node_id": "PRRC_kwDODDHQ584zgVYB",
+    "diff_hunk": "@@ -810,6 +810,83 @@ To <dfn>compute protocol matches a special scheme flag</dfn> given a [=construct\n   1. If the result of running [=protocol component matches a special scheme=] given |protocol component| is true, then set |parser|'s [=constructor string parser/protocol matches a special scheme flag=] to true.\n </div>\n \n+<h2 id=urlpatternlist-class>The {{URLPatternList}} class </h2>\n+\n+<xmp class=\"idl\">\n+[Exposed=(Window,Worker)]\n+interface URLPatternList {\n+  constructor(sequence<URLPatternListEntry> entries);\n+\n+  USVString? test(optional URLPatternInput input = {}, optional USVString baseURL);\n+\n+  URLPatternListResult? exec(optional URLPatternInput input = {}, optional USVString baseURL);\n+};\n+\n+dictionary URLPatternListEntry {\n+  required (USVString or URLPattern) pattern;\n+  required USVString key;\n+};\n+\n+dictionary URLPatternListResult {\n+  URLPatternResult match;\n+  USVString key;\n+};\n+</xmp>\n+\n+Note: The {{URLPatternList}} is a utility that combines many patterns into one\n+matcher. This functionality can also be achieved in a naive userland\n+implementation that iterates over a list of patterns and matches each one\n+individually. This has the unfortunate effect of not being very fast. With the\n+built-in {{URLPatternList}} implementers can use a radix tree for matching under",
+    "path": "spec.bs",
+    "commit_id": "14086eeaa66fe43cde36595a08ef1fecf2f1d5f0",
+    "original_commit_id": "222cdd646fda82d8bd3ab3e966852a1d2a45a49d",
+    "user": {
+      "login": "wanderview",
+      "id": 1256526,
+      "node_id": "MDQ6VXNlcjEyNTY1MjY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1256526?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/wanderview",
+      "html_url": "https://github.com/wanderview",
+      "followers_url": "https://api.github.com/users/wanderview/followers",
+      "following_url": "https://api.github.com/users/wanderview/following{/other_user}",
+      "gists_url": "https://api.github.com/users/wanderview/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/wanderview/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/wanderview/subscriptions",
+      "organizations_url": "https://api.github.com/users/wanderview/orgs",
+      "repos_url": "https://api.github.com/users/wanderview/repos",
+      "events_url": "https://api.github.com/users/wanderview/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/wanderview/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Recommend just mentioning optimizations and not \"radix tree\" specifically.  That is just one kind of optimization.",
+    "created_at": "2022-05-03T19:17:10Z",
+    "updated_at": "2022-05-03T19:20:30Z",
+    "html_url": "https://github.com/whatwg/urlpattern/pull/166#discussion_r864114177",
+    "pull_request_url": "https://api.github.com/repos/whatwg/urlpattern/pulls/166",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/864114177"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/urlpattern/pull/166#discussion_r864114177"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/166"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/864114177/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 840,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 31,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/864115847",
+    "pull_request_review_id": 960892101,
+    "id": 864115847,
+    "node_id": "PRRC_kwDODDHQ584zgVyH",
+    "diff_hunk": "@@ -810,6 +810,83 @@ To <dfn>compute protocol matches a special scheme flag</dfn> given a [=construct\n   1. If the result of running [=protocol component matches a special scheme=] given |protocol component| is true, then set |parser|'s [=constructor string parser/protocol matches a special scheme flag=] to true.\n </div>\n \n+<h2 id=urlpatternlist-class>The {{URLPatternList}} class </h2>\n+\n+<xmp class=\"idl\">\n+[Exposed=(Window,Worker)]\n+interface URLPatternList {\n+  constructor(sequence<URLPatternListEntry> entries);\n+\n+  USVString? test(optional URLPatternInput input = {}, optional USVString baseURL);\n+\n+  URLPatternListResult? exec(optional URLPatternInput input = {}, optional USVString baseURL);\n+};\n+\n+dictionary URLPatternListEntry {\n+  required (USVString or URLPattern) pattern;\n+  required USVString key;",
+    "path": "spec.bs",
+    "commit_id": "14086eeaa66fe43cde36595a08ef1fecf2f1d5f0",
+    "original_commit_id": "222cdd646fda82d8bd3ab3e966852a1d2a45a49d",
+    "user": {
+      "login": "wanderview",
+      "id": 1256526,
+      "node_id": "MDQ6VXNlcjEyNTY1MjY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1256526?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/wanderview",
+      "html_url": "https://github.com/wanderview",
+      "followers_url": "https://api.github.com/users/wanderview/followers",
+      "following_url": "https://api.github.com/users/wanderview/following{/other_user}",
+      "gists_url": "https://api.github.com/users/wanderview/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/wanderview/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/wanderview/subscriptions",
+      "organizations_url": "https://api.github.com/users/wanderview/orgs",
+      "repos_url": "https://api.github.com/users/wanderview/repos",
+      "events_url": "https://api.github.com/users/wanderview/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/wanderview/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Can you explain the \"key\" a bit more?  It feels like its not really functioning as a key here and is instead some extra data associated with the pattern.  It seems the pattern is more like the \"key\" of the entry to me.\r\n\r\nAlso, why a string for the extra data?  Why not an `any` so you can store any javascript object?",
+    "created_at": "2022-05-03T19:18:40Z",
+    "updated_at": "2022-05-03T19:20:30Z",
+    "html_url": "https://github.com/whatwg/urlpattern/pull/166#discussion_r864115847",
+    "pull_request_url": "https://api.github.com/repos/whatwg/urlpattern/pulls/166",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/864115847"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/urlpattern/pull/166#discussion_r864115847"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/166"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/864115847/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 827,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 18,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/864117352",
+    "pull_request_review_id": 960892101,
+    "id": 864117352,
+    "node_id": "PRRC_kwDODDHQ584zgWJo",
+    "diff_hunk": "@@ -810,6 +810,83 @@ To <dfn>compute protocol matches a special scheme flag</dfn> given a [=construct\n   1. If the result of running [=protocol component matches a special scheme=] given |protocol component| is true, then set |parser|'s [=constructor string parser/protocol matches a special scheme flag=] to true.\n </div>\n \n+<h2 id=urlpatternlist-class>The {{URLPatternList}} class </h2>\n+\n+<xmp class=\"idl\">\n+[Exposed=(Window,Worker)]\n+interface URLPatternList {\n+  constructor(sequence<URLPatternListEntry> entries);",
+    "path": "spec.bs",
+    "commit_id": "14086eeaa66fe43cde36595a08ef1fecf2f1d5f0",
+    "original_commit_id": "222cdd646fda82d8bd3ab3e966852a1d2a45a49d",
+    "user": {
+      "login": "wanderview",
+      "id": 1256526,
+      "node_id": "MDQ6VXNlcjEyNTY1MjY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1256526?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/wanderview",
+      "html_url": "https://github.com/wanderview",
+      "followers_url": "https://api.github.com/users/wanderview/followers",
+      "following_url": "https://api.github.com/users/wanderview/following{/other_user}",
+      "gists_url": "https://api.github.com/users/wanderview/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/wanderview/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/wanderview/subscriptions",
+      "organizations_url": "https://api.github.com/users/wanderview/orgs",
+      "repos_url": "https://api.github.com/users/wanderview/repos",
+      "events_url": "https://api.github.com/users/wanderview/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/wanderview/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think some of the feedback in https://github.com/WICG/urlpattern/issues/30 suggested it would be nice to be able to dynamically mutate the list.  So add new entries to the list and possibly delete entries from the list.",
+    "created_at": "2022-05-03T19:20:01Z",
+    "updated_at": "2022-05-03T19:20:30Z",
+    "html_url": "https://github.com/whatwg/urlpattern/pull/166#discussion_r864117352",
+    "pull_request_url": "https://api.github.com/repos/whatwg/urlpattern/pulls/166",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/864117352"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/urlpattern/pull/166#discussion_r864117352"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/166"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/864117352/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 818,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 9,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/864131997",
+    "pull_request_review_id": 960911879,
+    "id": 864131997,
+    "node_id": "PRRC_kwDODDHQ584zgZud",
+    "diff_hunk": "@@ -810,6 +810,83 @@ To <dfn>compute protocol matches a special scheme flag</dfn> given a [=construct\n   1. If the result of running [=protocol component matches a special scheme=] given |protocol component| is true, then set |parser|'s [=constructor string parser/protocol matches a special scheme flag=] to true.\n </div>\n \n+<h2 id=urlpatternlist-class>The {{URLPatternList}} class </h2>\n+\n+<xmp class=\"idl\">\n+[Exposed=(Window,Worker)]\n+interface URLPatternList {\n+  constructor(sequence<URLPatternListEntry> entries);\n+\n+  USVString? test(optional URLPatternInput input = {}, optional USVString baseURL);\n+\n+  URLPatternListResult? exec(optional URLPatternInput input = {}, optional USVString baseURL);\n+};\n+\n+dictionary URLPatternListEntry {\n+  required (USVString or URLPattern) pattern;\n+  required USVString key;",
+    "path": "spec.bs",
+    "commit_id": "14086eeaa66fe43cde36595a08ef1fecf2f1d5f0",
+    "original_commit_id": "222cdd646fda82d8bd3ab3e966852a1d2a45a49d",
+    "user": {
+      "login": "lucacasonato",
+      "id": 7829205,
+      "node_id": "MDQ6VXNlcjc4MjkyMDU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7829205?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lucacasonato",
+      "html_url": "https://github.com/lucacasonato",
+      "followers_url": "https://api.github.com/users/lucacasonato/followers",
+      "following_url": "https://api.github.com/users/lucacasonato/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lucacasonato/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lucacasonato/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lucacasonato/subscriptions",
+      "organizations_url": "https://api.github.com/users/lucacasonato/orgs",
+      "repos_url": "https://api.github.com/users/lucacasonato/repos",
+      "events_url": "https://api.github.com/users/lucacasonato/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lucacasonato/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "No real reason. I think we may even be able to get rid of this \"key\" or metadata thing entirely. Instead of returning the `\"key\"` from the matcher, we can return the `URLPattern` object that matched. Users can associate metadata with a pattern using a `Map` or `WeakMap`. That way the input can just be `sequence<URLPattern>`.",
+    "created_at": "2022-05-03T19:37:12Z",
+    "updated_at": "2022-05-03T19:37:12Z",
+    "html_url": "https://github.com/whatwg/urlpattern/pull/166#discussion_r864131997",
+    "pull_request_url": "https://api.github.com/repos/whatwg/urlpattern/pulls/166",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/864131997"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/urlpattern/pull/166#discussion_r864131997"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/166"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/864131997/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 827,
+    "side": "RIGHT",
+    "in_reply_to_id": 864115847,
+    "author_association": "MEMBER",
+    "original_position": 18,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/864132583",
+    "pull_request_review_id": 960912738,
+    "id": 864132583,
+    "node_id": "PRRC_kwDODDHQ584zgZ3n",
+    "diff_hunk": "@@ -810,6 +810,83 @@ To <dfn>compute protocol matches a special scheme flag</dfn> given a [=construct\n   1. If the result of running [=protocol component matches a special scheme=] given |protocol component| is true, then set |parser|'s [=constructor string parser/protocol matches a special scheme flag=] to true.\n </div>\n \n+<h2 id=urlpatternlist-class>The {{URLPatternList}} class </h2>\n+\n+<xmp class=\"idl\">\n+[Exposed=(Window,Worker)]\n+interface URLPatternList {\n+  constructor(sequence<URLPatternListEntry> entries);",
+    "path": "spec.bs",
+    "commit_id": "14086eeaa66fe43cde36595a08ef1fecf2f1d5f0",
+    "original_commit_id": "222cdd646fda82d8bd3ab3e966852a1d2a45a49d",
+    "user": {
+      "login": "lucacasonato",
+      "id": 7829205,
+      "node_id": "MDQ6VXNlcjc4MjkyMDU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7829205?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lucacasonato",
+      "html_url": "https://github.com/lucacasonato",
+      "followers_url": "https://api.github.com/users/lucacasonato/followers",
+      "following_url": "https://api.github.com/users/lucacasonato/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lucacasonato/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lucacasonato/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lucacasonato/subscriptions",
+      "organizations_url": "https://api.github.com/users/lucacasonato/orgs",
+      "repos_url": "https://api.github.com/users/lucacasonato/repos",
+      "events_url": "https://api.github.com/users/lucacasonato/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lucacasonato/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Makes sense. I didn't want to add this right away until we figure out the internal sort order a little better.",
+    "created_at": "2022-05-03T19:38:04Z",
+    "updated_at": "2022-05-03T19:38:04Z",
+    "html_url": "https://github.com/whatwg/urlpattern/pull/166#discussion_r864132583",
+    "pull_request_url": "https://api.github.com/repos/whatwg/urlpattern/pulls/166",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/864132583"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/urlpattern/pull/166#discussion_r864132583"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/166"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/864132583/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 818,
+    "side": "RIGHT",
+    "in_reply_to_id": 864117352,
+    "author_association": "MEMBER",
+    "original_position": 9,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1229181436",
+    "pull_request_review_id": 1478761877,
+    "id": 1229181436,
+    "node_id": "PRRC_kwDODDHQ585JQ9H8",
+    "diff_hunk": "@@ -810,6 +810,68 @@ To <dfn>compute protocol matches a special scheme flag</dfn> given a [=construct\n   1. If the result of running [=protocol component matches a special scheme=] given |protocol component| is true, then set |parser|'s [=constructor string parser/protocol matches a special scheme flag=] to true.\n </div>\n \n+<h2 id=urlpatternlist-class>The {{URLPatternList}} class </h2>\n+\n+<xmp class=\"idl\">\n+[Exposed=(Window,Worker)]\n+interface URLPatternList {\n+  constructor(sequence<URLPattern> patterns);\n+\n+  boolean test(optional URLPatternInput input = {}, optional USVString baseURL);\n+\n+  URLPatternListResult? exec(optional URLPatternInput input = {}, optional USVString baseURL);\n+};\n+\n+dictionary URLPatternListResult : URLPatternResult {\n+  URLPattern pattern;",
+    "path": "spec.bs",
+    "commit_id": "14086eeaa66fe43cde36595a08ef1fecf2f1d5f0",
+    "original_commit_id": "14086eeaa66fe43cde36595a08ef1fecf2f1d5f0",
+    "user": {
+      "login": "posva",
+      "id": 664177,
+      "node_id": "MDQ6VXNlcjY2NDE3Nw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/664177?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/posva",
+      "html_url": "https://github.com/posva",
+      "followers_url": "https://api.github.com/users/posva/followers",
+      "following_url": "https://api.github.com/users/posva/following{/other_user}",
+      "gists_url": "https://api.github.com/users/posva/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/posva/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/posva/subscriptions",
+      "organizations_url": "https://api.github.com/users/posva/orgs",
+      "repos_url": "https://api.github.com/users/posva/repos",
+      "events_url": "https://api.github.com/users/posva/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/posva/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I don't know how it works internally but shouldn't it contain the match result as well? Since the point is to pick a pattern to match and it's likely doing some work behind the scenes",
+    "created_at": "2023-06-14T07:58:16Z",
+    "updated_at": "2023-06-14T07:59:38Z",
+    "html_url": "https://github.com/whatwg/urlpattern/pull/166#discussion_r1229181436",
+    "pull_request_url": "https://api.github.com/repos/whatwg/urlpattern/pulls/166",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1229181436"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/urlpattern/pull/166#discussion_r1229181436"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/166"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1229181436/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 826,
+    "original_line": 826,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 17,
+    "position": 17,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1229183236",
+    "pull_request_review_id": 1478761877,
+    "id": 1229183236,
+    "node_id": "PRRC_kwDODDHQ585JQ9kE",
+    "diff_hunk": "@@ -810,6 +810,68 @@ To <dfn>compute protocol matches a special scheme flag</dfn> given a [=construct\n   1. If the result of running [=protocol component matches a special scheme=] given |protocol component| is true, then set |parser|'s [=constructor string parser/protocol matches a special scheme flag=] to true.\n </div>\n \n+<h2 id=urlpatternlist-class>The {{URLPatternList}} class </h2>\n+\n+<xmp class=\"idl\">\n+[Exposed=(Window,Worker)]\n+interface URLPatternList {\n+  constructor(sequence<URLPattern> patterns);\n+\n+  boolean test(optional URLPatternInput input = {}, optional USVString baseURL);\n+\n+  URLPatternListResult? exec(optional URLPatternInput input = {}, optional USVString baseURL);\n+};\n+\n+dictionary URLPatternListResult : URLPatternResult {\n+  URLPattern pattern;\n+};\n+</xmp>\n+\n+Note: The {{URLPatternList}} is a utility that combines many patterns into one\n+matcher. This functionality can also be achieved in a naive userland\n+implementation that iterates over a list of patterns and matches each one\n+individually. This has the unfortunate effect of not being very fast. With the\n+built-in {{URLPatternList}} implementers can use an optimized implementation for\n+matching under the hood which can drastically improve performance over the naive\n+userland implementation.\n+\n+Each {{URLPatternList}} has an associated <dfn for=URLPatternList>pattern list</dfn>, a [=list=] of {{URLPattern}}s.\n+\n+<div algorithm>\n+  The <dfn constructor for=URLPatternList lt=\"URLPatternList(patterns)\">new URLPatternList(|patterns|)</dfn> constructor steps are:\n+\n+  1. [=list/For each=] |pattern| in |patterns|, run the following steps:",
+    "path": "spec.bs",
+    "commit_id": "14086eeaa66fe43cde36595a08ef1fecf2f1d5f0",
+    "original_commit_id": "14086eeaa66fe43cde36595a08ef1fecf2f1d5f0",
+    "user": {
+      "login": "posva",
+      "id": 664177,
+      "node_id": "MDQ6VXNlcjY2NDE3Nw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/664177?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/posva",
+      "html_url": "https://github.com/posva",
+      "followers_url": "https://api.github.com/users/posva/followers",
+      "following_url": "https://api.github.com/users/posva/following{/other_user}",
+      "gists_url": "https://api.github.com/users/posva/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/posva/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/posva/subscriptions",
+      "organizations_url": "https://api.github.com/users/posva/orgs",
+      "repos_url": "https://api.github.com/users/posva/repos",
+      "events_url": "https://api.github.com/users/posva/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/posva/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Doesn't this imply that the pattern list is traversed as an array and is potentially slower? https://github.com/WICG/urlpattern/issues/30#issuecomment-1089229462",
+    "created_at": "2023-06-14T07:59:35Z",
+    "updated_at": "2023-06-14T07:59:38Z",
+    "html_url": "https://github.com/whatwg/urlpattern/pull/166#discussion_r1229183236",
+    "pull_request_url": "https://api.github.com/repos/whatwg/urlpattern/pulls/166",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1229183236"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/urlpattern/pull/166#discussion_r1229183236"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/166"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1229183236/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 843,
+    "original_line": 843,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 34,
+    "position": 34,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1230416874",
+    "pull_request_review_id": 1480663112,
+    "id": 1230416874,
+    "node_id": "PRRC_kwDODDHQ585JVqvq",
+    "diff_hunk": "@@ -810,6 +810,68 @@ To <dfn>compute protocol matches a special scheme flag</dfn> given a [=construct\n   1. If the result of running [=protocol component matches a special scheme=] given |protocol component| is true, then set |parser|'s [=constructor string parser/protocol matches a special scheme flag=] to true.\n </div>\n \n+<h2 id=urlpatternlist-class>The {{URLPatternList}} class </h2>\n+\n+<xmp class=\"idl\">\n+[Exposed=(Window,Worker)]\n+interface URLPatternList {\n+  constructor(sequence<URLPattern> patterns);\n+\n+  boolean test(optional URLPatternInput input = {}, optional USVString baseURL);\n+\n+  URLPatternListResult? exec(optional URLPatternInput input = {}, optional USVString baseURL);\n+};\n+\n+dictionary URLPatternListResult : URLPatternResult {\n+  URLPattern pattern;",
+    "path": "spec.bs",
+    "commit_id": "14086eeaa66fe43cde36595a08ef1fecf2f1d5f0",
+    "original_commit_id": "14086eeaa66fe43cde36595a08ef1fecf2f1d5f0",
+    "user": {
+      "login": "bathos",
+      "id": 6257356,
+      "node_id": "MDQ6VXNlcjYyNTczNTY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6257356?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bathos",
+      "html_url": "https://github.com/bathos",
+      "followers_url": "https://api.github.com/users/bathos/followers",
+      "following_url": "https://api.github.com/users/bathos/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bathos/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bathos/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bathos/subscriptions",
+      "organizations_url": "https://api.github.com/users/bathos/orgs",
+      "repos_url": "https://api.github.com/users/bathos/repos",
+      "events_url": "https://api.github.com/users/bathos/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bathos/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "It does — the `: URLPatternResult` part means this dictionary extends [URLPatternResult](https://wicg.github.io/urlpattern/#dictdef-urlpatternresult).",
+    "created_at": "2023-06-15T04:42:51Z",
+    "updated_at": "2023-06-15T04:42:52Z",
+    "html_url": "https://github.com/whatwg/urlpattern/pull/166#discussion_r1230416874",
+    "pull_request_url": "https://api.github.com/repos/whatwg/urlpattern/pulls/166",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1230416874"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/urlpattern/pull/166#discussion_r1230416874"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/166"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1230416874/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 826,
+    "original_line": 826,
+    "side": "RIGHT",
+    "in_reply_to_id": 1229181436,
+    "author_association": "NONE",
+    "original_position": 17,
+    "position": 17,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1230419599",
+    "pull_request_review_id": 1480667028,
+    "id": 1230419599,
+    "node_id": "PRRC_kwDODDHQ585JVraP",
+    "diff_hunk": "@@ -810,6 +810,68 @@ To <dfn>compute protocol matches a special scheme flag</dfn> given a [=construct\n   1. If the result of running [=protocol component matches a special scheme=] given |protocol component| is true, then set |parser|'s [=constructor string parser/protocol matches a special scheme flag=] to true.\n </div>\n \n+<h2 id=urlpatternlist-class>The {{URLPatternList}} class </h2>\n+\n+<xmp class=\"idl\">\n+[Exposed=(Window,Worker)]\n+interface URLPatternList {\n+  constructor(sequence<URLPattern> patterns);\n+\n+  boolean test(optional URLPatternInput input = {}, optional USVString baseURL);\n+\n+  URLPatternListResult? exec(optional URLPatternInput input = {}, optional USVString baseURL);\n+};\n+\n+dictionary URLPatternListResult : URLPatternResult {\n+  URLPattern pattern;\n+};\n+</xmp>\n+\n+Note: The {{URLPatternList}} is a utility that combines many patterns into one\n+matcher. This functionality can also be achieved in a naive userland\n+implementation that iterates over a list of patterns and matches each one\n+individually. This has the unfortunate effect of not being very fast. With the\n+built-in {{URLPatternList}} implementers can use an optimized implementation for\n+matching under the hood which can drastically improve performance over the naive\n+userland implementation.\n+\n+Each {{URLPatternList}} has an associated <dfn for=URLPatternList>pattern list</dfn>, a [=list=] of {{URLPattern}}s.\n+\n+<div algorithm>\n+  The <dfn constructor for=URLPatternList lt=\"URLPatternList(patterns)\">new URLPatternList(|patterns|)</dfn> constructor steps are:\n+\n+  1. [=list/For each=] |pattern| in |patterns|, run the following steps:",
+    "path": "spec.bs",
+    "commit_id": "14086eeaa66fe43cde36595a08ef1fecf2f1d5f0",
+    "original_commit_id": "14086eeaa66fe43cde36595a08ef1fecf2f1d5f0",
+    "user": {
+      "login": "bathos",
+      "id": 6257356,
+      "node_id": "MDQ6VXNlcjYyNTczNTY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6257356?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bathos",
+      "html_url": "https://github.com/bathos",
+      "followers_url": "https://api.github.com/users/bathos/followers",
+      "following_url": "https://api.github.com/users/bathos/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bathos/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bathos/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bathos/subscriptions",
+      "organizations_url": "https://api.github.com/users/bathos/orgs",
+      "repos_url": "https://api.github.com/users/bathos/repos",
+      "events_url": "https://api.github.com/users/bathos/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bathos/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The iteration steps here and elsewhere don’t appear to be observable, so engines can potentially optimize them however they see fit, right? Spec steps usually aim for the simplest and clearest explanation of observable behaviors, not the most efficient ones (because observable behaviors are the only things they _can_ actually specify, further complexity is noise).",
+    "created_at": "2023-06-15T04:47:24Z",
+    "updated_at": "2023-06-15T04:47:57Z",
+    "html_url": "https://github.com/whatwg/urlpattern/pull/166#discussion_r1230419599",
+    "pull_request_url": "https://api.github.com/repos/whatwg/urlpattern/pulls/166",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1230419599"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/urlpattern/pull/166#discussion_r1230419599"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/166"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1230419599/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 843,
+    "original_line": 843,
+    "side": "RIGHT",
+    "in_reply_to_id": 1229183236,
+    "author_association": "NONE",
+    "original_position": 34,
+    "position": 34,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1230606105",
+    "pull_request_review_id": 1480945927,
+    "id": 1230606105,
+    "node_id": "PRRC_kwDODDHQ585JWY8Z",
+    "diff_hunk": "@@ -810,6 +810,68 @@ To <dfn>compute protocol matches a special scheme flag</dfn> given a [=construct\n   1. If the result of running [=protocol component matches a special scheme=] given |protocol component| is true, then set |parser|'s [=constructor string parser/protocol matches a special scheme flag=] to true.\n </div>\n \n+<h2 id=urlpatternlist-class>The {{URLPatternList}} class </h2>\n+\n+<xmp class=\"idl\">\n+[Exposed=(Window,Worker)]\n+interface URLPatternList {\n+  constructor(sequence<URLPattern> patterns);\n+\n+  boolean test(optional URLPatternInput input = {}, optional USVString baseURL);\n+\n+  URLPatternListResult? exec(optional URLPatternInput input = {}, optional USVString baseURL);\n+};\n+\n+dictionary URLPatternListResult : URLPatternResult {\n+  URLPattern pattern;",
+    "path": "spec.bs",
+    "commit_id": "14086eeaa66fe43cde36595a08ef1fecf2f1d5f0",
+    "original_commit_id": "14086eeaa66fe43cde36595a08ef1fecf2f1d5f0",
+    "user": {
+      "login": "posva",
+      "id": 664177,
+      "node_id": "MDQ6VXNlcjY2NDE3Nw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/664177?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/posva",
+      "html_url": "https://github.com/posva",
+      "followers_url": "https://api.github.com/users/posva/followers",
+      "following_url": "https://api.github.com/users/posva/following{/other_user}",
+      "gists_url": "https://api.github.com/users/posva/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/posva/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/posva/subscriptions",
+      "organizations_url": "https://api.github.com/users/posva/orgs",
+      "repos_url": "https://api.github.com/users/posva/repos",
+      "events_url": "https://api.github.com/users/posva/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/posva/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Aaah i didn’t see it. (Not familiar with this spec language 😂)",
+    "created_at": "2023-06-15T08:02:01Z",
+    "updated_at": "2023-06-15T08:02:01Z",
+    "html_url": "https://github.com/whatwg/urlpattern/pull/166#discussion_r1230606105",
+    "pull_request_url": "https://api.github.com/repos/whatwg/urlpattern/pulls/166",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1230606105"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/urlpattern/pull/166#discussion_r1230606105"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/166"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1230606105/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 826,
+    "original_line": 826,
+    "side": "RIGHT",
+    "in_reply_to_id": 1229181436,
+    "author_association": "NONE",
+    "original_position": 17,
+    "position": 17,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1230607068",
+    "pull_request_review_id": 1480947090,
+    "id": 1230607068,
+    "node_id": "PRRC_kwDODDHQ585JWZLc",
+    "diff_hunk": "@@ -810,6 +810,68 @@ To <dfn>compute protocol matches a special scheme flag</dfn> given a [=construct\n   1. If the result of running [=protocol component matches a special scheme=] given |protocol component| is true, then set |parser|'s [=constructor string parser/protocol matches a special scheme flag=] to true.\n </div>\n \n+<h2 id=urlpatternlist-class>The {{URLPatternList}} class </h2>\n+\n+<xmp class=\"idl\">\n+[Exposed=(Window,Worker)]\n+interface URLPatternList {\n+  constructor(sequence<URLPattern> patterns);\n+\n+  boolean test(optional URLPatternInput input = {}, optional USVString baseURL);\n+\n+  URLPatternListResult? exec(optional URLPatternInput input = {}, optional USVString baseURL);\n+};\n+\n+dictionary URLPatternListResult : URLPatternResult {\n+  URLPattern pattern;\n+};\n+</xmp>\n+\n+Note: The {{URLPatternList}} is a utility that combines many patterns into one\n+matcher. This functionality can also be achieved in a naive userland\n+implementation that iterates over a list of patterns and matches each one\n+individually. This has the unfortunate effect of not being very fast. With the\n+built-in {{URLPatternList}} implementers can use an optimized implementation for\n+matching under the hood which can drastically improve performance over the naive\n+userland implementation.\n+\n+Each {{URLPatternList}} has an associated <dfn for=URLPatternList>pattern list</dfn>, a [=list=] of {{URLPattern}}s.\n+\n+<div algorithm>\n+  The <dfn constructor for=URLPatternList lt=\"URLPatternList(patterns)\">new URLPatternList(|patterns|)</dfn> constructor steps are:\n+\n+  1. [=list/For each=] |pattern| in |patterns|, run the following steps:",
+    "path": "spec.bs",
+    "commit_id": "14086eeaa66fe43cde36595a08ef1fecf2f1d5f0",
+    "original_commit_id": "14086eeaa66fe43cde36595a08ef1fecf2f1d5f0",
+    "user": {
+      "login": "posva",
+      "id": 664177,
+      "node_id": "MDQ6VXNlcjY2NDE3Nw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/664177?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/posva",
+      "html_url": "https://github.com/posva",
+      "followers_url": "https://api.github.com/users/posva/followers",
+      "following_url": "https://api.github.com/users/posva/following{/other_user}",
+      "gists_url": "https://api.github.com/users/posva/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/posva/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/posva/subscriptions",
+      "organizations_url": "https://api.github.com/users/posva/orgs",
+      "repos_url": "https://api.github.com/users/posva/repos",
+      "events_url": "https://api.github.com/users/posva/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/posva/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I see, thanks for the explanation!",
+    "created_at": "2023-06-15T08:02:37Z",
+    "updated_at": "2023-06-15T08:02:37Z",
+    "html_url": "https://github.com/whatwg/urlpattern/pull/166#discussion_r1230607068",
+    "pull_request_url": "https://api.github.com/repos/whatwg/urlpattern/pulls/166",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1230607068"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/urlpattern/pull/166#discussion_r1230607068"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/166"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1230607068/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 843,
+    "original_line": 843,
+    "side": "RIGHT",
+    "in_reply_to_id": 1229183236,
+    "author_association": "NONE",
+    "original_position": 34,
+    "position": 34,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

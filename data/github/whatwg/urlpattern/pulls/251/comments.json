@@ -1,0 +1,217 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1916115130",
+    "pull_request_review_id": 2551831899,
+    "id": 1916115130,
+    "node_id": "PRRC_kwDODDHQ585yNZi6",
+    "diff_hunk": "@@ -1858,8 +1858,7 @@ To <dfn>convert a modifier to a string</dfn> given a [=part/modifier=] |modifier\n     1. If |type| is not \"`pattern`\" and |init| [=map/contains=] none of \"{{URLPatternInit/protocol}}\", \"{{URLPatternInit/hostname}}\", \"{{URLPatternInit/port}}\" and \"{{URLPatternInit/username}}\", then set |result|[\"{{URLPatternInit/username}}\"] to the result of [=processing a base URL string=] given |baseURL|'s [=url/username=] and |type|.\n     1. If |type| is not \"`pattern`\" and |init| [=map/contains=] none of \"{{URLPatternInit/protocol}}\", \"{{URLPatternInit/hostname}}\", \"{{URLPatternInit/port}}\", \"{{URLPatternInit/username}}\" and \"{{URLPatternInit/password}}\", then set |result|[\"{{URLPatternInit/password}}\"] to the result of [=processing a base URL string=] given |baseURL|'s [=url/password=] and |type|.\n     1. If |init| [=map/contains=] neither \"{{URLPatternInit/protocol}}\" nor \"{{URLPatternInit/hostname}}\", then:\n-      1. Let |baseHost| be the [=host serializer|serialization=] of |baseURL|'s [=url/host=].\n-      1. If |baseHost| is null, then set |baseHost| to the empty string.\n+      1. Let |baseHost| be the [=host serializer|serialization=] of |baseURL|'s [=url/host=], if it is not null, and the empty string otherwise.",
+    "path": "spec.bs",
+    "commit_id": "abf39cfb9e793ad8a3f01ada390b49bf36afd328",
+    "original_commit_id": "4cd8562b14b6e5fcd3b843468903622481b41f68",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Infra suggests:\r\n```suggestion\r\n      1. Let |baseHost| be the [=host serializer|serialization=] of |baseURL|'s [=url/host=], if it is not null; otherwise the empty string.\r\n```\r\nBut I think initializing _baseHost_ to the empty string and then conditionally overwriting it will be clearer.",
+    "created_at": "2025-01-15T08:18:05Z",
+    "updated_at": "2025-01-15T08:18:14Z",
+    "html_url": "https://github.com/whatwg/urlpattern/pull/251#discussion_r1916115130",
+    "pull_request_url": "https://api.github.com/repos/whatwg/urlpattern/pulls/251",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1916115130"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/urlpattern/pull/251#discussion_r1916115130"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/251"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1916115130/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1861,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 6,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1916957642",
+    "pull_request_review_id": 2553251964,
+    "id": 1916957642,
+    "node_id": "PRRC_kwDODDHQ585yQnPK",
+    "diff_hunk": "@@ -1858,8 +1858,7 @@ To <dfn>convert a modifier to a string</dfn> given a [=part/modifier=] |modifier\n     1. If |type| is not \"`pattern`\" and |init| [=map/contains=] none of \"{{URLPatternInit/protocol}}\", \"{{URLPatternInit/hostname}}\", \"{{URLPatternInit/port}}\" and \"{{URLPatternInit/username}}\", then set |result|[\"{{URLPatternInit/username}}\"] to the result of [=processing a base URL string=] given |baseURL|'s [=url/username=] and |type|.\n     1. If |type| is not \"`pattern`\" and |init| [=map/contains=] none of \"{{URLPatternInit/protocol}}\", \"{{URLPatternInit/hostname}}\", \"{{URLPatternInit/port}}\", \"{{URLPatternInit/username}}\" and \"{{URLPatternInit/password}}\", then set |result|[\"{{URLPatternInit/password}}\"] to the result of [=processing a base URL string=] given |baseURL|'s [=url/password=] and |type|.\n     1. If |init| [=map/contains=] neither \"{{URLPatternInit/protocol}}\" nor \"{{URLPatternInit/hostname}}\", then:\n-      1. Let |baseHost| be the [=host serializer|serialization=] of |baseURL|'s [=url/host=].\n-      1. If |baseHost| is null, then set |baseHost| to the empty string.\n+      1. Let |baseHost| be the [=host serializer|serialization=] of |baseURL|'s [=url/host=], if it is not null, and the empty string otherwise.",
+    "path": "spec.bs",
+    "commit_id": "abf39cfb9e793ad8a3f01ada390b49bf36afd328",
+    "original_commit_id": "4cd8562b14b6e5fcd3b843468903622481b41f68",
+    "user": {
+      "login": "jeremyroman",
+      "id": 156119,
+      "node_id": "MDQ6VXNlcjE1NjExOQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/156119?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jeremyroman",
+      "html_url": "https://github.com/jeremyroman",
+      "followers_url": "https://api.github.com/users/jeremyroman/followers",
+      "following_url": "https://api.github.com/users/jeremyroman/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jeremyroman/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jeremyroman/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jeremyroman/subscriptions",
+      "organizations_url": "https://api.github.com/users/jeremyroman/orgs",
+      "repos_url": "https://api.github.com/users/jeremyroman/repos",
+      "events_url": "https://api.github.com/users/jeremyroman/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jeremyroman/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Okay, done.",
+    "created_at": "2025-01-15T16:14:50Z",
+    "updated_at": "2025-01-15T16:14:50Z",
+    "html_url": "https://github.com/whatwg/urlpattern/pull/251#discussion_r1916957642",
+    "pull_request_url": "https://api.github.com/repos/whatwg/urlpattern/pulls/251",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1916957642"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/urlpattern/pull/251#discussion_r1916957642"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/251"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1916957642/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1861,
+    "side": "RIGHT",
+    "in_reply_to_id": 1916115130,
+    "author_association": "COLLABORATOR",
+    "original_position": 6,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1916962373",
+    "pull_request_review_id": 2553258532,
+    "id": 1916962373,
+    "node_id": "PRRC_kwDODDHQ585yQoZF",
+    "diff_hunk": "@@ -1858,8 +1858,7 @@ To <dfn>convert a modifier to a string</dfn> given a [=part/modifier=] |modifier\n     1. If |type| is not \"`pattern`\" and |init| [=map/contains=] none of \"{{URLPatternInit/protocol}}\", \"{{URLPatternInit/hostname}}\", \"{{URLPatternInit/port}}\" and \"{{URLPatternInit/username}}\", then set |result|[\"{{URLPatternInit/username}}\"] to the result of [=processing a base URL string=] given |baseURL|'s [=url/username=] and |type|.\n     1. If |type| is not \"`pattern`\" and |init| [=map/contains=] none of \"{{URLPatternInit/protocol}}\", \"{{URLPatternInit/hostname}}\", \"{{URLPatternInit/port}}\", \"{{URLPatternInit/username}}\" and \"{{URLPatternInit/password}}\", then set |result|[\"{{URLPatternInit/password}}\"] to the result of [=processing a base URL string=] given |baseURL|'s [=url/password=] and |type|.\n     1. If |init| [=map/contains=] neither \"{{URLPatternInit/protocol}}\" nor \"{{URLPatternInit/hostname}}\", then:\n-      1. Let |baseHost| be the [=host serializer|serialization=] of |baseURL|'s [=url/host=].\n-      1. If |baseHost| is null, then set |baseHost| to the empty string.\n+      1. Let |baseHost| be the [=host serializer|serialization=] of |baseURL|'s [=url/host=], if it is not null, and the empty string otherwise.",
+    "path": "spec.bs",
+    "commit_id": "abf39cfb9e793ad8a3f01ada390b49bf36afd328",
+    "original_commit_id": "4cd8562b14b6e5fcd3b843468903622481b41f68",
+    "user": {
+      "login": "jeremyroman",
+      "id": 156119,
+      "node_id": "MDQ6VXNlcjE1NjExOQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/156119?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jeremyroman",
+      "html_url": "https://github.com/jeremyroman",
+      "followers_url": "https://api.github.com/users/jeremyroman/followers",
+      "following_url": "https://api.github.com/users/jeremyroman/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jeremyroman/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jeremyroman/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jeremyroman/subscriptions",
+      "organizations_url": "https://api.github.com/users/jeremyroman/orgs",
+      "repos_url": "https://api.github.com/users/jeremyroman/repos",
+      "events_url": "https://api.github.com/users/jeremyroman/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jeremyroman/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Did the conditional overwrite thing.",
+    "created_at": "2025-01-15T16:16:37Z",
+    "updated_at": "2025-01-15T16:16:37Z",
+    "html_url": "https://github.com/whatwg/urlpattern/pull/251#discussion_r1916962373",
+    "pull_request_url": "https://api.github.com/repos/whatwg/urlpattern/pulls/251",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1916962373"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/urlpattern/pull/251#discussion_r1916962373"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/251"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/1916962373/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1861,
+    "side": "RIGHT",
+    "in_reply_to_id": 1916115130,
+    "author_association": "COLLABORATOR",
+    "original_position": 6,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

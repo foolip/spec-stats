@@ -1,0 +1,570 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1558344622",
+    "pull_request_review_id": 1990218142,
+    "id": 1558344622,
+    "node_id": "PRRC_kwDOANUOW85c4nOu",
+    "diff_hunk": "@@ -2661,6 +2688,99 @@ create them does not matter.\n  1. Return « |branch1|, |branch2| ».\n </div>\n \n+<div algorithm>\n+To <dfn lt=\"fully read\">fully read</dfn> a {{ReadableStream}} |stream|, given an algorithm |processBody|, and an algorithm |processBodyError|, run these steps. |processBody| must be an algorithm accepting a [=byte sequence=]. |processBodyError| must be an algorithm optionally accepting an exception.\n+\n+ 1. Let |successSteps| given a [=byte sequence=] |bytes| be to run |processBody| given |bytes|.\n+ 1. Let |errorSteps| optionally given an exception |exception| be to run |processBodyError| given |exception|.\n+ 1. Let |reader| be the result of getting a reader for |stream|. If that threw an exception, then run |errorSteps| with that exception and return.\n+ 1. [=read all bytes|Read all bytes=] from |reader|, given |successSteps| and |errorSteps|.\n+</div>\n+\n+<div algorithm>\n+The <dfn lt=\"consume fully with abort\">consume fully with abort</dfn> algorithm, given a {{ReadableStream}} |stream|, an optional {{AbortSignal}} |signal|, and an algorithm that takes a [=byte sequence=] and returns a JavaScript or throws an exception |convertBytesToJSValue|, runs these steps:\n+\n+ 1. Let |promise| be [=a new promise=].\n+ 1. Let |errorSteps| given |error| to be [=reject=] |promise| with |error|.\n+ 1. Let |successSteps| given a [=byte sequence=] |data| be to [=resolve=] |promise| with the result of running |convertBytesToJSValue| with |data|. If that threw an exception, then run |errorSteps| with that exception.\n+ 1. If |signal| is not undefined,\n+  1. Let |abortAlgorithm| be the following steps:\n+   1. Let |error| be |signal|'s [=AbortSignal/abort reason=].\n+   1. Run |errorSteps| with |error|.\n+   1. Let |actions| be an empty [=ordered set=].\n+   1. If |stream|.[=ReadableStream/[[state]]=] is \"`readable`\", [=set/append=] the following action action to |actions|:\n+     1. return ! [$ReadableStreamCancel$](|stream|, |error|).\n+     1. Otherwise, return [=a promise resolved with=] undefined.\n+   1. [=Shutdown with an action=] consisting of [=getting a promise to wait for all=] of the actions\n+      in |actions|, and with |error|.\n+  1. If |signal| is [=AbortSignal/aborted=], perform the following steps:\n+    1. perform |abortAlgorithm|.\n+    1. return |promise|.\n+  1. [=AbortSignal/Add=] |abortAlgorithm| to |signal|.\n+ 1. [=fully read=] |stream| given |successSteps|, |errorSteps|, and |stream|’s relevant global object.\n+ 1. Return promise.\n+</div>\n+\n+<div algorithm>\n+ <dfn abstract-op lt=\"ReadableStreamConsumeAsText\" id=\"ReadableStreamConsumeAsText\">ReadableStreamConsumeAsText(|stream|, |options|})</dfn> will\n+ consume all bytes produced by a given readable stream and return a promise that resolves with a string containing the UTF-8-decoded text.\n+\n+ It performs the following steps:\n+\n+ 1. Assert: |stream| [=implements=] {{ReadableStream}}.\n+ 1. If ! [$IsReadableStreamLocked$]([=stream=]) is true, return [=a promise rejected with=] a\n+    {{TypeError}} exception.\n+ 1. If ! |stream|.[=ReadableStream/[[disturbed]]=] is true, return [=a promise rejected with=] a\n+    {{TypeError}} exception.\n+ 1. Let |signal| be |options|[\"{{ConsumeBytesOptions/signal}}\"] if it [=map/exists=], or undefined\n+    otherwise.\n+ 1. Assert: either |signal| is undefined, or |signal| [=implements=] {{AbortSignal}}.\n+ 1. Return the result of running [=consume fully with abort=] with |stream|, |signal|, and <a>UTF-8 decode</a>.\n+</div>\n+\n+<div algorithm>\n+ <dfn abstract-op lt=\"ReadableStreamConsumeAsBytes\" id=\"ReadableStreamConsumeAsBytes\">ReadableStreamConsumeAsBytes(|stream|, |options|})</dfn> will\n+ consume all bytes produced by a given readable stream and return a promise that resolves with a single Uint8Array containing the read bytes.\n+\n+ It performs the following steps:\n+\n+ 1. Assert: |stream| [=implements=] {{ReadableStream}}.\n+ 1. If ! [$IsReadableStreamLocked$]([=stream=]) is true, return [=a promise rejected with=] a\n+    {{TypeError}} exception.\n+ 1. If ! |stream|.[=ReadableStream/[[disturbed]]=] is true, return [=a promise rejected with=] a\n+    {{TypeError}} exception.\n+ 1. Let |signal| be |options|[\"{{ConsumeBytesOptions/signal}}\"] if it [=map/exists=], or undefined\n+    otherwise.\n+ 1. Assert: either |signal| is undefined, or |signal| [=implements=] {{AbortSignal}}.\n+ 1. Let |decode as Uint8Array| be an algorithm that takes a [=byte sequence=] |bytes| and runs the steps:\n+  1. Let |arrayBuffer| be a new {{ArrayBuffer}} whose contents are |bytes|.",
+    "path": "index.bs",
+    "commit_id": "fe482f85f6168dc977f75c9076ce0124980a9325",
+    "original_commit_id": "dbf22e9da2f2402d14203938d7843a5939a6b1be",
+    "user": {
+      "login": "bakkot",
+      "id": 1653598,
+      "node_id": "MDQ6VXNlcjE2NTM1OTg=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1653598?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bakkot",
+      "html_url": "https://github.com/bakkot",
+      "followers_url": "https://api.github.com/users/bakkot/followers",
+      "following_url": "https://api.github.com/users/bakkot/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bakkot/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bakkot/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bakkot/subscriptions",
+      "organizations_url": "https://api.github.com/users/bakkot/orgs",
+      "repos_url": "https://api.github.com/users/bakkot/repos",
+      "events_url": "https://api.github.com/users/bakkot/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bakkot/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This is a faithful copy of the text in fetch, but fetch [has a bug](https://github.com/whatwg/fetch/issues/1675) which is copied here. It doesn't necessarily need to be fixed here, just gotta make sure it gets fixed here as well when fixed upstream.",
+    "created_at": "2024-04-09T21:58:01Z",
+    "updated_at": "2024-04-09T21:58:01Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1311#discussion_r1558344622",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1311",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1558344622"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1311#discussion_r1558344622"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1311"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1558344622/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 2756,
+    "original_line": 2756,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 117,
+    "position": 117,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1558947198",
+    "pull_request_review_id": 1990926355,
+    "id": 1558947198,
+    "node_id": "PRRC_kwDOANUOW85c66V-",
+    "diff_hunk": "@@ -2661,6 +2688,99 @@ create them does not matter.\n  1. Return « |branch1|, |branch2| ».\n </div>\n \n+<div algorithm>\n+To <dfn lt=\"fully read\">fully read</dfn> a {{ReadableStream}} |stream|, given an algorithm |processBody|, and an algorithm |processBodyError|, run these steps. |processBody| must be an algorithm accepting a [=byte sequence=]. |processBodyError| must be an algorithm optionally accepting an exception.\n+\n+ 1. Let |successSteps| given a [=byte sequence=] |bytes| be to run |processBody| given |bytes|.\n+ 1. Let |errorSteps| optionally given an exception |exception| be to run |processBodyError| given |exception|.\n+ 1. Let |reader| be the result of getting a reader for |stream|. If that threw an exception, then run |errorSteps| with that exception and return.\n+ 1. [=read all bytes|Read all bytes=] from |reader|, given |successSteps| and |errorSteps|.",
+    "path": "index.bs",
+    "commit_id": "fe482f85f6168dc977f75c9076ce0124980a9325",
+    "original_commit_id": "dbf22e9da2f2402d14203938d7843a5939a6b1be",
+    "user": {
+      "login": "ricea",
+      "id": 6678407,
+      "node_id": "MDQ6VXNlcjY2Nzg0MDc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6678407?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ricea",
+      "html_url": "https://github.com/ricea",
+      "followers_url": "https://api.github.com/users/ricea/followers",
+      "following_url": "https://api.github.com/users/ricea/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ricea/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ricea/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ricea/subscriptions",
+      "organizations_url": "https://api.github.com/users/ricea/orgs",
+      "repos_url": "https://api.github.com/users/ricea/repos",
+      "events_url": "https://api.github.com/users/ricea/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ricea/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think Bikeshed can compensate for different capitalisation automatically.",
+    "created_at": "2024-04-10T06:59:22Z",
+    "updated_at": "2024-04-10T07:03:12Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1311#discussion_r1558947198",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1311",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1558947198"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1311#discussion_r1558947198"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1311"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1558947198/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 2697,
+    "original_line": 2697,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 58,
+    "position": 58,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1558950603",
+    "pull_request_review_id": 1990926355,
+    "id": 1558950603,
+    "node_id": "PRRC_kwDOANUOW85c67LL",
+    "diff_hunk": "@@ -2661,6 +2688,99 @@ create them does not matter.\n  1. Return « |branch1|, |branch2| ».\n </div>\n \n+<div algorithm>\n+To <dfn lt=\"fully read\">fully read</dfn> a {{ReadableStream}} |stream|, given an algorithm |processBody|, and an algorithm |processBodyError|, run these steps. |processBody| must be an algorithm accepting a [=byte sequence=]. |processBodyError| must be an algorithm optionally accepting an exception.\n+\n+ 1. Let |successSteps| given a [=byte sequence=] |bytes| be to run |processBody| given |bytes|.\n+ 1. Let |errorSteps| optionally given an exception |exception| be to run |processBodyError| given |exception|.\n+ 1. Let |reader| be the result of getting a reader for |stream|. If that threw an exception, then run |errorSteps| with that exception and return.\n+ 1. [=read all bytes|Read all bytes=] from |reader|, given |successSteps| and |errorSteps|.\n+</div>\n+\n+<div algorithm>\n+The <dfn lt=\"consume fully with abort\">consume fully with abort</dfn> algorithm, given a {{ReadableStream}} |stream|, an optional {{AbortSignal}} |signal|, and an algorithm that takes a [=byte sequence=] and returns a JavaScript or throws an exception |convertBytesToJSValue|, runs these steps:\n+\n+ 1. Let |promise| be [=a new promise=].\n+ 1. Let |errorSteps| given |error| to be [=reject=] |promise| with |error|.\n+ 1. Let |successSteps| given a [=byte sequence=] |data| be to [=resolve=] |promise| with the result of running |convertBytesToJSValue| with |data|. If that threw an exception, then run |errorSteps| with that exception.\n+ 1. If |signal| is not undefined,\n+  1. Let |abortAlgorithm| be the following steps:\n+   1. Let |error| be |signal|'s [=AbortSignal/abort reason=].\n+   1. Run |errorSteps| with |error|.\n+   1. Let |actions| be an empty [=ordered set=].\n+   1. If |stream|.[=ReadableStream/[[state]]=] is \"`readable`\", [=set/append=] the following action action to |actions|:\n+     1. return ! [$ReadableStreamCancel$](|stream|, |error|).\n+     1. Otherwise, return [=a promise resolved with=] undefined.\n+   1. [=Shutdown with an action=] consisting of [=getting a promise to wait for all=] of the actions\n+      in |actions|, and with |error|.\n+  1. If |signal| is [=AbortSignal/aborted=], perform the following steps:\n+    1. perform |abortAlgorithm|.\n+    1. return |promise|.\n+  1. [=AbortSignal/Add=] |abortAlgorithm| to |signal|.\n+ 1. [=fully read=] |stream| given |successSteps|, |errorSteps|, and |stream|’s relevant global object.\n+ 1. Return promise.\n+</div>\n+\n+<div algorithm>\n+ <dfn abstract-op lt=\"ReadableStreamConsumeAsText\" id=\"ReadableStreamConsumeAsText\">ReadableStreamConsumeAsText(|stream|, |options|})</dfn> will\n+ consume all bytes produced by a given readable stream and return a promise that resolves with a string containing the UTF-8-decoded text.\n+\n+ It performs the following steps:\n+\n+ 1. Assert: |stream| [=implements=] {{ReadableStream}}.",
+    "path": "index.bs",
+    "commit_id": "fe482f85f6168dc977f75c9076ce0124980a9325",
+    "original_commit_id": "dbf22e9da2f2402d14203938d7843a5939a6b1be",
+    "user": {
+      "login": "ricea",
+      "id": 6678407,
+      "node_id": "MDQ6VXNlcjY2Nzg0MDc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6678407?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ricea",
+      "html_url": "https://github.com/ricea",
+      "followers_url": "https://api.github.com/users/ricea/followers",
+      "following_url": "https://api.github.com/users/ricea/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ricea/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ricea/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ricea/subscriptions",
+      "organizations_url": "https://api.github.com/users/ricea/orgs",
+      "repos_url": "https://api.github.com/users/ricea/repos",
+      "events_url": "https://api.github.com/users/ricea/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ricea/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Maybe we could have a `PrepareToConsume` abstract op to encapsulate these common steps?",
+    "created_at": "2024-04-10T07:02:20Z",
+    "updated_at": "2024-04-10T07:03:12Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1311#discussion_r1558950603",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1311",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1558950603"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1311#discussion_r1558950603"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1311"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1558950603/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 2730,
+    "original_line": 2730,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 91,
+    "position": 91,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1561091996",
+    "pull_request_review_id": 1994305033,
+    "id": 1561091996,
+    "node_id": "PRRC_kwDOANUOW85dDF-c",
+    "diff_hunk": "@@ -534,6 +538,11 @@ dictionary StreamPipeOptions {\n   boolean preventCancel = false;\n   AbortSignal signal;\n };\n+\n+dictionary ConsumeBytesOptions {\n+  AbortSignal signal;\n+  USVString type = \"\";",
+    "path": "index.bs",
+    "commit_id": "fe482f85f6168dc977f75c9076ce0124980a9325",
+    "original_commit_id": "dbf22e9da2f2402d14203938d7843a5939a6b1be",
+    "user": {
+      "login": "saschanaz",
+      "id": 3396686,
+      "node_id": "MDQ6VXNlcjMzOTY2ODY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3396686?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/saschanaz",
+      "html_url": "https://github.com/saschanaz",
+      "followers_url": "https://api.github.com/users/saschanaz/followers",
+      "following_url": "https://api.github.com/users/saschanaz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/saschanaz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/saschanaz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/saschanaz/subscriptions",
+      "organizations_url": "https://api.github.com/users/saschanaz/orgs",
+      "repos_url": "https://api.github.com/users/saschanaz/repos",
+      "events_url": "https://api.github.com/users/saschanaz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/saschanaz/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "1. This `type` is not super clear about what type it means, maybe `blobType`? Especially if we want to put more stream related options, because we already have `type` in `UnderlyingSource`.\r\n2. Blob uses DOMString instead of USVString: https://w3c.github.io/FileAPI/#ref-for-dfn-BPtype\r\n3. Should we have a separate dictionary without `type` for other non-blob methods?",
+    "created_at": "2024-04-11T14:11:38Z",
+    "updated_at": "2024-04-11T18:13:42Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1311#discussion_r1561091996",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1311",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1561091996"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1311#discussion_r1561091996"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1311"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1561091996/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 544,
+    "original_line": 544,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 18,
+    "position": 18,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1561102824",
+    "pull_request_review_id": 1994305033,
+    "id": 1561102824,
+    "node_id": "PRRC_kwDOANUOW85dDIno",
+    "diff_hunk": "@@ -2661,6 +2688,99 @@ create them does not matter.\n  1. Return « |branch1|, |branch2| ».\n </div>\n \n+<div algorithm>\n+To <dfn lt=\"fully read\">fully read</dfn> a {{ReadableStream}} |stream|, given an algorithm |processBody|, and an algorithm |processBodyError|, run these steps. |processBody| must be an algorithm accepting a [=byte sequence=]. |processBodyError| must be an algorithm optionally accepting an exception.",
+    "path": "index.bs",
+    "commit_id": "fe482f85f6168dc977f75c9076ce0124980a9325",
+    "original_commit_id": "dbf22e9da2f2402d14203938d7843a5939a6b1be",
+    "user": {
+      "login": "saschanaz",
+      "id": 3396686,
+      "node_id": "MDQ6VXNlcjMzOTY2ODY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3396686?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/saschanaz",
+      "html_url": "https://github.com/saschanaz",
+      "followers_url": "https://api.github.com/users/saschanaz/followers",
+      "following_url": "https://api.github.com/users/saschanaz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/saschanaz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/saschanaz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/saschanaz/subscriptions",
+      "organizations_url": "https://api.github.com/users/saschanaz/orgs",
+      "repos_url": "https://api.github.com/users/saschanaz/repos",
+      "events_url": "https://api.github.com/users/saschanaz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/saschanaz/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Do we need this `lt`? Same for other `<dfn>`s.",
+    "created_at": "2024-04-11T14:16:30Z",
+    "updated_at": "2024-04-11T18:13:42Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1311#discussion_r1561102824",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1311",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1561102824"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1311#discussion_r1561102824"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1311"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1561102824/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 2692,
+    "original_line": 2692,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 53,
+    "position": 53,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1561164467",
+    "pull_request_review_id": 1994305033,
+    "id": 1561164467,
+    "node_id": "PRRC_kwDOANUOW85dDXqz",
+    "diff_hunk": "@@ -2661,6 +2688,99 @@ create them does not matter.\n  1. Return « |branch1|, |branch2| ».\n </div>\n \n+<div algorithm>\n+To <dfn lt=\"fully read\">fully read</dfn> a {{ReadableStream}} |stream|, given an algorithm |processBody|, and an algorithm |processBodyError|, run these steps. |processBody| must be an algorithm accepting a [=byte sequence=]. |processBodyError| must be an algorithm optionally accepting an exception.\n+\n+ 1. Let |successSteps| given a [=byte sequence=] |bytes| be to run |processBody| given |bytes|.\n+ 1. Let |errorSteps| optionally given an exception |exception| be to run |processBodyError| given |exception|.\n+ 1. Let |reader| be the result of getting a reader for |stream|. If that threw an exception, then run |errorSteps| with that exception and return.\n+ 1. [=read all bytes|Read all bytes=] from |reader|, given |successSteps| and |errorSteps|.\n+</div>\n+\n+<div algorithm>\n+The <dfn lt=\"consume fully with abort\">consume fully with abort</dfn> algorithm, given a {{ReadableStream}} |stream|, an optional {{AbortSignal}} |signal|, and an algorithm that takes a [=byte sequence=] and returns a JavaScript or throws an exception |convertBytesToJSValue|, runs these steps:",
+    "path": "index.bs",
+    "commit_id": "fe482f85f6168dc977f75c9076ce0124980a9325",
+    "original_commit_id": "dbf22e9da2f2402d14203938d7843a5939a6b1be",
+    "user": {
+      "login": "saschanaz",
+      "id": 3396686,
+      "node_id": "MDQ6VXNlcjMzOTY2ODY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3396686?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/saschanaz",
+      "html_url": "https://github.com/saschanaz",
+      "followers_url": "https://api.github.com/users/saschanaz/followers",
+      "following_url": "https://api.github.com/users/saschanaz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/saschanaz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/saschanaz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/saschanaz/subscriptions",
+      "organizations_url": "https://api.github.com/users/saschanaz/orgs",
+      "repos_url": "https://api.github.com/users/saschanaz/repos",
+      "events_url": "https://api.github.com/users/saschanaz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/saschanaz/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "\"consume fully\" or \"fully consume\"? We already have \"fully read\", so maybe consistency?\r\n\r\nAnd also \"an algorithm |convertBytesToJSValue| that ...\"",
+    "created_at": "2024-04-11T14:52:33Z",
+    "updated_at": "2024-04-11T18:13:42Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1311#discussion_r1561164467",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1311",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1561164467"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1311#discussion_r1561164467"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1311"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1561164467/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 2701,
+    "original_line": 2701,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 62,
+    "position": 62,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1561419378",
+    "pull_request_review_id": 1994305033,
+    "id": 1561419378,
+    "node_id": "PRRC_kwDOANUOW85dEV5y",
+    "diff_hunk": "@@ -2661,6 +2688,99 @@ create them does not matter.\n  1. Return « |branch1|, |branch2| ».\n </div>\n \n+<div algorithm>\n+To <dfn lt=\"fully read\">fully read</dfn> a {{ReadableStream}} |stream|, given an algorithm |processBody|, and an algorithm |processBodyError|, run these steps. |processBody| must be an algorithm accepting a [=byte sequence=]. |processBodyError| must be an algorithm optionally accepting an exception.\n+\n+ 1. Let |successSteps| given a [=byte sequence=] |bytes| be to run |processBody| given |bytes|.\n+ 1. Let |errorSteps| optionally given an exception |exception| be to run |processBodyError| given |exception|.\n+ 1. Let |reader| be the result of getting a reader for |stream|. If that threw an exception, then run |errorSteps| with that exception and return.\n+ 1. [=read all bytes|Read all bytes=] from |reader|, given |successSteps| and |errorSteps|.\n+</div>\n+\n+<div algorithm>\n+The <dfn lt=\"consume fully with abort\">consume fully with abort</dfn> algorithm, given a {{ReadableStream}} |stream|, an optional {{AbortSignal}} |signal|, and an algorithm that takes a [=byte sequence=] and returns a JavaScript or throws an exception |convertBytesToJSValue|, runs these steps:\n+\n+ 1. Let |promise| be [=a new promise=].\n+ 1. Let |errorSteps| given |error| to be [=reject=] |promise| with |error|.\n+ 1. Let |successSteps| given a [=byte sequence=] |data| be to [=resolve=] |promise| with the result of running |convertBytesToJSValue| with |data|. If that threw an exception, then run |errorSteps| with that exception.",
+    "path": "index.bs",
+    "commit_id": "fe482f85f6168dc977f75c9076ce0124980a9325",
+    "original_commit_id": "dbf22e9da2f2402d14203938d7843a5939a6b1be",
+    "user": {
+      "login": "saschanaz",
+      "id": 3396686,
+      "node_id": "MDQ6VXNlcjMzOTY2ODY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3396686?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/saschanaz",
+      "html_url": "https://github.com/saschanaz",
+      "followers_url": "https://api.github.com/users/saschanaz/followers",
+      "following_url": "https://api.github.com/users/saschanaz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/saschanaz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/saschanaz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/saschanaz/subscriptions",
+      "organizations_url": "https://api.github.com/users/saschanaz/orgs",
+      "repos_url": "https://api.github.com/users/saschanaz/repos",
+      "events_url": "https://api.github.com/users/saschanaz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/saschanaz/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Perhaps you want to name them as processBody and processBodyError as that's what the parameters of \"fully read\" are? Or maybe \"fully read\" parameters should be success/errorSteps instead.",
+    "created_at": "2024-04-11T18:03:46Z",
+    "updated_at": "2024-04-11T18:13:42Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1311#discussion_r1561419378",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1311",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1561419378"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1311#discussion_r1561419378"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1311"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1561419378/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 2705,
+    "original_line": 2705,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 66,
+    "position": 66,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1561440640",
+    "pull_request_review_id": 1994305033,
+    "id": 1561440640,
+    "node_id": "PRRC_kwDOANUOW85dEbGA",
+    "diff_hunk": "@@ -2661,6 +2688,99 @@ create them does not matter.\n  1. Return « |branch1|, |branch2| ».\n </div>\n \n+<div algorithm>\n+To <dfn lt=\"fully read\">fully read</dfn> a {{ReadableStream}} |stream|, given an algorithm |processBody|, and an algorithm |processBodyError|, run these steps. |processBody| must be an algorithm accepting a [=byte sequence=]. |processBodyError| must be an algorithm optionally accepting an exception.\n+\n+ 1. Let |successSteps| given a [=byte sequence=] |bytes| be to run |processBody| given |bytes|.\n+ 1. Let |errorSteps| optionally given an exception |exception| be to run |processBodyError| given |exception|.\n+ 1. Let |reader| be the result of getting a reader for |stream|. If that threw an exception, then run |errorSteps| with that exception and return.\n+ 1. [=read all bytes|Read all bytes=] from |reader|, given |successSteps| and |errorSteps|.\n+</div>\n+\n+<div algorithm>\n+The <dfn lt=\"consume fully with abort\">consume fully with abort</dfn> algorithm, given a {{ReadableStream}} |stream|, an optional {{AbortSignal}} |signal|, and an algorithm that takes a [=byte sequence=] and returns a JavaScript or throws an exception |convertBytesToJSValue|, runs these steps:\n+\n+ 1. Let |promise| be [=a new promise=].\n+ 1. Let |errorSteps| given |error| to be [=reject=] |promise| with |error|.\n+ 1. Let |successSteps| given a [=byte sequence=] |data| be to [=resolve=] |promise| with the result of running |convertBytesToJSValue| with |data|. If that threw an exception, then run |errorSteps| with that exception.\n+ 1. If |signal| is not undefined,\n+  1. Let |abortAlgorithm| be the following steps:\n+   1. Let |error| be |signal|'s [=AbortSignal/abort reason=].\n+   1. Run |errorSteps| with |error|.\n+   1. Let |actions| be an empty [=ordered set=].\n+   1. If |stream|.[=ReadableStream/[[state]]=] is \"`readable`\", [=set/append=] the following action action to |actions|:\n+     1. return ! [$ReadableStreamCancel$](|stream|, |error|).\n+     1. Otherwise, return [=a promise resolved with=] undefined.\n+   1. [=Shutdown with an action=] consisting of [=getting a promise to wait for all=] of the actions",
+    "path": "index.bs",
+    "commit_id": "fe482f85f6168dc977f75c9076ce0124980a9325",
+    "original_commit_id": "dbf22e9da2f2402d14203938d7843a5939a6b1be",
+    "user": {
+      "login": "saschanaz",
+      "id": 3396686,
+      "node_id": "MDQ6VXNlcjMzOTY2ODY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3396686?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/saschanaz",
+      "html_url": "https://github.com/saschanaz",
+      "followers_url": "https://api.github.com/users/saschanaz/followers",
+      "following_url": "https://api.github.com/users/saschanaz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/saschanaz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/saschanaz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/saschanaz/subscriptions",
+      "organizations_url": "https://api.github.com/users/saschanaz/orgs",
+      "repos_url": "https://api.github.com/users/saschanaz/repos",
+      "events_url": "https://api.github.com/users/saschanaz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/saschanaz/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This is pipeTo specific, maybe we can simply call ReadableStreamCancel?",
+    "created_at": "2024-04-11T18:13:04Z",
+    "updated_at": "2024-04-11T18:13:42Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1311#discussion_r1561440640",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1311",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1561440640"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1311#discussion_r1561440640"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1311"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1561440640/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 2714,
+    "original_line": 2714,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 75,
+    "position": 75,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

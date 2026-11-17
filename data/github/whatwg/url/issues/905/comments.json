@@ -1,0 +1,48 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/url/issues/comments/4833262285",
+    "html_url": "https://github.com/whatwg/url/pull/905#issuecomment-4833262285",
+    "issue_url": "https://api.github.com/repos/whatwg/url/issues/905",
+    "id": 4833262285,
+    "node_id": "IC_kwDOAFmX0c8AAAABIBW6zQ",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-06-29T13:43:43Z",
+    "updated_at": "2026-06-29T13:43:43Z",
+    "body": "Haven't yet looked at the changes in detail---will try to do that soon. But according to my agents, even after these changes we have the following divergences:\r\n\r\nFrom Codex:\r\n\r\n> - Predicate false, parser succeeds clean: `https://example.org//`.\r\n> - Predicate true, parser fails: IPv4-looking domains such as `https://example.255/`, `https://1.2.3.4.5/`, `https://256.1.1.1/`, plus `foo://:80`.\r\n> - Predicate true, parser succeeds with validation errors: `foo://h@x` is valid by the new non-special opaque-body grammar, while the parser reports `invalid-credentials`.\r\n\r\nFrom Claude (so wordy...):\r\n\r\n> After the change, a broad bidirectional fuzz (~1.1M inputs) leaves exactly three divergence classes, **all pre-existing and untouched by #905**:\r\n> \r\n> 1. **IPv4 reinterpretation of numeric-looking domains** *(valid string → parser fails or warns).* A host that is a valid *domain string* (passes strict ToASCII) but \"ends in a number\" is re-parsed as IPv4 by the parser, which then fails or warns. The writing grammar never does IPv4 *parsing* — it only checks \"valid IPv4-address string\" syntactically and \"valid domain string\" via ToASCII — so it accepts these.\r\n>    - `https://example.255/` → `IPv4-non-numeric-part` (fail); `https://1.2.3.4.5/` → `IPv4-too-many-parts` (fail); `https://256.1.1.1/` → `IPv4-out-of-range-part` (fail); `https://09/` → fail; `https://0x1.2/` → `IPv4-non-decimal-part` (**parses**, just warns).\r\n> \r\n> 2. **Empty path segments / empty authority** *(invalid string → parser accepts cleanly, no error).* A `path-absolute-URL string` can't start with `//` (its `path-relative` part may not start with `/`), so the grammar rejects a leading empty segment, but the parser produces it silently.\r\n>    - `https://example.org//`, `https://example.org//p`, and the related empty-authority `file://`.\r\n> \r\n> 3. **Relative reference against a cannot-be-a-base (opaque-path) base** *(valid string → parser fails with `missing-scheme-non-relative-URL`).* `relative-URL string` validity switches only on the base's *scheme*, so the predicate calls e.g. `a/b`, `/p`, `_dmarc.x` valid against base `foo:opaque` — but the parser can't resolve any non-fragment relative reference against an opaque-path base. This one only appears when a cannot-be-a-base URL is supplied as the base.\r\n> \r\n> Classes 1 and 3 are the writing grammar being *looser* than the parser (host IPv4 semantics; cannot-be-a-base bases); class 2 is the grammar being *stricter* (empty path segments). None are addressed by #905's scope.\r\n\r\nNotably Codex's\r\n\r\n> - Predicate true, parser succeeds with validation errors: `foo://h@x` is valid by the new non-special opaque-body grammar, while the parser reports `invalid-credentials`.\r\n\r\nseems like it might be a regression? Whereas Claude thinks this PR is a strict progression.\r\n\r\nThe divergence seems to be how they implemented\r\n\r\n> a [URL-scheme string](https://whatpr.org/url/905.html#url-scheme-string) that is not an [ASCII case-insensitive](https://infra.spec.whatwg.org/#ascii-case-insensitive) match for a [special scheme](https://whatpr.org/url/905.html#special-scheme), followed by U+003A (:) and one of: a [scheme-relative-URL string](https://whatpr.org/url/905.html#scheme-relative-url-string), a [path-absolute-URL string](https://whatpr.org/url/905.html#path-absolute-url-string), or zero or more [URL units](https://whatpr.org/url/905.html#url-units)\r\n\r\ne.g. `foo://:80` is valid per a literal reading.",
+    "author_association": "MEMBER",
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/url/issues/comments/4833262285/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

@@ -1,0 +1,858 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/270812174",
+    "pull_request_review_id": 221042105,
+    "id": 270812174,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3MDgxMjE3NA==",
+    "diff_hunk": "@@ -2540,6 +2542,82 @@ in which case the [=default toJSON operation=] is exposed instead.\n </div>\n \n \n+<h4 id=idl-constructors oldids=\"Constructor\" dfn>Constructor methods</h4>\n+\n+If an [=interface=] has a [=constructor method=] member (matching\n+<emu-nt><a href=\"#prod-Constructor\">Constructor</a></emu-nt>), it indicates that it is possible to\n+create objects that [=implement=] the [=interface=] using a [=constructor=].\n+\n+Multiple [=constructor methods=] may appear on a given [=interface=].\n+For each [=constructor method=] on the [=interface=], there will be a way to construct an instance",
+    "path": "index.bs",
+    "commit_id": "dba557713d5900d0301c15233dd7a0d6ef5c1e09",
+    "original_commit_id": "5ad632753be4b78f5bd41bd49d9425ac7c017e26",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "might be* (it could throw)",
+    "created_at": "2019-04-01T10:51:49Z",
+    "updated_at": "2019-08-27T13:56:34Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/700#discussion_r270812174",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/700",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/270812174"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/700#discussion_r270812174"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/700"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/270812174/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 2576,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 75,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/270812798",
+    "pull_request_review_id": 221042105,
+    "id": 270812798,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3MDgxMjc5OA==",
+    "diff_hunk": "@@ -2540,6 +2542,82 @@ in which case the [=default toJSON operation=] is exposed instead.\n </div>\n \n \n+<h4 id=idl-constructors oldids=\"Constructor\" dfn>Constructor methods</h4>\n+\n+If an [=interface=] has a [=constructor method=] member (matching\n+<emu-nt><a href=\"#prod-Constructor\">Constructor</a></emu-nt>), it indicates that it is possible to\n+create objects that [=implement=] the [=interface=] using a [=constructor=].\n+\n+Multiple [=constructor methods=] may appear on a given [=interface=].\n+For each [=constructor method=] on the [=interface=], there will be a way to construct an instance\n+by passing the specified arguments.\n+\n+The prose definition of a [=constructor method=] must either initialize the value passed as\n+<b>[=this=]</b>, or throw an exception.\n+\n+A [=constructor method=] must not be defined on a [=callback interface=].\n+\n+See [[#interface-object]] for details on how a [=constructor method=] is to be implemented.\n+\n+<div class=\"example\">\n+\n+    The following IDL defines two interfaces. The second has [=constructor methods=], while the\n+    first does not.\n+\n+    <pre highlight=\"webidl\">\n+        [Exposed=Window]\n+        interface NodeList {\n+          Node item(unsigned long index);\n+          readonly attribute unsigned long length;\n+        };\n+\n+        [Exposed=Window]\n+        interface Circle {\n+          constructor();\n+          constructor(double radius);\n+          attribute double r;\n+          attribute double cx;\n+          attribute double cy;\n+          readonly attribute double circumference;\n+        };\n+    </pre>\n+\n+    An ECMAScript implementation supporting these interfaces would have a \\[[Construct]] property\n+    on the <code class=\"idl\">Circle</code> interface object which would return a new object that\n+    [=implements=] the interface.\n+    It would take either zero or one argument.\n+    The <code class=\"idl\">NodeList</code> interface object would not have a \\[[Construct]]\n+    property.",
+    "path": "index.bs",
+    "commit_id": "dba557713d5900d0301c15233dd7a0d6ef5c1e09",
+    "original_commit_id": "5ad632753be4b78f5bd41bd49d9425ac7c017e26",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I thought it would have a throwing one? And the way we'd explain how an implementation was able to create it was by passing some magical token.",
+    "created_at": "2019-04-01T10:53:48Z",
+    "updated_at": "2019-08-27T13:56:34Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/700#discussion_r270812798",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/700",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/270812798"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/700#discussion_r270812798"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/700"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/270812798/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 2614,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 113,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/270813279",
+    "pull_request_review_id": 221042105,
+    "id": 270813279,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3MDgxMzI3OQ==",
+    "diff_hunk": "@@ -9432,15 +9428,12 @@ will not exist for the interface in the ECMAScript binding.\n The [{{NoInterfaceObject}}] extended attribute\n must [=takes no arguments|take no arguments=].\n \n-If the [{{NoInterfaceObject}}] extended attribute\n-is specified on an interface, then the [{{Constructor}}]\n-extended attribute must not also be specified on that interface.\n-A [{{NamedConstructor}}] extended attribute is fine,\n-however.\n-\n The [{{NoInterfaceObject}}] extended attribute\n must not be specified on an interface that has any\n-[=static operations=] defined on it.\n+[=constructors=] or [=static operations=] defined on it.\n+\n+Note: Combining the [{{NoInterfaceObject}}] and [{{NamedConstructor}}] extended attribute is not\n+forbidden, however.",
+    "path": "index.bs",
+    "commit_id": "dba557713d5900d0301c15233dd7a0d6ef5c1e09",
+    "original_commit_id": "5ad632753be4b78f5bd41bd49d9425ac7c017e26",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Hmm, maybe it should be? I guess that would be a separate change.",
+    "created_at": "2019-04-01T10:55:26Z",
+    "updated_at": "2019-08-27T13:56:34Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/700#discussion_r270813279",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/700",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/270813279"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/700#discussion_r270813279"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/700"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/270813279/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 9928,
+    "original_line": 9928,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 297,
+    "position": 328,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/270832250",
+    "pull_request_review_id": 221067294,
+    "id": 270832250,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3MDgzMjI1MA==",
+    "diff_hunk": "@@ -9432,15 +9428,12 @@ will not exist for the interface in the ECMAScript binding.\n The [{{NoInterfaceObject}}] extended attribute\n must [=takes no arguments|take no arguments=].\n \n-If the [{{NoInterfaceObject}}] extended attribute\n-is specified on an interface, then the [{{Constructor}}]\n-extended attribute must not also be specified on that interface.\n-A [{{NamedConstructor}}] extended attribute is fine,\n-however.\n-\n The [{{NoInterfaceObject}}] extended attribute\n must not be specified on an interface that has any\n-[=static operations=] defined on it.\n+[=constructors=] or [=static operations=] defined on it.\n+\n+Note: Combining the [{{NoInterfaceObject}}] and [{{NamedConstructor}}] extended attribute is not\n+forbidden, however.",
+    "path": "index.bs",
+    "commit_id": "dba557713d5900d0301c15233dd7a0d6ef5c1e09",
+    "original_commit_id": "5ad632753be4b78f5bd41bd49d9425ac7c017e26",
+    "user": {
+      "login": "Ms2ger",
+      "id": 111161,
+      "node_id": "MDQ6VXNlcjExMTE2MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/111161?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Ms2ger",
+      "html_url": "https://github.com/Ms2ger",
+      "followers_url": "https://api.github.com/users/Ms2ger/followers",
+      "following_url": "https://api.github.com/users/Ms2ger/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Ms2ger/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Ms2ger/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Ms2ger/subscriptions",
+      "organizations_url": "https://api.github.com/users/Ms2ger/orgs",
+      "repos_url": "https://api.github.com/users/Ms2ger/repos",
+      "events_url": "https://api.github.com/users/Ms2ger/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Ms2ger/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I wanna remove `[NoInterfaceObject]` anyway.",
+    "created_at": "2019-04-01T11:57:54Z",
+    "updated_at": "2019-08-27T13:56:34Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/700#discussion_r270832250",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/700",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/270832250"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/700#discussion_r270832250"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/700"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/270832250/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 9928,
+    "original_line": 9928,
+    "side": "RIGHT",
+    "in_reply_to_id": 270813279,
+    "author_association": "MEMBER",
+    "original_position": 297,
+    "position": 328,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/270832401",
+    "pull_request_review_id": 221067294,
+    "id": 270832401,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3MDgzMjQwMQ==",
+    "diff_hunk": "@@ -2540,6 +2542,82 @@ in which case the [=default toJSON operation=] is exposed instead.\n </div>\n \n \n+<h4 id=idl-constructors oldids=\"Constructor\" dfn>Constructor methods</h4>\n+\n+If an [=interface=] has a [=constructor method=] member (matching\n+<emu-nt><a href=\"#prod-Constructor\">Constructor</a></emu-nt>), it indicates that it is possible to\n+create objects that [=implement=] the [=interface=] using a [=constructor=].\n+\n+Multiple [=constructor methods=] may appear on a given [=interface=].\n+For each [=constructor method=] on the [=interface=], there will be a way to construct an instance\n+by passing the specified arguments.\n+\n+The prose definition of a [=constructor method=] must either initialize the value passed as\n+<b>[=this=]</b>, or throw an exception.\n+\n+A [=constructor method=] must not be defined on a [=callback interface=].\n+\n+See [[#interface-object]] for details on how a [=constructor method=] is to be implemented.\n+\n+<div class=\"example\">\n+\n+    The following IDL defines two interfaces. The second has [=constructor methods=], while the\n+    first does not.\n+\n+    <pre highlight=\"webidl\">\n+        [Exposed=Window]\n+        interface NodeList {\n+          Node item(unsigned long index);\n+          readonly attribute unsigned long length;\n+        };\n+\n+        [Exposed=Window]\n+        interface Circle {\n+          constructor();\n+          constructor(double radius);\n+          attribute double r;\n+          attribute double cx;\n+          attribute double cy;\n+          readonly attribute double circumference;\n+        };\n+    </pre>\n+\n+    An ECMAScript implementation supporting these interfaces would have a \\[[Construct]] property\n+    on the <code class=\"idl\">Circle</code> interface object which would return a new object that\n+    [=implements=] the interface.\n+    It would take either zero or one argument.\n+    The <code class=\"idl\">NodeList</code> interface object would not have a \\[[Construct]]\n+    property.",
+    "path": "index.bs",
+    "commit_id": "dba557713d5900d0301c15233dd7a0d6ef5c1e09",
+    "original_commit_id": "5ad632753be4b78f5bd41bd49d9425ac7c017e26",
+    "user": {
+      "login": "Ms2ger",
+      "id": 111161,
+      "node_id": "MDQ6VXNlcjExMTE2MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/111161?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Ms2ger",
+      "html_url": "https://github.com/Ms2ger",
+      "followers_url": "https://api.github.com/users/Ms2ger/followers",
+      "following_url": "https://api.github.com/users/Ms2ger/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Ms2ger/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Ms2ger/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Ms2ger/subscriptions",
+      "organizations_url": "https://api.github.com/users/Ms2ger/orgs",
+      "repos_url": "https://api.github.com/users/Ms2ger/repos",
+      "events_url": "https://api.github.com/users/Ms2ger/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Ms2ger/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Unclear: https://github.com/heycam/webidl/issues/698.",
+    "created_at": "2019-04-01T11:58:22Z",
+    "updated_at": "2019-08-27T13:56:34Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/700#discussion_r270832401",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/700",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/270832401"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/700#discussion_r270832401"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/700"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/270832401/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 2614,
+    "side": "RIGHT",
+    "in_reply_to_id": 270812798,
+    "author_association": "MEMBER",
+    "original_position": 113,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/271813768",
+    "pull_request_review_id": 222302611,
+    "id": 271813768,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3MTgxMzc2OA==",
+    "diff_hunk": "@@ -2540,6 +2542,82 @@ in which case the [=default toJSON operation=] is exposed instead.\n </div>\n \n \n+<h4 id=idl-constructors oldids=\"Constructor\" dfn>Constructor methods</h4>",
+    "path": "index.bs",
+    "commit_id": "dba557713d5900d0301c15233dd7a0d6ef5c1e09",
+    "original_commit_id": "5ad632753be4b78f5bd41bd49d9425ac7c017e26",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "\"Constructor method\" is a weird term. I usually think of constructors and methods as disjoint sets. Could we call these \"constructors\" or, if we really need a term of art, perhaps \"constructor operations\"?",
+    "created_at": "2019-04-03T15:56:24Z",
+    "updated_at": "2019-08-27T13:56:34Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/700#discussion_r271813768",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/700",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/271813768"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/700#discussion_r271813768"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/700"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/271813768/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 2569,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 68,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/271815131",
+    "pull_request_review_id": 222302611,
+    "id": 271815131,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3MTgxNTEzMQ==",
+    "diff_hunk": "@@ -2540,6 +2542,82 @@ in which case the [=default toJSON operation=] is exposed instead.\n </div>\n \n \n+<h4 id=idl-constructors oldids=\"Constructor\" dfn>Constructor methods</h4>\n+\n+If an [=interface=] has a [=constructor method=] member (matching\n+<emu-nt><a href=\"#prod-Constructor\">Constructor</a></emu-nt>), it indicates that it is possible to\n+create objects that [=implement=] the [=interface=] using a [=constructor=].\n+\n+Multiple [=constructor methods=] may appear on a given [=interface=].\n+For each [=constructor method=] on the [=interface=], there will be a way to construct an instance\n+by passing the specified arguments.\n+\n+The prose definition of a [=constructor method=] must either initialize the value passed as\n+<b>[=this=]</b>, or throw an exception.\n+\n+A [=constructor method=] must not be defined on a [=callback interface=].\n+\n+See [[#interface-object]] for details on how a [=constructor method=] is to be implemented.\n+\n+<div class=\"example\">\n+\n+    The following IDL defines two interfaces. The second has [=constructor methods=], while the\n+    first does not.\n+\n+    <pre highlight=\"webidl\">\n+        [Exposed=Window]\n+        interface NodeList {\n+          Node item(unsigned long index);\n+          readonly attribute unsigned long length;\n+        };\n+\n+        [Exposed=Window]\n+        interface Circle {\n+          constructor();\n+          constructor(double radius);\n+          attribute double r;\n+          attribute double cx;\n+          attribute double cy;\n+          readonly attribute double circumference;\n+        };\n+    </pre>\n+\n+    An ECMAScript implementation supporting these interfaces would have a \\[[Construct]] property",
+    "path": "index.bs",
+    "commit_id": "dba557713d5900d0301c15233dd7a0d6ef5c1e09",
+    "original_commit_id": "5ad632753be4b78f5bd41bd49d9425ac7c017e26",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n    An ECMAScript implementation supporting these interfaces would implement a \\[[Construct]] internal method\r\n```",
+    "created_at": "2019-04-03T15:59:14Z",
+    "updated_at": "2019-08-27T13:56:34Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/700#discussion_r271815131",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/700",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/271815131"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/700#discussion_r271815131"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/700"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/271815131/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 2609,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 108,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/271816599",
+    "pull_request_review_id": 222302611,
+    "id": 271816599,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3MTgxNjU5OQ==",
+    "diff_hunk": "@@ -2540,6 +2542,82 @@ in which case the [=default toJSON operation=] is exposed instead.\n </div>\n \n \n+<h4 id=idl-constructors oldids=\"Constructor\" dfn>Constructor methods</h4>\n+\n+If an [=interface=] has a [=constructor method=] member (matching\n+<emu-nt><a href=\"#prod-Constructor\">Constructor</a></emu-nt>), it indicates that it is possible to\n+create objects that [=implement=] the [=interface=] using a [=constructor=].\n+\n+Multiple [=constructor methods=] may appear on a given [=interface=].\n+For each [=constructor method=] on the [=interface=], there will be a way to construct an instance\n+by passing the specified arguments.\n+\n+The prose definition of a [=constructor method=] must either initialize the value passed as\n+<b>[=this=]</b>, or throw an exception.\n+\n+A [=constructor method=] must not be defined on a [=callback interface=].\n+\n+See [[#interface-object]] for details on how a [=constructor method=] is to be implemented.\n+\n+<div class=\"example\">\n+\n+    The following IDL defines two interfaces. The second has [=constructor methods=], while the\n+    first does not.\n+\n+    <pre highlight=\"webidl\">\n+        [Exposed=Window]\n+        interface NodeList {\n+          Node item(unsigned long index);\n+          readonly attribute unsigned long length;\n+        };\n+\n+        [Exposed=Window]\n+        interface Circle {\n+          constructor();\n+          constructor(double radius);\n+          attribute double r;\n+          attribute double cx;\n+          attribute double cy;\n+          readonly attribute double circumference;\n+        };\n+    </pre>\n+\n+    An ECMAScript implementation supporting these interfaces would have a \\[[Construct]] property\n+    on the <code class=\"idl\">Circle</code> interface object which would return a new object that\n+    [=implements=] the interface.\n+    It would take either zero or one argument.\n+    The <code class=\"idl\">NodeList</code> interface object would not have a \\[[Construct]]\n+    property.",
+    "path": "index.bs",
+    "commit_id": "dba557713d5900d0301c15233dd7a0d6ef5c1e09",
+    "original_commit_id": "5ad632753be4b78f5bd41bd49d9425ac7c017e26",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "We should either have this be an XXX unclear box, or block this on resolving #698.",
+    "created_at": "2019-04-03T16:02:30Z",
+    "updated_at": "2019-08-27T13:56:34Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/700#discussion_r271816599",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/700",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/271816599"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/700#discussion_r271816599"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/700"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/271816599/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 2614,
+    "side": "RIGHT",
+    "in_reply_to_id": 270812798,
+    "author_association": "MEMBER",
+    "original_position": 113,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/311158323",
+    "pull_request_review_id": 271467330,
+    "id": 311158323,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDMxMTE1ODMyMw==",
+    "diff_hunk": "@@ -1065,6 +1066,18 @@ The <dfn>qualified name</dfn> of an [=interface=] |interface| is defined as foll\n \n <pre class=\"grammar\" id=\"prod-InterfaceMember\">\n     InterfaceMember :\n+        PartialInterfaceMember\n+        Constructor\n+</pre>\n+\n+<pre class=\"grammar\" id=\"prod-PartialInterfaceMembers\">\n+    InterfaceMembers :",
+    "path": "index.bs",
+    "commit_id": "dba557713d5900d0301c15233dd7a0d6ef5c1e09",
+    "original_commit_id": "7f663b3d8307278b7d46dec412c1b00c6a77f815",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This line should say `PartialInterfaceMembers :`",
+    "created_at": "2019-08-06T16:28:58Z",
+    "updated_at": "2019-08-27T13:56:34Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/700#discussion_r311158323",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/700",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/311158323"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/700#discussion_r311158323"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/700"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/311158323/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1074,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 54,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/311159785",
+    "pull_request_review_id": 271467330,
+    "id": 311159785,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDMxMTE1OTc4NQ==",
+    "diff_hunk": "@@ -3218,7 +3308,7 @@ definitions.\n         };\n     </pre>\n \n-    Note that the [{{Constructor}}] and\n+    Note that [=constructor methods=] and",
+    "path": "index.bs",
+    "commit_id": "dba557713d5900d0301c15233dd7a0d6ef5c1e09",
+    "original_commit_id": "7f663b3d8307278b7d46dec412c1b00c6a77f815",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Do we still need the prose mention here now that the grammar enforces it?",
+    "created_at": "2019-08-06T16:32:19Z",
+    "updated_at": "2019-08-27T13:56:34Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/700#discussion_r311159785",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/700",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/311159785"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/700#discussion_r311159785"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/700"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/311159785/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 3311,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 184,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/311160795",
+    "pull_request_review_id": 271467330,
+    "id": 311160795,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDMxMTE2MDc5NQ==",
+    "diff_hunk": "@@ -8286,87 +8375,6 @@ for the specific requirements that the use of\n </div>\n \n \n-<h4 id=\"Constructor\" extended-attribute lt=\"Constructor\">[Constructor]</h4>\n-\n-If the [{{Constructor}}]\n-[=extended attribute=]\n-appears on an [=interface=], it indicates that\n-the [=interface object=] for this interface\n-will have an \\[[Construct]] [=internal method=],\n-allowing objects implementing the interface to be constructed.\n-\n-Multiple [{{Constructor}}] extended\n-attributes may appear on a given interface.\n-\n-The [{{Constructor}}]\n-extended attribute must either\n-[=takes no arguments|take no arguments=] or\n-[=takes an argument list|take an argument list=].\n-The bare form, <code>[Constructor]</code>, has the same meaning as\n-using an empty argument list, <code>[Constructor()]</code>.  For each\n-[{{Constructor}}] extended attribute\n-on the interface, there will be a way to construct an object that [=implements=]\n-the interface by passing the specified arguments.\n-\n-The prose definition of a constructor must either initialize the value passed as <b>[=this=]</b>,\n-or throw an exception.\n-\n-The [{{Constructor}}] and\n-[{{NoInterfaceObject}}]\n-extended attributes must not be specified on the same interface.\n-\n-The [{{Constructor}}] and [{{Global}}] [=extended attributes=] must not be specified on the same\n-[=interface=].",
+    "path": "index.bs",
+    "commit_id": "dba557713d5900d0301c15233dd7a0d6ef5c1e09",
+    "original_commit_id": "7f663b3d8307278b7d46dec412c1b00c6a77f815",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This requirement has disappeared.  It should be reinstated.",
+    "created_at": "2019-08-06T16:34:32Z",
+    "updated_at": "2019-08-27T13:56:34Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/700#discussion_r311160795",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/700",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/311160795"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/700#discussion_r311160795"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/700"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/311160795/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 8822,
+    "original_line": 8822,
+    "side": "LEFT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 250,
+    "position": 250,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/311424157",
+    "pull_request_review_id": 271798056,
+    "id": 311424157,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDMxMTQyNDE1Nw==",
+    "diff_hunk": "@@ -3218,7 +3308,7 @@ definitions.\n         };\n     </pre>\n \n-    Note that the [{{Constructor}}] and\n+    Note that [=constructor methods=] and",
+    "path": "index.bs",
+    "commit_id": "dba557713d5900d0301c15233dd7a0d6ef5c1e09",
+    "original_commit_id": "7f663b3d8307278b7d46dec412c1b00c6a77f815",
+    "user": {
+      "login": "Ms2ger",
+      "id": 111161,
+      "node_id": "MDQ6VXNlcjExMTE2MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/111161?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Ms2ger",
+      "html_url": "https://github.com/Ms2ger",
+      "followers_url": "https://api.github.com/users/Ms2ger/followers",
+      "following_url": "https://api.github.com/users/Ms2ger/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Ms2ger/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Ms2ger/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Ms2ger/subscriptions",
+      "organizations_url": "https://api.github.com/users/Ms2ger/orgs",
+      "repos_url": "https://api.github.com/users/Ms2ger/repos",
+      "events_url": "https://api.github.com/users/Ms2ger/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Ms2ger/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "It's just a note; I think it's okay to keep.",
+    "created_at": "2019-08-07T08:18:18Z",
+    "updated_at": "2019-08-27T13:56:34Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/700#discussion_r311424157",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/700",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/311424157"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/700#discussion_r311424157"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/700"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/311424157/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 3311,
+    "side": "RIGHT",
+    "in_reply_to_id": 311159785,
+    "author_association": "MEMBER",
+    "original_position": 184,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

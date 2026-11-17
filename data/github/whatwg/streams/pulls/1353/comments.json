@@ -1,0 +1,144 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/2278800985",
+    "pull_request_review_id": 3123610022,
+    "id": 2278800985,
+    "node_id": "PRRC_kwDOANUOW86H075Z",
+    "diff_hunk": "@@ -1584,6 +1584,8 @@ function ReadableByteStreamControllerPullInto(controller, view, min, readIntoReq\n   assert(minimumFill >= elementSize && minimumFill <= view.byteLength);\n   assert(minimumFill % elementSize === 0);\n \n+  const byteOffset = view.byteOffset;\n+  const byteLength = view.byteLength;",
+    "path": "reference-implementation/lib/abstract-ops/readable-streams.js",
+    "commit_id": "ea326f9b1323f92a2b9da241c8d2fc701540f44c",
+    "original_commit_id": "852ded49363508f0da60c8fa22561c83f937c2fe",
+    "user": {
+      "login": "MattiasBuelens",
+      "id": 649348,
+      "node_id": "MDQ6VXNlcjY0OTM0OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/649348?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/MattiasBuelens",
+      "html_url": "https://github.com/MattiasBuelens",
+      "followers_url": "https://api.github.com/users/MattiasBuelens/followers",
+      "following_url": "https://api.github.com/users/MattiasBuelens/following{/other_user}",
+      "gists_url": "https://api.github.com/users/MattiasBuelens/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/MattiasBuelens/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/MattiasBuelens/subscriptions",
+      "organizations_url": "https://api.github.com/users/MattiasBuelens/orgs",
+      "repos_url": "https://api.github.com/users/MattiasBuelens/repos",
+      "events_url": "https://api.github.com/users/MattiasBuelens/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/MattiasBuelens/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The reference implementation was doing [steps 8 and 9](https://streams.spec.whatwg.org/commit-snapshots/4f2a2c1012342885b2c2d7608fa58ef81631b058/#readable-byte-stream-controller-pull-into) *after* calling `TransferArrayBuffer`, which meant that `view.byteLength` was already `0`. We didn't notice this, because we weren't *actually* transferring before. 😛\n\nFortunately, all \"real\" implementations already do this correctly.",
+    "created_at": "2025-08-15T11:03:48Z",
+    "updated_at": "2025-08-15T11:06:15Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1353#discussion_r2278800985",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1353",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/2278800985"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1353#discussion_r2278800985"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1353"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/2278800985/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 1587,
+    "original_start_line": 1587,
+    "start_side": "RIGHT",
+    "line": 1588,
+    "original_line": 1588,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 5,
+    "position": 5,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/2278803577",
+    "pull_request_review_id": 3123610022,
+    "id": 2278803577,
+    "node_id": "PRRC_kwDOANUOW86H08h5",
+    "diff_hunk": "@@ -15,31 +16,17 @@ exports.CopyDataBlockBytes = (dest, destOffset, src, srcOffset, n) => {\n   new Uint8Array(dest).set(new Uint8Array(src, srcOffset, n), destOffset);\n };\n \n-// Not implemented correctly\n exports.TransferArrayBuffer = O => {\n   assert(!exports.IsDetachedBuffer(O));\n-  const transferredIshVersion = O.slice();\n-\n-  // This is specifically to fool tests that test \"is transferred\" by taking a non-zero-length\n-  // ArrayBuffer and checking if its byteLength starts returning 0.\n-  Object.defineProperty(O, 'byteLength', {\n-    get() {\n-      return 0;\n-    }\n-  });\n-  O[isFakeDetached] = true;\n-\n-  return transferredIshVersion;\n+  return ArrayBufferPrototypeTransferToFixedLength.call(O);",
+    "path": "reference-implementation/lib/abstract-ops/ecmascript.js",
+    "commit_id": "ea326f9b1323f92a2b9da241c8d2fc701540f44c",
+    "original_commit_id": "852ded49363508f0da60c8fa22561c83f937c2fe",
+    "user": {
+      "login": "MattiasBuelens",
+      "id": 649348,
+      "node_id": "MDQ6VXNlcjY0OTM0OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/649348?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/MattiasBuelens",
+      "html_url": "https://github.com/MattiasBuelens",
+      "followers_url": "https://api.github.com/users/MattiasBuelens/followers",
+      "following_url": "https://api.github.com/users/MattiasBuelens/following{/other_user}",
+      "gists_url": "https://api.github.com/users/MattiasBuelens/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/MattiasBuelens/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/MattiasBuelens/subscriptions",
+      "organizations_url": "https://api.github.com/users/MattiasBuelens/orgs",
+      "repos_url": "https://api.github.com/users/MattiasBuelens/repos",
+      "events_url": "https://api.github.com/users/MattiasBuelens/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/MattiasBuelens/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I'm using `transferToFixedLength()` since we don't (yet) support [resizable `ArrayBuffer`s](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer#resizing_arraybuffers).\n\nI think we can loosen that restriction, but we should do that in an *actual* spec change. 😉",
+    "created_at": "2025-08-15T11:06:04Z",
+    "updated_at": "2025-08-15T11:06:15Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1353#discussion_r2278803577",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1353",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/2278803577"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1353#discussion_r2278803577"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1353"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/2278803577/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 21,
+    "original_line": 21,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 29,
+    "position": 29,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

@@ -1,0 +1,787 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/655288755",
+    "pull_request_review_id": 688307418,
+    "id": 655288755,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY1NTI4ODc1NQ==",
+    "diff_hunk": "@@ -11794,10 +11788,8 @@ in which case they are exposed on every object that [=implements=] the interface\n         1.  If |attribute|'s type is a [=promise type=], then return\n             [=!=] <a abstract-op>Call</a>({{%Promise.reject%}}, {{%Promise%}}, «|E|»).\n         1.  Otherwise, end these steps and allow the exception to propagate.\n-    1.  Let |F| be [=!=] <a abstract-op>CreateBuiltinFunction</a>(|steps|, « », |realm|).\n-    1.  Let |name| be the string \"<code>get </code>\" prepended to |attribute|'s [=identifier=].\n-    1.  Perform [=!=] <a abstract-op>SetFunctionName</a>(|F|, |name|).\n-    1.  Perform [=!=] <a abstract-op>SetFunctionLength</a>(|F|, 0).\n+    1.  Let |name| be |attribute|'s [=identifier=].\n+    1.  Let |F| be [=!=] [$CreateBuiltinFunction$](|steps|, 0, |name|, « », |realm|, {{%Function.prototype%}}, \"<code>get</code>\").\n     1.  Return |F|.",
+    "path": "index.bs",
+    "commit_id": "adfd814119ac6432e4ffb217e3aaefe375de1cb2",
+    "original_commit_id": "675bca3805f8a45092484a2668bd4ad5db134fa9",
+    "user": {
+      "login": "Ms2ger",
+      "id": 111161,
+      "node_id": "MDQ6VXNlcjExMTE2MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/111161?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Ms2ger",
+      "html_url": "https://github.com/Ms2ger",
+      "followers_url": "https://api.github.com/users/Ms2ger/followers",
+      "following_url": "https://api.github.com/users/Ms2ger/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Ms2ger/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Ms2ger/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Ms2ger/subscriptions",
+      "organizations_url": "https://api.github.com/users/Ms2ger/orgs",
+      "repos_url": "https://api.github.com/users/Ms2ger/repos",
+      "events_url": "https://api.github.com/users/Ms2ger/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Ms2ger/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n    1.  Return [=!=] [$CreateBuiltinFunction$](|steps|, 0, |name|, « », |realm|, {{%Function.prototype%}}, \"<code>get</code>\").\r\n```",
+    "created_at": "2021-06-21T11:17:33Z",
+    "updated_at": "2021-06-21T11:24:34Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/914#discussion_r655288755",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/914",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/655288755"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/914#discussion_r655288755"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/914"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/655288755/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 11792,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 11793,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 99,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/655289083",
+    "pull_request_review_id": 688307418,
+    "id": 655289083,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY1NTI4OTA4Mw==",
+    "diff_hunk": "@@ -11880,10 +11872,8 @@ in which case they are exposed on every object that [=implements=] the interface\n         1.  Perform the [=setter steps=] of |attribute|,\n             with |idlObject| as [=this=] and |idlValue| as [=the given value=].\n         1.  Return <emu-val>undefined</emu-val>\n-    1.  Let |F| be [=!=] <a abstract-op>CreateBuiltinFunction</a>(|steps|, « », |realm|).\n-    1.  Let |name| be the string \"<code>set </code>\" prepended to |id|.\n-    1.  Perform [=!=] <a abstract-op>SetFunctionName</a>(|F|, |name|).\n-    1.  Perform [=!=] <a abstract-op>SetFunctionLength</a>(|F|, 1).\n+    1.  Let |name| be |attribute|'s [=identifier=].\n+    1.  Let |F| be [=!=] [$CreateBuiltinFunction$](|steps|, 1, |name|, « », |realm|, {{%Function.prototype%}}, \"<code>set</code>\").\n     1. Return |F|.",
+    "path": "index.bs",
+    "commit_id": "adfd814119ac6432e4ffb217e3aaefe375de1cb2",
+    "original_commit_id": "675bca3805f8a45092484a2668bd4ad5db134fa9",
+    "user": {
+      "login": "Ms2ger",
+      "id": 111161,
+      "node_id": "MDQ6VXNlcjExMTE2MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/111161?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Ms2ger",
+      "html_url": "https://github.com/Ms2ger",
+      "followers_url": "https://api.github.com/users/Ms2ger/followers",
+      "following_url": "https://api.github.com/users/Ms2ger/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Ms2ger/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Ms2ger/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Ms2ger/subscriptions",
+      "organizations_url": "https://api.github.com/users/Ms2ger/orgs",
+      "repos_url": "https://api.github.com/users/Ms2ger/repos",
+      "events_url": "https://api.github.com/users/Ms2ger/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Ms2ger/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n    1.  Return [=!=] [$CreateBuiltinFunction$](|steps|, 1, |name|, « », |realm|, {{%Function.prototype%}}, \"<code>set</code>\").\r\n```",
+    "created_at": "2021-06-21T11:18:01Z",
+    "updated_at": "2021-06-21T11:24:34Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/914#discussion_r655289083",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/914",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/655289083"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/914#discussion_r655289083"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/914"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/655289083/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 11876,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 11877,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 112,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/655290482",
+    "pull_request_review_id": 688307418,
+    "id": 655290482,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY1NTI5MDQ4Mg==",
+    "diff_hunk": "@@ -11998,13 +11988,11 @@ in which case they are exposed on every object that [=implements=] the interface\n             that is a [=promise type=], then return\n             [=!=] <a abstract-op>Call</a>({{%Promise.reject%}}, {{%Promise%}}, «|E|»).\n         1.  Otherwise, end these steps and allow the exception to propagate.\n-    1.  Let |F| be [=!=] <a abstract-op>CreateBuiltinFunction</a>(|steps|, « », |realm|).\n-    1.  Perform [=!=] <a abstract-op>SetFunctionName</a>(|F|, |id|).\n     1.  [=Compute the effective overload set=]  for [=regular operations=] (if |op| is a regular\n         operation) or for [=static operations=] (if |op| is a static operation) with [=identifier=]\n         |id| on |target| and with argument count 0, and let |S| be the result.\n     1.  Let |length| be the length of the shortest argument list in the entries in |S|.\n-    1.  Perform [=!=] <a abstract-op>SetFunctionLength</a>(|F|, |length|).\n+    1.  Let |F| be [=!=] [$CreateBuiltinFunction$](|steps|, |length|, |id|, « », |realm|).\n     1.  Return |F|.",
+    "path": "index.bs",
+    "commit_id": "adfd814119ac6432e4ffb217e3aaefe375de1cb2",
+    "original_commit_id": "675bca3805f8a45092484a2668bd4ad5db134fa9",
+    "user": {
+      "login": "Ms2ger",
+      "id": 111161,
+      "node_id": "MDQ6VXNlcjExMTE2MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/111161?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Ms2ger",
+      "html_url": "https://github.com/Ms2ger",
+      "followers_url": "https://api.github.com/users/Ms2ger/followers",
+      "following_url": "https://api.github.com/users/Ms2ger/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Ms2ger/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Ms2ger/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Ms2ger/subscriptions",
+      "organizations_url": "https://api.github.com/users/Ms2ger/orgs",
+      "repos_url": "https://api.github.com/users/Ms2ger/repos",
+      "events_url": "https://api.github.com/users/Ms2ger/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Ms2ger/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n    1.  Return [=!=] [$CreateBuiltinFunction$](|steps|, |length|, |id|, « », |realm|).\r\n```",
+    "created_at": "2021-06-21T11:20:23Z",
+    "updated_at": "2021-06-21T11:24:34Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/914#discussion_r655290482",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/914",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/655290482"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/914#discussion_r655290482"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/914"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/655290482/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 11995,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 11996,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 127,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/655291687",
+    "pull_request_review_id": 688307418,
+    "id": 655291687,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY1NTI5MTY4Nw==",
+    "diff_hunk": "@@ -12748,7 +12722,7 @@ The \\[[Prototype]] [=internal slot=] of an [=asynchronous iterator prototype obj\n \n     1.  If |ongoingPromise| is not null, then:\n         1.  Let |afterOngoingPromiseCapability| be [=!=] [$NewPromiseCapability$]({{%Promise%}}).\n-        1.  Let |onSettled| be [=!=] [$CreateBuiltinFunction$](|nextSteps|, « »).\n+        1.  Let |onSettled| be [=!=] [$CreateBuiltinFunction$](|nextSteps|, 0, \"\", « »).",
+    "path": "index.bs",
+    "commit_id": "adfd814119ac6432e4ffb217e3aaefe375de1cb2",
+    "original_commit_id": "675bca3805f8a45092484a2668bd4ad5db134fa9",
+    "user": {
+      "login": "Ms2ger",
+      "id": 111161,
+      "node_id": "MDQ6VXNlcjExMTE2MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/111161?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Ms2ger",
+      "html_url": "https://github.com/Ms2ger",
+      "followers_url": "https://api.github.com/users/Ms2ger/followers",
+      "following_url": "https://api.github.com/users/Ms2ger/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Ms2ger/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Ms2ger/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Ms2ger/subscriptions",
+      "organizations_url": "https://api.github.com/users/Ms2ger/orgs",
+      "repos_url": "https://api.github.com/users/Ms2ger/repos",
+      "events_url": "https://api.github.com/users/Ms2ger/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Ms2ger/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Are these observable? Should the length be one like the others?",
+    "created_at": "2021-06-21T11:22:24Z",
+    "updated_at": "2021-06-21T11:24:34Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/914#discussion_r655291687",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/914",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/655291687"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/914#discussion_r655291687"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/914"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/655291687/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 12864,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 228,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/655407826",
+    "pull_request_review_id": 688465824,
+    "id": 655407826,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY1NTQwNzgyNg==",
+    "diff_hunk": "@@ -12748,7 +12722,7 @@ The \\[[Prototype]] [=internal slot=] of an [=asynchronous iterator prototype obj\n \n     1.  If |ongoingPromise| is not null, then:\n         1.  Let |afterOngoingPromiseCapability| be [=!=] [$NewPromiseCapability$]({{%Promise%}}).\n-        1.  Let |onSettled| be [=!=] [$CreateBuiltinFunction$](|nextSteps|, « »).\n+        1.  Let |onSettled| be [=!=] [$CreateBuiltinFunction$](|nextSteps|, 0, \"\", « »).",
+    "path": "index.bs",
+    "commit_id": "adfd814119ac6432e4ffb217e3aaefe375de1cb2",
+    "original_commit_id": "675bca3805f8a45092484a2668bd4ad5db134fa9",
+    "user": {
+      "login": "ExE-Boss",
+      "id": 3889017,
+      "node_id": "MDQ6VXNlcjM4ODkwMTc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3889017?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ExE-Boss",
+      "html_url": "https://github.com/ExE-Boss",
+      "followers_url": "https://api.github.com/users/ExE-Boss/followers",
+      "following_url": "https://api.github.com/users/ExE-Boss/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ExE-Boss/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ExE-Boss/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ExE-Boss/subscriptions",
+      "organizations_url": "https://api.github.com/users/ExE-Boss/orgs",
+      "repos_url": "https://api.github.com/users/ExE-Boss/repos",
+      "events_url": "https://api.github.com/users/ExE-Boss/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ExE-Boss/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "> Are these observable?\r\n\r\nI don’t think so, since it’s passed directly to [PerformPromiseThen](https://tc39.es/ecma262/#sec-performpromisethen), rather than going through <code>[%Promise.prototype%.then](https://tc39.es/ecma262/#sec-promise.prototype.then)</code>.\r\n\r\n----\r\n\r\n> Should the length be one like the others?\r\n\r\nWell, <var>nextSteps</var> doesn’t take any parameters, so it’s similar to:\r\n```js\r\nconst nextSteps = () => { ... };\r\n```\r\nWhich has a length of `0`.",
+    "created_at": "2021-06-21T14:06:17Z",
+    "updated_at": "2021-06-21T14:06:17Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/914#discussion_r655407826",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/914",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/655407826"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/914#discussion_r655407826"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/914"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/655407826/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 12864,
+    "side": "RIGHT",
+    "in_reply_to_id": 655291687,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 228,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/661027384",
+    "pull_request_review_id": 695578515,
+    "id": 661027384,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2MTAyNzM4NA==",
+    "diff_hunk": "@@ -11792,11 +11786,8 @@ in which case they are exposed on every object that [=implements=] the interface\n         1.  If |attribute|'s type is a [=promise type=], then return\n             [=!=] <a abstract-op>Call</a>({{%Promise.reject%}}, {{%Promise%}}, «|E|»).\n         1.  Otherwise, end these steps and allow the exception to propagate.\n-    1.  Let |F| be [=!=] <a abstract-op>CreateBuiltinFunction</a>(|steps|, « », |realm|).\n-    1.  Let |name| be the string \"<code>get </code>\" prepended to |attribute|'s [=identifier=].\n-    1.  Perform [=!=] <a abstract-op>SetFunctionName</a>(|F|, |name|).\n-    1.  Perform [=!=] <a abstract-op>SetFunctionLength</a>(|F|, 0).\n-    1.  Return |F|.\n+    1.  Let |name| be |attribute|'s [=identifier=].\n+    1.  Return [=!=] [$CreateBuiltinFunction$](|steps|, 0, |name|, « », |realm|, {{%Function.prototype%}}, \"<code>get</code>\").",
+    "path": "index.bs",
+    "commit_id": "adfd814119ac6432e4ffb217e3aaefe375de1cb2",
+    "original_commit_id": "b1becf3d2538bbba1e10286cebc212827b89cc07",
+    "user": {
+      "login": "TimothyGu",
+      "id": 1538624,
+      "node_id": "MDQ6VXNlcjE1Mzg2MjQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1538624?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/TimothyGu",
+      "html_url": "https://github.com/TimothyGu",
+      "followers_url": "https://api.github.com/users/TimothyGu/followers",
+      "following_url": "https://api.github.com/users/TimothyGu/following{/other_user}",
+      "gists_url": "https://api.github.com/users/TimothyGu/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/TimothyGu/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/TimothyGu/subscriptions",
+      "organizations_url": "https://api.github.com/users/TimothyGu/orgs",
+      "repos_url": "https://api.github.com/users/TimothyGu/repos",
+      "events_url": "https://api.github.com/users/TimothyGu/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/TimothyGu/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n    1.  Return [=!=] [$CreateBuiltinFunction$](|steps|, 0, |name|, « », |realm|,\r\n        |realm|.\\[[Intrinsics]].\\[[{{%Function.prototype%}}]], \"<code>get</code>\").\r\n```\r\n\r\nWe need to use the %Function.prototype% from _realm_, since when this operation is called there could well be no current realm.",
+    "created_at": "2021-06-29T23:25:11Z",
+    "updated_at": "2021-06-29T23:52:04Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/914#discussion_r661027384",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/914",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/661027384"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/914#discussion_r661027384"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/914"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/661027384/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 11790,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 99,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/661027564",
+    "pull_request_review_id": 695578515,
+    "id": 661027564,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2MTAyNzU2NA==",
+    "diff_hunk": "@@ -11878,11 +11869,8 @@ in which case they are exposed on every object that [=implements=] the interface\n         1.  Perform the [=setter steps=] of |attribute|,\n             with |idlObject| as [=this=] and |idlValue| as [=the given value=].\n         1.  Return <emu-val>undefined</emu-val>\n-    1.  Let |F| be [=!=] <a abstract-op>CreateBuiltinFunction</a>(|steps|, « », |realm|).\n-    1.  Let |name| be the string \"<code>set </code>\" prepended to |id|.\n-    1.  Perform [=!=] <a abstract-op>SetFunctionName</a>(|F|, |name|).\n-    1.  Perform [=!=] <a abstract-op>SetFunctionLength</a>(|F|, 1).\n-    1. Return |F|.\n+    1.  Let |name| be |attribute|'s [=identifier=].\n+    1.  Return be [=!=] [$CreateBuiltinFunction$](|steps|, 1, |name|, « », |realm|, {{%Function.prototype%}}, \"<code>set</code>\").",
+    "path": "index.bs",
+    "commit_id": "adfd814119ac6432e4ffb217e3aaefe375de1cb2",
+    "original_commit_id": "b1becf3d2538bbba1e10286cebc212827b89cc07",
+    "user": {
+      "login": "TimothyGu",
+      "id": 1538624,
+      "node_id": "MDQ6VXNlcjE1Mzg2MjQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1538624?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/TimothyGu",
+      "html_url": "https://github.com/TimothyGu",
+      "followers_url": "https://api.github.com/users/TimothyGu/followers",
+      "following_url": "https://api.github.com/users/TimothyGu/following{/other_user}",
+      "gists_url": "https://api.github.com/users/TimothyGu/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/TimothyGu/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/TimothyGu/subscriptions",
+      "organizations_url": "https://api.github.com/users/TimothyGu/orgs",
+      "repos_url": "https://api.github.com/users/TimothyGu/repos",
+      "events_url": "https://api.github.com/users/TimothyGu/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/TimothyGu/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Ditto. Explicitly get %Function.prototype% from _realm_.",
+    "created_at": "2021-06-29T23:25:42Z",
+    "updated_at": "2021-06-29T23:52:04Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/914#discussion_r661027564",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/914",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/661027564"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/914#discussion_r661027564"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/914"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/661027564/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 11873,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 113,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/661034160",
+    "pull_request_review_id": 695578515,
+    "id": 661034160,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2MTAzNDE2MA==",
+    "diff_hunk": "@@ -13793,21 +13764,21 @@ those of normal <code>Array</code> instances:\n     1.  Set |handler|.\\[[Type]] to |T|.\n     1.  Set |handler|.\\[[SetAlgorithm]] to |setAlgorithm|.\n     1.  Set |handler|.\\[[DeleteAlgorithm]] to |deleteAlgorithm|.\n-    1.  Let |defineProperty| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-defineProperty]], « », |realm|).\n+    1.  Let |defineProperty| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-defineProperty]], the number of non-optional parameters from [[#es-observable-array-defineProperty]], \"<code>defineProperty</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>defineProperty</code>\", |defineProperty|).\n-    1.  Let |deleteProperty| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-deleteProperty]], « », |realm|).\n+    1.  Let |deleteProperty| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-deleteProperty]], the number of non-optional parameters from [[#es-observable-array-deleteProperty]], \"<code>deleteProperty</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>deleteProperty</code>\", |deleteProperty|).\n-    1.  Let |get| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-get]], « », |realm|).\n+    1.  Let |get| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-get]], the number of non-optional parameters from [[#es-observable-array-get]], \"<code>get</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>get</code>\", |get|).\n-    1.  Let |getOwnPropertyDescriptor| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-getOwnPropertyDescriptor]], « », |realm|).\n+    1.  Let |getOwnPropertyDescriptor| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-getOwnPropertyDescriptor]], the number of non-optional parameters from [[#es-observable-array-getOwnPropertyDescriptor]], \"<code>getOwnPropertyDescriptor</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>getOwnPropertyDescriptor</code>\", |getOwnPropertyDescriptor|).\n-    1.  Let |has| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-has]], « », |realm|).\n+    1.  Let |has| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-has]], the number of non-optional parameters from [[#es-observable-array-has]], \"<code>has</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>has</code>\", |has|).\n-    1.  Let |ownKeys| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-ownKeys]], « », |realm|).\n+    1.  Let |ownKeys| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-ownKeys]], the number of non-optional parameters from [[#es-observable-array-ownKeys]], \"<code>ownKeys</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>ownKeys</code>\", |ownKeys|).\n-    1.  Let |preventExtensions| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-preventExtensions]], « », |realm|).\n+    1.  Let |preventExtensions| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-preventExtensions]], the number of non-optional parameters from [[#es-observable-array-preventExtensions]], \"<code>preventExtensions</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>preventExtensions</code>\", |preventExtensions|).\n-    1.  Let |set| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-set]], « », |realm|).\n+    1.  Let |set| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-set]], the number of non-optional parameters from [[#es-observable-array-set]], \"<code>set</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>set</code>\", |set|).",
+    "path": "index.bs",
+    "commit_id": "adfd814119ac6432e4ffb217e3aaefe375de1cb2",
+    "original_commit_id": "b1becf3d2538bbba1e10286cebc212827b89cc07",
+    "user": {
+      "login": "TimothyGu",
+      "id": 1538624,
+      "node_id": "MDQ6VXNlcjE1Mzg2MjQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1538624?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/TimothyGu",
+      "html_url": "https://github.com/TimothyGu",
+      "followers_url": "https://api.github.com/users/TimothyGu/followers",
+      "following_url": "https://api.github.com/users/TimothyGu/following{/other_user}",
+      "gists_url": "https://api.github.com/users/TimothyGu/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/TimothyGu/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/TimothyGu/subscriptions",
+      "organizations_url": "https://api.github.com/users/TimothyGu/orgs",
+      "repos_url": "https://api.github.com/users/TimothyGu/repos",
+      "events_url": "https://api.github.com/users/TimothyGu/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/TimothyGu/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "For readability, may I suggest a tabular format like this:\r\n\r\n6. For each row in the following table:\r\n\r\n   Name | Section | Length\r\n   ---|---|---\r\n   \"`defineProperty`\" | [§ 3.10.1 defineProperty](https://heycam.github.io/webidl/#es-observable-array-defineProperty) | 3\r\n   \"`deleteProperty`\" | [§ 3.10.2 deleteProperty](https://heycam.github.io/webidl/#es-observable-array-deleteProperty) | 2\r\n   … | … | …\r\n\r\n   1. Let (_name_, _section_, _length_) be the entries of the current row.\r\n   2. Let _F_ be ! CreateBuiltinFunction(the steps from _section_, _length_, _name_, « », _realm_).\r\n   3. Perform ! CreateDataProperty(_handler_, _name_, _F_).\r\n\r\nThis helps make length changes more visible to implementors and folks writing tests, and also seems to be generally more readable.",
+    "created_at": "2021-06-29T23:43:59Z",
+    "updated_at": "2021-06-29T23:52:04Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/914#discussion_r661034160",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/914",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/661034160"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/914#discussion_r661034160"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/914"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/661034160/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 13701,
+    "original_line": 13899,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 280,
+    "position": 271,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/661038778",
+    "pull_request_review_id": 695591401,
+    "id": 661038778,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2MTAzODc3OA==",
+    "diff_hunk": "@@ -13793,21 +13764,21 @@ those of normal <code>Array</code> instances:\n     1.  Set |handler|.\\[[Type]] to |T|.\n     1.  Set |handler|.\\[[SetAlgorithm]] to |setAlgorithm|.\n     1.  Set |handler|.\\[[DeleteAlgorithm]] to |deleteAlgorithm|.\n-    1.  Let |defineProperty| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-defineProperty]], « », |realm|).\n+    1.  Let |defineProperty| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-defineProperty]], the number of non-optional parameters from [[#es-observable-array-defineProperty]], \"<code>defineProperty</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>defineProperty</code>\", |defineProperty|).\n-    1.  Let |deleteProperty| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-deleteProperty]], « », |realm|).\n+    1.  Let |deleteProperty| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-deleteProperty]], the number of non-optional parameters from [[#es-observable-array-deleteProperty]], \"<code>deleteProperty</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>deleteProperty</code>\", |deleteProperty|).\n-    1.  Let |get| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-get]], « », |realm|).\n+    1.  Let |get| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-get]], the number of non-optional parameters from [[#es-observable-array-get]], \"<code>get</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>get</code>\", |get|).\n-    1.  Let |getOwnPropertyDescriptor| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-getOwnPropertyDescriptor]], « », |realm|).\n+    1.  Let |getOwnPropertyDescriptor| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-getOwnPropertyDescriptor]], the number of non-optional parameters from [[#es-observable-array-getOwnPropertyDescriptor]], \"<code>getOwnPropertyDescriptor</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>getOwnPropertyDescriptor</code>\", |getOwnPropertyDescriptor|).\n-    1.  Let |has| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-has]], « », |realm|).\n+    1.  Let |has| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-has]], the number of non-optional parameters from [[#es-observable-array-has]], \"<code>has</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>has</code>\", |has|).\n-    1.  Let |ownKeys| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-ownKeys]], « », |realm|).\n+    1.  Let |ownKeys| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-ownKeys]], the number of non-optional parameters from [[#es-observable-array-ownKeys]], \"<code>ownKeys</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>ownKeys</code>\", |ownKeys|).\n-    1.  Let |preventExtensions| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-preventExtensions]], « », |realm|).\n+    1.  Let |preventExtensions| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-preventExtensions]], the number of non-optional parameters from [[#es-observable-array-preventExtensions]], \"<code>preventExtensions</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>preventExtensions</code>\", |preventExtensions|).\n-    1.  Let |set| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-set]], « », |realm|).\n+    1.  Let |set| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-set]], the number of non-optional parameters from [[#es-observable-array-set]], \"<code>set</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>set</code>\", |set|).",
+    "path": "index.bs",
+    "commit_id": "adfd814119ac6432e4ffb217e3aaefe375de1cb2",
+    "original_commit_id": "b1becf3d2538bbba1e10286cebc212827b89cc07",
+    "user": {
+      "login": "TimothyGu",
+      "id": 1538624,
+      "node_id": "MDQ6VXNlcjE1Mzg2MjQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1538624?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/TimothyGu",
+      "html_url": "https://github.com/TimothyGu",
+      "followers_url": "https://api.github.com/users/TimothyGu/followers",
+      "following_url": "https://api.github.com/users/TimothyGu/following{/other_user}",
+      "gists_url": "https://api.github.com/users/TimothyGu/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/TimothyGu/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/TimothyGu/subscriptions",
+      "organizations_url": "https://api.github.com/users/TimothyGu/orgs",
+      "repos_url": "https://api.github.com/users/TimothyGu/repos",
+      "events_url": "https://api.github.com/users/TimothyGu/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/TimothyGu/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "@domenic could you take a look at this part of the PR if have some time?",
+    "created_at": "2021-06-29T23:58:11Z",
+    "updated_at": "2021-06-29T23:58:11Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/914#discussion_r661038778",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/914",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/661038778"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/914#discussion_r661038778"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/914"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/661038778/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 13701,
+    "original_line": 13899,
+    "side": "RIGHT",
+    "in_reply_to_id": 661034160,
+    "author_association": "MEMBER",
+    "original_position": 280,
+    "position": 271,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/661670369",
+    "pull_request_review_id": 696432209,
+    "id": 661670369,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2MTY3MDM2OQ==",
+    "diff_hunk": "@@ -13793,21 +13764,21 @@ those of normal <code>Array</code> instances:\n     1.  Set |handler|.\\[[Type]] to |T|.\n     1.  Set |handler|.\\[[SetAlgorithm]] to |setAlgorithm|.\n     1.  Set |handler|.\\[[DeleteAlgorithm]] to |deleteAlgorithm|.\n-    1.  Let |defineProperty| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-defineProperty]], « », |realm|).\n+    1.  Let |defineProperty| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-defineProperty]], the number of non-optional parameters from [[#es-observable-array-defineProperty]], \"<code>defineProperty</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>defineProperty</code>\", |defineProperty|).\n-    1.  Let |deleteProperty| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-deleteProperty]], « », |realm|).\n+    1.  Let |deleteProperty| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-deleteProperty]], the number of non-optional parameters from [[#es-observable-array-deleteProperty]], \"<code>deleteProperty</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>deleteProperty</code>\", |deleteProperty|).\n-    1.  Let |get| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-get]], « », |realm|).\n+    1.  Let |get| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-get]], the number of non-optional parameters from [[#es-observable-array-get]], \"<code>get</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>get</code>\", |get|).\n-    1.  Let |getOwnPropertyDescriptor| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-getOwnPropertyDescriptor]], « », |realm|).\n+    1.  Let |getOwnPropertyDescriptor| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-getOwnPropertyDescriptor]], the number of non-optional parameters from [[#es-observable-array-getOwnPropertyDescriptor]], \"<code>getOwnPropertyDescriptor</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>getOwnPropertyDescriptor</code>\", |getOwnPropertyDescriptor|).\n-    1.  Let |has| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-has]], « », |realm|).\n+    1.  Let |has| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-has]], the number of non-optional parameters from [[#es-observable-array-has]], \"<code>has</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>has</code>\", |has|).\n-    1.  Let |ownKeys| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-ownKeys]], « », |realm|).\n+    1.  Let |ownKeys| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-ownKeys]], the number of non-optional parameters from [[#es-observable-array-ownKeys]], \"<code>ownKeys</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>ownKeys</code>\", |ownKeys|).\n-    1.  Let |preventExtensions| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-preventExtensions]], « », |realm|).\n+    1.  Let |preventExtensions| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-preventExtensions]], the number of non-optional parameters from [[#es-observable-array-preventExtensions]], \"<code>preventExtensions</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>preventExtensions</code>\", |preventExtensions|).\n-    1.  Let |set| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-set]], « », |realm|).\n+    1.  Let |set| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-set]], the number of non-optional parameters from [[#es-observable-array-set]], \"<code>set</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>set</code>\", |set|).",
+    "path": "index.bs",
+    "commit_id": "adfd814119ac6432e4ffb217e3aaefe375de1cb2",
+    "original_commit_id": "b1becf3d2538bbba1e10286cebc212827b89cc07",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Hmm. I kind of like the way the PR currently does it for lengths, in that it doesn't require syncing the length column with the steps like your proposal would.\r\n\r\nSince the proxy handlers are an unobservable internal implementation detail anyway, I think we could just set the length to 0 and the name to \"\" for all of them, with a `<p class=\"note\">` explaining?\r\n\r\nThe table/loop format would improve the section in general, but I'm not sure it needs to be done in this PR.",
+    "created_at": "2021-06-30T17:18:04Z",
+    "updated_at": "2021-06-30T17:18:04Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/914#discussion_r661670369",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/914",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/661670369"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/914#discussion_r661670369"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/914"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/661670369/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 13701,
+    "original_line": 13899,
+    "side": "RIGHT",
+    "in_reply_to_id": 661034160,
+    "author_association": "MEMBER",
+    "original_position": 280,
+    "position": 271,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/714375696",
+    "pull_request_review_id": 761486403,
+    "id": 714375696,
+    "node_id": "PRRC_kwDOANeiys4qlIIQ",
+    "diff_hunk": "@@ -13793,21 +13764,21 @@ those of normal <code>Array</code> instances:\n     1.  Set |handler|.\\[[Type]] to |T|.\n     1.  Set |handler|.\\[[SetAlgorithm]] to |setAlgorithm|.\n     1.  Set |handler|.\\[[DeleteAlgorithm]] to |deleteAlgorithm|.\n-    1.  Let |defineProperty| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-defineProperty]], « », |realm|).\n+    1.  Let |defineProperty| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-defineProperty]], the number of non-optional parameters from [[#es-observable-array-defineProperty]], \"<code>defineProperty</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>defineProperty</code>\", |defineProperty|).\n-    1.  Let |deleteProperty| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-deleteProperty]], « », |realm|).\n+    1.  Let |deleteProperty| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-deleteProperty]], the number of non-optional parameters from [[#es-observable-array-deleteProperty]], \"<code>deleteProperty</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>deleteProperty</code>\", |deleteProperty|).\n-    1.  Let |get| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-get]], « », |realm|).\n+    1.  Let |get| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-get]], the number of non-optional parameters from [[#es-observable-array-get]], \"<code>get</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>get</code>\", |get|).\n-    1.  Let |getOwnPropertyDescriptor| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-getOwnPropertyDescriptor]], « », |realm|).\n+    1.  Let |getOwnPropertyDescriptor| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-getOwnPropertyDescriptor]], the number of non-optional parameters from [[#es-observable-array-getOwnPropertyDescriptor]], \"<code>getOwnPropertyDescriptor</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>getOwnPropertyDescriptor</code>\", |getOwnPropertyDescriptor|).\n-    1.  Let |has| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-has]], « », |realm|).\n+    1.  Let |has| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-has]], the number of non-optional parameters from [[#es-observable-array-has]], \"<code>has</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>has</code>\", |has|).\n-    1.  Let |ownKeys| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-ownKeys]], « », |realm|).\n+    1.  Let |ownKeys| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-ownKeys]], the number of non-optional parameters from [[#es-observable-array-ownKeys]], \"<code>ownKeys</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>ownKeys</code>\", |ownKeys|).\n-    1.  Let |preventExtensions| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-preventExtensions]], « », |realm|).\n+    1.  Let |preventExtensions| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-preventExtensions]], the number of non-optional parameters from [[#es-observable-array-preventExtensions]], \"<code>preventExtensions</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>preventExtensions</code>\", |preventExtensions|).\n-    1.  Let |set| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-set]], « », |realm|).\n+    1.  Let |set| be [=!=] [$CreateBuiltinFunction$](the steps from [[#es-observable-array-set]], the number of non-optional parameters from [[#es-observable-array-set]], \"<code>set</code>\", « », |realm|).\n     1.  Perform [=!=] [$CreateDataProperty$](|handler|, \"<code>set</code>\", |set|).",
+    "path": "index.bs",
+    "commit_id": "adfd814119ac6432e4ffb217e3aaefe375de1cb2",
+    "original_commit_id": "b1becf3d2538bbba1e10286cebc212827b89cc07",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "@TimothyGu should we merge as-is? Or go for the 0/\"\" solution maybe?",
+    "created_at": "2021-09-22T23:20:33Z",
+    "updated_at": "2021-09-22T23:20:33Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/914#discussion_r714375696",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/914",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/714375696"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/914#discussion_r714375696"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/914"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/714375696/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 13701,
+    "original_line": 13899,
+    "side": "RIGHT",
+    "in_reply_to_id": 661034160,
+    "author_association": "MEMBER",
+    "original_position": 280,
+    "position": 271,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

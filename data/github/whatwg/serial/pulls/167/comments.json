@@ -1,0 +1,217 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/serial/pulls/comments/923285035",
+    "pull_request_review_id": 1041727945,
+    "id": 923285035,
+    "node_id": "PRRC_kwDOANUER843CDYr",
+    "diff_hunk": "@@ -679,6 +679,34 @@ <h2><dfn>readable</dfn> attribute</h2>\n       with its length or to wait a defined length of time before transmitting\n       the next message. Implementing a {{TransformStream}} for these types of\n       message boundaries is left as an exercise for the reader.\n+\n+      <p>\n+      While the {{ReadableStreamDefaultReader/read()}} method is asynchronous\n+      and does not block execution, in code using async/await syntax it can\n+      seem as if it does. In this situation it may be helpful to implement a\n+      timeout which will allow the code to continue execution if no data is\n+      received for a period of time. The example below uses the\n+      {{ReadableStreamDefaultReader/releaseLock()}} method to interrupt a call\n+      to {{ReadableStreamDefaultReader/read()}} after a timer expires. This\n+      will not close the stream and so any data received after the timeout can\n+      still be read later after calling {{ReadableStream/getReader()}} again.\n+\n+      <pre class=\"js\">\n+        async function readWithTimeout(port, timeout) {",
+    "path": "index.html",
+    "commit_id": "3fe5fc5cd4024290a79110d04b4b82a2b9a9febe",
+    "original_commit_id": "3fe5fc5cd4024290a79110d04b4b82a2b9a9febe",
+    "user": {
+      "login": "beaufortfrancois",
+      "id": 634478,
+      "node_id": "MDQ6VXNlcjYzNDQ3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/634478?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/beaufortfrancois",
+      "html_url": "https://github.com/beaufortfrancois",
+      "followers_url": "https://api.github.com/users/beaufortfrancois/followers",
+      "following_url": "https://api.github.com/users/beaufortfrancois/following{/other_user}",
+      "gists_url": "https://api.github.com/users/beaufortfrancois/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/beaufortfrancois/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/beaufortfrancois/subscriptions",
+      "organizations_url": "https://api.github.com/users/beaufortfrancois/orgs",
+      "repos_url": "https://api.github.com/users/beaufortfrancois/repos",
+      "events_url": "https://api.github.com/users/beaufortfrancois/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/beaufortfrancois/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I thought it would be better to use `Promise.race()` but I'm not sure anymore. WDYT?\r\n```js\r\nasync function readWithTimeout(port, timeout) {\r\n  const reader = port.readable.getReader();\r\n\r\n  const timerPromise = new Promise((resolve) => {\r\n    setTimeout(resolve, timeout);\r\n  });\r\n  const readPromise = reader.read();\r\n\r\n  const result = await Promise.race([readPromise, timerPromise]);\r\n  reader.releaseLock();\r\n  return result;\r\n}\r\n```",
+    "created_at": "2022-07-18T11:53:50Z",
+    "updated_at": "2022-07-18T11:56:07Z",
+    "html_url": "https://github.com/whatwg/serial/pull/167#discussion_r923285035",
+    "pull_request_url": "https://api.github.com/repos/whatwg/serial/pulls/167",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/serial/pulls/comments/923285035"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/serial/pull/167#discussion_r923285035"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/serial/pulls/167"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/serial/pulls/comments/923285035/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 695,
+    "original_line": 695,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 17,
+    "position": 17,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/serial/pulls/comments/923879994",
+    "pull_request_review_id": 1042578246,
+    "id": 923879994,
+    "node_id": "PRRC_kwDOANUER843EUo6",
+    "diff_hunk": "@@ -679,6 +679,34 @@ <h2><dfn>readable</dfn> attribute</h2>\n       with its length or to wait a defined length of time before transmitting\n       the next message. Implementing a {{TransformStream}} for these types of\n       message boundaries is left as an exercise for the reader.\n+\n+      <p>\n+      While the {{ReadableStreamDefaultReader/read()}} method is asynchronous\n+      and does not block execution, in code using async/await syntax it can\n+      seem as if it does. In this situation it may be helpful to implement a\n+      timeout which will allow the code to continue execution if no data is\n+      received for a period of time. The example below uses the\n+      {{ReadableStreamDefaultReader/releaseLock()}} method to interrupt a call\n+      to {{ReadableStreamDefaultReader/read()}} after a timer expires. This\n+      will not close the stream and so any data received after the timeout can\n+      still be read later after calling {{ReadableStream/getReader()}} again.\n+\n+      <pre class=\"js\">\n+        async function readWithTimeout(port, timeout) {",
+    "path": "index.html",
+    "commit_id": "3fe5fc5cd4024290a79110d04b4b82a2b9a9febe",
+    "original_commit_id": "3fe5fc5cd4024290a79110d04b4b82a2b9a9febe",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "That would also work but has slightly different behavior on timeout. My version rejects with the `TypeError` thrown by `read()` when `releaseLock()` is called while yours will resolve with `undefined`. Either is fine as long as the caller expects the right behavior.\r\n\r\nI think the only motivation for one over the other is that your version allocates more promises and doesn't cancel the timer when it is no longer necessary. That said, my version doesn't cancel the timer if `read()` rejects for a different reason.\r\n\r\nWhich version do you think is easier for developers to understand? ",
+    "created_at": "2022-07-18T21:35:14Z",
+    "updated_at": "2022-07-18T21:48:21Z",
+    "html_url": "https://github.com/whatwg/serial/pull/167#discussion_r923879994",
+    "pull_request_url": "https://api.github.com/repos/whatwg/serial/pulls/167",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/serial/pulls/comments/923879994"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/serial/pull/167#discussion_r923879994"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/serial/pulls/167"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/serial/pulls/comments/923879994/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 695,
+    "original_line": 695,
+    "side": "RIGHT",
+    "in_reply_to_id": 923285035,
+    "author_association": "COLLABORATOR",
+    "original_position": 17,
+    "position": 17,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/serial/pulls/comments/924086330",
+    "pull_request_review_id": 1042856952,
+    "id": 924086330,
+    "node_id": "PRRC_kwDOANUER843FHA6",
+    "diff_hunk": "@@ -679,6 +679,34 @@ <h2><dfn>readable</dfn> attribute</h2>\n       with its length or to wait a defined length of time before transmitting\n       the next message. Implementing a {{TransformStream}} for these types of\n       message boundaries is left as an exercise for the reader.\n+\n+      <p>\n+      While the {{ReadableStreamDefaultReader/read()}} method is asynchronous\n+      and does not block execution, in code using async/await syntax it can\n+      seem as if it does. In this situation it may be helpful to implement a\n+      timeout which will allow the code to continue execution if no data is\n+      received for a period of time. The example below uses the\n+      {{ReadableStreamDefaultReader/releaseLock()}} method to interrupt a call\n+      to {{ReadableStreamDefaultReader/read()}} after a timer expires. This\n+      will not close the stream and so any data received after the timeout can\n+      still be read later after calling {{ReadableStream/getReader()}} again.\n+\n+      <pre class=\"js\">\n+        async function readWithTimeout(port, timeout) {",
+    "path": "index.html",
+    "commit_id": "3fe5fc5cd4024290a79110d04b4b82a2b9a9febe",
+    "original_commit_id": "3fe5fc5cd4024290a79110d04b4b82a2b9a9febe",
+    "user": {
+      "login": "beaufortfrancois",
+      "id": 634478,
+      "node_id": "MDQ6VXNlcjYzNDQ3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/634478?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/beaufortfrancois",
+      "html_url": "https://github.com/beaufortfrancois",
+      "followers_url": "https://api.github.com/users/beaufortfrancois/followers",
+      "following_url": "https://api.github.com/users/beaufortfrancois/following{/other_user}",
+      "gists_url": "https://api.github.com/users/beaufortfrancois/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/beaufortfrancois/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/beaufortfrancois/subscriptions",
+      "organizations_url": "https://api.github.com/users/beaufortfrancois/orgs",
+      "repos_url": "https://api.github.com/users/beaufortfrancois/repos",
+      "events_url": "https://api.github.com/users/beaufortfrancois/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/beaufortfrancois/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think yours is easier to understand.",
+    "created_at": "2022-07-19T05:55:56Z",
+    "updated_at": "2022-07-19T05:56:01Z",
+    "html_url": "https://github.com/whatwg/serial/pull/167#discussion_r924086330",
+    "pull_request_url": "https://api.github.com/repos/whatwg/serial/pulls/167",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/serial/pulls/comments/924086330"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/serial/pull/167#discussion_r924086330"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/serial/pulls/167"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/serial/pulls/comments/924086330/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 695,
+    "original_line": 695,
+    "side": "RIGHT",
+    "in_reply_to_id": 923285035,
+    "author_association": "COLLABORATOR",
+    "original_position": 17,
+    "position": 17,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

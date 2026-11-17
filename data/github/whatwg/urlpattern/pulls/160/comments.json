@@ -1,0 +1,216 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/787965179",
+    "pull_request_review_id": 857103121,
+    "id": 787965179,
+    "node_id": "PRRC_kwDODDHQ584u92T7",
+    "diff_hunk": "@@ -1618,24 +1618,21 @@ To <dfn>convert a modifier to a string</dfn> given a [=part/modifier=] |modifier\n <div algorithm>\n   To <dfn>canonicalize a pathname</dfn> given a string |value|:\n \n-  1. If |value| is one of the following:\n-    <ul>\n-      <li>the empty string; or</li>\n-      <li>\"`.`\"; or</li>\n-      <li>\"`..`\"\n-    </ul>\n-    then return |value|.\n+  1. If |value| is the empty string, then return |value|.\n+  1. Let |leading slash| be true if the first [=/code point=] in |value| is U+002F (`/`) and otherwise false.\n+  1. Let |modified value| be \"`/-`\" if |leading slash| is false and otherwise the empty string.\n+    <div class=note>",
+    "path": "spec.bs",
+    "commit_id": "9ac78b81f553d43b50aabda09712c1dacf370d69",
+    "original_commit_id": "6ab5860cb9c4fe4330ea2b3b283b5f72cd450301",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Really good note.",
+    "created_at": "2022-01-19T17:08:54Z",
+    "updated_at": "2022-01-19T17:10:17Z",
+    "html_url": "https://github.com/whatwg/urlpattern/pull/160#discussion_r787965179",
+    "pull_request_url": "https://api.github.com/repos/whatwg/urlpattern/pulls/160",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/787965179"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/urlpattern/pull/160#discussion_r787965179"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/160"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/787965179/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 1624,
+    "original_line": 1624,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 14,
+    "position": 14,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/787966279",
+    "pull_request_review_id": 857103121,
+    "id": 787966279,
+    "node_id": "PRRC_kwDODDHQ584u92lH",
+    "diff_hunk": "@@ -1618,24 +1618,21 @@ To <dfn>convert a modifier to a string</dfn> given a [=part/modifier=] |modifier\n <div algorithm>\n   To <dfn>canonicalize a pathname</dfn> given a string |value|:\n \n-  1. If |value| is one of the following:\n-    <ul>\n-      <li>the empty string; or</li>\n-      <li>\"`.`\"; or</li>\n-      <li>\"`..`\"\n-    </ul>\n-    then return |value|.\n+  1. If |value| is the empty string, then return |value|.\n+  1. Let |leading slash| be true if the first [=/code point=] in |value| is U+002F (`/`) and otherwise false.\n+  1. Let |modified value| be \"`/-`\" if |leading slash| is false and otherwise the empty string.\n+    <div class=note>\n+      <p>The URL parser will automatically prepend a leading slash to the canonicalized pathname.  This does not work here unfortunately.  This algorithm is called for pieces of the pathname, instead of the entire pathname, when used as an encoding callback.  Therefore we disable the prepending of the slash by inserting our own. An additional character is also inserted here in order to avoid inadvertantly collapsing a leading dot due to the fake leading slash being interpreted as a \"`/.`\" sequence.\n+      <p>Note, implementations are free to simply disable slash prepending in their URL parsing code instead of paying the performance penalty of inserting and removing characters in this algorithm.\n+    </div>\n+  1. Append |value| to the end of |modified value|.\n   1. Let |dummyURL| be a new [=URL record=].\n-  1. Let |parseResult| be the result of running [=basic URL parser=] given |value| with |dummyURL| as </i>[=basic URL parser/url=]</i> and [=path start state=] as <i>[=basic URL parser/state override=]</i>.\n+  1. Let |parseResult| be the result of running [=basic URL parser=] given |modified value| with |dummyURL| as </i>[=basic URL parser/url=]</i> and [=path start state=] as <i>[=basic URL parser/state override=]</i>.\n   1. If |parseResult| is failure, then throw a {{TypeError}}.\n   1. Let |result| be the result of [=URL path serializing=] |dummyURL|.\n-  1. If the first [=/code point=] in |value| is not U+002F (`/`):\n-    <div class=note>\n-      <p>The URL parser will automatically prepend a leading slash to the canonicalized pathname.  This does not work here unfortunately.  This algorithm is called for pieces of the pathname, instead of the entire pathname, when used as an encoding callback.  Therefore we strip the leading slash if one was inserted by the URL parser.\n-      <p>Conditionally stripping the leading slash also works when the algorithm is called by [=process pathname for init=].  If there is no leading slash, then we require a {{URLPatternInit/baseURL}} to be provided which will always result in a leading slash in the resolved pathname.\n-    </div>\n-    1. Let |length| be |result|'s [=string/code point length=] &minus; 1.\n-    1. Set |result| to the [=code point substring=] from 1 with length |length| within |result|.\n+  1. If |leading slash| is false:\n+    1. Let |length| be |result|'s [=string/code point length=] &minus; 2.\n+    1. Set |result| to the [=code point substring=] from 2 with length |length| within |result|.",
+    "path": "spec.bs",
+    "commit_id": "9ac78b81f553d43b50aabda09712c1dacf370d69",
+    "original_commit_id": "6ab5860cb9c4fe4330ea2b3b283b5f72cd450301",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "At some point we added \"code point substring from |start| to the end of |result|\", which seems like what you want here.",
+    "created_at": "2022-01-19T17:10:13Z",
+    "updated_at": "2022-01-19T17:10:17Z",
+    "html_url": "https://github.com/whatwg/urlpattern/pull/160#discussion_r787966279",
+    "pull_request_url": "https://api.github.com/repos/whatwg/urlpattern/pulls/160",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/787966279"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/urlpattern/pull/160#discussion_r787966279"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/160"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/787966279/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1635,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 33,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/788029445",
+    "pull_request_review_id": 857192673,
+    "id": 788029445,
+    "node_id": "PRRC_kwDODDHQ584u-GAF",
+    "diff_hunk": "@@ -1618,24 +1618,21 @@ To <dfn>convert a modifier to a string</dfn> given a [=part/modifier=] |modifier\n <div algorithm>\n   To <dfn>canonicalize a pathname</dfn> given a string |value|:\n \n-  1. If |value| is one of the following:\n-    <ul>\n-      <li>the empty string; or</li>\n-      <li>\"`.`\"; or</li>\n-      <li>\"`..`\"\n-    </ul>\n-    then return |value|.\n+  1. If |value| is the empty string, then return |value|.\n+  1. Let |leading slash| be true if the first [=/code point=] in |value| is U+002F (`/`) and otherwise false.\n+  1. Let |modified value| be \"`/-`\" if |leading slash| is false and otherwise the empty string.\n+    <div class=note>\n+      <p>The URL parser will automatically prepend a leading slash to the canonicalized pathname.  This does not work here unfortunately.  This algorithm is called for pieces of the pathname, instead of the entire pathname, when used as an encoding callback.  Therefore we disable the prepending of the slash by inserting our own. An additional character is also inserted here in order to avoid inadvertantly collapsing a leading dot due to the fake leading slash being interpreted as a \"`/.`\" sequence.\n+      <p>Note, implementations are free to simply disable slash prepending in their URL parsing code instead of paying the performance penalty of inserting and removing characters in this algorithm.\n+    </div>\n+  1. Append |value| to the end of |modified value|.\n   1. Let |dummyURL| be a new [=URL record=].\n-  1. Let |parseResult| be the result of running [=basic URL parser=] given |value| with |dummyURL| as </i>[=basic URL parser/url=]</i> and [=path start state=] as <i>[=basic URL parser/state override=]</i>.\n+  1. Let |parseResult| be the result of running [=basic URL parser=] given |modified value| with |dummyURL| as </i>[=basic URL parser/url=]</i> and [=path start state=] as <i>[=basic URL parser/state override=]</i>.\n   1. If |parseResult| is failure, then throw a {{TypeError}}.\n   1. Let |result| be the result of [=URL path serializing=] |dummyURL|.\n-  1. If the first [=/code point=] in |value| is not U+002F (`/`):\n-    <div class=note>\n-      <p>The URL parser will automatically prepend a leading slash to the canonicalized pathname.  This does not work here unfortunately.  This algorithm is called for pieces of the pathname, instead of the entire pathname, when used as an encoding callback.  Therefore we strip the leading slash if one was inserted by the URL parser.\n-      <p>Conditionally stripping the leading slash also works when the algorithm is called by [=process pathname for init=].  If there is no leading slash, then we require a {{URLPatternInit/baseURL}} to be provided which will always result in a leading slash in the resolved pathname.\n-    </div>\n-    1. Let |length| be |result|'s [=string/code point length=] &minus; 1.\n-    1. Set |result| to the [=code point substring=] from 1 with length |length| within |result|.\n+  1. If |leading slash| is false:\n+    1. Let |length| be |result|'s [=string/code point length=] &minus; 2.\n+    1. Set |result| to the [=code point substring=] from 2 with length |length| within |result|.",
+    "path": "spec.bs",
+    "commit_id": "9ac78b81f553d43b50aabda09712c1dacf370d69",
+    "original_commit_id": "6ab5860cb9c4fe4330ea2b3b283b5f72cd450301",
+    "user": {
+      "login": "wanderview",
+      "id": 1256526,
+      "node_id": "MDQ6VXNlcjEyNTY1MjY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1256526?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/wanderview",
+      "html_url": "https://github.com/wanderview",
+      "followers_url": "https://api.github.com/users/wanderview/followers",
+      "following_url": "https://api.github.com/users/wanderview/following{/other_user}",
+      "gists_url": "https://api.github.com/users/wanderview/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/wanderview/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/wanderview/subscriptions",
+      "organizations_url": "https://api.github.com/users/wanderview/orgs",
+      "repos_url": "https://api.github.com/users/wanderview/repos",
+      "events_url": "https://api.github.com/users/wanderview/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/wanderview/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I tried doing this, but not sure I got the verbiage right.",
+    "created_at": "2022-01-19T18:28:17Z",
+    "updated_at": "2022-01-19T18:28:17Z",
+    "html_url": "https://github.com/whatwg/urlpattern/pull/160#discussion_r788029445",
+    "pull_request_url": "https://api.github.com/repos/whatwg/urlpattern/pulls/160",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/788029445"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/urlpattern/pull/160#discussion_r788029445"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/urlpattern/pulls/160"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/urlpattern/pulls/comments/788029445/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1635,
+    "side": "RIGHT",
+    "in_reply_to_id": 787966279,
+    "author_association": "MEMBER",
+    "original_position": 33,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

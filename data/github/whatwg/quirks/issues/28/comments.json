@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/quirks/issues/comments/6669441756",
+    "html_url": "https://github.com/whatwg/quirks/issues/28#issuecomment-6669441756",
+    "issue_url": "https://api.github.com/repos/whatwg/quirks/issues/28",
+    "id": 6669441756,
+    "node_id": "IC_kwDOAGMBL88AAAABjYea3A",
+    "user": {
+      "login": "Loirooriol",
+      "id": 7477678,
+      "node_id": "MDQ6VXNlcjc0Nzc2Nzg=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7477678?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Loirooriol",
+      "html_url": "https://github.com/Loirooriol",
+      "followers_url": "https://api.github.com/users/Loirooriol/followers",
+      "following_url": "https://api.github.com/users/Loirooriol/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Loirooriol/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Loirooriol/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Loirooriol/subscriptions",
+      "organizations_url": "https://api.github.com/users/Loirooriol/orgs",
+      "repos_url": "https://api.github.com/users/Loirooriol/repos",
+      "events_url": "https://api.github.com/users/Loirooriol/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Loirooriol/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-05T21:03:04Z",
+    "updated_at": "2026-11-05T21:03:04Z",
+    "body": "I didn't check the code, but in Blink and WebKit I didn't observe any special handling for margins and padding of `<body>` and `<html>`.\n\nWhat happens is that they implement these other quirks:\n- https://quirks.spec.whatwg.org/#the-html-element-fills-the-viewport-quirk\n- https://quirks.spec.whatwg.org/#the-body-element-fills-the-html-element-quirk\n\nThese basically result in the `<body>` stretching to the viewport (minus padding/border/margin), so the containing block that it establishes for its contents has a definite height, so it can be used to resolve percentages, no need to keep iterating the containing block change in the percentage height quirk.\n\nFirefox doesn't implement these quirks, so it needs that special handling to avoid getting different results when the percentage height quirk takes effect.\n\nIn Servo I initially attempted something closer to Firefox, but it was getting messy, so I just implemented these stretching quirks first.",
+    "author_association": "NONE",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/quirks/issues/comments/6669441756/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

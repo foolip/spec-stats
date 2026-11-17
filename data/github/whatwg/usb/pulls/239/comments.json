@@ -1,0 +1,859 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1286400610",
+    "pull_request_review_id": 1566176035,
+    "id": 1286400610,
+    "node_id": "PRRC_kwDOAhq5Lc5MrOpi",
+    "diff_hunk": "@@ -2300,6 +2302,85 @@ slots</a> described in the following table:\n         1. Return <code>wMaxPacketSize</code> of |endpointDescriptor|.\n </dl>\n \n+# The USB Blocklist # {#blocklist}\n+\n+<xmp class=\"idl\">\n+  // USBBlocklistEntry is never exposed.\n+  dictionary USBBlocklistEntry {\n+    required unsigned short idVendor;\n+    required unsigned short idProduct;\n+    required unsigned short bcdDevice;\n+  };\n+</xmp>\n+\n+This specification relies on a <a href=\"https://raw.githubusercontent.com/WICG/webusb/main/blocklist.txt\">blocklist.txt</a>\n+file in this repository to restrict the set of devices a website can access.\n+\n+The result of <dfn>parsing the blocklist</dfn> at a {{URL}} |url| is a\n+{{Promise}} that resolves to a [=list=] of {{USBBlocklistEntry}} objects,",
+    "path": "index.bs",
+    "commit_id": "a256a3a02ca29ea4974604a98caac8a0211c88b2",
+    "original_commit_id": "00ee63227884b7da460198348919274e6d9007cc",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I don't think we should use the `Promise` machinery here. The other specifications that provide steps for parsing a blocklist don't do this. I'm guessing you wanted to be able to link to the [fetch](https://fetch.spec.whatwg.org/#concept-fetch) algorithm but I don't think that algorithm is appropriate because we're not fetching the resource on behalf of a document.\r\n\r\nThe use of a `Promise` here also makes the definition of \"USB blocklist\" a little ambiguous because it somewhat implies that the steps referring to the blocklist could block on fetching the list, which really isn't the intent here.",
+    "created_at": "2023-08-07T21:31:35Z",
+    "updated_at": "2023-08-07T21:34:40Z",
+    "html_url": "https://github.com/whatwg/usb/pull/239#discussion_r1286400610",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/239",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/1286400610"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/239#discussion_r1286400610"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/239"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1286400610/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 2320,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 35,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1353434838",
+    "pull_request_review_id": 1669029836,
+    "id": 1353434838,
+    "node_id": "PRRC_kwDOAhq5Lc5Qq8bW",
+    "diff_hunk": "@@ -2300,6 +2302,85 @@ slots</a> described in the following table:\n         1. Return <code>wMaxPacketSize</code> of |endpointDescriptor|.\n </dl>\n \n+# The USB Blocklist # {#blocklist}\n+\n+<xmp class=\"idl\">\n+  // USBBlocklistEntry is never exposed.\n+  dictionary USBBlocklistEntry {\n+    required unsigned short idVendor;\n+    required unsigned short idProduct;\n+    required unsigned short bcdDevice;\n+  };\n+</xmp>\n+\n+This specification relies on a <a href=\"https://raw.githubusercontent.com/WICG/webusb/main/blocklist.txt\">blocklist.txt</a>\n+file in this repository to restrict the set of devices a website can access.\n+\n+The result of <dfn>parsing the blocklist</dfn> at a {{URL}} |url| is a\n+{{Promise}} that resolves to a [=list=] of {{USBBlocklistEntry}} objects,",
+    "path": "index.bs",
+    "commit_id": "a256a3a02ca29ea4974604a98caac8a0211c88b2",
+    "original_commit_id": "00ee63227884b7da460198348919274e6d9007cc",
+    "user": {
+      "login": "nondebug",
+      "id": 14099571,
+      "node_id": "MDQ6VXNlcjE0MDk5NTcx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14099571?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nondebug",
+      "html_url": "https://github.com/nondebug",
+      "followers_url": "https://api.github.com/users/nondebug/followers",
+      "following_url": "https://api.github.com/users/nondebug/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nondebug/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nondebug/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nondebug/subscriptions",
+      "organizations_url": "https://api.github.com/users/nondebug/orgs",
+      "repos_url": "https://api.github.com/users/nondebug/repos",
+      "events_url": "https://api.github.com/users/nondebug/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nondebug/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Removed `Promise` and fetch, please take another look",
+    "created_at": "2023-10-10T21:17:15Z",
+    "updated_at": "2023-10-10T21:17:16Z",
+    "html_url": "https://github.com/whatwg/usb/pull/239#discussion_r1353434838",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/239",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/1353434838"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/239#discussion_r1353434838"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/239"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1353434838/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 2320,
+    "side": "RIGHT",
+    "in_reply_to_id": 1286400610,
+    "author_association": "COLLABORATOR",
+    "original_position": 35,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1353457273",
+    "pull_request_review_id": 1669098572,
+    "id": 1353457273,
+    "node_id": "PRRC_kwDOAhq5Lc5QrB55",
+    "diff_hunk": "@@ -2300,6 +2302,75 @@ slots</a> described in the following table:\n         1. Return <code>wMaxPacketSize</code> of |endpointDescriptor|.\n </dl>\n \n+# The USB Blocklist # {#blocklist}\n+\n+<xmp class=\"idl\">\n+  // USBBlocklistEntry is never exposed.\n+  dictionary USBBlocklistEntry {\n+    required unsigned short idVendor;\n+    required unsigned short idProduct;\n+    required unsigned short bcdDevice;\n+  };\n+</xmp>\n+\n+This specification relies on a <a href=\"https://raw.githubusercontent.com/WICG/webusb/main/blocklist.txt\">blocklist.txt</a>\n+file in this repository to restrict the set of devices a website can access.\n+\n+The result of <dfn>parsing the blocklist</dfn> at a {{URL}} |url| is a [=list=]\n+of {{USBBlocklistEntry}} objects produced by the following algorithm:\n+\n+  1. Fetch |url| and let |contents| be its body, decoded as UTF-8.\n+  1. Let |lines| be the result of invoking\n+     {{String/split(separator, limit)}} on |contents| with separator\n+     <code>'\\n'</code>.\n+  1. Let |blocklist| be an empty [=list=].\n+  1. [=list/For each=] |line| of |lines|:\n+      1. Let |commentBegin| be the result of invoking\n+         |line|.{{String/indexOf()}} with <code>'#'</code>.\n+      1. If |commentBegin| is not -1, set |line| to the result of invoking\n+         |line|.{{String/substring()}} with 0 and |commentBegin|.",
+    "path": "index.bs",
+    "commit_id": "a256a3a02ca29ea4974604a98caac8a0211c88b2",
+    "original_commit_id": "528592ac3651ea5b602e524e92008ec9a0e4b35c",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Use [collect a sequence of code points](https://infra.spec.whatwg.org/#collect-a-sequence-of-code-points) to do this.",
+    "created_at": "2023-10-10T21:36:19Z",
+    "updated_at": "2023-10-10T21:40:00Z",
+    "html_url": "https://github.com/whatwg/usb/pull/239#discussion_r1353457273",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/239",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/1353457273"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/239#discussion_r1353457273"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/239"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1353457273/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 2328,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 2331,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 46,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1353458302",
+    "pull_request_review_id": 1669098572,
+    "id": 1353458302,
+    "node_id": "PRRC_kwDOAhq5Lc5QrCJ-",
+    "diff_hunk": "@@ -2300,6 +2302,75 @@ slots</a> described in the following table:\n         1. Return <code>wMaxPacketSize</code> of |endpointDescriptor|.\n </dl>\n \n+# The USB Blocklist # {#blocklist}\n+\n+<xmp class=\"idl\">\n+  // USBBlocklistEntry is never exposed.\n+  dictionary USBBlocklistEntry {\n+    required unsigned short idVendor;\n+    required unsigned short idProduct;\n+    required unsigned short bcdDevice;\n+  };\n+</xmp>\n+\n+This specification relies on a <a href=\"https://raw.githubusercontent.com/WICG/webusb/main/blocklist.txt\">blocklist.txt</a>\n+file in this repository to restrict the set of devices a website can access.\n+\n+The result of <dfn>parsing the blocklist</dfn> at a {{URL}} |url| is a [=list=]\n+of {{USBBlocklistEntry}} objects produced by the following algorithm:\n+\n+  1. Fetch |url| and let |contents| be its body, decoded as UTF-8.\n+  1. Let |lines| be the result of invoking\n+     {{String/split(separator, limit)}} on |contents| with separator\n+     <code>'\\n'</code>.",
+    "path": "index.bs",
+    "commit_id": "a256a3a02ca29ea4974604a98caac8a0211c88b2",
+    "original_commit_id": "528592ac3651ea5b602e524e92008ec9a0e4b35c",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Use [strictly split](https://infra.spec.whatwg.org/#strictly-split) here.",
+    "created_at": "2023-10-10T21:37:23Z",
+    "updated_at": "2023-10-10T21:40:00Z",
+    "html_url": "https://github.com/whatwg/usb/pull/239#discussion_r1353458302",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/239",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/1353458302"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/239#discussion_r1353458302"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/239"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1353458302/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 2323,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 2325,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 40,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1353458499",
+    "pull_request_review_id": 1669098572,
+    "id": 1353458499,
+    "node_id": "PRRC_kwDOAhq5Lc5QrCND",
+    "diff_hunk": "@@ -2300,6 +2302,75 @@ slots</a> described in the following table:\n         1. Return <code>wMaxPacketSize</code> of |endpointDescriptor|.\n </dl>\n \n+# The USB Blocklist # {#blocklist}\n+\n+<xmp class=\"idl\">\n+  // USBBlocklistEntry is never exposed.\n+  dictionary USBBlocklistEntry {\n+    required unsigned short idVendor;\n+    required unsigned short idProduct;\n+    required unsigned short bcdDevice;\n+  };\n+</xmp>\n+\n+This specification relies on a <a href=\"https://raw.githubusercontent.com/WICG/webusb/main/blocklist.txt\">blocklist.txt</a>\n+file in this repository to restrict the set of devices a website can access.\n+\n+The result of <dfn>parsing the blocklist</dfn> at a {{URL}} |url| is a [=list=]\n+of {{USBBlocklistEntry}} objects produced by the following algorithm:\n+\n+  1. Fetch |url| and let |contents| be its body, decoded as UTF-8.\n+  1. Let |lines| be the result of invoking\n+     {{String/split(separator, limit)}} on |contents| with separator\n+     <code>'\\n'</code>.\n+  1. Let |blocklist| be an empty [=list=].\n+  1. [=list/For each=] |line| of |lines|:\n+      1. Let |commentBegin| be the result of invoking\n+         |line|.{{String/indexOf()}} with <code>'#'</code>.\n+      1. If |commentBegin| is not -1, set |line| to the result of invoking\n+         |line|.{{String/substring()}} with 0 and |commentBegin|.\n+      1. Set |line| to the result of |line|.{{String/trimEnd()}}.\n+      1. Let |components| be the result of invoking\n+         |line|.{{String/split(separator, limit)}} with separator\n+         <code>':'</code>.",
+    "path": "index.bs",
+    "commit_id": "a256a3a02ca29ea4974604a98caac8a0211c88b2",
+    "original_commit_id": "528592ac3651ea5b602e524e92008ec9a0e4b35c",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Use [strictly split](https://infra.spec.whatwg.org/#strictly-split) here as well.",
+    "created_at": "2023-10-10T21:37:36Z",
+    "updated_at": "2023-10-10T21:40:00Z",
+    "html_url": "https://github.com/whatwg/usb/pull/239#discussion_r1353458499",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/239",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/1353458499"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/239#discussion_r1353458499"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/239"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1353458499/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 2333,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 2335,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 50,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1353459907",
+    "pull_request_review_id": 1669098572,
+    "id": 1353459907,
+    "node_id": "PRRC_kwDOAhq5Lc5QrCjD",
+    "diff_hunk": "@@ -2300,6 +2302,75 @@ slots</a> described in the following table:\n         1. Return <code>wMaxPacketSize</code> of |endpointDescriptor|.\n </dl>\n \n+# The USB Blocklist # {#blocklist}\n+\n+<xmp class=\"idl\">\n+  // USBBlocklistEntry is never exposed.\n+  dictionary USBBlocklistEntry {\n+    required unsigned short idVendor;\n+    required unsigned short idProduct;\n+    required unsigned short bcdDevice;\n+  };\n+</xmp>\n+\n+This specification relies on a <a href=\"https://raw.githubusercontent.com/WICG/webusb/main/blocklist.txt\">blocklist.txt</a>\n+file in this repository to restrict the set of devices a website can access.\n+\n+The result of <dfn>parsing the blocklist</dfn> at a {{URL}} |url| is a [=list=]\n+of {{USBBlocklistEntry}} objects produced by the following algorithm:\n+\n+  1. Fetch |url| and let |contents| be its body, decoded as UTF-8.\n+  1. Let |lines| be the result of invoking\n+     {{String/split(separator, limit)}} on |contents| with separator\n+     <code>'\\n'</code>.\n+  1. Let |blocklist| be an empty [=list=].\n+  1. [=list/For each=] |line| of |lines|:\n+      1. Let |commentBegin| be the result of invoking\n+         |line|.{{String/indexOf()}} with <code>'#'</code>.\n+      1. If |commentBegin| is not -1, set |line| to the result of invoking\n+         |line|.{{String/substring()}} with 0 and |commentBegin|.\n+      1. Set |line| to the result of |line|.{{String/trimEnd()}}.\n+      1. Let |components| be the result of invoking\n+         |line|.{{String/split(separator, limit)}} with separator\n+         <code>':'</code>.\n+      1. If the [=list/size=] of |components| is not 2 or 3,\n+         [=iteration/continue=].\n+      1. Let |idVendor| be the result of invoking\n+         {{Number}}.{{Number/parseInt(string, radix)}} with |components|[0]\n+         and 16, or [=iteration/continue=] if a {{TypeError}} is thrown.",
+    "path": "index.bs",
+    "commit_id": "a256a3a02ca29ea4974604a98caac8a0211c88b2",
+    "original_commit_id": "528592ac3651ea5b602e524e92008ec9a0e4b35c",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n      1. Let |idVendor| be the result of interpreting |components|[0] as a hexadecimal number.\r\n```\r\n\r\nSame below.",
+    "created_at": "2023-10-10T21:38:51Z",
+    "updated_at": "2023-10-10T21:40:00Z",
+    "html_url": "https://github.com/whatwg/usb/pull/239#discussion_r1353459907",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/239",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/1353459907"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/239#discussion_r1353459907"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/239"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1353459907/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 2338,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 2340,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 55,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1353525426",
+    "pull_request_review_id": 1669211924,
+    "id": 1353525426,
+    "node_id": "PRRC_kwDOAhq5Lc5QrSiy",
+    "diff_hunk": "@@ -2320,33 +2320,27 @@ The result of <dfn>parsing the blocklist</dfn> at a {{URL}} |url| is a [=list=]\n of {{USBBlocklistEntry}} objects produced by the following algorithm:\n \n   1. Fetch |url| and let |contents| be its body, decoded as UTF-8.\n-  1. Let |lines| be the result of invoking\n-     {{String/split(separator, limit)}} on |contents| with separator\n-     <code>'\\n'</code>.\n+  1. Let |lines| be the result of [=strictly splitting=] |contents| starting\n+     from the beginning of |contents| on code point <code>'\\n'</code>.\n   1. Let |blocklist| be an empty [=list=].\n   1. [=list/For each=] |line| of |lines|:\n-      1. Let |commentBegin| be the result of invoking\n-         |line|.{{String/indexOf()}} with <code>'#'</code>.\n-      1. If |commentBegin| is not -1, set |line| to the result of invoking\n-         |line|.{{String/substring()}} with 0 and |commentBegin|.\n-      1. Set |line| to the result of |line|.{{String/trimEnd()}}.\n-      1. Let |components| be the result of invoking\n-         |line|.{{String/split(separator, limit)}} with separator\n-         <code>':'</code>.\n+      1. Set |line| to the result of [=collecting a sequence of code points=]\n+         not equal to <code>'#'</code> from |line| starting from the beginning\n+         of |line|.\n+      1. Set |line| to the result of [=stripping leading and trailing ASCII\n+         whitespace=] from |line|.\n+      1. Let |components| be the result of [=strictly splitting=] |line|\n+         starting from the beginning of |line| on code point <code>':'</code>.\n       1. If the [=list/size=] of |components| is not 2 or 3,\n          [=iteration/continue=].\n-      1. Let |idVendor| be the result of invoking\n-         {{Number}}.{{Number/parseInt(string, radix)}} with |components|[0]\n-         and 16, or [=iteration/continue=] if a {{TypeError}} is thrown.\n-      1. Let |idProduct| be the result of invoking\n-         {{Number}}.{{Number/parseInt(string, radix)}} with |components|[1]\n-         and 16, or [=iteration/continue=] if a {{TypeError}} is thrown.\n+      1. Let |idVendor| be the result of interpreting |components|[0] as a\n+         hexadecimal number.\n+      1. Let |idProduct| be the result of interpreting |components|[1] as a\n+         hexadecimal number.\n       1. If the [=list/size=] of |components| is:\n           * 2: Let |bcdDevice| be <code>0xFFFF</code>.",
+    "path": "index.bs",
+    "commit_id": "a256a3a02ca29ea4974604a98caac8a0211c88b2",
+    "original_commit_id": "0c7ace03c4d37c8df6512d13bcd6ee65f92908f1",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This line is no longer necessary.",
+    "created_at": "2023-10-10T22:45:54Z",
+    "updated_at": "2023-10-10T22:46:37Z",
+    "html_url": "https://github.com/whatwg/usb/pull/239#discussion_r1353525426",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/239",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/1353525426"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/239#discussion_r1353525426"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/239"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1353525426/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 2341,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 39,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1353527276",
+    "pull_request_review_id": 1669211924,
+    "id": 1353527276,
+    "node_id": "PRRC_kwDOAhq5Lc5QrS_s",
+    "diff_hunk": "@@ -2320,33 +2320,27 @@ The result of <dfn>parsing the blocklist</dfn> at a {{URL}} |url| is a [=list=]\n of {{USBBlocklistEntry}} objects produced by the following algorithm:\n \n   1. Fetch |url| and let |contents| be its body, decoded as UTF-8.\n-  1. Let |lines| be the result of invoking\n-     {{String/split(separator, limit)}} on |contents| with separator\n-     <code>'\\n'</code>.\n+  1. Let |lines| be the result of [=strictly splitting=] |contents| starting\n+     from the beginning of |contents| on code point <code>'\\n'</code>.\n   1. Let |blocklist| be an empty [=list=].\n   1. [=list/For each=] |line| of |lines|:\n-      1. Let |commentBegin| be the result of invoking\n-         |line|.{{String/indexOf()}} with <code>'#'</code>.\n-      1. If |commentBegin| is not -1, set |line| to the result of invoking\n-         |line|.{{String/substring()}} with 0 and |commentBegin|.\n-      1. Set |line| to the result of |line|.{{String/trimEnd()}}.\n-      1. Let |components| be the result of invoking\n-         |line|.{{String/split(separator, limit)}} with separator\n-         <code>':'</code>.\n+      1. Set |line| to the result of [=collecting a sequence of code points=]\n+         not equal to <code>'#'</code> from |line| starting from the beginning\n+         of |line|.\n+      1. Set |line| to the result of [=stripping leading and trailing ASCII\n+         whitespace=] from |line|.\n+      1. Let |components| be the result of [=strictly splitting=] |line|\n+         starting from the beginning of |line| on code point <code>':'</code>.\n       1. If the [=list/size=] of |components| is not 2 or 3,\n          [=iteration/continue=].\n-      1. Let |idVendor| be the result of invoking\n-         {{Number}}.{{Number/parseInt(string, radix)}} with |components|[0]\n-         and 16, or [=iteration/continue=] if a {{TypeError}} is thrown.\n-      1. Let |idProduct| be the result of invoking\n-         {{Number}}.{{Number/parseInt(string, radix)}} with |components|[1]\n-         and 16, or [=iteration/continue=] if a {{TypeError}} is thrown.\n+      1. Let |idVendor| be the result of interpreting |components|[0] as a\n+         hexadecimal number.\n+      1. Let |idProduct| be the result of interpreting |components|[1] as a\n+         hexadecimal number.\n       1. If the [=list/size=] of |components| is:",
+    "path": "index.bs",
+    "commit_id": "a256a3a02ca29ea4974604a98caac8a0211c88b2",
+    "original_commit_id": "0c7ace03c4d37c8df6512d13bcd6ee65f92908f1",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n      1. If the [=list/size=] of |components| is 3:\r\n```",
+    "created_at": "2023-10-10T22:46:24Z",
+    "updated_at": "2023-10-10T22:46:37Z",
+    "html_url": "https://github.com/whatwg/usb/pull/239#discussion_r1353527276",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/239",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/1353527276"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/239#discussion_r1353527276"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/239"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1353527276/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 2340,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 38,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1355808570",
+    "pull_request_review_id": 1672637301,
+    "id": 1355808570,
+    "node_id": "PRRC_kwDOAhq5Lc5Qz_86",
+    "diff_hunk": "@@ -2320,33 +2320,27 @@ The result of <dfn>parsing the blocklist</dfn> at a {{URL}} |url| is a [=list=]\n of {{USBBlocklistEntry}} objects produced by the following algorithm:\n \n   1. Fetch |url| and let |contents| be its body, decoded as UTF-8.\n-  1. Let |lines| be the result of invoking\n-     {{String/split(separator, limit)}} on |contents| with separator\n-     <code>'\\n'</code>.\n+  1. Let |lines| be the result of [=strictly splitting=] |contents| starting\n+     from the beginning of |contents| on code point <code>'\\n'</code>.\n   1. Let |blocklist| be an empty [=list=].\n   1. [=list/For each=] |line| of |lines|:\n-      1. Let |commentBegin| be the result of invoking\n-         |line|.{{String/indexOf()}} with <code>'#'</code>.\n-      1. If |commentBegin| is not -1, set |line| to the result of invoking\n-         |line|.{{String/substring()}} with 0 and |commentBegin|.\n-      1. Set |line| to the result of |line|.{{String/trimEnd()}}.\n-      1. Let |components| be the result of invoking\n-         |line|.{{String/split(separator, limit)}} with separator\n-         <code>':'</code>.\n+      1. Set |line| to the result of [=collecting a sequence of code points=]\n+         not equal to <code>'#'</code> from |line| starting from the beginning\n+         of |line|.\n+      1. Set |line| to the result of [=stripping leading and trailing ASCII\n+         whitespace=] from |line|.\n+      1. Let |components| be the result of [=strictly splitting=] |line|\n+         starting from the beginning of |line| on code point <code>':'</code>.\n       1. If the [=list/size=] of |components| is not 2 or 3,\n          [=iteration/continue=].\n-      1. Let |idVendor| be the result of invoking\n-         {{Number}}.{{Number/parseInt(string, radix)}} with |components|[0]\n-         and 16, or [=iteration/continue=] if a {{TypeError}} is thrown.\n-      1. Let |idProduct| be the result of invoking\n-         {{Number}}.{{Number/parseInt(string, radix)}} with |components|[1]\n-         and 16, or [=iteration/continue=] if a {{TypeError}} is thrown.\n+      1. Let |idVendor| be the result of interpreting |components|[0] as a\n+         hexadecimal number.\n+      1. Let |idProduct| be the result of interpreting |components|[1] as a\n+         hexadecimal number.\n       1. If the [=list/size=] of |components| is:\n           * 2: Let |bcdDevice| be <code>0xFFFF</code>.",
+    "path": "index.bs",
+    "commit_id": "a256a3a02ca29ea4974604a98caac8a0211c88b2",
+    "original_commit_id": "0c7ace03c4d37c8df6512d13bcd6ee65f92908f1",
+    "user": {
+      "login": "nondebug",
+      "id": 14099571,
+      "node_id": "MDQ6VXNlcjE0MDk5NTcx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14099571?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nondebug",
+      "html_url": "https://github.com/nondebug",
+      "followers_url": "https://api.github.com/users/nondebug/followers",
+      "following_url": "https://api.github.com/users/nondebug/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nondebug/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nondebug/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nondebug/subscriptions",
+      "organizations_url": "https://api.github.com/users/nondebug/orgs",
+      "repos_url": "https://api.github.com/users/nondebug/repos",
+      "events_url": "https://api.github.com/users/nondebug/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nondebug/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think this is still needed, otherwise `bcdDevice` will be uninitialized when we create the `USBBlocklistEntry`.",
+    "created_at": "2023-10-11T21:34:45Z",
+    "updated_at": "2023-10-11T21:34:45Z",
+    "html_url": "https://github.com/whatwg/usb/pull/239#discussion_r1355808570",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/239",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/1355808570"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/239#discussion_r1355808570"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/239"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1355808570/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 2341,
+    "side": "RIGHT",
+    "in_reply_to_id": 1353525426,
+    "author_association": "COLLABORATOR",
+    "original_position": 39,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1355817381",
+    "pull_request_review_id": 1672651015,
+    "id": 1355817381,
+    "node_id": "PRRC_kwDOAhq5Lc5Q0CGl",
+    "diff_hunk": "@@ -2320,33 +2320,27 @@ The result of <dfn>parsing the blocklist</dfn> at a {{URL}} |url| is a [=list=]\n of {{USBBlocklistEntry}} objects produced by the following algorithm:\n \n   1. Fetch |url| and let |contents| be its body, decoded as UTF-8.\n-  1. Let |lines| be the result of invoking\n-     {{String/split(separator, limit)}} on |contents| with separator\n-     <code>'\\n'</code>.\n+  1. Let |lines| be the result of [=strictly splitting=] |contents| starting\n+     from the beginning of |contents| on code point <code>'\\n'</code>.\n   1. Let |blocklist| be an empty [=list=].\n   1. [=list/For each=] |line| of |lines|:\n-      1. Let |commentBegin| be the result of invoking\n-         |line|.{{String/indexOf()}} with <code>'#'</code>.\n-      1. If |commentBegin| is not -1, set |line| to the result of invoking\n-         |line|.{{String/substring()}} with 0 and |commentBegin|.\n-      1. Set |line| to the result of |line|.{{String/trimEnd()}}.\n-      1. Let |components| be the result of invoking\n-         |line|.{{String/split(separator, limit)}} with separator\n-         <code>':'</code>.\n+      1. Set |line| to the result of [=collecting a sequence of code points=]\n+         not equal to <code>'#'</code> from |line| starting from the beginning\n+         of |line|.\n+      1. Set |line| to the result of [=stripping leading and trailing ASCII\n+         whitespace=] from |line|.\n+      1. Let |components| be the result of [=strictly splitting=] |line|\n+         starting from the beginning of |line| on code point <code>':'</code>.\n       1. If the [=list/size=] of |components| is not 2 or 3,\n          [=iteration/continue=].\n-      1. Let |idVendor| be the result of invoking\n-         {{Number}}.{{Number/parseInt(string, radix)}} with |components|[0]\n-         and 16, or [=iteration/continue=] if a {{TypeError}} is thrown.\n-      1. Let |idProduct| be the result of invoking\n-         {{Number}}.{{Number/parseInt(string, radix)}} with |components|[1]\n-         and 16, or [=iteration/continue=] if a {{TypeError}} is thrown.\n+      1. Let |idVendor| be the result of interpreting |components|[0] as a\n+         hexadecimal number.\n+      1. Let |idProduct| be the result of interpreting |components|[1] as a\n+         hexadecimal number.\n       1. If the [=list/size=] of |components| is:\n           * 2: Let |bcdDevice| be <code>0xFFFF</code>.",
+    "path": "index.bs",
+    "commit_id": "a256a3a02ca29ea4974604a98caac8a0211c88b2",
+    "original_commit_id": "0c7ace03c4d37c8df6512d13bcd6ee65f92908f1",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Ah, then this needs to be swapped with the \"if\" above so that it is set to this default when components only has 2 elements.",
+    "created_at": "2023-10-11T21:47:15Z",
+    "updated_at": "2023-10-11T21:47:19Z",
+    "html_url": "https://github.com/whatwg/usb/pull/239#discussion_r1355817381",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/239",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/1355817381"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/239#discussion_r1355817381"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/239"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1355817381/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 2341,
+    "side": "RIGHT",
+    "in_reply_to_id": 1353525426,
+    "author_association": "COLLABORATOR",
+    "original_position": 39,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1355833388",
+    "pull_request_review_id": 1672674357,
+    "id": 1355833388,
+    "node_id": "PRRC_kwDOAhq5Lc5Q0GAs",
+    "diff_hunk": "@@ -2320,33 +2320,27 @@ The result of <dfn>parsing the blocklist</dfn> at a {{URL}} |url| is a [=list=]\n of {{USBBlocklistEntry}} objects produced by the following algorithm:\n \n   1. Fetch |url| and let |contents| be its body, decoded as UTF-8.\n-  1. Let |lines| be the result of invoking\n-     {{String/split(separator, limit)}} on |contents| with separator\n-     <code>'\\n'</code>.\n+  1. Let |lines| be the result of [=strictly splitting=] |contents| starting\n+     from the beginning of |contents| on code point <code>'\\n'</code>.\n   1. Let |blocklist| be an empty [=list=].\n   1. [=list/For each=] |line| of |lines|:\n-      1. Let |commentBegin| be the result of invoking\n-         |line|.{{String/indexOf()}} with <code>'#'</code>.\n-      1. If |commentBegin| is not -1, set |line| to the result of invoking\n-         |line|.{{String/substring()}} with 0 and |commentBegin|.\n-      1. Set |line| to the result of |line|.{{String/trimEnd()}}.\n-      1. Let |components| be the result of invoking\n-         |line|.{{String/split(separator, limit)}} with separator\n-         <code>':'</code>.\n+      1. Set |line| to the result of [=collecting a sequence of code points=]\n+         not equal to <code>'#'</code> from |line| starting from the beginning\n+         of |line|.\n+      1. Set |line| to the result of [=stripping leading and trailing ASCII\n+         whitespace=] from |line|.\n+      1. Let |components| be the result of [=strictly splitting=] |line|\n+         starting from the beginning of |line| on code point <code>':'</code>.\n       1. If the [=list/size=] of |components| is not 2 or 3,\n          [=iteration/continue=].\n-      1. Let |idVendor| be the result of invoking\n-         {{Number}}.{{Number/parseInt(string, radix)}} with |components|[0]\n-         and 16, or [=iteration/continue=] if a {{TypeError}} is thrown.\n-      1. Let |idProduct| be the result of invoking\n-         {{Number}}.{{Number/parseInt(string, radix)}} with |components|[1]\n-         and 16, or [=iteration/continue=] if a {{TypeError}} is thrown.\n+      1. Let |idVendor| be the result of interpreting |components|[0] as a\n+         hexadecimal number.\n+      1. Let |idProduct| be the result of interpreting |components|[1] as a\n+         hexadecimal number.\n       1. If the [=list/size=] of |components| is:\n           * 2: Let |bcdDevice| be <code>0xFFFF</code>.",
+    "path": "index.bs",
+    "commit_id": "a256a3a02ca29ea4974604a98caac8a0211c88b2",
+    "original_commit_id": "0c7ace03c4d37c8df6512d13bcd6ee65f92908f1",
+    "user": {
+      "login": "nondebug",
+      "id": 14099571,
+      "node_id": "MDQ6VXNlcjE0MDk5NTcx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14099571?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nondebug",
+      "html_url": "https://github.com/nondebug",
+      "followers_url": "https://api.github.com/users/nondebug/followers",
+      "following_url": "https://api.github.com/users/nondebug/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nondebug/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nondebug/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nondebug/subscriptions",
+      "organizations_url": "https://api.github.com/users/nondebug/orgs",
+      "repos_url": "https://api.github.com/users/nondebug/repos",
+      "events_url": "https://api.github.com/users/nondebug/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nondebug/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I don't understand the issue. If we move the `if` lower then `|components|[1]` will be an OOB access if the line doesn't have any ':' code points.\r\n\r\nHow about:\r\n\r\n```\r\n      1. Let |components| be the result of [=strictly splitting=] |line|\r\n         starting from the beginning of |line| on code point <code>':'</code>.\r\n      1. If the [=list/size=] of |components| is not 2 or 3,\r\n         [=iteration/continue=].\r\n      1. Let |idVendor| be the result of interpreting |components|[0] as a\r\n         hexadecimal number.\r\n      1. Let |idProduct| be the result of interpreting |components|[1] as a\r\n         hexadecimal number.\r\n      1. Let |bcdDevice| be <code>0xFFFF</code>.\r\n      1. If the [=list/size=] of |components| is 3, set |bcdDevice| to the\r\n         result of interpreting |components|[2] as a hexadecimal number.\r\n      1. [=list/Append=] a new {{USBBlocklistEntry}} with |idVendor|,\r\n         |idProduct|, and |bcdDevice| to |blocklist|.\r\n```",
+    "created_at": "2023-10-11T22:11:01Z",
+    "updated_at": "2023-10-11T22:11:01Z",
+    "html_url": "https://github.com/whatwg/usb/pull/239#discussion_r1355833388",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/239",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/1355833388"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/239#discussion_r1355833388"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/239"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1355833388/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 2341,
+    "side": "RIGHT",
+    "in_reply_to_id": 1353525426,
+    "author_association": "COLLABORATOR",
+    "original_position": 39,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1355844039",
+    "pull_request_review_id": 1672689507,
+    "id": 1355844039,
+    "node_id": "PRRC_kwDOAhq5Lc5Q0InH",
+    "diff_hunk": "@@ -2320,33 +2320,27 @@ The result of <dfn>parsing the blocklist</dfn> at a {{URL}} |url| is a [=list=]\n of {{USBBlocklistEntry}} objects produced by the following algorithm:\n \n   1. Fetch |url| and let |contents| be its body, decoded as UTF-8.\n-  1. Let |lines| be the result of invoking\n-     {{String/split(separator, limit)}} on |contents| with separator\n-     <code>'\\n'</code>.\n+  1. Let |lines| be the result of [=strictly splitting=] |contents| starting\n+     from the beginning of |contents| on code point <code>'\\n'</code>.\n   1. Let |blocklist| be an empty [=list=].\n   1. [=list/For each=] |line| of |lines|:\n-      1. Let |commentBegin| be the result of invoking\n-         |line|.{{String/indexOf()}} with <code>'#'</code>.\n-      1. If |commentBegin| is not -1, set |line| to the result of invoking\n-         |line|.{{String/substring()}} with 0 and |commentBegin|.\n-      1. Set |line| to the result of |line|.{{String/trimEnd()}}.\n-      1. Let |components| be the result of invoking\n-         |line|.{{String/split(separator, limit)}} with separator\n-         <code>':'</code>.\n+      1. Set |line| to the result of [=collecting a sequence of code points=]\n+         not equal to <code>'#'</code> from |line| starting from the beginning\n+         of |line|.\n+      1. Set |line| to the result of [=stripping leading and trailing ASCII\n+         whitespace=] from |line|.\n+      1. Let |components| be the result of [=strictly splitting=] |line|\n+         starting from the beginning of |line| on code point <code>':'</code>.\n       1. If the [=list/size=] of |components| is not 2 or 3,\n          [=iteration/continue=].\n-      1. Let |idVendor| be the result of invoking\n-         {{Number}}.{{Number/parseInt(string, radix)}} with |components|[0]\n-         and 16, or [=iteration/continue=] if a {{TypeError}} is thrown.\n-      1. Let |idProduct| be the result of invoking\n-         {{Number}}.{{Number/parseInt(string, radix)}} with |components|[1]\n-         and 16, or [=iteration/continue=] if a {{TypeError}} is thrown.\n+      1. Let |idVendor| be the result of interpreting |components|[0] as a\n+         hexadecimal number.\n+      1. Let |idProduct| be the result of interpreting |components|[1] as a\n+         hexadecimal number.\n       1. If the [=list/size=] of |components| is:\n           * 2: Let |bcdDevice| be <code>0xFFFF</code>.",
+    "path": "index.bs",
+    "commit_id": "a256a3a02ca29ea4974604a98caac8a0211c88b2",
+    "original_commit_id": "0c7ace03c4d37c8df6512d13bcd6ee65f92908f1",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "That LGTM.",
+    "created_at": "2023-10-11T22:28:09Z",
+    "updated_at": "2023-10-11T22:28:09Z",
+    "html_url": "https://github.com/whatwg/usb/pull/239#discussion_r1355844039",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/239",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/1355844039"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/239#discussion_r1355844039"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/239"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1355844039/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 2341,
+    "side": "RIGHT",
+    "in_reply_to_id": 1353525426,
+    "author_association": "COLLABORATOR",
+    "original_position": 39,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

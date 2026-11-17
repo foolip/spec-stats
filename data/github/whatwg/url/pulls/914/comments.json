@@ -1,0 +1,144 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/url/pulls/comments/3385335820",
+    "pull_request_review_id": 4464281954,
+    "id": 3385335820,
+    "node_id": "PRRC_kwDOAFmX0c7JyCAM",
+    "diff_hunk": "@@ -912,20 +912,24 @@ concepts.\n <var>domain</var> and a boolean <var>beStrict</var>, runs these steps:\n \n <ol>\n+ <li><p>Let <var>result</var> be the result of running\n+ <a abstract-op lt=ToASCII>Unicode ToASCII</a> with <i>domain_name</i> set to <var>domain</var>,\n+ <i>CheckHyphens</i> set to <var>beStrict</var>, <i>CheckBidi</i> set to true, <i>CheckJoiners</i>\n+ set to true, <i>UseSTD3ASCIIRules</i> set to <var>beStrict</var>, <i>Transitional_Processing</i>\n+ set to false, <i>VerifyDnsLength</i> set to <var>beStrict</var>, and <i>IgnoreInvalidPunycode</i>\n+ set to false. [[!UTS46]]\n+\n  <li>\n-  <p>Let <var>result</var> be the result of running <a abstract-op lt=ToASCII>Unicode ToASCII</a>\n-  with <i>domain_name</i> set to <var>domain</var>, <i>CheckHyphens</i> set to <var>beStrict</var>,\n-  <i>CheckBidi</i> set to true, <i>CheckJoiners</i> set to true, <i>UseSTD3ASCIIRules</i> set to\n-  <var>beStrict</var>, <i>Transitional_Processing</i> set to false, <i>VerifyDnsLength</i> set to\n-  <var>beStrict</var>, and <i>IgnoreInvalidPunycode</i> set to false. [[!UTS46]]\n-\n-  <p class=note>If <var>beStrict</var> is false, <var>domain</var> is an <a>ASCII string</a>, and\n-  <a>strictly splitting</a> <var>domain</var> on U+002E (.) does not produce any\n-  <a for=list>item</a> that <a for=string>starts with</a> an <a>ASCII case-insensitive</a> match for\n-  \"<code>xn--</code>\", this step is equivalent to <a>ASCII lowercasing</a> <var>domain</var>.\n-\n- <li><p>If <var>result</var> is a failure value, <a>domain-to-ASCII</a> <a>validation error</a>,\n- return failure.\n+  <p>If <var>result</var> is a failure value:\n+\n+  <ol>\n+   <li><p><a>domain-to-ASCII</a> <a>validation error</a>.",
+    "path": "url.bs",
+    "commit_id": "270cd1ffd1f34ce30468d00c154ff516dbd0aa9d",
+    "original_commit_id": "270cd1ffd1f34ce30468d00c154ff516dbd0aa9d",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\n   <li><p><a>Domain-to-ASCII</a> <a>validation error</a>.\n```\n\nmaybe? Not sure, but it reads strangely as-is.",
+    "created_at": "2026-06-10T03:43:05Z",
+    "updated_at": "2026-06-10T04:03:33Z",
+    "html_url": "https://github.com/whatwg/url/pull/914#discussion_r3385335820",
+    "pull_request_url": "https://api.github.com/repos/whatwg/url/pulls/914",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/comments/3385335820"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/url/pull/914#discussion_r3385335820"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/914"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/url/pulls/comments/3385335820/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 926,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 37,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/url/pulls/comments/3400927961",
+    "pull_request_review_id": 4482768680,
+    "id": 3400927961,
+    "node_id": "PRRC_kwDOAFmX0c7KtgrZ",
+    "diff_hunk": "@@ -912,20 +912,39 @@ concepts.\n <var>domain</var> and a boolean <var>beStrict</var>, runs these steps:\n \n <ol>\n+ <li><p>Let <var>result</var> be null.\n+\n  <li>\n-  <p>Let <var>result</var> be the result of running <a abstract-op lt=ToASCII>Unicode ToASCII</a>\n-  with <i>domain_name</i> set to <var>domain</var>, <i>CheckHyphens</i> set to <var>beStrict</var>,\n-  <i>CheckBidi</i> set to true, <i>CheckJoiners</i> set to true, <i>UseSTD3ASCIIRules</i> set to\n-  <var>beStrict</var>, <i>Transitional_Processing</i> set to false, <i>VerifyDnsLength</i> set to\n-  <var>beStrict</var>, and <i>IgnoreInvalidPunycode</i> set to false. [[!UTS46]]\n-\n-  <p class=note>If <var>beStrict</var> is false, <var>domain</var> is an <a>ASCII string</a>, and\n-  <a>strictly splitting</a> <var>domain</var> on U+002E (.) does not produce any\n-  <a for=list>item</a> that <a for=string>starts with</a> an <a>ASCII case-insensitive</a> match for\n-  \"<code>xn--</code>\", this step is equivalent to <a>ASCII lowercasing</a> <var>domain</var>.\n-\n- <li><p>If <var>result</var> is a failure value, <a>domain-to-ASCII</a> <a>validation error</a>,\n- return failure.\n+  <p>If <var>beStrict</var> is false and <var>domain</var> is an <a>ASCII string</a>:\n+\n+  <ol>\n+   <li><p>If running <a abstract-op lt=ToASCII>Unicode ToASCII</a> with <i>domain_name</i> set to\n+   <var>domain</var>, <i>CheckHyphens</i> set to false, <i>CheckBidi</i> set to true,\n+   <i>CheckJoiners</i> set to true, <i>UseSTD3ASCIIRules</i> set to false,\n+   <i>Transitional_Processing</i> set to false, <i>VerifyDnsLength</i> set to false, and\n+   <i>IgnoreInvalidPunycode</i> set to false is a failure value, <a>domain-to-ASCII</a>\n+   <a>validation error</a>. [[!UTS46]]\n+\n+   <li><p>Set <var>result</var> to <var>domain</var>, <a lt=\"ASCII lowercase\">lowercased</a>.\n+  </ol>\n+\n+  <p class=note>Due to web compatibility <a abstract-op lt=ToASCII>Unicode ToASCII</a> only records\n+  <a>validation errors</a> when <var>domain</var> is an <a>ASCII string</a>.",
+    "path": "url.bs",
+    "commit_id": "d906311aa6fbe62cd69fb95dab507fc71ac86de7",
+    "original_commit_id": "d906311aa6fbe62cd69fb95dab507fc71ac86de7",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\n  <p class=note>In the non-strict branch, due to web compatibility, <a abstract-op lt=ToASCII>Unicode ToASCII</a> failures only result in\n  <a>validation errors</a> (instead of failing the whole algorithm) when <var>domain</var> is an <a>ASCII string</a>.\n```",
+    "created_at": "2026-06-12T05:30:01Z",
+    "updated_at": "2026-06-12T05:42:03Z",
+    "html_url": "https://github.com/whatwg/url/pull/914#discussion_r3400927961",
+    "pull_request_url": "https://api.github.com/repos/whatwg/url/pulls/914",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/comments/3400927961"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/url/pull/914#discussion_r3400927961"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/url/pulls/914"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/url/pulls/comments/3400927961/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 931,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 932,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 43,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

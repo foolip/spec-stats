@@ -1,0 +1,144 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1232529751",
+    "pull_request_review_id": 1483992885,
+    "id": 1232529751,
+    "node_id": "PRRC_kwDOAhq5Lc5JdulX",
+    "diff_hunk": "@@ -664,28 +666,39 @@ steps <a>in parallel</a>:\n      <code>|options|.{{USBPermissionDescriptor/filters}}</code> if |filter|\n      <a>is not a valid filter</a> <a>reject</a> |promise| with a {{TypeError}}\n      and abort these steps.\n-  2. Check that the algorithm was triggered while the [=relevant global object=]\n+  2. If <code>|options|.{{USBPermissionDescriptor/exclusionFilters}}</code> is\n+     present, then run the following steps:\n+       1. If <code>|options|.{{USBPermissionDescriptor/exclusionFilters}}</code>\n+          is empty, then <a>reject</a> |promise| with a {{TypeError}}\n+          and abort these steps.\n+       2. For each |exclusionFilter| in\n+          <code>|options|.{{USBPermissionDescriptor/exclusionFilters}}</code> if\n+          |exclusionFilter| <a>is not a valid filter</a> <a>reject</a> |promise|\n+          with a {{TypeError}} and abort these steps.\n+  3. Check that the algorithm was triggered while the [=relevant global object=]\n      had a <a>transient activation</a>. Otherwise, <a>reject</a> |promise| with\n      a {{SecurityError}} and abort these steps.\n-  3. Set <code>|status|.{{PermissionStatus/state}}</code> to <code>\"ask\"</code>.\n-  4. <a>Enumerate all devices attached to the system</a>. Let this result be\n+  4. Set <code>|status|.{{PermissionStatus/state}}</code> to <code>\"ask\"</code>.\n+  5. <a>Enumerate all devices attached to the system</a>. Let this result be\n      |enumerationResult|.\n-  5. Remove devices from |enumerationResult| if they do not <a>match a device\n+  6. Remove devices from |enumerationResult| if they do not <a>match a device\n      filter</a> in <code>|options|.{{USBPermissionDescriptor/filters}}</code>.\n-  6. Display a prompt to the user requesting they select a device from\n+  7. Remove devices from |enumerationResult| if they do <a>match a device filter</a>",
+    "path": "index.bs",
+    "commit_id": "899dc84ef772e4e98c91690dfe02a6d78a885cad",
+    "original_commit_id": "fd6ef2e3a5f5d81aecd6e73df3d9d4c83e5151cc",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n  7. Remove devices from |enumerationResult| if they <a>match a device filter</a>\r\n```",
+    "created_at": "2023-06-16T17:19:37Z",
+    "updated_at": "2023-06-16T17:23:29Z",
+    "html_url": "https://github.com/whatwg/usb/pull/233#discussion_r1232529751",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/233",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/1232529751"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/233#discussion_r1232529751"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/233"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1232529751/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 686,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 42,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1232530289",
+    "pull_request_review_id": 1483992885,
+    "id": 1232530289,
+    "node_id": "PRRC_kwDOAhq5Lc5Jdutx",
+    "diff_hunk": "@@ -2370,10 +2389,14 @@ defined as follows:\n               and |device| does not <a>match a device filter</a> in\n               <code>|desc|.{{USBPermissionDescriptor/filters}}</code>, continue\n               to the next |device|.\n-           2. Get the {{USBDevice}} representing |device| and add it to\n+           2. If <code>|desc|.{{USBPermissionDescriptor/exclusionFilters}}</code>\n+              is set and |device| does <a>match a device filter</a> in",
+    "path": "index.bs",
+    "commit_id": "899dc84ef772e4e98c91690dfe02a6d78a885cad",
+    "original_commit_id": "fd6ef2e3a5f5d81aecd6e73df3d9d4c83e5151cc",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n              is set and |device| <a>matches a device filter</a> in\r\n```\r\n\r\nYou might need to add an attribute to the definition of \"match a device filter\" for it to understand this version is the same definition. I forget how smart it is about this.",
+    "created_at": "2023-06-16T17:20:23Z",
+    "updated_at": "2023-06-16T17:23:29Z",
+    "html_url": "https://github.com/whatwg/usb/pull/233#discussion_r1232530289",
+    "pull_request_url": "https://api.github.com/repos/whatwg/usb/pulls/233",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/comments/1232530289"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/usb/pull/233#discussion_r1232530289"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/usb/pulls/233"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/usb/pulls/comments/1232530289/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 2393,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 100,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

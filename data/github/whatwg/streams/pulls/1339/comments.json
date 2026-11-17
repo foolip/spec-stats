@@ -1,0 +1,646 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1927817058",
+    "pull_request_review_id": 2571234348,
+    "id": 1927817058,
+    "node_id": "PRRC_kwDOANUOW85y6Cdi",
+    "diff_hunk": "@@ -4332,6 +4344,22 @@ as seen for example in [[#example-ws-no-backpressure]].\n  1. Return ! [$IsWritableStreamLocked$]([=this=]).\n </div>\n \n+<div algorithm>\n+ The <dfn id=\"ws-write\" method for=\"WritableStream\">write(|chunk|)</dfn> method steps are:",
+    "path": "index.bs",
+    "commit_id": "8368fd8a32e4c00c196830d5eb99aa16d1eddd06",
+    "original_commit_id": "aecfcfc2bda01727d23528b09fd57cb86e10939b",
+    "user": {
+      "login": "saschanaz",
+      "id": 3396686,
+      "node_id": "MDQ6VXNlcjMzOTY2ODY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3396686?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/saschanaz",
+      "html_url": "https://github.com/saschanaz",
+      "followers_url": "https://api.github.com/users/saschanaz/followers",
+      "following_url": "https://api.github.com/users/saschanaz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/saschanaz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/saschanaz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/saschanaz/subscriptions",
+      "organizations_url": "https://api.github.com/users/saschanaz/orgs",
+      "repos_url": "https://api.github.com/users/saschanaz/repos",
+      "events_url": "https://api.github.com/users/saschanaz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/saschanaz/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Would we want to imply from the name that each write would be exclusive and extra parallel calls would reject?",
+    "created_at": "2025-01-23T23:29:23Z",
+    "updated_at": "2025-01-23T23:29:23Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1339#discussion_r1927817058",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1339",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1927817058"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1339#discussion_r1927817058"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1339"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1927817058/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 4348,
+    "original_line": 4348,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 31,
+    "position": 31,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1927820429",
+    "pull_request_review_id": 2571239195,
+    "id": 1927820429,
+    "node_id": "PRRC_kwDOANUOW85y6DSN",
+    "diff_hunk": "@@ -4332,6 +4344,22 @@ as seen for example in [[#example-ws-no-backpressure]].\n  1. Return ! [$IsWritableStreamLocked$]([=this=]).\n </div>\n \n+<div algorithm>\n+ The <dfn id=\"ws-write\" method for=\"WritableStream\">write(|chunk|)</dfn> method steps are:",
+    "path": "index.bs",
+    "commit_id": "8368fd8a32e4c00c196830d5eb99aa16d1eddd06",
+    "original_commit_id": "aecfcfc2bda01727d23528b09fd57cb86e10939b",
+    "user": {
+      "login": "lucacasonato",
+      "id": 7829205,
+      "node_id": "MDQ6VXNlcjc4MjkyMDU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7829205?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lucacasonato",
+      "html_url": "https://github.com/lucacasonato",
+      "followers_url": "https://api.github.com/users/lucacasonato/followers",
+      "following_url": "https://api.github.com/users/lucacasonato/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lucacasonato/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lucacasonato/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lucacasonato/subscriptions",
+      "organizations_url": "https://api.github.com/users/lucacasonato/orgs",
+      "repos_url": "https://api.github.com/users/lucacasonato/repos",
+      "events_url": "https://api.github.com/users/lucacasonato/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lucacasonato/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I just realized the behavior is is wrong. The writer should be released immediately, not once the write promise resolves. This mirrors the behavior of the write method on https://fs.spec.whatwg.org/#filesystemwritablefilestream ",
+    "created_at": "2025-01-23T23:34:31Z",
+    "updated_at": "2025-01-23T23:34:31Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1339#discussion_r1927820429",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1339",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1927820429"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1339#discussion_r1927820429"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1339"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1927820429/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 4348,
+    "original_line": 4348,
+    "side": "RIGHT",
+    "in_reply_to_id": 1927817058,
+    "author_association": "MEMBER",
+    "original_position": 31,
+    "position": 31,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1927825909",
+    "pull_request_review_id": 2571253079,
+    "id": 1927825909,
+    "node_id": "PRRC_kwDOANUOW85y6En1",
+    "diff_hunk": "@@ -4332,6 +4344,22 @@ as seen for example in [[#example-ws-no-backpressure]].\n  1. Return ! [$IsWritableStreamLocked$]([=this=]).\n </div>\n \n+<div algorithm>\n+ The <dfn id=\"ws-write\" method for=\"WritableStream\">write(|chunk|)</dfn> method steps are:",
+    "path": "index.bs",
+    "commit_id": "8368fd8a32e4c00c196830d5eb99aa16d1eddd06",
+    "original_commit_id": "aecfcfc2bda01727d23528b09fd57cb86e10939b",
+    "user": {
+      "login": "saschanaz",
+      "id": 3396686,
+      "node_id": "MDQ6VXNlcjMzOTY2ODY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3396686?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/saschanaz",
+      "html_url": "https://github.com/saschanaz",
+      "followers_url": "https://api.github.com/users/saschanaz/followers",
+      "following_url": "https://api.github.com/users/saschanaz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/saschanaz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/saschanaz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/saschanaz/subscriptions",
+      "organizations_url": "https://api.github.com/users/saschanaz/orgs",
+      "repos_url": "https://api.github.com/users/saschanaz/repos",
+      "events_url": "https://api.github.com/users/saschanaz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/saschanaz/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "That sounds better!",
+    "created_at": "2025-01-23T23:39:44Z",
+    "updated_at": "2025-01-23T23:39:44Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1339#discussion_r1927825909",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1339",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1927825909"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1339#discussion_r1927825909"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1339"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1927825909/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 4348,
+    "original_line": 4348,
+    "side": "RIGHT",
+    "in_reply_to_id": 1927817058,
+    "author_association": "MEMBER",
+    "original_position": 31,
+    "position": 31,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1927904808",
+    "pull_request_review_id": 2571372017,
+    "id": 1927904808,
+    "node_id": "PRRC_kwDOANUOW85y6X4o",
+    "diff_hunk": "@@ -4332,6 +4344,22 @@ as seen for example in [[#example-ws-no-backpressure]].\n  1. Return ! [$IsWritableStreamLocked$]([=this=]).\n </div>\n \n+<div algorithm>\n+ The <dfn id=\"ws-write\" method for=\"WritableStream\">write(|chunk|)</dfn> method steps are:",
+    "path": "index.bs",
+    "commit_id": "8368fd8a32e4c00c196830d5eb99aa16d1eddd06",
+    "original_commit_id": "aecfcfc2bda01727d23528b09fd57cb86e10939b",
+    "user": {
+      "login": "jasnell",
+      "id": 439929,
+      "node_id": "MDQ6VXNlcjQzOTkyOQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/439929?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jasnell",
+      "html_url": "https://github.com/jasnell",
+      "followers_url": "https://api.github.com/users/jasnell/followers",
+      "following_url": "https://api.github.com/users/jasnell/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jasnell/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jasnell/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jasnell/subscriptions",
+      "organizations_url": "https://api.github.com/users/jasnell/orgs",
+      "repos_url": "https://api.github.com/users/jasnell/repos",
+      "events_url": "https://api.github.com/users/jasnell/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jasnell/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Releasing the writer works so long as releasing it does not lead the write being canceled. I believe it's fine now but I believe a [change](https://streams.spec.whatwg.org/#abstract-opdef-readablestreamdefaultreadererrorreadrequests) was recently made to `ReadableStream` that caused pending reads to be canceled. Are we certain a similar type of change won't be wanted with writers and would this interfere with that?",
+    "created_at": "2025-01-24T00:07:18Z",
+    "updated_at": "2025-01-24T00:07:18Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1339#discussion_r1927904808",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1339",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1927904808"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1339#discussion_r1927904808"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1339"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1927904808/reactions",
+      "total_count": 1,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 1
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 4348,
+    "original_line": 4348,
+    "side": "RIGHT",
+    "in_reply_to_id": 1927817058,
+    "author_association": "NONE",
+    "original_position": 31,
+    "position": 31,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1928404591",
+    "pull_request_review_id": 2572160695,
+    "id": 1928404591,
+    "node_id": "PRRC_kwDOANUOW85y8R5v",
+    "diff_hunk": "@@ -4332,6 +4344,22 @@ as seen for example in [[#example-ws-no-backpressure]].\n  1. Return ! [$IsWritableStreamLocked$]([=this=]).\n </div>\n \n+<div algorithm>\n+ The <dfn id=\"ws-write\" method for=\"WritableStream\">write(|chunk|)</dfn> method steps are:",
+    "path": "index.bs",
+    "commit_id": "8368fd8a32e4c00c196830d5eb99aa16d1eddd06",
+    "original_commit_id": "aecfcfc2bda01727d23528b09fd57cb86e10939b",
+    "user": {
+      "login": "MattiasBuelens",
+      "id": 649348,
+      "node_id": "MDQ6VXNlcjY0OTM0OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/649348?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/MattiasBuelens",
+      "html_url": "https://github.com/MattiasBuelens",
+      "followers_url": "https://api.github.com/users/MattiasBuelens/followers",
+      "following_url": "https://api.github.com/users/MattiasBuelens/following{/other_user}",
+      "gists_url": "https://api.github.com/users/MattiasBuelens/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/MattiasBuelens/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/MattiasBuelens/subscriptions",
+      "organizations_url": "https://api.github.com/users/MattiasBuelens/orgs",
+      "repos_url": "https://api.github.com/users/MattiasBuelens/repos",
+      "events_url": "https://api.github.com/users/MattiasBuelens/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/MattiasBuelens/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "That's very unlikely to change.\r\n\r\nFor readers, we previously did not allow you to `releaseLock()` while there were pending read requests. For writers, we never had that restriction: you're always allowed to call `releaseLock()` even when there are pending write requests. In fact, [we even recommend](https://streams.spec.whatwg.org/#example-manual-write-dont-await) not awaiting the `writer.write()` promise so you can better respect backpressure (as long as you await `writer.ready` though).",
+    "created_at": "2025-01-24T09:39:42Z",
+    "updated_at": "2025-01-24T09:39:43Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1339#discussion_r1928404591",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1339",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1928404591"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1339#discussion_r1928404591"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1339"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1928404591/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 4348,
+    "original_line": 4348,
+    "side": "RIGHT",
+    "in_reply_to_id": 1927817058,
+    "author_association": "COLLABORATOR",
+    "original_position": 31,
+    "position": 31,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1928413527",
+    "pull_request_review_id": 2572175799,
+    "id": 1928413527,
+    "node_id": "PRRC_kwDOANUOW85y8UFX",
+    "diff_hunk": "@@ -4332,6 +4344,22 @@ as seen for example in [[#example-ws-no-backpressure]].\n  1. Return ! [$IsWritableStreamLocked$]([=this=]).\n </div>\n \n+<div algorithm>\n+ The <dfn id=\"ws-write\" method for=\"WritableStream\">write(|chunk|)</dfn> method steps are:\n+\n+ 1. Let |result| be ? [$AcquireWritableStreamDefaultWriter$]([=this=]).\n+ 1. If |result| is an abrupt completion, return [=a promise rejected with=] |result|.\\[[Value]].\n+ 1. Let |writer| be |result|.\\[[Value]].\n+ 1. Let |writePromise| be ! [$WritableStreamDefaultWriterWrite$](|writer|, |chunk|).\n+ 1. Return the result of [=reacting=] to |writePromise|:\n+  1. If |writePromise| is fulfilled with a value |v|, then:\n+   1. Perform ! [$WritableStreamDefaultWriterRelease$](|writer|).\n+   1. Return |v|.\n+  1. If |writePromise| is rejected with a value |r|, then:\n+   1. Perform ! [$WritableStreamDefaultWriterRelease$](|writer|).\n+   1. Return [=a promise rejected with=] |r|.",
+    "path": "index.bs",
+    "commit_id": "8368fd8a32e4c00c196830d5eb99aa16d1eddd06",
+    "original_commit_id": "da646b81de986facecadaec953cc9baa7cb81277",
+    "user": {
+      "login": "MattiasBuelens",
+      "id": 649348,
+      "node_id": "MDQ6VXNlcjY0OTM0OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/649348?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/MattiasBuelens",
+      "html_url": "https://github.com/MattiasBuelens",
+      "followers_url": "https://api.github.com/users/MattiasBuelens/followers",
+      "following_url": "https://api.github.com/users/MattiasBuelens/following{/other_user}",
+      "gists_url": "https://api.github.com/users/MattiasBuelens/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/MattiasBuelens/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/MattiasBuelens/subscriptions",
+      "organizations_url": "https://api.github.com/users/MattiasBuelens/orgs",
+      "repos_url": "https://api.github.com/users/MattiasBuelens/repos",
+      "events_url": "https://api.github.com/users/MattiasBuelens/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/MattiasBuelens/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "We don't need to wait for the `writePromise` to resolve or reject before releasing the lock. Instead, we should release it *immediately*.\r\n```suggestion\r\n 1. Let |writePromise| be ! [$WritableStreamDefaultWriterWrite$](|writer|, |chunk|).\r\n 1. Perform ! [$WritableStreamDefaultWriterRelease$](|writer|).\r\n 1. Return |writePromise|.\r\n```\r\nThis works, because [WritableStreamDefaultWriterRelease](https://streams.spec.whatwg.org/#writable-stream-default-writer-release) does not reject any pending write requests.\r\n\r\nThis also resolves https://github.com/whatwg/streams/pull/1339#issuecomment-2611228239.",
+    "created_at": "2025-01-24T09:46:26Z",
+    "updated_at": "2025-01-24T09:54:34Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1339#discussion_r1928413527",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1339",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1928413527"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1339#discussion_r1928413527"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1339"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1928413527/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 4353,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 4360,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 43,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1928424241",
+    "pull_request_review_id": 2572175799,
+    "id": 1928424241,
+    "node_id": "PRRC_kwDOANUOW85y8Wsx",
+    "diff_hunk": "@@ -4332,6 +4344,22 @@ as seen for example in [[#example-ws-no-backpressure]].\n  1. Return ! [$IsWritableStreamLocked$]([=this=]).\n </div>\n \n+<div algorithm>\n+ The <dfn id=\"ws-write\" method for=\"WritableStream\">write(|chunk|)</dfn> method steps are:\n+\n+ 1. Let |result| be ? [$AcquireWritableStreamDefaultWriter$]([=this=]).",
+    "path": "index.bs",
+    "commit_id": "8368fd8a32e4c00c196830d5eb99aa16d1eddd06",
+    "original_commit_id": "da646b81de986facecadaec953cc9baa7cb81277",
+    "user": {
+      "login": "MattiasBuelens",
+      "id": 649348,
+      "node_id": "MDQ6VXNlcjY0OTM0OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/649348?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/MattiasBuelens",
+      "html_url": "https://github.com/MattiasBuelens",
+      "followers_url": "https://api.github.com/users/MattiasBuelens/followers",
+      "following_url": "https://api.github.com/users/MattiasBuelens/following{/other_user}",
+      "gists_url": "https://api.github.com/users/MattiasBuelens/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/MattiasBuelens/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/MattiasBuelens/subscriptions",
+      "organizations_url": "https://api.github.com/users/MattiasBuelens/orgs",
+      "repos_url": "https://api.github.com/users/MattiasBuelens/repos",
+      "events_url": "https://api.github.com/users/MattiasBuelens/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/MattiasBuelens/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "It might be worth introducing a new abstract op `WritableStreamWrite(stream, chunk)` for doing a \"writer-less write\", similar to [`WritableStreamAbort`](https://streams.spec.whatwg.org/#writable-stream-abort) and [`WritableStreamClose`](https://streams.spec.whatwg.org/#writable-stream-close). We could then rework [`WritableStreamDefaultWriterWrite`](https://streams.spec.whatwg.org/#writable-stream-default-writer-write) to use the same abstract op, similar to how [`WritableStreamDefaultWriterAbort`](https://streams.spec.whatwg.org/#writable-stream-default-writer-abort) delegates to `WritableStreamAbort`.\r\n\r\n(We may have to take `chunkSize` as an extra argument though, since [step 5 of `WritableStreamDefaultWriterWrite`](https://streams.spec.whatwg.org/commit-snapshots/2811932a34b5cfdb0a6e33ad204f747ee9c71292/#writable-stream-default-writer-write) might be difficult to implement otherwise.)",
+    "created_at": "2025-01-24T09:54:25Z",
+    "updated_at": "2025-01-24T09:54:34Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1339#discussion_r1928424241",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1339",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1928424241"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1339#discussion_r1928424241"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1339"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1928424241/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 4350,
+    "original_line": 4350,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 33,
+    "position": 33,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1928461297",
+    "pull_request_review_id": 2572267576,
+    "id": 1928461297,
+    "node_id": "PRRC_kwDOANUOW85y8fvx",
+    "diff_hunk": "@@ -4332,6 +4344,22 @@ as seen for example in [[#example-ws-no-backpressure]].\n  1. Return ! [$IsWritableStreamLocked$]([=this=]).\n </div>\n \n+<div algorithm>\n+ The <dfn id=\"ws-write\" method for=\"WritableStream\">write(|chunk|)</dfn> method steps are:\n+\n+ 1. Let |result| be ? [$AcquireWritableStreamDefaultWriter$]([=this=]).",
+    "path": "index.bs",
+    "commit_id": "8368fd8a32e4c00c196830d5eb99aa16d1eddd06",
+    "original_commit_id": "da646b81de986facecadaec953cc9baa7cb81277",
+    "user": {
+      "login": "lucacasonato",
+      "id": 7829205,
+      "node_id": "MDQ6VXNlcjc4MjkyMDU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7829205?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lucacasonato",
+      "html_url": "https://github.com/lucacasonato",
+      "followers_url": "https://api.github.com/users/lucacasonato/followers",
+      "following_url": "https://api.github.com/users/lucacasonato/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lucacasonato/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lucacasonato/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lucacasonato/subscriptions",
+      "organizations_url": "https://api.github.com/users/lucacasonato/orgs",
+      "repos_url": "https://api.github.com/users/lucacasonato/repos",
+      "events_url": "https://api.github.com/users/lucacasonato/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lucacasonato/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I will do that if I can get implementer interest :)",
+    "created_at": "2025-01-24T10:22:23Z",
+    "updated_at": "2025-01-24T10:22:24Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1339#discussion_r1928461297",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1339",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1928461297"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1339#discussion_r1928461297"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1339"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1928461297/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 4350,
+    "original_line": 4350,
+    "side": "RIGHT",
+    "in_reply_to_id": 1928424241,
+    "author_association": "MEMBER",
+    "original_position": 33,
+    "position": 33,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1930060130",
+    "pull_request_review_id": 2574660825,
+    "id": 1930060130,
+    "node_id": "PRRC_kwDOANUOW85zCmFi",
+    "diff_hunk": "@@ -4270,6 +4271,17 @@ as seen for example in [[#example-ws-no-backpressure]].\n  <dd>\n   <p>Returns whether or not the writable stream is [=locked to a writer=].\n \n+ <dt><code>await <var ignore>stream</var>.{{WritableStream/write(chunk)|write}}([ <var ignore>chunk</var> ])</code>\n+ <dd>\n+  <p>Writes a [=chunk=] of data to the stream just like the {{WritableStreamDefaultWriter/write()}}\n+   method.\n+\n+  <p>This is a convenience method that first acquires a writer, queues the chunk to be written,\n+   releases the writer (without waiting on the write to complete), and returns a promise that\n+   fulfills if the write was successful, or reject if the write failed. Additionally, if the stream",
+    "path": "index.bs",
+    "commit_id": "8368fd8a32e4c00c196830d5eb99aa16d1eddd06",
+    "original_commit_id": "8368fd8a32e4c00c196830d5eb99aa16d1eddd06",
+    "user": {
+      "login": "nidhijaju",
+      "id": 41948741,
+      "node_id": "MDQ6VXNlcjQxOTQ4NzQx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/41948741?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nidhijaju",
+      "html_url": "https://github.com/nidhijaju",
+      "followers_url": "https://api.github.com/users/nidhijaju/followers",
+      "following_url": "https://api.github.com/users/nidhijaju/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nidhijaju/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nidhijaju/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nidhijaju/subscriptions",
+      "organizations_url": "https://api.github.com/users/nidhijaju/orgs",
+      "repos_url": "https://api.github.com/users/nidhijaju/repos",
+      "events_url": "https://api.github.com/users/nidhijaju/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nidhijaju/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "minor nit:\r\n```suggestion\r\n   fulfills if the write was successful, or rejects if the write failed. Additionally, if the stream\r\n```",
+    "created_at": "2025-01-27T07:05:19Z",
+    "updated_at": "2025-01-27T07:07:36Z",
+    "html_url": "https://github.com/whatwg/streams/pull/1339#discussion_r1930060130",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/1339",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/1930060130"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/1339#discussion_r1930060130"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/1339"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/1930060130/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 4281,
+    "original_line": 4281,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 19,
+    "position": 19,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]
