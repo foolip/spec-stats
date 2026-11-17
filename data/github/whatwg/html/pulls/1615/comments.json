@@ -1,0 +1,357 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/73010358",
+    "pull_request_review_id": null,
+    "id": 73010358,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDczMDEwMzU4",
+    "diff_hunk": "@@ -86300,11 +86321,74 @@ interface <dfn>NavigatorOnLine</dfn> {\n    <li><p>Otherwise, <var>result</var> is a <span>module script</span>. <span data-x=\"fetch the\n    descendants of a module script\">Fetch the descendants</span> of <var>result</var> given\n    <var>destination</var> and an ancestor list obtained by appending <var>url</var> to <var>ancestor\n-   list</var>.</p></li>\n+   list</var>. Wait for <span data-x=\"fetch the descendants of a module script\">fetching the\n+   descendants of a module script</span> to asynchronously complete with <var>descendants\n+   result</var> before proceeding to the next step.</p></li>\n+\n+   <li><p>Let <var>record</var> be <var>result</var>'s <span\n+   data-x=\"concept-module-script-module-record\">module record</span>.</p>\n+\n+   <li>\n+    <p>Let <var>instantiationStatus</var> be <var>record</var>.<span\n+    data-x=\"js-ModuleDeclarationInstantiation\">ModuleDeclarationInstantiation</span>().</p>\n+\n+    <p class=\"note\">This step will recursively call <span\n+    data-x=\"js-ModuleDeclarationInstantiation\">ModuleDeclarationInstantiation</span> all of the\n+    module's dependencies.</p>\n+   </li>\n+\n+   <li>\n+    <p>For each <span>module script</span> <var>script</var> in <var>result</var>'s\n+    <span>uninstantiated inclusive descendant module scripts</span>, perform the following\n+    steps:</p>\n+\n+    <ol>\n+     <li><p>If <var>instantiationStatus</var> is an abrupt completion, then set <var>script</var>'s\n+     <span data-x=\"concept-module-script-instantiation-state\">instantiation state</span> to \"<code\n+     data-x=\"\">errored</code>\", its <span\n+     data-x=\"concept-module-script-instantiation-error\">instantiation error</span> to\n+     <var>instantiationStatus</var>.[[Value]], and its <span\n+     data-x=\"concept-module-script-module-record\">module record</span> to null.</p></li>\n+\n+     <li><p>Otherwise, set <var>script</var>'s <span\n+     data-x=\"concept-module-script-instantiation-state\">instantiation state</span> to \"<code\n+     data-x=\"\">instantiated</code>\".</p></li>\n+    </ol>\n+   </li>\n \n-   <li><p>When <span data-x=\"fetch the descendants of a module script\">fetching the descendants of\n-   a module script</span> asynchronously completes with <var>descendants result</var>,\n-   asynchronously complete this algorithm with <var>descendants result</var>.</p></li>\n+   <li>\n+    <p>Asynchronously complete this algorithm with <var>descendants result</var>.</p>\n+\n+    <p class=\"note\">It is intentional that we complete with <var>descendants result</var> here, and\n+    not <var>result</var>, as this allows us to propagate error signals to the caller.</p>\n+   </li>\n+  </ol>\n+\n+  <p>In the above algorithm, a <span>module script</span> <var>script</var>'s <dfn>uninstantiated\n+  inclusive descendant module scripts</dfn> is a list of <span data-x=\"module script\">module\n+  scripts</span> determined as follows:</p>\n+\n+  <ol>\n+   <li><p>Let <var>module map</var> be <var>script</var>'s <span>settings object</span>'s\n+   <span>module map</span>.</p></li>\n+\n+   <li><p>Let <var>descendant specifiers</var> be the value of <var>script</var>'s <span\n+   data-x=\"concept-module-script-module-record\">module record</span>'s [[RequestedModules]] internal\n+   slot.</p></li>\n+\n+   <li><p>Let <var>descendant URLs</var> be the list obtained by applying <span>resolve a module\n+   specifier</span> to each element of <var>descendant specifiers</var>, omitting any\n+   failures.</p></li>\n+\n+   <li><p>Let <var>descendant modules</var> be the list obtained by looking up each value in\n+   <var>module map</var> whose key is given by an element of <var>descendant URLs</var>.</p></li>\n+\n+   <li><p>Let <var>inclusive descendants</var> be the list obtained by appending <var>script</var>\n+   to <var>descendant modules</var>.</p></li>\n+\n+   <li><p>Return a list containing all elements of <var>inclusive descendants</var> whose <span\n+   data-x=\"concept-module-script-instantiation-state\">instantiation state</span> is \"<code\n+   data-x=\"\">uninstantiated</code>\".</p></li>",
+    "path": "source",
+    "commit_id": "d68bfa1d3036f044c738ad6e1ec431e0d1e98264",
+    "original_commit_id": "285b6872c1f351b2104180cfbada5660e270fb67",
+    "user": {
+      "login": "jonco3",
+      "id": 861138,
+      "node_id": "MDQ6VXNlcjg2MTEzOA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/861138?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jonco3",
+      "html_url": "https://github.com/jonco3",
+      "followers_url": "https://api.github.com/users/jonco3/followers",
+      "following_url": "https://api.github.com/users/jonco3/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jonco3/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jonco3/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jonco3/subscriptions",
+      "organizations_url": "https://api.github.com/users/jonco3/orgs",
+      "repos_url": "https://api.github.com/users/jonco3/repos",
+      "events_url": "https://api.github.com/users/jonco3/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jonco3/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The list of descendant module scripts needs to be calculated recursively, because we may have an cycle of uninstantiated modules of arbitrary size.\n",
+    "created_at": "2016-08-01T16:39:42Z",
+    "updated_at": "2016-08-02T02:40:35Z",
+    "html_url": "https://github.com/whatwg/html/pull/1615#discussion_r73010358",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1615",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/73010358"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1615#discussion_r73010358"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1615"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/73010358/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 86391,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 103,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/73010880",
+    "pull_request_review_id": null,
+    "id": 73010880,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDczMDEwODgw",
+    "diff_hunk": "@@ -86300,11 +86321,74 @@ interface <dfn>NavigatorOnLine</dfn> {\n    <li><p>Otherwise, <var>result</var> is a <span>module script</span>. <span data-x=\"fetch the\n    descendants of a module script\">Fetch the descendants</span> of <var>result</var> given\n    <var>destination</var> and an ancestor list obtained by appending <var>url</var> to <var>ancestor\n-   list</var>.</p></li>\n+   list</var>. Wait for <span data-x=\"fetch the descendants of a module script\">fetching the\n+   descendants of a module script</span> to asynchronously complete with <var>descendants\n+   result</var> before proceeding to the next step.</p></li>\n+\n+   <li><p>Let <var>record</var> be <var>result</var>'s <span\n+   data-x=\"concept-module-script-module-record\">module record</span>.</p>\n+\n+   <li>\n+    <p>Let <var>instantiationStatus</var> be <var>record</var>.<span\n+    data-x=\"js-ModuleDeclarationInstantiation\">ModuleDeclarationInstantiation</span>().</p>\n+\n+    <p class=\"note\">This step will recursively call <span\n+    data-x=\"js-ModuleDeclarationInstantiation\">ModuleDeclarationInstantiation</span> all of the\n+    module's dependencies.</p>",
+    "path": "source",
+    "commit_id": "d68bfa1d3036f044c738ad6e1ec431e0d1e98264",
+    "original_commit_id": "285b6872c1f351b2104180cfbada5660e270fb67",
+    "user": {
+      "login": "jonco3",
+      "id": 861138,
+      "node_id": "MDQ6VXNlcjg2MTEzOA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/861138?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jonco3",
+      "html_url": "https://github.com/jonco3",
+      "followers_url": "https://api.github.com/users/jonco3/followers",
+      "following_url": "https://api.github.com/users/jonco3/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jonco3/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jonco3/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jonco3/subscriptions",
+      "organizations_url": "https://api.github.com/users/jonco3/orgs",
+      "repos_url": "https://api.github.com/users/jonco3/repos",
+      "events_url": "https://api.github.com/users/jonco3/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jonco3/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This will call ModuleDeclarationInstantiation on all of the module's _uninstantiated_ dependencies (this state is tracked in ES but not exposed).\n",
+    "created_at": "2016-08-01T16:43:27Z",
+    "updated_at": "2016-08-02T02:40:35Z",
+    "html_url": "https://github.com/whatwg/html/pull/1615#discussion_r73010880",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1615",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/73010880"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1615#discussion_r73010880"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1615"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/73010880/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 86337,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 46,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/73513140",
+    "pull_request_review_id": null,
+    "id": 73513140,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDczNTEzMTQw",
+    "diff_hunk": "@@ -85871,6 +85871,27 @@ interface <dfn>NavigatorOnLine</dfn> {\n \n    </dd>\n \n+   <dt>An <dfn data-x=\"concept-module-script-instantiation-state\">instantiation state</dfn></dt>\n+\n+   <dd>\n+\n+    <p>One of \"<code data-x=\"\">uninstantiated</code>\", \"<code data-x=\"\">errored</code>\", or \"<code",
+    "path": "source",
+    "commit_id": "d68bfa1d3036f044c738ad6e1ec431e0d1e98264",
+    "original_commit_id": "d68bfa1d3036f044c738ad6e1ec431e0d1e98264",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Inline this `<p>` into the `<dd>` since it's the only child?\n",
+    "created_at": "2016-08-04T12:37:30Z",
+    "updated_at": "2016-08-04T12:37:30Z",
+    "html_url": "https://github.com/whatwg/html/pull/1615#discussion_r73513140",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1615",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/73513140"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1615#discussion_r73513140"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1615"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/73513140/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 85878,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 8,
+    "position": 8,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/73520497",
+    "pull_request_review_id": null,
+    "id": 73520497,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDczNTIwNDk3",
+    "diff_hunk": "@@ -85871,6 +85871,27 @@ interface <dfn>NavigatorOnLine</dfn> {\n \n    </dd>\n \n+   <dt>An <dfn data-x=\"concept-module-script-instantiation-state\">instantiation state</dfn></dt>\n+\n+   <dd>\n+\n+    <p>One of \"<code data-x=\"\">uninstantiated</code>\", \"<code data-x=\"\">errored</code>\", or \"<code",
+    "path": "source",
+    "commit_id": "d68bfa1d3036f044c738ad6e1ec431e0d1e98264",
+    "original_commit_id": "d68bfa1d3036f044c738ad6e1ec431e0d1e98264",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I was going for consistency with the surrounding `<dd>`s\n",
+    "created_at": "2016-08-04T13:23:58Z",
+    "updated_at": "2016-08-04T13:23:58Z",
+    "html_url": "https://github.com/whatwg/html/pull/1615#discussion_r73520497",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1615",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/73520497"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1615#discussion_r73520497"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1615"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/73520497/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 85878,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 8,
+    "position": 8,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/73521275",
+    "pull_request_review_id": null,
+    "id": 73521275,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDczNTIxMjc1",
+    "diff_hunk": "@@ -85871,6 +85871,27 @@ interface <dfn>NavigatorOnLine</dfn> {\n \n    </dd>\n \n+   <dt>An <dfn data-x=\"concept-module-script-instantiation-state\">instantiation state</dfn></dt>\n+\n+   <dd>\n+\n+    <p>One of \"<code data-x=\"\">uninstantiated</code>\", \"<code data-x=\"\">errored</code>\", or \"<code",
+    "path": "source",
+    "commit_id": "d68bfa1d3036f044c738ad6e1ec431e0d1e98264",
+    "original_commit_id": "d68bfa1d3036f044c738ad6e1ec431e0d1e98264",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Mkay.\n",
+    "created_at": "2016-08-04T13:28:33Z",
+    "updated_at": "2016-08-04T13:28:33Z",
+    "html_url": "https://github.com/whatwg/html/pull/1615#discussion_r73521275",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1615",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/73521275"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1615#discussion_r73521275"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1615"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/73521275/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 85878,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 8,
+    "position": 8,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

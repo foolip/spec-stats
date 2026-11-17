@@ -1,0 +1,286 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71749378",
+    "pull_request_review_id": null,
+    "id": 71749378,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDcxNzQ5Mzc4",
+    "diff_hunk": "@@ -94357,9 +94357,23 @@ function receiver(e) {\n \n   <ol> <!-- a lot of this is similar or identical to port.postMessage -->\n \n+   <li><p>Let <var>targetWindow</var> be this <code>Window</code> object.</p>\n+\n+   <li><p>Let <var>targetRealm</var> be <var>targetWindow</var>'s <span\n+   data-x=\"concept-global-object-realm\">Realm</span>.</p></li>\n+\n+   <li><p>Let <var>incumbentSettings</var> be the <span>incumbent settings object</span>.</p></li>\n+   <!-- This is one of the few cases where incumbent is probably the right choice. Current or\n+   relevant would mean that the MessageEvent's source property always points to the \"calling\"\n+   window, in same-origin cases. See discussion at\n+   https://github.com/whatwg/html/issues/1542#issuecomment-233502636 -->\n+\n+   <li><p>If <var>targetOrigin</var> is a single U+002F SOLIDUS character (/), set",
+    "path": "source",
+    "commit_id": "bc5a0001a9d909acf6f4ffe158b6ca5853a62506",
+    "original_commit_id": "ca4df628ee46075a251a61b9ad2ac76aa815f80b",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "then*\n",
+    "created_at": "2016-07-21T17:28:10Z",
+    "updated_at": "2016-07-27T17:38:41Z",
+    "html_url": "https://github.com/whatwg/html/pull/1586#discussion_r71749378",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1586",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/71749378"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1586#discussion_r71749378"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1586"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71749378/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 94371,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 15,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71749507",
+    "pull_request_review_id": null,
+    "id": 71749507,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDcxNzQ5NTA3",
+    "diff_hunk": "@@ -94373,59 +94387,40 @@ function receiver(e) {\n     </ol>\n    </li>\n \n-   <li><p>Let <var>targetRealm</var> be this <code>Window</code> object's <span\n-   data-x=\"concept-global-object-realm\">Realm</span>.</p></li>\n-\n-   <li><p>Let <var>incumbentSettings</var> be the <span>incumbent settings object</span>.</p></li>\n-   <!-- This is one of the few cases where incumbent is probably the right choice. Current or\n-   relevant would mean that the MessageEvent's source property always points to the \"calling\"\n-   window, in same-origin cases. See discussion at\n-   https://github.com/whatwg/html/issues/1542#issuecomment-233502636 -->\n-\n    <li><p>Let <var>cloneRecord</var> be <span>StructuredCloneWithTransfer</span>(<var>message</var>,\n    <var>transfer</var>, <var>targetRealm</var>). Rethrow any exceptions.</p></li>\n \n-   <li><p>Let <var>message clone</var> be <var>cloneRecord</var>.[[Clone]].</p></li>\n+   <li><p>Let <var>messageClone</var> be <var>cloneRecord</var>.[[Clone]].</p></li>\n \n-   <li><p>Let <var>new ports</var> be a new <span>frozen array</span> consisting of all\n+   <li><p>Let <var>newPorts</var> be a new <span>frozen array</span> consisting of all",
+    "path": "source",
+    "commit_id": "bc5a0001a9d909acf6f4ffe158b6ca5853a62506",
+    "original_commit_id": "ca4df628ee46075a251a61b9ad2ac76aa815f80b",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "If you're changing these steps we should maybe also update the corresponding steps in dom-MessagePort-postMessage\n",
+    "created_at": "2016-07-21T17:28:56Z",
+    "updated_at": "2016-07-27T17:38:41Z",
+    "html_url": "https://github.com/whatwg/html/pull/1586#discussion_r71749507",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1586",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/71749507"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1586#discussion_r71749507"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1586"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71749507/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 94395,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 46,
+    "position": 56,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/72484145",
+    "pull_request_review_id": null,
+    "id": 72484145,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDcyNDg0MTQ1",
+    "diff_hunk": "@@ -94350,10 +94350,9 @@ function receiver(e) {\n \n   <div w-nodev>\n \n-  <p>When a script invokes the <dfn><code\n-  data-x=\"dom-window-postMessage\">postMessage(<var>message</var>, <var>targetOrigin</var>,\n-  <var>transfer</var>)</code></dfn> method on a <code>Window</code> object, the user agent must\n-  follow these steps:</p>\n+  <p>The <dfn><code data-x=\"dom-window-postMessage\">postMessage(<var>message</var>,\n+  <var>targetOrigin</var>, <var>transfer</var>)</code></dfn> method on a <code>Window</code> object",
+    "path": "source",
+    "commit_id": "bc5a0001a9d909acf6f4ffe158b6ca5853a62506",
+    "original_commit_id": "d27b51c087e43ce49828b287d711cf0e92578847",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "object, when invoked,*\n",
+    "created_at": "2016-07-27T17:28:15Z",
+    "updated_at": "2016-07-27T17:38:41Z",
+    "html_url": "https://github.com/whatwg/html/pull/1586#discussion_r72484145",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1586",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/72484145"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1586#discussion_r72484145"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1586"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/72484145/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 94354,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 9,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/72485236",
+    "pull_request_review_id": null,
+    "id": 72485236,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDcyNDg1MjM2",
+    "diff_hunk": "@@ -95186,112 +95170,96 @@ interface <dfn>BroadcastChannel</dfn> : <span>EventTarget</span> {\n   <p>The <dfn><code data-x=\"dom-BroadcastChannel-name\">name</code></dfn> attribute must return the\n   <span>channel name</span>.</p>\n \n-  <p>The <dfn><code data-x=\"dom-BroadcastChannel-postMessage\">postMessage()</code></dfn> method,\n-  when invoked on a <code>BroadcastChannel</code> object <var>source</var> with an\n-  argument <var>message</var>, must run the following steps:</p>\n+  <p>The <dfn><code\n+  data-x=\"dom-BroadcastChannel-postMessage\">postMessage(<var>message</var>)</code></dfn> method,\n+  when invoked on a <code>BroadcastChannel</code> object, must run the following steps:</p>\n \n   <ol>\n+   <li><p>Let <var>source</var> be this <code>BroadcastChannel</code>.</p></li>\n \n-   <li><p>Let <var>source settings</var> be <var>source</var>'s\n-   <span><code>BroadcastChannel</code> settings object</span>.</p>\n+   <li><p>Let <var>sourceSettings</var> be <var>source</var>'s <span><code>BroadcastChannel</code>\n+   settings object</span>.</p></li>\n \n    <li><p>If <var>source</var>'s <span data-x=\"concept-BroadcastChannel-closed\">closed flag</span>\n    is true, then throw an <span>\"<code>InvalidStateError</code>\"</span> <code>DOMException</code>\n    and abort these steps.</p></li>\n \n-   <li><p>Let <var>source channel</var> be <var>source</var>'s\n-   <span>channel name</span>.</p>\n+   <li><p>Let <var>sourceChannel</var> be <var>source</var>'s <span>channel name</span>.</p></li>\n \n    <li><p>Let <var>targetRealm</var> be a user-agent defined Realm.</p></li>\n \n-   <li><p>Let <var>cloned message</var> be <span>StructuredClone</span>(<var>message</var>,\n+   <li><p>Let <var>clonedMessage</var> be <span>StructuredClone</span>(<var>message</var>,\n    <var>targetRealm</var>). Rethrow any exceptions.</p></li>\n \n    <li>\n-\n     <p>Let <var>destinations</var> be a list of <code>BroadcastChannel</code> objects that\n     match the following criteria:</p>\n \n     <ul>\n-\n      <li>\n-\n       <p>Their <span><code>BroadcastChannel</code> settings object</span> specifies either:</p>\n \n       <ul>\n-\n        <li><p>a <span data-x=\"concept-settings-object-global\">global object</span> that is a\n        <code>Window</code> object and a <span>responsible document</span> that is <span>fully\n        active</span>, or</p></li>\n \n        <li><p>a <span data-x=\"concept-settings-object-global\">global object</span> that is a\n-       <code>WorkerGlobalScope</code> object whose <code\n-       data-x=\"dom-WorkerGlobalScope-closing\">closing</code> flag is false and whose\n+       <code>WorkerGlobalScope</code> object whose <span\n+       data-x=\"dom-WorkerGlobalScope-closing\">closing</span> flag is false and whose\n        <span>worker</span> is a <span>suspendable worker</span>.</p></li>\n-\n       </ul>\n-\n      </li>\n \n-     <li><p>Their <span><code>BroadcastChannel</code> settings object</span> specifies an\n-     <span>origin</span> that is the <span>same origin</span> as the <span>origin</span> specified\n-     by <var>source settings</var>.</p></li>\n+     <li><p>Their <span><code>BroadcastChannel</code> settings object</span>'s <span>origin</span>\n+     is <span>same origin</span> with <var>sourceSettings</var>'s <span>origin</span>.</p></li>\n \n-     <li><p>Their <span>channel name</span> is a <span>case-sensitive</span> match for <var>source channel</var>.</p></li>\n+     <li><p>Their <span>channel name</span> is a <span>case-sensitive</span> match for\n+     <var>sourceChannel</var>.</p></li>\n \n      <li><p>Their <span data-x=\"concept-BroadcastChannel-closed\">closed flag</span> is\n      false.</p></li>\n-\n     </ul>\n-\n    </li>\n \n    <li><p>Remove <var>source</var> from <var>destinations</var>.</p></li>\n \n-   <li>\n-\n-    <p>Sort <var>destinations</var> such that all <code>BroadcastChannel</code> objects\n-    whose <span data-x=\"BroadcastChannel settings object\"><code>BroadcastChannel</code> settings\n-    objects</span> specify the same <span>responsible event loop</span> are sorted in creation\n-    order, oldest first. (This does not define a complete ordering. Within this constraint, user\n-    agents may sort the list in any user-agent defined manner.)</p>\n-\n-   </li>\n+   <li><p>Sort <var>destinations</var> such that all <code>BroadcastChannel</code> objects whose\n+   <span data-x=\"BroadcastChannel settings object\"><code>BroadcastChannel</code> settings\n+   objects</span> specify the same <span>responsible event loop</span> are sorted in creation\n+   order, oldest first. (This does not define a complete ordering. Within this constraint, user\n+   agents may sort the list in any user-agent defined manner.)</p></li>\n \n    <li>\n-\n-    <p>For each <code>BroadcastChannel</code> object in <var>destinations</var>,\n-    <span>queue a task</span> that runs the following steps:</p>\n+    <p>For each <code>BroadcastChannel</code> object <var>destination</var> in\n+    <var>destinations</var>, <span>queue a task</span> that runs the following steps:</p>\n \n     <ol>\n      <li><p>Let <var>targetRealm</var> be <code>BroadcastChannel</code> object's <span>relevant",
+    "path": "source",
+    "commit_id": "bc5a0001a9d909acf6f4ffe158b6ca5853a62506",
+    "original_commit_id": "d27b51c087e43ce49828b287d711cf0e92578847",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "use _destination_ here\n",
+    "created_at": "2016-07-27T17:34:14Z",
+    "updated_at": "2016-07-27T17:38:41Z",
+    "html_url": "https://github.com/whatwg/html/pull/1586#discussion_r72485236",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1586",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/72485236"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1586#discussion_r72485236"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1586"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/72485236/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 95238,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 333,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

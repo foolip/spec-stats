@@ -1,0 +1,499 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/66394269",
+    "pull_request_review_id": null,
+    "id": 66394269,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2Mzk0MjY5",
+    "diff_hunk": "@@ -9612,18 +9613,81 @@ interface <dfn>HTMLUnknownElement</dfn> : <span>HTMLElement</span> { };</pre>\n \n   <div w-nodev>\n \n-  <p>An <dfn><code data-x=\"dom-HTMLElement\">HTMLElement()</code></dfn> constructor is provided. It\n-  cannot be invoked directly, but instead works when invoked via a <code data-x=\"\">super()</code>\n-  call inside a <span>custom element constructor</span>. When invoked, the constructor must perform\n-  the following steps:</p>\n+  <hr>\n+\n+  <p>The <span>element interface</span> for an element with name <var>name</var> in the\n+  <span>HTML namespace</span> is determined as follows:</p>\n+\n+  <ol>\n+   <li><p>If <var>name</var> is <code>bgsound</code>, <code>blink</code>, <code>isindex</code>,\n+   <code>multicol</code>, <code>nextid</code>, or <code>spacer</code>, then return\n+   <code>HTMLUnknownElement</code>.</p></li>\n+\n+   <li><p>If <var>name</var> is <code>acronym</code>, <code>basefont</code>, <code>big</code>,\n+   <code>center</code>, <code>nobr</code>, <code>noembed</code>, <code>noframes</code>,\n+   <code>plaintext</code>, <code>rb</code>, <code>rtc</code>, <code>strike</code>, or\n+   <code>tt</code>, then return <code>HTMLElement</code>.</p></li>\n+\n+   <li><p>If <var>name</var> is <code>listing</code> or <code>xmp</code>, then return\n+   <code>HTMLPreElement</code>.</p></li>\n+\n+   <li><p>Otherwise, if this specification defines an interface appropriate for the <span>element\n+   type</span> corresponding to the local name <var>name</var>, then return that interface.</p></li>\n+\n+   <li><p>If <span>other applicable specifications</span> define an appropriate interface for\n+   <var>name</var>, then return the interface they define.</p></li>\n+\n+   <li><p>If <var>name</var> is a <span>valid custom element name</span>, then return\n+   <code>HTMLElement</code>.</p>\n+\n+   <li><p>Return <code>HTMLUnknownElement</code>.</p></li>\n+  </ol>\n+\n+  <p class=\"note\">The use of <code>HTMLElement</code> instead of <code>HTMLUnknownElement</code> in\n+  the case of <span data-x=\"valid custom element name\">valid custom element names</span> is done to\n+  ensure that any potential future <span data-x=\"custom-element-upgrades\">upgrades</span> only cause\n+  a linear transition of the element's prototype chain, from <code>HTMLElement</code> to a subclass,\n+  instead of a lateral one, from <code>HTMLUnknownElement</code> to an unrelated subclass.</p>\n+\n+  </div>\n+\n+  <div w-nodev>\n+\n+  <h4 id=\"html-element-constructors\">HTML element constructors</h4>\n+\n+  <p>To support the <a href=\"#custom-elements\">custom elements</a> feature, all HTML elements have\n+  special constructor behavior. This is indicated in the spec via the <dfn",
+    "path": "source",
+    "commit_id": "8f492cc824b2965f8ddaaf7736b7373cec1c3751",
+    "original_commit_id": "2710aec0712063547ef61656fe22362aeca8fcdd",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "s/in the spec//\n",
+    "created_at": "2016-06-09T07:32:28Z",
+    "updated_at": "2016-06-09T17:46:24Z",
+    "html_url": "https://github.com/whatwg/html/pull/1404#discussion_r66394269",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1404",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/66394269"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1404#discussion_r66394269"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1404"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/66394269/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 9659,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 68,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/66394365",
+    "pull_request_review_id": null,
+    "id": 66394365,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2Mzk0MzY1",
+    "diff_hunk": "@@ -9612,18 +9613,81 @@ interface <dfn>HTMLUnknownElement</dfn> : <span>HTMLElement</span> { };</pre>\n \n   <div w-nodev>\n \n-  <p>An <dfn><code data-x=\"dom-HTMLElement\">HTMLElement()</code></dfn> constructor is provided. It\n-  cannot be invoked directly, but instead works when invoked via a <code data-x=\"\">super()</code>\n-  call inside a <span>custom element constructor</span>. When invoked, the constructor must perform\n-  the following steps:</p>\n+  <hr>\n+\n+  <p>The <span>element interface</span> for an element with name <var>name</var> in the\n+  <span>HTML namespace</span> is determined as follows:</p>\n+\n+  <ol>\n+   <li><p>If <var>name</var> is <code>bgsound</code>, <code>blink</code>, <code>isindex</code>,\n+   <code>multicol</code>, <code>nextid</code>, or <code>spacer</code>, then return\n+   <code>HTMLUnknownElement</code>.</p></li>\n+\n+   <li><p>If <var>name</var> is <code>acronym</code>, <code>basefont</code>, <code>big</code>,\n+   <code>center</code>, <code>nobr</code>, <code>noembed</code>, <code>noframes</code>,\n+   <code>plaintext</code>, <code>rb</code>, <code>rtc</code>, <code>strike</code>, or\n+   <code>tt</code>, then return <code>HTMLElement</code>.</p></li>\n+\n+   <li><p>If <var>name</var> is <code>listing</code> or <code>xmp</code>, then return\n+   <code>HTMLPreElement</code>.</p></li>\n+\n+   <li><p>Otherwise, if this specification defines an interface appropriate for the <span>element\n+   type</span> corresponding to the local name <var>name</var>, then return that interface.</p></li>\n+\n+   <li><p>If <span>other applicable specifications</span> define an appropriate interface for\n+   <var>name</var>, then return the interface they define.</p></li>\n+\n+   <li><p>If <var>name</var> is a <span>valid custom element name</span>, then return\n+   <code>HTMLElement</code>.</p>\n+\n+   <li><p>Return <code>HTMLUnknownElement</code>.</p></li>\n+  </ol>\n+\n+  <p class=\"note\">The use of <code>HTMLElement</code> instead of <code>HTMLUnknownElement</code> in\n+  the case of <span data-x=\"valid custom element name\">valid custom element names</span> is done to\n+  ensure that any potential future <span data-x=\"custom-element-upgrades\">upgrades</span> only cause\n+  a linear transition of the element's prototype chain, from <code>HTMLElement</code> to a subclass,\n+  instead of a lateral one, from <code>HTMLUnknownElement</code> to an unrelated subclass.</p>\n+\n+  </div>\n+\n+  <div w-nodev>\n+\n+  <h4 id=\"html-element-constructors\">HTML element constructors</h4>\n+\n+  <p>To support the <a href=\"#custom-elements\">custom elements</a> feature, all HTML elements have\n+  special constructor behavior. This is indicated in the spec via the <dfn\n+  data-x=\"HTMLConstructor\"><code>[HTMLConstructor]</code></dfn> IDL <span>extended attribute</span>.\n+  It indicates that the interface object for the given interface will have a specific behavior when\n+  called, as defined in detail below.</p>\n+\n+  <p>The <code data-x=\"HTMLConstructor\">[HTMLConstructor]</code> extended attribute must take no\n+  arguments, and must not appear on anything other than an interface. It must appear only once on an\n+  interface, and the interface must not be annotated with the <code data-x=\"\">[Constructor]</code>\n+  or <code data-x=\"\">[NoInterfaceObject]</code> extended attributes. It must not be used on a\n+  callback interface.</p>",
+    "path": "source",
+    "commit_id": "8f492cc824b2965f8ddaaf7736b7373cec1c3751",
+    "original_commit_id": "2710aec0712063547ef61656fe22362aeca8fcdd",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Maybe say that [NamedConstructor] is fair game?\n",
+    "created_at": "2016-06-09T07:33:24Z",
+    "updated_at": "2016-06-09T17:46:24Z",
+    "html_url": "https://github.com/whatwg/html/pull/1404#discussion_r66394365",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1404",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/66394365"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1404#discussion_r66394365"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1404"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/66394365/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 9668,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 77,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/66504613",
+    "pull_request_review_id": null,
+    "id": 66504613,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2NTA0NjEz",
+    "diff_hunk": "@@ -9634,11 +9700,12 @@ interface <dfn>HTMLUnknownElement</dfn> : <span>HTMLElement</span> { };</pre>\n     empty, then:</p>\n \n     <ol>\n-     <li><p>Let <var>element</var> be a new element that implements the <code>HTMLElement</code>\n-     interface, with no attributes, namespace set to the <span>HTML namespace</span>, local name set\n-     to <var>definition</var>'s <span data-x=\"concept-custom-element-definition-local-name\">local\n-     name</span>, and <span>node document</span> set to the <span>current global object</span>'s\n-     <span data-x=\"concept-document-window\"><code>Document</code> object</span>.</p></li>\n+     <li><p>Let <var>element</var> be a new element that implements the interface to which this",
+    "path": "source",
+    "commit_id": "8f492cc824b2965f8ddaaf7736b7373cec1c3751",
+    "original_commit_id": "8f492cc824b2965f8ddaaf7736b7373cec1c3751",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Where is \"the interface to which this constructor corresponds\" defined?  That is, what does this actually mean in terms of the object that's created?  Presumably this is a requirement on its internal slots, right?\n\nUpdate: Oh, I guess this is talking about the callee, not the NewTarget.  OK, that seems reasonable.\n",
+    "created_at": "2016-06-09T19:18:58Z",
+    "updated_at": "2016-06-09T19:21:07Z",
+    "html_url": "https://github.com/whatwg/html/pull/1404#discussion_r66504613",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1404",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/66504613"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1404#discussion_r66504613"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1404"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/66504613/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 9703,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 117,
+    "position": 117,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/66504955",
+    "pull_request_review_id": null,
+    "id": 66504955,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2NTA0OTU1",
+    "diff_hunk": "@@ -9612,18 +9614,82 @@ interface <dfn>HTMLUnknownElement</dfn> : <span>HTMLElement</span> { };</pre>\n \n   <div w-nodev>\n \n-  <p>An <dfn><code data-x=\"dom-HTMLElement\">HTMLElement()</code></dfn> constructor is provided. It\n-  cannot be invoked directly, but instead works when invoked via a <code data-x=\"\">super()</code>\n-  call inside a <span>custom element constructor</span>. When invoked, the constructor must perform\n-  the following steps:</p>\n+  <hr>\n+\n+  <p>The <span>element interface</span> for an element with name <var>name</var> in the\n+  <span>HTML namespace</span> is determined as follows:</p>\n+\n+  <ol>\n+   <li><p>If <var>name</var> is <code>bgsound</code>, <code>blink</code>, <code>isindex</code>,\n+   <code>multicol</code>, <code>nextid</code>, or <code>spacer</code>, then return\n+   <code>HTMLUnknownElement</code>.</p></li>\n+\n+   <li><p>If <var>name</var> is <code>acronym</code>, <code>basefont</code>, <code>big</code>,\n+   <code>center</code>, <code>nobr</code>, <code>noembed</code>, <code>noframes</code>,\n+   <code>plaintext</code>, <code>rb</code>, <code>rtc</code>, <code>strike</code>, or\n+   <code>tt</code>, then return <code>HTMLElement</code>.</p></li>\n+\n+   <li><p>If <var>name</var> is <code>listing</code> or <code>xmp</code>, then return\n+   <code>HTMLPreElement</code>.</p></li>\n+\n+   <li><p>Otherwise, if this specification defines an interface appropriate for the <span>element\n+   type</span> corresponding to the local name <var>name</var>, then return that interface.</p></li>\n+\n+   <li><p>If <span>other applicable specifications</span> define an appropriate interface for\n+   <var>name</var>, then return the interface they define.</p></li>\n+\n+   <li><p>If <var>name</var> is a <span>valid custom element name</span>, then return\n+   <code>HTMLElement</code>.</p>\n+\n+   <li><p>Return <code>HTMLUnknownElement</code>.</p></li>\n+  </ol>\n+\n+  <p class=\"note\">The use of <code>HTMLElement</code> instead of <code>HTMLUnknownElement</code> in\n+  the case of <span data-x=\"valid custom element name\">valid custom element names</span> is done to\n+  ensure that any potential future <span data-x=\"custom-element-upgrades\">upgrades</span> only cause\n+  a linear transition of the element's prototype chain, from <code>HTMLElement</code> to a subclass,\n+  instead of a lateral one, from <code>HTMLUnknownElement</code> to an unrelated subclass.</p>\n+\n+  </div>\n+\n+  <div w-nodev>\n+\n+  <h4 id=\"html-element-constructors\">HTML element constructors</h4>\n+\n+  <p>To support the <a href=\"#custom-elements\">custom elements</a> feature, all HTML elements have\n+  special constructor behavior. This is indicated via the <dfn\n+  data-x=\"HTMLConstructor\"><code>[HTMLConstructor]</code></dfn> IDL <span>extended attribute</span>.\n+  It indicates that the interface object for the given interface will have a specific behavior when\n+  called, as defined in detail below.</p>\n+\n+  <p>The <code data-x=\"HTMLConstructor\">[HTMLConstructor]</code> extended attribute must take no\n+  arguments, and must not appear on anything other than an interface. It must appear only once on an\n+  interface, and the interface must not be annotated with the <code data-x=\"\">[Constructor]</code>\n+  or <code data-x=\"\">[NoInterfaceObject]</code> extended attributes. (However, the interface may be\n+  annotated with <code data-x=\"\">[NamedConstructor]</code>; there is no conflict there.) It must not\n+  be used on a callback interface.</p>\n+\n+  <p>Interface objects for interfaces annotated with the <code\n+  data-x=\"HTMLConstructor\">[HTMLConstructor]</code> extended attribute must run the following steps\n+  as the function body behavior for both [[Call]] and [[Construct]] invocations of the corresponding\n+  JavaScript function object. When invoked with [[Call]], the NewTarget value is undefined, and so\n+  the algorithm below will immediately throw. When invoked with [[Construct]], the [[Construct]]\n+  <var>newTarget</var> parameter provides the NewTarget value.</p>\n \n   <ol>\n    <li><p>Let <var>registry</var> be the <span>current global object</span>'s\n    <code>CustomElementsRegistry</code> object.</p></li>\n \n-   <li><p>Let <var>definition</var> be the entry in <var>registry</var> with <span\n-   data-x=\"concept-custom-element-definition-constructor\">constructor</span> equal to NewTarget. If\n-   there is no such definition, then throw a <code>TypeError</code> and abort these steps.</p></li>\n+   <li>\n+    <p>Let <var>definition</var> be the entry in <var>registry</var> with <span",
+    "path": "source",
+    "commit_id": "8f492cc824b2965f8ddaaf7736b7373cec1c3751",
+    "original_commit_id": "8f492cc824b2965f8ddaaf7736b7373cec1c3751",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Are there definitions in the custom element registry for built-ins?  That is, is `new HTMLParagraphElement` supposed to work after these changes?  What about `new HTMLElement`?\n",
+    "created_at": "2016-06-09T19:21:12Z",
+    "updated_at": "2016-06-09T19:21:12Z",
+    "html_url": "https://github.com/whatwg/html/pull/1404#discussion_r66504955",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1404",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/66504955"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1404#discussion_r66504955"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1404"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/66504955/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 9684,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 96,
+    "position": 96,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/66505050",
+    "pull_request_review_id": null,
+    "id": 66505050,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2NTA1MDUw",
+    "diff_hunk": "@@ -9634,11 +9700,12 @@ interface <dfn>HTMLUnknownElement</dfn> : <span>HTMLElement</span> { };</pre>\n     empty, then:</p>\n \n     <ol>\n-     <li><p>Let <var>element</var> be a new element that implements the <code>HTMLElement</code>\n-     interface, with no attributes, namespace set to the <span>HTML namespace</span>, local name set\n-     to <var>definition</var>'s <span data-x=\"concept-custom-element-definition-local-name\">local\n-     name</span>, and <span>node document</span> set to the <span>current global object</span>'s\n-     <span data-x=\"concept-document-window\"><code>Document</code> object</span>.</p></li>\n+     <li><p>Let <var>element</var> be a new element that implements the interface to which this",
+    "path": "source",
+    "commit_id": "8f492cc824b2965f8ddaaf7736b7373cec1c3751",
+    "original_commit_id": "8f492cc824b2965f8ddaaf7736b7373cec1c3751",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Maybe \"the interface on which this extended attribute is specified\" would be better?\n",
+    "created_at": "2016-06-09T19:21:50Z",
+    "updated_at": "2016-06-09T19:21:50Z",
+    "html_url": "https://github.com/whatwg/html/pull/1404#discussion_r66505050",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1404",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/66505050"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1404#discussion_r66505050"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1404"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/66505050/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 9703,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 117,
+    "position": 117,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/66505351",
+    "pull_request_review_id": null,
+    "id": 66505351,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2NTA1MzUx",
+    "diff_hunk": "@@ -9612,18 +9614,82 @@ interface <dfn>HTMLUnknownElement</dfn> : <span>HTMLElement</span> { };</pre>\n \n   <div w-nodev>\n \n-  <p>An <dfn><code data-x=\"dom-HTMLElement\">HTMLElement()</code></dfn> constructor is provided. It\n-  cannot be invoked directly, but instead works when invoked via a <code data-x=\"\">super()</code>\n-  call inside a <span>custom element constructor</span>. When invoked, the constructor must perform\n-  the following steps:</p>\n+  <hr>\n+\n+  <p>The <span>element interface</span> for an element with name <var>name</var> in the\n+  <span>HTML namespace</span> is determined as follows:</p>\n+\n+  <ol>\n+   <li><p>If <var>name</var> is <code>bgsound</code>, <code>blink</code>, <code>isindex</code>,\n+   <code>multicol</code>, <code>nextid</code>, or <code>spacer</code>, then return\n+   <code>HTMLUnknownElement</code>.</p></li>\n+\n+   <li><p>If <var>name</var> is <code>acronym</code>, <code>basefont</code>, <code>big</code>,\n+   <code>center</code>, <code>nobr</code>, <code>noembed</code>, <code>noframes</code>,\n+   <code>plaintext</code>, <code>rb</code>, <code>rtc</code>, <code>strike</code>, or\n+   <code>tt</code>, then return <code>HTMLElement</code>.</p></li>\n+\n+   <li><p>If <var>name</var> is <code>listing</code> or <code>xmp</code>, then return\n+   <code>HTMLPreElement</code>.</p></li>\n+\n+   <li><p>Otherwise, if this specification defines an interface appropriate for the <span>element\n+   type</span> corresponding to the local name <var>name</var>, then return that interface.</p></li>\n+\n+   <li><p>If <span>other applicable specifications</span> define an appropriate interface for\n+   <var>name</var>, then return the interface they define.</p></li>\n+\n+   <li><p>If <var>name</var> is a <span>valid custom element name</span>, then return\n+   <code>HTMLElement</code>.</p>\n+\n+   <li><p>Return <code>HTMLUnknownElement</code>.</p></li>\n+  </ol>\n+\n+  <p class=\"note\">The use of <code>HTMLElement</code> instead of <code>HTMLUnknownElement</code> in\n+  the case of <span data-x=\"valid custom element name\">valid custom element names</span> is done to\n+  ensure that any potential future <span data-x=\"custom-element-upgrades\">upgrades</span> only cause\n+  a linear transition of the element's prototype chain, from <code>HTMLElement</code> to a subclass,\n+  instead of a lateral one, from <code>HTMLUnknownElement</code> to an unrelated subclass.</p>\n+\n+  </div>\n+\n+  <div w-nodev>\n+\n+  <h4 id=\"html-element-constructors\">HTML element constructors</h4>\n+\n+  <p>To support the <a href=\"#custom-elements\">custom elements</a> feature, all HTML elements have\n+  special constructor behavior. This is indicated via the <dfn\n+  data-x=\"HTMLConstructor\"><code>[HTMLConstructor]</code></dfn> IDL <span>extended attribute</span>.\n+  It indicates that the interface object for the given interface will have a specific behavior when\n+  called, as defined in detail below.</p>\n+\n+  <p>The <code data-x=\"HTMLConstructor\">[HTMLConstructor]</code> extended attribute must take no\n+  arguments, and must not appear on anything other than an interface. It must appear only once on an\n+  interface, and the interface must not be annotated with the <code data-x=\"\">[Constructor]</code>\n+  or <code data-x=\"\">[NoInterfaceObject]</code> extended attributes. (However, the interface may be\n+  annotated with <code data-x=\"\">[NamedConstructor]</code>; there is no conflict there.) It must not\n+  be used on a callback interface.</p>\n+\n+  <p>Interface objects for interfaces annotated with the <code\n+  data-x=\"HTMLConstructor\">[HTMLConstructor]</code> extended attribute must run the following steps\n+  as the function body behavior for both [[Call]] and [[Construct]] invocations of the corresponding\n+  JavaScript function object. When invoked with [[Call]], the NewTarget value is undefined, and so\n+  the algorithm below will immediately throw. When invoked with [[Construct]], the [[Construct]]\n+  <var>newTarget</var> parameter provides the NewTarget value.</p>\n \n   <ol>\n    <li><p>Let <var>registry</var> be the <span>current global object</span>'s\n    <code>CustomElementsRegistry</code> object.</p></li>\n \n-   <li><p>Let <var>definition</var> be the entry in <var>registry</var> with <span\n-   data-x=\"concept-custom-element-definition-constructor\">constructor</span> equal to NewTarget. If\n-   there is no such definition, then throw a <code>TypeError</code> and abort these steps.</p></li>\n+   <li>\n+    <p>Let <var>definition</var> be the entry in <var>registry</var> with <span",
+    "path": "source",
+    "commit_id": "8f492cc824b2965f8ddaaf7736b7373cec1c3751",
+    "original_commit_id": "8f492cc824b2965f8ddaaf7736b7373cec1c3751",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "No, those will continue to throw. The registry does not contain built-ins. This only works if NewTarget has been explicitly put into the registry.\n\nUmmmm it appears nothing currently prevents `window.customElements.define(\"valid-custom-element-name\", HTMLButtonElement)`. I'll file a new issue on that.\n",
+    "created_at": "2016-06-09T19:23:38Z",
+    "updated_at": "2016-06-09T19:23:38Z",
+    "html_url": "https://github.com/whatwg/html/pull/1404#discussion_r66505351",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1404",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/66505351"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1404#discussion_r66505351"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1404"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/66505351/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 9684,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 96,
+    "position": 96,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/66506392",
+    "pull_request_review_id": null,
+    "id": 66506392,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2NTA2Mzky",
+    "diff_hunk": "@@ -9634,11 +9700,12 @@ interface <dfn>HTMLUnknownElement</dfn> : <span>HTMLElement</span> { };</pre>\n     empty, then:</p>\n \n     <ol>\n-     <li><p>Let <var>element</var> be a new element that implements the <code>HTMLElement</code>\n-     interface, with no attributes, namespace set to the <span>HTML namespace</span>, local name set\n-     to <var>definition</var>'s <span data-x=\"concept-custom-element-definition-local-name\">local\n-     name</span>, and <span>node document</span> set to the <span>current global object</span>'s\n-     <span data-x=\"concept-document-window\"><code>Document</code> object</span>.</p></li>\n+     <li><p>Let <var>element</var> be a new element that implements the interface to which this",
+    "path": "source",
+    "commit_id": "8f492cc824b2965f8ddaaf7736b7373cec1c3751",
+    "original_commit_id": "8f492cc824b2965f8ddaaf7736b7373cec1c3751",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Maybe \"the interface for which this constructor is the interface object\" or something?\n\nIn some ways it's hard to say anything concrete here until we define what it means to \"implement an interface\"....  So the current wording is probably fine too.\n",
+    "created_at": "2016-06-09T19:30:40Z",
+    "updated_at": "2016-06-09T19:30:40Z",
+    "html_url": "https://github.com/whatwg/html/pull/1404#discussion_r66506392",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1404",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/66506392"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1404#discussion_r66506392"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1404"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/66506392/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 9703,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 117,
+    "position": 117,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

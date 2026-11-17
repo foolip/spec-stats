@@ -1,0 +1,144 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/66876936",
+    "pull_request_review_id": null,
+    "id": 66876936,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2ODc2OTM2",
+    "diff_hunk": "@@ -76941,14 +76941,24 @@ dictionary <dfn>DragEventInit</dfn> : <span>MouseEventInit</span> {\n   <ol>\n    <li><p>Let <var>browsingContext</var> be a new <span>browsing context</span>.</p></li>\n \n+   <li><p>Let <var>window</var> be a new <code>Window</code> object.</p></li>",
+    "path": "source",
+    "commit_id": "9d4683b45d3744cfe1b4042fe6a662e59560d12b",
+    "original_commit_id": "5188aa9efaf0ee7f8234bbac1f732e37a69a72d7",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "How are you creating these objects before their realm is initialized? This needs to happen during or after InitializeHostDefinedRealm, as it did before.\n",
+    "created_at": "2016-06-13T22:02:07Z",
+    "updated_at": "2016-06-20T10:55:50Z",
+    "html_url": "https://github.com/whatwg/html/pull/1414#discussion_r66876936",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1414",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/66876936"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1414#discussion_r66876936"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1414"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/66876936/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 76944,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 4,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/66877203",
+    "pull_request_review_id": null,
+    "id": 66877203,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2ODc3MjAz",
+    "diff_hunk": "@@ -82007,35 +82007,28 @@ State: &lt;OUTPUT NAME=I>1&lt;/OUTPUT> &lt;INPUT VALUE=\"Increment\" TYPE=BUTTON O\n     will be required to additionally run the following algorithm after creating the new object:</p>\n \n     <ol>\n+     <li><p>Let <var>window</var> be null.</p></li>\n \n-     <li>\n-      <p>If <var>browsingContext</var>'s only entry in its <span>session history</span> is the\n-      <code>about:blank</code> <code>Document</code> that was added when <var>browsingContext</var>\n-      was <span data-x=\"creating a new browsing context\">created</span>, and navigation is occurring\n-      with <span>replacement enabled</span>, and that <code>Document</code> has the <span>same\n-      origin</span> as the new <code>Document</code>, then</p>\n-\n-      <ol>\n-       <li><p>Let <var>window</var> be the <code>Window</code> object of that\n-       <code>Document</code>.</p></li>\n-\n-       <li><p>Change the <code data-x=\"dom-document\">document</code>\n-       attribute of <var>window</var> to point to the new <code>Document</code>.</p></li>\n-      </ol>\n-     </li>\n+     <li><p>If <var>browsingContext</var>'s only entry in its <span>session history</span> is the\n+     <code>about:blank</code> <code>Document</code> that was added when <var>browsingContext</var>\n+     was <span data-x=\"creating a new browsing context\">created</span>, and navigation is occurring\n+     with <span>replacement enabled</span>, and that <code>Document</code> has the <span>same\n+     origin</span> as the new <code>Document</code>, then set <var>window</var> to the\n+     <code>Window</code> object of that <code>Document</code>.</p></li>\n \n      <li>\n       <p>Otherwise,</p>\n \n       <ol>\n+       <li><p>Set <var>window</var> to a new <code>Window</code> object.</p></li>",
+    "path": "source",
+    "commit_id": "9d4683b45d3744cfe1b4042fe6a662e59560d12b",
+    "original_commit_id": "5188aa9efaf0ee7f8234bbac1f732e37a69a72d7",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Same problem here. You can't create the `Window` until the realm is at least partially initialized; creating needs to happen as a \"callback\" inside InitializeHostDefinedRealm, as it did before. (You have an open issue on ecma262 to formalize the \"callbackness\" here, but IMO it is fine as is.)\n",
+    "created_at": "2016-06-13T22:04:18Z",
+    "updated_at": "2016-06-20T10:55:50Z",
+    "html_url": "https://github.com/whatwg/html/pull/1414#discussion_r66877203",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1414",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/66877203"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1414#discussion_r66877203"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1414"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/66877203/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 82023,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 83,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

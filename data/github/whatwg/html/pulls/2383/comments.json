@@ -1,0 +1,789 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/102688177",
+    "pull_request_review_id": 23449069,
+    "id": 102688177,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEwMjY4ODE3Nw==",
+    "diff_hunk": "@@ -23227,6 +23259,114 @@ interface <dfn>HTMLHyperlinkElementUtils</dfn> {\n   </div>\n \n \n+  <h5>Link type \"<dfn><code data-x=\"rel-modulepreload\">modulepreload</code></dfn>\"</h5>\n+\n+  <p>The <code data-x=\"rel-modulepreload\">modulepreload</code> keyword may be used with\n+  <code>link</code> elements. This keyword creates an <span>external resource link</span>. This\n+  keyword is <span>body-ok</span>.</p>\n+\n+  <p>The <code data-x=\"rel-modulepreload\">modulepreload</code> keyword is a specialized alternative\n+  to the <code data-x=\"rel-preload\">preload</code> keyword, with a processing model geared toward\n+  preloading <span data-x=\"module script\">module scripts</span>. In particular, it <span\n+  data-x=\"fetch a module script graph\">fetches</span> the entire module script graph rooted at the\n+  given URL, and places it into the appropriate <span data-x=\"concept-document-module-map\">module\n+  map</span> for later evaluation. (In contrast, a similar <span>external resource link</span> using\n+  the <code data-x=\"rel-preload\">preload</code> keyword would only fetch a single module script\n+  resource, and would place it in the preload cache, without affecting the document's <span\n+  data-x=\"concept-document-module-map\">module map</span>.)</p>\n+\n+  <div w-nodev>\n+\n+  <p>The following contains are the appropriate times to fetch the resource for such a link:</p>\n+\n+  <ul>\n+   <li><p>When the <span>external resource link</span> is created on a <code>link</code> element\n+   that is already <span>browsing-context connected</span>.</p></li>\n+\n+   <li><p>When the <span>external resource link</span>'s <code>link</code> element <span>becomes\n+   browsing-context connected</span>.</p></li>\n+\n+   <li><p>When the <code data-x=\"attr-link-href\">href</code> attribute of the <code>link</code>\n+   element of an <span>external resource link</span> that is already <span>browsing-context\n+   connected</span> is changed.</p></li>\n+  </ul>\n+\n+  </div>\n+\n+  <p class=\"note\">Unlike some other link relations, changing the relevant attributes (such as <code\n+  data-x=\"attr-link-as\">as</code>, <code data-x=\"attr-link-crossorigin\">crossorigin</code>, and\n+  <code data-x=\"attr-link-referrerpolicy\">referrerpolicy</code>) of such a <code>link</code>\n+  attribute does not trigger a new fetch. This is because the document's <span\n+  data-x=\"concept-document-module-map\">module map</span> has already been populated by a previous\n+  fetch, and so re-fetching would be pointless.</p>\n+\n+  <div w-nodev>\n+\n+  <p>To fetch the resource for such a link:</p>\n+\n+  <ol>\n+   <li><p>If the <code data-x=\"attr-link-href\">href</code> attribute's value is the empty string,\n+   then abort these steps.</p></li>\n+\n+   <li><p>If the <code data-x=\"attr-link-as\">as</code> attribute is specified and its value is not\n+   one of \"<code data-x=\"\">script</code>\", \"<code data-x=\"\">worker</code>\", \"<code\n+   data-x=\"\">sharedworker</code>\", or \"<code data-x=\"\">serviceworker</code>\", then <span>queue a\n+   task</span> on the <span>networking task source</span> to <span data-x=\"concept-event-fire\">fire\n+   an event</span> named <code data-x=\"event-error\">error</code> at the <code>link</code> element,\n+   and abort these steps.</p></li>\n+\n+   <li><p>Let <var>destination</var> be the value of the <code data-x=\"attr-link-as\">as</code>\n+   attribute, if it is specified, or \"<code data-x=\"\">script</code>\" otherwise.</p></li>\n+\n+   <li><p><span data-x=\"parse a url\">Parse</span> the <span>URL</span> given by the <code\n+   data-x=\"attr-link-href\">href</code> attribute, relative to the element's <span>node\n+   document</span>. If that fails, then abort these steps. Otherwise, let <var>url</var> be the",
+    "path": "source",
+    "commit_id": "9ddb296378789cf9b24a604fd752ab12410577c9",
+    "original_commit_id": "60d74b0a14d48ca2b064bd8496d0bd053e72fc38",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Fire `error` here if https://github.com/w3c/preload/issues/88 is so changed.",
+    "created_at": "2017-02-23T10:56:50Z",
+    "updated_at": "2017-12-08T20:49:47Z",
+    "html_url": "https://github.com/whatwg/html/pull/2383#discussion_r102688177",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2383",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/102688177"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2383#discussion_r102688177"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2383"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/102688177/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 131,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/102688731",
+    "pull_request_review_id": 23449069,
+    "id": 102688731,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEwMjY4ODczMQ==",
+    "diff_hunk": "@@ -12307,6 +12329,7 @@ interface <dfn>HTMLLinkElement</dfn> : <span>HTMLElement</span> {\n   <code data-x=\"rel-alternate\">alternate</code>,\n   <code data-x=\"rel-dns-prefetch\">dns-prefetch</code>,\n   <code data-x=\"rel-icon\">icon</code>,\n+  <code data-x=\"rel-modulepreload\">modulepreload</code>,",
+    "path": "source",
+    "commit_id": "9ddb296378789cf9b24a604fd752ab12410577c9",
+    "original_commit_id": "60d74b0a14d48ca2b064bd8496d0bd053e72fc38",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Can we call it `preloadmodule` instead, so it's listed next to `preload` and autocomplete works better?",
+    "created_at": "2017-02-23T10:59:57Z",
+    "updated_at": "2017-12-08T20:49:47Z",
+    "html_url": "https://github.com/whatwg/html/pull/2383#discussion_r102688731",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2383",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/102688731"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2383#discussion_r102688731"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2383"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/102688731/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 12332,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 33,
+    "position": 41,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/102804843",
+    "pull_request_review_id": 23573108,
+    "id": 102804843,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEwMjgwNDg0Mw==",
+    "diff_hunk": "@@ -12307,6 +12329,7 @@ interface <dfn>HTMLLinkElement</dfn> : <span>HTMLElement</span> {\n   <code data-x=\"rel-alternate\">alternate</code>,\n   <code data-x=\"rel-dns-prefetch\">dns-prefetch</code>,\n   <code data-x=\"rel-icon\">icon</code>,\n+  <code data-x=\"rel-modulepreload\">modulepreload</code>,",
+    "path": "source",
+    "commit_id": "9ddb296378789cf9b24a604fd752ab12410577c9",
+    "original_commit_id": "60d74b0a14d48ca2b064bd8496d0bd053e72fc38",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "That does seem reasonable. Will update and rename the PR.",
+    "created_at": "2017-02-23T20:03:31Z",
+    "updated_at": "2017-12-08T20:49:47Z",
+    "html_url": "https://github.com/whatwg/html/pull/2383#discussion_r102804843",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2383",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/102804843"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2383#discussion_r102804843"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2383"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/102804843/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 12332,
+    "original_line": null,
+    "side": "RIGHT",
+    "in_reply_to_id": 102688731,
+    "author_association": "MEMBER",
+    "original_position": 33,
+    "position": 41,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/102805368",
+    "pull_request_review_id": 23573680,
+    "id": 102805368,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEwMjgwNTM2OA==",
+    "diff_hunk": "@@ -12307,6 +12329,7 @@ interface <dfn>HTMLLinkElement</dfn> : <span>HTMLElement</span> {\n   <code data-x=\"rel-alternate\">alternate</code>,\n   <code data-x=\"rel-dns-prefetch\">dns-prefetch</code>,\n   <code data-x=\"rel-icon\">icon</code>,\n+  <code data-x=\"rel-modulepreload\">modulepreload</code>,",
+    "path": "source",
+    "commit_id": "9ddb296378789cf9b24a604fd752ab12410577c9",
+    "original_commit_id": "60d74b0a14d48ca2b064bd8496d0bd053e72fc38",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "On second thought... \"preloadmodule\" sounds like \"preload a module\" (\"why not just use preload??\"), or maybe \"a module specifying a bunch of preload stuff\".\r\n\r\nWhereas \"modulepreload\" sounds like \"a module-specific variant of preload\".\r\n\r\nSeems better as-is to me now...",
+    "created_at": "2017-02-23T20:05:29Z",
+    "updated_at": "2017-12-08T20:49:47Z",
+    "html_url": "https://github.com/whatwg/html/pull/2383#discussion_r102805368",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2383",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/102805368"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2383#discussion_r102805368"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2383"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/102805368/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 12332,
+    "original_line": null,
+    "side": "RIGHT",
+    "in_reply_to_id": 102688731,
+    "author_association": "MEMBER",
+    "original_position": 33,
+    "position": 41,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/103169261",
+    "pull_request_review_id": 23946496,
+    "id": 103169261,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEwMzE2OTI2MQ==",
+    "diff_hunk": "@@ -23227,6 +23259,114 @@ interface <dfn>HTMLHyperlinkElementUtils</dfn> {\n   </div>\n \n \n+  <h5>Link type \"<dfn><code data-x=\"rel-modulepreload\">modulepreload</code></dfn>\"</h5>\n+\n+  <p>The <code data-x=\"rel-modulepreload\">modulepreload</code> keyword may be used with\n+  <code>link</code> elements. This keyword creates an <span>external resource link</span>. This\n+  keyword is <span>body-ok</span>.</p>\n+\n+  <p>The <code data-x=\"rel-modulepreload\">modulepreload</code> keyword is a specialized alternative\n+  to the <code data-x=\"rel-preload\">preload</code> keyword, with a processing model geared toward\n+  preloading <span data-x=\"module script\">module scripts</span>. In particular, it <span\n+  data-x=\"fetch a module script graph\">fetches</span> the entire module script graph rooted at the\n+  given URL, and places it into the appropriate <span data-x=\"concept-document-module-map\">module\n+  map</span> for later evaluation. (In contrast, a similar <span>external resource link</span> using\n+  the <code data-x=\"rel-preload\">preload</code> keyword would only fetch a single module script\n+  resource, and would place it in the preload cache, without affecting the document's <span\n+  data-x=\"concept-document-module-map\">module map</span>.)</p>\n+\n+  <div w-nodev>\n+\n+  <p>The following contains are the appropriate times to fetch the resource for such a link:</p>",
+    "path": "source",
+    "commit_id": "9ddb296378789cf9b24a604fd752ab12410577c9",
+    "original_commit_id": "60d74b0a14d48ca2b064bd8496d0bd053e72fc38",
+    "user": {
+      "login": "sideshowbarker",
+      "id": 194984,
+      "node_id": "MDQ6VXNlcjE5NDk4NA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/194984?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/sideshowbarker",
+      "html_url": "https://github.com/sideshowbarker",
+      "followers_url": "https://api.github.com/users/sideshowbarker/followers",
+      "following_url": "https://api.github.com/users/sideshowbarker/following{/other_user}",
+      "gists_url": "https://api.github.com/users/sideshowbarker/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/sideshowbarker/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/sideshowbarker/subscriptions",
+      "organizations_url": "https://api.github.com/users/sideshowbarker/orgs",
+      "repos_url": "https://api.github.com/users/sideshowbarker/repos",
+      "events_url": "https://api.github.com/users/sideshowbarker/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/sideshowbarker/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "    <p>The following contains are the appropriate times to fetch the resource for such a link:</p>\r\nDrop the word _contains_ here?",
+    "created_at": "2017-02-27T09:52:41Z",
+    "updated_at": "2017-12-08T20:49:47Z",
+    "html_url": "https://github.com/whatwg/html/pull/2383#discussion_r103169261",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2383",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/103169261"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2383#discussion_r103169261"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2383"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/103169261/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 88,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/103170584",
+    "pull_request_review_id": 23947902,
+    "id": 103170584,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEwMzE3MDU4NA==",
+    "diff_hunk": "@@ -23227,6 +23259,114 @@ interface <dfn>HTMLHyperlinkElementUtils</dfn> {\n   </div>\n \n \n+  <h5>Link type \"<dfn><code data-x=\"rel-modulepreload\">modulepreload</code></dfn>\"</h5>\n+\n+  <p>The <code data-x=\"rel-modulepreload\">modulepreload</code> keyword may be used with\n+  <code>link</code> elements. This keyword creates an <span>external resource link</span>. This\n+  keyword is <span>body-ok</span>.</p>\n+\n+  <p>The <code data-x=\"rel-modulepreload\">modulepreload</code> keyword is a specialized alternative\n+  to the <code data-x=\"rel-preload\">preload</code> keyword, with a processing model geared toward\n+  preloading <span data-x=\"module script\">module scripts</span>. In particular, it <span\n+  data-x=\"fetch a module script graph\">fetches</span> the entire module script graph rooted at the\n+  given URL, and places it into the appropriate <span data-x=\"concept-document-module-map\">module\n+  map</span> for later evaluation. (In contrast, a similar <span>external resource link</span> using\n+  the <code data-x=\"rel-preload\">preload</code> keyword would only fetch a single module script\n+  resource, and would place it in the preload cache, without affecting the document's <span\n+  data-x=\"concept-document-module-map\">module map</span>.)</p>\n+\n+  <div w-nodev>\n+\n+  <p>The following contains are the appropriate times to fetch the resource for such a link:</p>\n+\n+  <ul>\n+   <li><p>When the <span>external resource link</span> is created on a <code>link</code> element\n+   that is already <span>browsing-context connected</span>.</p></li>\n+\n+   <li><p>When the <span>external resource link</span>'s <code>link</code> element <span>becomes\n+   browsing-context connected</span>.</p></li>\n+\n+   <li><p>When the <code data-x=\"attr-link-href\">href</code> attribute of the <code>link</code>\n+   element of an <span>external resource link</span> that is already <span>browsing-context\n+   connected</span> is changed.</p></li>\n+  </ul>\n+\n+  </div>\n+\n+  <p class=\"note\">Unlike some other link relations, changing the relevant attributes (such as <code\n+  data-x=\"attr-link-as\">as</code>, <code data-x=\"attr-link-crossorigin\">crossorigin</code>, and\n+  <code data-x=\"attr-link-referrerpolicy\">referrerpolicy</code>) of such a <code>link</code>\n+  attribute does not trigger a new fetch. This is because the document's <span\n+  data-x=\"concept-document-module-map\">module map</span> has already been populated by a previous\n+  fetch, and so re-fetching would be pointless.</p>\n+\n+  <div w-nodev>\n+\n+  <p>To fetch the resource for such a link:</p>\n+\n+  <ol>\n+   <li><p>If the <code data-x=\"attr-link-href\">href</code> attribute's value is the empty string,\n+   then abort these steps.</p></li>\n+\n+   <li><p>If the <code data-x=\"attr-link-as\">as</code> attribute is specified and its value is not\n+   one of \"<code data-x=\"\">script</code>\", \"<code data-x=\"\">worker</code>\", \"<code\n+   data-x=\"\">sharedworker</code>\", or \"<code data-x=\"\">serviceworker</code>\", then <span>queue a\n+   task</span> on the <span>networking task source</span> to <span data-x=\"concept-event-fire\">fire\n+   an event</span> named <code data-x=\"event-error\">error</code> at the <code>link</code> element,\n+   and abort these steps.</p></li>\n+\n+   <li><p>Let <var>destination</var> be the value of the <code data-x=\"attr-link-as\">as</code>\n+   attribute, if it is specified, or \"<code data-x=\"\">script</code>\" otherwise.</p></li>\n+\n+   <li><p><span data-x=\"parse a url\">Parse</span> the <span>URL</span> given by the <code\n+   data-x=\"attr-link-href\">href</code> attribute, relative to the element's <span>node\n+   document</span>. If that fails, then abort these steps. Otherwise, let <var>url</var> be the\n+   <span>resulting URL record</span>.</p></li>\n+\n+   <li><p>Let <var>credentials mode</var> be the <span>module script credentials mode</span> for the\n+   <code data-x=\"attr-link-crossorigin\">crossorigin</code> attribute.</p></li>\n+\n+   <li>\n+    <p><span>Fetch a module script graph</span> given <var>url</var>, the <code>link</code>\n+    element's <code>node document</code>'s <span>relevant settings object</span>,\n+    <var>destination</var>, the value of the <code>link</code> element's <code\n+    data-x=\"attr-link-nonce\">nonce</code> content attribute,\n+    \"<code data-x=\"\">not parser-inserted</code>\", and <var>credentials\n+    mode</var>.</p>\n+\n+    <p>To <span data-x=\"fetching-scripts-perform-fetch\">perform the fetch</span> given\n+    <var>request</var>, perform the following steps:</p>\n+\n+    <ol>\n+     <li><p>Set <var>request</var>'s <span data-x=\"concept-request-referrer-policy\">referrer\n+     policy</span> to the current state of the <code>link</code> element's <code\n+     data-x=\"attr-link-referrerpolicy\">referrerpolicy</code> attribute.</p></li>\n+\n+     <!-- integrity?? https://github.com/whatwg/html/issues/2382 -->\n+\n+     <li><p><span data-x=\"concept-fetch\">Fetch</span> <var>request</var>, and asynchronously wait\n+     to run the remaining steps as part of fetch's <span>process response</span> for the <span",
+    "path": "source",
+    "commit_id": "9ddb296378789cf9b24a604fd752ab12410577c9",
+    "original_commit_id": "60d74b0a14d48ca2b064bd8496d0bd053e72fc38",
+    "user": {
+      "login": "sideshowbarker",
+      "id": 194984,
+      "node_id": "MDQ6VXNlcjE5NDk4NA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/194984?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/sideshowbarker",
+      "html_url": "https://github.com/sideshowbarker",
+      "followers_url": "https://api.github.com/users/sideshowbarker/followers",
+      "following_url": "https://api.github.com/users/sideshowbarker/following{/other_user}",
+      "gists_url": "https://api.github.com/users/sideshowbarker/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/sideshowbarker/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/sideshowbarker/subscriptions",
+      "organizations_url": "https://api.github.com/users/sideshowbarker/orgs",
+      "repos_url": "https://api.github.com/users/sideshowbarker/repos",
+      "events_url": "https://api.github.com/users/sideshowbarker/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/sideshowbarker/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "      to run the remaining steps as part of fetch's <span>process response</span> for the <span \r\n\r\nAdd _the_ before _fetch_ here? So, _as part of **the** fetch's <span>process response</span>_",
+    "created_at": "2017-02-27T09:59:25Z",
+    "updated_at": "2017-12-08T20:49:47Z",
+    "html_url": "https://github.com/whatwg/html/pull/2383#discussion_r103170584",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2383",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/103170584"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2383#discussion_r103170584"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2383"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/103170584/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 156,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/155916434",
+    "pull_request_review_id": 82319773,
+    "id": 155916434,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE1NTkxNjQzNA==",
+    "diff_hunk": "@@ -86470,9 +86688,10 @@ interface <dfn>NavigatorOnLine</dfn> {\n   whose <span data-x=\"concept-script-fetch-options-nonce\">cryptographic nonce</span> is the empty\n   string, <span data-x=\"concept-script-fetch-options-integrity\">integrity metadata</span> is the\n   empty string, <span data-x=\"concept-script-fetch-options-parser\">parser metadata</span> is \"<code\n-  data-x=\"\">not-parser-inserted</code>\", and <span\n+  data-x=\"\">not-parser-inserted</code>\", <span\n   data-x=\"concept-script-fetch-options-credentials\">credentials mode</span> is \"<code\n-  data-x=\"\">omit</code>\".</p>\n+  data-x=\"\">omit</code>\", and <span data-x=\"concept-script-fetch-options-referrer-policy\">referrer\n+  policy</span> is the empty string.</p>",
+    "path": "source",
+    "commit_id": "9ddb296378789cf9b24a604fd752ab12410577c9",
+    "original_commit_id": "9ddb296378789cf9b24a604fd752ab12410577c9",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This looks a little wrong. Why would it always be the empty string?",
+    "created_at": "2017-12-09T08:22:17Z",
+    "updated_at": "2017-12-09T08:24:14Z",
+    "html_url": "https://github.com/whatwg/html/pull/2383#discussion_r155916434",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2383",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/155916434"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2383#discussion_r155916434"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2383"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/155916434/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 86694,
+    "original_line": 86694,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 368,
+    "position": 368,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/157037953",
+    "pull_request_review_id": 83616420,
+    "id": 157037953,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE1NzAzNzk1Mw==",
+    "diff_hunk": "@@ -86470,9 +86688,10 @@ interface <dfn>NavigatorOnLine</dfn> {\n   whose <span data-x=\"concept-script-fetch-options-nonce\">cryptographic nonce</span> is the empty\n   string, <span data-x=\"concept-script-fetch-options-integrity\">integrity metadata</span> is the\n   empty string, <span data-x=\"concept-script-fetch-options-parser\">parser metadata</span> is \"<code\n-  data-x=\"\">not-parser-inserted</code>\", and <span\n+  data-x=\"\">not-parser-inserted</code>\", <span\n   data-x=\"concept-script-fetch-options-credentials\">credentials mode</span> is \"<code\n-  data-x=\"\">omit</code>\".</p>\n+  data-x=\"\">omit</code>\", and <span data-x=\"concept-script-fetch-options-referrer-policy\">referrer\n+  policy</span> is the empty string.</p>",
+    "path": "source",
+    "commit_id": "9ddb296378789cf9b24a604fd752ab12410577c9",
+    "original_commit_id": "9ddb296378789cf9b24a604fd752ab12410577c9",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "These default options are used for javascript: URLs, classic worker scripts, importScripts(), and setTimeout evaluation, wherein there is no way to set the referrer policy. Setting it to the empty string makes Fetch infer it from the client, which seems correct in these cases. Did I get that right?",
+    "created_at": "2017-12-14T19:23:09Z",
+    "updated_at": "2017-12-14T19:23:09Z",
+    "html_url": "https://github.com/whatwg/html/pull/2383#discussion_r157037953",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2383",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/157037953"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2383#discussion_r157037953"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2383"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/157037953/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 86694,
+    "original_line": 86694,
+    "side": "RIGHT",
+    "in_reply_to_id": 155916434,
+    "author_association": "MEMBER",
+    "original_position": 368,
+    "position": 368,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/157045975",
+    "pull_request_review_id": 83626432,
+    "id": 157045975,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE1NzA0NTk3NQ==",
+    "diff_hunk": "@@ -86470,9 +86688,10 @@ interface <dfn>NavigatorOnLine</dfn> {\n   whose <span data-x=\"concept-script-fetch-options-nonce\">cryptographic nonce</span> is the empty\n   string, <span data-x=\"concept-script-fetch-options-integrity\">integrity metadata</span> is the\n   empty string, <span data-x=\"concept-script-fetch-options-parser\">parser metadata</span> is \"<code\n-  data-x=\"\">not-parser-inserted</code>\", and <span\n+  data-x=\"\">not-parser-inserted</code>\", <span\n   data-x=\"concept-script-fetch-options-credentials\">credentials mode</span> is \"<code\n-  data-x=\"\">omit</code>\".</p>\n+  data-x=\"\">omit</code>\", and <span data-x=\"concept-script-fetch-options-referrer-policy\">referrer\n+  policy</span> is the empty string.</p>",
+    "path": "source",
+    "commit_id": "9ddb296378789cf9b24a604fd752ab12410577c9",
+    "original_commit_id": "9ddb296378789cf9b24a604fd752ab12410577c9",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think that at least worker scripts should have a referrer policy since they create a global. It seems reasonable for the others. (I was somewhat wrong here as I assumed this would mean the equivalent of omit referrer.)",
+    "created_at": "2017-12-14T19:56:35Z",
+    "updated_at": "2017-12-14T19:56:35Z",
+    "html_url": "https://github.com/whatwg/html/pull/2383#discussion_r157045975",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2383",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/157045975"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2383#discussion_r157045975"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2383"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/157045975/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 86694,
+    "original_line": 86694,
+    "side": "RIGHT",
+    "in_reply_to_id": 155916434,
+    "author_association": "MEMBER",
+    "original_position": 368,
+    "position": 368,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/157046689",
+    "pull_request_review_id": 83627216,
+    "id": 157046689,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE1NzA0NjY4OQ==",
+    "diff_hunk": "@@ -86470,9 +86688,10 @@ interface <dfn>NavigatorOnLine</dfn> {\n   whose <span data-x=\"concept-script-fetch-options-nonce\">cryptographic nonce</span> is the empty\n   string, <span data-x=\"concept-script-fetch-options-integrity\">integrity metadata</span> is the\n   empty string, <span data-x=\"concept-script-fetch-options-parser\">parser metadata</span> is \"<code\n-  data-x=\"\">not-parser-inserted</code>\", and <span\n+  data-x=\"\">not-parser-inserted</code>\", <span\n   data-x=\"concept-script-fetch-options-credentials\">credentials mode</span> is \"<code\n-  data-x=\"\">omit</code>\".</p>\n+  data-x=\"\">omit</code>\", and <span data-x=\"concept-script-fetch-options-referrer-policy\">referrer\n+  policy</span> is the empty string.</p>",
+    "path": "source",
+    "commit_id": "9ddb296378789cf9b24a604fd752ab12410577c9",
+    "original_commit_id": "9ddb296378789cf9b24a604fd752ab12410577c9",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This is for fetching the script itself though. Right now that fetch just inherits from the client; are you thinking of introducing a normative change?",
+    "created_at": "2017-12-14T19:59:21Z",
+    "updated_at": "2017-12-14T19:59:21Z",
+    "html_url": "https://github.com/whatwg/html/pull/2383#discussion_r157046689",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2383",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/157046689"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2383#discussion_r157046689"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2383"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/157046689/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 86694,
+    "original_line": 86694,
+    "side": "RIGHT",
+    "in_reply_to_id": 155916434,
+    "author_association": "MEMBER",
+    "original_position": 368,
+    "position": 368,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/157047135",
+    "pull_request_review_id": 83627730,
+    "id": 157047135,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE1NzA0NzEzNQ==",
+    "diff_hunk": "@@ -86470,9 +86688,10 @@ interface <dfn>NavigatorOnLine</dfn> {\n   whose <span data-x=\"concept-script-fetch-options-nonce\">cryptographic nonce</span> is the empty\n   string, <span data-x=\"concept-script-fetch-options-integrity\">integrity metadata</span> is the\n   empty string, <span data-x=\"concept-script-fetch-options-parser\">parser metadata</span> is \"<code\n-  data-x=\"\">not-parser-inserted</code>\", and <span\n+  data-x=\"\">not-parser-inserted</code>\", <span\n   data-x=\"concept-script-fetch-options-credentials\">credentials mode</span> is \"<code\n-  data-x=\"\">omit</code>\".</p>\n+  data-x=\"\">omit</code>\", and <span data-x=\"concept-script-fetch-options-referrer-policy\">referrer\n+  policy</span> is the empty string.</p>",
+    "path": "source",
+    "commit_id": "9ddb296378789cf9b24a604fd752ab12410577c9",
+    "original_commit_id": "9ddb296378789cf9b24a604fd752ab12410577c9",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Ah okay, in that case it's all good I think. Thanks for helping me out.",
+    "created_at": "2017-12-14T20:01:08Z",
+    "updated_at": "2017-12-14T20:01:09Z",
+    "html_url": "https://github.com/whatwg/html/pull/2383#discussion_r157047135",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2383",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/157047135"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2383#discussion_r157047135"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2383"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/157047135/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 86694,
+    "original_line": 86694,
+    "side": "RIGHT",
+    "in_reply_to_id": 155916434,
+    "author_association": "MEMBER",
+    "original_position": 368,
+    "position": 368,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

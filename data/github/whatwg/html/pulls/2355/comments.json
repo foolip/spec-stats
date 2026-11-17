@@ -1,0 +1,73 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/100862285",
+    "pull_request_review_id": 21578604,
+    "id": 100862285,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEwMDg2MjI4NQ==",
+    "diff_hunk": "@@ -42071,11 +42071,16 @@ interface <dfn>HTMLLabelElement</dfn> : <span>HTMLElement</span> {\n \n   <div w-nodev>\n \n-  <p><span data-x=\"category-label\">Labelable elements</span> have a <code>NodeList</code> object\n-  associated with them that represents the list of <code>label</code> elements, in <span>tree\n-  order</span>, whose <span>labeled control</span> is the element in question. The <dfn><code data-x=\"dom-lfe-labels\">labels</code></dfn> IDL attribute of <span\n-  data-x=\"category-label\">labelable elements</span>, on getting, must return that\n-  <code>NodeList</code> object.</p>\n+  <p><span data-x=\"category-label\">Labelable elements</span> and all <code>input</code> elements\n+  have a <code>NodeList</code> object associated with them that represents the list of\n+  <code>label</code> elements, in <span>tree order</span>, whose <span>labeled control</span> is the\n+  element in question. The <dfn><code data-x=\"dom-lfe-labels\">labels</code></dfn> IDL attribute of\n+  <span data-x=\"category-label\">labelable elements</span> and <code>input</code> elements, on\n+  getting, must return that <code>NodeList</code> object, and that same value must always be\n+  returned, unless this element is an <code>input</code> element whose <code\n+  data-x=\"attr-input-type\">type</code> attribute is in the <span\n+  data-x=\"attr-input-type-hidden\">Hidden</span> state, in which case it must instead return\n+  null.</p>",
+    "path": "source",
+    "commit_id": "59e48df435100e5be184679c172950604bf33ee5",
+    "original_commit_id": "aeabd38698e2c49585cbae0aab20753dd0d07524",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think it might be worth adding the specific example of the NodeList becoming empty if it switches to hidden, per https://github.com/w3c/web-platform-tests/pull/4804/files#diff-79d32fa8b8f142adfe370fd2405b6ca0R106. I was surprised by that test when reviewing it after this PR, and had to go back and carefully review the definition of \"labeled control\" (thus \"label elements in tree order whose labeled control is the element in question\").\r\n\r\nIt also might be worth stating that this is a live NodeList?",
+    "created_at": "2017-02-13T18:28:47Z",
+    "updated_at": "2017-02-15T08:55:12Z",
+    "html_url": "https://github.com/whatwg/html/pull/2355#discussion_r100862285",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2355",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/100862285"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2355#discussion_r100862285"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2355"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/100862285/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 18,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

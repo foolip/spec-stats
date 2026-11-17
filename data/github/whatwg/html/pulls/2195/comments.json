@@ -1,0 +1,503 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/93248705",
+    "pull_request_review_id": 13771198,
+    "id": 93248705,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDkzMjQ4NzA1",
+    "diff_hunk": "@@ -28615,11 +28617,37 @@ interface <dfn>HTMLIFrameElement</dfn> : <span>HTMLElement</span> {\n     <li><p>If <var>document</var>'s <span data-x=\"concept-document-bc\">browsing context</span> is a\n     <span>top-level browsing context</span>, then return true.</p></li>\n \n-    <li><p>If <var>document</var>'s <span data-x=\"concept-document-bc\">browsing context</span> has a\n-    <span>browsing context container</span> that is an <code>iframe</code> element with an\n-    <var>allowattribute</var> attribute specified, and whose <span>node document</span> is\n-    <span>allowed to use</span> the feature indicated by <var>allowattribute</var>, then return\n-    true.</p></li>\n+    <li>\n+     <p>If <var>allowattribute</var> is <code\n+     data-x=\"attr-iframe-allowfullscreen\">allowfullscreen</code> or <code\n+     data-x=\"attr-iframe-allowusermedia\">allowusermedia</code>, then follow these substeps:</p>\n+\n+     <ol>\n+      <li><p>If <var>document</var>'s <span data-x=\"concept-document-bc\">browsing context</span> has\n+      a <span>browsing context container</span> that is an <code>iframe</code> element with an\n+      <var>allowattribute</var> attribute specified, and whose <span>node document</span> is\n+      <span>allowed to use</span> the feature indicated by <var>allowattribute</var>, then return\n+      true.</p></li>\n+     </ol>\n+\n+     <p class=\"big-issue\">This step is legacy behavior that should not be used for new features. If\n+     possible this behavior will go away for the <code\n+     data-x=\"attr-iframe-allowfullscreen\">allowfullscreen</code> and <code\n+     data-x=\"attr-iframe-allowusermedia\">allowusermedia</code> attributes as well, see <a\n+     href=\"https://github.com/whatwg/html/issues/2143#issuecomment-265514585\">issue 2143</a>.</p>\n+    </li>\n+\n+    <li>\n+     <p>Otherwise, follow these substeps:</p>\n+\n+     <ol>\n+      <li><p>If <var>document</var> has the <var><var>allowattribute</var> flag</var> set, and",
+    "path": "source",
+    "commit_id": "c602fe7831faea8dccb4890ddfc08d0f41399d4d",
+    "original_commit_id": "b2e82f1692f8ddcd5d91f815c9a1c34d1c967d0d",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The nested `var` here is maybe a bit unclear? Any ideas? Adding \"«\" and \"»\" before/after with CSS helps I think...",
+    "created_at": "2016-12-20T14:36:11Z",
+    "updated_at": "2017-01-13T14:40:02Z",
+    "html_url": "https://github.com/whatwg/html/pull/2195#discussion_r93248705",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2195",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/93248705"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2195#discussion_r93248705"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2195"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/93248705/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 28644,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 44,
+    "position": 31,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/93273677",
+    "pull_request_review_id": 13797748,
+    "id": 93273677,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDkzMjczNjc3",
+    "diff_hunk": "@@ -28615,11 +28617,37 @@ interface <dfn>HTMLIFrameElement</dfn> : <span>HTMLElement</span> {\n     <li><p>If <var>document</var>'s <span data-x=\"concept-document-bc\">browsing context</span> is a\n     <span>top-level browsing context</span>, then return true.</p></li>\n \n-    <li><p>If <var>document</var>'s <span data-x=\"concept-document-bc\">browsing context</span> has a\n-    <span>browsing context container</span> that is an <code>iframe</code> element with an\n-    <var>allowattribute</var> attribute specified, and whose <span>node document</span> is\n-    <span>allowed to use</span> the feature indicated by <var>allowattribute</var>, then return\n-    true.</p></li>\n+    <li>\n+     <p>If <var>allowattribute</var> is <code\n+     data-x=\"attr-iframe-allowfullscreen\">allowfullscreen</code> or <code\n+     data-x=\"attr-iframe-allowusermedia\">allowusermedia</code>, then follow these substeps:</p>\n+\n+     <ol>\n+      <li><p>If <var>document</var>'s <span data-x=\"concept-document-bc\">browsing context</span> has\n+      a <span>browsing context container</span> that is an <code>iframe</code> element with an\n+      <var>allowattribute</var> attribute specified, and whose <span>node document</span> is\n+      <span>allowed to use</span> the feature indicated by <var>allowattribute</var>, then return\n+      true.</p></li>\n+     </ol>\n+\n+     <p class=\"big-issue\">This step is legacy behavior that should not be used for new features. If\n+     possible this behavior will go away for the <code\n+     data-x=\"attr-iframe-allowfullscreen\">allowfullscreen</code> and <code\n+     data-x=\"attr-iframe-allowusermedia\">allowusermedia</code> attributes as well, see <a\n+     href=\"https://github.com/whatwg/html/issues/2143#issuecomment-265514585\">issue 2143</a>.</p>\n+    </li>\n+\n+    <li>\n+     <p>Otherwise, follow these substeps:</p>\n+\n+     <ol>\n+      <li><p>If <var>document</var> has the <var><var>allowattribute</var> flag</var> set, and",
+    "path": "source",
+    "commit_id": "c602fe7831faea8dccb4890ddfc08d0f41399d4d",
+    "original_commit_id": "b2e82f1692f8ddcd5d91f815c9a1c34d1c967d0d",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Wasn't it `<var>allow<var>attribute</var> flag</var>` elsewhere? That was reasonbly clear I thought.",
+    "created_at": "2016-12-20T16:31:55Z",
+    "updated_at": "2017-01-13T14:40:02Z",
+    "html_url": "https://github.com/whatwg/html/pull/2195#discussion_r93273677",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2195",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/93273677"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2195#discussion_r93273677"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2195"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/93273677/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 28644,
+    "original_line": null,
+    "side": "RIGHT",
+    "in_reply_to_id": 93248705,
+    "author_association": "MEMBER",
+    "original_position": 44,
+    "position": 31,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/93299414",
+    "pull_request_review_id": 13824047,
+    "id": 93299414,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDkzMjk5NDE0",
+    "diff_hunk": "@@ -28615,11 +28617,37 @@ interface <dfn>HTMLIFrameElement</dfn> : <span>HTMLElement</span> {\n     <li><p>If <var>document</var>'s <span data-x=\"concept-document-bc\">browsing context</span> is a\n     <span>top-level browsing context</span>, then return true.</p></li>\n \n-    <li><p>If <var>document</var>'s <span data-x=\"concept-document-bc\">browsing context</span> has a\n-    <span>browsing context container</span> that is an <code>iframe</code> element with an\n-    <var>allowattribute</var> attribute specified, and whose <span>node document</span> is\n-    <span>allowed to use</span> the feature indicated by <var>allowattribute</var>, then return\n-    true.</p></li>\n+    <li>\n+     <p>If <var>allowattribute</var> is <code\n+     data-x=\"attr-iframe-allowfullscreen\">allowfullscreen</code> or <code\n+     data-x=\"attr-iframe-allowusermedia\">allowusermedia</code>, then follow these substeps:</p>\n+\n+     <ol>\n+      <li><p>If <var>document</var>'s <span data-x=\"concept-document-bc\">browsing context</span> has\n+      a <span>browsing context container</span> that is an <code>iframe</code> element with an\n+      <var>allowattribute</var> attribute specified, and whose <span>node document</span> is\n+      <span>allowed to use</span> the feature indicated by <var>allowattribute</var>, then return\n+      true.</p></li>\n+     </ol>\n+\n+     <p class=\"big-issue\">This step is legacy behavior that should not be used for new features. If\n+     possible this behavior will go away for the <code\n+     data-x=\"attr-iframe-allowfullscreen\">allowfullscreen</code> and <code\n+     data-x=\"attr-iframe-allowusermedia\">allowusermedia</code> attributes as well, see <a\n+     href=\"https://github.com/whatwg/html/issues/2143#issuecomment-265514585\">issue 2143</a>.</p>\n+    </li>\n+\n+    <li>\n+     <p>Otherwise, follow these substeps:</p>\n+\n+     <ol>\n+      <li><p>If <var>document</var> has the <var><var>allowattribute</var> flag</var> set, and",
+    "path": "source",
+    "commit_id": "c602fe7831faea8dccb4890ddfc08d0f41399d4d",
+    "original_commit_id": "b2e82f1692f8ddcd5d91f815c9a1c34d1c967d0d",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Where?",
+    "created_at": "2016-12-20T18:46:23Z",
+    "updated_at": "2017-01-13T14:40:02Z",
+    "html_url": "https://github.com/whatwg/html/pull/2195#discussion_r93299414",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2195",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/93299414"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2195#discussion_r93299414"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2195"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/93299414/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 28644,
+    "original_line": null,
+    "side": "RIGHT",
+    "in_reply_to_id": 93248705,
+    "author_association": "MEMBER",
+    "original_position": 44,
+    "position": 31,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/93299846",
+    "pull_request_review_id": 13824519,
+    "id": 93299846,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDkzMjk5ODQ2",
+    "diff_hunk": "@@ -28615,11 +28617,37 @@ interface <dfn>HTMLIFrameElement</dfn> : <span>HTMLElement</span> {\n     <li><p>If <var>document</var>'s <span data-x=\"concept-document-bc\">browsing context</span> is a\n     <span>top-level browsing context</span>, then return true.</p></li>\n \n-    <li><p>If <var>document</var>'s <span data-x=\"concept-document-bc\">browsing context</span> has a\n-    <span>browsing context container</span> that is an <code>iframe</code> element with an\n-    <var>allowattribute</var> attribute specified, and whose <span>node document</span> is\n-    <span>allowed to use</span> the feature indicated by <var>allowattribute</var>, then return\n-    true.</p></li>\n+    <li>\n+     <p>If <var>allowattribute</var> is <code\n+     data-x=\"attr-iframe-allowfullscreen\">allowfullscreen</code> or <code\n+     data-x=\"attr-iframe-allowusermedia\">allowusermedia</code>, then follow these substeps:</p>\n+\n+     <ol>\n+      <li><p>If <var>document</var>'s <span data-x=\"concept-document-bc\">browsing context</span> has\n+      a <span>browsing context container</span> that is an <code>iframe</code> element with an\n+      <var>allowattribute</var> attribute specified, and whose <span>node document</span> is\n+      <span>allowed to use</span> the feature indicated by <var>allowattribute</var>, then return\n+      true.</p></li>\n+     </ol>\n+\n+     <p class=\"big-issue\">This step is legacy behavior that should not be used for new features. If\n+     possible this behavior will go away for the <code\n+     data-x=\"attr-iframe-allowfullscreen\">allowfullscreen</code> and <code\n+     data-x=\"attr-iframe-allowusermedia\">allowusermedia</code> attributes as well, see <a\n+     href=\"https://github.com/whatwg/html/issues/2143#issuecomment-265514585\">issue 2143</a>.</p>\n+    </li>\n+\n+    <li>\n+     <p>Otherwise, follow these substeps:</p>\n+\n+     <ol>\n+      <li><p>If <var>document</var> has the <var><var>allowattribute</var> flag</var> set, and",
+    "path": "source",
+    "commit_id": "c602fe7831faea8dccb4890ddfc08d0f41399d4d",
+    "original_commit_id": "b2e82f1692f8ddcd5d91f815c9a1c34d1c967d0d",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I guess I was misremembering. Some CSS solution is probably good; not sure I'd use those quotes though since we use them to denote Infra lists.",
+    "created_at": "2016-12-20T18:48:44Z",
+    "updated_at": "2017-01-13T14:40:02Z",
+    "html_url": "https://github.com/whatwg/html/pull/2195#discussion_r93299846",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2195",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/93299846"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2195#discussion_r93299846"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2195"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/93299846/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 28644,
+    "original_line": null,
+    "side": "RIGHT",
+    "in_reply_to_id": 93248705,
+    "author_association": "MEMBER",
+    "original_position": 44,
+    "position": 31,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/93317539",
+    "pull_request_review_id": 13842800,
+    "id": 93317539,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDkzMzE3NTM5",
+    "diff_hunk": "@@ -28615,11 +28617,37 @@ interface <dfn>HTMLIFrameElement</dfn> : <span>HTMLElement</span> {\n     <li><p>If <var>document</var>'s <span data-x=\"concept-document-bc\">browsing context</span> is a\n     <span>top-level browsing context</span>, then return true.</p></li>\n \n-    <li><p>If <var>document</var>'s <span data-x=\"concept-document-bc\">browsing context</span> has a\n-    <span>browsing context container</span> that is an <code>iframe</code> element with an\n-    <var>allowattribute</var> attribute specified, and whose <span>node document</span> is\n-    <span>allowed to use</span> the feature indicated by <var>allowattribute</var>, then return\n-    true.</p></li>\n+    <li>\n+     <p>If <var>allowattribute</var> is <code\n+     data-x=\"attr-iframe-allowfullscreen\">allowfullscreen</code> or <code\n+     data-x=\"attr-iframe-allowusermedia\">allowusermedia</code>, then follow these substeps:</p>\n+\n+     <ol>\n+      <li><p>If <var>document</var>'s <span data-x=\"concept-document-bc\">browsing context</span> has\n+      a <span>browsing context container</span> that is an <code>iframe</code> element with an\n+      <var>allowattribute</var> attribute specified, and whose <span>node document</span> is\n+      <span>allowed to use</span> the feature indicated by <var>allowattribute</var>, then return\n+      true.</p></li>\n+     </ol>\n+\n+     <p class=\"big-issue\">This step is legacy behavior that should not be used for new features. If\n+     possible this behavior will go away for the <code\n+     data-x=\"attr-iframe-allowfullscreen\">allowfullscreen</code> and <code\n+     data-x=\"attr-iframe-allowusermedia\">allowusermedia</code> attributes as well, see <a\n+     href=\"https://github.com/whatwg/html/issues/2143#issuecomment-265514585\">issue 2143</a>.</p>\n+    </li>\n+\n+    <li>\n+     <p>Otherwise, follow these substeps:</p>\n+\n+     <ol>\n+      <li><p>If <var>document</var> has the <var><var>allowattribute</var> flag</var> set, and",
+    "path": "source",
+    "commit_id": "c602fe7831faea8dccb4890ddfc08d0f41399d4d",
+    "original_commit_id": "b2e82f1692f8ddcd5d91f815c9a1c34d1c967d0d",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "https://github.com/whatwg/resources.whatwg.org/pull/38",
+    "created_at": "2016-12-20T20:22:45Z",
+    "updated_at": "2017-01-13T14:40:02Z",
+    "html_url": "https://github.com/whatwg/html/pull/2195#discussion_r93317539",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2195",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/93317539"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2195#discussion_r93317539"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2195"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/93317539/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 28644,
+    "original_line": null,
+    "side": "RIGHT",
+    "in_reply_to_id": 93248705,
+    "author_association": "MEMBER",
+    "original_position": 44,
+    "position": 31,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/93748323",
+    "pull_request_review_id": 14282398,
+    "id": 93748323,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDkzNzQ4MzIz",
+    "diff_hunk": "@@ -28485,7 +28485,9 @@ interface <dfn>HTMLIFrameElement</dfn> : <span>HTMLElement</span> {\n   has a <span>nested browsing context</span>, the user agent must <span data-x=\"parse a sandboxing\n   directive\">parse the sandboxing directive</span> using the attribute's value as the\n   <var>input</var> and the <code>iframe</code> element's <span>nested browsing context</span>'s\n-  <span><code>iframe</code> sandboxing flag set</span> as the output.</p>\n+  <span><code>iframe</code> sandboxing flag set</span> as the output. If the <code>iframe</code> has\n+  an <code data-x=\"attr-iframe-allowpaymentrequest\">allowpaymentrequest</code> attribute, then set",
+    "path": "source",
+    "commit_id": "c602fe7831faea8dccb4890ddfc08d0f41399d4d",
+    "original_commit_id": "b2e82f1692f8ddcd5d91f815c9a1c34d1c967d0d",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Hmm, I put this here because it was here in https://github.com/whatwg/html/commit/9f6b91cb14a0f497ee5b3e7118ee65e687eaea78 but this doesn't make sense. It needs to be in https://html.spec.whatwg.org/#initialise-the-document-object I think.\r\n\r\nedit: and https://html.spec.whatwg.org/#creating-a-new-browsing-context",
+    "created_at": "2016-12-23T10:08:51Z",
+    "updated_at": "2017-01-13T14:40:02Z",
+    "html_url": "https://github.com/whatwg/html/pull/2195#discussion_r93748323",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2195",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/93748323"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2195#discussion_r93748323"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2195"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/93748323/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 28489,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 6,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/96005254",
+    "pull_request_review_id": 16578895,
+    "id": 96005254,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDk2MDA1MjU0",
+    "diff_hunk": "@@ -28615,14 +28615,56 @@ interface <dfn>HTMLIFrameElement</dfn> : <span>HTMLElement</span> {\n     <li><p>If <var>document</var>'s <span data-x=\"concept-document-bc\">browsing context</span> is a\n     <span>top-level browsing context</span>, then return true.</p></li>\n \n-    <li><p>If <var>document</var>'s <span data-x=\"concept-document-bc\">browsing context</span> has a\n-    <span>browsing context container</span> that is an <code>iframe</code> element with an\n-    <var>allowattribute</var> attribute specified, and whose <span>node document</span> is\n-    <span>allowed to use</span> the feature indicated by <var>allowattribute</var>, then return\n-    true.</p></li>\n+    <li>\n+     <p>If <var>allowattribute</var> is <code\n+     data-x=\"attr-iframe-allowfullscreen\">allowfullscreen</code>, then follow these substeps:</p>\n+\n+     <ol>\n+      <li><p>If <var>document</var>'s <span data-x=\"concept-document-bc\">browsing context</span> has\n+      a <span>browsing context container</span> that is an <code>iframe</code> element with an\n+      <var>allowattribute</var> attribute specified, and whose <span>node document</span> is\n+      <span>allowed to use</span> the feature indicated by <var>allowattribute</var>, then return\n+      true.</p></li>\n+     </ol>\n+\n+     <p class=\"big-issue\">This step is legacy behavior that should not be used for new features. If\n+     possible this behavior will go away for the <code\n+     data-x=\"attr-iframe-allowfullscreen\">allowfullscreen</code> and <code\n+     data-x=\"attr-iframe-allowusermedia\">allowusermedia</code> attributes as well, see <a\n+     href=\"https://github.com/whatwg/html/issues/2143#issuecomment-265514585\">issue 2143</a>.</p>",
+    "path": "source",
+    "commit_id": "c602fe7831faea8dccb4890ddfc08d0f41399d4d",
+    "original_commit_id": "fbfc90ada0c23931c9ef1627745566aa9ba2aeec",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "We should remove allowusermedia from this message. I'll add a commit.",
+    "created_at": "2017-01-13T14:32:04Z",
+    "updated_at": "2017-01-13T14:40:02Z",
+    "html_url": "https://github.com/whatwg/html/pull/2195#discussion_r96005254",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2195",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/96005254"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2195#discussion_r96005254"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2195"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/96005254/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 28634,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 25,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

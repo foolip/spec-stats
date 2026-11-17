@@ -1,0 +1,145 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/86862289",
+    "pull_request_review_id": 7498750,
+    "id": 86862289,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDg2ODYyMjg5",
+    "diff_hunk": "@@ -87431,15 +87431,20 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n \n   <p>When the user agent is required to <dfn data-x=\"report the error\">report an error</dfn> for a\n   particular <span data-x=\"concept-script\">script</span> <var>script</var> with a particular\n-  position <var>line</var>:<var>col</var>, using a particular target <var>target</var>, it must run these steps, after which the error is either <dfn\n-  data-x=\"concept-error-handled\"><i>handled</i></dfn> or <dfn data-x=\"concept-error-nothandled\"><i>not\n-  handled</i></dfn>:</p>\n+  position <var>line</var>:<var>col</var>, using a particular target <span>global object</span>\n+  <var>target</var>, it must run these steps, after which the error is either <dfn\n+  data-x=\"concept-error-handled\"><i>handled</i></dfn> or <dfn\n+  data-x=\"concept-error-nothandled\"><i>not handled</i></dfn>:</p>\n \n   <ol>\n \n    <li><p>If <var>target</var> is <span>in error reporting mode</span>, then abort these\n    steps; the error is <i data-x=\"concept-error-nothandled\">not handled</i>.</p></li>\n \n+   <li><p>If <var>target</var>'s <span>responsible <code>Document</code></span> is not <span>fully",
+    "path": "source",
+    "commit_id": "5d66b713bfadbb85c7ee016d33310dec8bb01a25",
+    "original_commit_id": "5d66b713bfadbb85c7ee016d33310dec8bb01a25",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "A few issues here:\n1. _target_ is a global object, right?  Those don't have a \"responsible document\".  Settings objects do.\n2. Only settings objects for windows have one; does this spec algorithm ever get run for non-window globals?\n3. Do UAs actually do the \"fully active\" thing?  I know Gecko has no such concept, so I expect that in practice it doesn't do what this spec says to do; if other UAs don't either, that makes web compat a worry.\n4. Does anything define, at this point, what should happen for the \"remove an iframe from the DOM\" case?  It would be really nice to at least have tests for it.\n",
+    "created_at": "2016-11-07T20:33:09Z",
+    "updated_at": "2016-11-07T20:33:16Z",
+    "html_url": "https://github.com/whatwg/html/pull/1995#discussion_r86862289",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1995",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/86862289"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1995#discussion_r86862289"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1995"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/86862289/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 87444,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 17,
+    "position": 17,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/86883411",
+    "pull_request_review_id": 7519065,
+    "id": 86883411,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDg2ODgzNDEx",
+    "diff_hunk": "@@ -87431,15 +87431,20 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n \n   <p>When the user agent is required to <dfn data-x=\"report the error\">report an error</dfn> for a\n   particular <span data-x=\"concept-script\">script</span> <var>script</var> with a particular\n-  position <var>line</var>:<var>col</var>, using a particular target <var>target</var>, it must run these steps, after which the error is either <dfn\n-  data-x=\"concept-error-handled\"><i>handled</i></dfn> or <dfn data-x=\"concept-error-nothandled\"><i>not\n-  handled</i></dfn>:</p>\n+  position <var>line</var>:<var>col</var>, using a particular target <span>global object</span>\n+  <var>target</var>, it must run these steps, after which the error is either <dfn\n+  data-x=\"concept-error-handled\"><i>handled</i></dfn> or <dfn\n+  data-x=\"concept-error-nothandled\"><i>not handled</i></dfn>:</p>\n \n   <ol>\n \n    <li><p>If <var>target</var> is <span>in error reporting mode</span>, then abort these\n    steps; the error is <i data-x=\"concept-error-nothandled\">not handled</i>.</p></li>\n \n+   <li><p>If <var>target</var>'s <span>responsible <code>Document</code></span> is not <span>fully",
+    "path": "source",
+    "commit_id": "5d66b713bfadbb85c7ee016d33310dec8bb01a25",
+    "original_commit_id": "5d66b713bfadbb85c7ee016d33310dec8bb01a25",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "1. Right. In light of (2), I guess I should have just gone with target's associated Document.\n2. Oops, I thought that workers had responsible documents too, but I didn't check. Of course they don't. This algorithm does get run for workers too. I was trying to test it, under the assumption that the \"creator document\" (not a real concept I guess) was consulted. But maybe all I was testing is that the worker gets terminated on navigation or something. Which is probably racey :-/. What would you recommend? Just skip this step for non-Windows?\n3. I'm not sure. I think Servo does given some discussion on session history tracking. As I said in the OP, I mostly picked this because it's what much of the rest of the spec uses :-/.\n4. That discards the browsing context, which means that per https://html.spec.whatwg.org/#concept-document-bc, the document no longer has a browsing context.\n",
+    "created_at": "2016-11-07T22:22:23Z",
+    "updated_at": "2016-11-07T22:22:23Z",
+    "html_url": "https://github.com/whatwg/html/pull/1995#discussion_r86883411",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1995",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/86883411"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1995#discussion_r86883411"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1995"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/86883411/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 87444,
+    "original_line": null,
+    "side": "RIGHT",
+    "in_reply_to_id": 86862289,
+    "author_association": "MEMBER",
+    "original_position": 17,
+    "position": 17,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

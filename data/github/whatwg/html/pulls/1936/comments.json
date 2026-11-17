@@ -1,0 +1,145 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/84232255",
+    "pull_request_review_id": 5021393,
+    "id": 84232255,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDg0MjMyMjU1",
+    "diff_hunk": "@@ -8748,29 +8757,129 @@ partial interface <dfn id=\"document\" data-dfn-lt=\"\">Document</dfn> {\n     <p>Returns \"<code data-x=\"\">loading</code>\" while the <code>Document</code> is loading, \"<code\n     data-x=\"\">interactive</code>\" once it is finished parsing but still loading sub-resources, and\n     \"<code data-x=\"\">complete</code>\" once it has loaded.</p>\n+\n     <p>The <code data-x=\"event-readystatechange\">readystatechange</code> event fires on the\n     <code>Document</code> object when this value changes.</p>\n    </dd>\n \n+   <dt><var>document</var> . <code subdfn data-x=\"dom-document-interactive\">interactive</code></dt>\n+   <dd>\n+    <p>A promise that fulfills with undefined when the document's <code\n+    data-x=\"dom-document-readyState\">readyState</code> becomes \"<code data-x=\"\">interactive</code>\",\n+    i.e., when the document has finished parsing.</p>\n+\n+    <p>This promise never rejects, but it can reset to a new pending promise if <code\n+    data-x=\"dom-document-open\">document.open()</code> is used.</p>\n+   </dd>\n+\n+   <dt><var>document</var> . <code subdfn\n+   data-x=\"dom-document-contentLoaded\">contentLoaded</code></dt>\n+   <dd>\n+    <p>A promise that fulfills with undefined when the <code\n+    data-x=\"event-DOMContentLoaded\">DOMContentLoaded</code> event fires on the document, i.e., when\n+    the document has finished parsing and has finished executing any <code>script</code> elements\n+    not marked with the <code data-x=\"attr-script-async\">async</code> attribute.</p>\n+\n+    <p>This promise never rejects, but it can reset to a new pending promise if <code\n+    data-x=\"dom-document-open\">document.open()</code> is used.</p>\n+   </dd>\n+\n+   <dt><var>document</var> . <code subdfn data-x=\"dom-document-loaded\">loaded</code></dt>\n+   <dd>\n+    <p>A promise that fulfills with undefined when the document's <code\n+    data-x=\"dom-document-readyState\">readyState</code> becomes \"<code data-x=\"\">complete</code>\",\n+    i.e., when the document has finished parsing and loading sub-resources. This is also the time\n+    that the <code data-x=\"event-load\">load</code> event fires on the document's <code>Window</code>\n+    object.</p>\n+\n+    <p>This promise never rejects, but it can reset to a new pending promise if <code\n+    data-x=\"dom-document-open\">document.open()</code> is used.</p>\n+   </dd>\n+\n   </dl>\n \n   <div w-nodev>\n \n-  <p>Each document has a <dfn>current document readiness</dfn>. When a <code>Document</code> object\n-  is created, it must have its <span>current document readiness</span> set to the string \"<code\n-  data-x=\"\">loading</code>\" if the document is associated with an <span>HTML parser</span>, an\n-  <span>XML parser</span>, or an XSLT processor, and to the string \"<code data-x=\"\">complete</code>\"\n-  otherwise. Various algorithms during page loading affect this value. When the value is set, the\n-  user agent must <span data-x=\"concept-event-fire\">fire an event</span> named <code\n-  data-x=\"event-readystatechange\">readystatechange</code> at the <code>Document</code> object.</p>\n+  <p>Each document has a <dfn>current document readiness</dfn>, which is one of the\n+  <code>DocumentReadyState</code> values. It must initially be \"<code data-x=\"\">loading</code>\".\n+  When this value is set to <var>newValue</var>, the user agent must run the following\n+  steps:</p>\n \n-  <p>A <code>Document</code> is said to have an <dfn>active parser</dfn> if it is associated with an\n-  <span>HTML parser</span> or an <span>XML parser</span> that has not yet been <span data-x=\"stop\n-  parsing\">stopped</span> or <span data-x=\"abort a parser\">aborted</span>.</p>\n+  <ol>\n+   <li>\n+    <p>If <var>newValue</var> is \"<code data-x=\"\">loading</code>\", then set the document's\n+    <span data-x=\"concept-document-interactive-promise\">interactive promise</span>, <span\n+    data-x=\"concept-document-content-loaded-promise\">content loaded promise</span>, and <span\n+    data-x=\"concept-document-loaded-promise\">loaded promise</span> all to distinct new promises.</p>\n+\n+    <p class=\"note\">This can occur due to <code\n+    data-x=\"dom-document-open\">document.open()</code>.</p>",
+    "path": "source",
+    "commit_id": "58db4cb1b73a5beea9675cf8266cd6fba1d389e1",
+    "original_commit_id": "cfe9e1af852aa288d9c844f625280e3a1b100a1f",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Is that the only reason? And would that still happen if we fixed #1698?\n",
+    "created_at": "2016-10-20T08:18:31Z",
+    "updated_at": "2021-01-15T07:56:55Z",
+    "html_url": "https://github.com/whatwg/html/pull/1936#discussion_r84232255",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1936",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/84232255"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1936#discussion_r84232255"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1936"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/84232255/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 93,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/84280906",
+    "pull_request_review_id": 5067552,
+    "id": 84280906,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDg0MjgwOTA2",
+    "diff_hunk": "@@ -8748,29 +8757,129 @@ partial interface <dfn id=\"document\" data-dfn-lt=\"\">Document</dfn> {\n     <p>Returns \"<code data-x=\"\">loading</code>\" while the <code>Document</code> is loading, \"<code\n     data-x=\"\">interactive</code>\" once it is finished parsing but still loading sub-resources, and\n     \"<code data-x=\"\">complete</code>\" once it has loaded.</p>\n+\n     <p>The <code data-x=\"event-readystatechange\">readystatechange</code> event fires on the\n     <code>Document</code> object when this value changes.</p>\n    </dd>\n \n+   <dt><var>document</var> . <code subdfn data-x=\"dom-document-interactive\">interactive</code></dt>\n+   <dd>\n+    <p>A promise that fulfills with undefined when the document's <code\n+    data-x=\"dom-document-readyState\">readyState</code> becomes \"<code data-x=\"\">interactive</code>\",\n+    i.e., when the document has finished parsing.</p>\n+\n+    <p>This promise never rejects, but it can reset to a new pending promise if <code\n+    data-x=\"dom-document-open\">document.open()</code> is used.</p>\n+   </dd>\n+\n+   <dt><var>document</var> . <code subdfn\n+   data-x=\"dom-document-contentLoaded\">contentLoaded</code></dt>\n+   <dd>\n+    <p>A promise that fulfills with undefined when the <code\n+    data-x=\"event-DOMContentLoaded\">DOMContentLoaded</code> event fires on the document, i.e., when\n+    the document has finished parsing and has finished executing any <code>script</code> elements\n+    not marked with the <code data-x=\"attr-script-async\">async</code> attribute.</p>\n+\n+    <p>This promise never rejects, but it can reset to a new pending promise if <code\n+    data-x=\"dom-document-open\">document.open()</code> is used.</p>\n+   </dd>\n+\n+   <dt><var>document</var> . <code subdfn data-x=\"dom-document-loaded\">loaded</code></dt>\n+   <dd>\n+    <p>A promise that fulfills with undefined when the document's <code\n+    data-x=\"dom-document-readyState\">readyState</code> becomes \"<code data-x=\"\">complete</code>\",\n+    i.e., when the document has finished parsing and loading sub-resources. This is also the time\n+    that the <code data-x=\"event-load\">load</code> event fires on the document's <code>Window</code>\n+    object.</p>\n+\n+    <p>This promise never rejects, but it can reset to a new pending promise if <code\n+    data-x=\"dom-document-open\">document.open()</code> is used.</p>\n+   </dd>\n+\n   </dl>\n \n   <div w-nodev>\n \n-  <p>Each document has a <dfn>current document readiness</dfn>. When a <code>Document</code> object\n-  is created, it must have its <span>current document readiness</span> set to the string \"<code\n-  data-x=\"\">loading</code>\" if the document is associated with an <span>HTML parser</span>, an\n-  <span>XML parser</span>, or an XSLT processor, and to the string \"<code data-x=\"\">complete</code>\"\n-  otherwise. Various algorithms during page loading affect this value. When the value is set, the\n-  user agent must <span data-x=\"concept-event-fire\">fire an event</span> named <code\n-  data-x=\"event-readystatechange\">readystatechange</code> at the <code>Document</code> object.</p>\n+  <p>Each document has a <dfn>current document readiness</dfn>, which is one of the\n+  <code>DocumentReadyState</code> values. It must initially be \"<code data-x=\"\">loading</code>\".\n+  When this value is set to <var>newValue</var>, the user agent must run the following\n+  steps:</p>\n \n-  <p>A <code>Document</code> is said to have an <dfn>active parser</dfn> if it is associated with an\n-  <span>HTML parser</span> or an <span>XML parser</span> that has not yet been <span data-x=\"stop\n-  parsing\">stopped</span> or <span data-x=\"abort a parser\">aborted</span>.</p>\n+  <ol>\n+   <li>\n+    <p>If <var>newValue</var> is \"<code data-x=\"\">loading</code>\", then set the document's\n+    <span data-x=\"concept-document-interactive-promise\">interactive promise</span>, <span\n+    data-x=\"concept-document-content-loaded-promise\">content loaded promise</span>, and <span\n+    data-x=\"concept-document-loaded-promise\">loaded promise</span> all to distinct new promises.</p>\n+\n+    <p class=\"note\">This can occur due to <code\n+    data-x=\"dom-document-open\">document.open()</code>.</p>",
+    "path": "source",
+    "commit_id": "58db4cb1b73a5beea9675cf8266cd6fba1d389e1",
+    "original_commit_id": "cfe9e1af852aa288d9c844f625280e3a1b100a1f",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Yes, it would, unless you change more of the document.open/write/close model.\n",
+    "created_at": "2016-10-20T13:25:27Z",
+    "updated_at": "2021-01-15T07:56:55Z",
+    "html_url": "https://github.com/whatwg/html/pull/1936#discussion_r84280906",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1936",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/84280906"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1936#discussion_r84280906"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1936"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/84280906/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": null,
+    "side": "RIGHT",
+    "in_reply_to_id": 84232255,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 93,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

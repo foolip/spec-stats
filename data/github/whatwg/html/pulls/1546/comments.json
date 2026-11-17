@@ -1,0 +1,1351 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/70829457",
+    "pull_request_review_id": null,
+    "id": 70829457,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDcwODI5NDU3",
+    "diff_hunk": "@@ -92513,23 +92511,35 @@ dictionary <dfn>ImageBitmapOptions</dfn> {\n    data-x=\"dom-ImageBitmapOptions-resizeQuality\">resizeQuality</code></dfn> option to guide the",
+    "path": "source",
+    "commit_id": "34df8326ad3afd7ec25a8dcc8d66da9510ad8260",
+    "original_commit_id": "24359a75b5000f07210c6014b37fc0830c5346df",
+    "user": {
+      "login": "junov",
+      "id": 2607864,
+      "node_id": "MDQ6VXNlcjI2MDc4NjQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2607864?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/junov",
+      "html_url": "https://github.com/junov",
+      "followers_url": "https://api.github.com/users/junov/followers",
+      "following_url": "https://api.github.com/users/junov/following{/other_user}",
+      "gists_url": "https://api.github.com/users/junov/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/junov/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/junov/subscriptions",
+      "organizations_url": "https://api.github.com/users/junov/orgs",
+      "repos_url": "https://api.github.com/users/junov/repos",
+      "events_url": "https://api.github.com/users/junov/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/junov/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "You didn't do the intermediate variable thing that Domenic suggested to avoid resizing in-place.  Should be something like \"Let resizedImage be be the result of resizing input ...\"\n",
+    "created_at": "2016-07-14T15:42:38Z",
+    "updated_at": "2016-07-20T15:40:22Z",
+    "html_url": "https://github.com/whatwg/html/pull/1546#discussion_r70829457",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1546",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/70829457"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1546#discussion_r70829457"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1546"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/70829457/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 92511,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 10,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/70829852",
+    "pull_request_review_id": null,
+    "id": 70829852,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDcwODI5ODUy",
+    "diff_hunk": "@@ -92513,23 +92511,35 @@ dictionary <dfn>ImageBitmapOptions</dfn> {\n    data-x=\"dom-ImageBitmapOptions-resizeQuality\">resizeQuality</code></dfn> option to guide the\n    choice of scaling algorithm.</p></li>\n \n-   <li><p>Place <var>input</var> on an infinite transparent black grid plane, positioned\n-   so that it's top left corner is at the origin of the plane, with the <var>x</var>-coordinate\n-   increasing to the right, and the <var>y</var>-coordinate increasing down, and with each pixel in\n-   the <var>input</var> image data occupying a cell on the plane's grid.</p></li>\n-\n    <li>\n \n-    <p>Let <var>output</var> be the rectangle on the plane denoted by the rectangle whose\n-    corners are the four points (<var>sx</var>, <var>sy</var>), (<span\n-    data-x=\"\"><var>sx</var>+<var>sw</var></span>, <var>sy</var>), (<span\n-    data-x=\"\"><var>sx</var>+<var>sw</var></span>, <span data-x=\"\"><var>sy</var>+<var>sh</var></span>), (<var>sx</var>, <span data-x=\"\"><var>sy</var>+<var>sh</var></span>).</p>\n+    <p>If any of the <var>sx</var>, <var>sy</var>, <var>sw</var>, and <var>sh</var> arguments are specified, run these substeps:</p>\n+\n+    <ol>\n+\n+     <li><p>Place <var>input</var> on an infinite transparent black grid plane, positioned\n+     so that it's top left corner is at the origin of the plane, with the <var>x</var>-coordinate\n+     increasing to the right, and the <var>y</var>-coordinate increasing down, and with each pixel\n+     in the <var>input</var> image data occupying a cell on the plane's grid.</p></li>\n+\n+     <li>\n+\n+      <p>Let <var>output</var> be the rectangle on the plane denoted by the rectangle whose\n+      corners are the four points (<var>sx</var>, <var>sy</var>), (<span\n+      data-x=\"\"><var>sx</var>+<var>sw</var></span>, <var>sy</var>), (<span\n+      data-x=\"\"><var>sx</var>+<var>sw</var></span>,\n+      <span data-x=\"\"><var>sy</var>+<var>sh</var></span>), (<var>sx</var>,\n+      <span data-x=\"\"><var>sy</var>+<var>sh</var></span>).</p>\n+\n+      <p class=\"note\">If either <var>sw</var> or <var>sh</var> are negative, then\n+      the top-left corner of this rectangle will be to the left or above the (<var>sx</var>,\n+      <var>sy</var>) point. If any of the pixels on this rectangle are outside the area where\n+      the <var>input</var> bitmap was placed, then they will be transparent black in\n+      <var>output</var>.</p>\n \n-    <p class=\"note\">If either <var>sw</var> or <var>sh</var> are negative, then\n-    the top-left corner of this rectangle will be to the left or above the (<var>sx</var>,\n-    <var>sy</var>) point. If any of the pixels on this rectangle are outside the area where\n-    the <var>input</var> bitmap was placed, then they will be transparent black in\n-    <var>output</var>.</p>\n+     </li>\n+\n+    </ol>",
+    "path": "source",
+    "commit_id": "34df8326ad3afd7ec25a8dcc8d66da9510ad8260",
+    "original_commit_id": "24359a75b5000f07210c6014b37fc0830c5346df",
+    "user": {
+      "login": "junov",
+      "id": 2607864,
+      "node_id": "MDQ6VXNlcjI2MDc4NjQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2607864?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/junov",
+      "html_url": "https://github.com/junov",
+      "followers_url": "https://api.github.com/users/junov/followers",
+      "following_url": "https://api.github.com/users/junov/following{/other_user}",
+      "gists_url": "https://api.github.com/users/junov/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/junov/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/junov/subscriptions",
+      "organizations_url": "https://api.github.com/users/junov/orgs",
+      "repos_url": "https://api.github.com/users/junov/repos",
+      "events_url": "https://api.github.com/users/junov/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/junov/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The substeps need and \"else\" clause to state what goes into output when we don't crop\n",
+    "created_at": "2016-07-14T15:44:42Z",
+    "updated_at": "2016-07-20T15:40:22Z",
+    "html_url": "https://github.com/whatwg/html/pull/1546#discussion_r70829852",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1546",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/70829852"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1546#discussion_r70829852"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1546"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/70829852/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 92542,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 55,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/70832515",
+    "pull_request_review_id": null,
+    "id": 70832515,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDcwODMyNTE1",
+    "diff_hunk": "@@ -92513,23 +92511,35 @@ dictionary <dfn>ImageBitmapOptions</dfn> {\n    data-x=\"dom-ImageBitmapOptions-resizeQuality\">resizeQuality</code></dfn> option to guide the\n    choice of scaling algorithm.</p></li>\n \n-   <li><p>Place <var>input</var> on an infinite transparent black grid plane, positioned\n-   so that it's top left corner is at the origin of the plane, with the <var>x</var>-coordinate\n-   increasing to the right, and the <var>y</var>-coordinate increasing down, and with each pixel in\n-   the <var>input</var> image data occupying a cell on the plane's grid.</p></li>\n-\n    <li>\n \n-    <p>Let <var>output</var> be the rectangle on the plane denoted by the rectangle whose\n-    corners are the four points (<var>sx</var>, <var>sy</var>), (<span\n-    data-x=\"\"><var>sx</var>+<var>sw</var></span>, <var>sy</var>), (<span\n-    data-x=\"\"><var>sx</var>+<var>sw</var></span>, <span data-x=\"\"><var>sy</var>+<var>sh</var></span>), (<var>sx</var>, <span data-x=\"\"><var>sy</var>+<var>sh</var></span>).</p>\n+    <p>If any of the <var>sx</var>, <var>sy</var>, <var>sw</var>, and <var>sh</var> arguments are specified, run these substeps:</p>",
+    "path": "source",
+    "commit_id": "34df8326ad3afd7ec25a8dcc8d66da9510ad8260",
+    "original_commit_id": "24359a75b5000f07210c6014b37fc0830c5346df",
+    "user": {
+      "login": "junov",
+      "id": 2607864,
+      "node_id": "MDQ6VXNlcjI2MDc4NjQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2607864?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/junov",
+      "html_url": "https://github.com/junov",
+      "followers_url": "https://api.github.com/users/junov/followers",
+      "following_url": "https://api.github.com/users/junov/following{/other_user}",
+      "gists_url": "https://api.github.com/users/junov/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/junov/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/junov/subscriptions",
+      "organizations_url": "https://api.github.com/users/junov/orgs",
+      "repos_url": "https://api.github.com/users/junov/repos",
+      "events_url": "https://api.github.com/users/junov/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/junov/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "\"If any of\" does not make sense here. It's all or nothing.  Look at the IDL it uses an overload, not \"optional\" args.\n",
+    "created_at": "2016-07-14T15:59:50Z",
+    "updated_at": "2016-07-20T15:40:22Z",
+    "html_url": "https://github.com/whatwg/html/pull/1546#discussion_r70832515",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1546",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/70832515"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1546#discussion_r70832515"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1546"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/70832515/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 92516,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 24,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71193233",
+    "pull_request_review_id": null,
+    "id": 71193233,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDcxMTkzMjMz",
+    "diff_hunk": "@@ -92455,16 +92455,33 @@ dictionary <dfn>ImageBitmapOptions</dfn> {\n   <ol>\n \n    <li><p>Let <var>input</var> be the <span data-x=\"concept-ImageBitmap-bitmap-data\">bitmap\n-   data</span> being cropped.</p></li>\n+   data</span> being transformed.</p></li>\n \n-   <li><p>If the <var>sx</var>, <var>sy</var>, <var>sw</var>, and <var>sh</var> arguments are omitted, return <var>input</var>.</p></li>\n+   <li><p>If not specified, the <var>sx</var> and <var>sy</var> arguments must default to 0, and \n+   the <var>sw</var> and <var>sh</var> arguments must default to the intrinsic width and height of ",
+    "path": "source",
+    "commit_id": "34df8326ad3afd7ec25a8dcc8d66da9510ad8260",
+    "original_commit_id": "56354445fb4e6e1494e3e9363b4b4637c65fdab4",
+    "user": {
+      "login": "junov",
+      "id": 2607864,
+      "node_id": "MDQ6VXNlcjI2MDc4NjQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2607864?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/junov",
+      "html_url": "https://github.com/junov",
+      "followers_url": "https://api.github.com/users/junov/followers",
+      "following_url": "https://api.github.com/users/junov/following{/other_user}",
+      "gists_url": "https://api.github.com/users/junov/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/junov/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/junov/subscriptions",
+      "organizations_url": "https://api.github.com/users/junov/orgs",
+      "repos_url": "https://api.github.com/users/junov/repos",
+      "events_url": "https://api.github.com/users/junov/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/junov/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The notion of intrinsic size needs an x-ref\n",
+    "created_at": "2016-07-18T17:41:18Z",
+    "updated_at": "2016-07-20T15:40:22Z",
+    "html_url": "https://github.com/whatwg/html/pull/1546#discussion_r71193233",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1546",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/71193233"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1546#discussion_r71193233"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1546"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71193233/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 92461,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 9,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71194491",
+    "pull_request_review_id": null,
+    "id": 71194491,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDcxMTk0NDkx",
+    "diff_hunk": "@@ -92455,16 +92455,33 @@ dictionary <dfn>ImageBitmapOptions</dfn> {\n   <ol>\n \n    <li><p>Let <var>input</var> be the <span data-x=\"concept-ImageBitmap-bitmap-data\">bitmap\n-   data</span> being cropped.</p></li>\n+   data</span> being transformed.</p></li>\n \n-   <li><p>If the <var>sx</var>, <var>sy</var>, <var>sw</var>, and <var>sh</var> arguments are omitted, return <var>input</var>.</p></li>\n+   <li><p>If not specified, the <var>sx</var> and <var>sy</var> arguments must default to 0, and ",
+    "path": "source",
+    "commit_id": "34df8326ad3afd7ec25a8dcc8d66da9510ad8260",
+    "original_commit_id": "56354445fb4e6e1494e3e9363b4b4637c65fdab4",
+    "user": {
+      "login": "junov",
+      "id": 2607864,
+      "node_id": "MDQ6VXNlcjI2MDc4NjQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2607864?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/junov",
+      "html_url": "https://github.com/junov",
+      "followers_url": "https://api.github.com/users/junov/followers",
+      "following_url": "https://api.github.com/users/junov/following{/other_user}",
+      "gists_url": "https://api.github.com/users/junov/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/junov/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/junov/subscriptions",
+      "organizations_url": "https://api.github.com/users/junov/orgs",
+      "repos_url": "https://api.github.com/users/junov/repos",
+      "events_url": "https://api.github.com/users/junov/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/junov/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I am not sure this is correct form @domenic?  The argument are not \"optional\", so technically the don't have defaults.  They are either there or not. Might be cleaner to use the form: \"If sx, sy, sw and sh are specified, let sourceRectangle be (...). Otherwise, let sourceRectangle be (...)\"\n",
+    "created_at": "2016-07-18T17:48:12Z",
+    "updated_at": "2016-07-20T15:40:22Z",
+    "html_url": "https://github.com/whatwg/html/pull/1546#discussion_r71194491",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1546",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/71194491"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1546#discussion_r71194491"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1546"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71194491/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 92460,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 8,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71195046",
+    "pull_request_review_id": null,
+    "id": 71195046,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDcxMTk1MDQ2",
+    "diff_hunk": "@@ -92455,16 +92455,33 @@ dictionary <dfn>ImageBitmapOptions</dfn> {\n   <ol>\n \n    <li><p>Let <var>input</var> be the <span data-x=\"concept-ImageBitmap-bitmap-data\">bitmap\n-   data</span> being cropped.</p></li>\n+   data</span> being transformed.</p></li>\n \n-   <li><p>If the <var>sx</var>, <var>sy</var>, <var>sw</var>, and <var>sh</var> arguments are omitted, return <var>input</var>.</p></li>\n+   <li><p>If not specified, the <var>sx</var> and <var>sy</var> arguments must default to 0, and ",
+    "path": "source",
+    "commit_id": "34df8326ad3afd7ec25a8dcc8d66da9510ad8260",
+    "original_commit_id": "56354445fb4e6e1494e3e9363b4b4637c65fdab4",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Yeah, this is all a little imprecise, but @junov's suggested version is probably better.\n",
+    "created_at": "2016-07-18T17:51:17Z",
+    "updated_at": "2016-07-20T15:40:22Z",
+    "html_url": "https://github.com/whatwg/html/pull/1546#discussion_r71195046",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1546",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/71195046"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1546#discussion_r71195046"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1546"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71195046/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 92460,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 8,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71197916",
+    "pull_request_review_id": null,
+    "id": 71197916,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDcxMTk3OTE2",
+    "diff_hunk": "@@ -92455,16 +92455,33 @@ dictionary <dfn>ImageBitmapOptions</dfn> {\n   <ol>\n \n    <li><p>Let <var>input</var> be the <span data-x=\"concept-ImageBitmap-bitmap-data\">bitmap\n-   data</span> being cropped.</p></li>\n+   data</span> being transformed.</p></li>\n \n-   <li><p>If the <var>sx</var>, <var>sy</var>, <var>sw</var>, and <var>sh</var> arguments are omitted, return <var>input</var>.</p></li>\n+   <li><p>If not specified, the <var>sx</var> and <var>sy</var> arguments must default to 0, and \n+   the <var>sw</var> and <var>sh</var> arguments must default to the intrinsic width and height of ",
+    "path": "source",
+    "commit_id": "34df8326ad3afd7ec25a8dcc8d66da9510ad8260",
+    "original_commit_id": "56354445fb4e6e1494e3e9363b4b4637c65fdab4",
+    "user": {
+      "login": "jakearchibald",
+      "id": 93594,
+      "node_id": "MDQ6VXNlcjkzNTk0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/93594?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jakearchibald",
+      "html_url": "https://github.com/jakearchibald",
+      "followers_url": "https://api.github.com/users/jakearchibald/followers",
+      "following_url": "https://api.github.com/users/jakearchibald/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jakearchibald/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jakearchibald/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jakearchibald/subscriptions",
+      "organizations_url": "https://api.github.com/users/jakearchibald/orgs",
+      "repos_url": "https://api.github.com/users/jakearchibald/repos",
+      "events_url": "https://api.github.com/users/jakearchibald/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jakearchibald/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Is \"intrinsic\" needed here, given that image bitmaps have a specific width & height? (This might be related to the whole rasterization thing, as this algorithm probably shouldn't take a bitmap)\n",
+    "created_at": "2016-07-18T18:06:59Z",
+    "updated_at": "2016-07-20T15:40:22Z",
+    "html_url": "https://github.com/whatwg/html/pull/1546#discussion_r71197916",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1546",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/71197916"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1546#discussion_r71197916"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1546"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71197916/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 92461,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 9,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71197970",
+    "pull_request_review_id": null,
+    "id": 71197970,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDcxMTk3OTcw",
+    "diff_hunk": "@@ -92455,16 +92455,33 @@ dictionary <dfn>ImageBitmapOptions</dfn> {\n   <ol>\n \n    <li><p>Let <var>input</var> be the <span data-x=\"concept-ImageBitmap-bitmap-data\">bitmap\n-   data</span> being cropped.</p></li>\n+   data</span> being transformed.</p></li>\n \n-   <li><p>If the <var>sx</var>, <var>sy</var>, <var>sw</var>, and <var>sh</var> arguments are omitted, return <var>input</var>.</p></li>\n+   <li><p>If not specified, the <var>sx</var> and <var>sy</var> arguments must default to 0, and \n+   the <var>sw</var> and <var>sh</var> arguments must default to the intrinsic width and height of ",
+    "path": "source",
+    "commit_id": "34df8326ad3afd7ec25a8dcc8d66da9510ad8260",
+    "original_commit_id": "56354445fb4e6e1494e3e9363b4b4637c65fdab4",
+    "user": {
+      "login": "jakearchibald",
+      "id": 93594,
+      "node_id": "MDQ6VXNlcjkzNTk0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/93594?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jakearchibald",
+      "html_url": "https://github.com/jakearchibald",
+      "followers_url": "https://api.github.com/users/jakearchibald/followers",
+      "following_url": "https://api.github.com/users/jakearchibald/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jakearchibald/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jakearchibald/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jakearchibald/subscriptions",
+      "organizations_url": "https://api.github.com/users/jakearchibald/orgs",
+      "repos_url": "https://api.github.com/users/jakearchibald/repos",
+      "events_url": "https://api.github.com/users/jakearchibald/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jakearchibald/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "(the current spec doesn't make an x-ref)\n",
+    "created_at": "2016-07-18T18:07:17Z",
+    "updated_at": "2016-07-20T15:40:22Z",
+    "html_url": "https://github.com/whatwg/html/pull/1546#discussion_r71197970",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1546",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/71197970"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1546#discussion_r71197970"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1546"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71197970/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 92461,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 9,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71198067",
+    "pull_request_review_id": null,
+    "id": 71198067,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDcxMTk4MDY3",
+    "diff_hunk": "@@ -92455,16 +92455,33 @@ dictionary <dfn>ImageBitmapOptions</dfn> {\n   <ol>\n \n    <li><p>Let <var>input</var> be the <span data-x=\"concept-ImageBitmap-bitmap-data\">bitmap\n-   data</span> being cropped.</p></li>\n+   data</span> being transformed.</p></li>\n \n-   <li><p>If the <var>sx</var>, <var>sy</var>, <var>sw</var>, and <var>sh</var> arguments are omitted, return <var>input</var>.</p></li>\n+   <li><p>If not specified, the <var>sx</var> and <var>sy</var> arguments must default to 0, and ",
+    "path": "source",
+    "commit_id": "34df8326ad3afd7ec25a8dcc8d66da9510ad8260",
+    "original_commit_id": "56354445fb4e6e1494e3e9363b4b4637c65fdab4",
+    "user": {
+      "login": "jakearchibald",
+      "id": 93594,
+      "node_id": "MDQ6VXNlcjkzNTk0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/93594?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jakearchibald",
+      "html_url": "https://github.com/jakearchibald",
+      "followers_url": "https://api.github.com/users/jakearchibald/followers",
+      "following_url": "https://api.github.com/users/jakearchibald/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jakearchibald/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jakearchibald/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jakearchibald/subscriptions",
+      "organizations_url": "https://api.github.com/users/jakearchibald/orgs",
+      "repos_url": "https://api.github.com/users/jakearchibald/repos",
+      "events_url": "https://api.github.com/users/jakearchibald/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jakearchibald/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "FWIW this form is taken from `drawImage`\n",
+    "created_at": "2016-07-18T18:07:45Z",
+    "updated_at": "2016-07-20T15:40:22Z",
+    "html_url": "https://github.com/whatwg/html/pull/1546#discussion_r71198067",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1546",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/71198067"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1546#discussion_r71198067"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1546"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71198067/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 92460,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 8,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71199785",
+    "pull_request_review_id": null,
+    "id": 71199785,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDcxMTk5Nzg1",
+    "diff_hunk": "@@ -92455,16 +92455,33 @@ dictionary <dfn>ImageBitmapOptions</dfn> {\n   <ol>\n \n    <li><p>Let <var>input</var> be the <span data-x=\"concept-ImageBitmap-bitmap-data\">bitmap\n-   data</span> being cropped.</p></li>\n+   data</span> being transformed.</p></li>\n \n-   <li><p>If the <var>sx</var>, <var>sy</var>, <var>sw</var>, and <var>sh</var> arguments are omitted, return <var>input</var>.</p></li>\n+   <li><p>If not specified, the <var>sx</var> and <var>sy</var> arguments must default to 0, and \n+   the <var>sw</var> and <var>sh</var> arguments must default to the intrinsic width and height of ",
+    "path": "source",
+    "commit_id": "34df8326ad3afd7ec25a8dcc8d66da9510ad8260",
+    "original_commit_id": "56354445fb4e6e1494e3e9363b4b4637c65fdab4",
+    "user": {
+      "login": "junov",
+      "id": 2607864,
+      "node_id": "MDQ6VXNlcjI2MDc4NjQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2607864?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/junov",
+      "html_url": "https://github.com/junov",
+      "followers_url": "https://api.github.com/users/junov/followers",
+      "following_url": "https://api.github.com/users/junov/following{/other_user}",
+      "gists_url": "https://api.github.com/users/junov/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/junov/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/junov/subscriptions",
+      "organizations_url": "https://api.github.com/users/junov/orgs",
+      "repos_url": "https://api.github.com/users/junov/repos",
+      "events_url": "https://api.github.com/users/junov/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/junov/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Right, we could just refer to the width and height attributes of input.\n",
+    "created_at": "2016-07-18T18:17:39Z",
+    "updated_at": "2016-07-20T15:40:22Z",
+    "html_url": "https://github.com/whatwg/html/pull/1546#discussion_r71199785",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1546",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/71199785"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1546#discussion_r71199785"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1546"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71199785/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 92461,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 9,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71405657",
+    "pull_request_review_id": null,
+    "id": 71405657,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDcxNDA1NjU3",
+    "diff_hunk": "@@ -92455,16 +92455,32 @@ dictionary <dfn>ImageBitmapOptions</dfn> {\n   <ol>\n \n    <li><p>Let <var>input</var> be the <span data-x=\"concept-ImageBitmap-bitmap-data\">bitmap\n-   data</span> being cropped.</p></li>\n-\n-   <li><p>If the <var>sx</var>, <var>sy</var>, <var>sw</var>, and <var>sh</var> arguments are omitted, return <var>input</var>.</p></li>\n+   data</span> being transformed.</p></li>\n \n    <li><p>If either or both of <code data-x=\"dom-ImageBitmapOptions-resizeWidth\">resizeWidth</code>\n    and <code data-x=\"dom-ImageBitmapOptions-resizeHeight\">resizeHeight</code> members of\n    <var>options</var> are less than or equal to 0, then return a promise rejected with\n    <span>\"<code>InvalidStateError</code>\"</span> <code>DOMException</code> and abort these steps.</p></li>\n \n    <li>\n+\n+    <p>If Let <var>sx</var>, <var>sy</var>, <var>sw</var> and <var>sh</var> are specified, let ",
+    "path": "source",
+    "commit_id": "34df8326ad3afd7ec25a8dcc8d66da9510ad8260",
+    "original_commit_id": "2253ae00f5cf082fb65202826e665e04fc9ba4a5",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "s/Let //\n",
+    "created_at": "2016-07-19T19:21:56Z",
+    "updated_at": "2016-07-20T15:40:22Z",
+    "html_url": "https://github.com/whatwg/html/pull/1546#discussion_r71405657",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1546",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/71405657"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1546#discussion_r71405657"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1546"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71405657/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 92467,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 16,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71406066",
+    "pull_request_review_id": null,
+    "id": 71406066,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDcxNDA2MDY2",
+    "diff_hunk": "@@ -92455,16 +92455,32 @@ dictionary <dfn>ImageBitmapOptions</dfn> {\n   <ol>\n \n    <li><p>Let <var>input</var> be the <span data-x=\"concept-ImageBitmap-bitmap-data\">bitmap\n-   data</span> being cropped.</p></li>\n-\n-   <li><p>If the <var>sx</var>, <var>sy</var>, <var>sw</var>, and <var>sh</var> arguments are omitted, return <var>input</var>.</p></li>\n+   data</span> being transformed.</p></li>\n \n    <li><p>If either or both of <code data-x=\"dom-ImageBitmapOptions-resizeWidth\">resizeWidth</code>\n    and <code data-x=\"dom-ImageBitmapOptions-resizeHeight\">resizeHeight</code> members of\n    <var>options</var> are less than or equal to 0, then return a promise rejected with\n    <span>\"<code>InvalidStateError</code>\"</span> <code>DOMException</code> and abort these steps.</p></li>\n \n    <li>\n+\n+    <p>If Let <var>sx</var>, <var>sy</var>, <var>sw</var> and <var>sh</var> are specified, let \n+    <var>sourceRectangle</var> be a rectangle whose corners are the four points (<var>sx</var>, \n+    <var>sy</var>), (<var>sx</var>+<var>sw</var>, <var>sy</var>),(<var>sx</var>+<var>sw</var>, \n+    <var>sy</var>+<var>sh</var>), (<var>sx</var>,<var>sy</var>+<var>sh</var>). Otherwise let \n+    <var>sourceRectangle</var> be a rectangle whose corners are the four points (0,0), (width of \n+    <var>input</var>, 0), (width of <var>input</var>, height of <var>input</var>), (0, height of \n+    <var>input</var>)</p>\n+\n+    <p class=\"note\">If either <var>sw</var> or <var>sh</var> are negative, then\n+    the top-left corner of this rectangle will be to the left or above the (<var>sx</var>,\n+    <var>sy</var>) point.</p>\n+\n+   </li>\n+\n+   <li><p>Clip <var>sourceRectangle</var> to the dimensions of <var>input</var></p></li>",
+    "path": "source",
+    "commit_id": "34df8326ad3afd7ec25a8dcc8d66da9510ad8260",
+    "original_commit_id": "2253ae00f5cf082fb65202826e665e04fc9ba4a5",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Missing period. Also, this is a normative change; I haven't been following enough to be sure it's intentional?\n",
+    "created_at": "2016-07-19T19:24:11Z",
+    "updated_at": "2016-07-20T15:40:22Z",
+    "html_url": "https://github.com/whatwg/html/pull/1546#discussion_r71406066",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1546",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/71406066"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1546#discussion_r71406066"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1546"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71406066/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 92481,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 30,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71406323",
+    "pull_request_review_id": null,
+    "id": 71406323,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDcxNDA2MzIz",
+    "diff_hunk": "@@ -92498,40 +92514,28 @@ dictionary <dfn>ImageBitmapOptions</dfn> {\n      <dt>If the <code data-x=\"dom-ImageBitmapOptions-resizeHeight\">resizeHeight</code> member of\n      <var>options</var> is not specified, but the <code\n      data-x=\"dom-ImageBitmapOptions-resizeWidth\">resizeWidth</code> member is specified</dt>\n-     <dd>the intrinsic height of <var>input</var> times the value of the <code\n-     data-x=\"dom-ImageBitmapOptions-resizeWidth\">resizeWidth</code> member of <var>options</var>\n-     divided by the intrinsic width of <var>input</var>, rounded up to the nearest integer</dd>\n+     <dd>the height of <var>sourceRectangle</var>, times the value of the <code\n+     data-x=\"dom-ImageBitmapOptions-resizeWidth\">resizeWidth</code> member of <var>options</var>,\n+     divided by the width of <var>sourceRectangle</var>, rounded up to the nearest integer</dd>\n \n      <dt>If neither <code data-x=\"dom-ImageBitmapOptions-resizeWidth\">resizeWidth</code> nor <code\n      data-x=\"dom-ImageBitmapOptions-resizeHeight\">resizeHeight</code> are specified</dt>\n-     <dd>the intrinsic height of <var>input</var></dd>\n+     <dd>the height of <var>sourceRectangle</var></dd>\n     </dl>\n    </li>\n \n-   <li><p>Scale <var>input</var> to the size specified by the <var>outputWidth</var> and the\n-   <var>outputHeight</var>. The user agent should use the value of the <dfn><code\n-   data-x=\"dom-ImageBitmapOptions-resizeQuality\">resizeQuality</code></dfn> option to guide the\n-   choice of scaling algorithm.</p></li>\n-\n    <li><p>Place <var>input</var> on an infinite transparent black grid plane, positioned\n-   so that it's top left corner is at the origin of the plane, with the <var>x</var>-coordinate\n-   increasing to the right, and the <var>y</var>-coordinate increasing down, and with each pixel in\n-   the <var>input</var> image data occupying a cell on the plane's grid.</p></li>\n+    so that it's top left corner is at the origin of the plane, with the <var>x</var>-coordinate",
+    "path": "source",
+    "commit_id": "34df8326ad3afd7ec25a8dcc8d66da9510ad8260",
+    "original_commit_id": "2253ae00f5cf082fb65202826e665e04fc9ba4a5",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "s/it's/its while you're here\n",
+    "created_at": "2016-07-19T19:25:41Z",
+    "updated_at": "2016-07-20T15:40:22Z",
+    "html_url": "https://github.com/whatwg/html/pull/1546#discussion_r71406323",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1546",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/71406323"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1546#discussion_r71406323"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1546"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71406323/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 92528,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 81,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71406418",
+    "pull_request_review_id": null,
+    "id": 71406418,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDcxNDA2NDE4",
+    "diff_hunk": "@@ -92498,40 +92514,28 @@ dictionary <dfn>ImageBitmapOptions</dfn> {\n      <dt>If the <code data-x=\"dom-ImageBitmapOptions-resizeHeight\">resizeHeight</code> member of\n      <var>options</var> is not specified, but the <code\n      data-x=\"dom-ImageBitmapOptions-resizeWidth\">resizeWidth</code> member is specified</dt>\n-     <dd>the intrinsic height of <var>input</var> times the value of the <code\n-     data-x=\"dom-ImageBitmapOptions-resizeWidth\">resizeWidth</code> member of <var>options</var>\n-     divided by the intrinsic width of <var>input</var>, rounded up to the nearest integer</dd>\n+     <dd>the height of <var>sourceRectangle</var>, times the value of the <code\n+     data-x=\"dom-ImageBitmapOptions-resizeWidth\">resizeWidth</code> member of <var>options</var>,\n+     divided by the width of <var>sourceRectangle</var>, rounded up to the nearest integer</dd>\n \n      <dt>If neither <code data-x=\"dom-ImageBitmapOptions-resizeWidth\">resizeWidth</code> nor <code\n      data-x=\"dom-ImageBitmapOptions-resizeHeight\">resizeHeight</code> are specified</dt>\n-     <dd>the intrinsic height of <var>input</var></dd>\n+     <dd>the height of <var>sourceRectangle</var></dd>\n     </dl>\n    </li>\n \n-   <li><p>Scale <var>input</var> to the size specified by the <var>outputWidth</var> and the\n-   <var>outputHeight</var>. The user agent should use the value of the <dfn><code\n-   data-x=\"dom-ImageBitmapOptions-resizeQuality\">resizeQuality</code></dfn> option to guide the\n-   choice of scaling algorithm.</p></li>\n-\n    <li><p>Place <var>input</var> on an infinite transparent black grid plane, positioned\n-   so that it's top left corner is at the origin of the plane, with the <var>x</var>-coordinate\n-   increasing to the right, and the <var>y</var>-coordinate increasing down, and with each pixel in\n-   the <var>input</var> image data occupying a cell on the plane's grid.</p></li>\n+    so that it's top left corner is at the origin of the plane, with the <var>x</var>-coordinate\n+    increasing to the right, and the <var>y</var>-coordinate increasing down, and with each pixel\n+    in the <var>input</var> image data occupying a cell on the plane's grid.</p></li>\n \n-   <li>\n+   <li><p>Let <var>output</var> be the rectangle on the plane denoted by \n+   <var>sourceRectangle</var></p></li>",
+    "path": "source",
+    "commit_id": "34df8326ad3afd7ec25a8dcc8d66da9510ad8260",
+    "original_commit_id": "2253ae00f5cf082fb65202826e665e04fc9ba4a5",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Missing period\n",
+    "created_at": "2016-07-19T19:26:11Z",
+    "updated_at": "2016-07-20T15:40:22Z",
+    "html_url": "https://github.com/whatwg/html/pull/1546#discussion_r71406418",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1546",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/71406418"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1546#discussion_r71406418"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1546"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71406418/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 92533,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 87,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71408240",
+    "pull_request_review_id": null,
+    "id": 71408240,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDcxNDA4MjQw",
+    "diff_hunk": "@@ -92457,29 +92457,28 @@ dictionary <dfn>ImageBitmapOptions</dfn> {\n    <li><p>Let <var>input</var> be the <span data-x=\"concept-ImageBitmap-bitmap-data\">bitmap\n    data</span> being transformed.</p></li>\n \n-   <li><p>If not specified, the <var>sx</var> and <var>sy</var> arguments must default to 0, and \n-   the <var>sw</var> and <var>sh</var> arguments must default to the intrinsic width and height of \n-   <var>input</var></p></li>\n-\n    <li><p>If either or both of <code data-x=\"dom-ImageBitmapOptions-resizeWidth\">resizeWidth</code>\n    and <code data-x=\"dom-ImageBitmapOptions-resizeHeight\">resizeHeight</code> members of\n    <var>options</var> are less than or equal to 0, then return a promise rejected with\n    <span>\"<code>InvalidStateError</code>\"</span> <code>DOMException</code> and abort these steps.</p></li>\n \n    <li>\n \n-    <p>Let <var>sourceRectangle</var> be a rectangle whose corners are the four points \n-    (<var>sx</var>, <var>sy</var>), (<var>sx</var>+<var>sw</var>, <var>sy</var>),\n-    (<var>sx</var>+<var>sw</var>, <var>sy</var>+<var>sh</var>), (<var>sx</var>,\n-    <var>sy</var>+<var>sh</var>)</p>\n+    <p>If Let <var>sx</var>, <var>sy</var>, <var>sw</var> and <var>sh</var> are specified, let \n+    <var>sourceRectangle</var> be a rectangle whose corners are the four points (<var>sx</var>, \n+    <var>sy</var>), (<var>sx</var>+<var>sw</var>, <var>sy</var>),(<var>sx</var>+<var>sw</var>, \n+    <var>sy</var>+<var>sh</var>), (<var>sx</var>,<var>sy</var>+<var>sh</var>). Otherwise let \n+    <var>sourceRectangle</var> be a rectangle whose corners are the four points (0,0), (width of ",
+    "path": "source",
+    "commit_id": "34df8326ad3afd7ec25a8dcc8d66da9510ad8260",
+    "original_commit_id": "2253ae00f5cf082fb65202826e665e04fc9ba4a5",
+    "user": {
+      "login": "junov",
+      "id": 2607864,
+      "node_id": "MDQ6VXNlcjI2MDc4NjQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2607864?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/junov",
+      "html_url": "https://github.com/junov",
+      "followers_url": "https://api.github.com/users/junov/followers",
+      "following_url": "https://api.github.com/users/junov/following{/other_user}",
+      "gists_url": "https://api.github.com/users/junov/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/junov/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/junov/subscriptions",
+      "organizations_url": "https://api.github.com/users/junov/orgs",
+      "repos_url": "https://api.github.com/users/junov/repos",
+      "events_url": "https://api.github.com/users/junov/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/junov/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "`width` -> `<span data-x=\"dom-ImageBitmap-width\">width</span>`\nSame for height\n",
+    "created_at": "2016-07-19T19:37:15Z",
+    "updated_at": "2016-07-20T15:40:22Z",
+    "html_url": "https://github.com/whatwg/html/pull/1546#discussion_r71408240",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1546",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/71408240"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1546#discussion_r71408240"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1546"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71408240/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 92471,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 23,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71408690",
+    "pull_request_review_id": null,
+    "id": 71408690,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDcxNDA4Njkw",
+    "diff_hunk": "@@ -92457,29 +92457,28 @@ dictionary <dfn>ImageBitmapOptions</dfn> {\n    <li><p>Let <var>input</var> be the <span data-x=\"concept-ImageBitmap-bitmap-data\">bitmap\n    data</span> being transformed.</p></li>\n \n-   <li><p>If not specified, the <var>sx</var> and <var>sy</var> arguments must default to 0, and \n-   the <var>sw</var> and <var>sh</var> arguments must default to the intrinsic width and height of \n-   <var>input</var></p></li>\n-\n    <li><p>If either or both of <code data-x=\"dom-ImageBitmapOptions-resizeWidth\">resizeWidth</code>\n    and <code data-x=\"dom-ImageBitmapOptions-resizeHeight\">resizeHeight</code> members of\n    <var>options</var> are less than or equal to 0, then return a promise rejected with\n    <span>\"<code>InvalidStateError</code>\"</span> <code>DOMException</code> and abort these steps.</p></li>\n \n    <li>\n \n-    <p>Let <var>sourceRectangle</var> be a rectangle whose corners are the four points \n-    (<var>sx</var>, <var>sy</var>), (<var>sx</var>+<var>sw</var>, <var>sy</var>),\n-    (<var>sx</var>+<var>sw</var>, <var>sy</var>+<var>sh</var>), (<var>sx</var>,\n-    <var>sy</var>+<var>sh</var>)</p>\n+    <p>If Let <var>sx</var>, <var>sy</var>, <var>sw</var> and <var>sh</var> are specified, let \n+    <var>sourceRectangle</var> be a rectangle whose corners are the four points (<var>sx</var>, \n+    <var>sy</var>), (<var>sx</var>+<var>sw</var>, <var>sy</var>),(<var>sx</var>+<var>sw</var>, \n+    <var>sy</var>+<var>sh</var>), (<var>sx</var>,<var>sy</var>+<var>sh</var>). Otherwise let \n+    <var>sourceRectangle</var> be a rectangle whose corners are the four points (0,0), (width of ",
+    "path": "source",
+    "commit_id": "34df8326ad3afd7ec25a8dcc8d66da9510ad8260",
+    "original_commit_id": "2253ae00f5cf082fb65202826e665e04fc9ba4a5",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I don't think that's correct, since _input_ is bitmap data, not an ImageBitmap. The spec says\n\n> An ImageBitmap object whose [[Detached]] internal slot value is false always has associated bitmap data, with a width and a height.\n\nbut doesn't have `<dfn>`s around width and height here (which IMO is fine).\n",
+    "created_at": "2016-07-19T19:39:58Z",
+    "updated_at": "2016-07-20T15:40:22Z",
+    "html_url": "https://github.com/whatwg/html/pull/1546#discussion_r71408690",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1546",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/71408690"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1546#discussion_r71408690"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1546"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71408690/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 92471,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 23,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71409041",
+    "pull_request_review_id": null,
+    "id": 71409041,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDcxNDA5MDQx",
+    "diff_hunk": "@@ -92498,40 +92514,28 @@ dictionary <dfn>ImageBitmapOptions</dfn> {\n      <dt>If the <code data-x=\"dom-ImageBitmapOptions-resizeHeight\">resizeHeight</code> member of\n      <var>options</var> is not specified, but the <code\n      data-x=\"dom-ImageBitmapOptions-resizeWidth\">resizeWidth</code> member is specified</dt>\n-     <dd>the intrinsic height of <var>input</var> times the value of the <code\n-     data-x=\"dom-ImageBitmapOptions-resizeWidth\">resizeWidth</code> member of <var>options</var>\n-     divided by the intrinsic width of <var>input</var>, rounded up to the nearest integer</dd>\n+     <dd>the height of <var>sourceRectangle</var>, times the value of the <code\n+     data-x=\"dom-ImageBitmapOptions-resizeWidth\">resizeWidth</code> member of <var>options</var>,\n+     divided by the width of <var>sourceRectangle</var>, rounded up to the nearest integer</dd>\n \n      <dt>If neither <code data-x=\"dom-ImageBitmapOptions-resizeWidth\">resizeWidth</code> nor <code\n      data-x=\"dom-ImageBitmapOptions-resizeHeight\">resizeHeight</code> are specified</dt>\n-     <dd>the intrinsic height of <var>input</var></dd>\n+     <dd>the height of <var>sourceRectangle</var></dd>\n     </dl>\n    </li>\n \n-   <li><p>Scale <var>input</var> to the size specified by the <var>outputWidth</var> and the\n-   <var>outputHeight</var>. The user agent should use the value of the <dfn><code\n-   data-x=\"dom-ImageBitmapOptions-resizeQuality\">resizeQuality</code></dfn> option to guide the\n-   choice of scaling algorithm.</p></li>\n-\n    <li><p>Place <var>input</var> on an infinite transparent black grid plane, positioned\n-   so that it's top left corner is at the origin of the plane, with the <var>x</var>-coordinate\n-   increasing to the right, and the <var>y</var>-coordinate increasing down, and with each pixel in\n-   the <var>input</var> image data occupying a cell on the plane's grid.</p></li>\n+    so that it's top left corner is at the origin of the plane, with the <var>x</var>-coordinate\n+    increasing to the right, and the <var>y</var>-coordinate increasing down, and with each pixel\n+    in the <var>input</var> image data occupying a cell on the plane's grid.</p></li>\n \n-   <li>\n+   <li><p>Let <var>output</var> be the rectangle on the plane denoted by \n+   <var>sourceRectangle</var></p></li>\n \n-    <p>Let <var>output</var> be the rectangle on the plane denoted by the rectangle whose\n-    corners are the four points (<var>sx</var>, <var>sy</var>), (<span\n-    data-x=\"\"><var>sx</var>+<var>sw</var></span>, <var>sy</var>), (<span\n-    data-x=\"\"><var>sx</var>+<var>sw</var></span>, <span data-x=\"\"><var>sy</var>+<var>sh</var></span>), (<var>sx</var>, <span data-x=\"\"><var>sy</var>+<var>sh</var></span>).</p>\n-\n-    <p class=\"note\">If either <var>sw</var> or <var>sh</var> are negative, then\n-    the top-left corner of this rectangle will be to the left or above the (<var>sx</var>,\n-    <var>sy</var>) point. If any of the pixels on this rectangle are outside the area where\n-    the <var>input</var> bitmap was placed, then they will be transparent black in\n-    <var>output</var>.</p>\n-\n-   </li>\n+   <li><p>Scale <var>output</var> to the size specified by the <var>outputWidth</var> and the ",
+    "path": "source",
+    "commit_id": "34df8326ad3afd7ec25a8dcc8d66da9510ad8260",
+    "original_commit_id": "2253ae00f5cf082fb65202826e665e04fc9ba4a5",
+    "user": {
+      "login": "junov",
+      "id": 2607864,
+      "node_id": "MDQ6VXNlcjI2MDc4NjQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2607864?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/junov",
+      "html_url": "https://github.com/junov",
+      "followers_url": "https://api.github.com/users/junov/followers",
+      "following_url": "https://api.github.com/users/junov/following{/other_user}",
+      "gists_url": "https://api.github.com/users/junov/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/junov/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/junov/subscriptions",
+      "organizations_url": "https://api.github.com/users/junov/orgs",
+      "repos_url": "https://api.github.com/users/junov/repos",
+      "events_url": "https://api.github.com/users/junov/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/junov/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "superfluous \"the\" before outputWidth and outputHeight\n",
+    "created_at": "2016-07-19T19:42:14Z",
+    "updated_at": "2016-07-20T15:40:22Z",
+    "html_url": "https://github.com/whatwg/html/pull/1546#discussion_r71409041",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1546",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/71409041"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1546#discussion_r71409041"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1546"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71409041/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 92535,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 101,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71409822",
+    "pull_request_review_id": null,
+    "id": 71409822,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDcxNDA5ODIy",
+    "diff_hunk": "@@ -92457,29 +92457,28 @@ dictionary <dfn>ImageBitmapOptions</dfn> {\n    <li><p>Let <var>input</var> be the <span data-x=\"concept-ImageBitmap-bitmap-data\">bitmap\n    data</span> being transformed.</p></li>\n \n-   <li><p>If not specified, the <var>sx</var> and <var>sy</var> arguments must default to 0, and \n-   the <var>sw</var> and <var>sh</var> arguments must default to the intrinsic width and height of \n-   <var>input</var></p></li>\n-\n    <li><p>If either or both of <code data-x=\"dom-ImageBitmapOptions-resizeWidth\">resizeWidth</code>\n    and <code data-x=\"dom-ImageBitmapOptions-resizeHeight\">resizeHeight</code> members of\n    <var>options</var> are less than or equal to 0, then return a promise rejected with\n    <span>\"<code>InvalidStateError</code>\"</span> <code>DOMException</code> and abort these steps.</p></li>\n \n    <li>\n \n-    <p>Let <var>sourceRectangle</var> be a rectangle whose corners are the four points \n-    (<var>sx</var>, <var>sy</var>), (<var>sx</var>+<var>sw</var>, <var>sy</var>),\n-    (<var>sx</var>+<var>sw</var>, <var>sy</var>+<var>sh</var>), (<var>sx</var>,\n-    <var>sy</var>+<var>sh</var>)</p>\n+    <p>If Let <var>sx</var>, <var>sy</var>, <var>sw</var> and <var>sh</var> are specified, let \n+    <var>sourceRectangle</var> be a rectangle whose corners are the four points (<var>sx</var>, \n+    <var>sy</var>), (<var>sx</var>+<var>sw</var>, <var>sy</var>),(<var>sx</var>+<var>sw</var>, \n+    <var>sy</var>+<var>sh</var>), (<var>sx</var>,<var>sy</var>+<var>sh</var>). Otherwise let \n+    <var>sourceRectangle</var> be a rectangle whose corners are the four points (0,0), (width of ",
+    "path": "source",
+    "commit_id": "34df8326ad3afd7ec25a8dcc8d66da9510ad8260",
+    "original_commit_id": "2253ae00f5cf082fb65202826e665e04fc9ba4a5",
+    "user": {
+      "login": "junov",
+      "id": 2607864,
+      "node_id": "MDQ6VXNlcjI2MDc4NjQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2607864?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/junov",
+      "html_url": "https://github.com/junov",
+      "followers_url": "https://api.github.com/users/junov/followers",
+      "following_url": "https://api.github.com/users/junov/following{/other_user}",
+      "gists_url": "https://api.github.com/users/junov/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/junov/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/junov/subscriptions",
+      "organizations_url": "https://api.github.com/users/junov/orgs",
+      "repos_url": "https://api.github.com/users/junov/repos",
+      "events_url": "https://api.github.com/users/junov/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/junov/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Right.  I retract.\n",
+    "created_at": "2016-07-19T19:46:53Z",
+    "updated_at": "2016-07-20T15:40:22Z",
+    "html_url": "https://github.com/whatwg/html/pull/1546#discussion_r71409822",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1546",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/71409822"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1546#discussion_r71409822"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1546"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71409822/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 92471,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 23,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71548511",
+    "pull_request_review_id": null,
+    "id": 71548511,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDcxNTQ4NTEx",
+    "diff_hunk": "@@ -92498,40 +92514,28 @@ dictionary <dfn>ImageBitmapOptions</dfn> {\n      <dt>If the <code data-x=\"dom-ImageBitmapOptions-resizeHeight\">resizeHeight</code> member of\n      <var>options</var> is not specified, but the <code\n      data-x=\"dom-ImageBitmapOptions-resizeWidth\">resizeWidth</code> member is specified</dt>\n-     <dd>the intrinsic height of <var>input</var> times the value of the <code\n-     data-x=\"dom-ImageBitmapOptions-resizeWidth\">resizeWidth</code> member of <var>options</var>\n-     divided by the intrinsic width of <var>input</var>, rounded up to the nearest integer</dd>\n+     <dd>the height of <var>sourceRectangle</var>, times the value of the <code\n+     data-x=\"dom-ImageBitmapOptions-resizeWidth\">resizeWidth</code> member of <var>options</var>,\n+     divided by the width of <var>sourceRectangle</var>, rounded up to the nearest integer</dd>\n \n      <dt>If neither <code data-x=\"dom-ImageBitmapOptions-resizeWidth\">resizeWidth</code> nor <code\n      data-x=\"dom-ImageBitmapOptions-resizeHeight\">resizeHeight</code> are specified</dt>\n-     <dd>the intrinsic height of <var>input</var></dd>\n+     <dd>the height of <var>sourceRectangle</var></dd>\n     </dl>\n    </li>\n \n-   <li><p>Scale <var>input</var> to the size specified by the <var>outputWidth</var> and the\n-   <var>outputHeight</var>. The user agent should use the value of the <dfn><code\n-   data-x=\"dom-ImageBitmapOptions-resizeQuality\">resizeQuality</code></dfn> option to guide the\n-   choice of scaling algorithm.</p></li>\n-\n    <li><p>Place <var>input</var> on an infinite transparent black grid plane, positioned\n-   so that it's top left corner is at the origin of the plane, with the <var>x</var>-coordinate\n-   increasing to the right, and the <var>y</var>-coordinate increasing down, and with each pixel in\n-   the <var>input</var> image data occupying a cell on the plane's grid.</p></li>\n+    so that it's top left corner is at the origin of the plane, with the <var>x</var>-coordinate",
+    "path": "source",
+    "commit_id": "34df8326ad3afd7ec25a8dcc8d66da9510ad8260",
+    "original_commit_id": "2253ae00f5cf082fb65202826e665e04fc9ba4a5",
+    "user": {
+      "login": "jakearchibald",
+      "id": 93594,
+      "node_id": "MDQ6VXNlcjkzNTk0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/93594?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jakearchibald",
+      "html_url": "https://github.com/jakearchibald",
+      "followers_url": "https://api.github.com/users/jakearchibald/followers",
+      "following_url": "https://api.github.com/users/jakearchibald/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jakearchibald/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jakearchibald/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jakearchibald/subscriptions",
+      "organizations_url": "https://api.github.com/users/jakearchibald/orgs",
+      "repos_url": "https://api.github.com/users/jakearchibald/repos",
+      "events_url": "https://api.github.com/users/jakearchibald/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jakearchibald/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Hm, no idea why spaces appeared at the start of each line there either. Will fix.\n",
+    "created_at": "2016-07-20T15:32:01Z",
+    "updated_at": "2016-07-20T15:40:22Z",
+    "html_url": "https://github.com/whatwg/html/pull/1546#discussion_r71548511",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/1546",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/71548511"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/1546#discussion_r71548511"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/1546"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/71548511/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 92528,
+    "original_line": null,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 81,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

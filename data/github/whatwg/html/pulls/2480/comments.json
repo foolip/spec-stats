@@ -1,0 +1,860 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/109186016",
+    "pull_request_review_id": 30275305,
+    "id": 109186016,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEwOTE4NjAxNg==",
+    "diff_hunk": "@@ -81213,19 +81213,23 @@ State: &lt;OUTPUT NAME=I>1&lt;/OUTPUT> &lt;INPUT VALUE=\"Increment\" TYPE=BUTTON O\n    <li><p>Let <var>current</var> be the <span data-x=\"concept-document-bc\">browsing context</span>\n    of the <code>Document</code> with which this <code>Location</code> object is associated.</p></li>\n \n-   <li><p><i>Loop</i>: If <var>current</var> has no <span>parent browsing context</span>, jump to\n-   the step labeled <i>end</i>.</p></li>\n+   <li>\n+    <p>While <var>current</var> has a <span>parent browsing context</span>:</p>\n \n-   <li><p>Let <var>current</var> be <var>current</var>'s <span>parent browsing\n-   context</span>.</p></li>\n+    <ol>\n+     <li><p>If <var>current</var>'s <span>active document</span>'s <span data-x=\"the document's\n+     referrer\">referrer</span> is the empty string, then <span data-x=\"list append\">append</span>",
+    "path": "source",
+    "commit_id": "a08939f010aaae1c73e6ea1c116e2160c75e290e",
+    "original_commit_id": "1fb99f36d827ae947c71c243bd473c911378f2dc",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "No, this doesn't work right.\r\n\r\nSay I have a parent A, which has a no-referrer referrer policy.  It loads an untrusted thing B.  B then proceeds to itself load C, and C queries ancestorOrigins.  Since the load of C came from B, and _B_ doesn't have a no-referrer thing going on, C has a nonempty referrer.  So it gets access to the information that it's loaded inside A.",
+    "created_at": "2017-03-31T15:28:03Z",
+    "updated_at": "2018-02-05T15:33:55Z",
+    "html_url": "https://github.com/whatwg/html/pull/2480#discussion_r109186016",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2480",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/109186016"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2480#discussion_r109186016"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2480"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/109186016/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 81221,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 13,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/109187530",
+    "pull_request_review_id": 30275305,
+    "id": 109187530,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEwOTE4NzUzMA==",
+    "diff_hunk": "@@ -81213,19 +81213,23 @@ State: &lt;OUTPUT NAME=I>1&lt;/OUTPUT> &lt;INPUT VALUE=\"Increment\" TYPE=BUTTON O\n    <li><p>Let <var>current</var> be the <span data-x=\"concept-document-bc\">browsing context</span>\n    of the <code>Document</code> with which this <code>Location</code> object is associated.</p></li>\n \n-   <li><p><i>Loop</i>: If <var>current</var> has no <span>parent browsing context</span>, jump to\n-   the step labeled <i>end</i>.</p></li>\n+   <li>\n+    <p>While <var>current</var> has a <span>parent browsing context</span>:</p>\n \n-   <li><p>Let <var>current</var> be <var>current</var>'s <span>parent browsing\n-   context</span>.</p></li>\n+    <ol>\n+     <li><p>If <var>current</var>'s <span>active document</span>'s <span data-x=\"the document's",
+    "path": "source",
+    "commit_id": "a08939f010aaae1c73e6ea1c116e2160c75e290e",
+    "original_commit_id": "1fb99f36d827ae947c71c243bd473c911378f2dc",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This part is preexisting, but I expect that use of \"active document\" here is wrong, in the \"security bug, cross-site information leak\" sense.  Just like most use of \"active document\" for pretty much everything is wrong in that \"information leak\" sense.\r\n\r\nConsider page A that loads untrusted page B in a subframe.  B creates a same-origin (with B) subframe C.  C opens a new window and hands that window its Location object.\r\n\r\nNow that window polls ancestorOrigins on the object it was handed.  If A navigates its subframe to some new site D, then C's browsing context (which may still be around if things were salvageable) still has B-and-D's browsing context as parent, but its active document is D.  So the polling window, which is same-origin with B and C but not A or D, would get to find out that A loaded D, which is a cross-site information leak.\r\n\r\nWe really need to be walking the creator document chain, not the browser context chain, as should pretty much everyone else who walks up to parents.  And to the extent that this is more complicated than just walking up the browser context chain, we should fix that.  For example, maybe we should have a concept of \"parent document\" for documents that are loaded in nested browsing contexts or something, which is the creator document of the document's browsing context.",
+    "created_at": "2017-03-31T15:34:13Z",
+    "updated_at": "2018-02-05T15:33:55Z",
+    "html_url": "https://github.com/whatwg/html/pull/2480#discussion_r109187530",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2480",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/109187530"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2480#discussion_r109187530"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2480"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/109187530/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 81220,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 12,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/110080061",
+    "pull_request_review_id": 31224843,
+    "id": 110080061,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDExMDA4MDA2MQ==",
+    "diff_hunk": "@@ -81208,24 +81209,73 @@ State: &lt;OUTPUT NAME=I>1&lt;/OUTPUT> &lt;INPUT VALUE=\"Increment\" TYPE=BUTTON O\n   the following steps would produce:</p>\n \n   <ol>\n-   <li><p>Let <var>output</var> be a new <span>list</span> of strings.</p></li>\n+   <li><p>Let <var>parentOrigins</var> be a new <span>list</span> of <span\n+   data-x=\"pair\">pairs</span> consisting of <dfn data-x=\"pair parent's origin\">parent's origin</dfn>\n+   and <dfn data-x=\"pair referrer\">referrer</dfn>.</p></li>\n \n    <li><p>Let <var>current</var> be the <span data-x=\"concept-document-bc\">browsing context</span>\n    of the <code>Document</code> with which this <code>Location</code> object is associated.</p></li>\n+   <!-- All Location objects are associated with Document objects that have a browsing context upon\n+        creation. -->\n \n-   <li><p><i>Loop</i>: If <var>current</var> has no <span>parent browsing context</span>, jump to\n-   the step labeled <i>end</i>.</p></li>\n+   <li>\n+    <p>While <var>current</var> has a <span>parent browsing context</span>:</p>\n \n-   <li><p>Let <var>current</var> be <var>current</var>'s <span>parent browsing\n-   context</span>.</p></li>\n+    <ol>\n+     <li><p>Append <var>current</var>'s <span>active document</span>'s",
+    "path": "source",
+    "commit_id": "a08939f010aaae1c73e6ea1c116e2160c75e290e",
+    "original_commit_id": "a4449d1bb7eb49f18be1243770c4d5b0898981f9",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I _think_ this should be current's parent's active document's origin.",
+    "created_at": "2017-04-06T05:10:35Z",
+    "updated_at": "2018-02-05T15:33:55Z",
+    "html_url": "https://github.com/whatwg/html/pull/2480#discussion_r110080061",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2480",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/110080061"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2480#discussion_r110080061"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2480"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/110080061/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 81225,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 30,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/110080177",
+    "pull_request_review_id": 31224843,
+    "id": 110080177,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDExMDA4MDE3Nw==",
+    "diff_hunk": "@@ -81208,24 +81209,73 @@ State: &lt;OUTPUT NAME=I>1&lt;/OUTPUT> &lt;INPUT VALUE=\"Increment\" TYPE=BUTTON O\n   the following steps would produce:</p>\n \n   <ol>\n-   <li><p>Let <var>output</var> be a new <span>list</span> of strings.</p></li>\n+   <li><p>Let <var>parentOrigins</var> be a new <span>list</span> of <span\n+   data-x=\"pair\">pairs</span> consisting of <dfn data-x=\"pair parent's origin\">parent's origin</dfn>\n+   and <dfn data-x=\"pair referrer\">referrer</dfn>.</p></li>\n \n    <li><p>Let <var>current</var> be the <span data-x=\"concept-document-bc\">browsing context</span>\n    of the <code>Document</code> with which this <code>Location</code> object is associated.</p></li>\n+   <!-- All Location objects are associated with Document objects that have a browsing context upon\n+        creation. -->\n \n-   <li><p><i>Loop</i>: If <var>current</var> has no <span>parent browsing context</span>, jump to\n-   the step labeled <i>end</i>.</p></li>\n+   <li>\n+    <p>While <var>current</var> has a <span>parent browsing context</span>:</p>\n \n-   <li><p>Let <var>current</var> be <var>current</var>'s <span>parent browsing\n-   context</span>.</p></li>\n+    <ol>\n+     <li><p>Append <var>current</var>'s <span>active document</span>'s\n+     <span>origin</span>/<var>current</var>'s <span>active document</span>'s <span data-x=\"the",
+    "path": "source",
+    "commit_id": "a08939f010aaae1c73e6ea1c116e2160c75e290e",
+    "original_commit_id": "a4449d1bb7eb49f18be1243770c4d5b0898981f9",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This is kinda odd notation for a pair.  I'd expect some sort of (a, b) notation....",
+    "created_at": "2017-04-06T05:12:12Z",
+    "updated_at": "2018-02-05T15:33:55Z",
+    "html_url": "https://github.com/whatwg/html/pull/2480#discussion_r110080177",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2480",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/110080177"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2480#discussion_r110080177"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2480"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/110080177/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 81226,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 31,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/110153552",
+    "pull_request_review_id": 31303694,
+    "id": 110153552,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDExMDE1MzU1Mg==",
+    "diff_hunk": "@@ -81208,24 +81209,73 @@ State: &lt;OUTPUT NAME=I>1&lt;/OUTPUT> &lt;INPUT VALUE=\"Increment\" TYPE=BUTTON O\n   the following steps would produce:</p>\n \n   <ol>\n-   <li><p>Let <var>output</var> be a new <span>list</span> of strings.</p></li>\n+   <li><p>Let <var>parentOrigins</var> be a new <span>list</span> of <span\n+   data-x=\"pair\">pairs</span> consisting of <dfn data-x=\"pair parent's origin\">parent's origin</dfn>\n+   and <dfn data-x=\"pair referrer\">referrer</dfn>.</p></li>\n \n    <li><p>Let <var>current</var> be the <span data-x=\"concept-document-bc\">browsing context</span>\n    of the <code>Document</code> with which this <code>Location</code> object is associated.</p></li>\n+   <!-- All Location objects are associated with Document objects that have a browsing context upon\n+        creation. -->\n \n-   <li><p><i>Loop</i>: If <var>current</var> has no <span>parent browsing context</span>, jump to\n-   the step labeled <i>end</i>.</p></li>\n+   <li>\n+    <p>While <var>current</var> has a <span>parent browsing context</span>:</p>\n \n-   <li><p>Let <var>current</var> be <var>current</var>'s <span>parent browsing\n-   context</span>.</p></li>\n+    <ol>\n+     <li><p>Append <var>current</var>'s <span>active document</span>'s\n+     <span>origin</span>/<var>current</var>'s <span>active document</span>'s <span data-x=\"the",
+    "path": "source",
+    "commit_id": "a08939f010aaae1c73e6ea1c116e2160c75e290e",
+    "original_commit_id": "a4449d1bb7eb49f18be1243770c4d5b0898981f9",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "We use that notation for tuples. We have this notation for pairs since it was already in use somewhat.",
+    "created_at": "2017-04-06T12:56:11Z",
+    "updated_at": "2018-02-05T15:33:55Z",
+    "html_url": "https://github.com/whatwg/html/pull/2480#discussion_r110153552",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2480",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/110153552"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2480#discussion_r110153552"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2480"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/110153552/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 81226,
+    "side": "RIGHT",
+    "in_reply_to_id": 110080177,
+    "author_association": "MEMBER",
+    "original_position": 31,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/110176072",
+    "pull_request_review_id": 31328952,
+    "id": 110176072,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDExMDE3NjA3Mg==",
+    "diff_hunk": "@@ -81208,24 +81209,73 @@ State: &lt;OUTPUT NAME=I>1&lt;/OUTPUT> &lt;INPUT VALUE=\"Increment\" TYPE=BUTTON O\n   the following steps would produce:</p>\n \n   <ol>\n-   <li><p>Let <var>output</var> be a new <span>list</span> of strings.</p></li>\n+   <li><p>Let <var>parentOrigins</var> be a new <span>list</span> of <span\n+   data-x=\"pair\">pairs</span> consisting of <dfn data-x=\"pair parent's origin\">parent's origin</dfn>\n+   and <dfn data-x=\"pair referrer\">referrer</dfn>.</p></li>\n \n    <li><p>Let <var>current</var> be the <span data-x=\"concept-document-bc\">browsing context</span>\n    of the <code>Document</code> with which this <code>Location</code> object is associated.</p></li>\n+   <!-- All Location objects are associated with Document objects that have a browsing context upon\n+        creation. -->\n \n-   <li><p><i>Loop</i>: If <var>current</var> has no <span>parent browsing context</span>, jump to\n-   the step labeled <i>end</i>.</p></li>\n+   <li>\n+    <p>While <var>current</var> has a <span>parent browsing context</span>:</p>\n \n-   <li><p>Let <var>current</var> be <var>current</var>'s <span>parent browsing\n-   context</span>.</p></li>\n+    <ol>\n+     <li><p>Append <var>current</var>'s <span>active document</span>'s\n+     <span>origin</span>/<var>current</var>'s <span>active document</span>'s <span data-x=\"the",
+    "path": "source",
+    "commit_id": "a08939f010aaae1c73e6ea1c116e2160c75e290e",
+    "original_commit_id": "a4449d1bb7eb49f18be1243770c4d5b0898981f9",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I found it extremely confusing.  tuple notation for pairs is how it's normally done, across a very wide range of fields that involve pairs of numbers...  I'd really prefer a tuple notation here, for clarity.",
+    "created_at": "2017-04-06T14:27:37Z",
+    "updated_at": "2018-02-05T15:33:55Z",
+    "html_url": "https://github.com/whatwg/html/pull/2480#discussion_r110176072",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2480",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/110176072"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2480#discussion_r110176072"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2480"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/110176072/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 81226,
+    "side": "RIGHT",
+    "in_reply_to_id": 110080177,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 31,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/112182237",
+    "pull_request_review_id": 33476152,
+    "id": 112182237,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDExMjE4MjIzNw==",
+    "diff_hunk": "@@ -81355,26 +81356,79 @@ State: &lt;OUTPUT NAME=I>1&lt;/OUTPUT> &lt;INPUT VALUE=\"Increment\" TYPE=BUTTON O\n   the following steps would produce:</p>\n \n   <ol>\n-   <li><p>Let <var>output</var> be a new <span>list</span> of strings.</p></li>\n+   <li><p>Let <var>parentOrigins</var> be a new <span>list</span> of <span\n+   data-x=\"pair\">pairs</span> consisting of <dfn data-x=\"pair parent's origin\">parent's origin</dfn>\n+   and <dfn data-x=\"pair referrer\">referrer</dfn>.</p></li>\n \n    <li><p>Let <var>current</var> be the <span data-x=\"concept-document-bc\">browsing context</span>\n    of the <code>Document</code> with which this <code>Location</code> object is associated.</p></li>\n+   <!-- All Location objects are associated with Document objects that have a browsing context upon\n+        creation. -->\n \n-   <li><p><i>Loop</i>: If <var>current</var> has no <span>parent browsing context</span>, jump to\n-   the step labeled <i>end</i>.</p></li>\n+   <li>\n+    <p>While <var>current</var> has a <span>parent browsing context</span>:</p>\n \n-   <li><p>Let <var>current</var> be <var>current</var>'s <span>parent browsing\n-   context</span>.</p></li>\n+    <ol>\n+     <li><p>Append <var>current</var>'s <span>parent browsing context</span>'s <span>active\n+     document</span>'s <span>origin</span>/<var>current</var>'s <span>active document</span>'s <span",
+    "path": "source",
+    "commit_id": "a08939f010aaae1c73e6ea1c116e2160c75e290e",
+    "original_commit_id": "9a3efc1f24d97e06012f94264984375025ad5319",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think the slash notation here is unclear. It would be clearer if both items are variables, like \"Append *origin*/*referrer* to *parentOrigins*\".",
+    "created_at": "2017-04-19T12:00:30Z",
+    "updated_at": "2018-02-05T15:33:55Z",
+    "html_url": "https://github.com/whatwg/html/pull/2480#discussion_r112182237",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2480",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/112182237"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2480#discussion_r112182237"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2480"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/112182237/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 81373,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 31,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/112186019",
+    "pull_request_review_id": 33480121,
+    "id": 112186019,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDExMjE4NjAxOQ==",
+    "diff_hunk": "@@ -81355,26 +81356,79 @@ State: &lt;OUTPUT NAME=I>1&lt;/OUTPUT> &lt;INPUT VALUE=\"Increment\" TYPE=BUTTON O\n   the following steps would produce:</p>\n \n   <ol>\n-   <li><p>Let <var>output</var> be a new <span>list</span> of strings.</p></li>\n+   <li><p>Let <var>parentOrigins</var> be a new <span>list</span> of <span\n+   data-x=\"pair\">pairs</span> consisting of <dfn data-x=\"pair parent's origin\">parent's origin</dfn>\n+   and <dfn data-x=\"pair referrer\">referrer</dfn>.</p></li>\n \n    <li><p>Let <var>current</var> be the <span data-x=\"concept-document-bc\">browsing context</span>\n    of the <code>Document</code> with which this <code>Location</code> object is associated.</p></li>\n+   <!-- All Location objects are associated with Document objects that have a browsing context upon\n+        creation. -->\n \n-   <li><p><i>Loop</i>: If <var>current</var> has no <span>parent browsing context</span>, jump to\n-   the step labeled <i>end</i>.</p></li>\n+   <li>\n+    <p>While <var>current</var> has a <span>parent browsing context</span>:</p>\n \n-   <li><p>Let <var>current</var> be <var>current</var>'s <span>parent browsing\n-   context</span>.</p></li>\n+    <ol>\n+     <li><p>Append <var>current</var>'s <span>parent browsing context</span>'s <span>active\n+     document</span>'s <span>origin</span>/<var>current</var>'s <span>active document</span>'s <span",
+    "path": "source",
+    "commit_id": "a08939f010aaae1c73e6ea1c116e2160c75e290e",
+    "original_commit_id": "9a3efc1f24d97e06012f94264984375025ad5319",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I see now @bzbarsky commented about this earlier also. I wouldn't mind dropping the slash notation altogether and just use (*a*, *b*) for pairs.",
+    "created_at": "2017-04-19T12:20:34Z",
+    "updated_at": "2018-02-05T15:33:55Z",
+    "html_url": "https://github.com/whatwg/html/pull/2480#discussion_r112186019",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2480",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/112186019"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2480#discussion_r112186019"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2480"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/112186019/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 81373,
+    "side": "RIGHT",
+    "in_reply_to_id": 112182237,
+    "author_association": "MEMBER",
+    "original_position": 31,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/112195076",
+    "pull_request_review_id": 33490083,
+    "id": 112195076,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDExMjE5NTA3Ng==",
+    "diff_hunk": "@@ -81355,26 +81356,79 @@ State: &lt;OUTPUT NAME=I>1&lt;/OUTPUT> &lt;INPUT VALUE=\"Increment\" TYPE=BUTTON O\n   the following steps would produce:</p>\n \n   <ol>\n-   <li><p>Let <var>output</var> be a new <span>list</span> of strings.</p></li>\n+   <li><p>Let <var>parentOrigins</var> be a new <span>list</span> of <span\n+   data-x=\"pair\">pairs</span> consisting of <dfn data-x=\"pair parent's origin\">parent's origin</dfn>\n+   and <dfn data-x=\"pair referrer\">referrer</dfn>.</p></li>\n \n    <li><p>Let <var>current</var> be the <span data-x=\"concept-document-bc\">browsing context</span>\n    of the <code>Document</code> with which this <code>Location</code> object is associated.</p></li>\n+   <!-- All Location objects are associated with Document objects that have a browsing context upon\n+        creation. -->\n \n-   <li><p><i>Loop</i>: If <var>current</var> has no <span>parent browsing context</span>, jump to\n-   the step labeled <i>end</i>.</p></li>\n+   <li>\n+    <p>While <var>current</var> has a <span>parent browsing context</span>:</p>\n \n-   <li><p>Let <var>current</var> be <var>current</var>'s <span>parent browsing\n-   context</span>.</p></li>\n+    <ol>\n+     <li><p>Append <var>current</var>'s <span>parent browsing context</span>'s <span>active\n+     document</span>'s <span>origin</span>/<var>current</var>'s <span>active document</span>'s <span",
+    "path": "source",
+    "commit_id": "a08939f010aaae1c73e6ea1c116e2160c75e290e",
+    "original_commit_id": "9a3efc1f24d97e06012f94264984375025ad5319",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Sigh. I thought we already settled this upstream. If we don't want slashes we don't need pairs either. We could just call them all tuples, but we decided against that...",
+    "created_at": "2017-04-19T13:04:35Z",
+    "updated_at": "2018-02-05T15:33:55Z",
+    "html_url": "https://github.com/whatwg/html/pull/2480#discussion_r112195076",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2480",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/112195076"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2480#discussion_r112195076"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2480"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/112195076/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 81373,
+    "side": "RIGHT",
+    "in_reply_to_id": 112182237,
+    "author_association": "MEMBER",
+    "original_position": 31,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/112217761",
+    "pull_request_review_id": 33514735,
+    "id": 112217761,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDExMjIxNzc2MQ==",
+    "diff_hunk": "@@ -81355,26 +81356,79 @@ State: &lt;OUTPUT NAME=I>1&lt;/OUTPUT> &lt;INPUT VALUE=\"Increment\" TYPE=BUTTON O\n   the following steps would produce:</p>\n \n   <ol>\n-   <li><p>Let <var>output</var> be a new <span>list</span> of strings.</p></li>\n+   <li><p>Let <var>parentOrigins</var> be a new <span>list</span> of <span\n+   data-x=\"pair\">pairs</span> consisting of <dfn data-x=\"pair parent's origin\">parent's origin</dfn>\n+   and <dfn data-x=\"pair referrer\">referrer</dfn>.</p></li>\n \n    <li><p>Let <var>current</var> be the <span data-x=\"concept-document-bc\">browsing context</span>\n    of the <code>Document</code> with which this <code>Location</code> object is associated.</p></li>\n+   <!-- All Location objects are associated with Document objects that have a browsing context upon\n+        creation. -->\n \n-   <li><p><i>Loop</i>: If <var>current</var> has no <span>parent browsing context</span>, jump to\n-   the step labeled <i>end</i>.</p></li>\n+   <li>\n+    <p>While <var>current</var> has a <span>parent browsing context</span>:</p>\n \n-   <li><p>Let <var>current</var> be <var>current</var>'s <span>parent browsing\n-   context</span>.</p></li>\n+    <ol>\n+     <li><p>Append <var>current</var>'s <span>parent browsing context</span>'s <span>active\n+     document</span>'s <span>origin</span>/<var>current</var>'s <span>active document</span>'s <span",
+    "path": "source",
+    "commit_id": "a08939f010aaae1c73e6ea1c116e2160c75e290e",
+    "original_commit_id": "9a3efc1f24d97e06012f94264984375025ad5319",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "It seems pretty weird to me to have the cognitive overhead of pairs separate from tuples with their own distinct syntax.  Pairs are just not that special, imo, and two-element tuples are not exactly hard to reason about... why do we need a separate concept at all?",
+    "created_at": "2017-04-19T14:28:30Z",
+    "updated_at": "2018-02-05T15:33:55Z",
+    "html_url": "https://github.com/whatwg/html/pull/2480#discussion_r112217761",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2480",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/112217761"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2480#discussion_r112217761"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2480"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/112217761/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 81373,
+    "side": "RIGHT",
+    "in_reply_to_id": 112182237,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 31,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/112223572",
+    "pull_request_review_id": 33521182,
+    "id": 112223572,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDExMjIyMzU3Mg==",
+    "diff_hunk": "@@ -81355,26 +81356,79 @@ State: &lt;OUTPUT NAME=I>1&lt;/OUTPUT> &lt;INPUT VALUE=\"Increment\" TYPE=BUTTON O\n   the following steps would produce:</p>\n \n   <ol>\n-   <li><p>Let <var>output</var> be a new <span>list</span> of strings.</p></li>\n+   <li><p>Let <var>parentOrigins</var> be a new <span>list</span> of <span\n+   data-x=\"pair\">pairs</span> consisting of <dfn data-x=\"pair parent's origin\">parent's origin</dfn>\n+   and <dfn data-x=\"pair referrer\">referrer</dfn>.</p></li>\n \n    <li><p>Let <var>current</var> be the <span data-x=\"concept-document-bc\">browsing context</span>\n    of the <code>Document</code> with which this <code>Location</code> object is associated.</p></li>\n+   <!-- All Location objects are associated with Document objects that have a browsing context upon\n+        creation. -->\n \n-   <li><p><i>Loop</i>: If <var>current</var> has no <span>parent browsing context</span>, jump to\n-   the step labeled <i>end</i>.</p></li>\n+   <li>\n+    <p>While <var>current</var> has a <span>parent browsing context</span>:</p>\n \n-   <li><p>Let <var>current</var> be <var>current</var>'s <span>parent browsing\n-   context</span>.</p></li>\n+    <ol>\n+     <li><p>Append <var>current</var>'s <span>parent browsing context</span>'s <span>active\n+     document</span>'s <span>origin</span>/<var>current</var>'s <span>active document</span>'s <span",
+    "path": "source",
+    "commit_id": "a08939f010aaae1c73e6ea1c116e2160c75e290e",
+    "original_commit_id": "9a3efc1f24d97e06012f94264984375025ad5319",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think the main rationale has been that @mikewest and I have used them all over. But I can try to get them removed all over too. It's just work.",
+    "created_at": "2017-04-19T14:48:54Z",
+    "updated_at": "2018-02-05T15:33:55Z",
+    "html_url": "https://github.com/whatwg/html/pull/2480#discussion_r112223572",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2480",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/112223572"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2480#discussion_r112223572"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2480"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/112223572/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 81373,
+    "side": "RIGHT",
+    "in_reply_to_id": 112182237,
+    "author_association": "MEMBER",
+    "original_position": 31,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/112536243",
+    "pull_request_review_id": 33859822,
+    "id": 112536243,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDExMjUzNjI0Mw==",
+    "diff_hunk": "@@ -81355,26 +81356,79 @@ State: &lt;OUTPUT NAME=I>1&lt;/OUTPUT> &lt;INPUT VALUE=\"Increment\" TYPE=BUTTON O\n   the following steps would produce:</p>\n \n   <ol>\n-   <li><p>Let <var>output</var> be a new <span>list</span> of strings.</p></li>\n+   <li><p>Let <var>parentOrigins</var> be a new <span>list</span> of <span\n+   data-x=\"pair\">pairs</span> consisting of <dfn data-x=\"pair parent's origin\">parent's origin</dfn>\n+   and <dfn data-x=\"pair referrer\">referrer</dfn>.</p></li>\n \n    <li><p>Let <var>current</var> be the <span data-x=\"concept-document-bc\">browsing context</span>\n    of the <code>Document</code> with which this <code>Location</code> object is associated.</p></li>\n+   <!-- All Location objects are associated with Document objects that have a browsing context upon\n+        creation. -->\n \n-   <li><p><i>Loop</i>: If <var>current</var> has no <span>parent browsing context</span>, jump to\n-   the step labeled <i>end</i>.</p></li>\n+   <li>\n+    <p>While <var>current</var> has a <span>parent browsing context</span>:</p>\n \n-   <li><p>Let <var>current</var> be <var>current</var>'s <span>parent browsing\n-   context</span>.</p></li>\n+    <ol>\n+     <li><p>Append <var>current</var>'s <span>parent browsing context</span>'s <span>active\n+     document</span>'s <span>origin</span>/<var>current</var>'s <span>active document</span>'s <span\n+     data-x=\"the document's referrer\">referrer</span> to <var>parentOrigins</var>.\n \n-   <li><p><span data-x=\"list append\">Append</span> the <span data-x=\"Unicode serialization of an\n-   origin\">Unicode serialization</span> of <var>current</var>'s <span>active document</span>'s\n-   <span>origin</span> to <var>output</var>.</p></li>\n+     <li><p>Set <var>current</var> to <var>current</var>'s <span>parent browsing\n+     context</span>.</p></li>\n+    </ol>\n+   </li>\n \n-   <li><p>Return to the step labeled <i>loop</i>.</p></li>\n+   <li><p>Let <var>output</var> be a new <span>list</span> of strings.</p></li>\n \n-   <li><p><i>End</i>: Return <var>output</var>.</p></li>\n+   <li><p>Let <var>lastRedactedOrigin</var> be null.</p></li>\n+\n+   <li>\n+    <p><span data-x=\"list iterate\">For each</span> <var>pair</var> in <var>parentOrigins</var>:</p>\n+\n+    <ol>\n+     <li><p>If <var>lastRedactedOrigin</var> is not null and <var>pair</var>'s <span data-x=\"pair\n+     parent's origin\">parent's origin</span> is <span>same origin</span> with\n+     <var>lastRedactedOrigin</var>, then <span data-x=\"list append\">append</span>\n+     \"<code data-x=\"\">null</code>\" to <var>output</var> and continue.</p></li>",
+    "path": "source",
+    "commit_id": "a08939f010aaae1c73e6ea1c116e2160c75e290e",
+    "original_commit_id": "9a3efc1f24d97e06012f94264984375025ad5319",
+    "user": {
+      "login": "foolip",
+      "id": 498917,
+      "node_id": "MDQ6VXNlcjQ5ODkxNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/498917?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/foolip",
+      "html_url": "https://github.com/foolip",
+      "followers_url": "https://api.github.com/users/foolip/followers",
+      "following_url": "https://api.github.com/users/foolip/following{/other_user}",
+      "gists_url": "https://api.github.com/users/foolip/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/foolip/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/foolip/subscriptions",
+      "organizations_url": "https://api.github.com/users/foolip/orgs",
+      "repos_url": "https://api.github.com/users/foolip/repos",
+      "events_url": "https://api.github.com/users/foolip/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/foolip/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Link to https://infra.spec.whatwg.org/#iteration-continue? Elsewhere we have both \"continue running these steps in parallel\", \"Continue to the next step\" and \"continue with these steps\" so I'm not confident everyone would read this as intended. Linking \"for each\", \"continue\" and \"break\" everywhere is going to be tedious, of course...",
+    "created_at": "2017-04-20T19:07:11Z",
+    "updated_at": "2018-02-05T15:33:55Z",
+    "html_url": "https://github.com/whatwg/html/pull/2480#discussion_r112536243",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2480",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/112536243"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2480#discussion_r112536243"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2480"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/112536243/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 81392,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 55,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]
