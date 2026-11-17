@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/2210371414",
+    "html_url": "https://github.com/whatwg/html/issues/10441#issuecomment-2210371414",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/10441",
+    "id": 2210371414,
+    "node_id": "IC_kwDOALaj486Dv5dW",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2024-07-05T07:46:28Z",
+    "updated_at": "2024-07-05T07:46:28Z",
+    "body": "Agenda\r\n- Attendees: Olli, Kagami, Emilio, Luke, Keith, Anne, Brecht, Robert\r\n- Scribe: Anne (with help)\r\n\r\nReview past action items\r\n- 1a. Mason to post a proposal for moving forward with [Invoker Buttons](https://github.com/whatwg/html/issues/9625)\r\n   - [Done](https://github.com/whatwg/html/issues/9625#issuecomment-2181099405).\r\n\r\nCarryovers from last time\r\n - 2a. Emilio to collect compat data and propose a spec PR for min/max in [[forms] Number input intrinsic size](https://github.com/whatwg/html/issues/10390).\r\n   - The spec has some text to this regard already. Only question is whether we want to make `size` apply to number inputs. If so, happy to write a PR.\r\n- 2b. Emilio to work on pulling out the common points for iframe throttling into the issue about [Consider improving interoperability of <iframe> throttling margins](https://github.com/whatwg/html/issues/10333), and maybe a spec PR.\r\n   - Waiting to get review on a [Gecko patch](https://bugzilla.mozilla.org/show_bug.cgi?id=1891335) that implements what would be my formal proposal, in order to confirm it is web-compatible.\r\n\r\nNew topics\r\n- 3. [Anne] [Severing a document's opener relationship regardless of origin](https://github.com/whatwg/html/issues/10373)\r\n- `<input type=color>` enhancements\r\n\r\nAction Items\r\n- None\r\n\r\nMinutes\r\n\r\nTopic: 1a\r\n- Keith: Updated tests for Invoker Buttons along the lines of the latest proposal.\r\n- Anne: Will we regret not overriding the default type?\r\n- Keith: The fallback in older browsers is quite bad. E.g., a website asks “Do you want to delete this?” and then you click the “More info” button and it ends up deleting.\r\n- Luke: Does this mean we can never add a new type?\r\n- Keith: Potentially.\r\n- Anne: I wonder if we should investigate that a bit more to see if we can change the fallback.\r\n- Luke: Perhaps we should require an explicit type attribute?\r\n- Keith: I think that is a somewhat artificial restriction.\r\n- [Lots of unminuted discussion to figure out if we can do better.]\r\n- Rough proposal to do better:\r\n   - Require the type attribute for now with command when inside form.\r\n   - A command without a type attribute when inside a form also changes the default, but the command doesn’t work. (Going from non-functioning to a command seems better than going from submit to command in the future.)\r\n   - In the (far) future we can remove the type attribute requirement.\r\n   - Outside form we default type to button straight away if there’s a command attribute.\r\n   - Separately investigate changing the invalid default for the type attribute.\r\n\r\nTopic: 2a\r\n - Emilio will work on an update.\r\n\r\nTopic: 2b\r\n - Working on Gecko patch and want to wait to see how well that works before moving forward.\r\n\r\nTopic 3 (opener relationship)\r\n - Anne and Olli said a bunch of unminuted words, but largely-but-not-completely agree. Perhaps noopener as additional value makes sense for bfcache.\r\n - Olli: what about COEP?\r\n - Anne: that is a good question, it could in theory maybe combine as it’s close in strictness to COOP: same-origin.\r\n\r\nTopic (input type color enhancements)\r\n - Anne: I proposed adding alpha and colorspace attributes to input.\r\n - [Some unminuted discussion about tradeoffs made.]\r\n - Luke: ship it\r\n - Olli: looks quite reasonable, will take a look",
+    "author_association": "MEMBER",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/2210371414/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

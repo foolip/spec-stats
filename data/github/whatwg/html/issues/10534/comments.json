@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/2263712113",
+    "html_url": "https://github.com/whatwg/html/issues/10534#issuecomment-2263712113",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/10534",
+    "id": 2263712113,
+    "node_id": "IC_kwDOALaj486G7YFx",
+    "user": {
+      "login": "cwilso",
+      "id": 507001,
+      "node_id": "MDQ6VXNlcjUwNzAwMQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/507001?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/cwilso",
+      "html_url": "https://github.com/cwilso",
+      "followers_url": "https://api.github.com/users/cwilso/followers",
+      "following_url": "https://api.github.com/users/cwilso/following{/other_user}",
+      "gists_url": "https://api.github.com/users/cwilso/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/cwilso/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/cwilso/subscriptions",
+      "organizations_url": "https://api.github.com/users/cwilso/orgs",
+      "repos_url": "https://api.github.com/users/cwilso/repos",
+      "events_url": "https://api.github.com/users/cwilso/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/cwilso/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2024-08-01T18:32:38Z",
+    "updated_at": "2024-08-01T18:32:39Z",
+    "body": "Thank you all for attending the meeting today and special thanks to Kagami Rosylight for filling in note-taking with me! Here are the notes from this meeting (the next one is at https://github.com/whatwg/html/issues/10538):\r\n\r\n## Review past action items\r\n* Addison to answer Henri’s questions in https://github.com/whatwg/html/issues/4562#issuecomment-2084725431 \r\n  * Not done, carryover\r\n* Chris W to file issue in W3C Process around path for definitive-reference glossaries a la the i18n glossary, that are REC-like but easy to keep up to date.\r\n  * Done: https://github.com/w3c/process/issues/904. \r\n* Domenic: add checkpoint for “will this conflict with i18n glossary” to the infra checkin \r\n  * not here, carry over   \r\n\r\n## Carryovers from last time\r\n* Anne will move [Tie in AbortControllers with CustomElements](https://github.com/whatwg/html/issues/9881) to the DOM repo and Keith will update the title.\r\n  * Done\r\n* Yoav will ask Artur and Arthur to comment on the [Severing a document's opener relationship regardless of origin](https://github.com/whatwg/html/issues/10373) issue.\r\n  * Arthur has, Artur has not? Carryover to next meeting.\r\n* I18n issues: [addison]\r\n[Validating internationalized mail addresses in <input type=\"email\">](https://github.com/whatwg/html/issues/4562)\r\nFreshly recreated PR: https://github.com/whatwg/html/pull/10522 \r\n  * Carryover: for eu time zone when Anne/Henri are available\r\n* [[rendering] animation frame callback handling when iframes are involved](https://github.com/whatwg/html/issues/10521) [emilio]\r\n  * Stefan from Chrome is looking into this.\r\n  * Carryover to make sure it’s progressing.\r\n\r\n## New topics\r\n* Reading-flow issues ([Overall feature proposal](https://github.com/whatwg/html/issues/10407),[display:contents issue](https://github.com/whatwg/html/issues/10533))\r\n\r\n## Action Items\r\n\r\n## Minutes\r\n\r\nEmilio: Af callback: what’s needed is basically agreeing the spec is sensible qand then write tests, or fix implementations.  But getting gecko work  - emilio pointed out that blinks behavior is kind of close to what the spec says, we just need to get implementations to match.\r\nChrisH: interested in interop, getting tests to match\r\nEmilio: I think the mediaquery tests were written by me, poke me if there are problems.  I think it matches the spec, but if it doesn’t, let me know.\r\n\r\nDi: reading-flow is new CSS property that I’m prototyping for chrome.  For a11y screen reader for flex and grid and masonry they are not always displayed in reading-flow order.  To solve this, WG is working on specific keywords to influence type navigation.  We want to use a similar approach as past efforts, using a reading flow container as a focus scope owner.  The proposal has a lot more details, I wanted to see if people thought this was a good approach.  Second issue is more open discussion of specific cases of display content because these contents don’t have info about where they fall in existing reading order.  There are two potential options listed.  Any input?\r\nMason: CSS WG didn’t resolve how to do the display contents issue - that’s why there’s a proposal.\r\nEmilio: for abs pos elements, is this well defined?  This had make elements that are outside of the tree in the container tree, elements escape the flow, etc.\r\nMason: this is true in normal CSS - abs pos things can be out of order and won’t be tabbed, etc in appropriate order naturally.\r\nEmilio: so does it not change? If reading order is the containing block?\r\nMason: Very good questions, don’t have great answers.\r\nChrisH: if abs pos element is a direct child of flexbox, does it go in dom order?\r\nMason: everything is traversed in dom order\r\nChrisH: if true, we already have a situation where it’s different\r\nEmilio: yes, but we don’t have something in the layout tree that introduces focus owner scope thing.\r\nChrisH: you’re not saying it’s a blocker, but we need to define?\r\nEmilio: yes.  I don’t have a strong suggestion or preference.   Maybe we should consider these two cases similarly.\r\nMason: Yes.  Both proposals sort of iterate the dom children and check for display contents.\r\nDi:I can investigate a bit more and open a new issue for abs positioning [action]\r\nMason: there are two options - one is just to stick the display contents at the end, but there’s is a known place at the end.  The other is to make display contents elements a scope owner but that doesn’t work so well for abs positioned elements.\r\nDi: Overall do people think this is a good direction?  Open to potentially starting a PR?\r\nEmilio: both of those alternatives sound reasonable.  Do we have use cases that would favor one or the other?\r\nDi: There is an a11y concern here; Aaron Leventhal would prefer option 2 because there are restrictions on crossing parent child reln\r\nMason: I don’t know that we’ve heard the use cases for display contents.\r\nEmilio: focusable display content elements are already pretty rare to begin with.  Picking the easier to implement option is probably do, we should discuss on a separate issue.\r\nChrisH: should we make a PR or discuss on another issue first?\r\nEmilo: I think we need to eventually define for abs pos as well.  So maybe make a PR, but file a separate issue on abs pos.\r\nChrisH: in general, for gecko support for eventually landing, is that on track?\r\nEmilio: yes: impl-wise in gecko may take a while, but no objections here.\r\n\r\n\r\nEmilio: somebody familiar with image load timing stuff? I found something very weird, can’t make sense of what I see. The whole image load timing.\r\nYoav: I think it’s a bug, WebKit wasn’t waiting for microtask when it should have. Basically I have a webkit fix in the pipeline but I have to make it fix around that\r\n…\r\nYoav: So this is why I’m seeing failures in test\r\nChrisH: Stefan Zager is looking in to this now for Chrome.\r\nEmilio: will ping there.\r\nChrisH/Mason: any implementer support for popover-hint?\r\nEmilio: I can try to poke at it more.  I think it looks good.\r\nChrisH: anything we can make progress on for command API?\r\nMason: Many things got resolved, incl naming, open task is to update the spec PR and impls.\r\nKeith: yes, \r\nMason: Mozilla is supportive [in add to Chrome], but API has been changed since that, so…\r\nKeith: Olli’s been on the last few calls, no major objections, but should check in.\r\nEmilio: Olli’s in traveling today so we can ask him",
+    "author_association": "CONTRIBUTOR",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/2263712113/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

@@ -1,0 +1,791 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1765362980",
+    "pull_request_review_id": 2313203811,
+    "id": 1765362980,
+    "node_id": "PRRC_kwDOALaj485pOU0k",
+    "diff_hunk": "@@ -80338,45 +80355,48 @@ dictionary <dfn dictionary>ToggleEventInit</dfn> : <span>EventInit</span> {\n        in <var>starting point</var>'s <span data-x=\"nav-document\">active document</span>, if any; or\n        else null\n       <tr>\n-       <th><var>selection mechanism</var> is <i>DOM</i>\n+       <th><var>selection mechanism</var> is \"<code data-x=\"selection-mechanism-DOM\">DOM</code>\"\n        <td>Let <var>candidate</var> be the first <span>suitable sequentially focusable area</span>\n-       in the <span>home document</span> following <var>starting point</var>, if any; or else null\n+       after <var>starting point</var>, in <span>tree order</span>, in <var>starting point</var>'s\n+       <code>Document</code>, if any; or else null\n        <td>Let <var>candidate</var> be the last <span>suitable sequentially focusable area</span>\n-       in the <span>home document</span> preceding <var>starting point</var>, if any; or else null\n+       before <var>starting point</var>, in <span>tree order</span>, in <var>starting point</var>'s\n+       <code>Document</code>, if any; or else null\n       <tr>\n-       <th><var>selection mechanism</var> is <i>sequential</i>\n-       <td>Let <var>candidate</var> be the first <span>suitable sequentially focusable area</span> in the <span>home sequential focus navigation order</span> following <var>starting point</var>, if any; or else null\n-       <td>Let <var>candidate</var> be the last <span>suitable sequentially focusable area</span> in the <span>home sequential focus navigation order</span> preceding <var>starting point</var>, if any; or else null\n-\n+       <th><var>selection mechanism</var> is \"<code\n+       data-x=\"selection-mechanism-sequential\">sequential</code>\"\n+       <td>Let <var>candidate</var> be the first <span>suitable sequentially focusable area</span>\n+       after <var>starting point</var>, in <var>starting point</var>'s <code>Document</code>'s\n+       <span>sequential focus navigation order</span>, if any; or else null",
+    "path": "source",
+    "commit_id": "74e06a89710e333fbc3e4195172e1972aa479c56",
+    "original_commit_id": "8468c49ff4350a5c9169c7b41e6e20c4e1f3d4ef",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Please see my question in the WHATWG matrix chat about this. I'm concerned that the old spec (and thus the spec after this PR) have no material difference between \"[DOM](https://html.spec.whatwg.org/multipage/interaction.html#sequential-navigation-search-algorithm:~:text=Let%20candidate%20be%20the%20first%20suitable%20sequentially%20focusable%20area%20in%20the%20home%20document%20following%20starting%20point%2C%20if%20any%3B%20or%20else%20null)\" and \"[sequential](https://html.spec.whatwg.org/multipage/interaction.html#sequential-navigation-search-algorithm:~:text=Let%20candidate%20be%20the%20first%20suitable%20sequentially%20focusable%20area%20in%20the%20home%20sequential%20focus%20navigation%20order%20following%20starting%20point%2C%20if%20any%3B%20or%20else%20null)\" selection mode. The note below the [**home sequential focus navigation order**](https://html.spec.whatwg.org/C#home-sequential-focus-navigation-order) dfn says the only difference is that in the \"DOM\" selection mode, `<var>starting point</var>` is _not_ in its own Document's sequential focus navigation order. But that shouldn't actually impact the assignment of `<var>candidate</var>`, since candidate will _always_ be selected from the starting point's sequential focus navigation order anyways.\r\n\r\nSo I'm not sure what to do here. Either I am right, and there is no observable difference between the two mechanisms in this case, or it is the intention of the spec to have a difference between the two. I.e., maybe:\r\n - In the \"DOM\" case, `<var>candidate</var>` should be pulled from the DOM in tree order relative to starting point (not necessarily coming from the starting point's Document's \"sequential focus navigation order\"\r\n - In the \"sequential\" case, `<var>candidate</var>` should be pulled from the subset of the DOM that is included in the starting point's Document's \"sequential focus navigation order\"",
+    "created_at": "2024-09-18T16:22:14Z",
+    "updated_at": "2024-09-18T16:22:17Z",
+    "html_url": "https://github.com/whatwg/html/pull/10632#discussion_r1765362980",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10632",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1765362980"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10632#discussion_r1765362980"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10632"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1765362980/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 80370,
+    "original_line": 80370,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 136,
+    "position": 130,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1774108350",
+    "pull_request_review_id": 2326504332,
+    "id": 1774108350,
+    "node_id": "PRRC_kwDOALaj485pvr6-",
+    "diff_hunk": "@@ -80338,45 +80355,48 @@ dictionary <dfn dictionary>ToggleEventInit</dfn> : <span>EventInit</span> {\n        in <var>starting point</var>'s <span data-x=\"nav-document\">active document</span>, if any; or\n        else null\n       <tr>\n-       <th><var>selection mechanism</var> is <i>DOM</i>\n+       <th><var>selection mechanism</var> is \"<code data-x=\"selection-mechanism-DOM\">DOM</code>\"\n        <td>Let <var>candidate</var> be the first <span>suitable sequentially focusable area</span>\n-       in the <span>home document</span> following <var>starting point</var>, if any; or else null\n+       after <var>starting point</var>, in <span>tree order</span>, in <var>starting point</var>'s\n+       <code>Document</code>, if any; or else null\n        <td>Let <var>candidate</var> be the last <span>suitable sequentially focusable area</span>\n-       in the <span>home document</span> preceding <var>starting point</var>, if any; or else null\n+       before <var>starting point</var>, in <span>tree order</span>, in <var>starting point</var>'s\n+       <code>Document</code>, if any; or else null\n       <tr>\n-       <th><var>selection mechanism</var> is <i>sequential</i>\n-       <td>Let <var>candidate</var> be the first <span>suitable sequentially focusable area</span> in the <span>home sequential focus navigation order</span> following <var>starting point</var>, if any; or else null\n-       <td>Let <var>candidate</var> be the last <span>suitable sequentially focusable area</span> in the <span>home sequential focus navigation order</span> preceding <var>starting point</var>, if any; or else null\n-\n+       <th><var>selection mechanism</var> is \"<code\n+       data-x=\"selection-mechanism-sequential\">sequential</code>\"\n+       <td>Let <var>candidate</var> be the first <span>suitable sequentially focusable area</span>\n+       after <var>starting point</var>, in <var>starting point</var>'s <code>Document</code>'s\n+       <span>sequential focus navigation order</span>, if any; or else null",
+    "path": "source",
+    "commit_id": "74e06a89710e333fbc3e4195172e1972aa479c56",
+    "original_commit_id": "8468c49ff4350a5c9169c7b41e6e20c4e1f3d4ef",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I'm not sure I've looked at this in as much detail as you have, but my reading is that these are pretty different in today's spec.\r\n\r\n- In the \"DOM\" case, you look \"in the [home document](https://html.spec.whatwg.org/#home-document)\", which is a `Document`. I.e. you look at all nodes in the document, and pick the first in node tree order.\r\n- In the \"sequential\" case, you look \"in the [home sequential focus navigation order](https://html.spec.whatwg.org/#home-sequential-focus-navigation-order)\", which is computed via the [flattened tabindex-ordered focus navigation scope](https://html.spec.whatwg.org/#flattened-tabindex-ordered-focus-navigation-scope) algorithm applied to the Document, giving a subset, with a very special ordering.\r\n\r\nWhat am I missing? In particular, you say\r\n\r\n> candidate will always be selected from the starting point's sequential focus navigation order anyways.\r\n\r\nbut I can't see where that's specified for the \"DOM\" case.",
+    "created_at": "2024-09-24T21:21:39Z",
+    "updated_at": "2024-09-24T21:21:39Z",
+    "html_url": "https://github.com/whatwg/html/pull/10632#discussion_r1774108350",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10632",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1774108350"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10632#discussion_r1774108350"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10632"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1774108350/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 80370,
+    "original_line": 80370,
+    "side": "RIGHT",
+    "in_reply_to_id": 1765362980,
+    "author_association": "MEMBER",
+    "original_position": 136,
+    "position": 130,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1774112733",
+    "pull_request_review_id": 2326510933,
+    "id": 1774112733,
+    "node_id": "PRRC_kwDOALaj485pvs_d",
+    "diff_hunk": "@@ -80338,45 +80355,48 @@ dictionary <dfn dictionary>ToggleEventInit</dfn> : <span>EventInit</span> {\n        in <var>starting point</var>'s <span data-x=\"nav-document\">active document</span>, if any; or\n        else null\n       <tr>\n-       <th><var>selection mechanism</var> is <i>DOM</i>\n+       <th><var>selection mechanism</var> is \"<code data-x=\"selection-mechanism-DOM\">DOM</code>\"\n        <td>Let <var>candidate</var> be the first <span>suitable sequentially focusable area</span>\n-       in the <span>home document</span> following <var>starting point</var>, if any; or else null\n+       after <var>starting point</var>, in <span>tree order</span>, in <var>starting point</var>'s\n+       <code>Document</code>, if any; or else null\n        <td>Let <var>candidate</var> be the last <span>suitable sequentially focusable area</span>\n-       in the <span>home document</span> preceding <var>starting point</var>, if any; or else null\n+       before <var>starting point</var>, in <span>tree order</span>, in <var>starting point</var>'s\n+       <code>Document</code>, if any; or else null\n       <tr>\n-       <th><var>selection mechanism</var> is <i>sequential</i>\n-       <td>Let <var>candidate</var> be the first <span>suitable sequentially focusable area</span> in the <span>home sequential focus navigation order</span> following <var>starting point</var>, if any; or else null\n-       <td>Let <var>candidate</var> be the last <span>suitable sequentially focusable area</span> in the <span>home sequential focus navigation order</span> preceding <var>starting point</var>, if any; or else null\n-\n+       <th><var>selection mechanism</var> is \"<code\n+       data-x=\"selection-mechanism-sequential\">sequential</code>\"\n+       <td>Let <var>candidate</var> be the first <span>suitable sequentially focusable area</span>\n+       after <var>starting point</var>, in <var>starting point</var>'s <code>Document</code>'s\n+       <span>sequential focus navigation order</span>, if any; or else null",
+    "path": "source",
+    "commit_id": "74e06a89710e333fbc3e4195172e1972aa479c56",
+    "original_commit_id": "8468c49ff4350a5c9169c7b41e6e20c4e1f3d4ef",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "> In the \"DOM\" case, you look \"in the [home document](https://html.spec.whatwg.org/#home-document)\", which is a Document. I.e. you look at all nodes in the document, and pick the first in node tree order.\r\n\r\nNo you don't. Instead, you pick the first [suitable sequentially-focusable node/area](https://html.spec.whatwg.org/#suitable-sequentially-focusable-area), and a suitable sequentially-focusable area is by definition [sequentially focusable](https://html.spec.whatwg.org/#sequentially-focusable), which means it is in that document's sequential focus navigation order. Does this sound right?",
+    "created_at": "2024-09-24T21:26:29Z",
+    "updated_at": "2024-09-24T21:26:50Z",
+    "html_url": "https://github.com/whatwg/html/pull/10632#discussion_r1774112733",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10632",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1774112733"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10632#discussion_r1774112733"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10632"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1774112733/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 80370,
+    "original_line": 80370,
+    "side": "RIGHT",
+    "in_reply_to_id": 1765362980,
+    "author_association": "MEMBER",
+    "original_position": 136,
+    "position": 130,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1774147524",
+    "pull_request_review_id": 2326566667,
+    "id": 1774147524,
+    "node_id": "PRRC_kwDOALaj485pv1fE",
+    "diff_hunk": "@@ -80338,45 +80355,48 @@ dictionary <dfn dictionary>ToggleEventInit</dfn> : <span>EventInit</span> {\n        in <var>starting point</var>'s <span data-x=\"nav-document\">active document</span>, if any; or\n        else null\n       <tr>\n-       <th><var>selection mechanism</var> is <i>DOM</i>\n+       <th><var>selection mechanism</var> is \"<code data-x=\"selection-mechanism-DOM\">DOM</code>\"\n        <td>Let <var>candidate</var> be the first <span>suitable sequentially focusable area</span>\n-       in the <span>home document</span> following <var>starting point</var>, if any; or else null\n+       after <var>starting point</var>, in <span>tree order</span>, in <var>starting point</var>'s\n+       <code>Document</code>, if any; or else null\n        <td>Let <var>candidate</var> be the last <span>suitable sequentially focusable area</span>\n-       in the <span>home document</span> preceding <var>starting point</var>, if any; or else null\n+       before <var>starting point</var>, in <span>tree order</span>, in <var>starting point</var>'s\n+       <code>Document</code>, if any; or else null\n       <tr>\n-       <th><var>selection mechanism</var> is <i>sequential</i>\n-       <td>Let <var>candidate</var> be the first <span>suitable sequentially focusable area</span> in the <span>home sequential focus navigation order</span> following <var>starting point</var>, if any; or else null\n-       <td>Let <var>candidate</var> be the last <span>suitable sequentially focusable area</span> in the <span>home sequential focus navigation order</span> preceding <var>starting point</var>, if any; or else null\n-\n+       <th><var>selection mechanism</var> is \"<code\n+       data-x=\"selection-mechanism-sequential\">sequential</code>\"\n+       <td>Let <var>candidate</var> be the first <span>suitable sequentially focusable area</span>\n+       after <var>starting point</var>, in <var>starting point</var>'s <code>Document</code>'s\n+       <span>sequential focus navigation order</span>, if any; or else null",
+    "path": "source",
+    "commit_id": "74e06a89710e333fbc3e4195172e1972aa479c56",
+    "original_commit_id": "8468c49ff4350a5c9169c7b41e6e20c4e1f3d4ef",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think it's sequentially focusable, but not necessarily in the home sequential focus navigation order? I think https://html.spec.whatwg.org/#flattened-tabindex-ordered-focus-navigation-scope omits some sequentially focusable elements, and reorders them so that \"first\" in document order might be different than first in that order.",
+    "created_at": "2024-09-24T22:07:11Z",
+    "updated_at": "2024-09-24T22:07:11Z",
+    "html_url": "https://github.com/whatwg/html/pull/10632#discussion_r1774147524",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10632",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1774147524"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10632#discussion_r1774147524"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10632"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1774147524/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 80370,
+    "original_line": 80370,
+    "side": "RIGHT",
+    "in_reply_to_id": 1765362980,
+    "author_association": "MEMBER",
+    "original_position": 136,
+    "position": 130,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1774186652",
+    "pull_request_review_id": 2326647413,
+    "id": 1774186652,
+    "node_id": "PRRC_kwDOALaj485pv_Cc",
+    "diff_hunk": "@@ -80338,45 +80355,48 @@ dictionary <dfn dictionary>ToggleEventInit</dfn> : <span>EventInit</span> {\n        in <var>starting point</var>'s <span data-x=\"nav-document\">active document</span>, if any; or\n        else null\n       <tr>\n-       <th><var>selection mechanism</var> is <i>DOM</i>\n+       <th><var>selection mechanism</var> is \"<code data-x=\"selection-mechanism-DOM\">DOM</code>\"\n        <td>Let <var>candidate</var> be the first <span>suitable sequentially focusable area</span>\n-       in the <span>home document</span> following <var>starting point</var>, if any; or else null\n+       after <var>starting point</var>, in <span>tree order</span>, in <var>starting point</var>'s\n+       <code>Document</code>, if any; or else null\n        <td>Let <var>candidate</var> be the last <span>suitable sequentially focusable area</span>\n-       in the <span>home document</span> preceding <var>starting point</var>, if any; or else null\n+       before <var>starting point</var>, in <span>tree order</span>, in <var>starting point</var>'s\n+       <code>Document</code>, if any; or else null\n       <tr>\n-       <th><var>selection mechanism</var> is <i>sequential</i>\n-       <td>Let <var>candidate</var> be the first <span>suitable sequentially focusable area</span> in the <span>home sequential focus navigation order</span> following <var>starting point</var>, if any; or else null\n-       <td>Let <var>candidate</var> be the last <span>suitable sequentially focusable area</span> in the <span>home sequential focus navigation order</span> preceding <var>starting point</var>, if any; or else null\n-\n+       <th><var>selection mechanism</var> is \"<code\n+       data-x=\"selection-mechanism-sequential\">sequential</code>\"\n+       <td>Let <var>candidate</var> be the first <span>suitable sequentially focusable area</span>\n+       after <var>starting point</var>, in <var>starting point</var>'s <code>Document</code>'s\n+       <span>sequential focus navigation order</span>, if any; or else null",
+    "path": "source",
+    "commit_id": "74e06a89710e333fbc3e4195172e1972aa479c56",
+    "original_commit_id": "8468c49ff4350a5c9169c7b41e6e20c4e1f3d4ef",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "> I think it's sequentially focusable, but not necessarily in the home sequential focus navigation order?\r\n\r\nBut literally by definition:\r\n\r\n> A [focusable area](https://html.spec.whatwg.org/#focusable-area) is said to be sequentially focusable if it is included in its [Document](https://html.spec.whatwg.org/#document)'s [sequential focus navigation order](https://html.spec.whatwg.org/#sequential-focus-navigation-order)\r\n\r\n----\r\n\r\n> I think https://html.spec.whatwg.org/#flattened-tabindex-ordered-focus-navigation-scope omits some sequentially focusable elements, and reorders them so that \"first\" in document order might be different than first in that order.\r\n\r\nThis is absolutely correct, and I think what you're describing is the _goal_ of what's currently written, but I don't think that's what is _actually_ spec'ed. My guess is that that cell accidentally uses \"sequentially focusable\" (in the DOM selection mechanism branch) without realizing the implications of that definition. I think the goal in that branch is to consider DOM nodes that may have been excluded by the flattened tabindex-ordered list. But I think the actual definition of \"sequentially focusable\" (which _is a_ flattened tabindex-ordered list) undermines this.",
+    "created_at": "2024-09-24T22:57:43Z",
+    "updated_at": "2024-09-25T04:24:46Z",
+    "html_url": "https://github.com/whatwg/html/pull/10632#discussion_r1774186652",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10632",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1774186652"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10632#discussion_r1774186652"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10632"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1774186652/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 80370,
+    "original_line": 80370,
+    "side": "RIGHT",
+    "in_reply_to_id": 1765362980,
+    "author_association": "MEMBER",
+    "original_position": 136,
+    "position": 130,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1776036963",
+    "pull_request_review_id": 2329606103,
+    "id": 1776036963,
+    "node_id": "PRRC_kwDOALaj485p3Cxj",
+    "diff_hunk": "@@ -80338,45 +80355,48 @@ dictionary <dfn dictionary>ToggleEventInit</dfn> : <span>EventInit</span> {\n        in <var>starting point</var>'s <span data-x=\"nav-document\">active document</span>, if any; or\n        else null\n       <tr>\n-       <th><var>selection mechanism</var> is <i>DOM</i>\n+       <th><var>selection mechanism</var> is \"<code data-x=\"selection-mechanism-DOM\">DOM</code>\"\n        <td>Let <var>candidate</var> be the first <span>suitable sequentially focusable area</span>\n-       in the <span>home document</span> following <var>starting point</var>, if any; or else null\n+       after <var>starting point</var>, in <span>tree order</span>, in <var>starting point</var>'s\n+       <code>Document</code>, if any; or else null\n        <td>Let <var>candidate</var> be the last <span>suitable sequentially focusable area</span>\n-       in the <span>home document</span> preceding <var>starting point</var>, if any; or else null\n+       before <var>starting point</var>, in <span>tree order</span>, in <var>starting point</var>'s\n+       <code>Document</code>, if any; or else null\n       <tr>\n-       <th><var>selection mechanism</var> is <i>sequential</i>\n-       <td>Let <var>candidate</var> be the first <span>suitable sequentially focusable area</span> in the <span>home sequential focus navigation order</span> following <var>starting point</var>, if any; or else null\n-       <td>Let <var>candidate</var> be the last <span>suitable sequentially focusable area</span> in the <span>home sequential focus navigation order</span> preceding <var>starting point</var>, if any; or else null\n-\n+       <th><var>selection mechanism</var> is \"<code\n+       data-x=\"selection-mechanism-sequential\">sequential</code>\"\n+       <td>Let <var>candidate</var> be the first <span>suitable sequentially focusable area</span>\n+       after <var>starting point</var>, in <var>starting point</var>'s <code>Document</code>'s\n+       <span>sequential focus navigation order</span>, if any; or else null",
+    "path": "source",
+    "commit_id": "74e06a89710e333fbc3e4195172e1972aa479c56",
+    "original_commit_id": "8468c49ff4350a5c9169c7b41e6e20c4e1f3d4ef",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Alright, I understand now that the lists have the same contents. However, their order might still be different?\r\n\r\n> the first [suitable sequentially focusable area](https://html.spec.whatwg.org/multipage/interaction.html#suitable-sequentially-focusable-area) in the [home document](https://html.spec.whatwg.org/multipage/interaction.html#home-document) following starting point\r\n\r\nprobably uses DOM order, whereas\r\n\r\n> the first [suitable sequentially focusable area](https://html.spec.whatwg.org/multipage/interaction.html#suitable-sequentially-focusable-area) in the [home sequential focus navigation order](https://html.spec.whatwg.org/multipage/interaction.html#home-sequential-focus-navigation-order) following starting point\r\n\r\nuses the home sequential focus navigation order.\r\n\r\nIt seems possible that the element following _starting point_ might be different in each case.\r\n\r\nI think this might be the *only* intended difference, in fact; it's OK that the contents of the lists are the same. Remember, this is the \"sequential navigation search algorithm\", so I think it's only supposed to find sequentially-focusable elements. It's just a question of determining which sequentially-focusable element is the \"next\" one, and that differs depending on if we're in the _sequential_ case (the user is pressing tab multiple times in a row) or the _DOM_ case (the web developer has focused a non-sequentially-focusable element, and now the user is pressing tab).",
+    "created_at": "2024-09-25T21:56:00Z",
+    "updated_at": "2024-09-25T21:56:00Z",
+    "html_url": "https://github.com/whatwg/html/pull/10632#discussion_r1776036963",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10632",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1776036963"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10632#discussion_r1776036963"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10632"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1776036963/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 80370,
+    "original_line": 80370,
+    "side": "RIGHT",
+    "in_reply_to_id": 1765362980,
+    "author_association": "MEMBER",
+    "original_position": 136,
+    "position": 130,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1780098038",
+    "pull_request_review_id": 2335904132,
+    "id": 1780098038,
+    "node_id": "PRRC_kwDOALaj485qGiP2",
+    "diff_hunk": "@@ -80338,45 +80355,48 @@ dictionary <dfn dictionary>ToggleEventInit</dfn> : <span>EventInit</span> {\n        in <var>starting point</var>'s <span data-x=\"nav-document\">active document</span>, if any; or\n        else null\n       <tr>\n-       <th><var>selection mechanism</var> is <i>DOM</i>\n+       <th><var>selection mechanism</var> is \"<code data-x=\"selection-mechanism-DOM\">DOM</code>\"\n        <td>Let <var>candidate</var> be the first <span>suitable sequentially focusable area</span>\n-       in the <span>home document</span> following <var>starting point</var>, if any; or else null\n+       after <var>starting point</var>, in <span>tree order</span>, in <var>starting point</var>'s\n+       <code>Document</code>, if any; or else null\n        <td>Let <var>candidate</var> be the last <span>suitable sequentially focusable area</span>\n-       in the <span>home document</span> preceding <var>starting point</var>, if any; or else null\n+       before <var>starting point</var>, in <span>tree order</span>, in <var>starting point</var>'s\n+       <code>Document</code>, if any; or else null\n       <tr>\n-       <th><var>selection mechanism</var> is <i>sequential</i>\n-       <td>Let <var>candidate</var> be the first <span>suitable sequentially focusable area</span> in the <span>home sequential focus navigation order</span> following <var>starting point</var>, if any; or else null\n-       <td>Let <var>candidate</var> be the last <span>suitable sequentially focusable area</span> in the <span>home sequential focus navigation order</span> preceding <var>starting point</var>, if any; or else null\n-\n+       <th><var>selection mechanism</var> is \"<code\n+       data-x=\"selection-mechanism-sequential\">sequential</code>\"\n+       <td>Let <var>candidate</var> be the first <span>suitable sequentially focusable area</span>\n+       after <var>starting point</var>, in <var>starting point</var>'s <code>Document</code>'s\n+       <span>sequential focus navigation order</span>, if any; or else null",
+    "path": "source",
+    "commit_id": "74e06a89710e333fbc3e4195172e1972aa479c56",
+    "original_commit_id": "8468c49ff4350a5c9169c7b41e6e20c4e1f3d4ef",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": ">> the first [suitable sequentially focusable area](https://html.spec.whatwg.org/multipage/interaction.html#suitable-sequentially-focusable-area) in the [home document](https://html.spec.whatwg.org/multipage/interaction.html#home-document) following starting point\r\n>\r\n> probably uses DOM order, whereas\r\n\r\nHmm, yeah I think that is the intention. My strict interpretation tells me that the spec doesn't actually do that, but yeah it doesn't matter if we agree that's the intent. In that case I'll tighten it up here. I opted to basically find the first node after starting point, in tree order, that is sequentially focusable (and implicitly _in_ starting point's Document's sequential focus navigation order). This is the same as first sorting the sequential focus navigation order (which is not in DOM order) _into_ DOM order, and selecting the first item in the list that appears _after_ starting point in tree order. I think this is the intention.\r\n\r\n(The other interpretation is: leave starting point's Document's sequential focus navigation order alone, order-wise, and select the first item in it that comes _after_ starting point in tree order. I don't think that's the intention, since you may pick a sequentially focusable area that is very very far after starting point in the DOM, when there may be an item that appears much later in that list, that is much closer to starting point in the DOM).\r\n\r\nLet me know if this makes sense!",
+    "created_at": "2024-09-29T17:54:02Z",
+    "updated_at": "2024-09-29T17:54:02Z",
+    "html_url": "https://github.com/whatwg/html/pull/10632#discussion_r1780098038",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10632",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1780098038"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10632#discussion_r1780098038"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10632"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1780098038/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 80370,
+    "original_line": 80370,
+    "side": "RIGHT",
+    "in_reply_to_id": 1765362980,
+    "author_association": "MEMBER",
+    "original_position": 136,
+    "position": 130,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1780339856",
+    "pull_request_review_id": 2336244252,
+    "id": 1780339856,
+    "node_id": "PRRC_kwDOALaj485qHdSQ",
+    "diff_hunk": "@@ -80338,45 +80355,56 @@ dictionary <dfn dictionary>ToggleEventInit</dfn> : <span>EventInit</span> {\n        in <var>starting point</var>'s <span data-x=\"nav-document\">active document</span>, if any; or\n        else null\n       <tr>\n-       <th><var>selection mechanism</var> is <i>DOM</i>\n+       <th><var>selection mechanism</var> is \"<code data-x=\"selection-mechanism-DOM\">DOM</code>\"\n+       <td>\n+        <p>Let <var>candidate</var> be the <span>suitable sequentially focusable area</span>, that\n+        appears nearest after <var>starting point</var> in <var>starting point</var>'s\n+        <code>Document</code>, in <span>tree order</span>, if any; or else null</p>",
+    "path": "source",
+    "commit_id": "74e06a89710e333fbc3e4195172e1972aa479c56",
+    "original_commit_id": "542daa43c84133453ec57393f38e55a110b5edfc",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think we want shadow-including tree order, here and elsewhere.",
+    "created_at": "2024-09-30T02:54:57Z",
+    "updated_at": "2024-09-30T02:58:15Z",
+    "html_url": "https://github.com/whatwg/html/pull/10632#discussion_r1780339856",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10632",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1780339856"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10632#discussion_r1780339856"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10632"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1780339856/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 80362,
+    "original_line": 80362,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 122,
+    "position": 122,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1780340089",
+    "pull_request_review_id": 2336244252,
+    "id": 1780340089,
+    "node_id": "PRRC_kwDOALaj485qHdV5",
+    "diff_hunk": "@@ -80338,45 +80355,48 @@ dictionary <dfn dictionary>ToggleEventInit</dfn> : <span>EventInit</span> {\n        in <var>starting point</var>'s <span data-x=\"nav-document\">active document</span>, if any; or\n        else null\n       <tr>\n-       <th><var>selection mechanism</var> is <i>DOM</i>\n+       <th><var>selection mechanism</var> is \"<code data-x=\"selection-mechanism-DOM\">DOM</code>\"\n        <td>Let <var>candidate</var> be the first <span>suitable sequentially focusable area</span>\n-       in the <span>home document</span> following <var>starting point</var>, if any; or else null\n+       after <var>starting point</var>, in <span>tree order</span>, in <var>starting point</var>'s\n+       <code>Document</code>, if any; or else null\n        <td>Let <var>candidate</var> be the last <span>suitable sequentially focusable area</span>\n-       in the <span>home document</span> preceding <var>starting point</var>, if any; or else null\n+       before <var>starting point</var>, in <span>tree order</span>, in <var>starting point</var>'s\n+       <code>Document</code>, if any; or else null\n       <tr>\n-       <th><var>selection mechanism</var> is <i>sequential</i>\n-       <td>Let <var>candidate</var> be the first <span>suitable sequentially focusable area</span> in the <span>home sequential focus navigation order</span> following <var>starting point</var>, if any; or else null\n-       <td>Let <var>candidate</var> be the last <span>suitable sequentially focusable area</span> in the <span>home sequential focus navigation order</span> preceding <var>starting point</var>, if any; or else null\n-\n+       <th><var>selection mechanism</var> is \"<code\n+       data-x=\"selection-mechanism-sequential\">sequential</code>\"\n+       <td>Let <var>candidate</var> be the first <span>suitable sequentially focusable area</span>\n+       after <var>starting point</var>, in <var>starting point</var>'s <code>Document</code>'s\n+       <span>sequential focus navigation order</span>, if any; or else null",
+    "path": "source",
+    "commit_id": "74e06a89710e333fbc3e4195172e1972aa479c56",
+    "original_commit_id": "8468c49ff4350a5c9169c7b41e6e20c4e1f3d4ef",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Yep, this makes sense! Thanks for working through it.",
+    "created_at": "2024-09-30T02:55:36Z",
+    "updated_at": "2024-09-30T02:58:15Z",
+    "html_url": "https://github.com/whatwg/html/pull/10632#discussion_r1780340089",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10632",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1780340089"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10632#discussion_r1780340089"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10632"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1780340089/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 80370,
+    "original_line": 80370,
+    "side": "RIGHT",
+    "in_reply_to_id": 1765362980,
+    "author_association": "MEMBER",
+    "original_position": 136,
+    "position": 130,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1780341119",
+    "pull_request_review_id": 2336244252,
+    "id": 1780341119,
+    "node_id": "PRRC_kwDOALaj485qHdl_",
+    "diff_hunk": "@@ -80338,45 +80355,56 @@ dictionary <dfn dictionary>ToggleEventInit</dfn> : <span>EventInit</span> {\n        in <var>starting point</var>'s <span data-x=\"nav-document\">active document</span>, if any; or\n        else null\n       <tr>\n-       <th><var>selection mechanism</var> is <i>DOM</i>\n+       <th><var>selection mechanism</var> is \"<code data-x=\"selection-mechanism-DOM\">DOM</code>\"\n+       <td>\n+        <p>Let <var>candidate</var> be the <span>suitable sequentially focusable area</span>, that\n+        appears nearest after <var>starting point</var> in <var>starting point</var>'s\n+        <code>Document</code>, in <span>tree order</span>, if any; or else null</p>\n+\n+        <p class=\"note\">In this case, <var>starting point</var> does not necessarily belong to its\n+        <code>Document</code>'s <span>sequential focus navigation order</span>, so we'll select the\n+        <span data-x=\"suitable sequentially focusable area\">suitable</span> <span data-x=\"list\n+        item\">item</span> from that list that comes <em>after</em> <var>starting point</var> in\n+        <span>tree order</span>.</p>\n+       </td>\n+       <td>Let <var>candidate</var> be the <span>suitable sequentially focusable area</span>, that\n+       appears nearest before <var>starting point</var> in <var>starting point</var>'s\n+       <code>Document</code>, in <span>tree order</span>, if any; or else null\n+      <tr>\n+       <th><var>selection mechanism</var> is \"<code\n+       data-x=\"selection-mechanism-sequential\">sequential</code>\"\n        <td>Let <var>candidate</var> be the first <span>suitable sequentially focusable area</span>\n-       in the <span>home document</span> following <var>starting point</var>, if any; or else null\n+       after <var>starting point</var>, in <var>starting point</var>'s <code>Document</code>'s\n+       <span>sequential focus navigation order</span>, if any; or else null\n        <td>Let <var>candidate</var> be the last <span>suitable sequentially focusable area</span>\n-       in the <span>home document</span> preceding <var>starting point</var>, if any; or else null\n-      <tr>\n-       <th><var>selection mechanism</var> is <i>sequential</i>\n-       <td>Let <var>candidate</var> be the first <span>suitable sequentially focusable area</span> in the <span>home sequential focus navigation order</span> following <var>starting point</var>, if any; or else null\n-       <td>Let <var>candidate</var> be the last <span>suitable sequentially focusable area</span> in the <span>home sequential focus navigation order</span> preceding <var>starting point</var>, if any; or else null\n-\n+       before <var>starting point</var>, in <var>starting point</var>'s <code>Document</code>'s\n+       <span>sequential focus navigation order</span>, if any; or else null\n     </table>\n \n     <p>A <dfn>suitable sequentially focusable area</dfn> is a <span>focusable area</span> whose\n     <span>DOM anchor</span> is not <span>inert</span> and is <span>sequentially\n     focusable</span>.</p>\n-\n-    <p>The <dfn>home document</dfn> is the <code>Document</code> to which <var>starting point</var>\n-    belongs.</p>\n-\n-    <p>The <dfn>home sequential focus navigation order</dfn> is the <span>sequential focus\n-    navigation order</span> to which <var>starting point</var> belongs.</p>\n-\n-    <p class=\"note\">The <span>home sequential focus navigation order</span> is the <span>home\n-    document</span>'s <span>sequential focus navigation order</span>, but is only used when the\n-    <var>starting point</var> is in that <span>sequential focus navigation order</span>\n-    (when it's not, <var>selection mechanism</var> will be <i>DOM</i>).</p>\n    </li>\n \n    <li>\n     <p>If <var>candidate</var> is a <span>navigable container</span> with a non-null <span>content\n-    navigable</span>, then let <var>new candidate</var> be the result of running the\n-    <span>sequential navigation search algorithm</span> with <var>candidate</var>'s <span>content\n-    navigable</span> as the first argument, <var>direction</var> as the second, and\n-    <i>sequential</i> <!-- shift-tab from the end in\n-    https://software.hixie.ch/utilities/js/live-dom-viewer/?saved=2855 --> as the third.</p>\n-\n-    <p>If <var>new candidate</var> is null, then let <var>starting point</var>\n-    be <var>candidate</var>, and return to the top of this algorithm. Otherwise, let\n-    <var>candidate</var> be <var>new candidate</var>.</p>\n+    navigable</span>, then:</p>\n+\n+    <ol>\n+     <li><p>Let <var>recursive candidate</var> be the result of running the <span>sequential\n+     navigation search algorithm</span> with <var>candidate</var>'s <span>content navigable</span>,\n+     <var>direction</var>, and \"<code\n+     data-x=\"selection-mechanism-sequential\">sequential</code>\".<!-- shift-tab from the end in\n+     https://software.hixie.ch/utilities/js/live-dom-viewer/?saved=2855 --></p></li>\n+\n+     <li>\n+      <p>If <var>recursive candidate</var> is null, then return the result of running the\n+      <span>sequential navigation search algorithm</span> with <var>candidate</var>,\n+      <var>direction</var>, and <var>selection mechanism</var>.</p>\n+\n+      <p>Otherwise, set <var>candidate</var> to <var>recursive candidate</var>.</p>",
+    "path": "source",
+    "commit_id": "74e06a89710e333fbc3e4195172e1972aa479c56",
+    "original_commit_id": "542daa43c84133453ec57393f38e55a110b5edfc",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think this could just be a third step.",
+    "created_at": "2024-09-30T02:57:35Z",
+    "updated_at": "2024-09-30T02:58:15Z",
+    "html_url": "https://github.com/whatwg/html/pull/10632#discussion_r1780341119",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10632",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1780341119"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10632#discussion_r1780341119"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10632"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1780341119/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 80405,
+    "original_line": 80405,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 192,
+    "position": 192,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1783766911",
+    "pull_request_review_id": 2341802353,
+    "id": 1783766911,
+    "node_id": "PRRC_kwDOALaj485qUh9_",
+    "diff_hunk": "@@ -80338,45 +80355,56 @@ dictionary <dfn dictionary>ToggleEventInit</dfn> : <span>EventInit</span> {\n        in <var>starting point</var>'s <span data-x=\"nav-document\">active document</span>, if any; or\n        else null\n       <tr>\n-       <th><var>selection mechanism</var> is <i>DOM</i>\n+       <th><var>selection mechanism</var> is \"<code data-x=\"selection-mechanism-DOM\">DOM</code>\"\n+       <td>\n+        <p>Let <var>candidate</var> be the <span>suitable sequentially focusable area</span>, that\n+        appears nearest after <var>starting point</var> in <var>starting point</var>'s\n+        <code>Document</code>, in <span>tree order</span>, if any; or else null</p>",
+    "path": "source",
+    "commit_id": "74e06a89710e333fbc3e4195172e1972aa479c56",
+    "original_commit_id": "542daa43c84133453ec57393f38e55a110b5edfc",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Yep, done!",
+    "created_at": "2024-10-02T02:23:13Z",
+    "updated_at": "2024-10-02T02:23:13Z",
+    "html_url": "https://github.com/whatwg/html/pull/10632#discussion_r1783766911",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10632",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1783766911"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10632#discussion_r1783766911"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10632"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1783766911/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 80362,
+    "original_line": 80362,
+    "side": "RIGHT",
+    "in_reply_to_id": 1780339856,
+    "author_association": "MEMBER",
+    "original_position": 122,
+    "position": 122,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

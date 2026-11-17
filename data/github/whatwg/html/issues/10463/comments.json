@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/2222475849",
+    "html_url": "https://github.com/whatwg/html/issues/10463#issuecomment-2222475849",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/10463",
+    "id": 2222475849,
+    "node_id": "IC_kwDOALaj486EeEpJ",
+    "user": {
+      "login": "past",
+      "id": 49118,
+      "node_id": "MDQ6VXNlcjQ5MTE4",
+      "avatar_url": "https://avatars.githubusercontent.com/u/49118?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/past",
+      "html_url": "https://github.com/past",
+      "followers_url": "https://api.github.com/users/past/followers",
+      "following_url": "https://api.github.com/users/past/following{/other_user}",
+      "gists_url": "https://api.github.com/users/past/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/past/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/past/subscriptions",
+      "organizations_url": "https://api.github.com/users/past/orgs",
+      "repos_url": "https://api.github.com/users/past/repos",
+      "events_url": "https://api.github.com/users/past/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/past/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2024-07-11T09:35:52Z",
+    "updated_at": "2024-07-11T09:35:52Z",
+    "body": "Thank you all for attending the meeting today and special thanks to Domenic Denicola for copiously taking meeting notes! Here are the notes from this meeting (the next one is at https://github.com/whatwg/html/issues/10471):\r\n\r\n### Agenda  \r\nAttendees: Keith Cirkel, Kagami Rosylight, Freddy Braun, Domenic Denicola, Anne van Kesteren, Panos Astithas, Michael Smith, Daniel Vogelheim  \r\nScribe: Domenic Denicola\r\n\r\n1. Review past action items\r\n    1. None\r\n1. Carryovers from last time\r\n    1. None.\r\n1. New topics\r\n    1. [Anne] [Enhance `<input type=color>` with alpha and colorspace=display-p3](https://github.com/whatwg/html/pull/10456)\r\n        1. Domenic will ping Mason/Joey for  implementation interest from Chromium. Kagami will ask Emilio/Olli to chime in.\r\n    1. [Keith] [Tie in AbortControllers with CustomElements](https://github.com/whatwg/dom/issues/1296)\r\n        1. The discussion will continue on the issue. Keith will summarize the proposed options and tradeoffs.\r\n    1. [Daniel/Freddy] [Upstreaming from the Sanitizer API](https://github.com/whatwg/html/issues/7197)\r\n        1. Consensus in the room that this is ready for stage 2.\r\n\r\n### Action Items\r\n\r\n1.  @domenic will ping @mfreed7 / @josepharhar  for implementation interest from Chromium on [Enhance `<input type=color>` with alpha and colorspace=display-p3](https://github.com/whatwg/html/pull/10456). @saschanaz will ask @emilio / @smaug---- to chime in.\r\n1. @keithamus will summarize the options and tradeoffs on [Tie in AbortControllers with CustomElements](https://github.com/whatwg/dom/issues/1296).\r\n\r\n### Minutes\r\n\r\n**Topic: input type color extensions**\r\n\r\nAnne: [https://github.com/whatwg/html/pull/10456](https://github.com/whatwg/html/pull/10456). Most OSes already support expanded color pickers. Also changes the underlying data model from HTML's \"simple colors\" to CSS colors. There's been some on-issue feedback on how to serialize sRGB with alpha, we should use rgba(x, y, z, w) so that it's the same as canvas (instead of the modern CSS serialization). Looking for review and implementer interest.\r\n\r\nPanos: is this related to recent CSSWG discussions around color gamut mapping algorithm?\r\n\r\nAnne: not aware of that discussion so probably not. This would support out-of-gamut colors in theory, like CSS does. For limited-SRGB mode we have to round down to stay compatible with what's available today. We could in the future allow non-limited SRGB mode that allows out-of-gamut values, but I didn't want to add that in v1 since nobody seems to implement that. (Nobody seems to want to make colors take more than 32 bits.)\r\n\r\nDomenic: there is a consistency vs. goodness tradeoff here. Continue using old canvas serialization (consistency), vs. new CSS serialization (goodness). I don't feel strongly just wanted to raise the possibility.\r\n\r\nAnne: Don't feel strongly, maybe leave a comment if you want that way.\r\n\r\nDomenic: will leave a comment. And try to summon appropriate Chrome folks for implementer interest.\r\n\r\nAnne: There is some weirdness in CSS that we'd want to explore around preserving input formats and color spaces…\r\n\r\n**Topic: tie in AbortControllers with custom elements**\r\n\r\nKeith: pitches [https://github.com/whatwg/dom/issues/1296](https://github.com/whatwg/dom/issues/1296) . This is a common pattern, we'd like to have the browser do it for us. Olli suggested this should go beyond custom elements. One sticky point of that proposal is that it doesn't make a lot of sense to use AbortSignal for connected reaction.\r\n\r\nDomenic: I liked your original proposal. Not entirely sure the direction Olli took it in. If we just want events, you could use mutation events/observers. You tried to solve an ergonomic problem and for that having a disconnect signal makes sense.\r\n\r\nKeith: I think the placement on Node is reasonable. I can see how it can be useful for generic nodes to know when they are disconnected.\r\n\r\nDomenic: That makes sense, but I don't think it generalizes to all types of mutations. Disconnect only, since disconnect is about teardown and aborting.\r\n\r\nKeith/Domenic: Exact details TBD. Method vs. property.\r\n\r\nAnne: you have to be careful about when you grab the signal\r\n\r\nKeith: I like the method approach.\r\n\r\nDomenic: let's write down this approaches and discuss tradeoffs in the issue. E.g. should you be able to get the signal before connection, or should that be null.\r\n\r\nKeith: Also some discussion in the web components CG about debouncing the signal. Seems like it'd be somewhat magical and complicated. Probably there are alternate approaches.\r\n\r\nDomenic: agree, sounds complicated.\r\n\r\nAnne: this discussion makes me think maybe we should explore more as a JS library?\r\n\r\nDomenic: what is the timing? Especially if we're on Node.prototype, then this probably means using the CEReactions timing, despite it not being custom elements?\r\n\r\nKeith: to the point about exploration as a JS library, it's pretty common already in custom element base classes.\r\n\r\nAnne: if there are pointers to existing libraries, that's very helpful and we should use them as precedent. (whether or not it's part of a framework, it's fine)\r\n\r\nDomenic: we should look into and understand what decisions these libraries make\r\n\r\nKeith: our decision at GitHub was to only create the signal in connectedCallback, and lint against usage elsewhere. I'll talk to other library authors to see if they made a conscious decision there.\r\n\r\n**Topic: upstreaming the sanitizer API**\r\n\r\nDaniel: introduces [https://github.com/whatwg/html/issues/7197](https://github.com/whatwg/html/issues/7197) . I learned about the stages process! We're not stage 3, there are still disagreements. But I think we're stage 2.\r\n\r\nFreddy: I'm here to say +1, Mozilla's on board.\r\n\r\nAnne: WebKit is on board, stage 2 makes sense.\r\n\r\nPanos: OK, let's make it stage 2!!\r\n\r\nDomenic: congrats! How can we help you during stage 2?\r\n\r\nDaniel: Once we're in stage 3, there will be questions about how to actually upstream. But still working on some things.\r\n\r\nFreddy: e.g. API usability tweaks. But, summer and holidays will delay that for a bit. Probably mid-August.\r\n\r\nPanos: one thing that makes sense to me is to use this meeting to check in on proposals that are in the later stages. What do people think?\r\n\r\nAnne: sounds good, and maybe we should have a document listing them all?\r\n\r\nDomenic: An automated generator based on labels, or just use GitHub itself, would be good. I don't want to maintain that.\r\n\r\nAnne: yeah maybe we'll make a generator.\r\n\r\nDomenic: pre-warning that converting from Bikeshed to HTML source is kind of a pain; sorry about that. Some people have a good amount of experience with it and maybe you can enlist them.",
+    "author_association": "NONE",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/2222475849/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

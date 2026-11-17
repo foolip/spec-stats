@@ -1,0 +1,144 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2221773533",
+    "pull_request_review_id": 3041921885,
+    "id": 2221773533,
+    "node_id": "PRRC_kwDOALaj486EbZLd",
+    "diff_hunk": "@@ -7378,58 +7339,82 @@ a.setAttribute('href', 'https://example.com/'); // change the content attribute\n \n   <div w-nodev>\n \n-  <h4>Dynamic changes to base URLs</h4>\n+  <h4>Document base URLs</h4>\n \n-  <p>When a document's <span>document base URL</span> changes, all elements in that document are\n-  <span>affected by a base URL change</span>.</p>\n+  <p>The <dfn export>document base URL</dfn> of a <code>Document</code> <var>document</var> is the\n+  <span>URL record</span> obtained by running these steps:</p>\n \n-  <p>The following are <span>base URL change steps</span>, which run when an element is\n-  <span>affected by a base URL change</span> (as defined by <cite>DOM</cite>):</p>\n+  <ol>\n+   <li><p>If there is no <code>base</code> element that has an <code\n+   data-x=\"attr-base-href\">href</code> attribute in <var>document</var>, then return\n+   <var>document</var>'s <span>fallback base URL</span>.</p></li>",
+    "path": "source",
+    "commit_id": "ffb0180829114f483ccf1d9162be6e1a70aa1f7f",
+    "original_commit_id": "ee567ccd96643220429fac52b9409854886a5d18",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think this would clarify the tree relationship:\r\n\r\n> If _document_ has no descendant base element that has an href attribute, then ...",
+    "created_at": "2025-07-22T08:51:43Z",
+    "updated_at": "2025-07-22T08:55:58Z",
+    "html_url": "https://github.com/whatwg/html/pull/11442#discussion_r2221773533",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11442",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2221773533"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11442#discussion_r2221773533"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11442"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2221773533/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 7348,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 7350,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 81,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2221777030",
+    "pull_request_review_id": 3041921885,
+    "id": 2221777030,
+    "node_id": "PRRC_kwDOALaj486EbaCG",
+    "diff_hunk": "@@ -7378,58 +7339,82 @@ a.setAttribute('href', 'https://example.com/'); // change the content attribute\n \n   <div w-nodev>\n \n-  <h4>Dynamic changes to base URLs</h4>\n+  <h4>Document base URLs</h4>\n \n-  <p>When a document's <span>document base URL</span> changes, all elements in that document are\n-  <span>affected by a base URL change</span>.</p>\n+  <p>The <dfn export>document base URL</dfn> of a <code>Document</code> <var>document</var> is the\n+  <span>URL record</span> obtained by running these steps:</p>\n \n-  <p>The following are <span>base URL change steps</span>, which run when an element is\n-  <span>affected by a base URL change</span> (as defined by <cite>DOM</cite>):</p>\n+  <ol>\n+   <li><p>If there is no <code>base</code> element that has an <code\n+   data-x=\"attr-base-href\">href</code> attribute in <var>document</var>, then return\n+   <var>document</var>'s <span>fallback base URL</span>.</p></li>\n \n-  <dl class=\"switch\">\n+   <li><p>Otherwise, return the <span>frozen base URL</span> of the first <code>base</code> element\n+   in <var>document</var> that has an <code data-x=\"attr-base-href\">href</code> attribute, in\n+   <span>tree order</span>.</p></li>\n+  </ol>\n \n-   <dt>If the element creates a <span>hyperlink</span></dt>\n+  <p>The <dfn>fallback base URL</dfn> of a <code>Document</code> object <var>document</var> is the\n+  <span>URL record</span> obtained by running these steps:</p>\n \n-   <dd>\n-    <p>If the <span>URL</span> identified by the hyperlink is being shown to the user, or if any\n-    data derived from that <span>URL</span> is affecting the display, then the <code\n-    data-x=\"attr-hyperlink-href\">href</code> attribute's value should be <span\n-    data-x=\"encoding-parsing a URL\">reparsed</span>, relative to the element's <span>node\n-    document</span> and the UI updated appropriately.</p>\n+  <ol>\n+   <li>\n+    <p>If <var>document</var> is <span data-x=\"an iframe srcdoc document\">an <code>iframe</code>\n+    <code data-x=\"attr-iframe-srcdoc\">srcdoc</code> document</span>, then:</p>",
+    "path": "source",
+    "commit_id": "ffb0180829114f483ccf1d9162be6e1a70aa1f7f",
+    "original_commit_id": "ee567ccd96643220429fac52b9409854886a5d18",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n    <code data-x=\"attr-iframe-srcdoc\">srcdoc</code> document</span>:</p>\r\n```",
+    "created_at": "2025-07-22T08:52:33Z",
+    "updated_at": "2025-07-22T08:55:58Z",
+    "html_url": "https://github.com/whatwg/html/pull/11442#discussion_r2221777030",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11442",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2221777030"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11442#discussion_r2221777030"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11442"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2221777030/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7363,
+    "original_line": 7363,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 102,
+    "position": 102,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

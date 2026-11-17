@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/1916091724",
+    "html_url": "https://github.com/whatwg/html/issues/10104#issuecomment-1916091724",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/10104",
+    "id": 1916091724,
+    "node_id": "IC_kwDOALaj485yNT1M",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2024-01-30T05:15:27Z",
+    "updated_at": "2024-01-30T05:16:31Z",
+    "body": "This algorithm is suffering from the problem of trying to bridge the JS and web conventions. We can definitely do better.\r\n\r\nBut stepping back, there's a bit of a mess in general. \"run a classic script\" has the following callers:\r\n\r\n- [execute the script element](https://html.spec.whatwg.org/multipage/scripting.html#script-processing-model:run-a-classic-script): ignores the return value, and is not prepared to deal with throws\r\n- [evaluate a javascript: URL](https://html.spec.whatwg.org/multipage/browsing-the-web.html#the-javascript:-url-special-case:run-a-classic-script): checks the return value to see if it's a normal completion with a string. Doesn't seem equipped to deal with throws\r\n- [timer initialization steps](https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#timers:run-a-classic-script): ignores the return value, and is not prepared to deal with throws\r\n- [run a worker](https://html.spec.whatwg.org/multipage/workers.html#worker-processing-model:run-a-classic-script): ignores the return value; doesn't seem equipped to deal with throws\r\n- [import scripts into worker global scope](https://html.spec.whatwg.org/multipage/workers.html#importing-scripts-and-libraries:run-a-classic-script): ignores the return value, but explicitly wants errors to be rethrown.\r\n\r\nMy proposal:\r\n\r\n- \"run a classic script\" should behave entirely according to web conventions. I.e., it should return or throw, and should never return completion records (in either success or failure cases).\r\n\r\n- \"run a classic script\" should only throw if rethrow errors is set.\r\n\r\nI think this would work better with what callers expect.\r\n\r\nConcretely, I think the changes are then:\r\n\r\n- Step 7.3.3. should return null instead of evaluationStatus.\r\n- Step 9 should return evaluationStatus.[[Value]] instead of evaluationStatus.\r\n- Step 10 should return null.\r\n- \"evaluate a javascript: URL\" should be updated to use web conventions instead of getting a completion record.\r\n\r\nIf this makes sense to you, a PR implementing it would be welcome.",
+    "author_association": "MEMBER",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/1916091724/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

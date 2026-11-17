@@ -1,0 +1,862 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1704679830",
+    "pull_request_review_id": 2219939536,
+    "id": 1704679830,
+    "node_id": "PRRC_kwDOALaj485lm1mW",
+    "diff_hunk": "@@ -128958,15 +128958,17 @@ document.body.appendChild(text);\n     <code>p</code> element in button scope</span>, then <span>close a <code>p</code>\n     element</span>.</p>\n \n-    <p><span>Reconstruct the active formatting elements</span>, if any.</p>\n-\n     <p><span>Insert an HTML element</span> for the token.</p>\n \n     <p>Switch the tokenizer to the <span>PLAINTEXT state</span>.</p>\n \n-    <p class=\"note\">Once a start tag with the tag name \"plaintext\" has been seen, that will be the\n-    last token ever seen other than character tokens (and the end-of-file token), because there is\n-    no way to switch out of the <span>PLAINTEXT state</span>.</p>\n+    <p class=\"note\">Once a start tag with the tag name \"plaintext\" has been seen, all remaining\n+    tokens will be character tokens (and a final end-of-file token), because there is\n+    no way to switch the tokenizer out of the <span>PLAINTEXT state</span>. However, as the\n+    tree builder remains in its existing insertion mode, it may <span>Reconstruct the active\n+    formatting elements</span>, if any, while processing those character tokens. This means\n+    that it's possible for a <code id=\"parsing-main-inbody:the-plaintext-element\"><a\n+    href=\"#the-plaintext-element\">plaintext</a></code> element to contain child nodes.</p>",
+    "path": "source",
+    "commit_id": "609e91f13494c404ae630a5d97887b4750b14619",
+    "original_commit_id": "306bf0d8cc719fc2863e6ec4ab02b8f69c5b03d5",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Wording and formatting nits.\r\n```suggestion\r\n    <p class=\"note\">Once a start tag with the tag name \"plaintext\" has been seen, all remaining\r\n    tokens will be character tokens (and a final end-of-file token), because there is\r\n    no way to switch the tokenizer out of the <span>PLAINTEXT state</span>. However, as the\r\n    tree builder remains in its existing insertion mode, it might <span>reconstruct the active\r\n    formatting elements</span> while processing those character tokens. This means that it's\r\n    possible for a <code>plaintext</code> element to contain elements.</p>\r\n```",
+    "created_at": "2024-08-05T22:14:58Z",
+    "updated_at": "2024-08-05T22:16:09Z",
+    "html_url": "https://github.com/whatwg/html/pull/10540#discussion_r1704679830",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10540",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1704679830"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10540#discussion_r1704679830"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10540"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1704679830/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 128965,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 128971,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 19,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1704689735",
+    "pull_request_review_id": 2219954710,
+    "id": 1704689735,
+    "node_id": "PRRC_kwDOALaj485lm4BH",
+    "diff_hunk": "@@ -128958,15 +128958,17 @@ document.body.appendChild(text);\n     <code>p</code> element in button scope</span>, then <span>close a <code>p</code>\n     element</span>.</p>\n \n-    <p><span>Reconstruct the active formatting elements</span>, if any.</p>\n-\n     <p><span>Insert an HTML element</span> for the token.</p>\n \n     <p>Switch the tokenizer to the <span>PLAINTEXT state</span>.</p>\n \n-    <p class=\"note\">Once a start tag with the tag name \"plaintext\" has been seen, that will be the\n-    last token ever seen other than character tokens (and the end-of-file token), because there is\n-    no way to switch out of the <span>PLAINTEXT state</span>.</p>\n+    <p class=\"note\">Once a start tag with the tag name \"plaintext\" has been seen, all remaining\n+    tokens will be character tokens (and a final end-of-file token), because there is\n+    no way to switch the tokenizer out of the <span>PLAINTEXT state</span>. However, as the\n+    tree builder remains in its existing insertion mode, it may <span>Reconstruct the active\n+    formatting elements</span>, if any, while processing those character tokens. This means\n+    that it's possible for a <code id=\"parsing-main-inbody:the-plaintext-element\"><a\n+    href=\"#the-plaintext-element\">plaintext</a></code> element to contain child nodes.</p>",
+    "path": "source",
+    "commit_id": "609e91f13494c404ae630a5d97887b4750b14619",
+    "original_commit_id": "306bf0d8cc719fc2863e6ec4ab02b8f69c5b03d5",
+    "user": {
+      "login": "dmsnell",
+      "id": 5431237,
+      "node_id": "MDQ6VXNlcjU0MzEyMzc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5431237?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/dmsnell",
+      "html_url": "https://github.com/dmsnell",
+      "followers_url": "https://api.github.com/users/dmsnell/followers",
+      "following_url": "https://api.github.com/users/dmsnell/following{/other_user}",
+      "gists_url": "https://api.github.com/users/dmsnell/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/dmsnell/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/dmsnell/subscriptions",
+      "organizations_url": "https://api.github.com/users/dmsnell/orgs",
+      "repos_url": "https://api.github.com/users/dmsnell/repos",
+      "events_url": "https://api.github.com/users/dmsnell/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/dmsnell/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "thanks! adopted in 0e76a30",
+    "created_at": "2024-08-05T22:32:21Z",
+    "updated_at": "2024-08-05T22:32:29Z",
+    "html_url": "https://github.com/whatwg/html/pull/10540#discussion_r1704689735",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10540",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1704689735"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10540#discussion_r1704689735"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10540"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1704689735/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 128965,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 128971,
+    "side": "RIGHT",
+    "in_reply_to_id": 1704679830,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 19,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1704690986",
+    "pull_request_review_id": 2219956603,
+    "id": 1704690986,
+    "node_id": "PRRC_kwDOALaj485lm4Uq",
+    "diff_hunk": "@@ -128958,15 +128958,17 @@ document.body.appendChild(text);\n     <code>p</code> element in button scope</span>, then <span>close a <code>p</code>\n     element</span>.</p>\n \n-    <p><span>Reconstruct the active formatting elements</span>, if any.</p>\n-\n     <p><span>Insert an HTML element</span> for the token.</p>\n \n     <p>Switch the tokenizer to the <span>PLAINTEXT state</span>.</p>\n \n-    <p class=\"note\">Once a start tag with the tag name \"plaintext\" has been seen, that will be the\n-    last token ever seen other than character tokens (and the end-of-file token), because there is\n-    no way to switch out of the <span>PLAINTEXT state</span>.</p>\n+    <p class=\"note\">Once a start tag with the tag name \"plaintext\" has been seen, all remaining\n+    tokens will be character tokens (and a final end-of-file token), because there is\n+    no way to switch the tokenizer out of the <span>PLAINTEXT state</span>. However, as the\n+    tree builder remains in its existing insertion mode, it may <span>Reconstruct the active\n+    formatting elements</span>, if any, while processing those character tokens. This means\n+    that it's possible for a <code id=\"parsing-main-inbody:the-plaintext-element\"><a\n+    href=\"#the-plaintext-element\">plaintext</a></code> element to contain child nodes.</p>",
+    "path": "source",
+    "commit_id": "609e91f13494c404ae630a5d97887b4750b14619",
+    "original_commit_id": "306bf0d8cc719fc2863e6ec4ab02b8f69c5b03d5",
+    "user": {
+      "login": "dmsnell",
+      "id": 5431237,
+      "node_id": "MDQ6VXNlcjU0MzEyMzc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5431237?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/dmsnell",
+      "html_url": "https://github.com/dmsnell",
+      "followers_url": "https://api.github.com/users/dmsnell/followers",
+      "following_url": "https://api.github.com/users/dmsnell/following{/other_user}",
+      "gists_url": "https://api.github.com/users/dmsnell/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/dmsnell/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/dmsnell/subscriptions",
+      "organizations_url": "https://api.github.com/users/dmsnell/orgs",
+      "repos_url": "https://api.github.com/users/dmsnell/repos",
+      "events_url": "https://api.github.com/users/dmsnell/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/dmsnell/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "@zcorpan please feel free to double-check my update since I tried to copy it from the Github diff view. I think there's a special hidden commit somewhere with your suggestion, and if you know how to find that I'll just cherry-pick it.\r\n\r\n(would do it through Github's UI but I like having signed commits and I can't do it if I click \"Commit suggestion\")",
+    "created_at": "2024-08-05T22:34:35Z",
+    "updated_at": "2024-08-05T22:34:35Z",
+    "html_url": "https://github.com/whatwg/html/pull/10540#discussion_r1704690986",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10540",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1704690986"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10540#discussion_r1704690986"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10540"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1704690986/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 128965,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 128971,
+    "side": "RIGHT",
+    "in_reply_to_id": 1704679830,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 19,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1705243361",
+    "pull_request_review_id": 2220818976,
+    "id": 1705243361,
+    "node_id": "PRRC_kwDOALaj485lo_Lh",
+    "diff_hunk": "@@ -128962,9 +128962,12 @@ document.body.appendChild(text);\n \n     <p>Switch the tokenizer to the <span>PLAINTEXT state</span>.</p>\n \n-    <p class=\"note\">Once a start tag with the tag name \"plaintext\" has been seen, that will be the\n-    last token ever seen other than character tokens (and the end-of-file token), because there is\n-    no way to switch out of the <span>PLAINTEXT state</span>.</p>\n+    <p class=\"note\">Once a start tag with the tag name \"plaintext\" has been seen, all remaining\n+    tokens will be character tokens (and a final end-of-file token) because there is no way to\n+    switch the tokenizer out of the <span>PLAINTEXT state</span>. However, as the tree builder\n+    remains in its existing insertion mode, it may <span>reconstruct the active formatting\n+    elements</span> while processing those character tokens. This means that it's possible\n+    for a <code>plaintext</code> element to contain child nodes.</p>",
+    "path": "source",
+    "commit_id": "609e91f13494c404ae630a5d97887b4750b14619",
+    "original_commit_id": "0e76a307fa29a659fdd8de03476573b2e169ef5d",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "- might instead of may (because \"may\" is a normative keyword).\r\n- elements instead of child nodes (because text nodes are also nodes).\r\n- wrapping at 100 cols\r\n\r\n```suggestion\r\n    <p class=\"note\">Once a start tag with the tag name \"plaintext\" has been seen, all remaining\r\n    tokens will be character tokens (and a final end-of-file token), because there is no way to\r\n    switch the tokenizer out of the <span>PLAINTEXT state</span>. However, as the tree builder\r\n    remains in its existing insertion mode, it might <span>reconstruct the active formatting\r\n    elements</span> while processing those character tokens. This means that it's possible for a\r\n    <code>plaintext</code> element to contain elements.</p>\r\n```",
+    "created_at": "2024-08-06T09:44:49Z",
+    "updated_at": "2024-08-06T09:44:58Z",
+    "html_url": "https://github.com/whatwg/html/pull/10540#discussion_r1705243361",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10540",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1705243361"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10540#discussion_r1705243361"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10540"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1705243361/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 128965,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 128970,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 12,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1706167455",
+    "pull_request_review_id": 2222323693,
+    "id": 1706167455,
+    "node_id": "PRRC_kwDOALaj485lsgyf",
+    "diff_hunk": "@@ -128962,9 +128962,12 @@ document.body.appendChild(text);\n \n     <p>Switch the tokenizer to the <span>PLAINTEXT state</span>.</p>\n \n-    <p class=\"note\">Once a start tag with the tag name \"plaintext\" has been seen, that will be the\n-    last token ever seen other than character tokens (and the end-of-file token), because there is\n-    no way to switch out of the <span>PLAINTEXT state</span>.</p>\n+    <p class=\"note\">Once a start tag with the tag name \"plaintext\" has been seen, all remaining\n+    tokens will be character tokens (and a final end-of-file token) because there is no way to\n+    switch the tokenizer out of the <span>PLAINTEXT state</span>. However, as the tree builder\n+    remains in its existing insertion mode, it may <span>reconstruct the active formatting\n+    elements</span> while processing those character tokens. This means that it's possible\n+    for a <code>plaintext</code> element to contain child nodes.</p>",
+    "path": "source",
+    "commit_id": "609e91f13494c404ae630a5d97887b4750b14619",
+    "original_commit_id": "0e76a307fa29a659fdd8de03476573b2e169ef5d",
+    "user": {
+      "login": "dmsnell",
+      "id": 5431237,
+      "node_id": "MDQ6VXNlcjU0MzEyMzc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5431237?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/dmsnell",
+      "html_url": "https://github.com/dmsnell",
+      "followers_url": "https://api.github.com/users/dmsnell/followers",
+      "following_url": "https://api.github.com/users/dmsnell/following{/other_user}",
+      "gists_url": "https://api.github.com/users/dmsnell/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/dmsnell/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/dmsnell/subscriptions",
+      "organizations_url": "https://api.github.com/users/dmsnell/orgs",
+      "repos_url": "https://api.github.com/users/dmsnell/repos",
+      "events_url": "https://api.github.com/users/dmsnell/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/dmsnell/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Thanks again @zcorpan. I've added the comma back but I believe it's grammatically wrong to add it there.\r\n\r\nAlso on \"elements\" I added \"other elements\", maybe not for a great reason other than the wording read awkwardly without it. I tried a variant with \"to contain elements as its children\" or \"to contain formatting elements\" and \"to contain elements as child nodes.\" Something seems missing, and maybe it's the whole sentence that could be reworeded more naturally. 🤷‍♂️ \r\n\r\nI appreciate all your help and am happy to continue revising this until everyone is happy with it.",
+    "created_at": "2024-08-06T22:14:23Z",
+    "updated_at": "2024-08-06T22:14:24Z",
+    "html_url": "https://github.com/whatwg/html/pull/10540#discussion_r1706167455",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10540",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1706167455"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10540#discussion_r1706167455"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10540"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1706167455/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 128965,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 128970,
+    "side": "RIGHT",
+    "in_reply_to_id": 1705243361,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 12,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1709301259",
+    "pull_request_review_id": 2227624856,
+    "id": 1709301259,
+    "node_id": "PRRC_kwDOALaj485l4d4L",
+    "diff_hunk": "@@ -128962,9 +128962,12 @@ document.body.appendChild(text);\n \n     <p>Switch the tokenizer to the <span>PLAINTEXT state</span>.</p>\n \n-    <p class=\"note\">Once a start tag with the tag name \"plaintext\" has been seen, that will be the\n-    last token ever seen other than character tokens (and the end-of-file token), because there is\n-    no way to switch out of the <span>PLAINTEXT state</span>.</p>\n+    <p class=\"note\">Once a start tag with the tag name \"plaintext\" has been seen, all remaining\n+    tokens will be character tokens (and a final end-of-file token) because there is no way to\n+    switch the tokenizer out of the <span>PLAINTEXT state</span>. However, as the tree builder\n+    remains in its existing insertion mode, it may <span>reconstruct the active formatting\n+    elements</span> while processing those character tokens. This means that it's possible\n+    for a <code>plaintext</code> element to contain child nodes.</p>",
+    "path": "source",
+    "commit_id": "609e91f13494c404ae630a5d97887b4750b14619",
+    "original_commit_id": "0e76a307fa29a659fdd8de03476573b2e169ef5d",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I didn't notice the comma. I've removed it.",
+    "created_at": "2024-08-08T11:43:51Z",
+    "updated_at": "2024-08-08T11:43:51Z",
+    "html_url": "https://github.com/whatwg/html/pull/10540#discussion_r1709301259",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10540",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1709301259"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10540#discussion_r1709301259"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10540"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1709301259/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 128965,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 128970,
+    "side": "RIGHT",
+    "in_reply_to_id": 1705243361,
+    "author_association": "MEMBER",
+    "original_position": 12,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1713574132",
+    "pull_request_review_id": 2232714122,
+    "id": 1713574132,
+    "node_id": "PRRC_kwDOALaj485mIxD0",
+    "diff_hunk": "@@ -128962,9 +128962,12 @@ document.body.appendChild(text);\n \n     <p>Switch the tokenizer to the <span>PLAINTEXT state</span>.</p>\n \n-    <p class=\"note\">Once a start tag with the tag name \"plaintext\" has been seen, that will be the\n-    last token ever seen other than character tokens (and the end-of-file token), because there is\n-    no way to switch out of the <span>PLAINTEXT state</span>.</p>\n+    <p class=\"note\">Once a start tag with the tag name \"plaintext\" has been seen, all remaining\n+    tokens will be character tokens (and a final end-of-file token) because there is no way to",
+    "path": "source",
+    "commit_id": "609e91f13494c404ae630a5d97887b4750b14619",
+    "original_commit_id": "eb657b0f2ce097cbc3401208ca19d3607d8c15d8",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Restore the comma before because?",
+    "created_at": "2024-08-12T11:19:54Z",
+    "updated_at": "2024-08-12T11:24:51Z",
+    "html_url": "https://github.com/whatwg/html/pull/10540#discussion_r1713574132",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10540",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1713574132"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10540#discussion_r1713574132"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10540"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1713574132/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 128966,
+    "original_line": 128966,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 8,
+    "position": 8,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1713585710",
+    "pull_request_review_id": 2232714122,
+    "id": 1713585710,
+    "node_id": "PRRC_kwDOALaj485mIz4u",
+    "diff_hunk": "@@ -128962,9 +128962,12 @@ document.body.appendChild(text);\n \n     <p>Switch the tokenizer to the <span>PLAINTEXT state</span>.</p>\n \n-    <p class=\"note\">Once a start tag with the tag name \"plaintext\" has been seen, that will be the\n-    last token ever seen other than character tokens (and the end-of-file token), because there is\n-    no way to switch out of the <span>PLAINTEXT state</span>.</p>\n+    <p class=\"note\">Once a start tag with the tag name \"plaintext\" has been seen, all remaining\n+    tokens will be character tokens (and a final end-of-file token) because there is no way to\n+    switch the tokenizer out of the <span>PLAINTEXT state</span>. However, as the tree builder\n+    remains in its existing insertion mode, it might <span>reconstruct the active formatting\n+    elements</span> while processing those character tokens. This means that it's possible for a\n+    <code>plaintext</code> element to contain other elements.</p>",
+    "path": "source",
+    "commit_id": "609e91f13494c404ae630a5d97887b4750b14619",
+    "original_commit_id": "eb657b0f2ce097cbc3401208ca19d3607d8c15d8",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Maybe:\r\n\r\n> This means that the parser can insert other elements into the plaintext element.\r\n\r\nMainly because it's generally possible for elements to contain other elements due to node tree manipulation. It's just not always possible as a result of parsing.",
+    "created_at": "2024-08-12T11:24:47Z",
+    "updated_at": "2024-08-12T11:24:51Z",
+    "html_url": "https://github.com/whatwg/html/pull/10540#discussion_r1713585710",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10540",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1713585710"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10540#discussion_r1713585710"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10540"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1713585710/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 128970,
+    "original_line": 128970,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 12,
+    "position": 12,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1714220026",
+    "pull_request_review_id": 2233772760,
+    "id": 1714220026,
+    "node_id": "PRRC_kwDOALaj485mLOv6",
+    "diff_hunk": "@@ -128962,9 +128962,12 @@ document.body.appendChild(text);\n \n     <p>Switch the tokenizer to the <span>PLAINTEXT state</span>.</p>\n \n-    <p class=\"note\">Once a start tag with the tag name \"plaintext\" has been seen, that will be the\n-    last token ever seen other than character tokens (and the end-of-file token), because there is\n-    no way to switch out of the <span>PLAINTEXT state</span>.</p>\n+    <p class=\"note\">Once a start tag with the tag name \"plaintext\" has been seen, all remaining\n+    tokens will be character tokens (and a final end-of-file token) because there is no way to",
+    "path": "source",
+    "commit_id": "609e91f13494c404ae630a5d97887b4750b14619",
+    "original_commit_id": "eb657b0f2ce097cbc3401208ca19d3607d8c15d8",
+    "user": {
+      "login": "dmsnell",
+      "id": 5431237,
+      "node_id": "MDQ6VXNlcjU0MzEyMzc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5431237?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/dmsnell",
+      "html_url": "https://github.com/dmsnell",
+      "followers_url": "https://api.github.com/users/dmsnell/followers",
+      "following_url": "https://api.github.com/users/dmsnell/following{/other_user}",
+      "gists_url": "https://api.github.com/users/dmsnell/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/dmsnell/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/dmsnell/subscriptions",
+      "organizations_url": "https://api.github.com/users/dmsnell/orgs",
+      "repos_url": "https://api.github.com/users/dmsnell/repos",
+      "events_url": "https://api.github.com/users/dmsnell/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/dmsnell/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "@annevk the comma doesn't belong grammatically before a subordinate clauses, as in this sentence.\r\n\r\n[this guide from Purdue's Online Writing Lab](https://owl.purdue.edu/owl/general_writing/punctuation/commas/extended_rules_for_commas.html) and many other online resources will clarify.",
+    "created_at": "2024-08-12T18:37:55Z",
+    "updated_at": "2024-08-12T18:37:56Z",
+    "html_url": "https://github.com/whatwg/html/pull/10540#discussion_r1714220026",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10540",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1714220026"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10540#discussion_r1714220026"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10540"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1714220026/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 128966,
+    "original_line": 128966,
+    "side": "RIGHT",
+    "in_reply_to_id": 1713574132,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 8,
+    "position": 8,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1714224468",
+    "pull_request_review_id": 2233779911,
+    "id": 1714224468,
+    "node_id": "PRRC_kwDOALaj485mLP1U",
+    "diff_hunk": "@@ -128962,9 +128962,12 @@ document.body.appendChild(text);\n \n     <p>Switch the tokenizer to the <span>PLAINTEXT state</span>.</p>\n \n-    <p class=\"note\">Once a start tag with the tag name \"plaintext\" has been seen, that will be the\n-    last token ever seen other than character tokens (and the end-of-file token), because there is\n-    no way to switch out of the <span>PLAINTEXT state</span>.</p>\n+    <p class=\"note\">Once a start tag with the tag name \"plaintext\" has been seen, all remaining\n+    tokens will be character tokens (and a final end-of-file token) because there is no way to\n+    switch the tokenizer out of the <span>PLAINTEXT state</span>. However, as the tree builder\n+    remains in its existing insertion mode, it might <span>reconstruct the active formatting\n+    elements</span> while processing those character tokens. This means that it's possible for a\n+    <code>plaintext</code> element to contain other elements.</p>",
+    "path": "source",
+    "commit_id": "609e91f13494c404ae630a5d97887b4750b14619",
+    "original_commit_id": "eb657b0f2ce097cbc3401208ca19d3607d8c15d8",
+    "user": {
+      "login": "dmsnell",
+      "id": 5431237,
+      "node_id": "MDQ6VXNlcjU0MzEyMzc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5431237?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/dmsnell",
+      "html_url": "https://github.com/dmsnell",
+      "followers_url": "https://api.github.com/users/dmsnell/followers",
+      "following_url": "https://api.github.com/users/dmsnell/following{/other_user}",
+      "gists_url": "https://api.github.com/users/dmsnell/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/dmsnell/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/dmsnell/subscriptions",
+      "organizations_url": "https://api.github.com/users/dmsnell/orgs",
+      "repos_url": "https://api.github.com/users/dmsnell/repos",
+      "events_url": "https://api.github.com/users/dmsnell/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/dmsnell/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I like the wording, and the distinction. Adopted in 84de4e9790871c4e8d553d39da270d9e1fe17b3d\r\n\r\nThanks!",
+    "created_at": "2024-08-12T18:42:13Z",
+    "updated_at": "2024-08-12T18:42:13Z",
+    "html_url": "https://github.com/whatwg/html/pull/10540#discussion_r1714224468",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10540",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1714224468"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10540#discussion_r1714224468"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10540"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1714224468/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 128970,
+    "original_line": 128970,
+    "side": "RIGHT",
+    "in_reply_to_id": 1713585710,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 12,
+    "position": 12,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1714922597",
+    "pull_request_review_id": 2234933712,
+    "id": 1714922597,
+    "node_id": "PRRC_kwDOALaj485mN6Rl",
+    "diff_hunk": "@@ -128962,9 +128962,12 @@ document.body.appendChild(text);\n \n     <p>Switch the tokenizer to the <span>PLAINTEXT state</span>.</p>\n \n-    <p class=\"note\">Once a start tag with the tag name \"plaintext\" has been seen, that will be the\n-    last token ever seen other than character tokens (and the end-of-file token), because there is\n-    no way to switch out of the <span>PLAINTEXT state</span>.</p>\n+    <p class=\"note\">Once a start tag with the tag name \"plaintext\" has been seen, all remaining\n+    tokens will be character tokens (and a final end-of-file token) because there is no way to\n+    switch the tokenizer out of the <span>PLAINTEXT state</span>. However, as the tree builder\n+    remains in its existing insertion mode, it might <span>reconstruct the active formatting\n+    elements</span> while processing those character tokens. This means that it's possible for a\n+    <code>plaintext</code> element to contain other elements.</p>",
+    "path": "source",
+    "commit_id": "609e91f13494c404ae630a5d97887b4750b14619",
+    "original_commit_id": "eb657b0f2ce097cbc3401208ca19d3607d8c15d8",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "We always write element names in lowercase. With that fixed this is good to merge.",
+    "created_at": "2024-08-13T08:53:28Z",
+    "updated_at": "2024-08-13T08:54:37Z",
+    "html_url": "https://github.com/whatwg/html/pull/10540#discussion_r1714922597",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10540",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1714922597"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10540#discussion_r1714922597"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10540"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1714922597/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 128970,
+    "original_line": 128970,
+    "side": "RIGHT",
+    "in_reply_to_id": 1713585710,
+    "author_association": "MEMBER",
+    "original_position": 12,
+    "position": 12,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1714922797",
+    "pull_request_review_id": 2234933712,
+    "id": 1714922797,
+    "node_id": "PRRC_kwDOALaj485mN6Ut",
+    "diff_hunk": "@@ -128962,9 +128962,12 @@ document.body.appendChild(text);\n \n     <p>Switch the tokenizer to the <span>PLAINTEXT state</span>.</p>\n \n-    <p class=\"note\">Once a start tag with the tag name \"plaintext\" has been seen, that will be the\n-    last token ever seen other than character tokens (and the end-of-file token), because there is\n-    no way to switch out of the <span>PLAINTEXT state</span>.</p>\n+    <p class=\"note\">Once a start tag with the tag name \"plaintext\" has been seen, all remaining\n+    tokens will be character tokens (and a final end-of-file token) because there is no way to",
+    "path": "source",
+    "commit_id": "609e91f13494c404ae630a5d97887b4750b14619",
+    "original_commit_id": "eb657b0f2ce097cbc3401208ca19d3607d8c15d8",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Interesting, thanks.",
+    "created_at": "2024-08-13T08:53:36Z",
+    "updated_at": "2024-08-13T08:54:37Z",
+    "html_url": "https://github.com/whatwg/html/pull/10540#discussion_r1714922797",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10540",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1714922797"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10540#discussion_r1714922797"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10540"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1714922797/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 128966,
+    "original_line": 128966,
+    "side": "RIGHT",
+    "in_reply_to_id": 1713574132,
+    "author_association": "MEMBER",
+    "original_position": 8,
+    "position": 8,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

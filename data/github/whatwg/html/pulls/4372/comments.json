@@ -1,0 +1,358 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/260717401",
+    "pull_request_review_id": 208484220,
+    "id": 260717401,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI2MDcxNzQwMQ==",
+    "diff_hunk": "@@ -87320,25 +87338,48 @@ interface <dfn>ApplicationCache</dfn> : <span>EventTarget</span> {\n \n      <li><p><var>response</var>'s <span data-x=\"concept-response-status\">status</span> is not an\n      <span>ok status</span></p></li>\n+    </ul>\n+   </li>\n \n-     <li>\n-      <p>The result of <span data-x=\"extract a MIME type\">extracting a MIME type</span> from\n-      <var>response</var>'s <span data-x=\"concept-response-header-list\">header list</span> is not a\n-      <span>JavaScript MIME type</span></p>\n+   <li>\n+    <p>Let <var>type</var> be the result of <span data-x=\"extract a MIME type\">extracting a\n+    MIME type</span> from <var>response</var>'s <span data-x=\"concept-response-header-list\">header\n+    list</span>.</p>\n \n-      <p class=\"note\">For historical reasons, <span data-x=\"fetch a classic script\">fetching a\n-      classic script</span> does not include MIME type checking. In contrast, module scripts will\n-      fail to load if they are not of a correct MIME type.</p>\n-     </li>\n-    </ul>\n+    <p class=\"note\">For historical reasons, <span data-x=\"fetch a classic script\">fetching a\n+    classic script</span> does not include MIME type checking. In contrast, module scripts'\n+    interpretation is driven by their MIME type, and they will fail to load if they are not of\n+    a supported MIME type.</p>\n    </li>\n \n-   <li><p>Let <var>source text</var> be the result of <span data-x=\"UTF-8 decode\">UTF-8\n-   decoding</span> <var>response</var>'s <span data-x=\"concept-response-body\">body</span>.</p></li>\n+   <li><p>Let <var>module script</var> be null.</p></li>\n+\n+   <li>\n+     <p>If <var>type</var> is a <span>JavaScript MIME type</span>, then</p>\n+\n+     <ol>\n+      <li><p>Let <var>source text</var> be the result of <span data-x=\"UTF-8 decode\">UTF-8\n+      decoding</span> <var>response</var>'s <span data-x=\"concept-response-body\">body</span>.</p></li>\n+\n+      <li><p>Set <var>module script</var> to the result of <span>creating a module script</span> given\n+      <var>source text</var>, <var>module map settings object</var>, <var>response</var>'s <span\n+      data-x=\"concept-response-url\">url</span>, and <var>options</var>.</p></li>\n+     </ol>\n+   </li>\n \n-   <li><p>Let <var>module script</var> be the result of <span>creating a module script</span> given\n-   <var>source text</var>, <var>module map settings object</var>, <var>response</var>'s <span\n-   data-x=\"concept-response-url\">url</span>, and <var>options</var>.</p></li>\n+   <li>\n+     <p>If <var>type</var> is <code>application/wasm</code>, then</p>",
+    "path": "source",
+    "commit_id": "bf2917bad2681e834abc7ae458dd3a7377faf36c",
+    "original_commit_id": "df1b1baa30dea63873df96ea6a35581688ee5216",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "You need to compare with type's essence here. And use quotation marks around `application/wasm`.\r\n\r\nWe also typically follow then with `:` in these cases.",
+    "created_at": "2019-02-27T12:00:21Z",
+    "updated_at": "2019-05-21T09:31:14Z",
+    "html_url": "https://github.com/whatwg/html/pull/4372#discussion_r260717401",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4372",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/260717401"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4372#discussion_r260717401"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4372"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/260717401/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 87371,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 107,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/260717659",
+    "pull_request_review_id": 208484220,
+    "id": 260717659,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI2MDcxNzY1OQ==",
+    "diff_hunk": "@@ -87320,25 +87338,48 @@ interface <dfn>ApplicationCache</dfn> : <span>EventTarget</span> {\n \n      <li><p><var>response</var>'s <span data-x=\"concept-response-status\">status</span> is not an\n      <span>ok status</span></p></li>\n+    </ul>\n+   </li>\n \n-     <li>\n-      <p>The result of <span data-x=\"extract a MIME type\">extracting a MIME type</span> from\n-      <var>response</var>'s <span data-x=\"concept-response-header-list\">header list</span> is not a\n-      <span>JavaScript MIME type</span></p>\n+   <li>\n+    <p>Let <var>type</var> be the result of <span data-x=\"extract a MIME type\">extracting a\n+    MIME type</span> from <var>response</var>'s <span data-x=\"concept-response-header-list\">header\n+    list</span>.</p>\n \n-      <p class=\"note\">For historical reasons, <span data-x=\"fetch a classic script\">fetching a\n-      classic script</span> does not include MIME type checking. In contrast, module scripts will\n-      fail to load if they are not of a correct MIME type.</p>\n-     </li>\n-    </ul>\n+    <p class=\"note\">For historical reasons, <span data-x=\"fetch a classic script\">fetching a\n+    classic script</span> does not include MIME type checking. In contrast, module scripts'\n+    interpretation is driven by their MIME type, and they will fail to load if they are not of\n+    a supported MIME type.</p>\n    </li>\n \n-   <li><p>Let <var>source text</var> be the result of <span data-x=\"UTF-8 decode\">UTF-8\n-   decoding</span> <var>response</var>'s <span data-x=\"concept-response-body\">body</span>.</p></li>\n+   <li><p>Let <var>module script</var> be null.</p></li>\n+\n+   <li>\n+     <p>If <var>type</var> is a <span>JavaScript MIME type</span>, then</p>",
+    "path": "source",
+    "commit_id": "bf2917bad2681e834abc7ae458dd3a7377faf36c",
+    "original_commit_id": "df1b1baa30dea63873df96ea6a35581688ee5216",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "then:*",
+    "created_at": "2019-02-27T12:01:07Z",
+    "updated_at": "2019-05-21T09:31:14Z",
+    "html_url": "https://github.com/whatwg/html/pull/4372#discussion_r260717659",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4372",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/260717659"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4372#discussion_r260717659"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4372"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/260717659/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 87358,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 91,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/265215966",
+    "pull_request_review_id": 214065815,
+    "id": 265215966,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI2NTIxNTk2Ng==",
+    "diff_hunk": "@@ -87472,25 +87491,48 @@ interface <dfn>ApplicationCache</dfn> : <span>EventTarget</span> {\n \n      <li><p><var>response</var>'s <span data-x=\"concept-response-status\">status</span> is not an\n      <span>ok status</span></p></li>\n+    </ul>\n+   </li>\n \n-     <li>\n-      <p>The result of <span data-x=\"extract a MIME type\">extracting a MIME type</span> from\n-      <var>response</var>'s <span data-x=\"concept-response-header-list\">header list</span> is not a\n-      <span>JavaScript MIME type</span></p>\n+   <li>\n+    <p>Let <var>type</var> be the result of <span data-x=\"extract a MIME type\">extracting a\n+    MIME type</span> from <var>response</var>'s <span data-x=\"concept-response-header-list\">header\n+    list</span>.</p>\n \n-      <p class=\"note\">For historical reasons, <span data-x=\"fetch a classic script\">fetching a\n-      classic script</span> does not include MIME type checking. In contrast, module scripts will\n-      fail to load if they are not of a correct MIME type.</p>\n-     </li>\n-    </ul>\n+    <p class=\"note\">For historical reasons, <span data-x=\"fetch a classic script\">fetching a\n+    classic script</span> does not include MIME type checking. In contrast, module scripts'\n+    interpretation is driven by their MIME type, and they will fail to load if they are not of\n+    a supported MIME type.</p>\n    </li>\n \n-   <li><p>Let <var>source text</var> be the result of <span data-x=\"UTF-8 decode\">UTF-8\n-   decoding</span> <var>response</var>'s <span data-x=\"concept-response-body\">body</span>.</p></li>\n+   <li><p>Let <var>module script</var> be null.</p></li>\n \n-   <li><p>Let <var>module script</var> be the result of <span>creating a module script</span> given\n-   <var>source text</var>, <var>module map settings object</var>, <var>response</var>'s <span\n-   data-x=\"concept-response-url\">url</span>, and <var>options</var>.</p></li>\n+   <li>\n+     <p>If <var>type</var> is a <span>JavaScript MIME type</span>, then:</p>\n+\n+     <ol>\n+      <li><p>Let <var>source text</var> be the result of <span data-x=\"UTF-8 decode\">UTF-8\n+      decoding</span> <var>response</var>'s <span data-x=\"concept-response-body\">body</span>.</p></li>\n+\n+      <li><p>Set <var>module script</var> to the result of <span>creating a module script</span> given\n+      <var>source text</var>, <var>module map settings object</var>, <var>response</var>'s <span\n+      data-x=\"concept-response-url\">url</span>, and <var>options</var>.</p></li>\n+     </ol>\n+   </li>\n+\n+   <li>\n+     <p>If <var>type</var>'s <span>essence</span> is \"<code>application/wasm</code>\", then:</p>\n+\n+     <ol>\n+      <li><p>Let <var>buffer</var> be the result of running <span>consume body</span> on",
+    "path": "source",
+    "commit_id": "bf2917bad2681e834abc7ae458dd3a7377faf36c",
+    "original_commit_id": "d7f9e27152a7529b651b1a29980152ab3af9c7b0",
+    "user": {
+      "login": "Ms2ger",
+      "id": 111161,
+      "node_id": "MDQ6VXNlcjExMTE2MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/111161?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Ms2ger",
+      "html_url": "https://github.com/Ms2ger",
+      "followers_url": "https://api.github.com/users/Ms2ger/followers",
+      "following_url": "https://api.github.com/users/Ms2ger/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Ms2ger/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Ms2ger/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Ms2ger/subscriptions",
+      "organizations_url": "https://api.github.com/users/Ms2ger/orgs",
+      "repos_url": "https://api.github.com/users/Ms2ger/repos",
+      "events_url": "https://api.github.com/users/Ms2ger/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Ms2ger/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "\"bufferPromise\" might be clearer?\r\n\r\nActually, this seems to think the result is an ArrayBuffer, when it is a promise.",
+    "created_at": "2019-03-13T16:25:01Z",
+    "updated_at": "2019-05-21T09:31:14Z",
+    "html_url": "https://github.com/whatwg/html/pull/4372#discussion_r265215966",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4372",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/265215966"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4372#discussion_r265215966"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4372"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/265215966/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 87527,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 118,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/285936601",
+    "pull_request_review_id": 239931520,
+    "id": 285936601,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI4NTkzNjYwMQ==",
+    "diff_hunk": "@@ -88595,39 +88669,78 @@ interface <dfn>ApplicationCache</dfn> : <span>EventTarget</span> {\n     </ol>\n    </li>\n \n-   <li id=\"validate-requested-module-specifiers\">\n-    <p><span data-x=\"list iterate\">For each</span> string <var>requested</var> of\n-    <var>result</var>.[[RequestedModules]]:</p>\n+   <li><p><span>Validate requested module specifiers</span> of <var>result</var> with\n+   <var>script</var>.</p></li>\n \n-    <ol>\n-     <li><p>Let <var>url</var> be the result of <span data-x=\"resolve a module specifier\">resolving\n-     a module specifier</span> given <var>script</var>'s <span data-x=\"concept-script-base-url\">base\n-     URL</span> and <var>requested</var>.</p></li>\n+   <li><p>Return <var>script</var>.</p></li>\n+  </ol>\n+\n+  <p>To <dfn data-x=\"creating a WebAssembly module script\">create a WebAssembly module script</dfn>,\n+  given a promise that will resolve with an <code data-x=\"idl-ArrayBuffer\">ArrayBuffer</code>\n+  <var>bufferPromise</var>, an <span>environment settings object</span> <var>settings</var>, a\n+  <span>URL</span> <var>baseURL</var>, and some <span>script fetch options</span>\n+  <var>options</var>, run these steps. The algorithm will asynchronously complete with a new\n+  <span>WebAssembly module script</span>.</p>\n+\n+  <ol>\n+   <li><p>If <span data-x=\"concept-bc-noscript\">scripting is disabled</span> for\n+   <var>settings</var>'s <span>responsible browsing context</span>, then set\n+   <var>bufferPromise</var> to a promise resolved with an empty\n+   <code data-x=\"idl-ArrayBuffer\">ArrayBuffer</code>.</p></li>\n+   <!-- REVIEW NOTE: this will cause a parse error, because it doesn't have the magic bytes. -->",
+    "path": "source",
+    "commit_id": "bf2917bad2681e834abc7ae458dd3a7377faf36c",
+    "original_commit_id": "bf2917bad2681e834abc7ae458dd3a7377faf36c",
+    "user": {
+      "login": "Ms2ger",
+      "id": 111161,
+      "node_id": "MDQ6VXNlcjExMTE2MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/111161?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Ms2ger",
+      "html_url": "https://github.com/Ms2ger",
+      "followers_url": "https://api.github.com/users/Ms2ger/followers",
+      "following_url": "https://api.github.com/users/Ms2ger/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Ms2ger/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Ms2ger/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Ms2ger/subscriptions",
+      "organizations_url": "https://api.github.com/users/Ms2ger/orgs",
+      "repos_url": "https://api.github.com/users/Ms2ger/repos",
+      "events_url": "https://api.github.com/users/Ms2ger/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Ms2ger/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I'm not quite sure how to handle this; is this even the right place for this check? Should JSON/CSS modules have this check as well?",
+    "created_at": "2019-05-21T09:35:39Z",
+    "updated_at": "2019-05-21T09:36:46Z",
+    "html_url": "https://github.com/whatwg/html/pull/4372#discussion_r285936601",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4372",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/285936601"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4372#discussion_r285936601"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4372"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/285936601/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 88690,
+    "original_line": 88690,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 160,
+    "position": 160,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/286269781",
+    "pull_request_review_id": 240356592,
+    "id": 286269781,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI4NjI2OTc4MQ==",
+    "diff_hunk": "@@ -88595,39 +88669,78 @@ interface <dfn>ApplicationCache</dfn> : <span>EventTarget</span> {\n     </ol>\n    </li>\n \n-   <li id=\"validate-requested-module-specifiers\">\n-    <p><span data-x=\"list iterate\">For each</span> string <var>requested</var> of\n-    <var>result</var>.[[RequestedModules]]:</p>\n+   <li><p><span>Validate requested module specifiers</span> of <var>result</var> with\n+   <var>script</var>.</p></li>\n \n-    <ol>\n-     <li><p>Let <var>url</var> be the result of <span data-x=\"resolve a module specifier\">resolving\n-     a module specifier</span> given <var>script</var>'s <span data-x=\"concept-script-base-url\">base\n-     URL</span> and <var>requested</var>.</p></li>\n+   <li><p>Return <var>script</var>.</p></li>\n+  </ol>\n+\n+  <p>To <dfn data-x=\"creating a WebAssembly module script\">create a WebAssembly module script</dfn>,\n+  given a promise that will resolve with an <code data-x=\"idl-ArrayBuffer\">ArrayBuffer</code>\n+  <var>bufferPromise</var>, an <span>environment settings object</span> <var>settings</var>, a\n+  <span>URL</span> <var>baseURL</var>, and some <span>script fetch options</span>\n+  <var>options</var>, run these steps. The algorithm will asynchronously complete with a new\n+  <span>WebAssembly module script</span>.</p>\n+\n+  <ol>\n+   <li><p>If <span data-x=\"concept-bc-noscript\">scripting is disabled</span> for\n+   <var>settings</var>'s <span>responsible browsing context</span>, then set\n+   <var>bufferPromise</var> to a promise resolved with an empty\n+   <code data-x=\"idl-ArrayBuffer\">ArrayBuffer</code>.</p></li>\n+   <!-- REVIEW NOTE: this will cause a parse error, because it doesn't have the magic bytes. -->",
+    "path": "source",
+    "commit_id": "bf2917bad2681e834abc7ae458dd3a7377faf36c",
+    "original_commit_id": "bf2917bad2681e834abc7ae458dd3a7377faf36c",
+    "user": {
+      "login": "littledan",
+      "id": 189835,
+      "node_id": "MDQ6VXNlcjE4OTgzNQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/189835?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/littledan",
+      "html_url": "https://github.com/littledan",
+      "followers_url": "https://api.github.com/users/littledan/followers",
+      "following_url": "https://api.github.com/users/littledan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/littledan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/littledan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/littledan/subscriptions",
+      "organizations_url": "https://api.github.com/users/littledan/orgs",
+      "repos_url": "https://api.github.com/users/littledan/repos",
+      "events_url": "https://api.github.com/users/littledan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/littledan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This seems like a generically good idea by analogy, but it's hard for me to figure out how this check is reachable. Don't the various 'entry points' to this specification path already check if scripting is disabled?",
+    "created_at": "2019-05-22T00:07:16Z",
+    "updated_at": "2019-05-22T00:07:17Z",
+    "html_url": "https://github.com/whatwg/html/pull/4372#discussion_r286269781",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4372",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/286269781"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4372#discussion_r286269781"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4372"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/286269781/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 88690,
+    "original_line": 88690,
+    "side": "RIGHT",
+    "in_reply_to_id": 285936601,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 160,
+    "position": 160,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

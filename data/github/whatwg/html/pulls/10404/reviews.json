@@ -1,0 +1,548 @@
+[
+  {
+    "id": 2132038376,
+    "node_id": "PRR_kwDOALaj485_FFLo",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Back from vacation! Thanks so much for tackling this.\r\n\r\nI got halfway through the review. Then I had an epiphany. (Maybe some parts of the review are still useful.)\r\n\r\nA lot of complexity and XXX boxes here and coming from passing the script around, and trying to determine which script to use. But Looking at the Chromium code, muting is not really done by passing a script around. It bottoms out in [IsSharedCrossOrigin()](https://source.chromium.org/chromium/chromium/src/+/main:v8/src/api/api.cc;l=3157;drc=90cac1911508d3d682a67c97aa62483eb712f69a), which is a method of `v8::Message`. In other words, it is derived from the JS engine's representation of the thrown exception, _in the same way that we are already hand-waving about for line number, column number, and URL_.\r\n\r\nGiven that we have no interop on muting, and are pretty sure the current spec doesn't match our ideal (per long discussions in #958 and a few other issues like https://github.com/whatwg/html/issues/3149) why are we trying to preserve the framework of it being derived from the script?\r\n\r\nMy suggestion is that we change the spec hand-wave on the muting. We can have it mention that the user agent will probably want to use, for classic scripts, the \"muted errors\" boolean. (And that for module scripts, there is no need to mute errors.) But we don't need to find a way to thread through the \"right\" script.\r\n\r\nWe can then change the algorithm to only take an exception and a global.",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/10404#pullrequestreview-2132038376",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10404",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10404#pullrequestreview-2132038376"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10404"
+      }
+    },
+    "submitted_at": "2024-06-21T08:30:55Z",
+    "commit_id": "d5f0d8608c0a30d4ea583221e0182dfd3f7f7583"
+  },
+  {
+    "id": 2146448541,
+    "node_id": "PRR_kwDOALaj485_8DSd",
+    "user": {
+      "login": "jeremyroman",
+      "id": 156119,
+      "node_id": "MDQ6VXNlcjE1NjExOQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/156119?u=1dcc52d2df78b5df1e647c6ef346393d66eeb813&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jeremyroman",
+      "html_url": "https://github.com/jeremyroman",
+      "followers_url": "https://api.github.com/users/jeremyroman/followers",
+      "following_url": "https://api.github.com/users/jeremyroman/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jeremyroman/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jeremyroman/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jeremyroman/subscriptions",
+      "organizations_url": "https://api.github.com/users/jeremyroman/orgs",
+      "repos_url": "https://api.github.com/users/jeremyroman/repos",
+      "events_url": "https://api.github.com/users/jeremyroman/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jeremyroman/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "responded to most comments; will address editorial comments later",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/10404#pullrequestreview-2146448541",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10404",
+    "author_association": "CONTRIBUTOR",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10404#pullrequestreview-2146448541"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10404"
+      }
+    },
+    "submitted_at": "2024-06-27T21:27:26Z",
+    "commit_id": "d5f0d8608c0a30d4ea583221e0182dfd3f7f7583"
+  },
+  {
+    "id": 2152554234,
+    "node_id": "PRR_kwDOALaj486ATV76",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/10404#pullrequestreview-2152554234",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10404",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10404#pullrequestreview-2152554234"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10404"
+      }
+    },
+    "submitted_at": "2024-07-02T02:43:48Z",
+    "commit_id": "d5f0d8608c0a30d4ea583221e0182dfd3f7f7583"
+  },
+  {
+    "id": 2152556422,
+    "node_id": "PRR_kwDOALaj486ATWeG",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/10404#pullrequestreview-2152556422",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10404",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10404#pullrequestreview-2152556422"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10404"
+      }
+    },
+    "submitted_at": "2024-07-02T02:46:05Z",
+    "commit_id": "d5f0d8608c0a30d4ea583221e0182dfd3f7f7583"
+  },
+  {
+    "id": 2152557410,
+    "node_id": "PRR_kwDOALaj486ATWti",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/10404#pullrequestreview-2152557410",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10404",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10404#pullrequestreview-2152557410"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10404"
+      }
+    },
+    "submitted_at": "2024-07-02T02:47:10Z",
+    "commit_id": "d5f0d8608c0a30d4ea583221e0182dfd3f7f7583"
+  },
+  {
+    "id": 2152558017,
+    "node_id": "PRR_kwDOALaj486ATW3B",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/10404#pullrequestreview-2152558017",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10404",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10404#pullrequestreview-2152558017"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10404"
+      }
+    },
+    "submitted_at": "2024-07-02T02:47:58Z",
+    "commit_id": "d5f0d8608c0a30d4ea583221e0182dfd3f7f7583"
+  },
+  {
+    "id": 2153076528,
+    "node_id": "PRR_kwDOALaj486AVVcw",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?u=5d39bb7a31325e2905672ce29876c4c00e2a152e&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Thank you for working on this. Great to see some progress on this issue. I wanted to note that \"report the exception\" has many callers that we cannot break: https://dontcallmedom.github.io/webdex/r.html#report%20the%20exception%40%40html%25%25dfn\r\n\r\nContinuing to export the term is probably the bare minimum we need to do. Follow-up issues/downstream PRs might also be needed?",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/10404#pullrequestreview-2153076528",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10404",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10404#pullrequestreview-2153076528"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10404"
+      }
+    },
+    "submitted_at": "2024-07-02T08:27:34Z",
+    "commit_id": "d5f0d8608c0a30d4ea583221e0182dfd3f7f7583"
+  },
+  {
+    "id": 2161187562,
+    "node_id": "PRR_kwDOALaj486A0Rrq",
+    "user": {
+      "login": "jeremyroman",
+      "id": 156119,
+      "node_id": "MDQ6VXNlcjE1NjExOQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/156119?u=1dcc52d2df78b5df1e647c6ef346393d66eeb813&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jeremyroman",
+      "html_url": "https://github.com/jeremyroman",
+      "followers_url": "https://api.github.com/users/jeremyroman/followers",
+      "following_url": "https://api.github.com/users/jeremyroman/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jeremyroman/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jeremyroman/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jeremyroman/subscriptions",
+      "organizations_url": "https://api.github.com/users/jeremyroman/orgs",
+      "repos_url": "https://api.github.com/users/jeremyroman/repos",
+      "events_url": "https://api.github.com/users/jeremyroman/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jeremyroman/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/10404#pullrequestreview-2161187562",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10404",
+    "author_association": "CONTRIBUTOR",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10404#pullrequestreview-2161187562"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10404"
+      }
+    },
+    "submitted_at": "2024-07-09T02:56:24Z",
+    "commit_id": "c6a2ab7b1f9bcd1526c8f853c4d6ce0d2b24a177"
+  },
+  {
+    "id": 2173619192,
+    "node_id": "PRR_kwDOALaj486Bjsv4",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This is looking great.\r\n\r\nSo we have two cases where the global object is unclear. Previously you've had good success testing those and then making a call. Do you want to do that for the last two? Or should we box them off with XXXs, to get this over the finish line?\r\n\r\nI think the biggest question is whether to keep the scripts or not, per my https://github.com/whatwg/html/pull/10404#pullrequestreview-2132038376. It seems like there are several cases for the script:\r\n\r\n1. The script is clear: \"run a classic script\" and \"run a module script\".\r\n2. An API is being called directly, e.g. reportError(). Probably the [active script](https://html.spec.whatwg.org/#active-script) would work fine here.\r\n3. An API indirectly queues a callback, e.g. requestAnimationFrame(), queueMicrotask(), promise.then(), any DOM manipulation that triggers custom elements. Probably capturing the active script at queueing time would be correct and relatively straightforward here?\r\n4. An API that very indirectly triggers script execution, e.g. the script that originally set an `onload=\"\"` attribute value or the script that caused the element to load; the script that inserted HTML that was parsed by declarative shadow DOM; the script that used `document.write()` to write a `<script type=\"importmap\">`.\r\n5. There is definitely no script. E.g. declarative shadow DOM or `<script type=\"importmap\">` when reading from the server response.\r\n\r\nYour work so far seems to give the clear unambiguous answer for (1) and (5). For (2)-(4) it's more mixed; sometimes you put \"the appropriate script\" and sometimes you put nothing. I suspect that no browsers do muting for (4), but as you note there are obvious interop differences for (2), and I suspect there are for (3) as well.\r\n\r\nGiven this, I think two paths are reasonable:\r\n\r\n- Make the script completely handwavey for now, as I suggested in https://github.com/whatwg/html/pull/10404#pullrequestreview-2132038376. This might be more aligned with the actual architecture anyway.\r\n- Make it clearer when we're in cases (1) vs. (5) vs. (2)-(4). E.g. make the script argument non-optional, and always pass either the actual script value for (1), null for (5), and a `<dfn>`d \"the appropriate script\" for (2)-(4), where the dfn is a handwave and there's a nice XXX box discussing the problem space and linking to a followup issue. (I guess the fact that (4) and (5) end up in the same call sites in many cases can make this a bit complicated.)\r\n\r\nWhat do you think?",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/10404#pullrequestreview-2173619192",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10404",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10404#pullrequestreview-2173619192"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10404"
+      }
+    },
+    "submitted_at": "2024-07-12T03:51:22Z",
+    "commit_id": "c6a2ab7b1f9bcd1526c8f853c4d6ce0d2b24a177"
+  },
+  {
+    "id": 2192313120,
+    "node_id": "PRR_kwDOALaj486CrAsg",
+    "user": {
+      "login": "jeremyroman",
+      "id": 156119,
+      "node_id": "MDQ6VXNlcjE1NjExOQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/156119?u=1dcc52d2df78b5df1e647c6ef346393d66eeb813&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jeremyroman",
+      "html_url": "https://github.com/jeremyroman",
+      "followers_url": "https://api.github.com/users/jeremyroman/followers",
+      "following_url": "https://api.github.com/users/jeremyroman/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jeremyroman/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jeremyroman/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jeremyroman/subscriptions",
+      "organizations_url": "https://api.github.com/users/jeremyroman/orgs",
+      "repos_url": "https://api.github.com/users/jeremyroman/repos",
+      "events_url": "https://api.github.com/users/jeremyroman/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jeremyroman/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/10404#pullrequestreview-2192313120",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10404",
+    "author_association": "CONTRIBUTOR",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10404#pullrequestreview-2192313120"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10404"
+      }
+    },
+    "submitted_at": "2024-07-22T22:49:43Z",
+    "commit_id": "c6a2ab7b1f9bcd1526c8f853c4d6ce0d2b24a177"
+  },
+  {
+    "id": 2198380504,
+    "node_id": "PRR_kwDOALaj486DCJ_Y",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/10404#pullrequestreview-2198380504",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10404",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10404#pullrequestreview-2198380504"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10404"
+      }
+    },
+    "submitted_at": "2024-07-25T06:03:14Z",
+    "commit_id": "c6a2ab7b1f9bcd1526c8f853c4d6ce0d2b24a177"
+  },
+  {
+    "id": 2198383087,
+    "node_id": "PRR_kwDOALaj486DCKnv",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/10404#pullrequestreview-2198383087",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10404",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10404#pullrequestreview-2198383087"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10404"
+      }
+    },
+    "submitted_at": "2024-07-25T06:05:24Z",
+    "commit_id": "c6a2ab7b1f9bcd1526c8f853c4d6ce0d2b24a177"
+  },
+  {
+    "id": 2198385892,
+    "node_id": "PRR_kwDOALaj486DCLTk",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This LGTM. I'll give it a few days in case anyone else wants to take a look, and/or we want to make some final tweaks to link to followup issues.",
+    "state": "APPROVED",
+    "html_url": "https://github.com/whatwg/html/pull/10404#pullrequestreview-2198385892",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10404",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10404#pullrequestreview-2198385892"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10404"
+      }
+    },
+    "submitted_at": "2024-07-25T06:07:36Z",
+    "commit_id": "8c6824f380cda98da5dba77d7d650588c666a4d9"
+  }
+]

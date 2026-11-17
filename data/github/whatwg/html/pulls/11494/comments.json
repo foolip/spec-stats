@@ -1,0 +1,360 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2234806562",
+    "pull_request_review_id": 3060547623,
+    "id": 2234806562,
+    "node_id": "PRRC_kwDOALaj486FNHEi",
+    "diff_hunk": "@@ -17198,6 +17198,27 @@ interface <dfn interface>HTMLMetaElement</dfn> : <span>HTMLElement</span> {\n   data-x=\"attr-meta-http-equiv\">http-equiv</code></dfn> attribute is specified on a\n   <code>meta</code> element, the element is a pragma directive.</p>\n \n+  <div class=\"warning\" id=\"warning-http-equiv-unrelated-to-http-headers\">\n+   <p>Despite the name <code data-x=\"attr-meta-http-equiv\">http-equiv</code>, pragma directives are\n+   almost entirely unrelated to HTTP headers. Implementers and web developers are best off thinking\n+   of them as entirely separate, and the name as being a historical accident.</p>",
+    "path": "source",
+    "commit_id": "87440140c4ea484cb3ed09fcc47d2f1e8c4a78e8",
+    "original_commit_id": "0d3d825b0255550eca5a8933ae0932ad2727b1bf",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Thankfully we have \"a hierarchy\" as example in the style guide.",
+    "created_at": "2025-07-28T06:10:18Z",
+    "updated_at": "2025-07-28T06:12:50Z",
+    "html_url": "https://github.com/whatwg/html/pull/11494#discussion_r2234806562",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11494",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2234806562"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11494#discussion_r2234806562"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11494"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2234806562/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 17204,
+    "original_line": 17204,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 7,
+    "position": 7,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2234809008",
+    "pull_request_review_id": 3060547623,
+    "id": 2234809008,
+    "node_id": "PRRC_kwDOALaj486FNHqw",
+    "diff_hunk": "@@ -17198,6 +17198,27 @@ interface <dfn interface>HTMLMetaElement</dfn> : <span>HTMLElement</span> {\n   data-x=\"attr-meta-http-equiv\">http-equiv</code></dfn> attribute is specified on a\n   <code>meta</code> element, the element is a pragma directive.</p>\n \n+  <div class=\"warning\" id=\"warning-http-equiv-unrelated-to-http-headers\">\n+   <p>Despite the name <code data-x=\"attr-meta-http-equiv\">http-equiv</code>, pragma directives are\n+   almost entirely unrelated to HTTP headers. Implementers and web developers are best off thinking\n+   of them as entirely separate, and the name as being a historical accident.</p>\n+\n+   <p>In more detail, although the <code data-x=\"attr-meta-http-equiv-refresh\">refresh</code>\n+   keyword has the same processing model as the corresponding `<code>Refresh</code>` header, every\n+   other standardized pragma directive has at least slightly different behavior than the\n+   similarly-named header. (And usually dramatically-different behavior.)</p>\n+\n+   <p>Implementers or specification writers contemplating adding new document-level pragmas or HTTP\n+   header-controlled switches should be cautious about this mismatch, and avoid perpetuating the\n+   existing confusion by adding the same or similar behavior to both an HTTP header and an <code\n+   data-x=\"attr-meta-http-equiv\">http-equiv</code> pragma. Instead, consider providing only an HTTP\n+   header, or if an in-document pragma is needed, consider adding a new attribute to\n+   <code>meta</code> similar to the model used by the <code\n+   data-x=\"attr-meta-charset\">charset</code> attribute. (Note that avoiding in-document pragmas is\n+   often the better choice, since the DOM is mutable, and it's rarely a good idea to let pragmas be\n+   applied or un-applied dynamically.)</p>",
+    "path": "source",
+    "commit_id": "87440140c4ea484cb3ed09fcc47d2f1e8c4a78e8",
+    "original_commit_id": "0d3d825b0255550eca5a8933ae0932ad2727b1bf",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The mere fact of putting it in the node tree makes a policy mutable as you at least go from 0 to 1 during the lifetime of the document. I think that's worth clarifying here as that's often overlooked.",
+    "created_at": "2025-07-28T06:12:04Z",
+    "updated_at": "2025-07-28T06:12:50Z",
+    "html_url": "https://github.com/whatwg/html/pull/11494#discussion_r2234809008",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11494",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2234809008"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11494#discussion_r2234809008"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11494"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2234809008/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 17219,
+    "original_line": 17219,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 22,
+    "position": 22,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2234871892",
+    "pull_request_review_id": 3060633684,
+    "id": 2234871892,
+    "node_id": "PRRC_kwDOALaj486FNXBU",
+    "diff_hunk": "@@ -17198,6 +17198,27 @@ interface <dfn interface>HTMLMetaElement</dfn> : <span>HTMLElement</span> {\n   data-x=\"attr-meta-http-equiv\">http-equiv</code></dfn> attribute is specified on a\n   <code>meta</code> element, the element is a pragma directive.</p>\n \n+  <div class=\"warning\" id=\"warning-http-equiv-unrelated-to-http-headers\">\n+   <p>Despite the name <code data-x=\"attr-meta-http-equiv\">http-equiv</code>, pragma directives are\n+   almost entirely unrelated to HTTP headers. Implementers and web developers are best off thinking\n+   of them as entirely separate, and the name as being a historical accident.</p>\n+\n+   <p>In more detail, although the <code data-x=\"attr-meta-http-equiv-refresh\">refresh</code>\n+   keyword has the same processing model as the corresponding `<code>Refresh</code>` header, every\n+   other standardized pragma directive has at least slightly different behavior than the\n+   similarly-named header. (And usually dramatically-different behavior.)</p>\n+\n+   <p>Implementers or specification writers contemplating adding new document-level pragmas or HTTP\n+   header-controlled switches should be cautious about this mismatch, and avoid perpetuating the\n+   existing confusion by adding the same or similar behavior to both an HTTP header and an <code\n+   data-x=\"attr-meta-http-equiv\">http-equiv</code> pragma. Instead, consider providing only an HTTP\n+   header, or if an in-document pragma is needed, consider adding a new attribute to\n+   <code>meta</code> similar to the model used by the <code\n+   data-x=\"attr-meta-charset\">charset</code> attribute. (Note that avoiding in-document pragmas is\n+   often the better choice, since the DOM is mutable, and it's rarely a good idea to let pragmas be\n+   applied or un-applied dynamically.)</p>",
+    "path": "source",
+    "commit_id": "87440140c4ea484cb3ed09fcc47d2f1e8c4a78e8",
+    "original_commit_id": "0d3d825b0255550eca5a8933ae0932ad2727b1bf",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Let me know what you think of the new phrasing",
+    "created_at": "2025-07-28T06:36:05Z",
+    "updated_at": "2025-07-28T06:36:05Z",
+    "html_url": "https://github.com/whatwg/html/pull/11494#discussion_r2234871892",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11494",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2234871892"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11494#discussion_r2234871892"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11494"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2234871892/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 17219,
+    "original_line": 17219,
+    "side": "RIGHT",
+    "in_reply_to_id": 2234809008,
+    "author_association": "MEMBER",
+    "original_position": 22,
+    "position": 22,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2234872817",
+    "pull_request_review_id": 3060634972,
+    "id": 2234872817,
+    "node_id": "PRRC_kwDOALaj486FNXPx",
+    "diff_hunk": "@@ -17198,6 +17198,27 @@ interface <dfn interface>HTMLMetaElement</dfn> : <span>HTMLElement</span> {\n   data-x=\"attr-meta-http-equiv\">http-equiv</code></dfn> attribute is specified on a\n   <code>meta</code> element, the element is a pragma directive.</p>\n \n+  <div class=\"warning\" id=\"warning-http-equiv-unrelated-to-http-headers\">\n+   <p>Despite the name <code data-x=\"attr-meta-http-equiv\">http-equiv</code>, pragma directives are\n+   almost entirely unrelated to HTTP headers. Implementers and web developers are best off thinking\n+   of them as entirely separate, and the name as being a historical accident.</p>",
+    "path": "source",
+    "commit_id": "87440140c4ea484cb3ed09fcc47d2f1e8c4a78e8",
+    "original_commit_id": "0d3d825b0255550eca5a8933ae0932ad2727b1bf",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I was still surprised that it was \"an HTTP\" instead of \"a HTTP\"...",
+    "created_at": "2025-07-28T06:36:25Z",
+    "updated_at": "2025-07-28T06:36:25Z",
+    "html_url": "https://github.com/whatwg/html/pull/11494#discussion_r2234872817",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11494",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2234872817"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11494#discussion_r2234872817"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11494"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2234872817/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 17204,
+    "original_line": 17204,
+    "side": "RIGHT",
+    "in_reply_to_id": 2234806562,
+    "author_association": "MEMBER",
+    "original_position": 7,
+    "position": 7,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2234891017",
+    "pull_request_review_id": 3060657963,
+    "id": 2234891017,
+    "node_id": "PRRC_kwDOALaj486FNbsJ",
+    "diff_hunk": "@@ -17198,6 +17198,27 @@ interface <dfn interface>HTMLMetaElement</dfn> : <span>HTMLElement</span> {\n   data-x=\"attr-meta-http-equiv\">http-equiv</code></dfn> attribute is specified on a\n   <code>meta</code> element, the element is a pragma directive.</p>\n \n+  <div class=\"warning\" id=\"warning-http-equiv-unrelated-to-http-headers\">\n+   <p>Despite the name <code data-x=\"attr-meta-http-equiv\">http-equiv</code>, pragma directives are\n+   almost entirely unrelated to HTTP headers. Implementers and web developers are best off thinking\n+   of them as entirely separate, and the name as being a historical accident.</p>\n+\n+   <p>In more detail, although the <code data-x=\"attr-meta-http-equiv-refresh\">refresh</code>\n+   keyword has the same processing model as the corresponding `<code>Refresh</code>` header, every\n+   other standardized pragma directive has at least slightly different behavior than the\n+   similarly-named header. (And usually dramatically-different behavior.)</p>\n+\n+   <p>Implementers or specification writers contemplating adding new document-level pragmas or HTTP\n+   header-controlled switches should be cautious about this mismatch, and avoid perpetuating the\n+   existing confusion by adding the same or similar behavior to both an HTTP header and an <code\n+   data-x=\"attr-meta-http-equiv\">http-equiv</code> pragma. Instead, consider providing only an HTTP\n+   header, or if an in-document pragma is needed, consider adding a new attribute to\n+   <code>meta</code> similar to the model used by the <code\n+   data-x=\"attr-meta-charset\">charset</code> attribute. (Note that avoiding in-document pragmas is\n+   often the better choice, since the DOM is mutable, and it's rarely a good idea to let pragmas be\n+   applied or un-applied dynamically.)</p>",
+    "path": "source",
+    "commit_id": "87440140c4ea484cb3ed09fcc47d2f1e8c4a78e8",
+    "original_commit_id": "0d3d825b0255550eca5a8933ae0932ad2727b1bf",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Lovely, thanks!",
+    "created_at": "2025-07-28T06:41:30Z",
+    "updated_at": "2025-07-28T06:41:30Z",
+    "html_url": "https://github.com/whatwg/html/pull/11494#discussion_r2234891017",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11494",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2234891017"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11494#discussion_r2234891017"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11494"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2234891017/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 17219,
+    "original_line": 17219,
+    "side": "RIGHT",
+    "in_reply_to_id": 2234809008,
+    "author_association": "MEMBER",
+    "original_position": 22,
+    "position": 22,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

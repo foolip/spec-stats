@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/1894499870",
+    "html_url": "https://github.com/whatwg/html/issues/10059#issuecomment-1894499870",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/10059",
+    "id": 1894499870,
+    "node_id": "IC_kwDOALaj485w68Ye",
+    "user": {
+      "login": "khushalsagar",
+      "id": 63884798,
+      "node_id": "MDQ6VXNlcjYzODg0Nzk4",
+      "avatar_url": "https://avatars.githubusercontent.com/u/63884798?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/khushalsagar",
+      "html_url": "https://github.com/khushalsagar",
+      "followers_url": "https://api.github.com/users/khushalsagar/followers",
+      "following_url": "https://api.github.com/users/khushalsagar/following{/other_user}",
+      "gists_url": "https://api.github.com/users/khushalsagar/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/khushalsagar/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/khushalsagar/subscriptions",
+      "organizations_url": "https://api.github.com/users/khushalsagar/orgs",
+      "repos_url": "https://api.github.com/users/khushalsagar/repos",
+      "events_url": "https://api.github.com/users/khushalsagar/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/khushalsagar/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2024-01-16T20:56:40Z",
+    "updated_at": "2024-01-16T20:56:40Z",
+    "body": "We discussed this internally today and decided to abandon this in favour of the `pageconceal` idea on https://github.com/whatwg/html/issues/9702. The summary is as follows:\r\n\r\n- The use-cases on https://github.com/whatwg/html/issues/9702 will still remain since fundamentally `navigate` is at the beginning of the navigation lifecycle and `pageconceal` will be at the end (right before commit). Both the opt-in and customization can depend on information known at commit time.\r\n\r\n- A pro of letting authors provide the opt-in via `navigate`, instead of `pageconceal`, is performance. The API contract for `pageconceal` will be as follows:\r\n\r\n   - If there is a ViewTransition, it blocks the new Document from painting (`pagereveal` must fire after `pageconceal`). So `pageconceal` delays the navigation from committing.\r\n   \r\n   - If there is no ViewTransition, then committing the new Document can be done in parallel with hiding/unloading of the old Document.\r\n   \r\n   This means knowing whether there is a VT opt-in in `navigate` avoids making `pageconceal` blocking. But having the opt-in on `navigate` makes another planned extension for the CSS opt-in complicated:\r\n\r\n    ```css\r\n    @view-transition {\r\n      navigation: auto;\r\n      to: urlpattern(...);\r\n    }\r\n    ```\r\n    \r\n    We'd like the `to` value here to apply to the final URL (after all redirects). If the author's CSS has an opt-in for a to value and script does an opt-out in `navigate`, which one wins? And if the author does an opt-in via `navigate` but the CSS has an opt-out, does that still apply?\r\n    \r\n    We considered making `to` here correspond to the initial URL (instead of final URL), authors could handle the final URL scenarios in script. But it came up that same-origin redirects is a common enough use-case (for example with form submission or redirecting to the login screen) that keeping them declarative is nicer.\r\n\r\nClosing this issue to continue the discussion on #9702. Please re-open if I incorrectly assumed anything.",
+    "author_association": "CONTRIBUTOR",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/1894499870/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

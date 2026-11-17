@@ -1,0 +1,217 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1365855420",
+    "pull_request_review_id": 1688236216,
+    "id": 1365855420,
+    "node_id": "PRRC_kwDOALaj485RaUy8",
+    "diff_hunk": "@@ -13655,36 +13655,24 @@ Transport Protocol\">HTTP&lt;/abbr> today.&lt;/p></code></pre> <!-- DO NOT REWRAP\n \n     <ol>\n      <li>\n-      <p>If <var>descendant</var> has an ancestor element that is a descendant of <var>element</var>\n-      and is also one of</p>\n+      <p>If <var>descendant</var>, or any of its ancestor elements that are descendants of\n+      <var>element</var>, is one of</p>\n \n       <ul class=\"brief\">\n        <li>a <code>bdi</code> element</li>\n        <li>a <code>script</code> element</li>\n        <li>a <code>style</code> element</li>\n        <li>a <code>textarea</code> element</li>\n-       <li>a <code>slot</code> element whose <span>root</span> is a <span>shadow\n-       root</span></li>\n        <li>an element whose <code data-x=\"attr-dir\">dir</code> attribute is not in the <span\n        data-x=\"attr-dir-undefined-state\">undefined</span> state</li>\n       </ul>\n \n       <p>then <span>continue</span>.</p>\n      </li>\n \n-     <li>\n-      <p>If <var>descendant</var> is a <code>slot</code> element whose <span>root</span> is a\n-      <span>shadow root</span>, then:</p>\n-\n-      <ol>\n-       <li><p>Let <var>result</var> be the <span>auto directionality</span> of\n-       <var>descendant</var>.</p></li>.\n-\n-       <li><p>If <var>result</var> is not null, then return <var>result</var>.</p></li>\n-\n-       <li><p>Return '<span data-x=\"concept-ltr\">ltr</span>'.</p></li>\n-      </ol>\n-     </li>\n+     <li><p>If <var>descendant</var> is a <code>slot</code> element whose <span>root</span> is a\n+     <span>shadow root</span>, then return the <span data-x=\"the\n+     directionality\">directionality</span> of <var>descendant</var>.</p></li>",
+    "path": "source",
+    "commit_id": "6ac08bb271b1d752c3c777f38bf85f1ed9af6f12",
+    "original_commit_id": "6ac08bb271b1d752c3c777f38bf85f1ed9af6f12",
+    "user": {
+      "login": "smaug----",
+      "id": 9219935,
+      "node_id": "MDQ6VXNlcjkyMTk5MzU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9219935?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/smaug----",
+      "html_url": "https://github.com/smaug----",
+      "followers_url": "https://api.github.com/users/smaug----/followers",
+      "following_url": "https://api.github.com/users/smaug----/following{/other_user}",
+      "gists_url": "https://api.github.com/users/smaug----/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/smaug----/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/smaug----/subscriptions",
+      "organizations_url": "https://api.github.com/users/smaug----/orgs",
+      "repos_url": "https://api.github.com/users/smaug----/repos",
+      "events_url": "https://api.github.com/users/smaug----/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/smaug----/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Doesn't this effectively end up recursing again to the descendands of slot element (without assigned nodes) even though they were already processed because of tree order? That should still work, but makes it harder to understand the algorithm. Or am I missing some step somewhere which prevents that behavior?",
+    "created_at": "2023-10-19T16:54:54Z",
+    "updated_at": "2023-10-19T20:39:09Z",
+    "html_url": "https://github.com/whatwg/html/pull/9868#discussion_r1365855420",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9868",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1365855420"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9868#discussion_r1365855420"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9868"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1365855420/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 13675,
+    "original_line": 13675,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 38,
+    "position": 38,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1366423013",
+    "pull_request_review_id": 1689158458,
+    "id": 1366423013,
+    "node_id": "PRRC_kwDOALaj485RcfXl",
+    "diff_hunk": "@@ -13655,36 +13655,24 @@ Transport Protocol\">HTTP&lt;/abbr> today.&lt;/p></code></pre> <!-- DO NOT REWRAP\n \n     <ol>\n      <li>\n-      <p>If <var>descendant</var> has an ancestor element that is a descendant of <var>element</var>\n-      and is also one of</p>\n+      <p>If <var>descendant</var>, or any of its ancestor elements that are descendants of\n+      <var>element</var>, is one of</p>\n \n       <ul class=\"brief\">\n        <li>a <code>bdi</code> element</li>\n        <li>a <code>script</code> element</li>\n        <li>a <code>style</code> element</li>\n        <li>a <code>textarea</code> element</li>\n-       <li>a <code>slot</code> element whose <span>root</span> is a <span>shadow\n-       root</span></li>\n        <li>an element whose <code data-x=\"attr-dir\">dir</code> attribute is not in the <span\n        data-x=\"attr-dir-undefined-state\">undefined</span> state</li>\n       </ul>\n \n       <p>then <span>continue</span>.</p>\n      </li>\n \n-     <li>\n-      <p>If <var>descendant</var> is a <code>slot</code> element whose <span>root</span> is a\n-      <span>shadow root</span>, then:</p>\n-\n-      <ol>\n-       <li><p>Let <var>result</var> be the <span>auto directionality</span> of\n-       <var>descendant</var>.</p></li>.\n-\n-       <li><p>If <var>result</var> is not null, then return <var>result</var>.</p></li>\n-\n-       <li><p>Return '<span data-x=\"concept-ltr\">ltr</span>'.</p></li>\n-      </ol>\n-     </li>\n+     <li><p>If <var>descendant</var> is a <code>slot</code> element whose <span>root</span> is a\n+     <span>shadow root</span>, then return the <span data-x=\"the\n+     directionality\">directionality</span> of <var>descendant</var>.</p></li>",
+    "path": "source",
+    "commit_id": "6ac08bb271b1d752c3c777f38bf85f1ed9af6f12",
+    "original_commit_id": "6ac08bb271b1d752c3c777f38bf85f1ed9af6f12",
+    "user": {
+      "login": "dbaron",
+      "id": 248721,
+      "node_id": "MDQ6VXNlcjI0ODcyMQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/248721?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/dbaron",
+      "html_url": "https://github.com/dbaron",
+      "followers_url": "https://api.github.com/users/dbaron/followers",
+      "following_url": "https://api.github.com/users/dbaron/following{/other_user}",
+      "gists_url": "https://api.github.com/users/dbaron/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/dbaron/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/dbaron/subscriptions",
+      "organizations_url": "https://api.github.com/users/dbaron/orgs",
+      "repos_url": "https://api.github.com/users/dbaron/repos",
+      "events_url": "https://api.github.com/users/dbaron/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/dbaron/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This is linking to the *directionality* and not the *auto directionality*.  So the [directionality](https://html.spec.whatwg.org/multipage/dom.html#the-directionality) of a `slot` element without a `dir` attribute in a shadow root is its [parent directionality](https://html.spec.whatwg.org/multipage/dom.html#parent-directionality), which is defined specially for that case to be the directionality of the host.",
+    "created_at": "2023-10-20T03:49:40Z",
+    "updated_at": "2023-10-20T03:50:46Z",
+    "html_url": "https://github.com/whatwg/html/pull/9868#discussion_r1366423013",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9868",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1366423013"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9868#discussion_r1366423013"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9868"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1366423013/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 13675,
+    "original_line": 13675,
+    "side": "RIGHT",
+    "in_reply_to_id": 1365855420,
+    "author_association": "MEMBER",
+    "original_position": 38,
+    "position": 38,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1368969802",
+    "pull_request_review_id": 1693031196,
+    "id": 1368969802,
+    "node_id": "PRRC_kwDOALaj485RmNJK",
+    "diff_hunk": "@@ -13655,36 +13655,24 @@ Transport Protocol\">HTTP&lt;/abbr> today.&lt;/p></code></pre> <!-- DO NOT REWRAP\n \n     <ol>\n      <li>\n-      <p>If <var>descendant</var> has an ancestor element that is a descendant of <var>element</var>\n-      and is also one of</p>\n+      <p>If <var>descendant</var>, or any of its ancestor elements that are descendants of\n+      <var>element</var>, is one of</p>\n \n       <ul class=\"brief\">\n        <li>a <code>bdi</code> element</li>\n        <li>a <code>script</code> element</li>\n        <li>a <code>style</code> element</li>\n        <li>a <code>textarea</code> element</li>\n-       <li>a <code>slot</code> element whose <span>root</span> is a <span>shadow\n-       root</span></li>\n        <li>an element whose <code data-x=\"attr-dir\">dir</code> attribute is not in the <span\n        data-x=\"attr-dir-undefined-state\">undefined</span> state</li>\n       </ul>\n \n       <p>then <span>continue</span>.</p>\n      </li>\n \n-     <li>\n-      <p>If <var>descendant</var> is a <code>slot</code> element whose <span>root</span> is a\n-      <span>shadow root</span>, then:</p>\n-\n-      <ol>\n-       <li><p>Let <var>result</var> be the <span>auto directionality</span> of\n-       <var>descendant</var>.</p></li>.\n-\n-       <li><p>If <var>result</var> is not null, then return <var>result</var>.</p></li>\n-\n-       <li><p>Return '<span data-x=\"concept-ltr\">ltr</span>'.</p></li>\n-      </ol>\n-     </li>\n+     <li><p>If <var>descendant</var> is a <code>slot</code> element whose <span>root</span> is a\n+     <span>shadow root</span>, then return the <span data-x=\"the\n+     directionality\">directionality</span> of <var>descendant</var>.</p></li>",
+    "path": "source",
+    "commit_id": "6ac08bb271b1d752c3c777f38bf85f1ed9af6f12",
+    "original_commit_id": "6ac08bb271b1d752c3c777f38bf85f1ed9af6f12",
+    "user": {
+      "login": "smaug----",
+      "id": 9219935,
+      "node_id": "MDQ6VXNlcjkyMTk5MzU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9219935?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/smaug----",
+      "html_url": "https://github.com/smaug----",
+      "followers_url": "https://api.github.com/users/smaug----/followers",
+      "following_url": "https://api.github.com/users/smaug----/following{/other_user}",
+      "gists_url": "https://api.github.com/users/smaug----/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/smaug----/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/smaug----/subscriptions",
+      "organizations_url": "https://api.github.com/users/smaug----/orgs",
+      "repos_url": "https://api.github.com/users/smaug----/repos",
+      "events_url": "https://api.github.com/users/smaug----/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/smaug----/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Aha, it is the previous line, which checks that dir state isn't undefined, so we don't nest through dir=auto",
+    "created_at": "2023-10-23T16:44:07Z",
+    "updated_at": "2023-10-23T16:44:08Z",
+    "html_url": "https://github.com/whatwg/html/pull/9868#discussion_r1368969802",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9868",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1368969802"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9868#discussion_r1368969802"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9868"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1368969802/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 13675,
+    "original_line": 13675,
+    "side": "RIGHT",
+    "in_reply_to_id": 1365855420,
+    "author_association": "NONE",
+    "original_position": 38,
+    "position": 38,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

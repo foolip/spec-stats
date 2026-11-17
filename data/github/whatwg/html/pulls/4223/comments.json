@@ -1,0 +1,929 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/240259691",
+    "pull_request_review_id": 183247749,
+    "id": 240259691,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI0MDI1OTY5MQ==",
+    "diff_hunk": "@@ -103008,12 +103008,14 @@ dictionary <dfn>StorageEventInit</dfn> : <span>EventInit</span> {\n   DOCTYPE, start tag, end tag, comment, character, end-of-file. DOCTYPE tokens have a name, a public\n   identifier, a system identifier, and a <dfn><i>force-quirks flag</i></dfn>. When a DOCTYPE token\n   is created, its name, public identifier, and system identifier must be marked as missing (which is\n-  a distinct state from the empty string), and the <i data-x=\"force-quirks flag\">force-quirks flag</i> must be set to\n-  <i>off</i> (its other state is <i>on</i>). Start and end tag tokens have a tag name, a <dfn\n-  data-x=\"self-closing flag\">self-closing flag</dfn>, and a list of attributes, each of which has a\n-  name and a value. When a start or end tag token is created, its <i data-x=\"self-closing\n-  flag\">self-closing flag</i> must be unset (its other state is that it be set), and its attributes\n-  list must be empty. Comment and character tokens have data.</p>\n+  a distinct state from the empty string), and the <i data-x=\"force-quirks flag\">force-quirks flag</i>\n+  must be set to <i>off</i> (its other state is <i>on</i>). Start and end tag tokens have a tag name,\n+  a <dfn data-x=\"self-closing flag\">self-closing flag</dfn>, a\n+  <dfn data-x=\"duplicate attribute flag\">duplicate attribute flag</dfn> and a list of attributes,",
+    "path": "source",
+    "commit_id": "9dbf649790339c4a7ba5b3adbf10812399e1c663",
+    "original_commit_id": "d77b1e846b588ac979eb868a23a9f626a5e3e571",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "In HTML you're allowed to wrap on any whitespace separator, pretty much, so some of this can be on the previous line, with the remainder rewrapped. We also use the Oxford comma.",
+    "created_at": "2018-12-10T15:37:48Z",
+    "updated_at": "2018-12-13T15:38:20Z",
+    "html_url": "https://github.com/whatwg/html/pull/4223#discussion_r240259691",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4223",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/240259691"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4223#discussion_r240259691"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4223"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/240259691/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 103014,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 13,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/240260155",
+    "pull_request_review_id": 183247749,
+    "id": 240260155,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI0MDI2MDE1NQ==",
+    "diff_hunk": "@@ -104003,8 +104005,9 @@ dictionary <dfn>StorageEventInit</dfn> : <span>EventInit</span> {\n   <p>When the user agent leaves the attribute name state (and before emitting the tag token, if\n   appropriate), the complete attribute's name must be compared to the other attributes on the same\n   token; if there is already an attribute on the token with the exact same name, then this is a\n-  <span data-x=\"parse-error-duplicate-attribute\">duplicate-attribute</span> <span>parse error</span>\n-  and the new attribute must be removed from the token.</p>\n+  <span data-x=\"parse-error-duplicate-attribute\">duplicate-attribute</span> <span>parse error</span>,\n+  the new attribute must be removed from the token and the token's\n+  <i data-x=\"duplicate attribute flag\">duplicate attribute flag</i> must be set</p>",
+    "path": "source",
+    "commit_id": "9dbf649790339c4a7ba5b3adbf10812399e1c663",
+    "original_commit_id": "d77b1e846b588ac979eb868a23a9f626a5e3e571",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Missing dot at the end.",
+    "created_at": "2018-12-10T15:38:52Z",
+    "updated_at": "2018-12-13T15:38:20Z",
+    "html_url": "https://github.com/whatwg/html/pull/4223#discussion_r240260155",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4223",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/240260155"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4223#discussion_r240260155"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4223"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/240260155/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 104010,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 29,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/240260524",
+    "pull_request_review_id": 183247749,
+    "id": 240260524,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI0MDI2MDUyNA==",
+    "diff_hunk": "@@ -105686,8 +105689,10 @@ dictionary <dfn>StorageEventInit</dfn> : <span>EventInit</span> {\n    <li>\n     <p>Let <var>element</var> be the result of <span data-x=\"create an element\">creating an\n     element</span> given <var>document</var>, <var>localName</var>, <var>given\n-    namespace</var>, null, and <var>is</var>. If <var>will execute script</var> is true, set the\n-    <var>synchronous custom elements flag</var>; otherwise, leave it unset.</p>\n+    namespace</var>, null, <var>is</var>, and the\n+    <span data-x=\"duplicate attribute flag\">duplicate attribute flag</span> of the token.",
+    "path": "source",
+    "commit_id": "9dbf649790339c4a7ba5b3adbf10812399e1c663",
+    "original_commit_id": "d77b1e846b588ac979eb868a23a9f626a5e3e571",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Same wrapping comment.",
+    "created_at": "2018-12-10T15:39:46Z",
+    "updated_at": "2018-12-13T15:38:20Z",
+    "html_url": "https://github.com/whatwg/html/pull/4223#discussion_r240260524",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4223",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/240260524"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4223#discussion_r240260524"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4223"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/240260524/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 105693,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 40,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/241026265",
+    "pull_request_review_id": 184192923,
+    "id": 241026265,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI0MTAyNjI2NQ==",
+    "diff_hunk": "@@ -103008,12 +103008,14 @@ dictionary <dfn>StorageEventInit</dfn> : <span>EventInit</span> {\n   DOCTYPE, start tag, end tag, comment, character, end-of-file. DOCTYPE tokens have a name, a public\n   identifier, a system identifier, and a <dfn><i>force-quirks flag</i></dfn>. When a DOCTYPE token\n   is created, its name, public identifier, and system identifier must be marked as missing (which is\n-  a distinct state from the empty string), and the <i data-x=\"force-quirks flag\">force-quirks flag</i> must be set to\n-  <i>off</i> (its other state is <i>on</i>). Start and end tag tokens have a tag name, a <dfn\n-  data-x=\"self-closing flag\">self-closing flag</dfn>, and a list of attributes, each of which has a\n-  name and a value. When a start or end tag token is created, its <i data-x=\"self-closing\n-  flag\">self-closing flag</i> must be unset (its other state is that it be set), and its attributes\n-  list must be empty. Comment and character tokens have data.</p>\n+  a distinct state from the empty string), and the <i data-x=\"force-quirks flag\">force-quirks flag</i>\n+  must be set to <i>off</i> (its other state is <i>on</i>). Start and end tag tokens have a tag name,\n+  a <dfn data-x=\"self-closing flag\">self-closing flag</dfn>, a\n+  <dfn data-x=\"duplicate attribute flag\">duplicate attribute flag</dfn> and a list of attributes,",
+    "path": "source",
+    "commit_id": "9dbf649790339c4a7ba5b3adbf10812399e1c663",
+    "original_commit_id": "d77b1e846b588ac979eb868a23a9f626a5e3e571",
+    "user": {
+      "login": "andypaicu",
+      "id": 28290448,
+      "node_id": "MDQ6VXNlcjI4MjkwNDQ4",
+      "avatar_url": "https://avatars.githubusercontent.com/u/28290448?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/andypaicu",
+      "html_url": "https://github.com/andypaicu",
+      "followers_url": "https://api.github.com/users/andypaicu/followers",
+      "following_url": "https://api.github.com/users/andypaicu/following{/other_user}",
+      "gists_url": "https://api.github.com/users/andypaicu/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/andypaicu/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/andypaicu/subscriptions",
+      "organizations_url": "https://api.github.com/users/andypaicu/orgs",
+      "repos_url": "https://api.github.com/users/andypaicu/repos",
+      "events_url": "https://api.github.com/users/andypaicu/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/andypaicu/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Thank you. Fixed.",
+    "created_at": "2018-12-12T14:07:16Z",
+    "updated_at": "2018-12-13T15:38:20Z",
+    "html_url": "https://github.com/whatwg/html/pull/4223#discussion_r241026265",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4223",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/241026265"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4223#discussion_r241026265"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4223"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/241026265/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 103014,
+    "side": "RIGHT",
+    "in_reply_to_id": 240259691,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 13,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/241026291",
+    "pull_request_review_id": 184192959,
+    "id": 241026291,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI0MTAyNjI5MQ==",
+    "diff_hunk": "@@ -104003,8 +104005,9 @@ dictionary <dfn>StorageEventInit</dfn> : <span>EventInit</span> {\n   <p>When the user agent leaves the attribute name state (and before emitting the tag token, if\n   appropriate), the complete attribute's name must be compared to the other attributes on the same\n   token; if there is already an attribute on the token with the exact same name, then this is a\n-  <span data-x=\"parse-error-duplicate-attribute\">duplicate-attribute</span> <span>parse error</span>\n-  and the new attribute must be removed from the token.</p>\n+  <span data-x=\"parse-error-duplicate-attribute\">duplicate-attribute</span> <span>parse error</span>,\n+  the new attribute must be removed from the token and the token's\n+  <i data-x=\"duplicate attribute flag\">duplicate attribute flag</i> must be set</p>",
+    "path": "source",
+    "commit_id": "9dbf649790339c4a7ba5b3adbf10812399e1c663",
+    "original_commit_id": "d77b1e846b588ac979eb868a23a9f626a5e3e571",
+    "user": {
+      "login": "andypaicu",
+      "id": 28290448,
+      "node_id": "MDQ6VXNlcjI4MjkwNDQ4",
+      "avatar_url": "https://avatars.githubusercontent.com/u/28290448?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/andypaicu",
+      "html_url": "https://github.com/andypaicu",
+      "followers_url": "https://api.github.com/users/andypaicu/followers",
+      "following_url": "https://api.github.com/users/andypaicu/following{/other_user}",
+      "gists_url": "https://api.github.com/users/andypaicu/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/andypaicu/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/andypaicu/subscriptions",
+      "organizations_url": "https://api.github.com/users/andypaicu/orgs",
+      "repos_url": "https://api.github.com/users/andypaicu/repos",
+      "events_url": "https://api.github.com/users/andypaicu/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/andypaicu/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Thank you. Fixed.",
+    "created_at": "2018-12-12T14:07:20Z",
+    "updated_at": "2018-12-13T15:38:20Z",
+    "html_url": "https://github.com/whatwg/html/pull/4223#discussion_r241026291",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4223",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/241026291"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4223#discussion_r241026291"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4223"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/241026291/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 104010,
+    "side": "RIGHT",
+    "in_reply_to_id": 240260155,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 29,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/241026306",
+    "pull_request_review_id": 184192981,
+    "id": 241026306,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI0MTAyNjMwNg==",
+    "diff_hunk": "@@ -105686,8 +105689,10 @@ dictionary <dfn>StorageEventInit</dfn> : <span>EventInit</span> {\n    <li>\n     <p>Let <var>element</var> be the result of <span data-x=\"create an element\">creating an\n     element</span> given <var>document</var>, <var>localName</var>, <var>given\n-    namespace</var>, null, and <var>is</var>. If <var>will execute script</var> is true, set the\n-    <var>synchronous custom elements flag</var>; otherwise, leave it unset.</p>\n+    namespace</var>, null, <var>is</var>, and the\n+    <span data-x=\"duplicate attribute flag\">duplicate attribute flag</span> of the token.",
+    "path": "source",
+    "commit_id": "9dbf649790339c4a7ba5b3adbf10812399e1c663",
+    "original_commit_id": "d77b1e846b588ac979eb868a23a9f626a5e3e571",
+    "user": {
+      "login": "andypaicu",
+      "id": 28290448,
+      "node_id": "MDQ6VXNlcjI4MjkwNDQ4",
+      "avatar_url": "https://avatars.githubusercontent.com/u/28290448?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/andypaicu",
+      "html_url": "https://github.com/andypaicu",
+      "followers_url": "https://api.github.com/users/andypaicu/followers",
+      "following_url": "https://api.github.com/users/andypaicu/following{/other_user}",
+      "gists_url": "https://api.github.com/users/andypaicu/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/andypaicu/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/andypaicu/subscriptions",
+      "organizations_url": "https://api.github.com/users/andypaicu/orgs",
+      "repos_url": "https://api.github.com/users/andypaicu/repos",
+      "events_url": "https://api.github.com/users/andypaicu/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/andypaicu/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Thank you. Fixed.",
+    "created_at": "2018-12-12T14:07:23Z",
+    "updated_at": "2018-12-13T15:38:20Z",
+    "html_url": "https://github.com/whatwg/html/pull/4223#discussion_r241026306",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4223",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/241026306"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4223#discussion_r241026306"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4223"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/241026306/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 105693,
+    "side": "RIGHT",
+    "in_reply_to_id": 240260524,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 40,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/241437692",
+    "pull_request_review_id": 184709539,
+    "id": 241437692,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI0MTQzNzY5Mg==",
+    "diff_hunk": "@@ -57856,6 +57856,12 @@ o............A....e\n   <span data-x=\"prepare a script\">prepared</span>, based on the <code\n   data-x=\"attr-script-src\">src</code> attribute of the element at that time.</p>\n \n+  <p>The seventh is a flag indicating whether or not the script has a <dfn\n+  data-x=\"concept-script-duplicate-attribute\">duplicate attribute</dfn>. This flag is intially\n+  unset and can be set after the tokenizer <span data-x=\"create an element for the token\">creates\n+  the element</span>. This flag is used for security checks in the Content Security Policy spec.",
+    "path": "source",
+    "commit_id": "9dbf649790339c4a7ba5b3adbf10812399e1c663",
+    "original_commit_id": "76b7975630c8dd70fd8474367f619cd9adcef035",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "`s/the Content Security Policy spec/<cite>Content Security Policy</cite>/` + wrapping if any",
+    "created_at": "2018-12-13T15:14:31Z",
+    "updated_at": "2018-12-13T15:38:20Z",
+    "html_url": "https://github.com/whatwg/html/pull/4223#discussion_r241437692",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4223",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/241437692"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4223#discussion_r241437692"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4223"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/241437692/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 57862,
+    "original_line": 57862,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 7,
+    "position": 7,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/241438137",
+    "pull_request_review_id": 184709539,
+    "id": 241438137,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI0MTQzODEzNw==",
+    "diff_hunk": "@@ -103059,11 +103065,13 @@ dictionary <dfn>StorageEventInit</dfn> : <span>EventInit</span> {\n   DOCTYPE, start tag, end tag, comment, character, end-of-file. DOCTYPE tokens have a name, a public\n   identifier, a system identifier, and a <dfn><i>force-quirks flag</i></dfn>. When a DOCTYPE token\n   is created, its name, public identifier, and system identifier must be marked as missing (which is\n-  a distinct state from the empty string), and the <i data-x=\"force-quirks flag\">force-quirks flag</i> must be set to\n-  <i>off</i> (its other state is <i>on</i>). Start and end tag tokens have a tag name, a <dfn\n-  data-x=\"self-closing flag\">self-closing flag</dfn>, and a list of attributes, each of which has a\n-  name and a value. When a start or end tag token is created, its <i data-x=\"self-closing\n-  flag\">self-closing flag</i> must be unset (its other state is that it be set), and its attributes\n+  a distinct state from the empty string), and the <i data-x=\"force-quirks flag\">force-quirks flag</i>\n+  must be set to <i>off</i> (its other state is <i>on</i>). Start and end tag tokens have a tag name,\n+  a <dfn data-x=\"self-closing flag\">self-closing flag</dfn>, a <dfn data-x=\"duplicate attribute flag\">",
+    "path": "source",
+    "commit_id": "9dbf649790339c4a7ba5b3adbf10812399e1c663",
+    "original_commit_id": "76b7975630c8dd70fd8474367f619cd9adcef035",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Since there's not supposed to be whitespace between the start tag and the first word, there's no wrapping allowed there. You probably need to wrap at `flag\">`.",
+    "created_at": "2018-12-13T15:15:33Z",
+    "updated_at": "2018-12-13T15:38:20Z",
+    "html_url": "https://github.com/whatwg/html/pull/4223#discussion_r241438137",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4223",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/241438137"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4223#discussion_r241438137"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4223"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/241438137/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 103070,
+    "original_line": 103070,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 24,
+    "position": 25,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/241438560",
+    "pull_request_review_id": 184709539,
+    "id": 241438560,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI0MTQzODU2MA==",
+    "diff_hunk": "@@ -105747,6 +105756,12 @@ dictionary <dfn>StorageEventInit</dfn> : <span>EventInit</span> {\n     data-x=\"dom-document-open\">the document to be blown away</span>.</p>\n    </li>\n \n+   <li>",
+    "path": "source",
+    "commit_id": "9dbf649790339c4a7ba5b3adbf10812399e1c663",
+    "original_commit_id": "76b7975630c8dd70fd8474367f619cd9adcef035",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "You want `<li><p>If ...` for \"modern style\". Definitely cannot omit the `<p>` though.",
+    "created_at": "2018-12-13T15:16:32Z",
+    "updated_at": "2018-12-13T15:38:20Z",
+    "html_url": "https://github.com/whatwg/html/pull/4223#discussion_r241438560",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4223",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/241438560"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4223#discussion_r241438560"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4223"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/241438560/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 105759,
+    "original_line": 105759,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 48,
+    "position": 50,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/241438677",
+    "pull_request_review_id": 184709539,
+    "id": 241438677,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI0MTQzODY3Nw==",
+    "diff_hunk": "@@ -105747,6 +105756,12 @@ dictionary <dfn>StorageEventInit</dfn> : <span>EventInit</span> {\n     data-x=\"dom-document-open\">the document to be blown away</span>.</p>\n    </li>\n \n+   <li>\n+    If <var>element</var> is a <code>script</code> element and the <span data-x=\"duplicate attribute\n+    flag\">duplicate attribute flag</span> of the token is set, set <var>element</var>'s <span",
+    "path": "source",
+    "commit_id": "9dbf649790339c4a7ba5b3adbf10812399e1c663",
+    "original_commit_id": "76b7975630c8dd70fd8474367f619cd9adcef035",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "then set.",
+    "created_at": "2018-12-13T15:16:48Z",
+    "updated_at": "2018-12-13T15:38:20Z",
+    "html_url": "https://github.com/whatwg/html/pull/4223#discussion_r241438677",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4223",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/241438677"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4223#discussion_r241438677"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4223"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/241438677/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 105761,
+    "original_line": 105761,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 50,
+    "position": 52,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/241445045",
+    "pull_request_review_id": 184719180,
+    "id": 241445045,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI0MTQ0NTA0NQ==",
+    "diff_hunk": "@@ -57856,6 +57856,12 @@ o............A....e\n   <span data-x=\"prepare a script\">prepared</span>, based on the <code\n   data-x=\"attr-script-src\">src</code> attribute of the element at that time.</p>\n \n+  <p>The seventh is a flag indicating whether or not the script has a <dfn\n+  data-x=\"concept-script-duplicate-attribute\">duplicate attribute</dfn>. This flag is intially\n+  unset and can be set after the tokenizer <span data-x=\"create an element for the token\">creates\n+  the element</span>. This flag is used for security checks in <cite>Content Security Policy\n+  </cite>.<ref spec=\"CSP\"></p>",
+    "path": "source",
+    "commit_id": "9dbf649790339c4a7ba5b3adbf10812399e1c663",
+    "original_commit_id": "ed2aefa53287368ec9186eea0f75ef323676dba3",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "It needs to be `Policy</cite>. <ref ...`. You cannot have a space between an inline closing tag and its preceding content. And you need a space after a dot.",
+    "created_at": "2018-12-13T15:31:38Z",
+    "updated_at": "2018-12-13T15:38:20Z",
+    "html_url": "https://github.com/whatwg/html/pull/4223#discussion_r241445045",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4223",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/241445045"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4223#discussion_r241445045"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4223"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/241445045/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 57863,
+    "original_line": 57863,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 8,
+    "position": 8,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/241448196",
+    "pull_request_review_id": 184723200,
+    "id": 241448196,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI0MTQ0ODE5Ng==",
+    "diff_hunk": "@@ -57856,6 +57856,12 @@ o............A....e\n   <span data-x=\"prepare a script\">prepared</span>, based on the <code\n   data-x=\"attr-script-src\">src</code> attribute of the element at that time.</p>\n \n+  <p>The seventh is a flag indicating whether or not the script has a <dfn\n+  data-x=\"concept-script-duplicate-attribute\">duplicate attribute</dfn>. This flag is intially\n+  unset and can be set after the tokenizer <span data-x=\"create an element for the token\">creates\n+  the element</span>. This flag is used for security checks in <cite>Content Security Policy\n+  </cite>.<ref spec=\"CSP\"></p>",
+    "path": "source",
+    "commit_id": "9dbf649790339c4a7ba5b3adbf10812399e1c663",
+    "original_commit_id": "ed2aefa53287368ec9186eea0f75ef323676dba3",
+    "user": {
+      "login": "andypaicu",
+      "id": 28290448,
+      "node_id": "MDQ6VXNlcjI4MjkwNDQ4",
+      "avatar_url": "https://avatars.githubusercontent.com/u/28290448?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/andypaicu",
+      "html_url": "https://github.com/andypaicu",
+      "followers_url": "https://api.github.com/users/andypaicu/followers",
+      "following_url": "https://api.github.com/users/andypaicu/following{/other_user}",
+      "gists_url": "https://api.github.com/users/andypaicu/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/andypaicu/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/andypaicu/subscriptions",
+      "organizations_url": "https://api.github.com/users/andypaicu/orgs",
+      "repos_url": "https://api.github.com/users/andypaicu/repos",
+      "events_url": "https://api.github.com/users/andypaicu/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/andypaicu/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I've updated it. Hopefully it's good now.",
+    "created_at": "2018-12-13T15:39:02Z",
+    "updated_at": "2018-12-13T15:39:03Z",
+    "html_url": "https://github.com/whatwg/html/pull/4223#discussion_r241448196",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4223",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/241448196"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4223#discussion_r241448196"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4223"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/241448196/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 57863,
+    "original_line": 57863,
+    "side": "RIGHT",
+    "in_reply_to_id": 241445045,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 8,
+    "position": 8,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/241712696",
+    "pull_request_review_id": 185054454,
+    "id": 241712696,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI0MTcxMjY5Ng==",
+    "diff_hunk": "@@ -57856,6 +57856,12 @@ o............A....e\n   <span data-x=\"prepare a script\">prepared</span>, based on the <code\n   data-x=\"attr-script-src\">src</code> attribute of the element at that time.</p>\n \n+  <p>The seventh is a flag indicating whether or not the script has a <dfn\n+  data-x=\"concept-script-duplicate-attribute\">duplicate attribute</dfn>. This flag is intially",
+    "path": "source",
+    "commit_id": "9dbf649790339c4a7ba5b3adbf10812399e1c663",
+    "original_commit_id": "9dbf649790339c4a7ba5b3adbf10812399e1c663",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Thanks to the CSP PR I realized we need to export this. You'll need to add: `data-export=\"\" data-dfn-type=\"dfn\" data-dfn-for=\"script\"` to the `<dfn>`.",
+    "created_at": "2018-12-14T10:43:32Z",
+    "updated_at": "2018-12-14T10:43:40Z",
+    "html_url": "https://github.com/whatwg/html/pull/4223#discussion_r241712696",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4223",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/241712696"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4223#discussion_r241712696"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4223"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/241712696/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 57860,
+    "original_line": 57860,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 5,
+    "position": 5,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

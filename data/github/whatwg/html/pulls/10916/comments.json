@@ -1,0 +1,145 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1920329653",
+    "pull_request_review_id": 2559254244,
+    "id": 1920329653,
+    "node_id": "PRRC_kwDOALaj485ydee1",
+    "diff_hunk": "@@ -104757,22 +104758,38 @@ location.href = '#foo';</code></pre>\n    <li><p>Set <var>notRestoredReasonsForDocument</var>'s <span data-x=\"nrr-url\">URL</span> to\n    <var>document</var>'s <span data-x=\"concept-document-url\">URL</span>.</p></li>\n \n+   <li><p>Let <var>container</var> be <var>document</var>'s <span>node navigable</span>'s <span\n+   data-x=\"nav-container\">container</span>.</p></li>\n+\n    <li>\n-    <p>If <var>document</var>'s <span>node navigable</span>'s <span\n-    data-x=\"nav-container\">container</span> is an <code>iframe</code> element, then:</p>\n+    <p>If <var>container</var> is an <code>iframe</code> element:</p>\n \n     <ol>\n+     <li><p>Let <var>src</var> be the empty string.</p></li>\n+\n+     <li>\n+      <p>If <var>container</var> has a <code data-x=\"dom-iframe-src\">src</code> attribute:</p>\n+\n+      <ol>\n+       <li><p>Let <var>src</var> be the result of <span>encoding-parsing-and-serializing a\n+       URL</span> given <var>container</var>'s <code data-x=\"attr-iframe-src\">src</code> attribute's\n+       value, relative to <var>container</var>'s <span>node document</span>.</p></li>\n+\n+       <li><p>If <var>src</var> is failure, then set <var>src</var> to <var>container</var>'s <code\n+       data-x=\"attr-iframe-src\">src</code> attribute's value.</p></li>\n+      </ol>\n+     </li>\n+\n      <li><p>Set <var>notRestoredReasonsForDocument</var>'s <span data-x=\"nrr-src\">src</span> to\n-     the value of <var>document</var>'s <span>node navigable</span>'s <span\n-     data-x=\"nav-container\">container</span>'s <code data-x=\"attr-iframe-src\">src</code> attribute.</p></li>\n+     <var>src</var>.</p></li>\n \n      <li><p>Set <var>notRestoredReasonsForDocument</var>'s <span data-x=\"nrr-id\">id</span> to\n-     the value of <var>document</var>'s <span>node navigable</span>'s <span\n-     data-x=\"nav-container\">container</span>'s <code data-x=\"attr-id\">id</code> attribute.</p></li>\n+     <var>container</var>'s <code data-x=\"attr-id\">id</code> attribute's value, or the empty string\n+     if it has no such attribute.</p></li>\n \n-     <li><p>Set <var>notRestoredReasonsForDocument</var>'s <span data-x=\"nrr-name\">name</span>\n-     to the value of <var>document</var>'s <span>node navigable</span>'s <span\n-     data-x=\"nav-container\">container</span>'s <code data-x=\"attr-iframe-name\">name</code> attribute.</p></li>\n+     <li><p>Set <var>notRestoredReasonsForDocument</var>'s <span data-x=\"nrr-name\">name</span> to\n+     <var>container</var>'s <code data-x=\"attr-iframe-name\">name</code> attribute's value, or the\n+     empty string if it has no such attribute.</p></li>",
+    "path": "source",
+    "commit_id": "3475390363b48503877529fadd0b2acd1b1ea1b5",
+    "original_commit_id": "3475390363b48503877529fadd0b2acd1b1ea1b5",
+    "user": {
+      "login": "smaug----",
+      "id": 9219935,
+      "node_id": "MDQ6VXNlcjkyMTk5MzU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9219935?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/smaug----",
+      "html_url": "https://github.com/smaug----",
+      "followers_url": "https://api.github.com/users/smaug----/followers",
+      "following_url": "https://api.github.com/users/smaug----/following{/other_user}",
+      "gists_url": "https://api.github.com/users/smaug----/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/smaug----/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/smaug----/subscriptions",
+      "organizations_url": "https://api.github.com/users/smaug----/orgs",
+      "repos_url": "https://api.github.com/users/smaug----/repos",
+      "events_url": "https://api.github.com/users/smaug----/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/smaug----/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Why empty string?  https://html.spec.whatwg.org/#nrr-struct defaults to null anyhow.",
+    "created_at": "2025-01-17T15:07:15Z",
+    "updated_at": "2025-01-17T15:07:15Z",
+    "html_url": "https://github.com/whatwg/html/pull/10916#discussion_r1920329653",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10916",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1920329653"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10916#discussion_r1920329653"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10916"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1920329653/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 104792,
+    "original_line": 104792,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 67,
+    "position": 67,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1921719082",
+    "pull_request_review_id": 2561208302,
+    "id": 1921719082,
+    "node_id": "PRRC_kwDOALaj485yixsq",
+    "diff_hunk": "@@ -104757,22 +104758,38 @@ location.href = '#foo';</code></pre>\n    <li><p>Set <var>notRestoredReasonsForDocument</var>'s <span data-x=\"nrr-url\">URL</span> to\n    <var>document</var>'s <span data-x=\"concept-document-url\">URL</span>.</p></li>\n \n+   <li><p>Let <var>container</var> be <var>document</var>'s <span>node navigable</span>'s <span\n+   data-x=\"nav-container\">container</span>.</p></li>\n+\n    <li>\n-    <p>If <var>document</var>'s <span>node navigable</span>'s <span\n-    data-x=\"nav-container\">container</span> is an <code>iframe</code> element, then:</p>\n+    <p>If <var>container</var> is an <code>iframe</code> element:</p>\n \n     <ol>\n+     <li><p>Let <var>src</var> be the empty string.</p></li>\n+\n+     <li>\n+      <p>If <var>container</var> has a <code data-x=\"dom-iframe-src\">src</code> attribute:</p>\n+\n+      <ol>\n+       <li><p>Let <var>src</var> be the result of <span>encoding-parsing-and-serializing a\n+       URL</span> given <var>container</var>'s <code data-x=\"attr-iframe-src\">src</code> attribute's\n+       value, relative to <var>container</var>'s <span>node document</span>.</p></li>\n+\n+       <li><p>If <var>src</var> is failure, then set <var>src</var> to <var>container</var>'s <code\n+       data-x=\"attr-iframe-src\">src</code> attribute's value.</p></li>\n+      </ol>\n+     </li>\n+\n      <li><p>Set <var>notRestoredReasonsForDocument</var>'s <span data-x=\"nrr-src\">src</span> to\n-     the value of <var>document</var>'s <span>node navigable</span>'s <span\n-     data-x=\"nav-container\">container</span>'s <code data-x=\"attr-iframe-src\">src</code> attribute.</p></li>\n+     <var>src</var>.</p></li>\n \n      <li><p>Set <var>notRestoredReasonsForDocument</var>'s <span data-x=\"nrr-id\">id</span> to\n-     the value of <var>document</var>'s <span>node navigable</span>'s <span\n-     data-x=\"nav-container\">container</span>'s <code data-x=\"attr-id\">id</code> attribute.</p></li>\n+     <var>container</var>'s <code data-x=\"attr-id\">id</code> attribute's value, or the empty string\n+     if it has no such attribute.</p></li>\n \n-     <li><p>Set <var>notRestoredReasonsForDocument</var>'s <span data-x=\"nrr-name\">name</span>\n-     to the value of <var>document</var>'s <span>node navigable</span>'s <span\n-     data-x=\"nav-container\">container</span>'s <code data-x=\"attr-iframe-name\">name</code> attribute.</p></li>\n+     <li><p>Set <var>notRestoredReasonsForDocument</var>'s <span data-x=\"nrr-name\">name</span> to\n+     <var>container</var>'s <code data-x=\"attr-iframe-name\">name</code> attribute's value, or the\n+     empty string if it has no such attribute.</p></li>",
+    "path": "source",
+    "commit_id": "3475390363b48503877529fadd0b2acd1b1ea1b5",
+    "original_commit_id": "3475390363b48503877529fadd0b2acd1b1ea1b5",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "As explained in the OP, null is reserved for the top level or non-iframe child cases.",
+    "created_at": "2025-01-20T02:36:04Z",
+    "updated_at": "2025-01-20T02:36:04Z",
+    "html_url": "https://github.com/whatwg/html/pull/10916#discussion_r1921719082",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10916",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1921719082"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10916#discussion_r1921719082"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10916"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1921719082/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 104792,
+    "original_line": 104792,
+    "side": "RIGHT",
+    "in_reply_to_id": 1920329653,
+    "author_association": "MEMBER",
+    "original_position": 67,
+    "position": 67,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

@@ -1,0 +1,48 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/3048730523",
+    "html_url": "https://github.com/whatwg/html/pull/11432#issuecomment-3048730523",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/11432",
+    "id": 3048730523,
+    "node_id": "IC_kwDOALaj4861t--b",
+    "user": {
+      "login": "foolip",
+      "id": 498917,
+      "node_id": "MDQ6VXNlcjQ5ODkxNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/498917?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/foolip",
+      "html_url": "https://github.com/foolip",
+      "followers_url": "https://api.github.com/users/foolip/followers",
+      "following_url": "https://api.github.com/users/foolip/following{/other_user}",
+      "gists_url": "https://api.github.com/users/foolip/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/foolip/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/foolip/subscriptions",
+      "organizations_url": "https://api.github.com/users/foolip/orgs",
+      "repos_url": "https://api.github.com/users/foolip/repos",
+      "events_url": "https://api.github.com/users/foolip/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/foolip/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2025-07-08T12:24:37Z",
+    "updated_at": "2025-07-08T12:24:37Z",
+    "body": "Hmm, I think this could indeed be tested with \"DOMNodeRemovedFromDocument\", which seems to fire on every node of a removed subtree. But that doesn't work in Chromium any longer, so I don't think we should write such a test.\r\n\r\nIn Chromium I think this is implemented as the calls to `ListedElement::ResetFormOwner()` and `HTMLImageElement::ResetFormOwner()` and following the call stack I can't find any tree walking or other recursion inside of the tree walk we do when removing a node. So I think in terms of implementation the spec is closer after this change.\r\n\r\nLet's give it another days to see if anyone has feedback though!",
+    "author_association": "MEMBER",
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/3048730523/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

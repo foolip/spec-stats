@@ -1,0 +1,360 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1992756381",
+    "pull_request_review_id": 2680511197,
+    "id": 1992756381,
+    "node_id": "PRRC_kwDOALaj4852xwyd",
+    "diff_hunk": "@@ -72160,6 +72164,8 @@ interface <dfn interface>OffscreenCanvas</dfn> : <span>EventTarget</span> {\n \n    <li><p>Let <var>result</var> be a new promise object.</p></li>\n \n+   <li><p>Let <var>offscreenCanvas</var> be <span>this</span>.</p></li>",
+    "path": "source",
+    "commit_id": "fa7212b720030d438ec1486bc1bf56a3cd512622",
+    "original_commit_id": "30d2af194dc8d4711e7da54c09205c7032e36967",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I would slightly prefer to save the global object, and then use \"_global_'s relevant realm\".\r\n\r\nOtherwise, we're technically accessing _offscreenCanvas_ in parallel, which is bad. Accessing a global object is also bad, but it's more obvious that it's one of the \"special\" objects that we make an exception for...",
+    "created_at": "2025-03-13T04:29:01Z",
+    "updated_at": "2025-03-13T05:04:42Z",
+    "html_url": "https://github.com/whatwg/html/pull/11129#discussion_r1992756381",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11129",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1992756381"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11129#discussion_r1992756381"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11129"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1992756381/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 72167,
+    "original_line": 72167,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 66,
+    "position": 66,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1992794680",
+    "pull_request_review_id": 2680511197,
+    "id": 1992794680,
+    "node_id": "PRRC_kwDOALaj4852x6I4",
+    "diff_hunk": "@@ -114019,10 +114025,13 @@ import \"https://example.com/foo/../module2.mjs\";</code></pre>\n \n   <p>The next complication is that, in algorithm sections that are <span>in parallel</span>, you\n   must not create or manipulate objects associated to a specific <span>realm</span>, <span\n-  data-x=\"global object\">global</span>, or <span>environment settings object</span>. (Stated in more\n-  familiar terms, you must not directly access main-thread artifacts from a background thread.)\n-  Doing so would create data races observable to JavaScript code, since after all, your algorithm\n-  steps are running <em><span>in parallel</span></em> to the JavaScript code.</p>\n+  data-x=\"global object\">global</span>, or <span>environment settings object</span>. By extension,\n+  you cannot access Web IDL's <span>this</span> value from steps running <span>in parallel</span>,\n+  even if those steps were activated by an algorithm that <em>does</em> have access to the\n+  <span>this</span> value. (Stated in more familiar terms, you must not directly access main-thread",
+    "path": "source",
+    "commit_id": "fa7212b720030d438ec1486bc1bf56a3cd512622",
+    "original_commit_id": "30d2af194dc8d4711e7da54c09205c7032e36967",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think the new sentence would probably be best as a new paragraph. The parenthetical and the sentence about data races seem a bit awkward after the new interruption.",
+    "created_at": "2025-03-13T05:03:34Z",
+    "updated_at": "2025-03-13T05:04:42Z",
+    "html_url": "https://github.com/whatwg/html/pull/11129#discussion_r1992794680",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11129",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1992794680"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11129#discussion_r1992794680"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11129"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1992794680/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 114031,
+    "original_line": 114031,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 101,
+    "position": 90,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1994344082",
+    "pull_request_review_id": 2683433854,
+    "id": 1994344082,
+    "node_id": "PRRC_kwDOALaj485230aS",
+    "diff_hunk": "@@ -72160,6 +72164,8 @@ interface <dfn interface>OffscreenCanvas</dfn> : <span>EventTarget</span> {\n \n    <li><p>Let <var>result</var> be a new promise object.</p></li>\n \n+   <li><p>Let <var>offscreenCanvas</var> be <span>this</span>.</p></li>",
+    "path": "source",
+    "commit_id": "fa7212b720030d438ec1486bc1bf56a3cd512622",
+    "original_commit_id": "30d2af194dc8d4711e7da54c09205c7032e36967",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I like that better, yeah. I went for it originally, but must've convinced myself that I couldn't grab the relevant realm from the global, even though you clearly can. Done!",
+    "created_at": "2025-03-13T21:45:14Z",
+    "updated_at": "2025-03-13T21:45:15Z",
+    "html_url": "https://github.com/whatwg/html/pull/11129#discussion_r1994344082",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11129",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1994344082"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11129#discussion_r1994344082"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11129"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1994344082/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 72167,
+    "original_line": 72167,
+    "side": "RIGHT",
+    "in_reply_to_id": 1992756381,
+    "author_association": "MEMBER",
+    "original_position": 66,
+    "position": 66,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1994354499",
+    "pull_request_review_id": 2683450112,
+    "id": 1994354499,
+    "node_id": "PRRC_kwDOALaj4852329D",
+    "diff_hunk": "@@ -114019,10 +114025,13 @@ import \"https://example.com/foo/../module2.mjs\";</code></pre>\n \n   <p>The next complication is that, in algorithm sections that are <span>in parallel</span>, you\n   must not create or manipulate objects associated to a specific <span>realm</span>, <span\n-  data-x=\"global object\">global</span>, or <span>environment settings object</span>. (Stated in more\n-  familiar terms, you must not directly access main-thread artifacts from a background thread.)\n-  Doing so would create data races observable to JavaScript code, since after all, your algorithm\n-  steps are running <em><span>in parallel</span></em> to the JavaScript code.</p>\n+  data-x=\"global object\">global</span>, or <span>environment settings object</span>. By extension,\n+  you cannot access Web IDL's <span>this</span> value from steps running <span>in parallel</span>,\n+  even if those steps were activated by an algorithm that <em>does</em> have access to the\n+  <span>this</span> value. (Stated in more familiar terms, you must not directly access main-thread",
+    "path": "source",
+    "commit_id": "fa7212b720030d438ec1486bc1bf56a3cd512622",
+    "original_commit_id": "30d2af194dc8d4711e7da54c09205c7032e36967",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Sounds good. I guess one interesting thing is that this paragraph says we cannot use \"global\" objects while in parallel, while we clearly agree that we actually make an exception for globals, since that's the only way we can schedule things _back_ on the main thread. In other words, we are assuming https://github.com/whatwg/html/issues/6475#issuecomment-796587434 to be true—that most accesses to a global, especially when scheduling tasks, are atomic. That's the right assumption make IMO. I'm just trying to think if we should state this assumption/exception clearly in this paragraph too.",
+    "created_at": "2025-03-13T21:57:12Z",
+    "updated_at": "2025-03-13T21:57:32Z",
+    "html_url": "https://github.com/whatwg/html/pull/11129#discussion_r1994354499",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11129",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1994354499"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11129#discussion_r1994354499"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11129"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1994354499/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 114031,
+    "original_line": 114031,
+    "side": "RIGHT",
+    "in_reply_to_id": 1992794680,
+    "author_association": "MEMBER",
+    "original_position": 101,
+    "position": 90,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1994511029",
+    "pull_request_review_id": 2683729392,
+    "id": 1994511029,
+    "node_id": "PRRC_kwDOALaj48524dK1",
+    "diff_hunk": "@@ -114019,10 +114025,13 @@ import \"https://example.com/foo/../module2.mjs\";</code></pre>\n \n   <p>The next complication is that, in algorithm sections that are <span>in parallel</span>, you\n   must not create or manipulate objects associated to a specific <span>realm</span>, <span\n-  data-x=\"global object\">global</span>, or <span>environment settings object</span>. (Stated in more\n-  familiar terms, you must not directly access main-thread artifacts from a background thread.)\n-  Doing so would create data races observable to JavaScript code, since after all, your algorithm\n-  steps are running <em><span>in parallel</span></em> to the JavaScript code.</p>\n+  data-x=\"global object\">global</span>, or <span>environment settings object</span>. By extension,\n+  you cannot access Web IDL's <span>this</span> value from steps running <span>in parallel</span>,\n+  even if those steps were activated by an algorithm that <em>does</em> have access to the\n+  <span>this</span> value. (Stated in more familiar terms, you must not directly access main-thread",
+    "path": "source",
+    "commit_id": "fa7212b720030d438ec1486bc1bf56a3cd512622",
+    "original_commit_id": "30d2af194dc8d4711e7da54c09205c7032e36967",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think there's a case to be made for porting (some much shorter version of) https://github.com/w3c/ServiceWorker/pull/1755#issuecomment-2661941708 into the spec, to acknowledge the messy reality and carve out some clearer exceptions. But that's a more ambitious followup, I think.",
+    "created_at": "2025-03-14T01:04:01Z",
+    "updated_at": "2025-03-14T01:04:01Z",
+    "html_url": "https://github.com/whatwg/html/pull/11129#discussion_r1994511029",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11129",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1994511029"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11129#discussion_r1994511029"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11129"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1994511029/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 114031,
+    "original_line": 114031,
+    "side": "RIGHT",
+    "in_reply_to_id": 1992794680,
+    "author_association": "MEMBER",
+    "original_position": 101,
+    "position": 90,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

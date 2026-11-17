@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/2162653718",
+    "html_url": "https://github.com/whatwg/html/issues/10285#issuecomment-2162653718",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/10285",
+    "id": 2162653718,
+    "node_id": "IC_kwDOALaj486A53oW",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2024-06-12T10:24:00Z",
+    "updated_at": "2024-06-12T10:24:00Z",
+    "body": "> Why has the **have an element target node in a specific scope** such name (step number 3 shows that element mustn't match with list)?\r\n\r\nLook at e.g. \"A start tag whose tag name is \"button\"\" for how this is used. `<button><span><button>` needs to close the first button, but `<button><object><button>` should instead nest (the ancestor button is not \"in scope\").\r\n\r\n> This list (blacklist), why such a set of exceptions? For example, not all objects are from MathML and SVG. Accordingly, it is simply impossible to understand the meaning of the statements that uses this list.\r\n\r\n`applet`, `caption`, `table`, `td`, `th`, `marquee`, `object` are needed for compat with existing content (pre HTML parser spec era). `html` because it's the root element (also in the fragment case). `template` I believe was added here to get the right behavior when that element was added. The listed MathML and SVG elements are integration points where you can use HTML elements again, see https://html.spec.whatwg.org/#tree-construction\r\n\r\nGenerally, the spec doesn't explain all design decisions or rationale since it would at least 10x the size of the spec.",
+    "author_association": "MEMBER",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/2162653718/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

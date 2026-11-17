@@ -1,0 +1,73 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1413799459",
+    "pull_request_review_id": 1762281564,
+    "id": 1413799459,
+    "node_id": "PRRC_kwDOALaj485URN4j",
+    "diff_hunk": "@@ -84778,6 +84917,147 @@ dictionary <dfn dictionary>DragEventInit</dfn> : <span>MouseEventInit</span> {\n    </li>\n   </ol>\n \n+  <h3 split-filename=\"invokers\">Invokers</h3>\n+\n+  <h4>Introduction</h4>\n+\n+  <!-- NON-NORMATIVE SECTION -->\n+\n+  <p><span data-x=\"concept-button\">Buttons</span> are used to control elements on the page, such as\n+  controlling forms. They can be used to control other elements on the page using the <code\n+  data-x=\"attr-invoketarget\">invoketarget</code> attribute.</p>\n+\n+  <p><span>HTML elements</span> may have an associated <span>invocation action algorithm</span>\n+  which defines how the element reacts to being invoked. Invocations can vary based on the <code\n+  data-x=\"attr-invokeaction\">invokeaction</code> attribute.</p>\n+\n+  <p>The <code data-x=\"attr-invokeaction\">invokeaction</code> attribute is a freeform string\n+  that acts as a hint to <span>invocation action algorithm</span>s to perform some specific action\n+  such as showing or hiding. It is not enumerated, to allow for userland implementations of an\n+  invocation.</p>\n+\n+  <h4><dfn>The invoke target attributes</dfn></h4>\n+\n+  <p><span data-x=\"concept-button\">Buttons</span> may have the following content attributes:</p>\n+\n+  <ul>\n+   <li><p><dfn element-attr for=\"html-global\"><code\n+   data-x=\"attr-invoketarget\">invoketarget</code></dfn></p></li>\n+\n+   <li><p><dfn element-attr for=\"html-global\"><code\n+   data-x=\"attr-invokeaction\">invokeaction</code></dfn></p></li>\n+  </ul>\n+\n+  <p>If specified, the <code data-x=\"attr-invoketarget\">invoketarget</code> attribute value must be\n+  the <span data-x=\"concept-ID\">ID</span> of an element in the same <span>tree</span> as the <span\n+  data-x=\"concept-button\">button</span> with the <code\n+  data-x=\"attr-invoketarget\">invoketarget</code> attribute.</p>\n+\n+  <span data-x=\"concept-element-dom\">DOM interface</span>:\n+  <pre><code class=\"idl\">interface mixin <dfn interface>InvokeElement</dfn> {\n+  [<span>CEReactions</span>] attribute Element? <span data-x=\"dom-invokeTargetElement\">invokeTargetElement</span>;\n+  [<span>CEReactions</span>] attribute DOMString <span data-x=\"dom-invokeAction\">invokeAction</span>;\n+};</code></pre>\n+\n+  <p>The <dfn attribute for=\"HTMLElement\"><code\n+  data-x=\"dom-invokeTargetElement\">invokeTargetElement</code></dfn> IDL attribute must\n+  <span>reflect</span> the <code data-x=\"attr-invoketarget\">invoketarget</code> attribute.</p>\n+\n+  <p>The <dfn attribute for=\"HTMLElement\"><code data-x=\"dom-invokeAction\">invokeAction</code></dfn>\n+  IDL attribute must <span>reflect</span> the <code data-x=\"attr-invokeaction\">invokeaction</code>\n+  attribute.</p>\n+\n+  <p>To run the <dfn>invoke target attribute activation behavior</dfn> given a <code>Node</code>\n+  <var>node</var>:</p>\n+\n+  <ol>\n+   <li><p>Let <var>invokee</var> be <span data-x=\"attr-associated element\"><code data-x=\"\">\n+   invoketarget</code>-associated element</span>.</p></li>\n+\n+   <li><p>If <var>invokee</var> is null, then return.</p></li>\n+\n+   <li><p>Let <var>action</var> be <var>node</var>'s <code data-x=\"attr-invokeaction\">invokeaction</code>\n+   attribute</li>\n+\n+   <li><p>If <var>action</var> is null or empty, then let <var>action</var> be the string \"<code\n+   data-x=\"\">auto</code>\".</li>\n+\n+   <li><p>Let <var>notCancelled</var> be the result of <span data-x=\"concept-event-fire\">firing an\n+   event</span> named <code data-x=\"event-invoke\">invoke</code> at <var>invokee</var> with its <code\n+   data-x=\"dom-invokeevent-action\">action</code> set to <var>action</var>, its <code\n+   data-x=\"dom-invokeevent-invoker\">invoker</code> set to <var>node</var>, and its <code\n+   data-x=\"dom-Event-cancelable\">cancelable</code> attribute initialized to true.</p></li>\n+\n+   <li>",
+    "path": "source",
+    "commit_id": "b7a409f2c13aed801ff5ee367cd31dff669f2cd0",
+    "original_commit_id": "b7a409f2c13aed801ff5ee367cd31dff669f2cd0",
+    "user": {
+      "login": "jakearchibald",
+      "id": 93594,
+      "node_id": "MDQ6VXNlcjkzNTk0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/93594?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jakearchibald",
+      "html_url": "https://github.com/jakearchibald",
+      "followers_url": "https://api.github.com/users/jakearchibald/followers",
+      "following_url": "https://api.github.com/users/jakearchibald/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jakearchibald/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jakearchibald/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jakearchibald/subscriptions",
+      "organizations_url": "https://api.github.com/users/jakearchibald/orgs",
+      "repos_url": "https://api.github.com/users/jakearchibald/repos",
+      "events_url": "https://api.github.com/users/jakearchibald/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jakearchibald/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "It feels like it'd be easier to read if each element had a map of \"invoke actions\" to algorithms. Then you'd be able to see at a glance which actions were supported by an element, without reading through prose.",
+    "created_at": "2023-12-04T12:24:21Z",
+    "updated_at": "2023-12-04T12:24:21Z",
+    "html_url": "https://github.com/whatwg/html/pull/9875#discussion_r1413799459",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9875",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1413799459"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9875#discussion_r1413799459"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9875"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1413799459/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 84991,
+    "original_line": 84991,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 398,
+    "position": 398,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

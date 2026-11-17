@@ -1,0 +1,431 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1913303986",
+    "pull_request_review_id": 2546837927,
+    "id": 1913303986,
+    "node_id": "PRRC_kwDOALaj485yCrOy",
+    "diff_hunk": "@@ -64640,8 +64640,9 @@ callback <dfn callback>BlobCallback</dfn> = undefined (<span>Blob</span>? blob);\n \n   <p>The bitmaps of <code>canvas</code> elements, the bitmaps of <code>ImageBitmap</code> objects,\n   as well as some of the bitmaps of rendering contexts, such as those described in the sections on\n-  the <code>CanvasRenderingContext2D</code> and <code>ImageBitmapRenderingContext</code> objects\n-  below, have an <dfn data-x=\"concept-canvas-origin-clean\">origin-clean</dfn> flag, which can be\n+  the <code>CanvasRenderingContext2D</code>, <code>OffscreenCanvasRenderingContext2D</code>, and\n+  <code>ImageBitmapRenderingContext</code> objects below,\n+  have an <dfn data-x=\"concept-canvas-origin-clean\">origin-clean</dfn> flag, which can be\n   set to true or false. Initially, when the <code>canvas</code> element or <code>ImageBitmap</code>\n   object is created, its bitmap's <span data-x=\"concept-canvas-origin-clean\">origin-clean</span>\n   flag must be set to true.</p>",
+    "path": "source",
+    "commit_id": "3ae8dce258cd942896e3aa75cfc7160a8e12c872",
+    "original_commit_id": "4c74124696e99c499062ed760da8de1c80e557ac",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Okay to file as a separate issue: should this also initialize it for the rendering contexts?",
+    "created_at": "2025-01-13T14:43:22Z",
+    "updated_at": "2025-01-13T14:49:53Z",
+    "html_url": "https://github.com/whatwg/html/pull/10904#discussion_r1913303986",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10904",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1913303986"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10904#discussion_r1913303986"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10904"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1913303986/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 64648,
+    "original_line": 64648,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 11,
+    "position": 14,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1913308976",
+    "pull_request_review_id": 2546837927,
+    "id": 1913308976,
+    "node_id": "PRRC_kwDOALaj485yCscw",
+    "diff_hunk": "@@ -65709,6 +65616,118 @@ context.fillRect(100,0,50,50); // only this square remains</code></pre>\n   or to enable double buffering so that graphics updates, like page scrolling for example, can be\n   processed concurrently while canvas draw commands are being executed.</p>\n \n+  <h6>The canvas settings</h6>\n+\n+  <p>A <code>CanvasSettings</code> object has an <dfn>output bitmap</dfn> that\n+  is initialized when the object is created.</p>\n+\n+  <p>The <span>output bitmap</span> has an <span\n+  data-x=\"concept-canvas-origin-clean\">origin-clean</span> flag, which can be set to true or false.\n+  Initially, when one of these bitmaps is created, its <span\n+  data-x=\"concept-canvas-origin-clean\">origin-clean</span> flag must be set to true.</p>\n+\n+  <p>The <code>CanvasSettings</code> object also has an <dfn\n+  data-x=\"concept-canvas-alpha\">alpha</dfn> boolean. When a\n+  <code>CanvasSettings</code> object's <span\n+  data-x=\"concept-canvas-alpha\">alpha</span> is false, then its alpha channel must be fixed to 1.0\n+  (fully opaque) for all pixels, and attempts to change the alpha component of any pixel must be\n+  silently ignored.</p>\n+\n+  <p class=\"note\">Thus, the bitmap of such a context starts off as <span>opaque black</span> instead\n+  of <span>transparent black</span>; <code data-x=\"dom-context-2d-clearRect\">clearRect()</code>\n+  always results in <span>opaque black</span> pixels, every fourth byte from <code\n+  data-x=\"dom-context-2d-getImageData\">getImageData()</code> is always 255, the <code\n+  data-x=\"dom-context-2d-putImageData\">putImageData()</code> method effectively ignores every\n+  fourth byte in its input, and so on. However, the alpha component of styles and images drawn\n+  onto the canvas are still honoured up to the point where they would impact the <span>output\n+  bitmap</span>'s alpha channel; for instance, drawing a 50% transparent white square on a freshly\n+  created <span>output bitmap</span> with its <span data-x=\"concept-canvas-alpha\">alpha</span> set\n+  to false will result in a fully-opaque gray square.</p>\n+\n+  <p>The <code>CanvasSettings</code> object also has a <dfn\n+  data-x=\"concept-canvas-desynchronized\">desynchronized</dfn> boolean. When a\n+  <code>CanvasSettings</code> object's <span\n+  data-x=\"concept-canvas-desynchronized\">desynchronized</span> is true, then the user agent may\n+  optimize the rendering of the canvas to reduce the latency, as measured from input events to\n+  rasterization, by desynchronizing the canvas paint cycle from the event loop, bypassing the\n+  ordinary user agent rendering algorithm, or both. Insofar as this mode involves bypassing the\n+  usual paint mechanisms, rasterization, or both, it might introduce visible tearing artifacts.</p>\n+\n+  <p class=\"note\">The user agent usually renders on a buffer which is not being displayed, quickly\n+  swapping it and the one being scanned out for presentation; the former buffer is called\n+  back buffer and the latter <i>front buffer</i>. A popular technique for reducing latency is called\n+  front buffer rendering, also known as <i>single buffer</i> rendering, where rendering happens in\n+  parallel and racily with the scanning out process. This technique reduces the latency at the price\n+  of potentially introducing tearing artifacts and can be used to implement in total or part of the\n+  <span data-x=\"concept-canvas-desynchronized\">desynchronized</span> boolean.\n+  <ref>MULTIPLEBUFFERING</ref></p>\n+\n+  <p class=\"note\">The <span data-x=\"concept-canvas-desynchronized\">desynchronized</span> boolean\n+  can be useful when implementing certain kinds of applications, such as drawing applications,\n+  where the latency between input and rasterization is critical.</p>\n+\n+  <p>The <code>CanvasSettings</code> object also has a <dfn\n+  data-x=\"concept-canvas-will-read-frequently\">will read frequently</dfn> boolean. When a\n+  <code>CanvasSettings</code> object's <span\n+  data-x=\"concept-canvas-will-read-frequently\">will read frequently</span> is true, the user agent\n+  may optimize the canvas for readback operations.</p>\n+\n+  <p class=\"note\">On most devices the user agent needs to decide whether to store the canvas's\n+  <span>output bitmap</span> on the GPU (this is also called \"hardware accelerated\"), or on the CPU\n+  (also called \"software\"). Most rendering operations are more performant for accelerated canvases,\n+  with the major exception being readback with <code\n+  data-x=\"dom-context-2d-getImageData\">getImageData()</code>, <code\n+  data-x=\"dom-canvas-toDataURL\">toDataURL()</code>, or <code\n+  data-x=\"dom-canvas-toBlob\">toBlob()</code>. <code>CanvasSettings</code> objects with\n+  <span data-x=\"concept-canvas-will-read-frequently\">will read frequently</span> equal to true tell\n+  the user agent that the webpage is likely to perform many readback operations and that it is\n+  advantageous to use a software canvas.</p>\n+\n+  <p>The <code>CanvasSettings</code> object also has a <dfn\n+  data-x=\"concept-canvas-color-space\">color space</dfn> setting of type\n+  <code>PredefinedColorSpace</code>. The <code>CanvasSettings</code> object's <span\n+  data-x=\"concept-canvas-color-space\">color space</span> indicates the color space for the\n+  <span>output bitmap</span>.</p>\n+\n+  <p>\n+  The <dfn>canvas settings output bitmap initialization algorithm</dfn>, which is passed\n+  <var>canvas</var> (a <code>CanvasSettings</code> object) and\n+  <var>settings</var> (a <code>CanvasRenderingContext2DSettings</code> object), consists\n+  of running these steps:\n+  </p>",
+    "path": "source",
+    "commit_id": "3ae8dce258cd942896e3aa75cfc7160a8e12c872",
+    "original_commit_id": "4c74124696e99c499062ed760da8de1c80e557ac",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Formatting of start and end tags should match the other paragraphs.\r\n\r\nAlso, for new algorithms we should follow https://infra.spec.whatwg.org/#algorithm-declaration which means that the types precede the parameter names and don't have parenthesis around them.",
+    "created_at": "2025-01-13T14:46:15Z",
+    "updated_at": "2025-01-13T14:49:53Z",
+    "html_url": "https://github.com/whatwg/html/pull/10904#discussion_r1913308976",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10904",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1913308976"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10904#discussion_r1913308976"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10904"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1913308976/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 65692,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 65697,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 233,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1913311812",
+    "pull_request_review_id": 2546837927,
+    "id": 1913311812,
+    "node_id": "PRRC_kwDOALaj485yCtJE",
+    "diff_hunk": "@@ -71338,7 +71357,7 @@ interface <dfn interface>OffscreenCanvas</dfn> : <span>EventTarget</span> {\n     data-x=\"offscreencanvas-bitmap\">bitmap</span> to reference a newly created bitmap of the same\n     dimensions and color space as the previous bitmap, and with its pixels initialized to\n     <span>transparent black</span>, or <span>opaque black</span> if the rendering context's <span\n-    data-x=\"offscreencontext2d-alpha\">alpha</span> flag is set to false.</p>\n+    data-x=\"concept-canvas-alpha\">alpha</span> flag is set to false.</p>",
+    "path": "source",
+    "commit_id": "3ae8dce258cd942896e3aa75cfc7160a8e12c872",
+    "original_commit_id": "4c74124696e99c499062ed760da8de1c80e557ac",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n    data-x=\"concept-canvas-alpha\">alpha</span> is false.</p>\r\n```\r\n(it's not defined as a flag (and shouldn't be as we have moved away from calling things flags))",
+    "created_at": "2025-01-13T14:48:00Z",
+    "updated_at": "2025-01-13T14:49:53Z",
+    "html_url": "https://github.com/whatwg/html/pull/10904#discussion_r1913311812",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10904",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1913311812"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10904#discussion_r1913311812"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10904"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1913311812/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 71360,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 301,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1914528191",
+    "pull_request_review_id": 2549238788,
+    "id": 1914528191,
+    "node_id": "PRRC_kwDOALaj485yHWG_",
+    "diff_hunk": "@@ -64640,8 +64640,9 @@ callback <dfn callback>BlobCallback</dfn> = undefined (<span>Blob</span>? blob);\n \n   <p>The bitmaps of <code>canvas</code> elements, the bitmaps of <code>ImageBitmap</code> objects,\n   as well as some of the bitmaps of rendering contexts, such as those described in the sections on\n-  the <code>CanvasRenderingContext2D</code> and <code>ImageBitmapRenderingContext</code> objects\n-  below, have an <dfn data-x=\"concept-canvas-origin-clean\">origin-clean</dfn> flag, which can be\n+  the <code>CanvasRenderingContext2D</code>, <code>OffscreenCanvasRenderingContext2D</code>, and\n+  <code>ImageBitmapRenderingContext</code> objects below,\n+  have an <dfn data-x=\"concept-canvas-origin-clean\">origin-clean</dfn> flag, which can be\n   set to true or false. Initially, when the <code>canvas</code> element or <code>ImageBitmap</code>\n   object is created, its bitmap's <span data-x=\"concept-canvas-origin-clean\">origin-clean</span>\n   flag must be set to true.</p>",
+    "path": "source",
+    "commit_id": "3ae8dce258cd942896e3aa75cfc7160a8e12c872",
+    "original_commit_id": "4c74124696e99c499062ed760da8de1c80e557ac",
+    "user": {
+      "login": "ccameron-chromium",
+      "id": 32557109,
+      "node_id": "MDQ6VXNlcjMyNTU3MTA5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32557109?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ccameron-chromium",
+      "html_url": "https://github.com/ccameron-chromium",
+      "followers_url": "https://api.github.com/users/ccameron-chromium/followers",
+      "following_url": "https://api.github.com/users/ccameron-chromium/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ccameron-chromium/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ccameron-chromium/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ccameron-chromium/subscriptions",
+      "organizations_url": "https://api.github.com/users/ccameron-chromium/orgs",
+      "repos_url": "https://api.github.com/users/ccameron-chromium/repos",
+      "events_url": "https://api.github.com/users/ccameron-chromium/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ccameron-chromium/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I agree, this should be looked at holistically across the specs. My first inclination was that this paragraph should be hardened -- instead of reading \"as well as some of the bitmaps of rendering contexts, such as ...\" it could read \"as well as some of the bitmaps of CanvasRenderingContext2D...\", thereby being explicit about excluding WebGL and WebGPU. But a more general way could be to define it here for all contexts (and just add a note saying that WebGL and WebGPU will always have origin-clean be true). Do you want to file an issue on this, or should I (I'm still not 100% sure which way I'd prefer for it to go ... for now I just wanted to avoid the inappropriate exclusion of OffscreenCanvasRenderingContext2D).",
+    "created_at": "2025-01-14T09:44:44Z",
+    "updated_at": "2025-01-14T09:44:44Z",
+    "html_url": "https://github.com/whatwg/html/pull/10904#discussion_r1914528191",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10904",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1914528191"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10904#discussion_r1914528191"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10904"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1914528191/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 64648,
+    "original_line": 64648,
+    "side": "RIGHT",
+    "in_reply_to_id": 1913303986,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 11,
+    "position": 14,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1914528353",
+    "pull_request_review_id": 2549239009,
+    "id": 1914528353,
+    "node_id": "PRRC_kwDOALaj485yHWJh",
+    "diff_hunk": "@@ -65709,6 +65616,118 @@ context.fillRect(100,0,50,50); // only this square remains</code></pre>\n   or to enable double buffering so that graphics updates, like page scrolling for example, can be\n   processed concurrently while canvas draw commands are being executed.</p>\n \n+  <h6>The canvas settings</h6>\n+\n+  <p>A <code>CanvasSettings</code> object has an <dfn>output bitmap</dfn> that\n+  is initialized when the object is created.</p>\n+\n+  <p>The <span>output bitmap</span> has an <span\n+  data-x=\"concept-canvas-origin-clean\">origin-clean</span> flag, which can be set to true or false.\n+  Initially, when one of these bitmaps is created, its <span\n+  data-x=\"concept-canvas-origin-clean\">origin-clean</span> flag must be set to true.</p>\n+\n+  <p>The <code>CanvasSettings</code> object also has an <dfn\n+  data-x=\"concept-canvas-alpha\">alpha</dfn> boolean. When a\n+  <code>CanvasSettings</code> object's <span\n+  data-x=\"concept-canvas-alpha\">alpha</span> is false, then its alpha channel must be fixed to 1.0\n+  (fully opaque) for all pixels, and attempts to change the alpha component of any pixel must be\n+  silently ignored.</p>\n+\n+  <p class=\"note\">Thus, the bitmap of such a context starts off as <span>opaque black</span> instead\n+  of <span>transparent black</span>; <code data-x=\"dom-context-2d-clearRect\">clearRect()</code>\n+  always results in <span>opaque black</span> pixels, every fourth byte from <code\n+  data-x=\"dom-context-2d-getImageData\">getImageData()</code> is always 255, the <code\n+  data-x=\"dom-context-2d-putImageData\">putImageData()</code> method effectively ignores every\n+  fourth byte in its input, and so on. However, the alpha component of styles and images drawn\n+  onto the canvas are still honoured up to the point where they would impact the <span>output\n+  bitmap</span>'s alpha channel; for instance, drawing a 50% transparent white square on a freshly\n+  created <span>output bitmap</span> with its <span data-x=\"concept-canvas-alpha\">alpha</span> set\n+  to false will result in a fully-opaque gray square.</p>\n+\n+  <p>The <code>CanvasSettings</code> object also has a <dfn\n+  data-x=\"concept-canvas-desynchronized\">desynchronized</dfn> boolean. When a\n+  <code>CanvasSettings</code> object's <span\n+  data-x=\"concept-canvas-desynchronized\">desynchronized</span> is true, then the user agent may\n+  optimize the rendering of the canvas to reduce the latency, as measured from input events to\n+  rasterization, by desynchronizing the canvas paint cycle from the event loop, bypassing the\n+  ordinary user agent rendering algorithm, or both. Insofar as this mode involves bypassing the\n+  usual paint mechanisms, rasterization, or both, it might introduce visible tearing artifacts.</p>\n+\n+  <p class=\"note\">The user agent usually renders on a buffer which is not being displayed, quickly\n+  swapping it and the one being scanned out for presentation; the former buffer is called\n+  back buffer and the latter <i>front buffer</i>. A popular technique for reducing latency is called\n+  front buffer rendering, also known as <i>single buffer</i> rendering, where rendering happens in\n+  parallel and racily with the scanning out process. This technique reduces the latency at the price\n+  of potentially introducing tearing artifacts and can be used to implement in total or part of the\n+  <span data-x=\"concept-canvas-desynchronized\">desynchronized</span> boolean.\n+  <ref>MULTIPLEBUFFERING</ref></p>\n+\n+  <p class=\"note\">The <span data-x=\"concept-canvas-desynchronized\">desynchronized</span> boolean\n+  can be useful when implementing certain kinds of applications, such as drawing applications,\n+  where the latency between input and rasterization is critical.</p>\n+\n+  <p>The <code>CanvasSettings</code> object also has a <dfn\n+  data-x=\"concept-canvas-will-read-frequently\">will read frequently</dfn> boolean. When a\n+  <code>CanvasSettings</code> object's <span\n+  data-x=\"concept-canvas-will-read-frequently\">will read frequently</span> is true, the user agent\n+  may optimize the canvas for readback operations.</p>\n+\n+  <p class=\"note\">On most devices the user agent needs to decide whether to store the canvas's\n+  <span>output bitmap</span> on the GPU (this is also called \"hardware accelerated\"), or on the CPU\n+  (also called \"software\"). Most rendering operations are more performant for accelerated canvases,\n+  with the major exception being readback with <code\n+  data-x=\"dom-context-2d-getImageData\">getImageData()</code>, <code\n+  data-x=\"dom-canvas-toDataURL\">toDataURL()</code>, or <code\n+  data-x=\"dom-canvas-toBlob\">toBlob()</code>. <code>CanvasSettings</code> objects with\n+  <span data-x=\"concept-canvas-will-read-frequently\">will read frequently</span> equal to true tell\n+  the user agent that the webpage is likely to perform many readback operations and that it is\n+  advantageous to use a software canvas.</p>\n+\n+  <p>The <code>CanvasSettings</code> object also has a <dfn\n+  data-x=\"concept-canvas-color-space\">color space</dfn> setting of type\n+  <code>PredefinedColorSpace</code>. The <code>CanvasSettings</code> object's <span\n+  data-x=\"concept-canvas-color-space\">color space</span> indicates the color space for the\n+  <span>output bitmap</span>.</p>\n+\n+  <p>\n+  The <dfn>canvas settings output bitmap initialization algorithm</dfn>, which is passed\n+  <var>canvas</var> (a <code>CanvasSettings</code> object) and\n+  <var>settings</var> (a <code>CanvasRenderingContext2DSettings</code> object), consists\n+  of running these steps:\n+  </p>",
+    "path": "source",
+    "commit_id": "3ae8dce258cd942896e3aa75cfc7160a8e12c872",
+    "original_commit_id": "4c74124696e99c499062ed760da8de1c80e557ac",
+    "user": {
+      "login": "ccameron-chromium",
+      "id": 32557109,
+      "node_id": "MDQ6VXNlcjMyNTU3MTA5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32557109?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ccameron-chromium",
+      "html_url": "https://github.com/ccameron-chromium",
+      "followers_url": "https://api.github.com/users/ccameron-chromium/followers",
+      "following_url": "https://api.github.com/users/ccameron-chromium/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ccameron-chromium/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ccameron-chromium/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ccameron-chromium/subscriptions",
+      "organizations_url": "https://api.github.com/users/ccameron-chromium/orgs",
+      "repos_url": "https://api.github.com/users/ccameron-chromium/repos",
+      "events_url": "https://api.github.com/users/ccameron-chromium/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ccameron-chromium/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Thanks, that makes things much more clear. Updated.",
+    "created_at": "2025-01-14T09:44:50Z",
+    "updated_at": "2025-01-14T09:44:51Z",
+    "html_url": "https://github.com/whatwg/html/pull/10904#discussion_r1914528353",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10904",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1914528353"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10904#discussion_r1914528353"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10904"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1914528353/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 65692,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 65697,
+    "side": "RIGHT",
+    "in_reply_to_id": 1913308976,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 233,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1914528424",
+    "pull_request_review_id": 2549239114,
+    "id": 1914528424,
+    "node_id": "PRRC_kwDOALaj485yHWKo",
+    "diff_hunk": "@@ -71338,7 +71357,7 @@ interface <dfn interface>OffscreenCanvas</dfn> : <span>EventTarget</span> {\n     data-x=\"offscreencanvas-bitmap\">bitmap</span> to reference a newly created bitmap of the same\n     dimensions and color space as the previous bitmap, and with its pixels initialized to\n     <span>transparent black</span>, or <span>opaque black</span> if the rendering context's <span\n-    data-x=\"offscreencontext2d-alpha\">alpha</span> flag is set to false.</p>\n+    data-x=\"concept-canvas-alpha\">alpha</span> flag is set to false.</p>",
+    "path": "source",
+    "commit_id": "3ae8dce258cd942896e3aa75cfc7160a8e12c872",
+    "original_commit_id": "4c74124696e99c499062ed760da8de1c80e557ac",
+    "user": {
+      "login": "ccameron-chromium",
+      "id": 32557109,
+      "node_id": "MDQ6VXNlcjMyNTU3MTA5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32557109?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ccameron-chromium",
+      "html_url": "https://github.com/ccameron-chromium",
+      "followers_url": "https://api.github.com/users/ccameron-chromium/followers",
+      "following_url": "https://api.github.com/users/ccameron-chromium/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ccameron-chromium/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ccameron-chromium/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ccameron-chromium/subscriptions",
+      "organizations_url": "https://api.github.com/users/ccameron-chromium/orgs",
+      "repos_url": "https://api.github.com/users/ccameron-chromium/repos",
+      "events_url": "https://api.github.com/users/ccameron-chromium/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ccameron-chromium/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Incorporated this suggestion.",
+    "created_at": "2025-01-14T09:44:53Z",
+    "updated_at": "2025-01-14T09:44:54Z",
+    "html_url": "https://github.com/whatwg/html/pull/10904#discussion_r1914528424",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10904",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1914528424"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10904#discussion_r1914528424"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10904"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1914528424/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 71360,
+    "side": "RIGHT",
+    "in_reply_to_id": 1913311812,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 301,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

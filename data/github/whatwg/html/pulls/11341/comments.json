@@ -1,0 +1,719 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2111675104",
+    "pull_request_review_id": 2874733001,
+    "id": 2111675104,
+    "node_id": "PRRC_kwDOALaj48593Zrg",
+    "diff_hunk": "@@ -63044,119 +63045,172 @@ interface <dfn interface>HTMLScriptElement</dfn> : <span>HTMLElement</span> {\n    <dd w-dev>Uses <code>HTMLScriptElement</code>.</dd>\n   </dl>\n \n-  <p>The <code>script</code> element allows authors to include dynamic script and data blocks in\n-  their documents. The element does not <span data-x=\"represents\">represent</span> content for the\n-  user.</p>\n+  <p>The <code>script</code> element allows authors to include dynamic script, instructions to the\n+  user agent, and data blocks in their documents. The element does not <span\n+  data-x=\"represents\">represent</span> content for the user.</p>\n \n-  <p>The <dfn element-attr for=\"script\"><code data-x=\"attr-script-type\">type</code></dfn> attribute\n-  allows customization of the type of script represented:</p>\n+  <p>The script element has two core attributes. The <dfn element-attr for=\"script\"><code\n+  data-x=\"attr-script-type\">type</code></dfn> attribute allows customization of the type of script\n+  represented:</p>\n \n   <ul>\n     <li><p>Omitting the attribute, setting it to the empty string, or setting it to a\n-    <span>JavaScript MIME type essence match</span>, means that the script is a <span>classic\n+    <span>JavaScript MIME type essence match</span> means that the script is a <span>classic\n     script</span>, to be interpreted according to the JavaScript <i\n-    data-x=\"js-prod-Script\">Script</i> top-level production. Classic scripts are affected by the\n-    <code data-x=\"attr-script-async\">async</code> and <code data-x=\"attr-script-defer\">defer</code>\n-    attributes, but only when the <code data-x=\"attr-script-src\">src</code> attribute is set.\n-    Authors should omit the <code data-x=\"attr-script-type\">type</code> attribute instead of\n-    redundantly setting it.</p></li>\n+    data-x=\"js-prod-Script\">Script</i> top-level production. Authors should omit the <code\n+    data-x=\"attr-script-type\">type</code> attribute instead of redundantly setting it.</p></li>\n \n     <li><p>Setting the attribute to an <span>ASCII case-insensitive</span> match for \"<code\n     data-x=\"\">module</code>\" means that the script is a <span>JavaScript module script</span>, to\n     be interpreted according to the JavaScript <i data-x=\"js-prod-Module\">Module</i> top-level\n-    production. Module scripts are not affected by the <code\n-    data-x=\"attr-script-defer\">defer</code> attribute, but are affected by the <code\n-    data-x=\"attr-script-async\">async</code> attribute (regardless of the state of the <code\n-    data-x=\"attr-script-src\">src</code> attribute).</p></li>\n+    production.</p></li>\n \n     <li><p>Setting the attribute to an <span>ASCII case-insensitive</span> match for \"<code\n     data-x=\"\">importmap</code>\" means that the script is an <span>import map</span>, containing\n     JSON that will be used to control the behavior of <span data-x=\"resolve a module\n-    specifier\">module specifier resolution</span>. Import maps can only be inline, i.e., the <code\n-    data-x=\"attr-script-src\">src</code> attribute and most other attributes are meaningless and not\n-    to be used with them.</p></li>\n-\n-    <li><p>Setting the attribute to any other value means that the script is a <dfn>data\n-    block</dfn>, which is not processed. None of the <code>script</code> attributes (except <code\n-    data-x=\"attr-script-type\">type</code> itself) have any effect on data blocks. Authors must use\n-    a <span>valid MIME type string</span> that is not a <span>JavaScript MIME type essence\n-    match</span> to denote data blocks.</p></li>\n+    specifier\">module specifier resolution</span>.</p></li>\n+\n+    <li>\n+     <p>Setting the attribute to any other value means that the script is a <dfn>data block</dfn>,\n+     which is not processed by the user agent, but instead by author script or other tools. Authors\n+     must use a <span>valid MIME type string</span> that is not a <span>JavaScript MIME type essence\n+     match</span> to denote data blocks.</p>\n+\n+     <p class=\"note\">The requirement that <span data-x=\"data block\">data blocks</span>\n+     <!--non-normative-->must be denoted using a <span>valid MIME type string</span> is in place to\n+     avoid potential future collisions. Values for the <code data-x=\"attr-script-type\">type</code>\n+     attribute that are not MIME types, like \"<code data-x=\"\">module</code>\" or \"<code\n+     data-x=\"\">importmap</code>\", are used by the standard to denote types of scripts which have\n+     special behavior in user agents. By using a valid MIME type string now, you ensure that your\n+     data block will not ever be reinterpreted as a different script type, even in future user\n+     agents.</p>\n+    </li>\n   </ul>\n \n-  <p class=\"note\">The requirement that <span data-x=\"data block\">data blocks</span>\n-  <!--non-normative-->must be denoted using a <span>valid MIME type string</span> is in place to\n-  avoid potential future collisions. If this specification ever adds additional types of\n-  <span data-x=\"concept-script\">script</span>, they will be triggered by setting the <code\n-  data-x=\"attr-script-type\">type</code> attribute to something which is not a MIME type, like how\n-  the \"<code data-x=\"\">module</code>\" value denotes <span data-x=\"module script\">module\n-  scripts</span>. By using a valid MIME type string now, you ensure that your data block will not\n- ever be reinterpreted as a different script type, even in future user agents.</p>\n-\n-  <p><span data-x=\"classic script\">Classic scripts</span> and <span\n-  data-x=\"JavaScript module script\">JavaScript module scripts</span> can be embedded inline, or be\n-  imported from an external file using the <dfn for=\"script\" element-attr><code\n-  data-x=\"attr-script-src\">src</code></dfn> attribute, which if specified gives the <span>URL</span>\n-  of the external script resource to use. If <code data-x=\"attr-script-src\">src</code> is specified,\n-  it must be a <span>valid non-empty URL potentially surrounded by spaces</span>.</p>\n+  <p>The second core attribute is the <dfn for=\"script\" element-attr><code\n+  data-x=\"attr-script-src\">src</code></dfn> attribute. It must only be specified for <span\n+  data-x=\"classic script\">classic scripts</span> and <span data-x=\"JavaScript module\n+  script\">JavaScript module scripts</span>, and denotes that instead of using the element's\n+  <span>child text content</span> as the script content, the script will be fetched from the\n+  specified <span>URL</span>. If <code data-x=\"attr-script-src\">src</code> is specified, it must be\n+  a <span>valid non-empty URL potentially surrounded by spaces</span>.</p>\n+\n+  <p>Which other attributes may be specified on a given <code>script</code> element is determined by\n+  the following table:</p>\n+\n+  <table class=\"yesno\">\n+   <thead>\n+    <tr>\n+     <th></th>\n+     <th><code data-x=\"attr-script-nomodule\">nomodule</code>\n+     <th><code data-x=\"attr-script-async\">async</code>\n+     <th><code data-x=\"attr-script-defer\">defer</code>\n+     <th><code data-x=\"attr-script-blocking\">blocking</code>\n+     <th><code data-x=\"attr-script-crossorigin\">crossorigin</code>\n+     <th><code data-x=\"attr-script-referrerpolicy\">referrerpolicy</code>\n+     <th><code data-x=\"attr-script-integrity\">integrity</code>\n+     <th><code data-x=\"attr-script-fetchpriority\">fetchpriority</code>\n+   <tbody>\n+    <tr>\n+     <th>External classic scripts</th>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+    <tr>\n+     <th>Inline classic scripts</th>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"yes\">Yes†</td>\n+     <td class=\"yes\">Yes†</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+    <tr>\n+     <th>External module scripts</th>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+    <tr>\n+     <th>Inline module scripts</th>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"yes\">Yes†</td>\n+     <td class=\"yes\">Yes†</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+    <tr>\n+     <th>Import maps</th>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+    <tr>\n+     <th>Data blocks</th>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+  </table>\n+\n+  <p class=\"tablenote\"><small>† Although inline scripts have no initial fetches, the <code\n+  data-x=\"attr-script-crossorigin\">crossorigin</code> and <code\n+  data-x=\"attr-script-referrerpolicy\">referrerpolicy</code> attribute on inline scripts affects the\n+  <span data-x=\"concept-request-credentials-mode\">credentials mode</span> and <span>referrer\n+  policy</span> used by module imports, including dynamic <code>import()</code>.</small></p>",
+    "path": "source",
+    "commit_id": "892f195abc5e03df5f3ed796b12f48f043a3ac67",
+    "original_commit_id": "6f5df48a78dede47ec163069551a34dbe19c4e0b",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This raises the question why `fetchpriority` is not passed along. We should either call it out or have a follow-up issue I think.",
+    "created_at": "2025-05-28T12:00:57Z",
+    "updated_at": "2025-05-28T12:06:32Z",
+    "html_url": "https://github.com/whatwg/html/pull/11341#discussion_r2111675104",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11341",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2111675104"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11341#discussion_r2111675104"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11341"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2111675104/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 63180,
+    "original_line": 63180,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 218,
+    "position": 218,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2111676807",
+    "pull_request_review_id": 2874733001,
+    "id": 2111676807,
+    "node_id": "PRRC_kwDOALaj48593aGH",
+    "diff_hunk": "@@ -63044,119 +63045,172 @@ interface <dfn interface>HTMLScriptElement</dfn> : <span>HTMLElement</span> {\n    <dd w-dev>Uses <code>HTMLScriptElement</code>.</dd>\n   </dl>\n \n-  <p>The <code>script</code> element allows authors to include dynamic script and data blocks in\n-  their documents. The element does not <span data-x=\"represents\">represent</span> content for the\n-  user.</p>\n+  <p>The <code>script</code> element allows authors to include dynamic script, instructions to the\n+  user agent, and data blocks in their documents. The element does not <span\n+  data-x=\"represents\">represent</span> content for the user.</p>\n \n-  <p>The <dfn element-attr for=\"script\"><code data-x=\"attr-script-type\">type</code></dfn> attribute\n-  allows customization of the type of script represented:</p>\n+  <p>The script element has two core attributes. The <dfn element-attr for=\"script\"><code\n+  data-x=\"attr-script-type\">type</code></dfn> attribute allows customization of the type of script\n+  represented:</p>\n \n   <ul>\n     <li><p>Omitting the attribute, setting it to the empty string, or setting it to a\n-    <span>JavaScript MIME type essence match</span>, means that the script is a <span>classic\n+    <span>JavaScript MIME type essence match</span> means that the script is a <span>classic\n     script</span>, to be interpreted according to the JavaScript <i\n-    data-x=\"js-prod-Script\">Script</i> top-level production. Classic scripts are affected by the\n-    <code data-x=\"attr-script-async\">async</code> and <code data-x=\"attr-script-defer\">defer</code>\n-    attributes, but only when the <code data-x=\"attr-script-src\">src</code> attribute is set.\n-    Authors should omit the <code data-x=\"attr-script-type\">type</code> attribute instead of\n-    redundantly setting it.</p></li>\n+    data-x=\"js-prod-Script\">Script</i> top-level production. Authors should omit the <code\n+    data-x=\"attr-script-type\">type</code> attribute instead of redundantly setting it.</p></li>\n \n     <li><p>Setting the attribute to an <span>ASCII case-insensitive</span> match for \"<code\n     data-x=\"\">module</code>\" means that the script is a <span>JavaScript module script</span>, to\n     be interpreted according to the JavaScript <i data-x=\"js-prod-Module\">Module</i> top-level\n-    production. Module scripts are not affected by the <code\n-    data-x=\"attr-script-defer\">defer</code> attribute, but are affected by the <code\n-    data-x=\"attr-script-async\">async</code> attribute (regardless of the state of the <code\n-    data-x=\"attr-script-src\">src</code> attribute).</p></li>\n+    production.</p></li>\n \n     <li><p>Setting the attribute to an <span>ASCII case-insensitive</span> match for \"<code\n     data-x=\"\">importmap</code>\" means that the script is an <span>import map</span>, containing\n     JSON that will be used to control the behavior of <span data-x=\"resolve a module\n-    specifier\">module specifier resolution</span>. Import maps can only be inline, i.e., the <code\n-    data-x=\"attr-script-src\">src</code> attribute and most other attributes are meaningless and not\n-    to be used with them.</p></li>\n-\n-    <li><p>Setting the attribute to any other value means that the script is a <dfn>data\n-    block</dfn>, which is not processed. None of the <code>script</code> attributes (except <code\n-    data-x=\"attr-script-type\">type</code> itself) have any effect on data blocks. Authors must use\n-    a <span>valid MIME type string</span> that is not a <span>JavaScript MIME type essence\n-    match</span> to denote data blocks.</p></li>\n+    specifier\">module specifier resolution</span>.</p></li>\n+\n+    <li>\n+     <p>Setting the attribute to any other value means that the script is a <dfn>data block</dfn>,\n+     which is not processed by the user agent, but instead by author script or other tools. Authors\n+     must use a <span>valid MIME type string</span> that is not a <span>JavaScript MIME type essence\n+     match</span> to denote data blocks.</p>\n+\n+     <p class=\"note\">The requirement that <span data-x=\"data block\">data blocks</span>\n+     <!--non-normative-->must be denoted using a <span>valid MIME type string</span> is in place to\n+     avoid potential future collisions. Values for the <code data-x=\"attr-script-type\">type</code>\n+     attribute that are not MIME types, like \"<code data-x=\"\">module</code>\" or \"<code\n+     data-x=\"\">importmap</code>\", are used by the standard to denote types of scripts which have\n+     special behavior in user agents. By using a valid MIME type string now, you ensure that your\n+     data block will not ever be reinterpreted as a different script type, even in future user\n+     agents.</p>\n+    </li>\n   </ul>\n \n-  <p class=\"note\">The requirement that <span data-x=\"data block\">data blocks</span>\n-  <!--non-normative-->must be denoted using a <span>valid MIME type string</span> is in place to\n-  avoid potential future collisions. If this specification ever adds additional types of\n-  <span data-x=\"concept-script\">script</span>, they will be triggered by setting the <code\n-  data-x=\"attr-script-type\">type</code> attribute to something which is not a MIME type, like how\n-  the \"<code data-x=\"\">module</code>\" value denotes <span data-x=\"module script\">module\n-  scripts</span>. By using a valid MIME type string now, you ensure that your data block will not\n- ever be reinterpreted as a different script type, even in future user agents.</p>\n-\n-  <p><span data-x=\"classic script\">Classic scripts</span> and <span\n-  data-x=\"JavaScript module script\">JavaScript module scripts</span> can be embedded inline, or be\n-  imported from an external file using the <dfn for=\"script\" element-attr><code\n-  data-x=\"attr-script-src\">src</code></dfn> attribute, which if specified gives the <span>URL</span>\n-  of the external script resource to use. If <code data-x=\"attr-script-src\">src</code> is specified,\n-  it must be a <span>valid non-empty URL potentially surrounded by spaces</span>.</p>\n+  <p>The second core attribute is the <dfn for=\"script\" element-attr><code\n+  data-x=\"attr-script-src\">src</code></dfn> attribute. It must only be specified for <span\n+  data-x=\"classic script\">classic scripts</span> and <span data-x=\"JavaScript module\n+  script\">JavaScript module scripts</span>, and denotes that instead of using the element's\n+  <span>child text content</span> as the script content, the script will be fetched from the\n+  specified <span>URL</span>. If <code data-x=\"attr-script-src\">src</code> is specified, it must be\n+  a <span>valid non-empty URL potentially surrounded by spaces</span>.</p>\n+\n+  <p>Which other attributes may be specified on a given <code>script</code> element is determined by\n+  the following table:</p>\n+\n+  <table class=\"yesno\">\n+   <thead>\n+    <tr>\n+     <th></th>",
+    "path": "source",
+    "commit_id": "892f195abc5e03df5f3ed796b12f48f043a3ac67",
+    "original_commit_id": "6f5df48a78dede47ec163069551a34dbe19c4e0b",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n     <th>Type of script</th>\r\n```",
+    "created_at": "2025-05-28T12:01:57Z",
+    "updated_at": "2025-05-28T12:06:32Z",
+    "html_url": "https://github.com/whatwg/html/pull/11341#discussion_r2111676807",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11341",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2111676807"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11341#discussion_r2111676807"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11341"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2111676807/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 63104,
+    "original_line": 63104,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 142,
+    "position": 142,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2111683863",
+    "pull_request_review_id": 2874733001,
+    "id": 2111683863,
+    "node_id": "PRRC_kwDOALaj48593b0X",
+    "diff_hunk": "@@ -63044,119 +63045,172 @@ interface <dfn interface>HTMLScriptElement</dfn> : <span>HTMLElement</span> {\n    <dd w-dev>Uses <code>HTMLScriptElement</code>.</dd>\n   </dl>\n \n-  <p>The <code>script</code> element allows authors to include dynamic script and data blocks in\n-  their documents. The element does not <span data-x=\"represents\">represent</span> content for the\n-  user.</p>\n+  <p>The <code>script</code> element allows authors to include dynamic script, instructions to the\n+  user agent, and data blocks in their documents. The element does not <span\n+  data-x=\"represents\">represent</span> content for the user.</p>\n \n-  <p>The <dfn element-attr for=\"script\"><code data-x=\"attr-script-type\">type</code></dfn> attribute\n-  allows customization of the type of script represented:</p>\n+  <p>The script element has two core attributes. The <dfn element-attr for=\"script\"><code\n+  data-x=\"attr-script-type\">type</code></dfn> attribute allows customization of the type of script\n+  represented:</p>\n \n   <ul>\n     <li><p>Omitting the attribute, setting it to the empty string, or setting it to a\n-    <span>JavaScript MIME type essence match</span>, means that the script is a <span>classic\n+    <span>JavaScript MIME type essence match</span> means that the script is a <span>classic\n     script</span>, to be interpreted according to the JavaScript <i\n-    data-x=\"js-prod-Script\">Script</i> top-level production. Classic scripts are affected by the\n-    <code data-x=\"attr-script-async\">async</code> and <code data-x=\"attr-script-defer\">defer</code>\n-    attributes, but only when the <code data-x=\"attr-script-src\">src</code> attribute is set.\n-    Authors should omit the <code data-x=\"attr-script-type\">type</code> attribute instead of\n-    redundantly setting it.</p></li>\n+    data-x=\"js-prod-Script\">Script</i> top-level production. Authors should omit the <code\n+    data-x=\"attr-script-type\">type</code> attribute instead of redundantly setting it.</p></li>\n \n     <li><p>Setting the attribute to an <span>ASCII case-insensitive</span> match for \"<code\n     data-x=\"\">module</code>\" means that the script is a <span>JavaScript module script</span>, to\n     be interpreted according to the JavaScript <i data-x=\"js-prod-Module\">Module</i> top-level\n-    production. Module scripts are not affected by the <code\n-    data-x=\"attr-script-defer\">defer</code> attribute, but are affected by the <code\n-    data-x=\"attr-script-async\">async</code> attribute (regardless of the state of the <code\n-    data-x=\"attr-script-src\">src</code> attribute).</p></li>\n+    production.</p></li>\n \n     <li><p>Setting the attribute to an <span>ASCII case-insensitive</span> match for \"<code\n     data-x=\"\">importmap</code>\" means that the script is an <span>import map</span>, containing\n     JSON that will be used to control the behavior of <span data-x=\"resolve a module\n-    specifier\">module specifier resolution</span>. Import maps can only be inline, i.e., the <code\n-    data-x=\"attr-script-src\">src</code> attribute and most other attributes are meaningless and not\n-    to be used with them.</p></li>\n-\n-    <li><p>Setting the attribute to any other value means that the script is a <dfn>data\n-    block</dfn>, which is not processed. None of the <code>script</code> attributes (except <code\n-    data-x=\"attr-script-type\">type</code> itself) have any effect on data blocks. Authors must use\n-    a <span>valid MIME type string</span> that is not a <span>JavaScript MIME type essence\n-    match</span> to denote data blocks.</p></li>\n+    specifier\">module specifier resolution</span>.</p></li>\n+\n+    <li>\n+     <p>Setting the attribute to any other value means that the script is a <dfn>data block</dfn>,\n+     which is not processed by the user agent, but instead by author script or other tools. Authors\n+     must use a <span>valid MIME type string</span> that is not a <span>JavaScript MIME type essence\n+     match</span> to denote data blocks.</p>\n+\n+     <p class=\"note\">The requirement that <span data-x=\"data block\">data blocks</span>\n+     <!--non-normative-->must be denoted using a <span>valid MIME type string</span> is in place to\n+     avoid potential future collisions. Values for the <code data-x=\"attr-script-type\">type</code>\n+     attribute that are not MIME types, like \"<code data-x=\"\">module</code>\" or \"<code\n+     data-x=\"\">importmap</code>\", are used by the standard to denote types of scripts which have\n+     special behavior in user agents. By using a valid MIME type string now, you ensure that your\n+     data block will not ever be reinterpreted as a different script type, even in future user\n+     agents.</p>\n+    </li>\n   </ul>\n \n-  <p class=\"note\">The requirement that <span data-x=\"data block\">data blocks</span>\n-  <!--non-normative-->must be denoted using a <span>valid MIME type string</span> is in place to\n-  avoid potential future collisions. If this specification ever adds additional types of\n-  <span data-x=\"concept-script\">script</span>, they will be triggered by setting the <code\n-  data-x=\"attr-script-type\">type</code> attribute to something which is not a MIME type, like how\n-  the \"<code data-x=\"\">module</code>\" value denotes <span data-x=\"module script\">module\n-  scripts</span>. By using a valid MIME type string now, you ensure that your data block will not\n- ever be reinterpreted as a different script type, even in future user agents.</p>\n-\n-  <p><span data-x=\"classic script\">Classic scripts</span> and <span\n-  data-x=\"JavaScript module script\">JavaScript module scripts</span> can be embedded inline, or be\n-  imported from an external file using the <dfn for=\"script\" element-attr><code\n-  data-x=\"attr-script-src\">src</code></dfn> attribute, which if specified gives the <span>URL</span>\n-  of the external script resource to use. If <code data-x=\"attr-script-src\">src</code> is specified,\n-  it must be a <span>valid non-empty URL potentially surrounded by spaces</span>.</p>\n+  <p>The second core attribute is the <dfn for=\"script\" element-attr><code\n+  data-x=\"attr-script-src\">src</code></dfn> attribute. It must only be specified for <span\n+  data-x=\"classic script\">classic scripts</span> and <span data-x=\"JavaScript module\n+  script\">JavaScript module scripts</span>, and denotes that instead of using the element's\n+  <span>child text content</span> as the script content, the script will be fetched from the\n+  specified <span>URL</span>. If <code data-x=\"attr-script-src\">src</code> is specified, it must be\n+  a <span>valid non-empty URL potentially surrounded by spaces</span>.</p>\n+\n+  <p>Which other attributes may be specified on a given <code>script</code> element is determined by\n+  the following table:</p>\n+\n+  <table class=\"yesno\">\n+   <thead>\n+    <tr>\n+     <th></th>\n+     <th><code data-x=\"attr-script-nomodule\">nomodule</code>\n+     <th><code data-x=\"attr-script-async\">async</code>\n+     <th><code data-x=\"attr-script-defer\">defer</code>\n+     <th><code data-x=\"attr-script-blocking\">blocking</code>\n+     <th><code data-x=\"attr-script-crossorigin\">crossorigin</code>\n+     <th><code data-x=\"attr-script-referrerpolicy\">referrerpolicy</code>\n+     <th><code data-x=\"attr-script-integrity\">integrity</code>\n+     <th><code data-x=\"attr-script-fetchpriority\">fetchpriority</code>\n+   <tbody>\n+    <tr>\n+     <th>External classic scripts</th>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+    <tr>\n+     <th>Inline classic scripts</th>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"yes\">Yes†</td>\n+     <td class=\"yes\">Yes†</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+    <tr>\n+     <th>External module scripts</th>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+    <tr>\n+     <th>Inline module scripts</th>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"yes\">Yes†</td>\n+     <td class=\"yes\">Yes†</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+    <tr>\n+     <th>Import maps</th>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+    <tr>\n+     <th>Data blocks</th>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+  </table>\n+\n+  <p class=\"tablenote\"><small>† Although inline scripts have no initial fetches, the <code\n+  data-x=\"attr-script-crossorigin\">crossorigin</code> and <code\n+  data-x=\"attr-script-referrerpolicy\">referrerpolicy</code> attribute on inline scripts affects the\n+  <span data-x=\"concept-request-credentials-mode\">credentials mode</span> and <span>referrer\n+  policy</span> used by module imports, including dynamic <code>import()</code>.</small></p>\n+\n+  <hr>\n \n   <p>The contents of inline <code>script</code> elements, or the external script resource, must\n   conform with the requirements of the JavaScript specification's <i\n   data-x=\"js-prod-Script\">Script</i> or <i data-x=\"js-prod-Module\">Module</i> productions, for <span\n   data-x=\"classic script\">classic scripts</span> and <span data-x=\"JavaScript module\n   script\">JavaScript module scripts</span> respectively. <ref>JAVASCRIPT</ref></p>\n \n-  <p>The contents of the external script resource for <span data-x=\"CSS module script\">CSS module\n-  scripts</span> must conform to the requirements of the CSS specification. <ref>CSS</ref></p>\n-\n-  <p>The contents of the external script resource for <span data-x=\"JSON module script\">JSON module\n-  scripts</span> must conform to the requirements of the JSON specification. <ref>JSON</ref></p>",
+    "path": "source",
+    "commit_id": "892f195abc5e03df5f3ed796b12f48f043a3ac67",
+    "original_commit_id": "6f5df48a78dede47ec163069551a34dbe19c4e0b",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The commit message does not discuss the removal of these requirements.",
+    "created_at": "2025-05-28T12:06:17Z",
+    "updated_at": "2025-05-28T12:06:32Z",
+    "html_url": "https://github.com/whatwg/html/pull/11341#discussion_r2111683863",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11341",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2111683863"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11341#discussion_r2111683863"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11341"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2111683863/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 63108,
+    "original_start_line": 63108,
+    "start_side": "LEFT",
+    "line": 63112,
+    "original_line": 63112,
+    "side": "LEFT",
+    "author_association": "MEMBER",
+    "original_position": 232,
+    "position": 236,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2112970952",
+    "pull_request_review_id": 2876755227,
+    "id": 2112970952,
+    "node_id": "PRRC_kwDOALaj48598WDI",
+    "diff_hunk": "@@ -63044,119 +63045,172 @@ interface <dfn interface>HTMLScriptElement</dfn> : <span>HTMLElement</span> {\n    <dd w-dev>Uses <code>HTMLScriptElement</code>.</dd>\n   </dl>\n \n-  <p>The <code>script</code> element allows authors to include dynamic script and data blocks in\n-  their documents. The element does not <span data-x=\"represents\">represent</span> content for the\n-  user.</p>\n+  <p>The <code>script</code> element allows authors to include dynamic script, instructions to the\n+  user agent, and data blocks in their documents. The element does not <span\n+  data-x=\"represents\">represent</span> content for the user.</p>\n \n-  <p>The <dfn element-attr for=\"script\"><code data-x=\"attr-script-type\">type</code></dfn> attribute\n-  allows customization of the type of script represented:</p>\n+  <p>The script element has two core attributes. The <dfn element-attr for=\"script\"><code\n+  data-x=\"attr-script-type\">type</code></dfn> attribute allows customization of the type of script\n+  represented:</p>\n \n   <ul>\n     <li><p>Omitting the attribute, setting it to the empty string, or setting it to a\n-    <span>JavaScript MIME type essence match</span>, means that the script is a <span>classic\n+    <span>JavaScript MIME type essence match</span> means that the script is a <span>classic\n     script</span>, to be interpreted according to the JavaScript <i\n-    data-x=\"js-prod-Script\">Script</i> top-level production. Classic scripts are affected by the\n-    <code data-x=\"attr-script-async\">async</code> and <code data-x=\"attr-script-defer\">defer</code>\n-    attributes, but only when the <code data-x=\"attr-script-src\">src</code> attribute is set.\n-    Authors should omit the <code data-x=\"attr-script-type\">type</code> attribute instead of\n-    redundantly setting it.</p></li>\n+    data-x=\"js-prod-Script\">Script</i> top-level production. Authors should omit the <code\n+    data-x=\"attr-script-type\">type</code> attribute instead of redundantly setting it.</p></li>\n \n     <li><p>Setting the attribute to an <span>ASCII case-insensitive</span> match for \"<code\n     data-x=\"\">module</code>\" means that the script is a <span>JavaScript module script</span>, to\n     be interpreted according to the JavaScript <i data-x=\"js-prod-Module\">Module</i> top-level\n-    production. Module scripts are not affected by the <code\n-    data-x=\"attr-script-defer\">defer</code> attribute, but are affected by the <code\n-    data-x=\"attr-script-async\">async</code> attribute (regardless of the state of the <code\n-    data-x=\"attr-script-src\">src</code> attribute).</p></li>\n+    production.</p></li>\n \n     <li><p>Setting the attribute to an <span>ASCII case-insensitive</span> match for \"<code\n     data-x=\"\">importmap</code>\" means that the script is an <span>import map</span>, containing\n     JSON that will be used to control the behavior of <span data-x=\"resolve a module\n-    specifier\">module specifier resolution</span>. Import maps can only be inline, i.e., the <code\n-    data-x=\"attr-script-src\">src</code> attribute and most other attributes are meaningless and not\n-    to be used with them.</p></li>\n-\n-    <li><p>Setting the attribute to any other value means that the script is a <dfn>data\n-    block</dfn>, which is not processed. None of the <code>script</code> attributes (except <code\n-    data-x=\"attr-script-type\">type</code> itself) have any effect on data blocks. Authors must use\n-    a <span>valid MIME type string</span> that is not a <span>JavaScript MIME type essence\n-    match</span> to denote data blocks.</p></li>\n+    specifier\">module specifier resolution</span>.</p></li>\n+\n+    <li>\n+     <p>Setting the attribute to any other value means that the script is a <dfn>data block</dfn>,\n+     which is not processed by the user agent, but instead by author script or other tools. Authors\n+     must use a <span>valid MIME type string</span> that is not a <span>JavaScript MIME type essence\n+     match</span> to denote data blocks.</p>\n+\n+     <p class=\"note\">The requirement that <span data-x=\"data block\">data blocks</span>\n+     <!--non-normative-->must be denoted using a <span>valid MIME type string</span> is in place to\n+     avoid potential future collisions. Values for the <code data-x=\"attr-script-type\">type</code>\n+     attribute that are not MIME types, like \"<code data-x=\"\">module</code>\" or \"<code\n+     data-x=\"\">importmap</code>\", are used by the standard to denote types of scripts which have\n+     special behavior in user agents. By using a valid MIME type string now, you ensure that your\n+     data block will not ever be reinterpreted as a different script type, even in future user\n+     agents.</p>\n+    </li>\n   </ul>\n \n-  <p class=\"note\">The requirement that <span data-x=\"data block\">data blocks</span>\n-  <!--non-normative-->must be denoted using a <span>valid MIME type string</span> is in place to\n-  avoid potential future collisions. If this specification ever adds additional types of\n-  <span data-x=\"concept-script\">script</span>, they will be triggered by setting the <code\n-  data-x=\"attr-script-type\">type</code> attribute to something which is not a MIME type, like how\n-  the \"<code data-x=\"\">module</code>\" value denotes <span data-x=\"module script\">module\n-  scripts</span>. By using a valid MIME type string now, you ensure that your data block will not\n- ever be reinterpreted as a different script type, even in future user agents.</p>\n-\n-  <p><span data-x=\"classic script\">Classic scripts</span> and <span\n-  data-x=\"JavaScript module script\">JavaScript module scripts</span> can be embedded inline, or be\n-  imported from an external file using the <dfn for=\"script\" element-attr><code\n-  data-x=\"attr-script-src\">src</code></dfn> attribute, which if specified gives the <span>URL</span>\n-  of the external script resource to use. If <code data-x=\"attr-script-src\">src</code> is specified,\n-  it must be a <span>valid non-empty URL potentially surrounded by spaces</span>.</p>\n+  <p>The second core attribute is the <dfn for=\"script\" element-attr><code\n+  data-x=\"attr-script-src\">src</code></dfn> attribute. It must only be specified for <span\n+  data-x=\"classic script\">classic scripts</span> and <span data-x=\"JavaScript module\n+  script\">JavaScript module scripts</span>, and denotes that instead of using the element's\n+  <span>child text content</span> as the script content, the script will be fetched from the\n+  specified <span>URL</span>. If <code data-x=\"attr-script-src\">src</code> is specified, it must be\n+  a <span>valid non-empty URL potentially surrounded by spaces</span>.</p>\n+\n+  <p>Which other attributes may be specified on a given <code>script</code> element is determined by\n+  the following table:</p>\n+\n+  <table class=\"yesno\">\n+   <thead>\n+    <tr>\n+     <th></th>\n+     <th><code data-x=\"attr-script-nomodule\">nomodule</code>\n+     <th><code data-x=\"attr-script-async\">async</code>\n+     <th><code data-x=\"attr-script-defer\">defer</code>\n+     <th><code data-x=\"attr-script-blocking\">blocking</code>\n+     <th><code data-x=\"attr-script-crossorigin\">crossorigin</code>\n+     <th><code data-x=\"attr-script-referrerpolicy\">referrerpolicy</code>\n+     <th><code data-x=\"attr-script-integrity\">integrity</code>\n+     <th><code data-x=\"attr-script-fetchpriority\">fetchpriority</code>\n+   <tbody>\n+    <tr>\n+     <th>External classic scripts</th>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+    <tr>\n+     <th>Inline classic scripts</th>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"yes\">Yes†</td>\n+     <td class=\"yes\">Yes†</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+    <tr>\n+     <th>External module scripts</th>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+    <tr>\n+     <th>Inline module scripts</th>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"yes\">Yes†</td>\n+     <td class=\"yes\">Yes†</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+    <tr>\n+     <th>Import maps</th>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+    <tr>\n+     <th>Data blocks</th>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+  </table>\n+\n+  <p class=\"tablenote\"><small>† Although inline scripts have no initial fetches, the <code\n+  data-x=\"attr-script-crossorigin\">crossorigin</code> and <code\n+  data-x=\"attr-script-referrerpolicy\">referrerpolicy</code> attribute on inline scripts affects the\n+  <span data-x=\"concept-request-credentials-mode\">credentials mode</span> and <span>referrer\n+  policy</span> used by module imports, including dynamic <code>import()</code>.</small></p>",
+    "path": "source",
+    "commit_id": "892f195abc5e03df5f3ed796b12f48f043a3ac67",
+    "original_commit_id": "6f5df48a78dede47ec163069551a34dbe19c4e0b",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This was done intentionally when fetchpriority was added. I'll try to dig up the explanation and include it.",
+    "created_at": "2025-05-29T00:40:06Z",
+    "updated_at": "2025-05-29T00:40:06Z",
+    "html_url": "https://github.com/whatwg/html/pull/11341#discussion_r2112970952",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11341",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2112970952"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11341#discussion_r2112970952"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11341"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2112970952/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 63180,
+    "original_line": 63180,
+    "side": "RIGHT",
+    "in_reply_to_id": 2111675104,
+    "author_association": "MEMBER",
+    "original_position": 218,
+    "position": 218,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2112971122",
+    "pull_request_review_id": 2876755476,
+    "id": 2112971122,
+    "node_id": "PRRC_kwDOALaj48598WFy",
+    "diff_hunk": "@@ -63044,119 +63045,172 @@ interface <dfn interface>HTMLScriptElement</dfn> : <span>HTMLElement</span> {\n    <dd w-dev>Uses <code>HTMLScriptElement</code>.</dd>\n   </dl>\n \n-  <p>The <code>script</code> element allows authors to include dynamic script and data blocks in\n-  their documents. The element does not <span data-x=\"represents\">represent</span> content for the\n-  user.</p>\n+  <p>The <code>script</code> element allows authors to include dynamic script, instructions to the\n+  user agent, and data blocks in their documents. The element does not <span\n+  data-x=\"represents\">represent</span> content for the user.</p>\n \n-  <p>The <dfn element-attr for=\"script\"><code data-x=\"attr-script-type\">type</code></dfn> attribute\n-  allows customization of the type of script represented:</p>\n+  <p>The script element has two core attributes. The <dfn element-attr for=\"script\"><code\n+  data-x=\"attr-script-type\">type</code></dfn> attribute allows customization of the type of script\n+  represented:</p>\n \n   <ul>\n     <li><p>Omitting the attribute, setting it to the empty string, or setting it to a\n-    <span>JavaScript MIME type essence match</span>, means that the script is a <span>classic\n+    <span>JavaScript MIME type essence match</span> means that the script is a <span>classic\n     script</span>, to be interpreted according to the JavaScript <i\n-    data-x=\"js-prod-Script\">Script</i> top-level production. Classic scripts are affected by the\n-    <code data-x=\"attr-script-async\">async</code> and <code data-x=\"attr-script-defer\">defer</code>\n-    attributes, but only when the <code data-x=\"attr-script-src\">src</code> attribute is set.\n-    Authors should omit the <code data-x=\"attr-script-type\">type</code> attribute instead of\n-    redundantly setting it.</p></li>\n+    data-x=\"js-prod-Script\">Script</i> top-level production. Authors should omit the <code\n+    data-x=\"attr-script-type\">type</code> attribute instead of redundantly setting it.</p></li>\n \n     <li><p>Setting the attribute to an <span>ASCII case-insensitive</span> match for \"<code\n     data-x=\"\">module</code>\" means that the script is a <span>JavaScript module script</span>, to\n     be interpreted according to the JavaScript <i data-x=\"js-prod-Module\">Module</i> top-level\n-    production. Module scripts are not affected by the <code\n-    data-x=\"attr-script-defer\">defer</code> attribute, but are affected by the <code\n-    data-x=\"attr-script-async\">async</code> attribute (regardless of the state of the <code\n-    data-x=\"attr-script-src\">src</code> attribute).</p></li>\n+    production.</p></li>\n \n     <li><p>Setting the attribute to an <span>ASCII case-insensitive</span> match for \"<code\n     data-x=\"\">importmap</code>\" means that the script is an <span>import map</span>, containing\n     JSON that will be used to control the behavior of <span data-x=\"resolve a module\n-    specifier\">module specifier resolution</span>. Import maps can only be inline, i.e., the <code\n-    data-x=\"attr-script-src\">src</code> attribute and most other attributes are meaningless and not\n-    to be used with them.</p></li>\n-\n-    <li><p>Setting the attribute to any other value means that the script is a <dfn>data\n-    block</dfn>, which is not processed. None of the <code>script</code> attributes (except <code\n-    data-x=\"attr-script-type\">type</code> itself) have any effect on data blocks. Authors must use\n-    a <span>valid MIME type string</span> that is not a <span>JavaScript MIME type essence\n-    match</span> to denote data blocks.</p></li>\n+    specifier\">module specifier resolution</span>.</p></li>\n+\n+    <li>\n+     <p>Setting the attribute to any other value means that the script is a <dfn>data block</dfn>,\n+     which is not processed by the user agent, but instead by author script or other tools. Authors\n+     must use a <span>valid MIME type string</span> that is not a <span>JavaScript MIME type essence\n+     match</span> to denote data blocks.</p>\n+\n+     <p class=\"note\">The requirement that <span data-x=\"data block\">data blocks</span>\n+     <!--non-normative-->must be denoted using a <span>valid MIME type string</span> is in place to\n+     avoid potential future collisions. Values for the <code data-x=\"attr-script-type\">type</code>\n+     attribute that are not MIME types, like \"<code data-x=\"\">module</code>\" or \"<code\n+     data-x=\"\">importmap</code>\", are used by the standard to denote types of scripts which have\n+     special behavior in user agents. By using a valid MIME type string now, you ensure that your\n+     data block will not ever be reinterpreted as a different script type, even in future user\n+     agents.</p>\n+    </li>\n   </ul>\n \n-  <p class=\"note\">The requirement that <span data-x=\"data block\">data blocks</span>\n-  <!--non-normative-->must be denoted using a <span>valid MIME type string</span> is in place to\n-  avoid potential future collisions. If this specification ever adds additional types of\n-  <span data-x=\"concept-script\">script</span>, they will be triggered by setting the <code\n-  data-x=\"attr-script-type\">type</code> attribute to something which is not a MIME type, like how\n-  the \"<code data-x=\"\">module</code>\" value denotes <span data-x=\"module script\">module\n-  scripts</span>. By using a valid MIME type string now, you ensure that your data block will not\n- ever be reinterpreted as a different script type, even in future user agents.</p>\n-\n-  <p><span data-x=\"classic script\">Classic scripts</span> and <span\n-  data-x=\"JavaScript module script\">JavaScript module scripts</span> can be embedded inline, or be\n-  imported from an external file using the <dfn for=\"script\" element-attr><code\n-  data-x=\"attr-script-src\">src</code></dfn> attribute, which if specified gives the <span>URL</span>\n-  of the external script resource to use. If <code data-x=\"attr-script-src\">src</code> is specified,\n-  it must be a <span>valid non-empty URL potentially surrounded by spaces</span>.</p>\n+  <p>The second core attribute is the <dfn for=\"script\" element-attr><code\n+  data-x=\"attr-script-src\">src</code></dfn> attribute. It must only be specified for <span\n+  data-x=\"classic script\">classic scripts</span> and <span data-x=\"JavaScript module\n+  script\">JavaScript module scripts</span>, and denotes that instead of using the element's\n+  <span>child text content</span> as the script content, the script will be fetched from the\n+  specified <span>URL</span>. If <code data-x=\"attr-script-src\">src</code> is specified, it must be\n+  a <span>valid non-empty URL potentially surrounded by spaces</span>.</p>\n+\n+  <p>Which other attributes may be specified on a given <code>script</code> element is determined by\n+  the following table:</p>\n+\n+  <table class=\"yesno\">\n+   <thead>\n+    <tr>\n+     <th></th>",
+    "path": "source",
+    "commit_id": "892f195abc5e03df5f3ed796b12f48f043a3ac67",
+    "original_commit_id": "6f5df48a78dede47ec163069551a34dbe19c4e0b",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Any ideas for a word other than \"Type\"?",
+    "created_at": "2025-05-29T00:40:22Z",
+    "updated_at": "2025-05-29T00:40:22Z",
+    "html_url": "https://github.com/whatwg/html/pull/11341#discussion_r2112971122",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11341",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2112971122"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11341#discussion_r2112971122"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11341"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2112971122/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 63104,
+    "original_line": 63104,
+    "side": "RIGHT",
+    "in_reply_to_id": 2111676807,
+    "author_association": "MEMBER",
+    "original_position": 142,
+    "position": 142,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2112971425",
+    "pull_request_review_id": 2876755881,
+    "id": 2112971425,
+    "node_id": "PRRC_kwDOALaj48598WKh",
+    "diff_hunk": "@@ -63044,119 +63045,172 @@ interface <dfn interface>HTMLScriptElement</dfn> : <span>HTMLElement</span> {\n    <dd w-dev>Uses <code>HTMLScriptElement</code>.</dd>\n   </dl>\n \n-  <p>The <code>script</code> element allows authors to include dynamic script and data blocks in\n-  their documents. The element does not <span data-x=\"represents\">represent</span> content for the\n-  user.</p>\n+  <p>The <code>script</code> element allows authors to include dynamic script, instructions to the\n+  user agent, and data blocks in their documents. The element does not <span\n+  data-x=\"represents\">represent</span> content for the user.</p>\n \n-  <p>The <dfn element-attr for=\"script\"><code data-x=\"attr-script-type\">type</code></dfn> attribute\n-  allows customization of the type of script represented:</p>\n+  <p>The script element has two core attributes. The <dfn element-attr for=\"script\"><code\n+  data-x=\"attr-script-type\">type</code></dfn> attribute allows customization of the type of script\n+  represented:</p>\n \n   <ul>\n     <li><p>Omitting the attribute, setting it to the empty string, or setting it to a\n-    <span>JavaScript MIME type essence match</span>, means that the script is a <span>classic\n+    <span>JavaScript MIME type essence match</span> means that the script is a <span>classic\n     script</span>, to be interpreted according to the JavaScript <i\n-    data-x=\"js-prod-Script\">Script</i> top-level production. Classic scripts are affected by the\n-    <code data-x=\"attr-script-async\">async</code> and <code data-x=\"attr-script-defer\">defer</code>\n-    attributes, but only when the <code data-x=\"attr-script-src\">src</code> attribute is set.\n-    Authors should omit the <code data-x=\"attr-script-type\">type</code> attribute instead of\n-    redundantly setting it.</p></li>\n+    data-x=\"js-prod-Script\">Script</i> top-level production. Authors should omit the <code\n+    data-x=\"attr-script-type\">type</code> attribute instead of redundantly setting it.</p></li>\n \n     <li><p>Setting the attribute to an <span>ASCII case-insensitive</span> match for \"<code\n     data-x=\"\">module</code>\" means that the script is a <span>JavaScript module script</span>, to\n     be interpreted according to the JavaScript <i data-x=\"js-prod-Module\">Module</i> top-level\n-    production. Module scripts are not affected by the <code\n-    data-x=\"attr-script-defer\">defer</code> attribute, but are affected by the <code\n-    data-x=\"attr-script-async\">async</code> attribute (regardless of the state of the <code\n-    data-x=\"attr-script-src\">src</code> attribute).</p></li>\n+    production.</p></li>\n \n     <li><p>Setting the attribute to an <span>ASCII case-insensitive</span> match for \"<code\n     data-x=\"\">importmap</code>\" means that the script is an <span>import map</span>, containing\n     JSON that will be used to control the behavior of <span data-x=\"resolve a module\n-    specifier\">module specifier resolution</span>. Import maps can only be inline, i.e., the <code\n-    data-x=\"attr-script-src\">src</code> attribute and most other attributes are meaningless and not\n-    to be used with them.</p></li>\n-\n-    <li><p>Setting the attribute to any other value means that the script is a <dfn>data\n-    block</dfn>, which is not processed. None of the <code>script</code> attributes (except <code\n-    data-x=\"attr-script-type\">type</code> itself) have any effect on data blocks. Authors must use\n-    a <span>valid MIME type string</span> that is not a <span>JavaScript MIME type essence\n-    match</span> to denote data blocks.</p></li>\n+    specifier\">module specifier resolution</span>.</p></li>\n+\n+    <li>\n+     <p>Setting the attribute to any other value means that the script is a <dfn>data block</dfn>,\n+     which is not processed by the user agent, but instead by author script or other tools. Authors\n+     must use a <span>valid MIME type string</span> that is not a <span>JavaScript MIME type essence\n+     match</span> to denote data blocks.</p>\n+\n+     <p class=\"note\">The requirement that <span data-x=\"data block\">data blocks</span>\n+     <!--non-normative-->must be denoted using a <span>valid MIME type string</span> is in place to\n+     avoid potential future collisions. Values for the <code data-x=\"attr-script-type\">type</code>\n+     attribute that are not MIME types, like \"<code data-x=\"\">module</code>\" or \"<code\n+     data-x=\"\">importmap</code>\", are used by the standard to denote types of scripts which have\n+     special behavior in user agents. By using a valid MIME type string now, you ensure that your\n+     data block will not ever be reinterpreted as a different script type, even in future user\n+     agents.</p>\n+    </li>\n   </ul>\n \n-  <p class=\"note\">The requirement that <span data-x=\"data block\">data blocks</span>\n-  <!--non-normative-->must be denoted using a <span>valid MIME type string</span> is in place to\n-  avoid potential future collisions. If this specification ever adds additional types of\n-  <span data-x=\"concept-script\">script</span>, they will be triggered by setting the <code\n-  data-x=\"attr-script-type\">type</code> attribute to something which is not a MIME type, like how\n-  the \"<code data-x=\"\">module</code>\" value denotes <span data-x=\"module script\">module\n-  scripts</span>. By using a valid MIME type string now, you ensure that your data block will not\n- ever be reinterpreted as a different script type, even in future user agents.</p>\n-\n-  <p><span data-x=\"classic script\">Classic scripts</span> and <span\n-  data-x=\"JavaScript module script\">JavaScript module scripts</span> can be embedded inline, or be\n-  imported from an external file using the <dfn for=\"script\" element-attr><code\n-  data-x=\"attr-script-src\">src</code></dfn> attribute, which if specified gives the <span>URL</span>\n-  of the external script resource to use. If <code data-x=\"attr-script-src\">src</code> is specified,\n-  it must be a <span>valid non-empty URL potentially surrounded by spaces</span>.</p>\n+  <p>The second core attribute is the <dfn for=\"script\" element-attr><code\n+  data-x=\"attr-script-src\">src</code></dfn> attribute. It must only be specified for <span\n+  data-x=\"classic script\">classic scripts</span> and <span data-x=\"JavaScript module\n+  script\">JavaScript module scripts</span>, and denotes that instead of using the element's\n+  <span>child text content</span> as the script content, the script will be fetched from the\n+  specified <span>URL</span>. If <code data-x=\"attr-script-src\">src</code> is specified, it must be\n+  a <span>valid non-empty URL potentially surrounded by spaces</span>.</p>\n+\n+  <p>Which other attributes may be specified on a given <code>script</code> element is determined by\n+  the following table:</p>\n+\n+  <table class=\"yesno\">\n+   <thead>\n+    <tr>\n+     <th></th>\n+     <th><code data-x=\"attr-script-nomodule\">nomodule</code>\n+     <th><code data-x=\"attr-script-async\">async</code>\n+     <th><code data-x=\"attr-script-defer\">defer</code>\n+     <th><code data-x=\"attr-script-blocking\">blocking</code>\n+     <th><code data-x=\"attr-script-crossorigin\">crossorigin</code>\n+     <th><code data-x=\"attr-script-referrerpolicy\">referrerpolicy</code>\n+     <th><code data-x=\"attr-script-integrity\">integrity</code>\n+     <th><code data-x=\"attr-script-fetchpriority\">fetchpriority</code>\n+   <tbody>\n+    <tr>\n+     <th>External classic scripts</th>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+    <tr>\n+     <th>Inline classic scripts</th>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"yes\">Yes†</td>\n+     <td class=\"yes\">Yes†</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+    <tr>\n+     <th>External module scripts</th>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+    <tr>\n+     <th>Inline module scripts</th>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"yes\">Yes†</td>\n+     <td class=\"yes\">Yes†</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+    <tr>\n+     <th>Import maps</th>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+    <tr>\n+     <th>Data blocks</th>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+  </table>\n+\n+  <p class=\"tablenote\"><small>† Although inline scripts have no initial fetches, the <code\n+  data-x=\"attr-script-crossorigin\">crossorigin</code> and <code\n+  data-x=\"attr-script-referrerpolicy\">referrerpolicy</code> attribute on inline scripts affects the\n+  <span data-x=\"concept-request-credentials-mode\">credentials mode</span> and <span>referrer\n+  policy</span> used by module imports, including dynamic <code>import()</code>.</small></p>\n+\n+  <hr>\n \n   <p>The contents of inline <code>script</code> elements, or the external script resource, must\n   conform with the requirements of the JavaScript specification's <i\n   data-x=\"js-prod-Script\">Script</i> or <i data-x=\"js-prod-Module\">Module</i> productions, for <span\n   data-x=\"classic script\">classic scripts</span> and <span data-x=\"JavaScript module\n   script\">JavaScript module scripts</span> respectively. <ref>JAVASCRIPT</ref></p>\n \n-  <p>The contents of the external script resource for <span data-x=\"CSS module script\">CSS module\n-  scripts</span> must conform to the requirements of the CSS specification. <ref>CSS</ref></p>\n-\n-  <p>The contents of the external script resource for <span data-x=\"JSON module script\">JSON module\n-  scripts</span> must conform to the requirements of the JSON specification. <ref>JSON</ref></p>",
+    "path": "source",
+    "commit_id": "892f195abc5e03df5f3ed796b12f48f043a3ac67",
+    "original_commit_id": "6f5df48a78dede47ec163069551a34dbe19c4e0b",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "These requirements didn't make any sense, since external script included by `<script>` elements can only be JS scripts.",
+    "created_at": "2025-05-29T00:40:45Z",
+    "updated_at": "2025-05-29T00:40:46Z",
+    "html_url": "https://github.com/whatwg/html/pull/11341#discussion_r2112971425",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11341",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2112971425"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11341#discussion_r2112971425"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11341"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2112971425/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 63108,
+    "original_start_line": 63108,
+    "start_side": "LEFT",
+    "line": 63112,
+    "original_line": 63112,
+    "side": "LEFT",
+    "in_reply_to_id": 2111683863,
+    "author_association": "MEMBER",
+    "original_position": 232,
+    "position": 236,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2113088034",
+    "pull_request_review_id": 2876914346,
+    "id": 2113088034,
+    "node_id": "PRRC_kwDOALaj48598yoi",
+    "diff_hunk": "@@ -63044,119 +63045,172 @@ interface <dfn interface>HTMLScriptElement</dfn> : <span>HTMLElement</span> {\n    <dd w-dev>Uses <code>HTMLScriptElement</code>.</dd>\n   </dl>\n \n-  <p>The <code>script</code> element allows authors to include dynamic script and data blocks in\n-  their documents. The element does not <span data-x=\"represents\">represent</span> content for the\n-  user.</p>\n+  <p>The <code>script</code> element allows authors to include dynamic script, instructions to the\n+  user agent, and data blocks in their documents. The element does not <span\n+  data-x=\"represents\">represent</span> content for the user.</p>\n \n-  <p>The <dfn element-attr for=\"script\"><code data-x=\"attr-script-type\">type</code></dfn> attribute\n-  allows customization of the type of script represented:</p>\n+  <p>The script element has two core attributes. The <dfn element-attr for=\"script\"><code\n+  data-x=\"attr-script-type\">type</code></dfn> attribute allows customization of the type of script\n+  represented:</p>\n \n   <ul>\n     <li><p>Omitting the attribute, setting it to the empty string, or setting it to a\n-    <span>JavaScript MIME type essence match</span>, means that the script is a <span>classic\n+    <span>JavaScript MIME type essence match</span> means that the script is a <span>classic\n     script</span>, to be interpreted according to the JavaScript <i\n-    data-x=\"js-prod-Script\">Script</i> top-level production. Classic scripts are affected by the\n-    <code data-x=\"attr-script-async\">async</code> and <code data-x=\"attr-script-defer\">defer</code>\n-    attributes, but only when the <code data-x=\"attr-script-src\">src</code> attribute is set.\n-    Authors should omit the <code data-x=\"attr-script-type\">type</code> attribute instead of\n-    redundantly setting it.</p></li>\n+    data-x=\"js-prod-Script\">Script</i> top-level production. Authors should omit the <code\n+    data-x=\"attr-script-type\">type</code> attribute instead of redundantly setting it.</p></li>\n \n     <li><p>Setting the attribute to an <span>ASCII case-insensitive</span> match for \"<code\n     data-x=\"\">module</code>\" means that the script is a <span>JavaScript module script</span>, to\n     be interpreted according to the JavaScript <i data-x=\"js-prod-Module\">Module</i> top-level\n-    production. Module scripts are not affected by the <code\n-    data-x=\"attr-script-defer\">defer</code> attribute, but are affected by the <code\n-    data-x=\"attr-script-async\">async</code> attribute (regardless of the state of the <code\n-    data-x=\"attr-script-src\">src</code> attribute).</p></li>\n+    production.</p></li>\n \n     <li><p>Setting the attribute to an <span>ASCII case-insensitive</span> match for \"<code\n     data-x=\"\">importmap</code>\" means that the script is an <span>import map</span>, containing\n     JSON that will be used to control the behavior of <span data-x=\"resolve a module\n-    specifier\">module specifier resolution</span>. Import maps can only be inline, i.e., the <code\n-    data-x=\"attr-script-src\">src</code> attribute and most other attributes are meaningless and not\n-    to be used with them.</p></li>\n-\n-    <li><p>Setting the attribute to any other value means that the script is a <dfn>data\n-    block</dfn>, which is not processed. None of the <code>script</code> attributes (except <code\n-    data-x=\"attr-script-type\">type</code> itself) have any effect on data blocks. Authors must use\n-    a <span>valid MIME type string</span> that is not a <span>JavaScript MIME type essence\n-    match</span> to denote data blocks.</p></li>\n+    specifier\">module specifier resolution</span>.</p></li>\n+\n+    <li>\n+     <p>Setting the attribute to any other value means that the script is a <dfn>data block</dfn>,\n+     which is not processed by the user agent, but instead by author script or other tools. Authors\n+     must use a <span>valid MIME type string</span> that is not a <span>JavaScript MIME type essence\n+     match</span> to denote data blocks.</p>\n+\n+     <p class=\"note\">The requirement that <span data-x=\"data block\">data blocks</span>\n+     <!--non-normative-->must be denoted using a <span>valid MIME type string</span> is in place to\n+     avoid potential future collisions. Values for the <code data-x=\"attr-script-type\">type</code>\n+     attribute that are not MIME types, like \"<code data-x=\"\">module</code>\" or \"<code\n+     data-x=\"\">importmap</code>\", are used by the standard to denote types of scripts which have\n+     special behavior in user agents. By using a valid MIME type string now, you ensure that your\n+     data block will not ever be reinterpreted as a different script type, even in future user\n+     agents.</p>\n+    </li>\n   </ul>\n \n-  <p class=\"note\">The requirement that <span data-x=\"data block\">data blocks</span>\n-  <!--non-normative-->must be denoted using a <span>valid MIME type string</span> is in place to\n-  avoid potential future collisions. If this specification ever adds additional types of\n-  <span data-x=\"concept-script\">script</span>, they will be triggered by setting the <code\n-  data-x=\"attr-script-type\">type</code> attribute to something which is not a MIME type, like how\n-  the \"<code data-x=\"\">module</code>\" value denotes <span data-x=\"module script\">module\n-  scripts</span>. By using a valid MIME type string now, you ensure that your data block will not\n- ever be reinterpreted as a different script type, even in future user agents.</p>\n-\n-  <p><span data-x=\"classic script\">Classic scripts</span> and <span\n-  data-x=\"JavaScript module script\">JavaScript module scripts</span> can be embedded inline, or be\n-  imported from an external file using the <dfn for=\"script\" element-attr><code\n-  data-x=\"attr-script-src\">src</code></dfn> attribute, which if specified gives the <span>URL</span>\n-  of the external script resource to use. If <code data-x=\"attr-script-src\">src</code> is specified,\n-  it must be a <span>valid non-empty URL potentially surrounded by spaces</span>.</p>\n+  <p>The second core attribute is the <dfn for=\"script\" element-attr><code\n+  data-x=\"attr-script-src\">src</code></dfn> attribute. It must only be specified for <span\n+  data-x=\"classic script\">classic scripts</span> and <span data-x=\"JavaScript module\n+  script\">JavaScript module scripts</span>, and denotes that instead of using the element's\n+  <span>child text content</span> as the script content, the script will be fetched from the\n+  specified <span>URL</span>. If <code data-x=\"attr-script-src\">src</code> is specified, it must be\n+  a <span>valid non-empty URL potentially surrounded by spaces</span>.</p>\n+\n+  <p>Which other attributes may be specified on a given <code>script</code> element is determined by\n+  the following table:</p>\n+\n+  <table class=\"yesno\">\n+   <thead>\n+    <tr>\n+     <th></th>",
+    "path": "source",
+    "commit_id": "892f195abc5e03df5f3ed796b12f48f043a3ac67",
+    "original_commit_id": "6f5df48a78dede47ec163069551a34dbe19c4e0b",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This is the terminology we use earlier when describing the `type` attribute: \"allows customization of the type of script represented\".\r\n\r\nHaving said that, I don't mind the sound of \"Script variant\".",
+    "created_at": "2025-05-29T03:08:04Z",
+    "updated_at": "2025-05-29T03:08:04Z",
+    "html_url": "https://github.com/whatwg/html/pull/11341#discussion_r2113088034",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11341",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2113088034"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11341#discussion_r2113088034"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11341"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2113088034/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 63104,
+    "original_line": 63104,
+    "side": "RIGHT",
+    "in_reply_to_id": 2111676807,
+    "author_association": "MEMBER",
+    "original_position": 142,
+    "position": 142,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2113162817",
+    "pull_request_review_id": 2877046817,
+    "id": 2113162817,
+    "node_id": "PRRC_kwDOALaj48599E5B",
+    "diff_hunk": "@@ -63044,119 +63045,172 @@ interface <dfn interface>HTMLScriptElement</dfn> : <span>HTMLElement</span> {\n    <dd w-dev>Uses <code>HTMLScriptElement</code>.</dd>\n   </dl>\n \n-  <p>The <code>script</code> element allows authors to include dynamic script and data blocks in\n-  their documents. The element does not <span data-x=\"represents\">represent</span> content for the\n-  user.</p>\n+  <p>The <code>script</code> element allows authors to include dynamic script, instructions to the\n+  user agent, and data blocks in their documents. The element does not <span\n+  data-x=\"represents\">represent</span> content for the user.</p>\n \n-  <p>The <dfn element-attr for=\"script\"><code data-x=\"attr-script-type\">type</code></dfn> attribute\n-  allows customization of the type of script represented:</p>\n+  <p>The script element has two core attributes. The <dfn element-attr for=\"script\"><code\n+  data-x=\"attr-script-type\">type</code></dfn> attribute allows customization of the type of script\n+  represented:</p>\n \n   <ul>\n     <li><p>Omitting the attribute, setting it to the empty string, or setting it to a\n-    <span>JavaScript MIME type essence match</span>, means that the script is a <span>classic\n+    <span>JavaScript MIME type essence match</span> means that the script is a <span>classic\n     script</span>, to be interpreted according to the JavaScript <i\n-    data-x=\"js-prod-Script\">Script</i> top-level production. Classic scripts are affected by the\n-    <code data-x=\"attr-script-async\">async</code> and <code data-x=\"attr-script-defer\">defer</code>\n-    attributes, but only when the <code data-x=\"attr-script-src\">src</code> attribute is set.\n-    Authors should omit the <code data-x=\"attr-script-type\">type</code> attribute instead of\n-    redundantly setting it.</p></li>\n+    data-x=\"js-prod-Script\">Script</i> top-level production. Authors should omit the <code\n+    data-x=\"attr-script-type\">type</code> attribute instead of redundantly setting it.</p></li>\n \n     <li><p>Setting the attribute to an <span>ASCII case-insensitive</span> match for \"<code\n     data-x=\"\">module</code>\" means that the script is a <span>JavaScript module script</span>, to\n     be interpreted according to the JavaScript <i data-x=\"js-prod-Module\">Module</i> top-level\n-    production. Module scripts are not affected by the <code\n-    data-x=\"attr-script-defer\">defer</code> attribute, but are affected by the <code\n-    data-x=\"attr-script-async\">async</code> attribute (regardless of the state of the <code\n-    data-x=\"attr-script-src\">src</code> attribute).</p></li>\n+    production.</p></li>\n \n     <li><p>Setting the attribute to an <span>ASCII case-insensitive</span> match for \"<code\n     data-x=\"\">importmap</code>\" means that the script is an <span>import map</span>, containing\n     JSON that will be used to control the behavior of <span data-x=\"resolve a module\n-    specifier\">module specifier resolution</span>. Import maps can only be inline, i.e., the <code\n-    data-x=\"attr-script-src\">src</code> attribute and most other attributes are meaningless and not\n-    to be used with them.</p></li>\n-\n-    <li><p>Setting the attribute to any other value means that the script is a <dfn>data\n-    block</dfn>, which is not processed. None of the <code>script</code> attributes (except <code\n-    data-x=\"attr-script-type\">type</code> itself) have any effect on data blocks. Authors must use\n-    a <span>valid MIME type string</span> that is not a <span>JavaScript MIME type essence\n-    match</span> to denote data blocks.</p></li>\n+    specifier\">module specifier resolution</span>.</p></li>\n+\n+    <li>\n+     <p>Setting the attribute to any other value means that the script is a <dfn>data block</dfn>,\n+     which is not processed by the user agent, but instead by author script or other tools. Authors\n+     must use a <span>valid MIME type string</span> that is not a <span>JavaScript MIME type essence\n+     match</span> to denote data blocks.</p>\n+\n+     <p class=\"note\">The requirement that <span data-x=\"data block\">data blocks</span>\n+     <!--non-normative-->must be denoted using a <span>valid MIME type string</span> is in place to\n+     avoid potential future collisions. Values for the <code data-x=\"attr-script-type\">type</code>\n+     attribute that are not MIME types, like \"<code data-x=\"\">module</code>\" or \"<code\n+     data-x=\"\">importmap</code>\", are used by the standard to denote types of scripts which have\n+     special behavior in user agents. By using a valid MIME type string now, you ensure that your\n+     data block will not ever be reinterpreted as a different script type, even in future user\n+     agents.</p>\n+    </li>\n   </ul>\n \n-  <p class=\"note\">The requirement that <span data-x=\"data block\">data blocks</span>\n-  <!--non-normative-->must be denoted using a <span>valid MIME type string</span> is in place to\n-  avoid potential future collisions. If this specification ever adds additional types of\n-  <span data-x=\"concept-script\">script</span>, they will be triggered by setting the <code\n-  data-x=\"attr-script-type\">type</code> attribute to something which is not a MIME type, like how\n-  the \"<code data-x=\"\">module</code>\" value denotes <span data-x=\"module script\">module\n-  scripts</span>. By using a valid MIME type string now, you ensure that your data block will not\n- ever be reinterpreted as a different script type, even in future user agents.</p>\n-\n-  <p><span data-x=\"classic script\">Classic scripts</span> and <span\n-  data-x=\"JavaScript module script\">JavaScript module scripts</span> can be embedded inline, or be\n-  imported from an external file using the <dfn for=\"script\" element-attr><code\n-  data-x=\"attr-script-src\">src</code></dfn> attribute, which if specified gives the <span>URL</span>\n-  of the external script resource to use. If <code data-x=\"attr-script-src\">src</code> is specified,\n-  it must be a <span>valid non-empty URL potentially surrounded by spaces</span>.</p>\n+  <p>The second core attribute is the <dfn for=\"script\" element-attr><code\n+  data-x=\"attr-script-src\">src</code></dfn> attribute. It must only be specified for <span\n+  data-x=\"classic script\">classic scripts</span> and <span data-x=\"JavaScript module\n+  script\">JavaScript module scripts</span>, and denotes that instead of using the element's\n+  <span>child text content</span> as the script content, the script will be fetched from the\n+  specified <span>URL</span>. If <code data-x=\"attr-script-src\">src</code> is specified, it must be\n+  a <span>valid non-empty URL potentially surrounded by spaces</span>.</p>\n+\n+  <p>Which other attributes may be specified on a given <code>script</code> element is determined by\n+  the following table:</p>\n+\n+  <table class=\"yesno\">\n+   <thead>\n+    <tr>\n+     <th></th>",
+    "path": "source",
+    "commit_id": "892f195abc5e03df5f3ed796b12f48f043a3ac67",
+    "original_commit_id": "6f5df48a78dede47ec163069551a34dbe19c4e0b",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The issue is that it's a combination of type and src, so just saying \"type\" is misleading.",
+    "created_at": "2025-05-29T04:48:12Z",
+    "updated_at": "2025-05-29T04:48:12Z",
+    "html_url": "https://github.com/whatwg/html/pull/11341#discussion_r2113162817",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11341",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2113162817"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11341#discussion_r2113162817"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11341"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2113162817/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 63104,
+    "original_line": 63104,
+    "side": "RIGHT",
+    "in_reply_to_id": 2111676807,
+    "author_association": "MEMBER",
+    "original_position": 142,
+    "position": 142,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2113169879",
+    "pull_request_review_id": 2877056480,
+    "id": 2113169879,
+    "node_id": "PRRC_kwDOALaj48599GnX",
+    "diff_hunk": "@@ -63044,119 +63045,172 @@ interface <dfn interface>HTMLScriptElement</dfn> : <span>HTMLElement</span> {\n    <dd w-dev>Uses <code>HTMLScriptElement</code>.</dd>\n   </dl>\n \n-  <p>The <code>script</code> element allows authors to include dynamic script and data blocks in\n-  their documents. The element does not <span data-x=\"represents\">represent</span> content for the\n-  user.</p>\n+  <p>The <code>script</code> element allows authors to include dynamic script, instructions to the\n+  user agent, and data blocks in their documents. The element does not <span\n+  data-x=\"represents\">represent</span> content for the user.</p>\n \n-  <p>The <dfn element-attr for=\"script\"><code data-x=\"attr-script-type\">type</code></dfn> attribute\n-  allows customization of the type of script represented:</p>\n+  <p>The script element has two core attributes. The <dfn element-attr for=\"script\"><code\n+  data-x=\"attr-script-type\">type</code></dfn> attribute allows customization of the type of script\n+  represented:</p>\n \n   <ul>\n     <li><p>Omitting the attribute, setting it to the empty string, or setting it to a\n-    <span>JavaScript MIME type essence match</span>, means that the script is a <span>classic\n+    <span>JavaScript MIME type essence match</span> means that the script is a <span>classic\n     script</span>, to be interpreted according to the JavaScript <i\n-    data-x=\"js-prod-Script\">Script</i> top-level production. Classic scripts are affected by the\n-    <code data-x=\"attr-script-async\">async</code> and <code data-x=\"attr-script-defer\">defer</code>\n-    attributes, but only when the <code data-x=\"attr-script-src\">src</code> attribute is set.\n-    Authors should omit the <code data-x=\"attr-script-type\">type</code> attribute instead of\n-    redundantly setting it.</p></li>\n+    data-x=\"js-prod-Script\">Script</i> top-level production. Authors should omit the <code\n+    data-x=\"attr-script-type\">type</code> attribute instead of redundantly setting it.</p></li>\n \n     <li><p>Setting the attribute to an <span>ASCII case-insensitive</span> match for \"<code\n     data-x=\"\">module</code>\" means that the script is a <span>JavaScript module script</span>, to\n     be interpreted according to the JavaScript <i data-x=\"js-prod-Module\">Module</i> top-level\n-    production. Module scripts are not affected by the <code\n-    data-x=\"attr-script-defer\">defer</code> attribute, but are affected by the <code\n-    data-x=\"attr-script-async\">async</code> attribute (regardless of the state of the <code\n-    data-x=\"attr-script-src\">src</code> attribute).</p></li>\n+    production.</p></li>\n \n     <li><p>Setting the attribute to an <span>ASCII case-insensitive</span> match for \"<code\n     data-x=\"\">importmap</code>\" means that the script is an <span>import map</span>, containing\n     JSON that will be used to control the behavior of <span data-x=\"resolve a module\n-    specifier\">module specifier resolution</span>. Import maps can only be inline, i.e., the <code\n-    data-x=\"attr-script-src\">src</code> attribute and most other attributes are meaningless and not\n-    to be used with them.</p></li>\n-\n-    <li><p>Setting the attribute to any other value means that the script is a <dfn>data\n-    block</dfn>, which is not processed. None of the <code>script</code> attributes (except <code\n-    data-x=\"attr-script-type\">type</code> itself) have any effect on data blocks. Authors must use\n-    a <span>valid MIME type string</span> that is not a <span>JavaScript MIME type essence\n-    match</span> to denote data blocks.</p></li>\n+    specifier\">module specifier resolution</span>.</p></li>\n+\n+    <li>\n+     <p>Setting the attribute to any other value means that the script is a <dfn>data block</dfn>,\n+     which is not processed by the user agent, but instead by author script or other tools. Authors\n+     must use a <span>valid MIME type string</span> that is not a <span>JavaScript MIME type essence\n+     match</span> to denote data blocks.</p>\n+\n+     <p class=\"note\">The requirement that <span data-x=\"data block\">data blocks</span>\n+     <!--non-normative-->must be denoted using a <span>valid MIME type string</span> is in place to\n+     avoid potential future collisions. Values for the <code data-x=\"attr-script-type\">type</code>\n+     attribute that are not MIME types, like \"<code data-x=\"\">module</code>\" or \"<code\n+     data-x=\"\">importmap</code>\", are used by the standard to denote types of scripts which have\n+     special behavior in user agents. By using a valid MIME type string now, you ensure that your\n+     data block will not ever be reinterpreted as a different script type, even in future user\n+     agents.</p>\n+    </li>\n   </ul>\n \n-  <p class=\"note\">The requirement that <span data-x=\"data block\">data blocks</span>\n-  <!--non-normative-->must be denoted using a <span>valid MIME type string</span> is in place to\n-  avoid potential future collisions. If this specification ever adds additional types of\n-  <span data-x=\"concept-script\">script</span>, they will be triggered by setting the <code\n-  data-x=\"attr-script-type\">type</code> attribute to something which is not a MIME type, like how\n-  the \"<code data-x=\"\">module</code>\" value denotes <span data-x=\"module script\">module\n-  scripts</span>. By using a valid MIME type string now, you ensure that your data block will not\n- ever be reinterpreted as a different script type, even in future user agents.</p>\n-\n-  <p><span data-x=\"classic script\">Classic scripts</span> and <span\n-  data-x=\"JavaScript module script\">JavaScript module scripts</span> can be embedded inline, or be\n-  imported from an external file using the <dfn for=\"script\" element-attr><code\n-  data-x=\"attr-script-src\">src</code></dfn> attribute, which if specified gives the <span>URL</span>\n-  of the external script resource to use. If <code data-x=\"attr-script-src\">src</code> is specified,\n-  it must be a <span>valid non-empty URL potentially surrounded by spaces</span>.</p>\n+  <p>The second core attribute is the <dfn for=\"script\" element-attr><code\n+  data-x=\"attr-script-src\">src</code></dfn> attribute. It must only be specified for <span\n+  data-x=\"classic script\">classic scripts</span> and <span data-x=\"JavaScript module\n+  script\">JavaScript module scripts</span>, and denotes that instead of using the element's\n+  <span>child text content</span> as the script content, the script will be fetched from the\n+  specified <span>URL</span>. If <code data-x=\"attr-script-src\">src</code> is specified, it must be\n+  a <span>valid non-empty URL potentially surrounded by spaces</span>.</p>\n+\n+  <p>Which other attributes may be specified on a given <code>script</code> element is determined by\n+  the following table:</p>\n+\n+  <table class=\"yesno\">\n+   <thead>\n+    <tr>\n+     <th></th>\n+     <th><code data-x=\"attr-script-nomodule\">nomodule</code>\n+     <th><code data-x=\"attr-script-async\">async</code>\n+     <th><code data-x=\"attr-script-defer\">defer</code>\n+     <th><code data-x=\"attr-script-blocking\">blocking</code>\n+     <th><code data-x=\"attr-script-crossorigin\">crossorigin</code>\n+     <th><code data-x=\"attr-script-referrerpolicy\">referrerpolicy</code>\n+     <th><code data-x=\"attr-script-integrity\">integrity</code>\n+     <th><code data-x=\"attr-script-fetchpriority\">fetchpriority</code>\n+   <tbody>\n+    <tr>\n+     <th>External classic scripts</th>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+    <tr>\n+     <th>Inline classic scripts</th>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"yes\">Yes†</td>\n+     <td class=\"yes\">Yes†</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+    <tr>\n+     <th>External module scripts</th>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"yes\">Yes</td>\n+    <tr>\n+     <th>Inline module scripts</th>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"yes\">Yes</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"yes\">Yes†</td>\n+     <td class=\"yes\">Yes†</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+    <tr>\n+     <th>Import maps</th>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+    <tr>\n+     <th>Data blocks</th>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+     <td class=\"no\">&middot;</td>\n+  </table>\n+\n+  <p class=\"tablenote\"><small>† Although inline scripts have no initial fetches, the <code\n+  data-x=\"attr-script-crossorigin\">crossorigin</code> and <code\n+  data-x=\"attr-script-referrerpolicy\">referrerpolicy</code> attribute on inline scripts affects the\n+  <span data-x=\"concept-request-credentials-mode\">credentials mode</span> and <span>referrer\n+  policy</span> used by module imports, including dynamic <code>import()</code>.</small></p>",
+    "path": "source",
+    "commit_id": "892f195abc5e03df5f3ed796b12f48f043a3ac67",
+    "original_commit_id": "6f5df48a78dede47ec163069551a34dbe19c4e0b",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Discussion in https://github.com/whatwg/html/issues/10276.",
+    "created_at": "2025-05-29T04:55:53Z",
+    "updated_at": "2025-05-29T04:55:53Z",
+    "html_url": "https://github.com/whatwg/html/pull/11341#discussion_r2113169879",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11341",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2113169879"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11341#discussion_r2113169879"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11341"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2113169879/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 63180,
+    "original_line": 63180,
+    "side": "RIGHT",
+    "in_reply_to_id": 2111675104,
+    "author_association": "MEMBER",
+    "original_position": 218,
+    "position": 218,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2113177553",
+    "pull_request_review_id": 2877066138,
+    "id": 2113177553,
+    "node_id": "PRRC_kwDOALaj48599IfR",
+    "diff_hunk": "@@ -63044,119 +63045,172 @@ interface <dfn interface>HTMLScriptElement</dfn> : <span>HTMLElement</span> {\n    <dd w-dev>Uses <code>HTMLScriptElement</code>.</dd>\n   </dl>\n \n-  <p>The <code>script</code> element allows authors to include dynamic script and data blocks in\n-  their documents. The element does not <span data-x=\"represents\">represent</span> content for the\n-  user.</p>\n+  <p>The <code>script</code> element allows authors to include dynamic script, instructions to the\n+  user agent, and data blocks in their documents. The element does not <span\n+  data-x=\"represents\">represent</span> content for the user.</p>\n \n-  <p>The <dfn element-attr for=\"script\"><code data-x=\"attr-script-type\">type</code></dfn> attribute\n-  allows customization of the type of script represented:</p>\n+  <p>The script element has two core attributes. The <dfn element-attr for=\"script\"><code\n+  data-x=\"attr-script-type\">type</code></dfn> attribute allows customization of the type of script\n+  represented:</p>\n \n   <ul>\n     <li><p>Omitting the attribute, setting it to the empty string, or setting it to a\n-    <span>JavaScript MIME type essence match</span>, means that the script is a <span>classic\n+    <span>JavaScript MIME type essence match</span> means that the script is a <span>classic\n     script</span>, to be interpreted according to the JavaScript <i\n-    data-x=\"js-prod-Script\">Script</i> top-level production. Classic scripts are affected by the\n-    <code data-x=\"attr-script-async\">async</code> and <code data-x=\"attr-script-defer\">defer</code>\n-    attributes, but only when the <code data-x=\"attr-script-src\">src</code> attribute is set.\n-    Authors should omit the <code data-x=\"attr-script-type\">type</code> attribute instead of\n-    redundantly setting it.</p></li>\n+    data-x=\"js-prod-Script\">Script</i> top-level production. Authors should omit the <code\n+    data-x=\"attr-script-type\">type</code> attribute instead of redundantly setting it.</p></li>\n \n     <li><p>Setting the attribute to an <span>ASCII case-insensitive</span> match for \"<code\n     data-x=\"\">module</code>\" means that the script is a <span>JavaScript module script</span>, to\n     be interpreted according to the JavaScript <i data-x=\"js-prod-Module\">Module</i> top-level\n-    production. Module scripts are not affected by the <code\n-    data-x=\"attr-script-defer\">defer</code> attribute, but are affected by the <code\n-    data-x=\"attr-script-async\">async</code> attribute (regardless of the state of the <code\n-    data-x=\"attr-script-src\">src</code> attribute).</p></li>\n+    production.</p></li>\n \n     <li><p>Setting the attribute to an <span>ASCII case-insensitive</span> match for \"<code\n     data-x=\"\">importmap</code>\" means that the script is an <span>import map</span>, containing\n     JSON that will be used to control the behavior of <span data-x=\"resolve a module\n-    specifier\">module specifier resolution</span>. Import maps can only be inline, i.e., the <code\n-    data-x=\"attr-script-src\">src</code> attribute and most other attributes are meaningless and not\n-    to be used with them.</p></li>\n-\n-    <li><p>Setting the attribute to any other value means that the script is a <dfn>data\n-    block</dfn>, which is not processed. None of the <code>script</code> attributes (except <code\n-    data-x=\"attr-script-type\">type</code> itself) have any effect on data blocks. Authors must use\n-    a <span>valid MIME type string</span> that is not a <span>JavaScript MIME type essence\n-    match</span> to denote data blocks.</p></li>\n+    specifier\">module specifier resolution</span>.</p></li>\n+\n+    <li>\n+     <p>Setting the attribute to any other value means that the script is a <dfn>data block</dfn>,\n+     which is not processed by the user agent, but instead by author script or other tools. Authors\n+     must use a <span>valid MIME type string</span> that is not a <span>JavaScript MIME type essence\n+     match</span> to denote data blocks.</p>\n+\n+     <p class=\"note\">The requirement that <span data-x=\"data block\">data blocks</span>\n+     <!--non-normative-->must be denoted using a <span>valid MIME type string</span> is in place to\n+     avoid potential future collisions. Values for the <code data-x=\"attr-script-type\">type</code>\n+     attribute that are not MIME types, like \"<code data-x=\"\">module</code>\" or \"<code\n+     data-x=\"\">importmap</code>\", are used by the standard to denote types of scripts which have\n+     special behavior in user agents. By using a valid MIME type string now, you ensure that your\n+     data block will not ever be reinterpreted as a different script type, even in future user\n+     agents.</p>\n+    </li>\n   </ul>\n \n-  <p class=\"note\">The requirement that <span data-x=\"data block\">data blocks</span>\n-  <!--non-normative-->must be denoted using a <span>valid MIME type string</span> is in place to\n-  avoid potential future collisions. If this specification ever adds additional types of\n-  <span data-x=\"concept-script\">script</span>, they will be triggered by setting the <code\n-  data-x=\"attr-script-type\">type</code> attribute to something which is not a MIME type, like how\n-  the \"<code data-x=\"\">module</code>\" value denotes <span data-x=\"module script\">module\n-  scripts</span>. By using a valid MIME type string now, you ensure that your data block will not\n- ever be reinterpreted as a different script type, even in future user agents.</p>\n-\n-  <p><span data-x=\"classic script\">Classic scripts</span> and <span\n-  data-x=\"JavaScript module script\">JavaScript module scripts</span> can be embedded inline, or be\n-  imported from an external file using the <dfn for=\"script\" element-attr><code\n-  data-x=\"attr-script-src\">src</code></dfn> attribute, which if specified gives the <span>URL</span>\n-  of the external script resource to use. If <code data-x=\"attr-script-src\">src</code> is specified,\n-  it must be a <span>valid non-empty URL potentially surrounded by spaces</span>.</p>\n+  <p>The second core attribute is the <dfn for=\"script\" element-attr><code\n+  data-x=\"attr-script-src\">src</code></dfn> attribute. It must only be specified for <span\n+  data-x=\"classic script\">classic scripts</span> and <span data-x=\"JavaScript module\n+  script\">JavaScript module scripts</span>, and denotes that instead of using the element's\n+  <span>child text content</span> as the script content, the script will be fetched from the\n+  specified <span>URL</span>. If <code data-x=\"attr-script-src\">src</code> is specified, it must be\n+  a <span>valid non-empty URL potentially surrounded by spaces</span>.</p>\n+\n+  <p>Which other attributes may be specified on a given <code>script</code> element is determined by\n+  the following table:</p>\n+\n+  <table class=\"yesno\">\n+   <thead>\n+    <tr>\n+     <th></th>",
+    "path": "source",
+    "commit_id": "892f195abc5e03df5f3ed796b12f48f043a3ac67",
+    "original_commit_id": "6f5df48a78dede47ec163069551a34dbe19c4e0b",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I ended up feeling this is clearer with no header for the leftmost row of headers... Hope that's OK.",
+    "created_at": "2025-05-29T05:03:20Z",
+    "updated_at": "2025-05-29T05:03:21Z",
+    "html_url": "https://github.com/whatwg/html/pull/11341#discussion_r2113177553",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11341",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2113177553"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11341#discussion_r2113177553"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11341"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2113177553/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 63104,
+    "original_line": 63104,
+    "side": "RIGHT",
+    "in_reply_to_id": 2111676807,
+    "author_association": "MEMBER",
+    "original_position": 142,
+    "position": 142,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

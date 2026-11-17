@@ -1,0 +1,359 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1706161678",
+    "pull_request_review_id": 2222315389,
+    "id": 1706161678,
+    "node_id": "PRRC_kwDOALaj485lsfYO",
+    "diff_hunk": "@@ -107966,58 +107970,49 @@ dictionary <dfn dictionary>ErrorEventInit</dfn> : <span>EventInit</span> {\n \n   <div w-nodev>\n \n-  <p>To <dfn>notify about rejected promises</dfn> on a given <span>environment settings object</span>\n-  <var>settings object</var>:</p>\n+  <p>To <dfn>notify about rejected promises</dfn> given a <span>global object</span>\n+  <var>global</var>:</p>\n \n   <ol>\n-   <li><p>Let <var>list</var> be a copy of <var>settings object</var>'s <span>about-to-be-notified\n-   rejected promises list</span>.</p></li>\n+   <li><p>Let <var>list</var> be a <span data-x=\"list clone\">clone</span> of <var>global</var>'s\n+   <span>about-to-be-notified rejected promises list</span>.</p></li>\n \n-   <li><p>If <var>list</var> is empty, return.</p></li>\n+   <li><p>If <var>list</var> <span data-x=\"list is empty\">is empty</span>, then return.</p></li>\n \n-   <li><p>Clear <var>settings object</var>'s <span>about-to-be-notified rejected promises\n-   list</span>.</p></li>\n-\n-   <li><p>Let <var>global</var> be <var>settings object</var>'s <span\n-   data-x=\"concept-settings-object-global\">global object</span>.</p></li>\n+   <li><p><span data-x=\"list empty\">Empty</span> <var>global</var>'s <span>about-to-be-notified\n+   rejected promises list</span>.</p></li>\n \n    <li>\n     <p><span>Queue a global task</span> on the <span>DOM manipulation task source</span> given\n-    <var>global</var> to run the following substep:</p>\n+    <var>global</var> to run the following step:</p>\n \n     <ol>\n-     <li><p>For each promise <var>p</var> in <var>list</var>:</p>\n+     <li><p><span data-x=\"list iterate\">For each</span> promise <var>p</var> of <var>list</var>:</p>\n \n       <ol>\n-       <li><p>If <var>p</var>'s [[PromiseIsHandled]] internal slot is true, continue to the next\n-       iteration of the loop.</p></li>\n+       <li><p>If <var>p</var>.[[PromiseIsHandled]] is true, then <span>continue</span>.</p></li>\n \n-       <li><p>Let <var>notHandled</var> be the result of <span data-x=\"concept-event-fire\">firing an\n-       event</span> named <code data-x=\"event-unhandledrejection\">unhandledrejection</code> at\n+       <li><p>Let <var>notHandled</var> be the result of <span data-x=\"concept-event-fire\">firing\n+       an event</span> named <code data-x=\"event-unhandledrejection\">unhandledrejection</code> at\n        <var>global</var>, using <code>PromiseRejectionEvent</code>, with the <code\n        data-x=\"dom-Event-cancelable\">cancelable</code> attribute initialized to true, the <code\n        data-x=\"dom-PromiseRejectionEvent-promise\">promise</code> attribute initialized to\n-       <var>p</var>, and the <code data-x=\"dom-PromiseRejectionEvent-reason\">reason</code> attribute\n-       initialized to the value of <var>p</var>'s [[PromiseResult]] internal slot.</p></li>\n+       <var>p</var>, and the <code data-x=\"dom-PromiseRejectionEvent-reason\">reason</code>\n+       attribute initialized to <var>p</var>.[[PromiseResult]].</p></li>\n \n-       <li><p>If <var>notHandled</var> is false, then the promise rejection is <i\n-       data-x=\"concept-promise-rejection-handled\">handled</i>. Otherwise, the promise rejection is\n-       <i data-x=\"concept-promise-rejection-nothandled\">not handled</i>.</p></li>\n+       <li id=\"concept-promise-rejection-handled\"><p id=\"concept-promise-rejection-nothandled\">If\n+       <var>notHandled</var> is false, then the user agent may report\n+       <var>p</var>.[[PromiseResult]] to a developer console.</p></li>\n \n-       <li><p>If <var>p</var>'s [[PromiseIsHandled]] internal slot is false, add <var>p</var> to\n-       <var>settings object</var>'s <span>outstanding rejected promises weak set</span>.\n+       <li><p>If <var>p</var>.[[PromiseIsHandled]] false, then <span data-x=\"set",
+    "path": "source",
+    "commit_id": "1527d49570a03788cc200063dffc8174b45075a1",
+    "original_commit_id": "6b475ad54113292c65d66992490fd9060da71dd5",
+    "user": {
+      "login": "jeremyroman",
+      "id": 156119,
+      "node_id": "MDQ6VXNlcjE1NjExOQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/156119?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jeremyroman",
+      "html_url": "https://github.com/jeremyroman",
+      "followers_url": "https://api.github.com/users/jeremyroman/followers",
+      "following_url": "https://api.github.com/users/jeremyroman/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jeremyroman/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jeremyroman/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jeremyroman/subscriptions",
+      "organizations_url": "https://api.github.com/users/jeremyroman/orgs",
+      "repos_url": "https://api.github.com/users/jeremyroman/repos",
+      "events_url": "https://api.github.com/users/jeremyroman/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jeremyroman/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n       <li><p>If <var>p</var>.[[PromiseIsHandled]] is false, then <span data-x=\"set\r\n```",
+    "created_at": "2024-08-06T22:05:57Z",
+    "updated_at": "2024-08-06T22:12:55Z",
+    "html_url": "https://github.com/whatwg/html/pull/10550#discussion_r1706161678",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10550",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1706161678"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10550#discussion_r1706161678"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10550"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1706161678/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 108007,
+    "original_line": 108007,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 126,
+    "position": 126,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1706165350",
+    "pull_request_review_id": 2222315389,
+    "id": 1706165350,
+    "node_id": "PRRC_kwDOALaj485lsgRm",
+    "diff_hunk": "@@ -107966,58 +107970,49 @@ dictionary <dfn dictionary>ErrorEventInit</dfn> : <span>EventInit</span> {\n \n   <div w-nodev>\n \n-  <p>To <dfn>notify about rejected promises</dfn> on a given <span>environment settings object</span>\n-  <var>settings object</var>:</p>\n+  <p>To <dfn>notify about rejected promises</dfn> given a <span>global object</span>\n+  <var>global</var>:</p>\n \n   <ol>\n-   <li><p>Let <var>list</var> be a copy of <var>settings object</var>'s <span>about-to-be-notified\n-   rejected promises list</span>.</p></li>\n+   <li><p>Let <var>list</var> be a <span data-x=\"list clone\">clone</span> of <var>global</var>'s\n+   <span>about-to-be-notified rejected promises list</span>.</p></li>\n \n-   <li><p>If <var>list</var> is empty, return.</p></li>\n+   <li><p>If <var>list</var> <span data-x=\"list is empty\">is empty</span>, then return.</p></li>\n \n-   <li><p>Clear <var>settings object</var>'s <span>about-to-be-notified rejected promises\n-   list</span>.</p></li>\n-\n-   <li><p>Let <var>global</var> be <var>settings object</var>'s <span\n-   data-x=\"concept-settings-object-global\">global object</span>.</p></li>\n+   <li><p><span data-x=\"list empty\">Empty</span> <var>global</var>'s <span>about-to-be-notified\n+   rejected promises list</span>.</p></li>\n \n    <li>\n     <p><span>Queue a global task</span> on the <span>DOM manipulation task source</span> given\n-    <var>global</var> to run the following substep:</p>\n+    <var>global</var> to run the following step:</p>\n \n     <ol>\n-     <li><p>For each promise <var>p</var> in <var>list</var>:</p>\n+     <li><p><span data-x=\"list iterate\">For each</span> promise <var>p</var> of <var>list</var>:</p>\n \n       <ol>\n-       <li><p>If <var>p</var>'s [[PromiseIsHandled]] internal slot is true, continue to the next\n-       iteration of the loop.</p></li>\n+       <li><p>If <var>p</var>.[[PromiseIsHandled]] is true, then <span>continue</span>.</p></li>\n \n-       <li><p>Let <var>notHandled</var> be the result of <span data-x=\"concept-event-fire\">firing an\n-       event</span> named <code data-x=\"event-unhandledrejection\">unhandledrejection</code> at\n+       <li><p>Let <var>notHandled</var> be the result of <span data-x=\"concept-event-fire\">firing",
+    "path": "source",
+    "commit_id": "1527d49570a03788cc200063dffc8174b45075a1",
+    "original_commit_id": "6b475ad54113292c65d66992490fd9060da71dd5",
+    "user": {
+      "login": "jeremyroman",
+      "id": 156119,
+      "node_id": "MDQ6VXNlcjE1NjExOQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/156119?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jeremyroman",
+      "html_url": "https://github.com/jeremyroman",
+      "followers_url": "https://api.github.com/users/jeremyroman/followers",
+      "following_url": "https://api.github.com/users/jeremyroman/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jeremyroman/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jeremyroman/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jeremyroman/subscriptions",
+      "organizations_url": "https://api.github.com/users/jeremyroman/orgs",
+      "repos_url": "https://api.github.com/users/jeremyroman/repos",
+      "events_url": "https://api.github.com/users/jeremyroman/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jeremyroman/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Could we rename this variable, by the way? There are two notions of \"handled\" here -- one whether the `unhandledrejection` event is canceled (e.g., generally with `preventDefault`), which is this one, and whether the promise itself was handled, which is p.[[PromiseIsHandled]] (this might have occurred if the event listener decided to add a handler while running).\r\n\r\nAt a minimum _eventNotHandled_ might be clearer, but a better name might exist.",
+    "created_at": "2024-08-06T22:11:28Z",
+    "updated_at": "2024-08-06T22:12:55Z",
+    "html_url": "https://github.com/whatwg/html/pull/10550#discussion_r1706165350",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10550",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1706165350"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10550#discussion_r1706165350"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10550"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1706165350/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 107995,
+    "original_line": 107995,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 107,
+    "position": 107,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1706166364",
+    "pull_request_review_id": 2222315389,
+    "id": 1706166364,
+    "node_id": "PRRC_kwDOALaj485lsghc",
+    "diff_hunk": "@@ -107966,58 +107970,49 @@ dictionary <dfn dictionary>ErrorEventInit</dfn> : <span>EventInit</span> {\n \n   <div w-nodev>\n \n-  <p>To <dfn>notify about rejected promises</dfn> on a given <span>environment settings object</span>\n-  <var>settings object</var>:</p>\n+  <p>To <dfn>notify about rejected promises</dfn> given a <span>global object</span>\n+  <var>global</var>:</p>\n \n   <ol>\n-   <li><p>Let <var>list</var> be a copy of <var>settings object</var>'s <span>about-to-be-notified\n-   rejected promises list</span>.</p></li>\n+   <li><p>Let <var>list</var> be a <span data-x=\"list clone\">clone</span> of <var>global</var>'s\n+   <span>about-to-be-notified rejected promises list</span>.</p></li>\n \n-   <li><p>If <var>list</var> is empty, return.</p></li>\n+   <li><p>If <var>list</var> <span data-x=\"list is empty\">is empty</span>, then return.</p></li>\n \n-   <li><p>Clear <var>settings object</var>'s <span>about-to-be-notified rejected promises\n-   list</span>.</p></li>\n-\n-   <li><p>Let <var>global</var> be <var>settings object</var>'s <span\n-   data-x=\"concept-settings-object-global\">global object</span>.</p></li>\n+   <li><p><span data-x=\"list empty\">Empty</span> <var>global</var>'s <span>about-to-be-notified\n+   rejected promises list</span>.</p></li>\n \n    <li>\n     <p><span>Queue a global task</span> on the <span>DOM manipulation task source</span> given\n-    <var>global</var> to run the following substep:</p>\n+    <var>global</var> to run the following step:</p>\n \n     <ol>\n-     <li><p>For each promise <var>p</var> in <var>list</var>:</p>\n+     <li><p><span data-x=\"list iterate\">For each</span> promise <var>p</var> of <var>list</var>:</p>\n \n       <ol>\n-       <li><p>If <var>p</var>'s [[PromiseIsHandled]] internal slot is true, continue to the next\n-       iteration of the loop.</p></li>\n+       <li><p>If <var>p</var>.[[PromiseIsHandled]] is true, then <span>continue</span>.</p></li>\n \n-       <li><p>Let <var>notHandled</var> be the result of <span data-x=\"concept-event-fire\">firing an\n-       event</span> named <code data-x=\"event-unhandledrejection\">unhandledrejection</code> at\n+       <li><p>Let <var>notHandled</var> be the result of <span data-x=\"concept-event-fire\">firing\n+       an event</span> named <code data-x=\"event-unhandledrejection\">unhandledrejection</code> at\n        <var>global</var>, using <code>PromiseRejectionEvent</code>, with the <code\n        data-x=\"dom-Event-cancelable\">cancelable</code> attribute initialized to true, the <code\n        data-x=\"dom-PromiseRejectionEvent-promise\">promise</code> attribute initialized to\n-       <var>p</var>, and the <code data-x=\"dom-PromiseRejectionEvent-reason\">reason</code> attribute\n-       initialized to the value of <var>p</var>'s [[PromiseResult]] internal slot.</p></li>\n+       <var>p</var>, and the <code data-x=\"dom-PromiseRejectionEvent-reason\">reason</code>\n+       attribute initialized to <var>p</var>.[[PromiseResult]].</p></li>\n \n-       <li><p>If <var>notHandled</var> is false, then the promise rejection is <i\n-       data-x=\"concept-promise-rejection-handled\">handled</i>. Otherwise, the promise rejection is\n-       <i data-x=\"concept-promise-rejection-nothandled\">not handled</i>.</p></li>\n+       <li id=\"concept-promise-rejection-handled\"><p id=\"concept-promise-rejection-nothandled\">If\n+       <var>notHandled</var> is false, then the user agent may report\n+       <var>p</var>.[[PromiseResult]] to a developer console.</p></li>\n \n-       <li><p>If <var>p</var>'s [[PromiseIsHandled]] internal slot is false, add <var>p</var> to\n-       <var>settings object</var>'s <span>outstanding rejected promises weak set</span>.\n+       <li><p>If <var>p</var>.[[PromiseIsHandled]] false, then <span data-x=\"set\n+       append\">append</span> <var>p</var> to <var>global</var>'s <span>outstanding rejected\n+       promises weak set</span>.</p></li>",
+    "path": "source",
+    "commit_id": "1527d49570a03788cc200063dffc8174b45075a1",
+    "original_commit_id": "6b475ad54113292c65d66992490fd9060da71dd5",
+    "user": {
+      "login": "jeremyroman",
+      "id": 156119,
+      "node_id": "MDQ6VXNlcjE1NjExOQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/156119?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jeremyroman",
+      "html_url": "https://github.com/jeremyroman",
+      "followers_url": "https://api.github.com/users/jeremyroman/followers",
+      "following_url": "https://api.github.com/users/jeremyroman/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jeremyroman/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jeremyroman/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jeremyroman/subscriptions",
+      "organizations_url": "https://api.github.com/users/jeremyroman/orgs",
+      "repos_url": "https://api.github.com/users/jeremyroman/repos",
+      "events_url": "https://api.github.com/users/jeremyroman/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jeremyroman/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I wonder if non-normative text pointing out what all of this is trying to do might be helpful, maybe around HostPromiseRejectionTracker. It took several minutes of staring for me to work out what this all means. Not necessarily needed in this PR (or at all, since it's pretty niche), just wanted to register my confusion.",
+    "created_at": "2024-08-06T22:12:49Z",
+    "updated_at": "2024-08-06T22:12:55Z",
+    "html_url": "https://github.com/whatwg/html/pull/10550#discussion_r1706166364",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10550",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1706166364"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10550#discussion_r1706166364"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10550"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1706166364/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 108009,
+    "original_line": 108009,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 128,
+    "position": 128,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1706259620",
+    "pull_request_review_id": 2222458326,
+    "id": 1706259620,
+    "node_id": "PRRC_kwDOALaj485ls3Sk",
+    "diff_hunk": "@@ -107966,58 +107970,49 @@ dictionary <dfn dictionary>ErrorEventInit</dfn> : <span>EventInit</span> {\n \n   <div w-nodev>\n \n-  <p>To <dfn>notify about rejected promises</dfn> on a given <span>environment settings object</span>\n-  <var>settings object</var>:</p>\n+  <p>To <dfn>notify about rejected promises</dfn> given a <span>global object</span>\n+  <var>global</var>:</p>\n \n   <ol>\n-   <li><p>Let <var>list</var> be a copy of <var>settings object</var>'s <span>about-to-be-notified\n-   rejected promises list</span>.</p></li>\n+   <li><p>Let <var>list</var> be a <span data-x=\"list clone\">clone</span> of <var>global</var>'s\n+   <span>about-to-be-notified rejected promises list</span>.</p></li>\n \n-   <li><p>If <var>list</var> is empty, return.</p></li>\n+   <li><p>If <var>list</var> <span data-x=\"list is empty\">is empty</span>, then return.</p></li>\n \n-   <li><p>Clear <var>settings object</var>'s <span>about-to-be-notified rejected promises\n-   list</span>.</p></li>\n-\n-   <li><p>Let <var>global</var> be <var>settings object</var>'s <span\n-   data-x=\"concept-settings-object-global\">global object</span>.</p></li>\n+   <li><p><span data-x=\"list empty\">Empty</span> <var>global</var>'s <span>about-to-be-notified\n+   rejected promises list</span>.</p></li>\n \n    <li>\n     <p><span>Queue a global task</span> on the <span>DOM manipulation task source</span> given\n-    <var>global</var> to run the following substep:</p>\n+    <var>global</var> to run the following step:</p>\n \n     <ol>\n-     <li><p>For each promise <var>p</var> in <var>list</var>:</p>\n+     <li><p><span data-x=\"list iterate\">For each</span> promise <var>p</var> of <var>list</var>:</p>\n \n       <ol>\n-       <li><p>If <var>p</var>'s [[PromiseIsHandled]] internal slot is true, continue to the next\n-       iteration of the loop.</p></li>\n+       <li><p>If <var>p</var>.[[PromiseIsHandled]] is true, then <span>continue</span>.</p></li>\n \n-       <li><p>Let <var>notHandled</var> be the result of <span data-x=\"concept-event-fire\">firing an\n-       event</span> named <code data-x=\"event-unhandledrejection\">unhandledrejection</code> at\n+       <li><p>Let <var>notHandled</var> be the result of <span data-x=\"concept-event-fire\">firing",
+    "path": "source",
+    "commit_id": "1527d49570a03788cc200063dffc8174b45075a1",
+    "original_commit_id": "6b475ad54113292c65d66992490fd9060da71dd5",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I changed it to _notCanceled_.\r\n\r\nIn doing so, I realized that we should be checking if it's true, not if it's false. Close one!",
+    "created_at": "2024-08-07T01:06:26Z",
+    "updated_at": "2024-08-07T01:06:27Z",
+    "html_url": "https://github.com/whatwg/html/pull/10550#discussion_r1706259620",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10550",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1706259620"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10550#discussion_r1706259620"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10550"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1706259620/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 107995,
+    "original_line": 107995,
+    "side": "RIGHT",
+    "in_reply_to_id": 1706165350,
+    "author_association": "MEMBER",
+    "original_position": 107,
+    "position": 107,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1706259817",
+    "pull_request_review_id": 2222458634,
+    "id": 1706259817,
+    "node_id": "PRRC_kwDOALaj485ls3Vp",
+    "diff_hunk": "@@ -107966,58 +107970,49 @@ dictionary <dfn dictionary>ErrorEventInit</dfn> : <span>EventInit</span> {\n \n   <div w-nodev>\n \n-  <p>To <dfn>notify about rejected promises</dfn> on a given <span>environment settings object</span>\n-  <var>settings object</var>:</p>\n+  <p>To <dfn>notify about rejected promises</dfn> given a <span>global object</span>\n+  <var>global</var>:</p>\n \n   <ol>\n-   <li><p>Let <var>list</var> be a copy of <var>settings object</var>'s <span>about-to-be-notified\n-   rejected promises list</span>.</p></li>\n+   <li><p>Let <var>list</var> be a <span data-x=\"list clone\">clone</span> of <var>global</var>'s\n+   <span>about-to-be-notified rejected promises list</span>.</p></li>\n \n-   <li><p>If <var>list</var> is empty, return.</p></li>\n+   <li><p>If <var>list</var> <span data-x=\"list is empty\">is empty</span>, then return.</p></li>\n \n-   <li><p>Clear <var>settings object</var>'s <span>about-to-be-notified rejected promises\n-   list</span>.</p></li>\n-\n-   <li><p>Let <var>global</var> be <var>settings object</var>'s <span\n-   data-x=\"concept-settings-object-global\">global object</span>.</p></li>\n+   <li><p><span data-x=\"list empty\">Empty</span> <var>global</var>'s <span>about-to-be-notified\n+   rejected promises list</span>.</p></li>\n \n    <li>\n     <p><span>Queue a global task</span> on the <span>DOM manipulation task source</span> given\n-    <var>global</var> to run the following substep:</p>\n+    <var>global</var> to run the following step:</p>\n \n     <ol>\n-     <li><p>For each promise <var>p</var> in <var>list</var>:</p>\n+     <li><p><span data-x=\"list iterate\">For each</span> promise <var>p</var> of <var>list</var>:</p>\n \n       <ol>\n-       <li><p>If <var>p</var>'s [[PromiseIsHandled]] internal slot is true, continue to the next\n-       iteration of the loop.</p></li>\n+       <li><p>If <var>p</var>.[[PromiseIsHandled]] is true, then <span>continue</span>.</p></li>\n \n-       <li><p>Let <var>notHandled</var> be the result of <span data-x=\"concept-event-fire\">firing an\n-       event</span> named <code data-x=\"event-unhandledrejection\">unhandledrejection</code> at\n+       <li><p>Let <var>notHandled</var> be the result of <span data-x=\"concept-event-fire\">firing\n+       an event</span> named <code data-x=\"event-unhandledrejection\">unhandledrejection</code> at\n        <var>global</var>, using <code>PromiseRejectionEvent</code>, with the <code\n        data-x=\"dom-Event-cancelable\">cancelable</code> attribute initialized to true, the <code\n        data-x=\"dom-PromiseRejectionEvent-promise\">promise</code> attribute initialized to\n-       <var>p</var>, and the <code data-x=\"dom-PromiseRejectionEvent-reason\">reason</code> attribute\n-       initialized to the value of <var>p</var>'s [[PromiseResult]] internal slot.</p></li>\n+       <var>p</var>, and the <code data-x=\"dom-PromiseRejectionEvent-reason\">reason</code>\n+       attribute initialized to <var>p</var>.[[PromiseResult]].</p></li>\n \n-       <li><p>If <var>notHandled</var> is false, then the promise rejection is <i\n-       data-x=\"concept-promise-rejection-handled\">handled</i>. Otherwise, the promise rejection is\n-       <i data-x=\"concept-promise-rejection-nothandled\">not handled</i>.</p></li>\n+       <li id=\"concept-promise-rejection-handled\"><p id=\"concept-promise-rejection-nothandled\">If\n+       <var>notHandled</var> is false, then the user agent may report\n+       <var>p</var>.[[PromiseResult]] to a developer console.</p></li>\n \n-       <li><p>If <var>p</var>'s [[PromiseIsHandled]] internal slot is false, add <var>p</var> to\n-       <var>settings object</var>'s <span>outstanding rejected promises weak set</span>.\n+       <li><p>If <var>p</var>.[[PromiseIsHandled]] false, then <span data-x=\"set\n+       append\">append</span> <var>p</var> to <var>global</var>'s <span>outstanding rejected\n+       promises weak set</span>.</p></li>",
+    "path": "source",
+    "commit_id": "1527d49570a03788cc200063dffc8174b45075a1",
+    "original_commit_id": "6b475ad54113292c65d66992490fd9060da71dd5",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I'll add a note to https://github.com/whatwg/html/issues/676 that we should include such explanations.",
+    "created_at": "2024-08-07T01:06:52Z",
+    "updated_at": "2024-08-07T01:06:52Z",
+    "html_url": "https://github.com/whatwg/html/pull/10550#discussion_r1706259817",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10550",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1706259817"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10550#discussion_r1706259817"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10550"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1706259817/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 108009,
+    "original_line": 108009,
+    "side": "RIGHT",
+    "in_reply_to_id": 1706166364,
+    "author_association": "MEMBER",
+    "original_position": 128,
+    "position": 128,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

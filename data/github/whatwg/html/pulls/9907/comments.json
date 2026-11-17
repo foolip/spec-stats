@@ -1,0 +1,791 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1420913104",
+    "pull_request_review_id": 1773004984,
+    "id": 1420913104,
+    "node_id": "PRRC_kwDOALaj485UsWnQ",
+    "diff_hunk": "@@ -102295,6 +102290,52 @@ new PaymentRequest(&hellip;); // Allowed to use\n    <var>unloadTimingInfo</var>.</p></li>\n   </ol>\n \n+  <p>To <dfn>unload a document and its descendants</dfn>, given a <code>Document</code>\n+  <var>document</var>, an optional <code>Document</code>-or-null <var>newDocument</var> (default\n+  null), and an optional set of steps <var>afterAllUnloads</var>:</p>\n+\n+  <ol>\n+   <li><p><span>Assert</span>: this is running within <var>document</var>'s <span>node\n+   navigable</span>'s <span data-x=\"nav-traversable\">traversable navigable</span>'s <span\n+   data-x=\"tn-session-history-traversal-queue\">session history traversal queue</span>.</p></li>\n+\n+   <li><p>Let <var>childNavigables</var> be <var>document</var>'s <span data-x=\"child",
+    "path": "source",
+    "commit_id": "3448f190327a66b8671577a1d83daa6116fb1af0",
+    "original_commit_id": "a49f99e3ebadaf1110e613c0566b9401e6109cc4",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "How do _recursive_ descendant navigables/documents get destroyed after this change? All of the \"and its descendants\" algorithms seem to only operate on their children that are [one-level deep](https://whatpr.org/html/9907/41c1f94...a49f99e/document-lifecycle.html#unloading-documents:child-navigable), and run the \"single\" variant algorithms directly on them, which don't go deeper (I think). Contrast this (I think) with the [this](https://html.spec.whatwg.org/C#updating-the-traversable:descendant-navigables) and [this](https://html.spec.whatwg.org/#destroying-documents:descendant-navigables) in the current spec — usages of `#descendant-navigables`. For example, if you trace the new [`#close-[...]`](https://whatpr.org/html/9907/41c1f94...a49f99e/document-sequences.html#close-a-top-level-traversable), I think you find that recursive descendants never get properly unloaded / destroyed / aborted, but I could be wrong? Maybe we're relying on https://whatpr.org/html/9907/41c1f94...a49f99e/browsing-the-web.html#document-state:destroy-a-document-and-its-descendants getting triggered, because recursive descendants are no longer considered \"fully active\" (I think?? Actually I'm not sure) if their ancestors are gone? That doesn't seem robust though...",
+    "created_at": "2023-12-08T19:08:24Z",
+    "updated_at": "2023-12-08T19:22:56Z",
+    "html_url": "https://github.com/whatwg/html/pull/9907#discussion_r1420913104",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9907",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1420913104"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9907#discussion_r1420913104"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9907"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1420913104/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 102302,
+    "original_line": 102302,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 137,
+    "position": 137,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1420922135",
+    "pull_request_review_id": 1773004984,
+    "id": 1420922135,
+    "node_id": "PRRC_kwDOALaj485UsY0X",
+    "diff_hunk": "@@ -102295,6 +102290,52 @@ new PaymentRequest(&hellip;); // Allowed to use\n    <var>unloadTimingInfo</var>.</p></li>\n   </ol>\n \n+  <p>To <dfn>unload a document and its descendants</dfn>, given a <code>Document</code>\n+  <var>document</var>, an optional <code>Document</code>-or-null <var>newDocument</var> (default\n+  null), and an optional set of steps <var>afterAllUnloads</var>:</p>\n+\n+  <ol>\n+   <li><p><span>Assert</span>: this is running within <var>document</var>'s <span>node\n+   navigable</span>'s <span data-x=\"nav-traversable\">traversable navigable</span>'s <span\n+   data-x=\"tn-session-history-traversal-queue\">session history traversal queue</span>.</p></li>\n+\n+   <li><p>Let <var>childNavigables</var> be <var>document</var>'s <span data-x=\"child\n+   navigable\">child navigables</span>.</p></li>\n+\n+   <li><p>Let <var>numberUnloaded</var> be 0.</p></li>\n+\n+   <li>\n+    <p><span data-x=\"list iterate\">For each</span> <var>childNavigable</var> of\n+    <var>childNavigable</var>'s <span class=\"XXX\" data-x=\"\">in what order?</span>, <span>queue a\n+    global task</span> on the <span>navigation and traversal task source</span> given\n+    <var>childNavigable</var>'s <span data-x=\"nav-window\">active window</span> to perform the\n+    following steps:</p>\n+\n+    <ol>\n+     <li><p><span data-x=\"unload a document\">Unload</span> <var>childNavigable</var>'s <span\n+     data-x=\"nav-document\">active document</span>.</p></li>\n+\n+     <li><p>Increment <var>numberUnloaded</var>.</p></li>\n+    </ol>\n+   </li>\n+\n+   <li><p>Wait until <var>numberUnloaded</var> equals <var>childNavigable</var>'s <span\n+   data-x=\"list size\">size</span>.</p></li>\n+\n+   <li>\n+    <p><span>Queue a global task</span> on the <span>navigation and traversal task source</span>\n+    given <var>document</var>'s <span>relevant global object</span> to perform the following\n+    steps:</p>\n+\n+    <ol>\n+     <li><p><span data-x=\"unload a document\">Unload</span> <var>document</var>, passing along\n+     <var>newDocument</var> if it is not null.</p></li>\n+\n+     <li><p>If <var>afterAllUnloads</var> was given, then run it.</p></li>",
+    "path": "source",
+    "commit_id": "3448f190327a66b8671577a1d83daa6116fb1af0",
+    "original_commit_id": "a49f99e3ebadaf1110e613c0566b9401e6109cc4",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This runs `afterAllUnloads` on the document's main thread, right? In that case, it looks like we're [running \"destroy a top-level traversable\"](https://whatpr.org/html/9907/41c1f94...a49f99e/document-sequences.html#garbage-collection-and-browsing-contexts:destroy-a-top-level-traversable-2) on the main thread, which calls [`#destroy-a-document-and-its-descendants`](https://whatpr.org/html/9907/41c1f94...a49f99e/document-lifecycle.html#destroy-a-document-and-its-descendants), which synchronously \"waits\" for its immediate descendant frames to report back that they've been destroyed and aborted successfully on _their_ main threads. All of this blocks the \"top-level\" document's main thread on these cross-process document destruction/aborts, which seems bad right? I don't think implementations do this.",
+    "created_at": "2023-12-08T19:15:41Z",
+    "updated_at": "2023-12-08T19:22:56Z",
+    "html_url": "https://github.com/whatwg/html/pull/9907#discussion_r1420922135",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9907",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1420922135"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9907#discussion_r1420922135"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9907"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1420922135/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 102334,
+    "original_line": 102334,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 169,
+    "position": 169,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1420928366",
+    "pull_request_review_id": 1773004984,
+    "id": 1420928366,
+    "node_id": "PRRC_kwDOALaj485UsaVu",
+    "diff_hunk": "@@ -102440,12 +102510,44 @@ new PaymentRequest(&hellip;); // Allowed to use\n \n      <li><p><span data-x=\"abort a parser\">Abort that parser</span>.</p></li>\n \n-     <li><p>Set <var>document</var>'s <i data-x=\"concept-document-salvageable\">salvageable</i> state\n-     to false.</p></li>\n+     <li><p>Set <var>document</var>'s <i data-x=\"concept-document-salvageable\">salvageable</i> to\n+     false.</p></li>\n     </ol>\n    </li>\n   </ol>\n \n+  <p>To <dfn>abort a document and its descendants</dfn> given a <code>Document</code>\n+  <var>document</var>:</p>\n+",
+    "path": "source",
+    "commit_id": "3448f190327a66b8671577a1d83daa6116fb1af0",
+    "original_commit_id": "a49f99e3ebadaf1110e613c0566b9401e6109cc4",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This is somewhat related to my concern above about running \"and its descendants\" algorithms on the main thread.) Can we add an assertion about what \"thread\" this algorithm (and the corresponding \"destroy\" algorithm) is running on? Ideally we could always run these ones on the SHT queue or somewhere else in parallel, but I'm not totally sure....",
+    "created_at": "2023-12-08T19:22:50Z",
+    "updated_at": "2023-12-08T19:22:56Z",
+    "html_url": "https://github.com/whatwg/html/pull/9907#discussion_r1420928366",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9907",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1420928366"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9907#discussion_r1420928366"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9907"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1420928366/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 102521,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 276,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1424858256",
+    "pull_request_review_id": 1778856768,
+    "id": 1424858256,
+    "node_id": "PRRC_kwDOALaj485U7ZyQ",
+    "diff_hunk": "@@ -102295,6 +102290,52 @@ new PaymentRequest(&hellip;); // Allowed to use\n    <var>unloadTimingInfo</var>.</p></li>\n   </ol>\n \n+  <p>To <dfn>unload a document and its descendants</dfn>, given a <code>Document</code>\n+  <var>document</var>, an optional <code>Document</code>-or-null <var>newDocument</var> (default\n+  null), and an optional set of steps <var>afterAllUnloads</var>:</p>\n+\n+  <ol>\n+   <li><p><span>Assert</span>: this is running within <var>document</var>'s <span>node\n+   navigable</span>'s <span data-x=\"nav-traversable\">traversable navigable</span>'s <span\n+   data-x=\"tn-session-history-traversal-queue\">session history traversal queue</span>.</p></li>\n+\n+   <li><p>Let <var>childNavigables</var> be <var>document</var>'s <span data-x=\"child",
+    "path": "source",
+    "commit_id": "3448f190327a66b8671577a1d83daa6116fb1af0",
+    "original_commit_id": "a49f99e3ebadaf1110e613c0566b9401e6109cc4",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Somehow, I meant to call the \"and descendants\" version recursively in all three of these, but failed to do so. Fixing.\r\n\r\nEdit: I guess \"abort a document and its descendants\" can use \"descendant navigables\" directly since it won't cause any event loop destruction, so everything can be done fully concurrently among all descendants.",
+    "created_at": "2023-12-13T05:17:12Z",
+    "updated_at": "2023-12-13T05:34:18Z",
+    "html_url": "https://github.com/whatwg/html/pull/9907#discussion_r1424858256",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9907",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1424858256"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9907#discussion_r1424858256"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9907"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1424858256/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 102302,
+    "original_line": 102302,
+    "side": "RIGHT",
+    "in_reply_to_id": 1420913104,
+    "author_association": "MEMBER",
+    "original_position": 137,
+    "position": 137,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1424860821",
+    "pull_request_review_id": 1778860901,
+    "id": 1424860821,
+    "node_id": "PRRC_kwDOALaj485U7aaV",
+    "diff_hunk": "@@ -102295,6 +102290,52 @@ new PaymentRequest(&hellip;); // Allowed to use\n    <var>unloadTimingInfo</var>.</p></li>\n   </ol>\n \n+  <p>To <dfn>unload a document and its descendants</dfn>, given a <code>Document</code>\n+  <var>document</var>, an optional <code>Document</code>-or-null <var>newDocument</var> (default\n+  null), and an optional set of steps <var>afterAllUnloads</var>:</p>\n+\n+  <ol>\n+   <li><p><span>Assert</span>: this is running within <var>document</var>'s <span>node\n+   navigable</span>'s <span data-x=\"nav-traversable\">traversable navigable</span>'s <span\n+   data-x=\"tn-session-history-traversal-queue\">session history traversal queue</span>.</p></li>\n+\n+   <li><p>Let <var>childNavigables</var> be <var>document</var>'s <span data-x=\"child\n+   navigable\">child navigables</span>.</p></li>\n+\n+   <li><p>Let <var>numberUnloaded</var> be 0.</p></li>\n+\n+   <li>\n+    <p><span data-x=\"list iterate\">For each</span> <var>childNavigable</var> of\n+    <var>childNavigable</var>'s <span class=\"XXX\" data-x=\"\">in what order?</span>, <span>queue a\n+    global task</span> on the <span>navigation and traversal task source</span> given\n+    <var>childNavigable</var>'s <span data-x=\"nav-window\">active window</span> to perform the\n+    following steps:</p>\n+\n+    <ol>\n+     <li><p><span data-x=\"unload a document\">Unload</span> <var>childNavigable</var>'s <span\n+     data-x=\"nav-document\">active document</span>.</p></li>\n+\n+     <li><p>Increment <var>numberUnloaded</var>.</p></li>\n+    </ol>\n+   </li>\n+\n+   <li><p>Wait until <var>numberUnloaded</var> equals <var>childNavigable</var>'s <span\n+   data-x=\"list size\">size</span>.</p></li>\n+\n+   <li>\n+    <p><span>Queue a global task</span> on the <span>navigation and traversal task source</span>\n+    given <var>document</var>'s <span>relevant global object</span> to perform the following\n+    steps:</p>\n+\n+    <ol>\n+     <li><p><span data-x=\"unload a document\">Unload</span> <var>document</var>, passing along\n+     <var>newDocument</var> if it is not null.</p></li>\n+\n+     <li><p>If <var>afterAllUnloads</var> was given, then run it.</p></li>",
+    "path": "source",
+    "commit_id": "3448f190327a66b8671577a1d83daa6116fb1af0",
+    "original_commit_id": "a49f99e3ebadaf1110e613c0566b9401e6109cc4",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I believe that specifically for the close case (which supplies afterAllUnloads), we delay destroying until all descendants have had a chance to fire their unload events.\r\n\r\nIn other destroy cases, e.g. force-closing, we do not delay. But those don't call \"unload a document and all its descendants\"; they go straight to \"destroy a top-level traversable\".",
+    "created_at": "2023-12-13T05:22:24Z",
+    "updated_at": "2023-12-13T05:22:24Z",
+    "html_url": "https://github.com/whatwg/html/pull/9907#discussion_r1424860821",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9907",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1424860821"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9907#discussion_r1424860821"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9907"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1424860821/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 102334,
+    "original_line": 102334,
+    "side": "RIGHT",
+    "in_reply_to_id": 1420922135,
+    "author_association": "MEMBER",
+    "original_position": 169,
+    "position": 169,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1424861789",
+    "pull_request_review_id": 1778862611,
+    "id": 1424861789,
+    "node_id": "PRRC_kwDOALaj485U7apd",
+    "diff_hunk": "@@ -102440,12 +102510,44 @@ new PaymentRequest(&hellip;); // Allowed to use\n \n      <li><p><span data-x=\"abort a parser\">Abort that parser</span>.</p></li>\n \n-     <li><p>Set <var>document</var>'s <i data-x=\"concept-document-salvageable\">salvageable</i> state\n-     to false.</p></li>\n+     <li><p>Set <var>document</var>'s <i data-x=\"concept-document-salvageable\">salvageable</i> to\n+     false.</p></li>\n     </ol>\n    </li>\n   </ol>\n \n+  <p>To <dfn>abort a document and its descendants</dfn> given a <code>Document</code>\n+  <var>document</var>:</p>\n+",
+    "path": "source",
+    "commit_id": "3448f190327a66b8671577a1d83daa6116fb1af0",
+    "original_commit_id": "a49f99e3ebadaf1110e613c0566b9401e6109cc4",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Which exact algorithm are you commenting on? It looks to me like you're commenting on \"abort a document and its descendants\", which has such an assert as its first line.\r\n\r\nIndeed, 5/6 algorithms (unload/destroy/abort x normal/and its descendants) have such asserts. I'll add the one remaining one (to \"destroy a document and its descendants\").",
+    "created_at": "2023-12-13T05:24:19Z",
+    "updated_at": "2023-12-13T05:24:20Z",
+    "html_url": "https://github.com/whatwg/html/pull/9907#discussion_r1424861789",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9907",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1424861789"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9907#discussion_r1424861789"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9907"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1424861789/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 102521,
+    "side": "RIGHT",
+    "in_reply_to_id": 1420928366,
+    "author_association": "MEMBER",
+    "original_position": 276,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1424862700",
+    "pull_request_review_id": 1778863918,
+    "id": 1424862700,
+    "node_id": "PRRC_kwDOALaj485U7a3s",
+    "diff_hunk": "@@ -102440,12 +102510,44 @@ new PaymentRequest(&hellip;); // Allowed to use\n \n      <li><p><span data-x=\"abort a parser\">Abort that parser</span>.</p></li>\n \n-     <li><p>Set <var>document</var>'s <i data-x=\"concept-document-salvageable\">salvageable</i> state\n-     to false.</p></li>\n+     <li><p>Set <var>document</var>'s <i data-x=\"concept-document-salvageable\">salvageable</i> to\n+     false.</p></li>\n     </ol>\n    </li>\n   </ol>\n \n+  <p>To <dfn>abort a document and its descendants</dfn> given a <code>Document</code>\n+  <var>document</var>:</p>\n+",
+    "path": "source",
+    "commit_id": "3448f190327a66b8671577a1d83daa6116fb1af0",
+    "original_commit_id": "a49f99e3ebadaf1110e613c0566b9401e6109cc4",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Well, I guess \"destroy a document and its descendants\" immediately goes in parallel, so that's why it doesn't have any assert... Given how varied its call sites are, this seems reasonable. It takes care to queue tasks for any actual \"destroy\" calls.",
+    "created_at": "2023-12-13T05:25:59Z",
+    "updated_at": "2023-12-13T05:25:59Z",
+    "html_url": "https://github.com/whatwg/html/pull/9907#discussion_r1424862700",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9907",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1424862700"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9907#discussion_r1424862700"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9907"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1424862700/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 102521,
+    "side": "RIGHT",
+    "in_reply_to_id": 1420928366,
+    "author_association": "MEMBER",
+    "original_position": 276,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1447589745",
+    "pull_request_review_id": 1813568301,
+    "id": 1447589745,
+    "node_id": "PRRC_kwDOALaj485WSHdx",
+    "diff_hunk": "@@ -102295,6 +102290,52 @@ new PaymentRequest(&hellip;); // Allowed to use\n    <var>unloadTimingInfo</var>.</p></li>\n   </ol>\n \n+  <p>To <dfn>unload a document and its descendants</dfn>, given a <code>Document</code>\n+  <var>document</var>, an optional <code>Document</code>-or-null <var>newDocument</var> (default\n+  null), and an optional set of steps <var>afterAllUnloads</var>:</p>\n+\n+  <ol>\n+   <li><p><span>Assert</span>: this is running within <var>document</var>'s <span>node\n+   navigable</span>'s <span data-x=\"nav-traversable\">traversable navigable</span>'s <span\n+   data-x=\"tn-session-history-traversal-queue\">session history traversal queue</span>.</p></li>\n+\n+   <li><p>Let <var>childNavigables</var> be <var>document</var>'s <span data-x=\"child",
+    "path": "source",
+    "commit_id": "3448f190327a66b8671577a1d83daa6116fb1af0",
+    "original_commit_id": "a49f99e3ebadaf1110e613c0566b9401e6109cc4",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Thanks, I think this looks right now!",
+    "created_at": "2024-01-10T15:59:38Z",
+    "updated_at": "2024-01-10T15:59:38Z",
+    "html_url": "https://github.com/whatwg/html/pull/9907#discussion_r1447589745",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9907",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1447589745"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9907#discussion_r1447589745"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9907"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1447589745/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 102302,
+    "original_line": 102302,
+    "side": "RIGHT",
+    "in_reply_to_id": 1420913104,
+    "author_association": "MEMBER",
+    "original_position": 137,
+    "position": 137,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1447621046",
+    "pull_request_review_id": 1813618627,
+    "id": 1447621046,
+    "node_id": "PRRC_kwDOALaj485WSPG2",
+    "diff_hunk": "@@ -102295,6 +102290,52 @@ new PaymentRequest(&hellip;); // Allowed to use\n    <var>unloadTimingInfo</var>.</p></li>\n   </ol>\n \n+  <p>To <dfn>unload a document and its descendants</dfn>, given a <code>Document</code>\n+  <var>document</var>, an optional <code>Document</code>-or-null <var>newDocument</var> (default\n+  null), and an optional set of steps <var>afterAllUnloads</var>:</p>\n+\n+  <ol>\n+   <li><p><span>Assert</span>: this is running within <var>document</var>'s <span>node\n+   navigable</span>'s <span data-x=\"nav-traversable\">traversable navigable</span>'s <span\n+   data-x=\"tn-session-history-traversal-queue\">session history traversal queue</span>.</p></li>\n+\n+   <li><p>Let <var>childNavigables</var> be <var>document</var>'s <span data-x=\"child\n+   navigable\">child navigables</span>.</p></li>\n+\n+   <li><p>Let <var>numberUnloaded</var> be 0.</p></li>\n+\n+   <li>\n+    <p><span data-x=\"list iterate\">For each</span> <var>childNavigable</var> of\n+    <var>childNavigable</var>'s <span class=\"XXX\" data-x=\"\">in what order?</span>, <span>queue a\n+    global task</span> on the <span>navigation and traversal task source</span> given\n+    <var>childNavigable</var>'s <span data-x=\"nav-window\">active window</span> to perform the\n+    following steps:</p>\n+\n+    <ol>\n+     <li><p><span data-x=\"unload a document\">Unload</span> <var>childNavigable</var>'s <span\n+     data-x=\"nav-document\">active document</span>.</p></li>\n+\n+     <li><p>Increment <var>numberUnloaded</var>.</p></li>\n+    </ol>\n+   </li>\n+\n+   <li><p>Wait until <var>numberUnloaded</var> equals <var>childNavigable</var>'s <span\n+   data-x=\"list size\">size</span>.</p></li>\n+\n+   <li>\n+    <p><span>Queue a global task</span> on the <span>navigation and traversal task source</span>\n+    given <var>document</var>'s <span>relevant global object</span> to perform the following\n+    steps:</p>\n+\n+    <ol>\n+     <li><p><span data-x=\"unload a document\">Unload</span> <var>document</var>, passing along\n+     <var>newDocument</var> if it is not null.</p></li>\n+\n+     <li><p>If <var>afterAllUnloads</var> was given, then run it.</p></li>",
+    "path": "source",
+    "commit_id": "3448f190327a66b8671577a1d83daa6116fb1af0",
+    "original_commit_id": "a49f99e3ebadaf1110e613c0566b9401e6109cc4",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "> I believe that specifically for the close case (which supplies afterAllUnloads), we delay destroying until all descendants have had a chance to fire their unload events.\r\n\r\nI mean it's true that _afterAllUnloads_ runs, indeed all descendants have had a chance to fire their unload events, but I think that's not exactly what I'm commenting on. I'm commenting on the fact _afterAllUnloads_ runs on the top-level document's main thread, which means on the document's main thread, we call:\r\n\r\n 1. https://whatpr.org/html/9907/41c1f94...a49f99e/document-sequences.html#destroy-a-top-level-traversable, which calls (below)\r\n 2. https://whatpr.org/html/9907/41c1f94...a49f99e/document-lifecycle.html#destroy-a-document-and-its-descendants\r\n\r\nThese algorithms, running on the main thread, queue a bunch of parallel tasks to descendant-document-main-threads, and \"Wait\" for them to finish. This blocks _at least_ the top-level document's main thread on a bunch of cross-document/process tasks reporting back successful destruction. But in implementations, I feel like this is done in parallel. I don't think Chromium ever blocks the top-level main thread's event loop / script execution on the parallel destruction of arbitrary descendants. Does that make sense?",
+    "created_at": "2024-01-10T16:23:38Z",
+    "updated_at": "2024-01-10T16:23:38Z",
+    "html_url": "https://github.com/whatwg/html/pull/9907#discussion_r1447621046",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9907",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1447621046"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9907#discussion_r1447621046"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9907"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1447621046/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 102334,
+    "original_line": 102334,
+    "side": "RIGHT",
+    "in_reply_to_id": 1420922135,
+    "author_association": "MEMBER",
+    "original_position": 169,
+    "position": 169,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1447625978",
+    "pull_request_review_id": 1813626454,
+    "id": 1447625978,
+    "node_id": "PRRC_kwDOALaj485WSQT6",
+    "diff_hunk": "@@ -102440,12 +102510,44 @@ new PaymentRequest(&hellip;); // Allowed to use\n \n      <li><p><span data-x=\"abort a parser\">Abort that parser</span>.</p></li>\n \n-     <li><p>Set <var>document</var>'s <i data-x=\"concept-document-salvageable\">salvageable</i> state\n-     to false.</p></li>\n+     <li><p>Set <var>document</var>'s <i data-x=\"concept-document-salvageable\">salvageable</i> to\n+     false.</p></li>\n     </ol>\n    </li>\n   </ol>\n \n+  <p>To <dfn>abort a document and its descendants</dfn> given a <code>Document</code>\n+  <var>document</var>:</p>\n+",
+    "path": "source",
+    "commit_id": "3448f190327a66b8671577a1d83daa6116fb1af0",
+    "original_commit_id": "a49f99e3ebadaf1110e613c0566b9401e6109cc4",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Yeah, I'm almost positive I meant to anchor this comment on \"destroy a document and its descendants\", whoops.\r\n\r\n> immediately goes in parallel\r\n\r\nOh wow, I was only looking at the algorithm body. I totally missed the `\"perform the following steps in parallel:\"` part of the definition. Sneaky! OK yeah I'm satisfied with this, thanks for pointing that out.",
+    "created_at": "2024-01-10T16:27:18Z",
+    "updated_at": "2024-01-10T16:27:18Z",
+    "html_url": "https://github.com/whatwg/html/pull/9907#discussion_r1447625978",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9907",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1447625978"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9907#discussion_r1447625978"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9907"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1447625978/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 102521,
+    "side": "RIGHT",
+    "in_reply_to_id": 1420928366,
+    "author_association": "MEMBER",
+    "original_position": 276,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1447627851",
+    "pull_request_review_id": 1813629358,
+    "id": 1447627851,
+    "node_id": "PRRC_kwDOALaj485WSQxL",
+    "diff_hunk": "@@ -102295,6 +102290,52 @@ new PaymentRequest(&hellip;); // Allowed to use\n    <var>unloadTimingInfo</var>.</p></li>\n   </ol>\n \n+  <p>To <dfn>unload a document and its descendants</dfn>, given a <code>Document</code>\n+  <var>document</var>, an optional <code>Document</code>-or-null <var>newDocument</var> (default\n+  null), and an optional set of steps <var>afterAllUnloads</var>:</p>\n+\n+  <ol>\n+   <li><p><span>Assert</span>: this is running within <var>document</var>'s <span>node\n+   navigable</span>'s <span data-x=\"nav-traversable\">traversable navigable</span>'s <span\n+   data-x=\"tn-session-history-traversal-queue\">session history traversal queue</span>.</p></li>\n+\n+   <li><p>Let <var>childNavigables</var> be <var>document</var>'s <span data-x=\"child\n+   navigable\">child navigables</span>.</p></li>\n+\n+   <li><p>Let <var>numberUnloaded</var> be 0.</p></li>\n+\n+   <li>\n+    <p><span data-x=\"list iterate\">For each</span> <var>childNavigable</var> of\n+    <var>childNavigable</var>'s <span class=\"XXX\" data-x=\"\">in what order?</span>, <span>queue a\n+    global task</span> on the <span>navigation and traversal task source</span> given\n+    <var>childNavigable</var>'s <span data-x=\"nav-window\">active window</span> to perform the\n+    following steps:</p>\n+\n+    <ol>\n+     <li><p><span data-x=\"unload a document\">Unload</span> <var>childNavigable</var>'s <span\n+     data-x=\"nav-document\">active document</span>.</p></li>\n+\n+     <li><p>Increment <var>numberUnloaded</var>.</p></li>\n+    </ol>\n+   </li>\n+\n+   <li><p>Wait until <var>numberUnloaded</var> equals <var>childNavigable</var>'s <span\n+   data-x=\"list size\">size</span>.</p></li>\n+\n+   <li>\n+    <p><span>Queue a global task</span> on the <span>navigation and traversal task source</span>\n+    given <var>document</var>'s <span>relevant global object</span> to perform the following\n+    steps:</p>\n+\n+    <ol>\n+     <li><p><span data-x=\"unload a document\">Unload</span> <var>document</var>, passing along\n+     <var>newDocument</var> if it is not null.</p></li>\n+\n+     <li><p>If <var>afterAllUnloads</var> was given, then run it.</p></li>",
+    "path": "source",
+    "commit_id": "3448f190327a66b8671577a1d83daa6116fb1af0",
+    "original_commit_id": "a49f99e3ebadaf1110e613c0566b9401e6109cc4",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Oops. Looks like I simply missed the \"in parallel\" part of \"destroy a document and its descendants\" since it was in the header/dfn of the algorithm 😳. OK I think the above comment is not a concern anymore, since \"destroy a document and its descendants\" is indeed **not** running on the document's main thread.",
+    "created_at": "2024-01-10T16:28:37Z",
+    "updated_at": "2024-01-10T16:28:37Z",
+    "html_url": "https://github.com/whatwg/html/pull/9907#discussion_r1447627851",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9907",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1447627851"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9907#discussion_r1447627851"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9907"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1447627851/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 102334,
+    "original_line": 102334,
+    "side": "RIGHT",
+    "in_reply_to_id": 1420922135,
+    "author_association": "MEMBER",
+    "original_position": 169,
+    "position": 169,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

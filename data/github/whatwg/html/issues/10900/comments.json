@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/2591909795",
+    "html_url": "https://github.com/whatwg/html/issues/10900#issuecomment-2591909795",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/10900",
+    "id": 2591909795,
+    "node_id": "IC_kwDOALaj486afWej",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2025-01-15T08:19:45Z",
+    "updated_at": "2025-01-15T08:20:53Z",
+    "body": "Interesting. Two cases:\n\n- You are already on an iframe srcdoc document, and do `location.href = 'about:srcdoc#foo'`. Then the navigate algorithm will bail out early, instead navigating to the fragment. Step 22 is not reached.\n\n- You attempt to navigate to `about:srcdoc?bar` or `about:srcdoc` (from any location), or attempt to navigate to `about:srcdoc#foo` from a non-iframe srcdoc document. Then we will eventually try to fetch that URL, and get a network error.\n\n    That means null navigation params, which means the document state's origin will be updated to an opaque origin (so the value set in 22.5.1 does not matter).\n\n    The about base URL set in 22.5.2 will be copied to the new error document. This is a bit strange, but it does not matter, since the error document is not an iframe srcdoc document and its URL does not match about:blank, so the about base URL is never consulted.\n\nThe difference between \"is about:srcdoc\" and \"matches about:srcdoc\" is what happens for `about:srcdoc#baz`. (The former does not match; the latter does.) Both treat `about:srcdoc` and `about:srcdoc?bar` identically (match / do not match, respectively).\n\nSo, I think it does not matter whether we use \"is about:srcdoc\" or \"matches about:srcdoc\". The only case it impacts, `about:srcdoc#baz`, is not impacted by steps 22.5.1 and step 22.5.2.\n\n--\n\nThe fact that we had to reason this out is maybe a bit annoying. So clarifying PRs are welcome to add notes explaining this to the spec.\n\n/cc @domfarolino in case he wants to double-check any of the above.",
+    "author_association": "MEMBER",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/2591909795/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

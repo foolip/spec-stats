@@ -1,0 +1,44 @@
+[
+  {
+    "id": 2652927605,
+    "node_id": "PRR_kwDOALaj486eIHZ1",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "In addition to the inline comments, I think this has a few other issues:\r\n\r\n- This only handles dialogs, whereas I thought we wanted to handle popovers as well (per https://github.com/whatwg/html/issues/9245#issuecomment-2098998865)?\r\n- Because this checks _whereToLook_ instead of _focusTarget_, I think it does the wrong thing for dialogs that are shadow hosts. (Since shadow roots are never dialog elements).\r\n- Because we already have two special cases in this algorithm for _focusTarget_ being a dialog element (step 6.2 and 6.3), and this is adding a third, I think we've reached the point where having a separate \"dialog initial focus delegate\" algorithm would be better than reusing the same one with branching. (Or maybe \"dialog/popover initial focus delegate\"?)",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/11088#pullrequestreview-2652927605",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11088",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11088#pullrequestreview-2652927605"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11088"
+      }
+    },
+    "submitted_at": "2025-03-03T02:12:46Z",
+    "commit_id": "17cdbce8afe420732f6fbef7736a67bc2a0da5da"
+  }
+]

@@ -1,0 +1,1003 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1872831414",
+    "pull_request_review_id": 2484036127,
+    "id": 1872831414,
+    "node_id": "PRRC_kwDOALaj485voSO2",
+    "diff_hunk": "@@ -87743,18 +87743,64 @@ dictionary <dfn dictionary>DragEventInit</dfn> : <span>MouseEventInit</span> {\n   </ol>\n \n   <p>To <dfn data-x=\"obtain-browsing-context-navigation\">obtain a browsing context to use for a\n-  navigation response</dfn>, given a <span>browsing context</span> <var>browsingContext</var>, a\n-  <span>sandboxing flag set</span> <var>sandboxFlags</var>, an <span>opener policy</span>\n-  <var>navigationCOOP</var>, and an <span data-x=\"coop-enforcement-result\">opener policy enforcement\n-  result</span> <var>coopEnforcementResult</var>:</p>\n+  navigation response</dfn>, given <span>navigation params</span> <var>navigationParams</var>:</p>\n \n   <ol>\n+   <li><p>Let <var>browsingContext</var> be <var>navigationParams</var>'s <span\n+   data-x=\"navigation-params-navigable\">navigable</span>'s <span data-x=\"nav-bc\">active browsing\n+   context</span>.</p></li>\n+\n    <li><p>If <var>browsingContext</var> is not a <span>top-level browsing context</span>, then\n    return <var>browsingContext</var>.</p></li>\n \n+   <li><p>Let <var>swapGroup</var> be false.</p></li>\n+\n+   <li><p>Let <var>coopEnforcementResult</var> be <var>navigationParams</var>'s <span\n+   data-x=\"navigation-params-coop-enforcement-result\">COOP enforcement result</span>.</p></li>\n+\n+   <li><p>If <var>coopEnforcementResult</var>'s <span data-x=\"coop-enforcement-bcg-switch\">\n+   needs a browsing context group switch</span> is true, set <var>swapGroup</var> to true.</p></li>",
+    "path": "source",
+    "commit_id": "379e3c05f69b59329017e82d90b1af88385d4050",
+    "original_commit_id": "90cb46cbc1e3b72547f589d8b075cacbde677f9f",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n   <li><p>Let <var>coopEnforcementResult</var> be <var>navigationParams</var>'s <span\r\n   data-x=\"navigation-params-coop-enforcement-result\">COOP enforcement result</span>.</p></li>\r\n\r\n   <li><p>Let <var>swapGroup</var> be <var>coopEnforcementResult</var>'s <span\r\n   data-x=\"coop-enforcement-bcg-switch\">needs a browsing context group switch</span>.</p></li>\r\n```",
+    "created_at": "2024-12-06T08:47:35Z",
+    "updated_at": "2024-12-06T09:04:51Z",
+    "html_url": "https://github.com/whatwg/html/pull/10818#discussion_r1872831414",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10818",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1872831414"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10818#discussion_r1872831414"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10818"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1872831414/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 87756,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 87762,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 24,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1872836602",
+    "pull_request_review_id": 2484036127,
+    "id": 1872836602,
+    "node_id": "PRRC_kwDOALaj485voTf6",
+    "diff_hunk": "@@ -87743,18 +87743,64 @@ dictionary <dfn dictionary>DragEventInit</dfn> : <span>MouseEventInit</span> {\n   </ol>\n \n   <p>To <dfn data-x=\"obtain-browsing-context-navigation\">obtain a browsing context to use for a\n-  navigation response</dfn>, given a <span>browsing context</span> <var>browsingContext</var>, a\n-  <span>sandboxing flag set</span> <var>sandboxFlags</var>, an <span>opener policy</span>\n-  <var>navigationCOOP</var>, and an <span data-x=\"coop-enforcement-result\">opener policy enforcement\n-  result</span> <var>coopEnforcementResult</var>:</p>\n+  navigation response</dfn>, given <span>navigation params</span> <var>navigationParams</var>:</p>\n \n   <ol>\n+   <li><p>Let <var>browsingContext</var> be <var>navigationParams</var>'s <span\n+   data-x=\"navigation-params-navigable\">navigable</span>'s <span data-x=\"nav-bc\">active browsing\n+   context</span>.</p></li>\n+\n    <li><p>If <var>browsingContext</var> is not a <span>top-level browsing context</span>, then\n    return <var>browsingContext</var>.</p></li>\n \n+   <li><p>Let <var>swapGroup</var> be false.</p></li>\n+\n+   <li><p>Let <var>coopEnforcementResult</var> be <var>navigationParams</var>'s <span\n+   data-x=\"navigation-params-coop-enforcement-result\">COOP enforcement result</span>.</p></li>\n+\n+   <li><p>If <var>coopEnforcementResult</var>'s <span data-x=\"coop-enforcement-bcg-switch\">\n+   needs a browsing context group switch</span> is true, set <var>swapGroup</var> to true.</p></li>\n+\n+   <li><p>Let <var>sourceOrigin</var> be <var>browsingContext</var>'s\n+   <span>active document</span>'s <span data-x=\"concept-document-origin\">origin</span>.</p></li>\n+\n+   <li><p>Let <var>destinationOrigin</var> be <var>navigationParams</var>'s <span\n+   data-x=\"navigation-params-origin\">origin</span>.</p></li>\n+\n+   <li><p>Let <var>sameSite</var> be whether <var>sourceOrigin</var> is\n+   <span>same site</span> with <var>destinationOrigin</var>.</p></li>\n+\n+   <li>\n+     <p>If <var>sameSite</var> is false, then:</p>\n+     <ol>\n+        <li><p>If either of <var>sourceOrigin</var> or <var>destinationOrigin</var> have a <span\n+        data-x=\"concept-origin-scheme\">scheme</span> that is not an <span>HTTP(S) scheme</span>\n+        and the user agent considers it necessary for <var>sourceOrigin</var> and\n+        <var>destinationOrigin</var> to be isolated from each other (for\n+        <span>implementation-defined</span> reasons), optionally set <var>swapGroup</var>\n+        to true.</p>\n+        <p class=\"note\">For example, if a user navigates from <code data-x=\"\">about:settings</code> to\n+        <code data-x=\"\">https://example.com</code>, the user agent could force a swap.</p>\n+        </li>",
+    "path": "source",
+    "commit_id": "379e3c05f69b59329017e82d90b1af88385d4050",
+    "original_commit_id": "90cb46cbc1e3b72547f589d8b075cacbde677f9f",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "It would be ideal if we could always force a swap. What makes it so we can't? `blob:` URLs? cc @recvfrom",
+    "created_at": "2024-12-06T08:49:52Z",
+    "updated_at": "2024-12-06T09:04:51Z",
+    "html_url": "https://github.com/whatwg/html/pull/10818#discussion_r1872836602",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10818",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1872836602"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10818#discussion_r1872836602"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10818"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1872836602/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 87776,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 87784,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 46,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1872842380",
+    "pull_request_review_id": 2484036127,
+    "id": 1872842380,
+    "node_id": "PRRC_kwDOALaj485voU6M",
+    "diff_hunk": "@@ -87743,18 +87743,64 @@ dictionary <dfn dictionary>DragEventInit</dfn> : <span>MouseEventInit</span> {\n   </ol>\n \n   <p>To <dfn data-x=\"obtain-browsing-context-navigation\">obtain a browsing context to use for a\n-  navigation response</dfn>, given a <span>browsing context</span> <var>browsingContext</var>, a\n-  <span>sandboxing flag set</span> <var>sandboxFlags</var>, an <span>opener policy</span>\n-  <var>navigationCOOP</var>, and an <span data-x=\"coop-enforcement-result\">opener policy enforcement\n-  result</span> <var>coopEnforcementResult</var>:</p>\n+  navigation response</dfn>, given <span>navigation params</span> <var>navigationParams</var>:</p>\n \n   <ol>\n+   <li><p>Let <var>browsingContext</var> be <var>navigationParams</var>'s <span\n+   data-x=\"navigation-params-navigable\">navigable</span>'s <span data-x=\"nav-bc\">active browsing\n+   context</span>.</p></li>\n+\n    <li><p>If <var>browsingContext</var> is not a <span>top-level browsing context</span>, then\n    return <var>browsingContext</var>.</p></li>\n \n+   <li><p>Let <var>swapGroup</var> be false.</p></li>\n+\n+   <li><p>Let <var>coopEnforcementResult</var> be <var>navigationParams</var>'s <span\n+   data-x=\"navigation-params-coop-enforcement-result\">COOP enforcement result</span>.</p></li>\n+\n+   <li><p>If <var>coopEnforcementResult</var>'s <span data-x=\"coop-enforcement-bcg-switch\">\n+   needs a browsing context group switch</span> is true, set <var>swapGroup</var> to true.</p></li>\n+\n+   <li><p>Let <var>sourceOrigin</var> be <var>browsingContext</var>'s\n+   <span>active document</span>'s <span data-x=\"concept-document-origin\">origin</span>.</p></li>\n+\n+   <li><p>Let <var>destinationOrigin</var> be <var>navigationParams</var>'s <span\n+   data-x=\"navigation-params-origin\">origin</span>.</p></li>\n+\n+   <li><p>Let <var>sameSite</var> be whether <var>sourceOrigin</var> is\n+   <span>same site</span> with <var>destinationOrigin</var>.</p></li>\n+\n+   <li>\n+     <p>If <var>sameSite</var> is false, then:</p>",
+    "path": "source",
+    "commit_id": "379e3c05f69b59329017e82d90b1af88385d4050",
+    "original_commit_id": "90cb46cbc1e3b72547f589d8b075cacbde677f9f",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n   <li>\r\n     <p>If <var>sourceOrigin</var> is not <span>same site</span> with\r\n     <var>destinationOrigin</var>:</p>\r\n```",
+    "created_at": "2024-12-06T08:51:58Z",
+    "updated_at": "2024-12-06T09:04:51Z",
+    "html_url": "https://github.com/whatwg/html/pull/10818#discussion_r1872842380",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10818",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1872842380"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10818#discussion_r1872842380"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10818"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1872842380/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 87770,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 87774,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 36,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1872854272",
+    "pull_request_review_id": 2484036127,
+    "id": 1872854272,
+    "node_id": "PRRC_kwDOALaj485voX0A",
+    "diff_hunk": "@@ -87794,6 +87843,9 @@ dictionary <dfn dictionary>DragEventInit</dfn> : <span>MouseEventInit</span> {\n     not.</p>\n    </li>\n \n+   <li><p>Let <var>sandboxFlags</var> be <var>navigationParams</var>'s <span\n+   data-x=\"navigation-params-sandboxing\">final sandboxing flag set</span>.</p></li>",
+    "path": "source",
+    "commit_id": "379e3c05f69b59329017e82d90b1af88385d4050",
+    "original_commit_id": "90cb46cbc1e3b72547f589d8b075cacbde677f9f",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Seems clearer to initialize to a clone here rather than below now that the variable is no longer passed in.",
+    "created_at": "2024-12-06T08:54:42Z",
+    "updated_at": "2024-12-06T09:04:51Z",
+    "html_url": "https://github.com/whatwg/html/pull/10818#discussion_r1872854272",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10818",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1872854272"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10818#discussion_r1872854272"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10818"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1872854272/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 87846,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 87847,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 86,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1874160602",
+    "pull_request_review_id": 2486181141,
+    "id": 1874160602,
+    "node_id": "PRRC_kwDOALaj485vtWva",
+    "diff_hunk": "@@ -87743,18 +87743,64 @@ dictionary <dfn dictionary>DragEventInit</dfn> : <span>MouseEventInit</span> {\n   </ol>\n \n   <p>To <dfn data-x=\"obtain-browsing-context-navigation\">obtain a browsing context to use for a\n-  navigation response</dfn>, given a <span>browsing context</span> <var>browsingContext</var>, a\n-  <span>sandboxing flag set</span> <var>sandboxFlags</var>, an <span>opener policy</span>\n-  <var>navigationCOOP</var>, and an <span data-x=\"coop-enforcement-result\">opener policy enforcement\n-  result</span> <var>coopEnforcementResult</var>:</p>\n+  navigation response</dfn>, given <span>navigation params</span> <var>navigationParams</var>:</p>\n \n   <ol>\n+   <li><p>Let <var>browsingContext</var> be <var>navigationParams</var>'s <span\n+   data-x=\"navigation-params-navigable\">navigable</span>'s <span data-x=\"nav-bc\">active browsing\n+   context</span>.</p></li>\n+\n    <li><p>If <var>browsingContext</var> is not a <span>top-level browsing context</span>, then\n    return <var>browsingContext</var>.</p></li>\n \n+   <li><p>Let <var>swapGroup</var> be false.</p></li>\n+\n+   <li><p>Let <var>coopEnforcementResult</var> be <var>navigationParams</var>'s <span\n+   data-x=\"navigation-params-coop-enforcement-result\">COOP enforcement result</span>.</p></li>\n+\n+   <li><p>If <var>coopEnforcementResult</var>'s <span data-x=\"coop-enforcement-bcg-switch\">\n+   needs a browsing context group switch</span> is true, set <var>swapGroup</var> to true.</p></li>",
+    "path": "source",
+    "commit_id": "379e3c05f69b59329017e82d90b1af88385d4050",
+    "original_commit_id": "90cb46cbc1e3b72547f589d8b075cacbde677f9f",
+    "user": {
+      "login": "kjmcnee",
+      "id": 2020270,
+      "node_id": "MDQ6VXNlcjIwMjAyNzA=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2020270?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/kjmcnee",
+      "html_url": "https://github.com/kjmcnee",
+      "followers_url": "https://api.github.com/users/kjmcnee/followers",
+      "following_url": "https://api.github.com/users/kjmcnee/following{/other_user}",
+      "gists_url": "https://api.github.com/users/kjmcnee/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/kjmcnee/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/kjmcnee/subscriptions",
+      "organizations_url": "https://api.github.com/users/kjmcnee/orgs",
+      "repos_url": "https://api.github.com/users/kjmcnee/repos",
+      "events_url": "https://api.github.com/users/kjmcnee/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/kjmcnee/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2024-12-07T00:07:12Z",
+    "updated_at": "2024-12-07T00:07:12Z",
+    "html_url": "https://github.com/whatwg/html/pull/10818#discussion_r1874160602",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10818",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1874160602"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10818#discussion_r1874160602"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10818"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1874160602/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 87756,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 87762,
+    "side": "RIGHT",
+    "in_reply_to_id": 1872831414,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 24,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1874160756",
+    "pull_request_review_id": 2486181389,
+    "id": 1874160756,
+    "node_id": "PRRC_kwDOALaj485vtWx0",
+    "diff_hunk": "@@ -87743,18 +87743,64 @@ dictionary <dfn dictionary>DragEventInit</dfn> : <span>MouseEventInit</span> {\n   </ol>\n \n   <p>To <dfn data-x=\"obtain-browsing-context-navigation\">obtain a browsing context to use for a\n-  navigation response</dfn>, given a <span>browsing context</span> <var>browsingContext</var>, a\n-  <span>sandboxing flag set</span> <var>sandboxFlags</var>, an <span>opener policy</span>\n-  <var>navigationCOOP</var>, and an <span data-x=\"coop-enforcement-result\">opener policy enforcement\n-  result</span> <var>coopEnforcementResult</var>:</p>\n+  navigation response</dfn>, given <span>navigation params</span> <var>navigationParams</var>:</p>\n \n   <ol>\n+   <li><p>Let <var>browsingContext</var> be <var>navigationParams</var>'s <span\n+   data-x=\"navigation-params-navigable\">navigable</span>'s <span data-x=\"nav-bc\">active browsing\n+   context</span>.</p></li>\n+\n    <li><p>If <var>browsingContext</var> is not a <span>top-level browsing context</span>, then\n    return <var>browsingContext</var>.</p></li>\n \n+   <li><p>Let <var>swapGroup</var> be false.</p></li>\n+\n+   <li><p>Let <var>coopEnforcementResult</var> be <var>navigationParams</var>'s <span\n+   data-x=\"navigation-params-coop-enforcement-result\">COOP enforcement result</span>.</p></li>\n+\n+   <li><p>If <var>coopEnforcementResult</var>'s <span data-x=\"coop-enforcement-bcg-switch\">\n+   needs a browsing context group switch</span> is true, set <var>swapGroup</var> to true.</p></li>\n+\n+   <li><p>Let <var>sourceOrigin</var> be <var>browsingContext</var>'s\n+   <span>active document</span>'s <span data-x=\"concept-document-origin\">origin</span>.</p></li>\n+\n+   <li><p>Let <var>destinationOrigin</var> be <var>navigationParams</var>'s <span\n+   data-x=\"navigation-params-origin\">origin</span>.</p></li>\n+\n+   <li><p>Let <var>sameSite</var> be whether <var>sourceOrigin</var> is\n+   <span>same site</span> with <var>destinationOrigin</var>.</p></li>\n+\n+   <li>\n+     <p>If <var>sameSite</var> is false, then:</p>",
+    "path": "source",
+    "commit_id": "379e3c05f69b59329017e82d90b1af88385d4050",
+    "original_commit_id": "90cb46cbc1e3b72547f589d8b075cacbde677f9f",
+    "user": {
+      "login": "kjmcnee",
+      "id": 2020270,
+      "node_id": "MDQ6VXNlcjIwMjAyNzA=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2020270?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/kjmcnee",
+      "html_url": "https://github.com/kjmcnee",
+      "followers_url": "https://api.github.com/users/kjmcnee/followers",
+      "following_url": "https://api.github.com/users/kjmcnee/following{/other_user}",
+      "gists_url": "https://api.github.com/users/kjmcnee/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/kjmcnee/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/kjmcnee/subscriptions",
+      "organizations_url": "https://api.github.com/users/kjmcnee/orgs",
+      "repos_url": "https://api.github.com/users/kjmcnee/repos",
+      "events_url": "https://api.github.com/users/kjmcnee/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/kjmcnee/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done",
+    "created_at": "2024-12-07T00:07:41Z",
+    "updated_at": "2024-12-07T00:07:41Z",
+    "html_url": "https://github.com/whatwg/html/pull/10818#discussion_r1874160756",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10818",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1874160756"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10818#discussion_r1874160756"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10818"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1874160756/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 87770,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 87774,
+    "side": "RIGHT",
+    "in_reply_to_id": 1872842380,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 36,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1874160880",
+    "pull_request_review_id": 2486181564,
+    "id": 1874160880,
+    "node_id": "PRRC_kwDOALaj485vtWzw",
+    "diff_hunk": "@@ -87794,6 +87843,9 @@ dictionary <dfn dictionary>DragEventInit</dfn> : <span>MouseEventInit</span> {\n     not.</p>\n    </li>\n \n+   <li><p>Let <var>sandboxFlags</var> be <var>navigationParams</var>'s <span\n+   data-x=\"navigation-params-sandboxing\">final sandboxing flag set</span>.</p></li>",
+    "path": "source",
+    "commit_id": "379e3c05f69b59329017e82d90b1af88385d4050",
+    "original_commit_id": "90cb46cbc1e3b72547f589d8b075cacbde677f9f",
+    "user": {
+      "login": "kjmcnee",
+      "id": 2020270,
+      "node_id": "MDQ6VXNlcjIwMjAyNzA=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2020270?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/kjmcnee",
+      "html_url": "https://github.com/kjmcnee",
+      "followers_url": "https://api.github.com/users/kjmcnee/followers",
+      "following_url": "https://api.github.com/users/kjmcnee/following{/other_user}",
+      "gists_url": "https://api.github.com/users/kjmcnee/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/kjmcnee/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/kjmcnee/subscriptions",
+      "organizations_url": "https://api.github.com/users/kjmcnee/orgs",
+      "repos_url": "https://api.github.com/users/kjmcnee/repos",
+      "events_url": "https://api.github.com/users/kjmcnee/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/kjmcnee/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done",
+    "created_at": "2024-12-07T00:08:05Z",
+    "updated_at": "2024-12-07T00:08:05Z",
+    "html_url": "https://github.com/whatwg/html/pull/10818#discussion_r1874160880",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10818",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1874160880"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10818#discussion_r1874160880"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10818"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1874160880/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 87846,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 87847,
+    "side": "RIGHT",
+    "in_reply_to_id": 1872854272,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 86,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1874198475",
+    "pull_request_review_id": 2486228789,
+    "id": 1874198475,
+    "node_id": "PRRC_kwDOALaj485vtf_L",
+    "diff_hunk": "@@ -87743,18 +87743,64 @@ dictionary <dfn dictionary>DragEventInit</dfn> : <span>MouseEventInit</span> {\n   </ol>\n \n   <p>To <dfn data-x=\"obtain-browsing-context-navigation\">obtain a browsing context to use for a\n-  navigation response</dfn>, given a <span>browsing context</span> <var>browsingContext</var>, a\n-  <span>sandboxing flag set</span> <var>sandboxFlags</var>, an <span>opener policy</span>\n-  <var>navigationCOOP</var>, and an <span data-x=\"coop-enforcement-result\">opener policy enforcement\n-  result</span> <var>coopEnforcementResult</var>:</p>\n+  navigation response</dfn>, given <span>navigation params</span> <var>navigationParams</var>:</p>\n \n   <ol>\n+   <li><p>Let <var>browsingContext</var> be <var>navigationParams</var>'s <span\n+   data-x=\"navigation-params-navigable\">navigable</span>'s <span data-x=\"nav-bc\">active browsing\n+   context</span>.</p></li>\n+\n    <li><p>If <var>browsingContext</var> is not a <span>top-level browsing context</span>, then\n    return <var>browsingContext</var>.</p></li>\n \n+   <li><p>Let <var>swapGroup</var> be false.</p></li>\n+\n+   <li><p>Let <var>coopEnforcementResult</var> be <var>navigationParams</var>'s <span\n+   data-x=\"navigation-params-coop-enforcement-result\">COOP enforcement result</span>.</p></li>\n+\n+   <li><p>If <var>coopEnforcementResult</var>'s <span data-x=\"coop-enforcement-bcg-switch\">\n+   needs a browsing context group switch</span> is true, set <var>swapGroup</var> to true.</p></li>\n+\n+   <li><p>Let <var>sourceOrigin</var> be <var>browsingContext</var>'s\n+   <span>active document</span>'s <span data-x=\"concept-document-origin\">origin</span>.</p></li>\n+\n+   <li><p>Let <var>destinationOrigin</var> be <var>navigationParams</var>'s <span\n+   data-x=\"navigation-params-origin\">origin</span>.</p></li>\n+\n+   <li><p>Let <var>sameSite</var> be whether <var>sourceOrigin</var> is\n+   <span>same site</span> with <var>destinationOrigin</var>.</p></li>\n+\n+   <li>\n+     <p>If <var>sameSite</var> is false, then:</p>\n+     <ol>\n+        <li><p>If either of <var>sourceOrigin</var> or <var>destinationOrigin</var> have a <span\n+        data-x=\"concept-origin-scheme\">scheme</span> that is not an <span>HTTP(S) scheme</span>\n+        and the user agent considers it necessary for <var>sourceOrigin</var> and\n+        <var>destinationOrigin</var> to be isolated from each other (for\n+        <span>implementation-defined</span> reasons), optionally set <var>swapGroup</var>\n+        to true.</p>\n+        <p class=\"note\">For example, if a user navigates from <code data-x=\"\">about:settings</code> to\n+        <code data-x=\"\">https://example.com</code>, the user agent could force a swap.</p>\n+        </li>",
+    "path": "source",
+    "commit_id": "379e3c05f69b59329017e82d90b1af88385d4050",
+    "original_commit_id": "90cb46cbc1e3b72547f589d8b075cacbde677f9f",
+    "user": {
+      "login": "kjmcnee",
+      "id": 2020270,
+      "node_id": "MDQ6VXNlcjIwMjAyNzA=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2020270?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/kjmcnee",
+      "html_url": "https://github.com/kjmcnee",
+      "followers_url": "https://api.github.com/users/kjmcnee/followers",
+      "following_url": "https://api.github.com/users/kjmcnee/following{/other_user}",
+      "gists_url": "https://api.github.com/users/kjmcnee/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/kjmcnee/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/kjmcnee/subscriptions",
+      "organizations_url": "https://api.github.com/users/kjmcnee/orgs",
+      "repos_url": "https://api.github.com/users/kjmcnee/repos",
+      "events_url": "https://api.github.com/users/kjmcnee/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/kjmcnee/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Here's a contrived example I came up with (tested in chrome and firefox):\r\nFrom a page loaded as a file URL, window.open an https page, then navigate the first window to the same origin, then the second window will be able to access its opener.\r\n\r\nIf we were to always force a swap here, then that opener access wouldn't work. As for whether that's desirable or not, I don't know.",
+    "created_at": "2024-12-07T01:21:51Z",
+    "updated_at": "2024-12-07T01:21:52Z",
+    "html_url": "https://github.com/whatwg/html/pull/10818#discussion_r1874198475",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10818",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1874198475"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10818#discussion_r1874198475"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10818"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1874198475/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 87776,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 87784,
+    "side": "RIGHT",
+    "in_reply_to_id": 1872836602,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 46,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1877540964",
+    "pull_request_review_id": 2491358606,
+    "id": 1877540964,
+    "node_id": "PRRC_kwDOALaj485v6QBk",
+    "diff_hunk": "@@ -87743,18 +87743,64 @@ dictionary <dfn dictionary>DragEventInit</dfn> : <span>MouseEventInit</span> {\n   </ol>\n \n   <p>To <dfn data-x=\"obtain-browsing-context-navigation\">obtain a browsing context to use for a\n-  navigation response</dfn>, given a <span>browsing context</span> <var>browsingContext</var>, a\n-  <span>sandboxing flag set</span> <var>sandboxFlags</var>, an <span>opener policy</span>\n-  <var>navigationCOOP</var>, and an <span data-x=\"coop-enforcement-result\">opener policy enforcement\n-  result</span> <var>coopEnforcementResult</var>:</p>\n+  navigation response</dfn>, given <span>navigation params</span> <var>navigationParams</var>:</p>\n \n   <ol>\n+   <li><p>Let <var>browsingContext</var> be <var>navigationParams</var>'s <span\n+   data-x=\"navigation-params-navigable\">navigable</span>'s <span data-x=\"nav-bc\">active browsing\n+   context</span>.</p></li>\n+\n    <li><p>If <var>browsingContext</var> is not a <span>top-level browsing context</span>, then\n    return <var>browsingContext</var>.</p></li>\n \n+   <li><p>Let <var>swapGroup</var> be false.</p></li>\n+\n+   <li><p>Let <var>coopEnforcementResult</var> be <var>navigationParams</var>'s <span\n+   data-x=\"navigation-params-coop-enforcement-result\">COOP enforcement result</span>.</p></li>\n+\n+   <li><p>If <var>coopEnforcementResult</var>'s <span data-x=\"coop-enforcement-bcg-switch\">\n+   needs a browsing context group switch</span> is true, set <var>swapGroup</var> to true.</p></li>\n+\n+   <li><p>Let <var>sourceOrigin</var> be <var>browsingContext</var>'s\n+   <span>active document</span>'s <span data-x=\"concept-document-origin\">origin</span>.</p></li>\n+\n+   <li><p>Let <var>destinationOrigin</var> be <var>navigationParams</var>'s <span\n+   data-x=\"navigation-params-origin\">origin</span>.</p></li>\n+\n+   <li><p>Let <var>sameSite</var> be whether <var>sourceOrigin</var> is\n+   <span>same site</span> with <var>destinationOrigin</var>.</p></li>\n+\n+   <li>\n+     <p>If <var>sameSite</var> is false, then:</p>\n+     <ol>\n+        <li><p>If either of <var>sourceOrigin</var> or <var>destinationOrigin</var> have a <span\n+        data-x=\"concept-origin-scheme\">scheme</span> that is not an <span>HTTP(S) scheme</span>\n+        and the user agent considers it necessary for <var>sourceOrigin</var> and\n+        <var>destinationOrigin</var> to be isolated from each other (for\n+        <span>implementation-defined</span> reasons), optionally set <var>swapGroup</var>\n+        to true.</p>\n+        <p class=\"note\">For example, if a user navigates from <code data-x=\"\">about:settings</code> to\n+        <code data-x=\"\">https://example.com</code>, the user agent could force a swap.</p>\n+        </li>",
+    "path": "source",
+    "commit_id": "379e3c05f69b59329017e82d90b1af88385d4050",
+    "original_commit_id": "90cb46cbc1e3b72547f589d8b075cacbde677f9f",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "It would make a lot of sense to me to force a swap to and from `file:` URLs.",
+    "created_at": "2024-12-10T08:07:48Z",
+    "updated_at": "2024-12-10T08:07:49Z",
+    "html_url": "https://github.com/whatwg/html/pull/10818#discussion_r1877540964",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10818",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1877540964"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10818#discussion_r1877540964"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10818"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1877540964/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 87776,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 87784,
+    "side": "RIGHT",
+    "in_reply_to_id": 1872836602,
+    "author_association": "MEMBER",
+    "original_position": 46,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1877554926",
+    "pull_request_review_id": 2491379428,
+    "id": 1877554926,
+    "node_id": "PRRC_kwDOALaj485v6Tbu",
+    "diff_hunk": "@@ -87743,18 +87743,64 @@ dictionary <dfn dictionary>DragEventInit</dfn> : <span>MouseEventInit</span> {\n   </ol>\n \n   <p>To <dfn data-x=\"obtain-browsing-context-navigation\">obtain a browsing context to use for a\n-  navigation response</dfn>, given a <span>browsing context</span> <var>browsingContext</var>, a\n-  <span>sandboxing flag set</span> <var>sandboxFlags</var>, an <span>opener policy</span>\n-  <var>navigationCOOP</var>, and an <span data-x=\"coop-enforcement-result\">opener policy enforcement\n-  result</span> <var>coopEnforcementResult</var>:</p>\n+  navigation response</dfn>, given <span>navigation params</span> <var>navigationParams</var>:</p>\n \n   <ol>\n+   <li><p>Let <var>browsingContext</var> be <var>navigationParams</var>'s <span\n+   data-x=\"navigation-params-navigable\">navigable</span>'s <span data-x=\"nav-bc\">active browsing\n+   context</span>.</p></li>\n+\n    <li><p>If <var>browsingContext</var> is not a <span>top-level browsing context</span>, then\n    return <var>browsingContext</var>.</p></li>\n \n+   <li><p>Let <var>swapGroup</var> be false.</p></li>\n+\n+   <li><p>Let <var>coopEnforcementResult</var> be <var>navigationParams</var>'s <span\n+   data-x=\"navigation-params-coop-enforcement-result\">COOP enforcement result</span>.</p></li>\n+\n+   <li><p>If <var>coopEnforcementResult</var>'s <span data-x=\"coop-enforcement-bcg-switch\">\n+   needs a browsing context group switch</span> is true, set <var>swapGroup</var> to true.</p></li>\n+\n+   <li><p>Let <var>sourceOrigin</var> be <var>browsingContext</var>'s\n+   <span>active document</span>'s <span data-x=\"concept-document-origin\">origin</span>.</p></li>\n+\n+   <li><p>Let <var>destinationOrigin</var> be <var>navigationParams</var>'s <span\n+   data-x=\"navigation-params-origin\">origin</span>.</p></li>\n+\n+   <li><p>Let <var>sameSite</var> be whether <var>sourceOrigin</var> is\n+   <span>same site</span> with <var>destinationOrigin</var>.</p></li>\n+\n+   <li>\n+     <p>If <var>sameSite</var> is false, then:</p>\n+     <ol>\n+        <li><p>If either of <var>sourceOrigin</var> or <var>destinationOrigin</var> have a <span\n+        data-x=\"concept-origin-scheme\">scheme</span> that is not an <span>HTTP(S) scheme</span>\n+        and the user agent considers it necessary for <var>sourceOrigin</var> and\n+        <var>destinationOrigin</var> to be isolated from each other (for\n+        <span>implementation-defined</span> reasons), optionally set <var>swapGroup</var>\n+        to true.</p>\n+        <p class=\"note\">For example, if a user navigates from <code data-x=\"\">about:settings</code> to\n+        <code data-x=\"\">https://example.com</code>, the user agent could force a swap.</p>\n+        </li>",
+    "path": "source",
+    "commit_id": "379e3c05f69b59329017e82d90b1af88385d4050",
+    "original_commit_id": "90cb46cbc1e3b72547f589d8b075cacbde677f9f",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I agree it would make sense, but this feels like the exact sort of scenario that enterprise-ish software would depend on. Or like, software distributed on CDs.\r\n\r\nI think we should investigate it as a followup, but the compat risks seem too high to require it as part of this change.",
+    "created_at": "2024-12-10T08:16:08Z",
+    "updated_at": "2024-12-10T08:16:09Z",
+    "html_url": "https://github.com/whatwg/html/pull/10818#discussion_r1877554926",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10818",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1877554926"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10818#discussion_r1877554926"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10818"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1877554926/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 87776,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 87784,
+    "side": "RIGHT",
+    "in_reply_to_id": 1872836602,
+    "author_association": "MEMBER",
+    "original_position": 46,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1877565116",
+    "pull_request_review_id": 2491393586,
+    "id": 1877565116,
+    "node_id": "PRRC_kwDOALaj485v6V68",
+    "diff_hunk": "@@ -87743,18 +87743,64 @@ dictionary <dfn dictionary>DragEventInit</dfn> : <span>MouseEventInit</span> {\n   </ol>\n \n   <p>To <dfn data-x=\"obtain-browsing-context-navigation\">obtain a browsing context to use for a\n-  navigation response</dfn>, given a <span>browsing context</span> <var>browsingContext</var>, a\n-  <span>sandboxing flag set</span> <var>sandboxFlags</var>, an <span>opener policy</span>\n-  <var>navigationCOOP</var>, and an <span data-x=\"coop-enforcement-result\">opener policy enforcement\n-  result</span> <var>coopEnforcementResult</var>:</p>\n+  navigation response</dfn>, given <span>navigation params</span> <var>navigationParams</var>:</p>\n \n   <ol>\n+   <li><p>Let <var>browsingContext</var> be <var>navigationParams</var>'s <span\n+   data-x=\"navigation-params-navigable\">navigable</span>'s <span data-x=\"nav-bc\">active browsing\n+   context</span>.</p></li>\n+\n    <li><p>If <var>browsingContext</var> is not a <span>top-level browsing context</span>, then\n    return <var>browsingContext</var>.</p></li>\n \n+   <li><p>Let <var>swapGroup</var> be false.</p></li>\n+\n+   <li><p>Let <var>coopEnforcementResult</var> be <var>navigationParams</var>'s <span\n+   data-x=\"navigation-params-coop-enforcement-result\">COOP enforcement result</span>.</p></li>\n+\n+   <li><p>If <var>coopEnforcementResult</var>'s <span data-x=\"coop-enforcement-bcg-switch\">\n+   needs a browsing context group switch</span> is true, set <var>swapGroup</var> to true.</p></li>\n+\n+   <li><p>Let <var>sourceOrigin</var> be <var>browsingContext</var>'s\n+   <span>active document</span>'s <span data-x=\"concept-document-origin\">origin</span>.</p></li>\n+\n+   <li><p>Let <var>destinationOrigin</var> be <var>navigationParams</var>'s <span\n+   data-x=\"navigation-params-origin\">origin</span>.</p></li>\n+\n+   <li><p>Let <var>sameSite</var> be whether <var>sourceOrigin</var> is\n+   <span>same site</span> with <var>destinationOrigin</var>.</p></li>\n+\n+   <li>\n+     <p>If <var>sameSite</var> is false, then:</p>\n+     <ol>\n+        <li><p>If either of <var>sourceOrigin</var> or <var>destinationOrigin</var> have a <span\n+        data-x=\"concept-origin-scheme\">scheme</span> that is not an <span>HTTP(S) scheme</span>\n+        and the user agent considers it necessary for <var>sourceOrigin</var> and\n+        <var>destinationOrigin</var> to be isolated from each other (for\n+        <span>implementation-defined</span> reasons), optionally set <var>swapGroup</var>\n+        to true.</p>\n+        <p class=\"note\">For example, if a user navigates from <code data-x=\"\">about:settings</code> to\n+        <code data-x=\"\">https://example.com</code>, the user agent could force a swap.</p>\n+        </li>",
+    "path": "source",
+    "commit_id": "379e3c05f69b59329017e82d90b1af88385d4050",
+    "original_commit_id": "90cb46cbc1e3b72547f589d8b075cacbde677f9f",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Fair: https://github.com/whatwg/html/issues/10842",
+    "created_at": "2024-12-10T08:19:53Z",
+    "updated_at": "2024-12-10T08:19:53Z",
+    "html_url": "https://github.com/whatwg/html/pull/10818#discussion_r1877565116",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10818",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1877565116"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10818#discussion_r1877565116"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10818"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1877565116/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 87776,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 87784,
+    "side": "RIGHT",
+    "in_reply_to_id": 1872836602,
+    "author_association": "MEMBER",
+    "original_position": 46,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1879260105",
+    "pull_request_review_id": 2494192957,
+    "id": 1879260105,
+    "node_id": "PRRC_kwDOALaj485wAzvJ",
+    "diff_hunk": "@@ -97762,6 +97811,53 @@ interface <dfn interface>NotRestoredReasons</dfn> {\n \n   <hr>\n \n+  <p>To <dfn>find a navigable by target name</dfn> given a string <var>name</var> and a <span>navigable</span> <var>currentNavigable</var>:</p>\n+  <p class=\"XXX\">This will be made more precise in <a\n+  href=\"https://github.com/whatwg/html/issues/313\">issue #313</a>.</p>",
+    "path": "source",
+    "commit_id": "379e3c05f69b59329017e82d90b1af88385d4050",
+    "original_commit_id": "283a9cf0d347f4b0c182f171e8a828fe5cffb56a",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think this is basically talking about the remaining implementation-defined parts, right? Maybe we can update the box accordingly.",
+    "created_at": "2024-12-11T03:07:32Z",
+    "updated_at": "2024-12-11T03:19:05Z",
+    "html_url": "https://github.com/whatwg/html/pull/10818#discussion_r1879260105",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10818",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1879260105"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10818#discussion_r1879260105"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10818"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1879260105/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 97816,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 105,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1879263476",
+    "pull_request_review_id": 2494192957,
+    "id": 1879263476,
+    "node_id": "PRRC_kwDOALaj485wA0j0",
+    "diff_hunk": "@@ -99528,6 +99614,9 @@ location.href = '#foo';</code></pre>\n    <dt><dfn data-x=\"navigation-params-about-base-url\">about base URL</dfn></dt>\n    <dd>a <span>URL</span> or null used to populate the new <code>Document</code>'s <span\n    data-x=\"concept-document-about-base-url\">about base URL</span></dd>\n+\n+   <dt><dfn data-x=\"navigation-params-user-involvement\">user involvement</dfn></dt>\n+   <dd>a <span>user navigation involvement</span> (default \"<code data-x=\"uni-none\">none</code>\")</dd>",
+    "path": "source",
+    "commit_id": "379e3c05f69b59329017e82d90b1af88385d4050",
+    "original_commit_id": "283a9cf0d347f4b0c182f171e8a828fe5cffb56a",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "We prefer not to default values for the navigation params, and instead fill them out at all creation sites.\r\n\r\nGiven this, #create-navigation-params-from-a-srcdoc-resource, #evaluate-a-javascript:-url, and #read-ua-inline are missing a value for user involvement.",
+    "created_at": "2024-12-11T03:11:39Z",
+    "updated_at": "2024-12-11T03:19:05Z",
+    "html_url": "https://github.com/whatwg/html/pull/10818#discussion_r1879263476",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10818",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1879263476"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10818#discussion_r1879263476"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10818"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1879263476/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 99619,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 179,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1879629365",
+    "pull_request_review_id": 2494801101,
+    "id": 1879629365,
+    "node_id": "PRRC_kwDOALaj485wCN41",
+    "diff_hunk": "@@ -97762,6 +97826,112 @@ interface <dfn interface>NotRestoredReasons</dfn> {\n \n   <hr>\n \n+  <p>To <dfn>find a navigable by target name</dfn> given a string <var>name</var> and a\n+  <span>navigable</span> <var>currentNavigable</var>:</p>\n+\n+  <ol>\n+   <li><p>Let <var>currentDocument</var> be <var>currentNavigable</var>'s <span\n+   data-x=\"nav-document\">active document</span>.</p></li>\n+\n+   <li><p>Let <var>sourceSnapshotParams</var> be the result of <span>snapshotting source snapshot\n+   params</span> given <var>currentDocument</var>.</p></li>\n+\n+   <li>\n+    <p>Let <var>subtreesToSearch</var> be an <span>implementation-defined</span> choice of one of\n+    the following:</p>\n+\n+    <ul>\n+     <li><p>« <var>currentNavigable</var>'s <span data-x=\"nav-traversable\">traversable\n+     navigable</span>, <var>currentNavigable</var> »</p></li>\n+\n+     <li><p>the <span>inclusive ancestor navigables</span> of <var>currentDocument</var></p></li>\n+    </ul>\n+\n+    <p class=\"XXX\"><a href=\"https://github.com/whatwg/html/issues/10848\">Issue #10848</a> tracks\n+    settling on one of these two possibilities, to achieve interoperability.</p>\n+   </li>\n+\n+   <li>\n+    <p><span data-x=\"list iterate\">For each</span> <var>subtreeToSearch</var> of\n+    <var>subtreesToSearch</var>, in reverse order:</p>\n+\n+    <ol>\n+     <li><p>Let <var>documentToSearch</var> be <var>subtreeToSearch</var>'s <span\n+     data-x=\"nav-document\">active document</span>.</p></li>\n+\n+     <li>\n+      <p><span data-x=\"list iterate\">For each</span> <var>navigable</var> of the <span>inclusive\n+      descendant navigables</span> of <var>documentToSearch</var>:</p>\n+\n+      <ol>\n+       <li>\n+        <p>If <var>currentNavigable</var> is not <span>allowed by sandboxing to navigate</span>\n+        <var>navigable</var> given <var>sourceSnapshotParams</var>, then optionally\n+        <span>continue</span>.</p>\n+\n+        <p class=\"XXX\"><a href=\"https://github.com/whatwg/html/issues/10849\">Issue #10849</a> tracks\n+        making this check required, to achieve interoperability.</p>\n+       </li>\n+\n+       <li><p>If <var>navigable</var>'s <span data-x=\"nav-target\">target name</span> is\n+       <var>name</var>, then return <var>navigable</var>.</p></li>\n+      </ol>\n+     </li>\n+    </ol>\n+   </li>\n+\n+   <li><p>Let <var>currentTopLevelBrowsingContext</var> be <var>currentNavigable</var>'s <span\n+   data-x=\"nav-bc\">active browsing context</span>'s <span data-x=\"bc-tlbc\">top-level browsing\n+   context</span>.</p></li>\n+\n+   <li><p>Let <var>group</var> be <var>currentTopLevelBrowsingContext</var>'s <span data-x=\"tlbc\n+   group\">group</span>.</p></li>\n+\n+   <li>\n+    <p><span data-x=\"list iterate\">For each</span> <var>topLevelBrowsingContext</var> of\n+    <var>group</var>'s <span>browsing context set</span>, in an <span>implementation-defined</span>\n+    order (the user agent should pick a consistent ordering, such as the most recently opened, most\n+    recently focused, or more closely related):</p>\n+\n+    <p class=\"XXX\"><a href=\"https://github.com/whatwg/html/issues/10850\">Issue #10850</a> tracks\n+    picking a specific ordering, to achieve interoperability.</p>\n+\n+    <ol>\n+     <li><p>If <var>currentTopLevelBrowsingContext</var> equals <var>topLevelBrowsingContext</var>,",
+    "path": "source",
+    "commit_id": "379e3c05f69b59329017e82d90b1af88385d4050",
+    "original_commit_id": "c3ebf343cc85ee0505e5b441fbff7e5ae8fd6f7b",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Nit: maybe this should use \"is\".",
+    "created_at": "2024-12-11T08:46:27Z",
+    "updated_at": "2024-12-11T08:48:10Z",
+    "html_url": "https://github.com/whatwg/html/pull/10818#discussion_r1879629365",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10818",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1879629365"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10818#discussion_r1879629365"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10818"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1879629365/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 97900,
+    "original_line": 97900,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 189,
+    "position": 189,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

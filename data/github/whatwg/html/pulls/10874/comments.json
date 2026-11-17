@@ -1,0 +1,144 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1899932391",
+    "pull_request_review_id": 2526187824,
+    "id": 1899932391,
+    "node_id": "PRRC_kwDOALaj485xPqrn",
+    "diff_hunk": "@@ -134275,84 +134274,63 @@ console.assert(container.firstChild instanceof SuperP);\n \n   <h3>Parsing HTML fragments</h3>\n \n-  <p>The following steps form the <dfn>HTML fragment parsing algorithm</dfn>. The algorithm\n-  takes as input an <code>Element</code> node, referred to as the <dfn\n-  data-x=\"concept-frag-parse-context\"><var>context</var></dfn> element, which gives the context for\n-  the parser, <var>input</var>, a string to parse, and an optional boolean\n-  <var>allowDeclarativeShadowRoots</var> (default false). It returns a list of zero or more\n-  nodes.</p>\n-\n-  <p class=\"note\">Parts marked <dfn>fragment case</dfn> in algorithms in the parser section are\n-  parts that only occur if the parser was created for the purposes of this algorithm. The algorithms have been annotated\n-  with such markings for informational purposes only; such markings have no normative weight. If it\n-  is possible for a condition described as a <span>fragment case</span> to occur even when the\n-  parser wasn't created for the purposes of handling this algorithm, then that is an error in the\n-  specification.</p>\n+  <p>The <dfn>HTML fragment parsing algorithm</dfn> given an <code>Element</code> node <dfn\n+  data-x=\"concept-frag-parse-context\"><var>context</var></dfn>, string <var>input</var>, and an\n+  optional boolean <var>allowDeclarativeShadowRoots</var> (default false) are the following steps.",
+    "path": "source",
+    "commit_id": "30f3ef004a91ed723916ca6cd9653292902e1c67",
+    "original_commit_id": "02cb9fc6aefa63e25af88139e72cb27cea28ecad",
+    "user": {
+      "login": "sideshowbarker",
+      "id": 194984,
+      "node_id": "MDQ6VXNlcjE5NDk4NA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/194984?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/sideshowbarker",
+      "html_url": "https://github.com/sideshowbarker",
+      "followers_url": "https://api.github.com/users/sideshowbarker/followers",
+      "following_url": "https://api.github.com/users/sideshowbarker/following{/other_user}",
+      "gists_url": "https://api.github.com/users/sideshowbarker/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/sideshowbarker/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/sideshowbarker/subscriptions",
+      "organizations_url": "https://api.github.com/users/sideshowbarker/orgs",
+      "repos_url": "https://api.github.com/users/sideshowbarker/repos",
+      "events_url": "https://api.github.com/users/sideshowbarker/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/sideshowbarker/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n  <p>The <dfn>HTML fragment parsing algorithm</dfn>, given an <code>Element</code> node <dfn\r\n  data-x=\"concept-frag-parse-context\"><var>context</var></dfn>, string <var>input</var>, and an\r\n  optional boolean <var>allowDeclarativeShadowRoots</var> (default false) is the following steps.\r\n```",
+    "created_at": "2024-12-31T06:02:49Z",
+    "updated_at": "2024-12-31T06:06:44Z",
+    "html_url": "https://github.com/whatwg/html/pull/10874#discussion_r1899932391",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10874",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1899932391"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10874#discussion_r1899932391"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10874"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1899932391/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 134277,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 134279,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 63,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1899932944",
+    "pull_request_review_id": 2526187824,
+    "id": 1899932944,
+    "node_id": "PRRC_kwDOALaj485xPq0Q",
+    "diff_hunk": "@@ -134364,35 +134342,29 @@ console.assert(container.firstChild instanceof SuperP);\n     transitions.</p>\n    </li>\n \n-   <li>\n-    <p>Let <var>root</var> be a new <code>html</code> element with no attributes.</p>\n-   </li>\n+   <li><p>Let <var>root</var> be the result of <span data-x=\"create an element\">creating an\n+   element</span> given <var>document</var>, \"<code data-x=\"\">html</code>\", and the <span>HTML\n+   namespace</span>.</p></li>\n \n-   <li>\n-    <p>Append the element <var>root</var> to the <code>Document</code> node created\n-    above.</p>\n-   </li>\n+   <li><p><span data-x=\"concept-node-append\">Append</span> <var>root</var> to\n+   <var>document</var>.</p></li>\n \n-   <li>\n-    <p>Set up the parser's <span>stack of open elements</span> so that it contains just the single\n-    element <var>root</var>.</p>\n-   </li>\n+   <li><p>Set up the <span>HTML parser</span>'s <span>stack of open elements</span> so that it\n+   contains just the single element <var>root</var>.</p></li>\n \n-   <li>\n-    <p>If the <var data-x=\"concept-frag-parse-context\">context</var> element is a\n-    <code>template</code> element, push \"<span data-x=\"insertion mode: in template\">in\n-    template</span>\" onto the <span>stack of template insertion modes</span> so that it is the new\n-    <span>current template insertion mode</span>.</p>\n-   </li>\n+   <li><p>If <var data-x=\"concept-frag-parse-context\">context</var> is a <code>template</code>\n+   element, then push \"<span data-x=\"insertion mode: in template\">in template</span>\" onto the\n+   <span>stack of template insertion modes</span> so that it is the new <span>current template\n+   insertion mode</span>.</p></li>\n \n    <li>\n     <p>Create a start tag token whose name is the local name of <var\n     data-x=\"concept-frag-parse-context\">context</var> and whose attributes are the attributes of\n     <var data-x=\"concept-frag-parse-context\">context</var>.</p>\n \n-    <p>Let this start tag token be the start tag token of the <var\n-    data-x=\"concept-frag-parse-context\">context</var> node, e.g. for the purposes of determining\n-    if it is an <span>HTML integration point</span>.</p>\n+    <p>Let this start tag token be the start tag token of <var\n+    data-x=\"concept-frag-parse-context\">context</var>, e.g. for the purposes of determining if it is\n+    an <span>HTML integration point</span>.</p>",
+    "path": "source",
+    "commit_id": "30f3ef004a91ed723916ca6cd9653292902e1c67",
+    "original_commit_id": "02cb9fc6aefa63e25af88139e72cb27cea28ecad",
+    "user": {
+      "login": "sideshowbarker",
+      "id": 194984,
+      "node_id": "MDQ6VXNlcjE5NDk4NA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/194984?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/sideshowbarker",
+      "html_url": "https://github.com/sideshowbarker",
+      "followers_url": "https://api.github.com/users/sideshowbarker/followers",
+      "following_url": "https://api.github.com/users/sideshowbarker/following{/other_user}",
+      "gists_url": "https://api.github.com/users/sideshowbarker/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/sideshowbarker/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/sideshowbarker/subscriptions",
+      "organizations_url": "https://api.github.com/users/sideshowbarker/orgs",
+      "repos_url": "https://api.github.com/users/sideshowbarker/repos",
+      "events_url": "https://api.github.com/users/sideshowbarker/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/sideshowbarker/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n    <p>Let this start tag token be the start tag token of <var\r\n    data-x=\"concept-frag-parse-context\">context</var>; e.g. for the purposes of determining if it is\r\n    an <span>HTML integration point</span>.</p>\r\n```",
+    "created_at": "2024-12-31T06:04:54Z",
+    "updated_at": "2024-12-31T06:06:44Z",
+    "html_url": "https://github.com/whatwg/html/pull/10874#discussion_r1899932944",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10874",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1899932944"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10874#discussion_r1899932944"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10874"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1899932944/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 134365,
+    "original_start_line": 134365,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 134367,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 199,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

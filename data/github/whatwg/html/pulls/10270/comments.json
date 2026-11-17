@@ -1,0 +1,573 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1565557890",
+    "pull_request_review_id": 2000664086,
+    "id": 1565557890,
+    "node_id": "PRRC_kwDOALaj485dUISC",
+    "diff_hunk": "@@ -112842,6 +112842,81 @@ enum <dfn enum>DOMParserSupportedType</dfn> {\n \n   </div>\n \n+  <h4>The <code data-x=\"dom-element-outerHTML\">outerHTML</code> property</h4>\n+\n+  <p class=\"XXX\">The outerHTML property may have a number of outstanding issues in the DOM Parsing\n+  <a href=\"https://github.com/w3c/DOM-Parsing/issues\">issue tracker</a>, documenting various\n+  problems with its specification.</p>\n+\n+  <dl class=\"domintro\">\n+   <dt><code data-x=\"\"><var>element</var>.<span subdfn data-x=\"dom-Element-outerHTML\">outerHTML</span></code></dt>\n+   <dd>\n+    <p>Returns a fragment of HTML or XML that represents the element and its contents.</p>\n+\n+    <p>In the case of an XML document, throws a <span>\"<code>InvalidStateError</code>\"</span>\n+    <code>DOMException</code> if the element cannot be serialized to XML.</p>\n+   </dd>\n+\n+   <dt><code data-x=\"\"><var>element</var>.<span data-x=\"dom-Element-outerHTML\">outerHTML</span> = <var>value</var></code></dt>\n+   <dd>\n+    <p>Replaces the element with nodes parsed from the given string.</p>\n+\n+    <p>In the case of an XML document, throws a <span>\"<code>SyntaxError</code>\"</span>\n+    <code>DOMException</code> if the given string is not well-formed.</p>\n+\n+    <p>Throws a <span>\"<code>NoModificationAllowedError</code>\"</span> <code>DOMException</code> if\n+    the parent of the element is a <span><code>Document</code></span>.</p>\n+   </dd>\n+  </dl>\n+\n+  <p class=\"warning\">This property's setter performs no sanitization to remove potentially-dangerous\n+  elements and attributes like <code>script</code> or <span>event handler content\n+  attributes</span>.</p>\n+\n+  <div w-nodev>\n+\n+  <p><code>Element</code>'s <dfn attribute for=\"Element\"><code\n+  data-x=\"dom-Element-outerHTML\">outerHTML</code></dfn> getter steps are to return the result of\n+  running <span>fragment serializing algorithm steps</span> with a fictional node whose only child\n+  is <span>this</span> and true.</p>",
+    "path": "source",
+    "commit_id": "3692ea57518c0952a8255823c6ed06f2101cd5f7",
+    "original_commit_id": "59444fbe59227d6747458c3cde66a343aca195b7",
+    "user": {
+      "login": "lukewarlow",
+      "id": 32498324,
+      "node_id": "MDQ6VXNlcjMyNDk4MzI0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32498324?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lukewarlow",
+      "html_url": "https://github.com/lukewarlow",
+      "followers_url": "https://api.github.com/users/lukewarlow/followers",
+      "following_url": "https://api.github.com/users/lukewarlow/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lukewarlow/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lukewarlow/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lukewarlow/subscriptions",
+      "organizations_url": "https://api.github.com/users/lukewarlow/orgs",
+      "repos_url": "https://api.github.com/users/lukewarlow/repos",
+      "events_url": "https://api.github.com/users/lukewarlow/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lukewarlow/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "> with a fictional node whose only child is this.\r\n\r\nThis line feels very iffy to me.",
+    "created_at": "2024-04-15T10:31:58Z",
+    "updated_at": "2024-04-15T10:31:58Z",
+    "html_url": "https://github.com/whatwg/html/pull/10270#discussion_r1565557890",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10270",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1565557890"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10270#discussion_r1565557890"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10270"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1565557890/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 112881,
+    "original_line": 112881,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 92,
+    "position": 92,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1566622941",
+    "pull_request_review_id": 2002459610,
+    "id": 1566622941,
+    "node_id": "PRRC_kwDOALaj485dYMTd",
+    "diff_hunk": "@@ -112842,6 +112842,81 @@ enum <dfn enum>DOMParserSupportedType</dfn> {\n \n   </div>\n \n+  <h4>The <code data-x=\"dom-element-outerHTML\">outerHTML</code> property</h4>\n+\n+  <p class=\"XXX\">The outerHTML property may have a number of outstanding issues in the DOM Parsing\n+  <a href=\"https://github.com/w3c/DOM-Parsing/issues\">issue tracker</a>, documenting various\n+  problems with its specification.</p>\n+\n+  <dl class=\"domintro\">\n+   <dt><code data-x=\"\"><var>element</var>.<span subdfn data-x=\"dom-Element-outerHTML\">outerHTML</span></code></dt>\n+   <dd>\n+    <p>Returns a fragment of HTML or XML that represents the element and its contents.</p>\n+\n+    <p>In the case of an XML document, throws a <span>\"<code>InvalidStateError</code>\"</span>\n+    <code>DOMException</code> if the element cannot be serialized to XML.</p>\n+   </dd>\n+\n+   <dt><code data-x=\"\"><var>element</var>.<span data-x=\"dom-Element-outerHTML\">outerHTML</span> = <var>value</var></code></dt>\n+   <dd>\n+    <p>Replaces the element with nodes parsed from the given string.</p>\n+\n+    <p>In the case of an XML document, throws a <span>\"<code>SyntaxError</code>\"</span>\n+    <code>DOMException</code> if the given string is not well-formed.</p>\n+\n+    <p>Throws a <span>\"<code>NoModificationAllowedError</code>\"</span> <code>DOMException</code> if\n+    the parent of the element is a <span><code>Document</code></span>.</p>\n+   </dd>\n+  </dl>\n+\n+  <p class=\"warning\">This property's setter performs no sanitization to remove potentially-dangerous\n+  elements and attributes like <code>script</code> or <span>event handler content\n+  attributes</span>.</p>\n+\n+  <div w-nodev>\n+\n+  <p><code>Element</code>'s <dfn attribute for=\"Element\"><code\n+  data-x=\"dom-Element-outerHTML\">outerHTML</code></dfn> getter steps are to return the result of\n+  running <span>fragment serializing algorithm steps</span> with a fictional node whose only child\n+  is <span>this</span> and true.</p>",
+    "path": "source",
+    "commit_id": "3692ea57518c0952a8255823c6ed06f2101cd5f7",
+    "original_commit_id": "59444fbe59227d6747458c3cde66a343aca195b7",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think we can just make it more rigorous with no problems by creating, e.g., a body element.\r\n\r\nLet's make it into a multi-line algorithm which:\r\n\r\n1. creates a new body element (see e.g. `#populate-with-html/head/body`). Add a `<p class=\"note\">` explaining this element is never exposed.\r\n2. Appends this.\r\n3. Returns the result of running...",
+    "created_at": "2024-04-16T02:11:20Z",
+    "updated_at": "2024-04-16T02:13:59Z",
+    "html_url": "https://github.com/whatwg/html/pull/10270#discussion_r1566622941",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10270",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1566622941"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10270#discussion_r1566622941"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10270"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1566622941/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 112881,
+    "original_line": 112881,
+    "side": "RIGHT",
+    "in_reply_to_id": 1565557890,
+    "author_association": "MEMBER",
+    "original_position": 92,
+    "position": 92,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1566623006",
+    "pull_request_review_id": 2002459610,
+    "id": 1566623006,
+    "node_id": "PRRC_kwDOALaj485dYMUe",
+    "diff_hunk": "@@ -112842,6 +112842,81 @@ enum <dfn enum>DOMParserSupportedType</dfn> {\n \n   </div>\n \n+  <h4>The <code data-x=\"dom-element-outerHTML\">outerHTML</code> property</h4>\n+\n+  <p class=\"XXX\">The <code data-x=\"dom-element-outerHTML\">outerHTML</code> property has a number of outstanding issues\n+  in the <cite>DOM Parsing and Serialization</cite> <a href=\"https://github.com/w3c/DOM-Parsing/issues\">issue\n+  tracker</a>, documenting various problems with its specification.</p>\n+\n+  <dl class=\"domintro\">\n+   <dt><code data-x=\"\"><var>element</var>.<span subdfn data-x=\"dom-Element-outerHTML\">outerHTML</span></code></dt>\n+   <dd>\n+    <p>Returns a fragment of HTML or XML that represents the element and its contents.</p>\n+\n+    <p>In the case of an XML document, throws a <span>\"<code>InvalidStateError</code>\"</span>\n+    <code>DOMException</code> if the element cannot be serialized to XML.</p>\n+   </dd>\n+\n+   <dt><code data-x=\"\"><var>element</var>.<span data-x=\"dom-Element-outerHTML\">outerHTML</span> = <var>value</var></code></dt>\n+   <dd>\n+    <p>Replaces the element with nodes parsed from the given string.</p>\n+\n+    <p>In the case of an XML document, throws a <span>\"<code>SyntaxError</code>\"</span>\n+    <code>DOMException</code> if the given string is not well-formed.</p>\n+\n+    <p>Throws a <span>\"<code>NoModificationAllowedError</code>\"</span> <code>DOMException</code> if\n+    the parent of the element is a <span><code>Document</code></span>.</p>\n+   </dd>\n+  </dl>\n+\n+  <p class=\"warning\">This property's setter performs no sanitization to remove potentially-dangerous\n+  elements and attributes like <code>script</code> or <span>event handler content\n+  attributes</span>.</p>\n+\n+  <div w-nodev>\n+\n+  <p><code>Element</code>'s <dfn attribute for=\"Element\"><code\n+  data-x=\"dom-Element-outerHTML\">outerHTML</code></dfn> getter steps are to return the result of\n+  running <span>fragment serializing algorithm steps</span> with a fictional node whose only child\n+  is <span>this</span> and true.</p>\n+\n+  <p><code>Element</code>'s <code data-x=\"dom-Element-outerHTML\">outerHTML</code> setters steps",
+    "path": "source",
+    "commit_id": "3692ea57518c0952a8255823c6ed06f2101cd5f7",
+    "original_commit_id": "a7625b8d68a2856f4eff08c42c32396a79862e17",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n  <p><code>Element</code>'s <code data-x=\"dom-Element-outerHTML\">outerHTML</code> setter steps\r\n```",
+    "created_at": "2024-04-16T02:11:29Z",
+    "updated_at": "2024-04-16T02:13:59Z",
+    "html_url": "https://github.com/whatwg/html/pull/10270#discussion_r1566623006",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10270",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1566623006"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10270#discussion_r1566623006"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10270"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1566623006/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 112883,
+    "original_line": 112883,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 94,
+    "position": 94,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1566623176",
+    "pull_request_review_id": 2002459610,
+    "id": 1566623176,
+    "node_id": "PRRC_kwDOALaj485dYMXI",
+    "diff_hunk": "@@ -112842,6 +112842,81 @@ enum <dfn enum>DOMParserSupportedType</dfn> {\n \n   </div>\n \n+  <h4>The <code data-x=\"dom-element-outerHTML\">outerHTML</code> property</h4>\n+\n+  <p class=\"XXX\">The <code data-x=\"dom-element-outerHTML\">outerHTML</code> property has a number of outstanding issues\n+  in the <cite>DOM Parsing and Serialization</cite> <a href=\"https://github.com/w3c/DOM-Parsing/issues\">issue\n+  tracker</a>, documenting various problems with its specification.</p>\n+\n+  <dl class=\"domintro\">\n+   <dt><code data-x=\"\"><var>element</var>.<span subdfn data-x=\"dom-Element-outerHTML\">outerHTML</span></code></dt>\n+   <dd>\n+    <p>Returns a fragment of HTML or XML that represents the element and its contents.</p>\n+\n+    <p>In the case of an XML document, throws a <span>\"<code>InvalidStateError</code>\"</span>\n+    <code>DOMException</code> if the element cannot be serialized to XML.</p>\n+   </dd>\n+\n+   <dt><code data-x=\"\"><var>element</var>.<span data-x=\"dom-Element-outerHTML\">outerHTML</span> = <var>value</var></code></dt>\n+   <dd>\n+    <p>Replaces the element with nodes parsed from the given string.</p>\n+\n+    <p>In the case of an XML document, throws a <span>\"<code>SyntaxError</code>\"</span>\n+    <code>DOMException</code> if the given string is not well-formed.</p>\n+\n+    <p>Throws a <span>\"<code>NoModificationAllowedError</code>\"</span> <code>DOMException</code> if\n+    the parent of the element is a <span><code>Document</code></span>.</p>\n+   </dd>\n+  </dl>\n+\n+  <p class=\"warning\">This property's setter performs no sanitization to remove potentially-dangerous\n+  elements and attributes like <code>script</code> or <span>event handler content\n+  attributes</span>.</p>\n+\n+  <div w-nodev>\n+\n+  <p><code>Element</code>'s <dfn attribute for=\"Element\"><code\n+  data-x=\"dom-Element-outerHTML\">outerHTML</code></dfn> getter steps are to return the result of\n+  running <span>fragment serializing algorithm steps</span> with a fictional node whose only child\n+  is <span>this</span> and true.</p>\n+\n+  <p><code>Element</code>'s <code data-x=\"dom-Element-outerHTML\">outerHTML</code> setters steps\n+  are:</p>\n+\n+  <ol>\n+    <li><p>Let <var>parent</var> be <span>this</span>'s <span>parent</span>.</p></li>\n+\n+    <li><p>If <var>parent</var> is null, terminate these steps. There would be no way to obtain a",
+    "path": "source",
+    "commit_id": "3692ea57518c0952a8255823c6ed06f2101cd5f7",
+    "original_commit_id": "a7625b8d68a2856f4eff08c42c32396a79862e17",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "terminate these steps -> return.",
+    "created_at": "2024-04-16T02:11:53Z",
+    "updated_at": "2024-04-16T02:13:59Z",
+    "html_url": "https://github.com/whatwg/html/pull/10270#discussion_r1566623176",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10270",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1566623176"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10270#discussion_r1566623176"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10270"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1566623176/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 112889,
+    "original_line": 112889,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 100,
+    "position": 100,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1566623884",
+    "pull_request_review_id": 2002459610,
+    "id": 1566623884,
+    "node_id": "PRRC_kwDOALaj485dYMiM",
+    "diff_hunk": "@@ -112842,6 +112842,81 @@ enum <dfn enum>DOMParserSupportedType</dfn> {\n \n   </div>\n \n+  <h4>The <code data-x=\"dom-element-outerHTML\">outerHTML</code> property</h4>\n+\n+  <p class=\"XXX\">The <code data-x=\"dom-element-outerHTML\">outerHTML</code> property has a number of outstanding issues\n+  in the <cite>DOM Parsing and Serialization</cite> <a href=\"https://github.com/w3c/DOM-Parsing/issues\">issue\n+  tracker</a>, documenting various problems with its specification.</p>\n+\n+  <dl class=\"domintro\">\n+   <dt><code data-x=\"\"><var>element</var>.<span subdfn data-x=\"dom-Element-outerHTML\">outerHTML</span></code></dt>\n+   <dd>\n+    <p>Returns a fragment of HTML or XML that represents the element and its contents.</p>\n+\n+    <p>In the case of an XML document, throws a <span>\"<code>InvalidStateError</code>\"</span>\n+    <code>DOMException</code> if the element cannot be serialized to XML.</p>\n+   </dd>\n+\n+   <dt><code data-x=\"\"><var>element</var>.<span data-x=\"dom-Element-outerHTML\">outerHTML</span> = <var>value</var></code></dt>\n+   <dd>\n+    <p>Replaces the element with nodes parsed from the given string.</p>\n+\n+    <p>In the case of an XML document, throws a <span>\"<code>SyntaxError</code>\"</span>\n+    <code>DOMException</code> if the given string is not well-formed.</p>\n+\n+    <p>Throws a <span>\"<code>NoModificationAllowedError</code>\"</span> <code>DOMException</code> if\n+    the parent of the element is a <span><code>Document</code></span>.</p>\n+   </dd>\n+  </dl>\n+\n+  <p class=\"warning\">This property's setter performs no sanitization to remove potentially-dangerous\n+  elements and attributes like <code>script</code> or <span>event handler content\n+  attributes</span>.</p>\n+\n+  <div w-nodev>\n+\n+  <p><code>Element</code>'s <dfn attribute for=\"Element\"><code\n+  data-x=\"dom-Element-outerHTML\">outerHTML</code></dfn> getter steps are to return the result of\n+  running <span>fragment serializing algorithm steps</span> with a fictional node whose only child\n+  is <span>this</span> and true.</p>\n+\n+  <p><code>Element</code>'s <code data-x=\"dom-Element-outerHTML\">outerHTML</code> setters steps\n+  are:</p>\n+\n+  <ol>\n+    <li><p>Let <var>parent</var> be <span>this</span>'s <span>parent</span>.</p></li>\n+\n+    <li><p>If <var>parent</var> is null, terminate these steps. There would be no way to obtain a\n+    reference to the nodes created even if the remaining steps were run.</p></li>\n+\n+    <li><p>If <var>parent</var> is a <code>Document</code>, throw a\n+    <span>\"<code>NoModificationAllowedError</code>\"</span> <code>DOMException</code>.</p></li>\n+\n+    <li>\n+     <p>If <var>parent</var> is a <code>DocumentFragment</code>, let <var>parent</var> be a new\n+     <code>Element</code> with:</p>",
+    "path": "source",
+    "commit_id": "3692ea57518c0952a8255823c6ed06f2101cd5f7",
+    "original_commit_id": "a7625b8d68a2856f4eff08c42c32396a79862e17",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Let's use \"creating an element\" here.",
+    "created_at": "2024-04-16T02:13:11Z",
+    "updated_at": "2024-04-16T02:13:59Z",
+    "html_url": "https://github.com/whatwg/html/pull/10270#discussion_r1566623884",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10270",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1566623884"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10270#discussion_r1566623884"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10270"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1566623884/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 112897,
+    "original_line": 112897,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 108,
+    "position": 108,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1566624074",
+    "pull_request_review_id": 2002459610,
+    "id": 1566624074,
+    "node_id": "PRRC_kwDOALaj485dYMlK",
+    "diff_hunk": "@@ -112842,6 +112842,81 @@ enum <dfn enum>DOMParserSupportedType</dfn> {\n \n   </div>\n \n+  <h4>The <code data-x=\"dom-element-outerHTML\">outerHTML</code> property</h4>\n+\n+  <p class=\"XXX\">The <code data-x=\"dom-element-outerHTML\">outerHTML</code> property has a number of outstanding issues\n+  in the <cite>DOM Parsing and Serialization</cite> <a href=\"https://github.com/w3c/DOM-Parsing/issues\">issue\n+  tracker</a>, documenting various problems with its specification.</p>\n+\n+  <dl class=\"domintro\">\n+   <dt><code data-x=\"\"><var>element</var>.<span subdfn data-x=\"dom-Element-outerHTML\">outerHTML</span></code></dt>\n+   <dd>\n+    <p>Returns a fragment of HTML or XML that represents the element and its contents.</p>\n+\n+    <p>In the case of an XML document, throws a <span>\"<code>InvalidStateError</code>\"</span>\n+    <code>DOMException</code> if the element cannot be serialized to XML.</p>\n+   </dd>\n+\n+   <dt><code data-x=\"\"><var>element</var>.<span data-x=\"dom-Element-outerHTML\">outerHTML</span> = <var>value</var></code></dt>\n+   <dd>\n+    <p>Replaces the element with nodes parsed from the given string.</p>\n+\n+    <p>In the case of an XML document, throws a <span>\"<code>SyntaxError</code>\"</span>\n+    <code>DOMException</code> if the given string is not well-formed.</p>\n+\n+    <p>Throws a <span>\"<code>NoModificationAllowedError</code>\"</span> <code>DOMException</code> if\n+    the parent of the element is a <span><code>Document</code></span>.</p>\n+   </dd>\n+  </dl>\n+\n+  <p class=\"warning\">This property's setter performs no sanitization to remove potentially-dangerous\n+  elements and attributes like <code>script</code> or <span>event handler content\n+  attributes</span>.</p>\n+\n+  <div w-nodev>\n+\n+  <p><code>Element</code>'s <dfn attribute for=\"Element\"><code\n+  data-x=\"dom-Element-outerHTML\">outerHTML</code></dfn> getter steps are to return the result of\n+  running <span>fragment serializing algorithm steps</span> with a fictional node whose only child\n+  is <span>this</span> and true.</p>\n+\n+  <p><code>Element</code>'s <code data-x=\"dom-Element-outerHTML\">outerHTML</code> setters steps\n+  are:</p>\n+\n+  <ol>\n+    <li><p>Let <var>parent</var> be <span>this</span>'s <span>parent</span>.</p></li>\n+\n+    <li><p>If <var>parent</var> is null, terminate these steps. There would be no way to obtain a\n+    reference to the nodes created even if the remaining steps were run.</p></li>\n+\n+    <li><p>If <var>parent</var> is a <code>Document</code>, throw a\n+    <span>\"<code>NoModificationAllowedError</code>\"</span> <code>DOMException</code>.</p></li>\n+\n+    <li>\n+     <p>If <var>parent</var> is a <code>DocumentFragment</code>, let <var>parent</var> be a new\n+     <code>Element</code> with:</p>\n+\n+     <ul>\n+      <li><p><code>body</code> as its <span data-x=\"concept-element-local-name\">local\n+      name</span>,</p></li>\n+\n+      <li><p>The <span>HTML namespace</span> as its <span\n+      data-x=\"concept-element-namespace\">namespace</span>, and</p></li>\n+\n+      <li><p><span>This</span>'s <span>node document</span> as its <span>node\n+      document</span>.</p></li>\n+     </ul>\n+    </li>\n+\n+    <li><p>Let <var>fragment</var> be the result of invoking the <span>fragment parsing algorithm\n+    steps</span> given <var>parent</var> and the given value.</p></li>\n+\n+    <li><p><span data-x=\"concept-node-replace\">Replace</span> <span>this</span> with\n+    <var>fragment</var> within <span>this</span>'s <span>parent</span>.</p></li>",
+    "path": "source",
+    "commit_id": "3692ea57518c0952a8255823c6ed06f2101cd5f7",
+    "original_commit_id": "a7625b8d68a2856f4eff08c42c32396a79862e17",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "You can use _parent_ here instead of this's parent.",
+    "created_at": "2024-04-16T02:13:37Z",
+    "updated_at": "2024-04-16T02:13:59Z",
+    "html_url": "https://github.com/whatwg/html/pull/10270#discussion_r1566624074",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10270",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1566624074"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10270#discussion_r1566624074"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10270"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1566624074/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 112915,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 126,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1567050623",
+    "pull_request_review_id": 2003129771,
+    "id": 1567050623,
+    "node_id": "PRRC_kwDOALaj485dZ0t_",
+    "diff_hunk": "@@ -112842,6 +112842,81 @@ enum <dfn enum>DOMParserSupportedType</dfn> {\n \n   </div>\n \n+  <h4>The <code data-x=\"dom-element-outerHTML\">outerHTML</code> property</h4>\n+\n+  <p class=\"XXX\">The <code data-x=\"dom-element-outerHTML\">outerHTML</code> property has a number of outstanding issues\n+  in the <cite>DOM Parsing and Serialization</cite> <a href=\"https://github.com/w3c/DOM-Parsing/issues\">issue\n+  tracker</a>, documenting various problems with its specification.</p>\n+\n+  <dl class=\"domintro\">\n+   <dt><code data-x=\"\"><var>element</var>.<span subdfn data-x=\"dom-Element-outerHTML\">outerHTML</span></code></dt>\n+   <dd>\n+    <p>Returns a fragment of HTML or XML that represents the element and its contents.</p>\n+\n+    <p>In the case of an XML document, throws a <span>\"<code>InvalidStateError</code>\"</span>\n+    <code>DOMException</code> if the element cannot be serialized to XML.</p>\n+   </dd>\n+\n+   <dt><code data-x=\"\"><var>element</var>.<span data-x=\"dom-Element-outerHTML\">outerHTML</span> = <var>value</var></code></dt>\n+   <dd>\n+    <p>Replaces the element with nodes parsed from the given string.</p>\n+\n+    <p>In the case of an XML document, throws a <span>\"<code>SyntaxError</code>\"</span>\n+    <code>DOMException</code> if the given string is not well-formed.</p>\n+\n+    <p>Throws a <span>\"<code>NoModificationAllowedError</code>\"</span> <code>DOMException</code> if\n+    the parent of the element is a <span><code>Document</code></span>.</p>\n+   </dd>\n+  </dl>\n+\n+  <p class=\"warning\">This property's setter performs no sanitization to remove potentially-dangerous\n+  elements and attributes like <code>script</code> or <span>event handler content\n+  attributes</span>.</p>\n+\n+  <div w-nodev>\n+\n+  <p><code>Element</code>'s <dfn attribute for=\"Element\"><code\n+  data-x=\"dom-Element-outerHTML\">outerHTML</code></dfn> getter steps are to return the result of\n+  running <span>fragment serializing algorithm steps</span> with a fictional node whose only child\n+  is <span>this</span> and true.</p>\n+\n+  <p><code>Element</code>'s <code data-x=\"dom-Element-outerHTML\">outerHTML</code> setters steps",
+    "path": "source",
+    "commit_id": "3692ea57518c0952a8255823c6ed06f2101cd5f7",
+    "original_commit_id": "a7625b8d68a2856f4eff08c42c32396a79862e17",
+    "user": {
+      "login": "lukewarlow",
+      "id": 32498324,
+      "node_id": "MDQ6VXNlcjMyNDk4MzI0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32498324?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lukewarlow",
+      "html_url": "https://github.com/lukewarlow",
+      "followers_url": "https://api.github.com/users/lukewarlow/followers",
+      "following_url": "https://api.github.com/users/lukewarlow/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lukewarlow/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lukewarlow/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lukewarlow/subscriptions",
+      "organizations_url": "https://api.github.com/users/lukewarlow/orgs",
+      "repos_url": "https://api.github.com/users/lukewarlow/repos",
+      "events_url": "https://api.github.com/users/lukewarlow/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lukewarlow/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Good catch",
+    "created_at": "2024-04-16T09:31:50Z",
+    "updated_at": "2024-04-16T09:31:51Z",
+    "html_url": "https://github.com/whatwg/html/pull/10270#discussion_r1567050623",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10270",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1567050623"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10270#discussion_r1567050623"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10270"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1567050623/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 112883,
+    "original_line": 112883,
+    "side": "RIGHT",
+    "in_reply_to_id": 1566623006,
+    "author_association": "MEMBER",
+    "original_position": 94,
+    "position": 94,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1567062099",
+    "pull_request_review_id": 2003148340,
+    "id": 1567062099,
+    "node_id": "PRRC_kwDOALaj485dZ3hT",
+    "diff_hunk": "@@ -112842,6 +112842,81 @@ enum <dfn enum>DOMParserSupportedType</dfn> {\n \n   </div>\n \n+  <h4>The <code data-x=\"dom-element-outerHTML\">outerHTML</code> property</h4>\n+\n+  <p class=\"XXX\">The <code data-x=\"dom-element-outerHTML\">outerHTML</code> property has a number of outstanding issues\n+  in the <cite>DOM Parsing and Serialization</cite> <a href=\"https://github.com/w3c/DOM-Parsing/issues\">issue\n+  tracker</a>, documenting various problems with its specification.</p>\n+\n+  <dl class=\"domintro\">\n+   <dt><code data-x=\"\"><var>element</var>.<span subdfn data-x=\"dom-Element-outerHTML\">outerHTML</span></code></dt>\n+   <dd>\n+    <p>Returns a fragment of HTML or XML that represents the element and its contents.</p>\n+\n+    <p>In the case of an XML document, throws a <span>\"<code>InvalidStateError</code>\"</span>\n+    <code>DOMException</code> if the element cannot be serialized to XML.</p>\n+   </dd>\n+\n+   <dt><code data-x=\"\"><var>element</var>.<span data-x=\"dom-Element-outerHTML\">outerHTML</span> = <var>value</var></code></dt>\n+   <dd>\n+    <p>Replaces the element with nodes parsed from the given string.</p>\n+\n+    <p>In the case of an XML document, throws a <span>\"<code>SyntaxError</code>\"</span>\n+    <code>DOMException</code> if the given string is not well-formed.</p>\n+\n+    <p>Throws a <span>\"<code>NoModificationAllowedError</code>\"</span> <code>DOMException</code> if\n+    the parent of the element is a <span><code>Document</code></span>.</p>\n+   </dd>\n+  </dl>\n+\n+  <p class=\"warning\">This property's setter performs no sanitization to remove potentially-dangerous\n+  elements and attributes like <code>script</code> or <span>event handler content\n+  attributes</span>.</p>\n+\n+  <div w-nodev>\n+\n+  <p><code>Element</code>'s <dfn attribute for=\"Element\"><code\n+  data-x=\"dom-Element-outerHTML\">outerHTML</code></dfn> getter steps are to return the result of\n+  running <span>fragment serializing algorithm steps</span> with a fictional node whose only child\n+  is <span>this</span> and true.</p>\n+\n+  <p><code>Element</code>'s <code data-x=\"dom-Element-outerHTML\">outerHTML</code> setters steps\n+  are:</p>\n+\n+  <ol>\n+    <li><p>Let <var>parent</var> be <span>this</span>'s <span>parent</span>.</p></li>\n+\n+    <li><p>If <var>parent</var> is null, terminate these steps. There would be no way to obtain a\n+    reference to the nodes created even if the remaining steps were run.</p></li>\n+\n+    <li><p>If <var>parent</var> is a <code>Document</code>, throw a\n+    <span>\"<code>NoModificationAllowedError</code>\"</span> <code>DOMException</code>.</p></li>\n+\n+    <li>\n+     <p>If <var>parent</var> is a <code>DocumentFragment</code>, let <var>parent</var> be a new\n+     <code>Element</code> with:</p>\n+\n+     <ul>\n+      <li><p><code>body</code> as its <span data-x=\"concept-element-local-name\">local\n+      name</span>,</p></li>\n+\n+      <li><p>The <span>HTML namespace</span> as its <span\n+      data-x=\"concept-element-namespace\">namespace</span>, and</p></li>\n+\n+      <li><p><span>This</span>'s <span>node document</span> as its <span>node\n+      document</span>.</p></li>\n+     </ul>\n+    </li>\n+\n+    <li><p>Let <var>fragment</var> be the result of invoking the <span>fragment parsing algorithm\n+    steps</span> given <var>parent</var> and the given value.</p></li>\n+\n+    <li><p><span data-x=\"concept-node-replace\">Replace</span> <span>this</span> with\n+    <var>fragment</var> within <span>this</span>'s <span>parent</span>.</p></li>",
+    "path": "source",
+    "commit_id": "3692ea57518c0952a8255823c6ed06f2101cd5f7",
+    "original_commit_id": "a7625b8d68a2856f4eff08c42c32396a79862e17",
+    "user": {
+      "login": "lukewarlow",
+      "id": 32498324,
+      "node_id": "MDQ6VXNlcjMyNDk4MzI0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32498324?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lukewarlow",
+      "html_url": "https://github.com/lukewarlow",
+      "followers_url": "https://api.github.com/users/lukewarlow/followers",
+      "following_url": "https://api.github.com/users/lukewarlow/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lukewarlow/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lukewarlow/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lukewarlow/subscriptions",
+      "organizations_url": "https://api.github.com/users/lukewarlow/orgs",
+      "repos_url": "https://api.github.com/users/lukewarlow/repos",
+      "events_url": "https://api.github.com/users/lukewarlow/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lukewarlow/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I'm not sure that `<var>parent</var>` and `<span>this</span>'s <span>parent</span>` are equivalent? Specifically in the case that parent is originally a DocumentFragment, at this point it's a detached body element?",
+    "created_at": "2024-04-16T09:40:36Z",
+    "updated_at": "2024-04-16T09:40:36Z",
+    "html_url": "https://github.com/whatwg/html/pull/10270#discussion_r1567062099",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10270",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1567062099"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10270#discussion_r1567062099"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10270"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1567062099/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 112915,
+    "side": "RIGHT",
+    "in_reply_to_id": 1566624074,
+    "author_association": "MEMBER",
+    "original_position": 126,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]
