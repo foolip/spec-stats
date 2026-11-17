@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/hid/issues/comments/6521095369",
+    "html_url": "https://github.com/whatwg/hid/issues/156#issuecomment-6521095369",
+    "issue_url": "https://api.github.com/repos/whatwg/hid/issues/156",
+    "id": 6521095369,
+    "node_id": "IC_kwDOCPOi6M8AAAABhLAEyQ",
+    "user": {
+      "login": "nondebug",
+      "id": 14099571,
+      "node_id": "MDQ6VXNlcjE0MDk5NTcx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14099571?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nondebug",
+      "html_url": "https://github.com/nondebug",
+      "followers_url": "https://api.github.com/users/nondebug/followers",
+      "following_url": "https://api.github.com/users/nondebug/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nondebug/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nondebug/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nondebug/subscriptions",
+      "organizations_url": "https://api.github.com/users/nondebug/orgs",
+      "repos_url": "https://api.github.com/users/nondebug/repos",
+      "events_url": "https://api.github.com/users/nondebug/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nondebug/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-10-30T11:02:33Z",
+    "updated_at": "2026-10-30T11:02:33Z",
+    "body": "This change looks good to me but here is some additional context regarding how vendor IDs are assigned and used by devices.\n\nI chose `unsigned long` intentionally (and in retrospect, incorrectly) because some platform APIs expose the vendor ID as a 32-bit value. The lower 16-bits are the `vendorId` value, the upper 16-bits identify the vendor ID source. Multiple organizations assign vendor IDs:\n\n* [USB-IF](https://usb.org/developers)\n* [Bluetooth SIG](https://www.bluetooth.com/specifications/assigned-numbers/)\n* [PCI SIG](https://pcisig.com/membership/member-companies)\n* Maybe more in the future\n\nDevices are not required to use a vendor ID assigned by the same organization that standardizes the transport layer; it's allowed for a Bluetooth HID device to use a USB vendor ID. PCI devices should not use USB or Bluetooth vendor IDs (PCI-SIG is the sole authority for PCI hardware). However, driver-created virtual HID devices bridging from PCI/ACPI often report synthetic IDs, and occasionally improper/unregistered vendor IDs leak into driver reports. USB devices should only use USB vendor IDs.\n\n[Bluetooth Device ID profile](https://www.bluetooth.com/specifications/specs/device-id-profile-1-3/) (used by Bluetooth devices implementing HID Profile) has [vendorIdSource](https://www.bluetooth.com/specifications/specs/html/?src=DID_v1.3/out/en/index-en.html#UUID-1d5a2adb-ee4b-c5d5-8872-f09c37dc0c06) as a mandatory attribute identifying whether the vendor ID was assigned by Bluetooth SIG (0x0001) or USB-IF (0x0002).\n\n[Bluetooth Device Information Service](https://www.bluetooth.com/specifications/specs/device-information-service-1-1/) (used by Bluetooth devices implementing HID-over-GATT) also has a vendorIdSource attribute (see 3.9.1.1 Vendor ID Source Field) and has values for Bluetooth SIG (0x01) and USB-IF (0x02).\n\nWe could consider including vendorIdSource in the spec, either as a filter parameter or a device attribute. I think this isn't actually useful because the value is specific to Bluetooth and there are no values defined for transports besides USB-IF and Bluetooth SIG. The vendor identifier isn't a good indicator of the transport type; many peripheral vendors use USB IDs for every device regardless of whether it is USB or Bluetooth. So I think we should continue to omit it from the API and prefer to filter on 16-bit vendor ID without considering the vendor ID source. If the platform provides a 32-bit vendor ID value, only use the lower 16-bits.\n\nI think USB-IF and Bluetooth SIG collaborate to ensure there are no collisions between their vendor ID namespaces, but PCI SIG does not. Omitting vendor ID source information in device filtering creates a risk that there could be a collision between PCI vendor IDs and USB or Bluetooth vendor IDs. With policy-granted permissions that match on vendor/product IDs this could accidentally grant permissions to the wrong device. However this risk is very low because the number of PCI vendor IDs is very small. Many PCI HID peripherals do not expose valid vendor IDs. To guard against this we could require an additional filter parameter (`transports` for example) to indicate which transports should be considered when filtering devices for the device chooser, and exclude PCI devices if the PCI transport is not included.",
+    "author_association": "COLLABORATOR",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/hid/issues/comments/6521095369/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

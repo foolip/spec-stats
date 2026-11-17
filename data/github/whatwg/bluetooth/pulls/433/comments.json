@@ -1,0 +1,1003 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276728662",
+    "pull_request_review_id": 228370586,
+    "id": 276728662,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3NjcyODY2Mg==",
+    "diff_hunk": "@@ -3911,14 +3913,17 @@ spec: promises-guide-1\n       </ol>\n     </div>\n \n-    <div algorithm=\"Characteristic.writeValue()\">\n+    <div algorithm>\n       <p>\n-        The <code><dfn method for=\"BluetoothRemoteGATTCharacteristic\">writeValue(<var>value</var>)</dfn></code> method, when invoked,\n-        MUST run the following steps:\n+        To <dfn>WriteCharacteristicValue</dfn>(<span class=\"argument-list\"><var>this</var>: BluetoothRemoteGATTCharacteristic,<br>\n+        <var>value</var>: BufferSource,<br>\n+        <var>withResponse</var>: boolean,<br>\n+        <var>withoutResponse</var>: boolean),</span><br>",
+    "path": "index.bs",
+    "commit_id": "47167404c893e747c032b13273490c6e1850ee98",
+    "original_commit_id": "3b4000646e8f8e2fbb40303b2ba60ed58f02168c",
+    "user": {
+      "login": "jyasskin",
+      "id": 83420,
+      "node_id": "MDQ6VXNlcjgzNDIw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/83420?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jyasskin",
+      "html_url": "https://github.com/jyasskin",
+      "followers_url": "https://api.github.com/users/jyasskin/followers",
+      "following_url": "https://api.github.com/users/jyasskin/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jyasskin/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jyasskin/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jyasskin/subscriptions",
+      "organizations_url": "https://api.github.com/users/jyasskin/orgs",
+      "repos_url": "https://api.github.com/users/jyasskin/repos",
+      "events_url": "https://api.github.com/users/jyasskin/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jyasskin/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The fact that `writeValue()` sets both of these parameters to false is a bit confusing. Maybe phrase the internal algorithm using a single enum parameter selecting between the three modes, so it's clear they're mutually exclusive?",
+    "created_at": "2019-04-18T15:58:47Z",
+    "updated_at": "2019-04-19T07:37:30Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/433#discussion_r276728662",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/433",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276728662"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/433#discussion_r276728662"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/433"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276728662/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 3921,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 21,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276729046",
+    "pull_request_review_id": 228370586,
+    "id": 276729046,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3NjcyOTA0Ng==",
+    "diff_hunk": "@@ -3966,9 +3982,20 @@ spec: promises-guide-1\n               and/or give the user a way to retry failed operations.\n             </li>\n             <li>\n-              Use any combination of the sub-procedures in\n-              the <a>Characteristic Value Write</a> procedure\n-              to write <var>bytes</var> to <var>characteristic</var>.\n+              Write <var>bytes</var> to <var>characteristic</var> by performing\n+              the following steps:\n+              <ol>\n+                <li>\n+                  If |withResponse| is `true`, use the <a>Write Characteristic Value</a> procedure.\n+                </li>\n+                <li>\n+                  Otherwise, if |withoutResponse| is `true`, use the <a>Write Without Response</a> procedure.",
+    "path": "index.bs",
+    "commit_id": "47167404c893e747c032b13273490c6e1850ee98",
+    "original_commit_id": "3b4000646e8f8e2fbb40303b2ba60ed58f02168c",
+    "user": {
+      "login": "jyasskin",
+      "id": 83420,
+      "node_id": "MDQ6VXNlcjgzNDIw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/83420?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jyasskin",
+      "html_url": "https://github.com/jyasskin",
+      "followers_url": "https://api.github.com/users/jyasskin/followers",
+      "following_url": "https://api.github.com/users/jyasskin/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jyasskin/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jyasskin/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jyasskin/subscriptions",
+      "organizations_url": "https://api.github.com/users/jyasskin/orgs",
+      "repos_url": "https://api.github.com/users/jyasskin/repos",
+      "events_url": "https://api.github.com/users/jyasskin/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jyasskin/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "If you don't merge these parameters, `Assert` that they're not both set.",
+    "created_at": "2019-04-18T15:59:53Z",
+    "updated_at": "2019-04-19T07:37:30Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/433#discussion_r276729046",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/433",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276729046"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/433#discussion_r276729046"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/433"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276729046/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 3992,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 91,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276729913",
+    "pull_request_review_id": 228370586,
+    "id": 276729913,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3NjcyOTkxMw==",
+    "diff_hunk": "@@ -3997,6 +4024,45 @@ spec: promises-guide-1\n       </ol>\n     </div>\n \n+    <div algorithm=\"Characteristic.writeValue()\">\n+      <p>\n+        The <code><dfn method for=\"BluetoothRemoteGATTCharacteristic\">writeValue(<var>value</var>)</dfn></code> method, \n+        when invoked, MUST return\n+      </p>\n+      <blockquote>\n+        <a>WriteCharacteristicValue</a>(<span class=\"argument-list\"><i>this</i>=<code>this</code>,<br>\n+          <i>value</i>=<code><var>value</var></code>,<br>\n+          <i>withResponse</i>=false,<br>\n+          <i>withoutResponse</i>=false)</span>\n+      </blockquote>\n+    </div>\n+\n+    <div algorithm=\"Characteristic.writeValueWithResponse()\">",
+    "path": "index.bs",
+    "commit_id": "47167404c893e747c032b13273490c6e1850ee98",
+    "original_commit_id": "3b4000646e8f8e2fbb40303b2ba60ed58f02168c",
+    "user": {
+      "login": "jyasskin",
+      "id": 83420,
+      "node_id": "MDQ6VXNlcjgzNDIw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/83420?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jyasskin",
+      "html_url": "https://github.com/jyasskin",
+      "followers_url": "https://api.github.com/users/jyasskin/followers",
+      "following_url": "https://api.github.com/users/jyasskin/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jyasskin/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jyasskin/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jyasskin/subscriptions",
+      "organizations_url": "https://api.github.com/users/jyasskin/orgs",
+      "repos_url": "https://api.github.com/users/jyasskin/repos",
+      "events_url": "https://api.github.com/users/jyasskin/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jyasskin/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "These should probably be marked with `class=\"unstable\"` until they pass an origin trial or Chrome ships them.",
+    "created_at": "2019-04-18T16:01:59Z",
+    "updated_at": "2019-04-19T07:37:30Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/433#discussion_r276729913",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/433",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276729913"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/433#discussion_r276729913"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/433"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276729913/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 4040,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 132,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276748085",
+    "pull_request_review_id": 228396263,
+    "id": 276748085,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3Njc0ODA4NQ==",
+    "diff_hunk": "@@ -3997,6 +4024,45 @@ spec: promises-guide-1\n       </ol>\n     </div>\n \n+    <div algorithm=\"Characteristic.writeValue()\">\n+      <p>\n+        The <code><dfn method for=\"BluetoothRemoteGATTCharacteristic\">writeValue(<var>value</var>)</dfn></code> method, \n+        when invoked, MUST return\n+      </p>\n+      <blockquote>\n+        <a>WriteCharacteristicValue</a>(<span class=\"argument-list\"><i>this</i>=<code>this</code>,<br>\n+          <i>value</i>=<code><var>value</var></code>,<br>\n+          <i>withResponse</i>=false,<br>\n+          <i>withoutResponse</i>=false)</span>\n+      </blockquote>\n+    </div>\n+\n+    <div algorithm=\"Characteristic.writeValueWithResponse()\">",
+    "path": "index.bs",
+    "commit_id": "47167404c893e747c032b13273490c6e1850ee98",
+    "original_commit_id": "3b4000646e8f8e2fbb40303b2ba60ed58f02168c",
+    "user": {
+      "login": "beaufortfrancois",
+      "id": 634478,
+      "node_id": "MDQ6VXNlcjYzNDQ3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/634478?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/beaufortfrancois",
+      "html_url": "https://github.com/beaufortfrancois",
+      "followers_url": "https://api.github.com/users/beaufortfrancois/followers",
+      "following_url": "https://api.github.com/users/beaufortfrancois/following{/other_user}",
+      "gists_url": "https://api.github.com/users/beaufortfrancois/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/beaufortfrancois/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/beaufortfrancois/subscriptions",
+      "organizations_url": "https://api.github.com/users/beaufortfrancois/orgs",
+      "repos_url": "https://api.github.com/users/beaufortfrancois/repos",
+      "events_url": "https://api.github.com/users/beaufortfrancois/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/beaufortfrancois/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done",
+    "created_at": "2019-04-18T16:53:34Z",
+    "updated_at": "2019-04-19T07:37:30Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/433#discussion_r276748085",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/433",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276748085"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/433#discussion_r276748085"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/433"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276748085/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 4040,
+    "side": "RIGHT",
+    "in_reply_to_id": 276729913,
+    "author_association": "COLLABORATOR",
+    "original_position": 132,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276748121",
+    "pull_request_review_id": 228396309,
+    "id": 276748121,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3Njc0ODEyMQ==",
+    "diff_hunk": "@@ -3966,9 +3982,20 @@ spec: promises-guide-1\n               and/or give the user a way to retry failed operations.\n             </li>\n             <li>\n-              Use any combination of the sub-procedures in\n-              the <a>Characteristic Value Write</a> procedure\n-              to write <var>bytes</var> to <var>characteristic</var>.\n+              Write <var>bytes</var> to <var>characteristic</var> by performing\n+              the following steps:\n+              <ol>\n+                <li>\n+                  If |withResponse| is `true`, use the <a>Write Characteristic Value</a> procedure.\n+                </li>\n+                <li>\n+                  Otherwise, if |withoutResponse| is `true`, use the <a>Write Without Response</a> procedure.",
+    "path": "index.bs",
+    "commit_id": "47167404c893e747c032b13273490c6e1850ee98",
+    "original_commit_id": "3b4000646e8f8e2fbb40303b2ba60ed58f02168c",
+    "user": {
+      "login": "beaufortfrancois",
+      "id": 634478,
+      "node_id": "MDQ6VXNlcjYzNDQ3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/634478?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/beaufortfrancois",
+      "html_url": "https://github.com/beaufortfrancois",
+      "followers_url": "https://api.github.com/users/beaufortfrancois/followers",
+      "following_url": "https://api.github.com/users/beaufortfrancois/following{/other_user}",
+      "gists_url": "https://api.github.com/users/beaufortfrancois/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/beaufortfrancois/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/beaufortfrancois/subscriptions",
+      "organizations_url": "https://api.github.com/users/beaufortfrancois/orgs",
+      "repos_url": "https://api.github.com/users/beaufortfrancois/repos",
+      "events_url": "https://api.github.com/users/beaufortfrancois/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/beaufortfrancois/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2019-04-18T16:53:40Z",
+    "updated_at": "2019-04-19T07:37:30Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/433#discussion_r276748121",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/433",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276748121"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/433#discussion_r276748121"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/433"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276748121/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 3992,
+    "side": "RIGHT",
+    "in_reply_to_id": 276729046,
+    "author_association": "COLLABORATOR",
+    "original_position": 91,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276748149",
+    "pull_request_review_id": 228396349,
+    "id": 276748149,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3Njc0ODE0OQ==",
+    "diff_hunk": "@@ -3911,14 +3913,17 @@ spec: promises-guide-1\n       </ol>\n     </div>\n \n-    <div algorithm=\"Characteristic.writeValue()\">\n+    <div algorithm>\n       <p>\n-        The <code><dfn method for=\"BluetoothRemoteGATTCharacteristic\">writeValue(<var>value</var>)</dfn></code> method, when invoked,\n-        MUST run the following steps:\n+        To <dfn>WriteCharacteristicValue</dfn>(<span class=\"argument-list\"><var>this</var>: BluetoothRemoteGATTCharacteristic,<br>\n+        <var>value</var>: BufferSource,<br>\n+        <var>withResponse</var>: boolean,<br>\n+        <var>withoutResponse</var>: boolean),</span><br>",
+    "path": "index.bs",
+    "commit_id": "47167404c893e747c032b13273490c6e1850ee98",
+    "original_commit_id": "3b4000646e8f8e2fbb40303b2ba60ed58f02168c",
+    "user": {
+      "login": "beaufortfrancois",
+      "id": 634478,
+      "node_id": "MDQ6VXNlcjYzNDQ3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/634478?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/beaufortfrancois",
+      "html_url": "https://github.com/beaufortfrancois",
+      "followers_url": "https://api.github.com/users/beaufortfrancois/followers",
+      "following_url": "https://api.github.com/users/beaufortfrancois/following{/other_user}",
+      "gists_url": "https://api.github.com/users/beaufortfrancois/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/beaufortfrancois/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/beaufortfrancois/subscriptions",
+      "organizations_url": "https://api.github.com/users/beaufortfrancois/orgs",
+      "repos_url": "https://api.github.com/users/beaufortfrancois/repos",
+      "events_url": "https://api.github.com/users/beaufortfrancois/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/beaufortfrancois/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2019-04-18T16:53:47Z",
+    "updated_at": "2019-04-19T07:37:30Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/433#discussion_r276748149",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/433",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276748149"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/433#discussion_r276748149"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/433"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276748149/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 3921,
+    "side": "RIGHT",
+    "in_reply_to_id": 276728662,
+    "author_association": "COLLABORATOR",
+    "original_position": 21,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276758483",
+    "pull_request_review_id": 228409855,
+    "id": 276758483,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3Njc1ODQ4Mw==",
+    "diff_hunk": "@@ -3986,10 +3988,10 @@ spec: promises-guide-1\n               the following steps:\n               <ol>\n                 <li>\n-                  If |withResponse| is `true`, use the <a>Write Characteristic Value</a> procedure.\n+                  If |response| is \"required\", use the <a>Write Characteristic Value</a> procedure.",
+    "path": "index.bs",
+    "commit_id": "47167404c893e747c032b13273490c6e1850ee98",
+    "original_commit_id": "0d415b90837b436e06f26645a5c96ab529bcaaa6",
+    "user": {
+      "login": "jyasskin",
+      "id": 83420,
+      "node_id": "MDQ6VXNlcjgzNDIw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/83420?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jyasskin",
+      "html_url": "https://github.com/jyasskin",
+      "followers_url": "https://api.github.com/users/jyasskin/followers",
+      "following_url": "https://api.github.com/users/jyasskin/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jyasskin/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jyasskin/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jyasskin/subscriptions",
+      "organizations_url": "https://api.github.com/users/jyasskin/orgs",
+      "repos_url": "https://api.github.com/users/jyasskin/repos",
+      "events_url": "https://api.github.com/users/jyasskin/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jyasskin/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "You can use `<dl class=\"switch\">` (https://w3c.github.io/tr-design/src/readme.html#switch) to make these branches a bit more readable.",
+    "created_at": "2019-04-18T17:24:02Z",
+    "updated_at": "2019-04-19T07:37:30Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/433#discussion_r276758483",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/433",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276758483"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/433#discussion_r276758483"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/433"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276758483/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 3991,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 40,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276759187",
+    "pull_request_review_id": 228409855,
+    "id": 276759187,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3Njc1OTE4Nw==",
+    "diff_hunk": "@@ -3911,14 +3913,16 @@ spec: promises-guide-1\n       </ol>\n     </div>\n \n-    <div algorithm=\"Characteristic.writeValue()\">\n+    <div algorithm>",
+    "path": "index.bs",
+    "commit_id": "47167404c893e747c032b13273490c6e1850ee98",
+    "original_commit_id": "0d415b90837b436e06f26645a5c96ab529bcaaa6",
+    "user": {
+      "login": "jyasskin",
+      "id": 83420,
+      "node_id": "MDQ6VXNlcjgzNDIw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/83420?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jyasskin",
+      "html_url": "https://github.com/jyasskin",
+      "followers_url": "https://api.github.com/users/jyasskin/followers",
+      "following_url": "https://api.github.com/users/jyasskin/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jyasskin/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jyasskin/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jyasskin/subscriptions",
+      "organizations_url": "https://api.github.com/users/jyasskin/orgs",
+      "repos_url": "https://api.github.com/users/jyasskin/repos",
+      "events_url": "https://api.github.com/users/jyasskin/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jyasskin/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Removing the algorithm name will make some bikeshed errors harder to read.",
+    "created_at": "2019-04-18T17:26:05Z",
+    "updated_at": "2019-04-19T07:37:30Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/433#discussion_r276759187",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/433",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276759187"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/433#discussion_r276759187"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/433"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276759187/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 3916,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 14,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276792444",
+    "pull_request_review_id": 228453145,
+    "id": 276792444,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3Njc5MjQ0NA==",
+    "diff_hunk": "@@ -3986,10 +3988,10 @@ spec: promises-guide-1\n               the following steps:\n               <ol>\n                 <li>\n-                  If |withResponse| is `true`, use the <a>Write Characteristic Value</a> procedure.\n+                  If |response| is \"required\", use the <a>Write Characteristic Value</a> procedure.",
+    "path": "index.bs",
+    "commit_id": "47167404c893e747c032b13273490c6e1850ee98",
+    "original_commit_id": "0d415b90837b436e06f26645a5c96ab529bcaaa6",
+    "user": {
+      "login": "beaufortfrancois",
+      "id": 634478,
+      "node_id": "MDQ6VXNlcjYzNDQ3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/634478?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/beaufortfrancois",
+      "html_url": "https://github.com/beaufortfrancois",
+      "followers_url": "https://api.github.com/users/beaufortfrancois/followers",
+      "following_url": "https://api.github.com/users/beaufortfrancois/following{/other_user}",
+      "gists_url": "https://api.github.com/users/beaufortfrancois/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/beaufortfrancois/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/beaufortfrancois/subscriptions",
+      "organizations_url": "https://api.github.com/users/beaufortfrancois/orgs",
+      "repos_url": "https://api.github.com/users/beaufortfrancois/repos",
+      "events_url": "https://api.github.com/users/beaufortfrancois/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/beaufortfrancois/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done",
+    "created_at": "2019-04-18T18:56:50Z",
+    "updated_at": "2019-04-19T07:37:30Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/433#discussion_r276792444",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/433",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276792444"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/433#discussion_r276792444"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/433"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276792444/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 3991,
+    "side": "RIGHT",
+    "in_reply_to_id": 276758483,
+    "author_association": "COLLABORATOR",
+    "original_position": 40,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276792487",
+    "pull_request_review_id": 228453199,
+    "id": 276792487,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3Njc5MjQ4Nw==",
+    "diff_hunk": "@@ -3911,14 +3913,16 @@ spec: promises-guide-1\n       </ol>\n     </div>\n \n-    <div algorithm=\"Characteristic.writeValue()\">\n+    <div algorithm>",
+    "path": "index.bs",
+    "commit_id": "47167404c893e747c032b13273490c6e1850ee98",
+    "original_commit_id": "0d415b90837b436e06f26645a5c96ab529bcaaa6",
+    "user": {
+      "login": "beaufortfrancois",
+      "id": 634478,
+      "node_id": "MDQ6VXNlcjYzNDQ3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/634478?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/beaufortfrancois",
+      "html_url": "https://github.com/beaufortfrancois",
+      "followers_url": "https://api.github.com/users/beaufortfrancois/followers",
+      "following_url": "https://api.github.com/users/beaufortfrancois/following{/other_user}",
+      "gists_url": "https://api.github.com/users/beaufortfrancois/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/beaufortfrancois/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/beaufortfrancois/subscriptions",
+      "organizations_url": "https://api.github.com/users/beaufortfrancois/orgs",
+      "repos_url": "https://api.github.com/users/beaufortfrancois/repos",
+      "events_url": "https://api.github.com/users/beaufortfrancois/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/beaufortfrancois/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2019-04-18T18:56:57Z",
+    "updated_at": "2019-04-19T07:37:30Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/433#discussion_r276792487",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/433",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276792487"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/433#discussion_r276792487"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/433"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276792487/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 3916,
+    "side": "RIGHT",
+    "in_reply_to_id": 276759187,
+    "author_association": "COLLABORATOR",
+    "original_position": 14,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276855345",
+    "pull_request_review_id": 228533814,
+    "id": 276855345,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3Njg1NTM0NQ==",
+    "diff_hunk": "@@ -3933,28 +3937,42 @@ spec: promises-guide-1\n           and abort these steps.\n         </li>\n         <li>\n-          If <code>this.service.device.gatt.{{BluetoothRemoteGATTServer/connected}}</code> is `false`,\n+          If <code>|this|.service.device.gatt.{{BluetoothRemoteGATTServer/connected}}</code> is `false`,\n           return <a>a promise rejected with</a> a {{NetworkError}}\n           and abort these steps.\n         </li>\n         <li>\n           Let |characteristic| be\n-          <code>this.{{[[representedCharacteristic]]}}</code>.\n+          <code>|this|.{{[[representedCharacteristic]]}}</code>.\n         </li>\n         <li>\n           If |characteristic| is `null`,\n           return <a>a promise rejected with</a> an {{InvalidStateError}} and\n           abort these steps.\n         </li>\n         <li>\n-          Return a <code>this.service.device.gatt</code>-<a>connection-checking wrapper</a> around\n+          Return a <code>|this|.service.device.gatt</code>-<a>connection-checking wrapper</a> around\n           <a>a new promise</a> <var>promise</var>\n           and run the following steps in parallel.\n           <ol>\n             <li>\n-              If none of the <code>Write</code>, <code>Write Without Response</code> or <code>Authenticated Signed Writes</code> bits are set\n-              in <var>characteristic</var>'s <a lt=\"Characteristic Properties\">properties</a>,\n-              <a>reject</a> <var>promise</var> with a {{NotSupportedError}} and abort these steps.\n+              Assert: |response| is one of \"required\", \"never\", or \"optional\".\n+            </li>\n+            <li>\n+              <a>Reject</a> <var>promise</var> with a {{NotSupportedError}} and\n+              abort these steps if any of the following is true:\n+              <ol>\n+                <li>\n+                 |response| is \"required\" and <code>Write</code> bit is not set in <var>characteristic</var>'s <a lt=\"Characteristic Properties\">properties</a>\n+                </li>\n+                <li>\n+                 |response| is \"never\" and <code>Write Without Response</code> bit is not set in <var>characteristic</var>'s <a lt=\"Characteristic Properties\">properties</a>\n+                </li>\n+                <li>\n+                 |response| is \"optional\" and none of the <code>Write</code>, <code>Write Without Response</code> or <code>Authenticated Signed Writes</code> bits are set",
+    "path": "index.bs",
+    "commit_id": "47167404c893e747c032b13273490c6e1850ee98",
+    "original_commit_id": "8e46eec97fb44934404512ef36fed7c27ef30a6e",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The \"Authenticated Signed Writes\" bit appears equivalent to the \"Write Without Response\" bit so should be mentioned in the \"never\" section.",
+    "created_at": "2019-04-18T22:30:24Z",
+    "updated_at": "2019-04-19T07:37:30Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/433#discussion_r276855345",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/433",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276855345"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/433#discussion_r276855345"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/433"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276855345/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 3973,
+    "original_line": 3972,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 72,
+    "position": 73,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276922244",
+    "pull_request_review_id": 228613439,
+    "id": 276922244,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3NjkyMjI0NA==",
+    "diff_hunk": "@@ -3933,28 +3937,42 @@ spec: promises-guide-1\n           and abort these steps.\n         </li>\n         <li>\n-          If <code>this.service.device.gatt.{{BluetoothRemoteGATTServer/connected}}</code> is `false`,\n+          If <code>|this|.service.device.gatt.{{BluetoothRemoteGATTServer/connected}}</code> is `false`,\n           return <a>a promise rejected with</a> a {{NetworkError}}\n           and abort these steps.\n         </li>\n         <li>\n           Let |characteristic| be\n-          <code>this.{{[[representedCharacteristic]]}}</code>.\n+          <code>|this|.{{[[representedCharacteristic]]}}</code>.\n         </li>\n         <li>\n           If |characteristic| is `null`,\n           return <a>a promise rejected with</a> an {{InvalidStateError}} and\n           abort these steps.\n         </li>\n         <li>\n-          Return a <code>this.service.device.gatt</code>-<a>connection-checking wrapper</a> around\n+          Return a <code>|this|.service.device.gatt</code>-<a>connection-checking wrapper</a> around\n           <a>a new promise</a> <var>promise</var>\n           and run the following steps in parallel.\n           <ol>\n             <li>\n-              If none of the <code>Write</code>, <code>Write Without Response</code> or <code>Authenticated Signed Writes</code> bits are set\n-              in <var>characteristic</var>'s <a lt=\"Characteristic Properties\">properties</a>,\n-              <a>reject</a> <var>promise</var> with a {{NotSupportedError}} and abort these steps.\n+              Assert: |response| is one of \"required\", \"never\", or \"optional\".\n+            </li>\n+            <li>\n+              <a>Reject</a> <var>promise</var> with a {{NotSupportedError}} and\n+              abort these steps if any of the following is true:\n+              <ol>\n+                <li>\n+                 |response| is \"required\" and <code>Write</code> bit is not set in <var>characteristic</var>'s <a lt=\"Characteristic Properties\">properties</a>\n+                </li>\n+                <li>\n+                 |response| is \"never\" and <code>Write Without Response</code> bit is not set in <var>characteristic</var>'s <a lt=\"Characteristic Properties\">properties</a>\n+                </li>\n+                <li>\n+                 |response| is \"optional\" and none of the <code>Write</code>, <code>Write Without Response</code> or <code>Authenticated Signed Writes</code> bits are set",
+    "path": "index.bs",
+    "commit_id": "47167404c893e747c032b13273490c6e1850ee98",
+    "original_commit_id": "8e46eec97fb44934404512ef36fed7c27ef30a6e",
+    "user": {
+      "login": "beaufortfrancois",
+      "id": 634478,
+      "node_id": "MDQ6VXNlcjYzNDQ3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/634478?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/beaufortfrancois",
+      "html_url": "https://github.com/beaufortfrancois",
+      "followers_url": "https://api.github.com/users/beaufortfrancois/followers",
+      "following_url": "https://api.github.com/users/beaufortfrancois/following{/other_user}",
+      "gists_url": "https://api.github.com/users/beaufortfrancois/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/beaufortfrancois/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/beaufortfrancois/subscriptions",
+      "organizations_url": "https://api.github.com/users/beaufortfrancois/orgs",
+      "repos_url": "https://api.github.com/users/beaufortfrancois/repos",
+      "events_url": "https://api.github.com/users/beaufortfrancois/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/beaufortfrancois/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "You are absolutely right. Thanks for catching this!",
+    "created_at": "2019-04-19T07:36:32Z",
+    "updated_at": "2019-04-19T07:37:30Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/433#discussion_r276922244",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/433",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276922244"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/433#discussion_r276922244"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/433"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/276922244/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 3973,
+    "original_line": 3972,
+    "side": "RIGHT",
+    "in_reply_to_id": 276855345,
+    "author_association": "COLLABORATOR",
+    "original_position": 72,
+    "position": 73,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/277496051",
+    "pull_request_review_id": 229321307,
+    "id": 277496051,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3NzQ5NjA1MQ==",
+    "diff_hunk": "@@ -3966,9 +3985,23 @@ spec: promises-guide-1\n               and/or give the user a way to retry failed operations.\n             </li>\n             <li>\n-              Use any combination of the sub-procedures in\n-              the <a>Characteristic Value Write</a> procedure\n-              to write <var>bytes</var> to <var>characteristic</var>.\n+              Write <var>bytes</var> to <var>characteristic</var> by performing\n+              the following steps:\n+              <dl class=\"switch\">\n+                <dt>If |response| is \"required\"</dt>\n+                <dd>\n+                  Use the <a>Write Characteristic Value</a> procedure.\n+                </dd>\n+                <dt>If |response| is \"never\"</dt>\n+                <dd>\n+                  Use the <a>Write Without Response</a> procedure.\n+                </dd>\n+                <dt>Otherwise</dt>\n+                <dd>\n+                  Use any combination of the sub-procedures in",
+    "path": "index.bs",
+    "commit_id": "47167404c893e747c032b13273490c6e1850ee98",
+    "original_commit_id": "47167404c893e747c032b13273490c6e1850ee98",
+    "user": {
+      "login": "g-ortuno",
+      "id": 3117611,
+      "node_id": "MDQ6VXNlcjMxMTc2MTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3117611?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/g-ortuno",
+      "html_url": "https://github.com/g-ortuno",
+      "followers_url": "https://api.github.com/users/g-ortuno/followers",
+      "following_url": "https://api.github.com/users/g-ortuno/following{/other_user}",
+      "gists_url": "https://api.github.com/users/g-ortuno/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/g-ortuno/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/g-ortuno/subscriptions",
+      "organizations_url": "https://api.github.com/users/g-ortuno/orgs",
+      "repos_url": "https://api.github.com/users/g-ortuno/repos",
+      "events_url": "https://api.github.com/users/g-ortuno/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/g-ortuno/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Would be nice if we could specify which procedures exactly we should do here e.g.:\r\n```\r\nIf the Write bit is set in characteristic’s properties, use the Write Characteristic Value procedure, otherwise use the Write without Response procedure.\r\n```\r\nI think currently we just let each platform decide, which creates differences across platforms and could result in differences across implementations.",
+    "created_at": "2019-04-23T02:04:17Z",
+    "updated_at": "2019-04-23T02:47:10Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/433#discussion_r277496051",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/433",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/277496051"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/433#discussion_r277496051"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/433"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/277496051/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 4001,
+    "original_line": 4001,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 100,
+    "position": 100,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/277496275",
+    "pull_request_review_id": 229321307,
+    "id": 277496275,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3NzQ5NjI3NQ==",
+    "diff_hunk": "@@ -3966,9 +3985,23 @@ spec: promises-guide-1\n               and/or give the user a way to retry failed operations.\n             </li>\n             <li>\n-              Use any combination of the sub-procedures in\n-              the <a>Characteristic Value Write</a> procedure\n-              to write <var>bytes</var> to <var>characteristic</var>.\n+              Write <var>bytes</var> to <var>characteristic</var> by performing\n+              the following steps:\n+              <dl class=\"switch\">\n+                <dt>If |response| is \"required\"</dt>\n+                <dd>\n+                  Use the <a>Write Characteristic Value</a> procedure.\n+                </dd>\n+                <dt>If |response| is \"never\"</dt>\n+                <dd>\n+                  Use the <a>Write Without Response</a> procedure.\n+                </dd>\n+                <dt>Otherwise</dt>\n+                <dd>\n+                  Use any combination of the sub-procedures in",
+    "path": "index.bs",
+    "commit_id": "47167404c893e747c032b13273490c6e1850ee98",
+    "original_commit_id": "47167404c893e747c032b13273490c6e1850ee98",
+    "user": {
+      "login": "g-ortuno",
+      "id": 3117611,
+      "node_id": "MDQ6VXNlcjMxMTc2MTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3117611?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/g-ortuno",
+      "html_url": "https://github.com/g-ortuno",
+      "followers_url": "https://api.github.com/users/g-ortuno/followers",
+      "following_url": "https://api.github.com/users/g-ortuno/following{/other_user}",
+      "gists_url": "https://api.github.com/users/g-ortuno/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/g-ortuno/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/g-ortuno/subscriptions",
+      "organizations_url": "https://api.github.com/users/g-ortuno/orgs",
+      "repos_url": "https://api.github.com/users/g-ortuno/repos",
+      "events_url": "https://api.github.com/users/g-ortuno/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/g-ortuno/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "We could also implement `write()` in terms of `writeValueWithoutResponse()` and `writeValueWithResponse()`.",
+    "created_at": "2019-04-23T02:05:42Z",
+    "updated_at": "2019-04-23T02:47:10Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/433#discussion_r277496275",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/433",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/277496275"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/433#discussion_r277496275"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/433"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/277496275/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 4001,
+    "original_line": 4001,
+    "side": "RIGHT",
+    "in_reply_to_id": 277496051,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 100,
+    "position": 100,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

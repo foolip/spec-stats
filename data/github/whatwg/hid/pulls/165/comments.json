@@ -1,0 +1,145 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/hid/pulls/comments/4421957188",
+    "pull_request_review_id": 5710059874,
+    "id": 4421957188,
+    "node_id": "PRRC_kwDOCPOi6M8AAAABB5G2RA",
+    "diff_hunk": "@@ -473,21 +473,25 @@ field=]. Each item also has a tag that identifies its type.\n                 |globalStack|.\n             1.  Let |value| be the [=item data field=]\n                 interpreted as an `unsigned long`.\n+            1.  Let |signedValue| be the [=item data field=]\n+                interpreted as a signed two's complement integer\n+                [=bSize field=] bytes wide, or 0 if the [=bSize field=]",
+    "path": "index.bs",
+    "commit_id": "dbe88e69df689b264d40213363f607833218d0b1",
+    "original_commit_id": "dbe88e69df689b264d40213363f607833218d0b1",
+    "user": {
+      "login": "nondebug",
+      "id": 14099571,
+      "node_id": "MDQ6VXNlcjE0MDk5NTcx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14099571?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nondebug",
+      "html_url": "https://github.com/nondebug",
+      "followers_url": "https://api.github.com/users/nondebug/followers",
+      "following_url": "https://api.github.com/users/nondebug/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nondebug/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nondebug/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nondebug/subscriptions",
+      "organizations_url": "https://api.github.com/users/nondebug/orgs",
+      "repos_url": "https://api.github.com/users/nondebug/repos",
+      "events_url": "https://api.github.com/users/nondebug/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nondebug/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This works for bSize 0, 1, 2 but I think it is buggy for bSize == 3 (meaning \"4 bytes\").\n\nReading this now, it seems confusing to say each item has an \"item data field\", which might be 0 bytes. Intuitively, a report field that occupies 0 bytes in the report isn't actually in the report. Perhaps we should refactor this to clarify that an item has an item data value, which is either populated by the item data field (if bSize > 0) or is zero (if bSize == 0).",
+    "created_at": "2026-10-30T08:55:04Z",
+    "updated_at": "2026-10-30T08:55:22Z",
+    "html_url": "https://github.com/whatwg/hid/pull/165#discussion_r4421957188",
+    "pull_request_url": "https://api.github.com/repos/whatwg/hid/pulls/165",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/hid/pulls/comments/4421957188"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/hid/pull/165#discussion_r4421957188"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/hid/pulls/165"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/hid/pulls/comments/4421957188/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 478,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 6,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/hid/pulls/comments/4424481963",
+    "pull_request_review_id": 5713462181,
+    "id": 4424481963,
+    "node_id": "PRRC_kwDOCPOi6M8AAAABB7g8qw",
+    "diff_hunk": "@@ -473,21 +473,25 @@ field=]. Each item also has a tag that identifies its type.\n                 |globalStack|.\n             1.  Let |value| be the [=item data field=]\n                 interpreted as an `unsigned long`.\n+            1.  Let |signedValue| be the [=item data field=]\n+                interpreted as a signed two's complement integer\n+                [=bSize field=] bytes wide, or 0 if the [=bSize field=]",
+    "path": "index.bs",
+    "commit_id": "dbe88e69df689b264d40213363f607833218d0b1",
+    "original_commit_id": "dbe88e69df689b264d40213363f607833218d0b1",
+    "user": {
+      "login": "gregstoll",
+      "id": 4392001,
+      "node_id": "MDQ6VXNlcjQzOTIwMDE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4392001?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/gregstoll",
+      "html_url": "https://github.com/gregstoll",
+      "followers_url": "https://api.github.com/users/gregstoll/followers",
+      "following_url": "https://api.github.com/users/gregstoll/following{/other_user}",
+      "gists_url": "https://api.github.com/users/gregstoll/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/gregstoll/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/gregstoll/subscriptions",
+      "organizations_url": "https://api.github.com/users/gregstoll/orgs",
+      "repos_url": "https://api.github.com/users/gregstoll/repos",
+      "events_url": "https://api.github.com/users/gregstoll/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/gregstoll/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Yeah, that makes sense. I gave this a try; let me know what you think.",
+    "created_at": "2026-10-30T14:05:14Z",
+    "updated_at": "2026-10-30T14:05:15Z",
+    "html_url": "https://github.com/whatwg/hid/pull/165#discussion_r4424481963",
+    "pull_request_url": "https://api.github.com/repos/whatwg/hid/pulls/165",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/hid/pulls/comments/4424481963"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/hid/pull/165#discussion_r4424481963"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/hid/pulls/165"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/hid/pulls/comments/4424481963/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 478,
+    "side": "RIGHT",
+    "in_reply_to_id": 4421957188,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 6,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

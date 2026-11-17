@@ -1,0 +1,288 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2070964441",
+    "pull_request_review_id": 2810987084,
+    "id": 2070964441,
+    "node_id": "PRRC_kwDOAVr2cs57cGjZ",
+    "diff_hunk": "@@ -5567,6 +5582,271 @@ A [=local end=] could simulate device GATT disconnection by sending the followin\n </pre>\n </div>\n \n+#### The bluetooth.simulateService Command #### {#bluetooth-simulateservice-command}\n+\n+<pre highlight=\"cddl\" class=\"cddl remote-cddl local-cddl\">\n+bluetooth.SimulateService = (\n+   method: \"bluetooth.simulateService\",\n+   params: bluetooth.SimulateServiceParameters,\n+)\n+\n+bluetooth.simulateServiceParameters = {",
+    "path": "index.bs",
+    "commit_id": "52440c9d9fe5153a6497107f6c89f6973431beaf",
+    "original_commit_id": "b4d48c919c0cfa8ffcc50680d06e654213586aac",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\nbluetooth.SimulateServiceParameters = {\r\n```",
+    "created_at": "2025-05-02T00:40:27Z",
+    "updated_at": "2025-05-02T00:44:40Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/654#discussion_r2070964441",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/654",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2070964441"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/654#discussion_r2070964441"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/654"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2070964441/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 5593,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 62,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2070964946",
+    "pull_request_review_id": 2810987084,
+    "id": 2070964946,
+    "node_id": "PRRC_kwDOAVr2cs57cGrS",
+    "diff_hunk": "@@ -5567,6 +5582,271 @@ A [=local end=] could simulate device GATT disconnection by sending the followin\n </pre>\n </div>\n \n+#### The bluetooth.simulateService Command #### {#bluetooth-simulateservice-command}\n+\n+<pre highlight=\"cddl\" class=\"cddl remote-cddl local-cddl\">\n+bluetooth.SimulateService = (\n+   method: \"bluetooth.simulateService\",\n+   params: bluetooth.SimulateServiceParameters,\n+)\n+\n+bluetooth.simulateServiceParameters = {\n+   context: text,\n+   address: text,\n+   uuid: bluetooth.BluetoothUuid,\n+   type: \"add\" / \"remove\",\n+}\n+</pre>\n+\n+<div algorithm=\"remote end steps for bluetooth.simulateService\">\n+\n+Issue: TODO: Finish the algorithm of bluetooth.simulateService.\n+\n+</div>\n+\n+<div class=\"example\">\n+A [=local end=] could simulate adding a GATT service by sending the following message:\n+\n+<pre highlight=\"json\">\n+{\n+  \"method\": \"bluetooth.simulateService\",\n+  \"params\": {\n+    \"context\": \"cxt-d03fdd81\",\n+    \"address\": \"09:09:09:09:09:09\",\n+    \"uuid\": \"0000180d-0000-1000-8000-00805f9b34fb\",\n+    \"type\": \"add\"\n+  }\n+}\n+</pre>\n+</div>\n+\n+<div class=\"example\">\n+A [=local end=] could simulate removing a GATT service by sending the following message:\n+\n+<pre highlight=\"json\">\n+{\n+  \"method\": \"bluetooth.simulateService\",\n+  \"params\": {\n+    \"context\": \"cxt-d03fdd81\",\n+    \"address\": \"09:09:09:09:09:09\",\n+    \"uuid\": \"0000180d-0000-1000-8000-00805f9b34fb\",\n+    \"type\": \"remove\"\n+  }\n+}\n+</pre>\n+</div>\n+\n+#### The bluetooth.simulateCharacteristic Command #### {#bluetooth-simulatecharacteristic-command}\n+\n+<pre highlight=\"cddl\" class=\"cddl remote-cddl local-cddl\">\n+bluetooth.SimulateCharacteristic = (\n+   method: \"bluetooth.simulateCharacteristic\",\n+   params: bluetooth.SimulateCharacteristicParameters,\n+)\n+\n+bluetooth.SimulateCharacteristicParameters = {\n+   context: text,\n+   address: text,\n+   serviceUuid: bluetooth.BluetoothUuid,\n+   characteristicUuid: bluetooth.BluetoothUuid,\n+   ? characteristicProperties: bluetooth.CharacteristicProperties,\n+   type: \"add\" / \"remove\"\n+}\n+</pre>\n+\n+<div algorithm=\"remote end steps for bluetooth.simulateCharacteristic\">\n+\n+Issue: TODO: Finish the algorithm of bluetooth.simulateCharacteristic.\n+\n+</div>\n+\n+<div class=\"example\">\n+A [=local end=] could simulate adding a GATT characteristic with read, write, and notify properties\n+by sending the following message:\n+\n+<pre highlight=\"json\">\n+{\n+  \"method\": \"bluetooth.simulateCharacteristic\",\n+  \"params\": {\n+    \"context\": \"cxt-d03fdd81\",\n+    \"address\": \"09:09:09:09:09:09\",\n+    \"serviceUuid\": \"0000180d-0000-1000-8000-00805f9b34fb\",\n+    \"characteristicUuid\": \"00002a21-0000-1000-8000-00805f9b34fb\",\n+    \"characteristicProperties\": {\n+      \"read\": true,\n+      \"write\": true,\n+      \"notify\": true},",
+    "path": "index.bs",
+    "commit_id": "52440c9d9fe5153a6497107f6c89f6973431beaf",
+    "original_commit_id": "b4d48c919c0cfa8ffcc50680d06e654213586aac",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n      \"notify\": true\r\n    },\r\n```",
+    "created_at": "2025-05-02T00:41:25Z",
+    "updated_at": "2025-05-02T00:44:40Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/654#discussion_r2070964946",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/654",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2070964946"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/654#discussion_r2070964946"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/654"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2070964946/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 5678,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 147,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2071114905",
+    "pull_request_review_id": 2811197754,
+    "id": 2071114905,
+    "node_id": "PRRC_kwDOAVr2cs57crSZ",
+    "diff_hunk": "@@ -5567,6 +5582,271 @@ A [=local end=] could simulate device GATT disconnection by sending the followin\n </pre>\n </div>\n \n+#### The bluetooth.simulateService Command #### {#bluetooth-simulateservice-command}\n+\n+<pre highlight=\"cddl\" class=\"cddl remote-cddl local-cddl\">\n+bluetooth.SimulateService = (\n+   method: \"bluetooth.simulateService\",\n+   params: bluetooth.SimulateServiceParameters,\n+)\n+\n+bluetooth.simulateServiceParameters = {",
+    "path": "index.bs",
+    "commit_id": "52440c9d9fe5153a6497107f6c89f6973431beaf",
+    "original_commit_id": "b4d48c919c0cfa8ffcc50680d06e654213586aac",
+    "user": {
+      "login": "chengweih001",
+      "id": 97704544,
+      "node_id": "U_kgDOBdLaYA",
+      "avatar_url": "https://avatars.githubusercontent.com/u/97704544?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chengweih001",
+      "html_url": "https://github.com/chengweih001",
+      "followers_url": "https://api.github.com/users/chengweih001/followers",
+      "following_url": "https://api.github.com/users/chengweih001/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chengweih001/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chengweih001/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chengweih001/subscriptions",
+      "organizations_url": "https://api.github.com/users/chengweih001/orgs",
+      "repos_url": "https://api.github.com/users/chengweih001/repos",
+      "events_url": "https://api.github.com/users/chengweih001/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chengweih001/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2025-05-02T05:28:38Z",
+    "updated_at": "2025-05-02T05:28:38Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/654#discussion_r2071114905",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/654",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2071114905"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/654#discussion_r2071114905"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/654"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2071114905/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 5593,
+    "side": "RIGHT",
+    "in_reply_to_id": 2070964441,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 62,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2071115001",
+    "pull_request_review_id": 2811197916,
+    "id": 2071115001,
+    "node_id": "PRRC_kwDOAVr2cs57crT5",
+    "diff_hunk": "@@ -5567,6 +5582,271 @@ A [=local end=] could simulate device GATT disconnection by sending the followin\n </pre>\n </div>\n \n+#### The bluetooth.simulateService Command #### {#bluetooth-simulateservice-command}\n+\n+<pre highlight=\"cddl\" class=\"cddl remote-cddl local-cddl\">\n+bluetooth.SimulateService = (\n+   method: \"bluetooth.simulateService\",\n+   params: bluetooth.SimulateServiceParameters,\n+)\n+\n+bluetooth.simulateServiceParameters = {\n+   context: text,\n+   address: text,\n+   uuid: bluetooth.BluetoothUuid,\n+   type: \"add\" / \"remove\",\n+}\n+</pre>\n+\n+<div algorithm=\"remote end steps for bluetooth.simulateService\">\n+\n+Issue: TODO: Finish the algorithm of bluetooth.simulateService.\n+\n+</div>\n+\n+<div class=\"example\">\n+A [=local end=] could simulate adding a GATT service by sending the following message:\n+\n+<pre highlight=\"json\">\n+{\n+  \"method\": \"bluetooth.simulateService\",\n+  \"params\": {\n+    \"context\": \"cxt-d03fdd81\",\n+    \"address\": \"09:09:09:09:09:09\",\n+    \"uuid\": \"0000180d-0000-1000-8000-00805f9b34fb\",\n+    \"type\": \"add\"\n+  }\n+}\n+</pre>\n+</div>\n+\n+<div class=\"example\">\n+A [=local end=] could simulate removing a GATT service by sending the following message:\n+\n+<pre highlight=\"json\">\n+{\n+  \"method\": \"bluetooth.simulateService\",\n+  \"params\": {\n+    \"context\": \"cxt-d03fdd81\",\n+    \"address\": \"09:09:09:09:09:09\",\n+    \"uuid\": \"0000180d-0000-1000-8000-00805f9b34fb\",\n+    \"type\": \"remove\"\n+  }\n+}\n+</pre>\n+</div>\n+\n+#### The bluetooth.simulateCharacteristic Command #### {#bluetooth-simulatecharacteristic-command}\n+\n+<pre highlight=\"cddl\" class=\"cddl remote-cddl local-cddl\">\n+bluetooth.SimulateCharacteristic = (\n+   method: \"bluetooth.simulateCharacteristic\",\n+   params: bluetooth.SimulateCharacteristicParameters,\n+)\n+\n+bluetooth.SimulateCharacteristicParameters = {\n+   context: text,\n+   address: text,\n+   serviceUuid: bluetooth.BluetoothUuid,\n+   characteristicUuid: bluetooth.BluetoothUuid,\n+   ? characteristicProperties: bluetooth.CharacteristicProperties,\n+   type: \"add\" / \"remove\"\n+}\n+</pre>\n+\n+<div algorithm=\"remote end steps for bluetooth.simulateCharacteristic\">\n+\n+Issue: TODO: Finish the algorithm of bluetooth.simulateCharacteristic.\n+\n+</div>\n+\n+<div class=\"example\">\n+A [=local end=] could simulate adding a GATT characteristic with read, write, and notify properties\n+by sending the following message:\n+\n+<pre highlight=\"json\">\n+{\n+  \"method\": \"bluetooth.simulateCharacteristic\",\n+  \"params\": {\n+    \"context\": \"cxt-d03fdd81\",\n+    \"address\": \"09:09:09:09:09:09\",\n+    \"serviceUuid\": \"0000180d-0000-1000-8000-00805f9b34fb\",\n+    \"characteristicUuid\": \"00002a21-0000-1000-8000-00805f9b34fb\",\n+    \"characteristicProperties\": {\n+      \"read\": true,\n+      \"write\": true,\n+      \"notify\": true},",
+    "path": "index.bs",
+    "commit_id": "52440c9d9fe5153a6497107f6c89f6973431beaf",
+    "original_commit_id": "b4d48c919c0cfa8ffcc50680d06e654213586aac",
+    "user": {
+      "login": "chengweih001",
+      "id": 97704544,
+      "node_id": "U_kgDOBdLaYA",
+      "avatar_url": "https://avatars.githubusercontent.com/u/97704544?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chengweih001",
+      "html_url": "https://github.com/chengweih001",
+      "followers_url": "https://api.github.com/users/chengweih001/followers",
+      "following_url": "https://api.github.com/users/chengweih001/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chengweih001/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chengweih001/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chengweih001/subscriptions",
+      "organizations_url": "https://api.github.com/users/chengweih001/orgs",
+      "repos_url": "https://api.github.com/users/chengweih001/repos",
+      "events_url": "https://api.github.com/users/chengweih001/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chengweih001/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2025-05-02T05:28:47Z",
+    "updated_at": "2025-05-02T05:28:48Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/654#discussion_r2071115001",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/654",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2071115001"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/654#discussion_r2071115001"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/654"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2071115001/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 5678,
+    "side": "RIGHT",
+    "in_reply_to_id": 2070964946,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 147,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

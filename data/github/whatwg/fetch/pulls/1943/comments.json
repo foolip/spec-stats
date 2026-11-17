@@ -1,0 +1,647 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3708937795",
+    "pull_request_review_id": 4849964947,
+    "id": 3708937795,
+    "node_id": "PRRC_kwDOAFgnJc7dEeZD",
+    "diff_hunk": "@@ -7970,6 +7991,93 @@ new Headers(meta2);\n  <dd><p>Replaces the value of the first header whose name is <var>name</var> with <var>value</var>\n  and removes any remaining headers whose name is <var>name</var>.\n \n+ <dt><code><var>result</var> = <var>headers</var> . <a method for=Headers lt=getStructured()>getStructured</a>(<var>name</var>, <var>type</var>)</code>\n+ <dd>\n+  <p>Parses the value of the header named <var>name</var> as a structured field\n+  ([[RFC9651]]) of the given <var>type</var> and returns the result as a\n+  JavaScript value.\n+\n+  <p>Returns null if the header is not present or its value fails to parse as\n+  the specified structured field type.\n+\n+  <p>The <var>type</var> must be one of \"<code>item</code>\",\n+  \"<code>list</code>\", or \"<code>dictionary</code>\".\n+\n+  <p>Structured field values are converted to JavaScript as follows:\n+  integers, decimals, and dates become numbers (dates as seconds since the\n+  Unix epoch), strings and tokens both become strings, booleans become\n+  booleans, and byte sequences become {{Uint8Array}}. Items are returned as\n+  objects with <code>value</code> and <code>params</code> properties. Inner\n+  lists are returned as objects with <code>items</code> and <code>params</code>\n+  properties. Lists are returned as arrays. Dictionaries and parameters are\n+  returned as {{Map}} objects.\n+\n+  <p class=note>Tokens are represented as plain strings, following the same\n+  pattern as {{DOMString}}, {{USVString}}, and {{ByteString}} &mdash; they are a\n+  constrained profile of string rather than a separate type. When serializing\n+  via {{Headers/setStructured()}}, strings that conform to\n+  <a>structured field token</a> syntax are serialized as tokens; all other\n+  strings are serialized as quoted structured field strings.",
+    "path": "fetch.bs",
+    "commit_id": "96f7cf5f5e9686c0676f00b43a4078943a322d71",
+    "original_commit_id": "96f7cf5f5e9686c0676f00b43a4078943a322d71",
+    "user": {
+      "login": "martinthomson",
+      "id": 67641,
+      "node_id": "MDQ6VXNlcjY3NjQx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/67641?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/martinthomson",
+      "html_url": "https://github.com/martinthomson",
+      "followers_url": "https://api.github.com/users/martinthomson/followers",
+      "following_url": "https://api.github.com/users/martinthomson/following{/other_user}",
+      "gists_url": "https://api.github.com/users/martinthomson/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/martinthomson/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/martinthomson/subscriptions",
+      "organizations_url": "https://api.github.com/users/martinthomson/orgs",
+      "repos_url": "https://api.github.com/users/martinthomson/repos",
+      "events_url": "https://api.github.com/users/martinthomson/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/martinthomson/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This string->token implicit conversion is not going to work for some uses of the API.  Is it possible to override the type?  For instance, by adding a value as `{value: \"v\", sfType: \"string\"}` or something like that?  Otherwise, there are cases where a SF-defined value will expect a string and get a token that it will choke one.",
+    "created_at": "2026-08-04T02:05:22Z",
+    "updated_at": "2026-08-04T02:05:22Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1943#discussion_r3708937795",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1943",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3708937795"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1943#discussion_r3708937795"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1943"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3708937795/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 8017,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 8020,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 72,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3708996169",
+    "pull_request_review_id": 4850031925,
+    "id": 3708996169,
+    "node_id": "PRRC_kwDOAFgnJc7dEspJ",
+    "diff_hunk": "@@ -8075,6 +8183,587 @@ from a {{Headers}} object (<var>headers</var>), run these steps:\n <p class=note>This is called when headers are modified by unprivileged code.\n </div>\n \n+<hr>\n+\n+<h4 id=structured-field-conversion>Structured field conversion</h4>\n+\n+<p class=note>The following algorithms convert between JavaScript values and the\n+abstract data types defined in [[RFC9651]]. They are used by\n+{{Headers/getStructured()}} and {{Headers/setStructured()}}.\n+\n+<div algorithm>\n+<p>To\n+<dfn>convert a structured field bare item to a JavaScript value</dfn>\n+given a bare item <var>bareItem</var>:\n+\n+<ol>\n+ <li><p>If <var>bareItem</var> is a <a>structured field integer</a>,\n+ then return <var>bareItem</var>'s value as a Number.\n+\n+ <li><p>If <var>bareItem</var> is a <a>structured field decimal</a>,\n+ then return <var>bareItem</var>'s value as a Number.\n+\n+ <li><p>If <var>bareItem</var> is a <a>structured field string</a>,\n+ then return <var>bareItem</var>'s value as a String.\n+\n+ <li><p>If <var>bareItem</var> is a <a>structured field token</a>,\n+ then return <var>bareItem</var>'s value as a String.\n+\n+ <li><p>If <var>bareItem</var> is a <a>structured field boolean</a>,\n+ then return <var>bareItem</var>'s value as a Boolean.\n+\n+ <li><p>If <var>bareItem</var> is a <a>structured field byte sequence</a>,\n+ then return a new {{Uint8Array}} in the <a>current realm</a> whose\n+ contents are <var>bareItem</var>'s byte sequence.\n+\n+ <li><p>If <var>bareItem</var> is a <a>structured field date</a>,\n+ then return <var>bareItem</var>'s value (seconds since the Unix epoch)\n+ as a Number.\n+\n+ <li><p>If <var>bareItem</var> is a <a>structured field display string</a>,\n+ then return <var>bareItem</var>'s value as a String.\n+</ol>\n+\n+<p class=note>Both <a>structured field tokens</a> and\n+<a>structured field strings</a> are returned as JavaScript Strings.\n+Tokens are a constrained profile of string &mdash; they conform to the\n+token syntax defined in [[RFC9651]]\n+(<a href=\"https://httpwg.org/specs/rfc9651.html#token\">Section 3.3.4</a>)\n+&mdash; and are represented as plain strings rather than a distinct type,\n+following the pattern of {{DOMString}}, {{USVString}}, and {{ByteString}}.\n+</div>\n+\n+<div algorithm>\n+<p>To\n+<dfn>convert structured field parameters to a JavaScript Map</dfn>\n+given <a>structured field parameters</a> <var>params</var>:\n+\n+<ol>\n+ <li><p>Let <var>result</var> be a new {{Map}} object in the\n+ <a>current realm</a>.\n+\n+ <li>\n+  <p><a for=map>For each</a> <var>key</var> &rarr; <var>bareItem</var> of\n+  <var>params</var>:\n+\n+  <ol>\n+   <li><p>Let <var>jsValue</var> be the result of\n+   <a>converting a structured field bare item to a JavaScript value</a>\n+   given <var>bareItem</var>.\n+\n+   <li><p>Perform <a href=\"https://tc39.es/ecma262/#sec-map.prototype.set\">%Map.prototype.set%</a>\n+   on <var>result</var> with arguments <var>key</var> and <var>jsValue</var>.\n+  </ol>\n+\n+ <li><p>Return <var>result</var>.\n+</ol>\n+</div>\n+\n+<div algorithm>\n+<p>To\n+<dfn>convert a structured field item to a JavaScript object</dfn>\n+given a structured field item <var>sfItem</var>:\n+\n+<ol>\n+ <li><p>Let <var>value</var> be the result of\n+ <a>converting a structured field bare item to a JavaScript value</a>\n+ given <var>sfItem</var>'s bare item.\n+\n+ <li><p>Let <var>params</var> be the result of\n+ <a>converting structured field parameters to a JavaScript Map</a>\n+ given <var>sfItem</var>'s <a>structured field parameters</a>.\n+\n+ <li><p>Let <var>result</var> be\n+ <a href=\"https://tc39.es/ecma262/#sec-ordinaryobjectcreate\">OrdinaryObjectCreate</a>({{%Object.prototype%}}).\n+\n+ <li><p>Perform\n+ <a href=\"https://tc39.es/ecma262/#sec-createdataproperty\">CreateDataPropertyOrThrow</a>(<var>result</var>,\n+ \"<code>value</code>\", <var>value</var>).\n+\n+ <li><p>Perform\n+ <a href=\"https://tc39.es/ecma262/#sec-createdataproperty\">CreateDataPropertyOrThrow</a>(<var>result</var>,\n+ \"<code>params</code>\", <var>params</var>).\n+\n+ <li><p>Return <var>result</var>.\n+</ol>\n+\n+<p class=note>The returned object has the shape\n+<code>{ value: <var>bareItem</var>, params: Map }</code>.\n+</div>\n+\n+<div algorithm>\n+<p>To\n+<dfn>convert a structured field inner list to a JavaScript object</dfn>\n+given a <a>structured field inner list</a> <var>innerList</var>:\n+\n+<ol>\n+ <li><p>Let <var>items</var> be an empty <a for=/>list</a>.\n+\n+ <li>\n+  <p>For each <var>sfItem</var> of <var>innerList</var>'s members:\n+\n+  <ol>\n+   <li><p>Let <var>converted</var> be the result of\n+   <a>converting a structured field item to a JavaScript object</a>\n+   given <var>sfItem</var>.\n+\n+   <li><p><a for=list>Append</a> <var>converted</var> to <var>items</var>.\n+  </ol>\n+\n+ <li><p>Let <var>params</var> be the result of\n+ <a>converting structured field parameters to a JavaScript Map</a>\n+ given <var>innerList</var>'s <a>structured field parameters</a>.\n+\n+ <li><p>Let <var>jsArray</var> be\n+ <a href=\"https://tc39.es/ecma262/#sec-createarrayfromlist\">CreateArrayFromList</a>(<var>items</var>).\n+\n+ <li><p>Let <var>result</var> be\n+ <a href=\"https://tc39.es/ecma262/#sec-ordinaryobjectcreate\">OrdinaryObjectCreate</a>({{%Object.prototype%}}).\n+\n+ <li><p>Perform\n+ <a href=\"https://tc39.es/ecma262/#sec-createdataproperty\">CreateDataPropertyOrThrow</a>(<var>result</var>,\n+ \"<code>items</code>\", <var>jsArray</var>).\n+\n+ <li><p>Perform\n+ <a href=\"https://tc39.es/ecma262/#sec-createdataproperty\">CreateDataPropertyOrThrow</a>(<var>result</var>,\n+ \"<code>params</code>\", <var>params</var>).\n+\n+ <li><p>Return <var>result</var>.\n+</ol>\n+\n+<p class=note>The returned object has the shape\n+<code>{ items: [{ value, params }, ...], params: Map }</code>.\n+An inner list is distinguished from an item by the presence of\n+<code>items</code> rather than <code>value</code>.\n+</div>\n+\n+<div algorithm>\n+<p>To\n+<dfn>convert a structured field member to a JavaScript value</dfn>\n+given a structured field member <var>member</var>:\n+\n+<ol>\n+ <li><p>If <var>member</var> is a structured field item, return\n+ the result of <a>converting a structured field item to a JavaScript object</a>\n+ given <var>member</var>.\n+\n+ <li><p>If <var>member</var> is a <a>structured field inner list</a>, return\n+ the result of <a>converting a structured field inner list to a JavaScript object</a>\n+ given <var>member</var>.\n+</ol>\n+</div>\n+\n+<div algorithm>\n+<p>To\n+<dfn>convert a structured field to a JavaScript value</dfn>\n+given a <a>structured field value</a> <var>sfValue</var> and a\n+{{StructuredFieldType}} <var>type</var>:\n+\n+<ol>\n+ <li>\n+  <p>If <var>type</var> is \"<code>item</code>\":\n+\n+  <ol>\n+   <li><p>Return the result of\n+   <a>converting a structured field item to a JavaScript object</a>\n+   given <var>sfValue</var>.\n+  </ol>\n+\n+ <li>\n+  <p>If <var>type</var> is \"<code>list</code>\":\n+\n+  <ol>\n+   <li><p>Let <var>result</var> be an empty <a for=/>list</a>.\n+\n+   <li>\n+    <p>For each <var>member</var> of <var>sfValue</var>'s members:\n+\n+    <ol>\n+     <li><p>Let <var>converted</var> be the result of\n+     <a>converting a structured field member to a JavaScript value</a>\n+     given <var>member</var>.\n+\n+     <li><p><a for=list>Append</a> <var>converted</var> to <var>result</var>.\n+    </ol>\n+\n+   <li><p>Return\n+   <a href=\"https://tc39.es/ecma262/#sec-createarrayfromlist\">CreateArrayFromList</a>(<var>result</var>).\n+  </ol>\n+\n+ <li>\n+  <p>If <var>type</var> is \"<code>dictionary</code>\":\n+\n+  <ol>\n+   <li><p>Let <var>result</var> be a new {{Map}} object in the\n+   <a>current realm</a>.\n+\n+   <li>\n+    <p><a for=map>For each</a> <var>key</var> &rarr; <var>member</var> of\n+    <var>sfValue</var>'s members (in order):\n+\n+    <ol>\n+     <li><p>Let <var>converted</var> be the result of\n+     <a>converting a structured field member to a JavaScript value</a>\n+     given <var>member</var>.\n+\n+     <li><p>Perform <a href=\"https://tc39.es/ecma262/#sec-map.prototype.set\">%Map.prototype.set%</a>\n+     on <var>result</var> with arguments <var>key</var> and <var>converted</var>.\n+    </ol>\n+\n+   <li><p>Return <var>result</var>.\n+  </ol>\n+</ol>\n+</div>\n+\n+<hr>\n+\n+<p>The following algorithms convert JavaScript values to structured field\n+values for use with {{Headers/setStructured()}}.\n+\n+<div algorithm>\n+<p>To\n+<dfn>convert a JavaScript value to a structured field bare item</dfn>\n+given a JavaScript value <var>jsValue</var>:\n+\n+<ol>\n+ <li><p>If <a href=\"https://tc39.es/ecma262/#sec-typeof-operator\">Type</a>(<var>jsValue</var>)\n+ is Boolean, return a <a>structured field boolean</a> with <var>jsValue</var>'s value.\n+\n+ <li>\n+  <p>If <a href=\"https://tc39.es/ecma262/#sec-typeof-operator\">Type</a>(<var>jsValue</var>)\n+  is Number:\n+\n+  <ol>\n+   <li><p>If <var>jsValue</var> is NaN, +&infin;, or &minus;&infin;,\n+   then <a>throw</a> a {{TypeError}}.\n+\n+   <li><p>If <var>jsValue</var> is an\n+   <a href=\"https://tc39.es/ecma262/#sec-isinteger\">integral number</a>,\n+   return a <a>structured field integer</a> with <var>jsValue</var>'s value.\n+\n+   <li><p>Otherwise, return a <a>structured field decimal</a> with\n+   <var>jsValue</var>'s value.",
+    "path": "fetch.bs",
+    "commit_id": "96f7cf5f5e9686c0676f00b43a4078943a322d71",
+    "original_commit_id": "96f7cf5f5e9686c0676f00b43a4078943a322d71",
+    "user": {
+      "login": "martinthomson",
+      "id": 67641,
+      "node_id": "MDQ6VXNlcjY3NjQx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/67641?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/martinthomson",
+      "html_url": "https://github.com/martinthomson",
+      "followers_url": "https://api.github.com/users/martinthomson/followers",
+      "following_url": "https://api.github.com/users/martinthomson/following{/other_user}",
+      "gists_url": "https://api.github.com/users/martinthomson/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/martinthomson/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/martinthomson/subscriptions",
+      "organizations_url": "https://api.github.com/users/martinthomson/orgs",
+      "repos_url": "https://api.github.com/users/martinthomson/repos",
+      "events_url": "https://api.github.com/users/martinthomson/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/martinthomson/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "What do you do with values outside of the range that SF requires support for?  Would 6e110 be presented with all 110 digits?",
+    "created_at": "2026-08-04T02:22:35Z",
+    "updated_at": "2026-08-04T02:22:35Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1943#discussion_r3708996169",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1943",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3708996169"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1943#discussion_r3708996169"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1943"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3708996169/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 8440,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 8445,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 399,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3709002291",
+    "pull_request_review_id": 4850039213,
+    "id": 3709002291,
+    "node_id": "PRRC_kwDOAFgnJc7dEuIz",
+    "diff_hunk": "@@ -8174,6 +8863,77 @@ method steps are:\n </ol>\n </div>\n \n+<div algorithm>\n+<p>The <dfn export for=Headers method><code>getStructured(<var>name</var>, <var>type</var>)</code></dfn>\n+method steps are:\n+\n+<ol>\n+ <li><p>If <var>name</var> is not a <a for=/>header name</a>, then <a>throw</a>\n+ a {{TypeError}}.\n+\n+ <li><p>Let <var>sfValue</var> be the result of <a for=\"header list\">getting\n+ a structured field value</a> given <var>name</var> and <var>type</var> from\n+ <a>this</a>'s <a for=Headers>header list</a>.\n+\n+ <li><p>If <var>sfValue</var> is null, then return null.\n+\n+ <li><p>Return the result of <a>converting a structured field to a\n+ JavaScript value</a> given <var>sfValue</var> and <var>type</var>.\n+</ol>\n+</div>\n+\n+<p class=note>Parsing structured fields and converting the result to\n+JavaScript objects is entirely optional. Implementations that do not\n+support structured field parsing are fully compliant with this\n+specification by having <a for=\"header list\">get a structured field value</a>\n+return null. Returning null matches the behavior when the header is absent or\n+malformed, ensuring no feature-detection breakage. The presence of the\n+{{Headers/getStructured()}} method itself is required.\n+\n+<div algorithm>\n+<p>The <dfn export for=Headers method><code>setStructured(<var>name</var>, <var>type</var>, <var>value</var>)</code></dfn>\n+method steps are:\n+\n+<ol>\n+ <li><p>If <var>name</var> is not a <a for=/>header name</a>, then <a>throw</a>\n+ a {{TypeError}}.\n+\n+ <li><p>If <a>this</a>'s <a for=Headers>guard</a> is \"<code>immutable</code>\",\n+ then <a>throw</a> a {{TypeError}}.\n+\n+ <li><p>Let <var>sfValue</var> be the result of\n+ <a>converting a JavaScript value to a structured field</a> given\n+ <var>value</var> and <var>type</var>.\n+\n+ <li><p>Let <var>serialized</var> be the result of\n+ <a>serializing structured fields</a> on <var>sfValue</var>.\n+\n+ <li><p>If serialization fails, then <a>throw</a> a {{TypeError}}.\n+\n+ <li><p>If <a for=Headers>validating</a> (<var>name</var>, <var>serialized</var>)\n+ for <a>this</a> returns false, then return.\n+\n+ <li><p>If <a>this</a>'s <a for=Headers>guard</a> is\n+ \"<code>request-no-cors</code>\" and (<var>name</var>, <var>serialized</var>)\n+ is not a <a>no-CORS-safelisted request-header</a>, then return.\n+\n+ <li><p><a for=\"header list\">Set</a> (<var>name</var>, <var>serialized</var>)\n+ in <a>this</a>'s <a for=Headers>header list</a>.\n+\n+ <li><p>If <a>this</a>'s <a for=Headers>guard</a> is\n+ \"<code>request-no-cors</code>\", then <a for=Headers>remove privileged\n+ no-CORS request-headers</a> from <a>this</a>.\n+</ol>\n+</div>\n+\n+<p class=note>Serializing structured fields is entirely optional.\n+Implementations that do not support structured field serialization are\n+fully compliant with this specification. The minimum conformance\n+requirement is that {{Headers/setStructured()}} does not throw for valid\n+inputs &mdash; an implementation that silently ignores the call is compliant.\n+Whether to actually serialize and set the header is an implementation\n+decision.",
+    "path": "fetch.bs",
+    "commit_id": "96f7cf5f5e9686c0676f00b43a4078943a322d71",
+    "original_commit_id": "96f7cf5f5e9686c0676f00b43a4078943a322d71",
+    "user": {
+      "login": "martinthomson",
+      "id": 67641,
+      "node_id": "MDQ6VXNlcjY3NjQx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/67641?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/martinthomson",
+      "html_url": "https://github.com/martinthomson",
+      "followers_url": "https://api.github.com/users/martinthomson/followers",
+      "following_url": "https://api.github.com/users/martinthomson/following{/other_user}",
+      "gists_url": "https://api.github.com/users/martinthomson/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/martinthomson/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/martinthomson/subscriptions",
+      "organizations_url": "https://api.github.com/users/martinthomson/orgs",
+      "repos_url": "https://api.github.com/users/martinthomson/repos",
+      "events_url": "https://api.github.com/users/martinthomson/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/martinthomson/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This seems like it could be an interoperability nightmare.  I think that you need to support SF serialization if you add this.",
+    "created_at": "2026-08-04T02:24:22Z",
+    "updated_at": "2026-08-04T02:24:22Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1943#discussion_r3709002291",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1943",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3709002291"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1943#discussion_r3709002291"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1943"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3709002291/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 8929,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 8935,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 797,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3709463445",
+    "pull_request_review_id": 4850646770,
+    "id": 3709463445,
+    "node_id": "PRRC_kwDOAFgnJc7dGeuV",
+    "diff_hunk": "@@ -8174,6 +8863,77 @@ method steps are:\n </ol>\n </div>\n \n+<div algorithm>\n+<p>The <dfn export for=Headers method><code>getStructured(<var>name</var>, <var>type</var>)</code></dfn>\n+method steps are:\n+\n+<ol>\n+ <li><p>If <var>name</var> is not a <a for=/>header name</a>, then <a>throw</a>\n+ a {{TypeError}}.\n+\n+ <li><p>Let <var>sfValue</var> be the result of <a for=\"header list\">getting\n+ a structured field value</a> given <var>name</var> and <var>type</var> from\n+ <a>this</a>'s <a for=Headers>header list</a>.\n+\n+ <li><p>If <var>sfValue</var> is null, then return null.\n+\n+ <li><p>Return the result of <a>converting a structured field to a\n+ JavaScript value</a> given <var>sfValue</var> and <var>type</var>.\n+</ol>\n+</div>\n+\n+<p class=note>Parsing structured fields and converting the result to\n+JavaScript objects is entirely optional. Implementations that do not\n+support structured field parsing are fully compliant with this\n+specification by having <a for=\"header list\">get a structured field value</a>\n+return null. Returning null matches the behavior when the header is absent or\n+malformed, ensuring no feature-detection breakage. The presence of the\n+{{Headers/getStructured()}} method itself is required.\n+\n+<div algorithm>\n+<p>The <dfn export for=Headers method><code>setStructured(<var>name</var>, <var>type</var>, <var>value</var>)</code></dfn>\n+method steps are:\n+\n+<ol>\n+ <li><p>If <var>name</var> is not a <a for=/>header name</a>, then <a>throw</a>\n+ a {{TypeError}}.\n+\n+ <li><p>If <a>this</a>'s <a for=Headers>guard</a> is \"<code>immutable</code>\",\n+ then <a>throw</a> a {{TypeError}}.\n+\n+ <li><p>Let <var>sfValue</var> be the result of\n+ <a>converting a JavaScript value to a structured field</a> given\n+ <var>value</var> and <var>type</var>.\n+\n+ <li><p>Let <var>serialized</var> be the result of\n+ <a>serializing structured fields</a> on <var>sfValue</var>.\n+\n+ <li><p>If serialization fails, then <a>throw</a> a {{TypeError}}.\n+\n+ <li><p>If <a for=Headers>validating</a> (<var>name</var>, <var>serialized</var>)\n+ for <a>this</a> returns false, then return.\n+\n+ <li><p>If <a>this</a>'s <a for=Headers>guard</a> is\n+ \"<code>request-no-cors</code>\" and (<var>name</var>, <var>serialized</var>)\n+ is not a <a>no-CORS-safelisted request-header</a>, then return.\n+\n+ <li><p><a for=\"header list\">Set</a> (<var>name</var>, <var>serialized</var>)\n+ in <a>this</a>'s <a for=Headers>header list</a>.\n+\n+ <li><p>If <a>this</a>'s <a for=Headers>guard</a> is\n+ \"<code>request-no-cors</code>\", then <a for=Headers>remove privileged\n+ no-CORS request-headers</a> from <a>this</a>.\n+</ol>\n+</div>\n+\n+<p class=note>Serializing structured fields is entirely optional.\n+Implementations that do not support structured field serialization are\n+fully compliant with this specification. The minimum conformance\n+requirement is that {{Headers/setStructured()}} does not throw for valid\n+inputs &mdash; an implementation that silently ignores the call is compliant.\n+Whether to actually serialize and set the header is an implementation\n+decision.",
+    "path": "fetch.bs",
+    "commit_id": "96f7cf5f5e9686c0676f00b43a4078943a322d71",
+    "original_commit_id": "96f7cf5f5e9686c0676f00b43a4078943a322d71",
+    "user": {
+      "login": "jasnell",
+      "id": 439929,
+      "node_id": "MDQ6VXNlcjQzOTkyOQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/439929?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jasnell",
+      "html_url": "https://github.com/jasnell",
+      "followers_url": "https://api.github.com/users/jasnell/followers",
+      "following_url": "https://api.github.com/users/jasnell/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jasnell/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jasnell/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jasnell/subscriptions",
+      "organizations_url": "https://api.github.com/users/jasnell/orgs",
+      "repos_url": "https://api.github.com/users/jasnell/repos",
+      "events_url": "https://api.github.com/users/jasnell/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jasnell/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I've been going back and forth on this, to be honest. But, you're right. ",
+    "created_at": "2026-08-04T04:29:23Z",
+    "updated_at": "2026-08-04T04:29:23Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1943#discussion_r3709463445",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1943",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3709463445"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1943#discussion_r3709463445"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1943"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3709463445/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 8929,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 8935,
+    "side": "RIGHT",
+    "in_reply_to_id": 3709002291,
+    "author_association": "NONE",
+    "original_position": 797,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3709467150",
+    "pull_request_review_id": 4850651123,
+    "id": 3709467150,
+    "node_id": "PRRC_kwDOAFgnJc7dGfoO",
+    "diff_hunk": "@@ -8075,6 +8183,587 @@ from a {{Headers}} object (<var>headers</var>), run these steps:\n <p class=note>This is called when headers are modified by unprivileged code.\n </div>\n \n+<hr>\n+\n+<h4 id=structured-field-conversion>Structured field conversion</h4>\n+\n+<p class=note>The following algorithms convert between JavaScript values and the\n+abstract data types defined in [[RFC9651]]. They are used by\n+{{Headers/getStructured()}} and {{Headers/setStructured()}}.\n+\n+<div algorithm>\n+<p>To\n+<dfn>convert a structured field bare item to a JavaScript value</dfn>\n+given a bare item <var>bareItem</var>:\n+\n+<ol>\n+ <li><p>If <var>bareItem</var> is a <a>structured field integer</a>,\n+ then return <var>bareItem</var>'s value as a Number.\n+\n+ <li><p>If <var>bareItem</var> is a <a>structured field decimal</a>,\n+ then return <var>bareItem</var>'s value as a Number.\n+\n+ <li><p>If <var>bareItem</var> is a <a>structured field string</a>,\n+ then return <var>bareItem</var>'s value as a String.\n+\n+ <li><p>If <var>bareItem</var> is a <a>structured field token</a>,\n+ then return <var>bareItem</var>'s value as a String.\n+\n+ <li><p>If <var>bareItem</var> is a <a>structured field boolean</a>,\n+ then return <var>bareItem</var>'s value as a Boolean.\n+\n+ <li><p>If <var>bareItem</var> is a <a>structured field byte sequence</a>,\n+ then return a new {{Uint8Array}} in the <a>current realm</a> whose\n+ contents are <var>bareItem</var>'s byte sequence.\n+\n+ <li><p>If <var>bareItem</var> is a <a>structured field date</a>,\n+ then return <var>bareItem</var>'s value (seconds since the Unix epoch)\n+ as a Number.\n+\n+ <li><p>If <var>bareItem</var> is a <a>structured field display string</a>,\n+ then return <var>bareItem</var>'s value as a String.\n+</ol>\n+\n+<p class=note>Both <a>structured field tokens</a> and\n+<a>structured field strings</a> are returned as JavaScript Strings.\n+Tokens are a constrained profile of string &mdash; they conform to the\n+token syntax defined in [[RFC9651]]\n+(<a href=\"https://httpwg.org/specs/rfc9651.html#token\">Section 3.3.4</a>)\n+&mdash; and are represented as plain strings rather than a distinct type,\n+following the pattern of {{DOMString}}, {{USVString}}, and {{ByteString}}.\n+</div>\n+\n+<div algorithm>\n+<p>To\n+<dfn>convert structured field parameters to a JavaScript Map</dfn>\n+given <a>structured field parameters</a> <var>params</var>:\n+\n+<ol>\n+ <li><p>Let <var>result</var> be a new {{Map}} object in the\n+ <a>current realm</a>.\n+\n+ <li>\n+  <p><a for=map>For each</a> <var>key</var> &rarr; <var>bareItem</var> of\n+  <var>params</var>:\n+\n+  <ol>\n+   <li><p>Let <var>jsValue</var> be the result of\n+   <a>converting a structured field bare item to a JavaScript value</a>\n+   given <var>bareItem</var>.\n+\n+   <li><p>Perform <a href=\"https://tc39.es/ecma262/#sec-map.prototype.set\">%Map.prototype.set%</a>\n+   on <var>result</var> with arguments <var>key</var> and <var>jsValue</var>.\n+  </ol>\n+\n+ <li><p>Return <var>result</var>.\n+</ol>\n+</div>\n+\n+<div algorithm>\n+<p>To\n+<dfn>convert a structured field item to a JavaScript object</dfn>\n+given a structured field item <var>sfItem</var>:\n+\n+<ol>\n+ <li><p>Let <var>value</var> be the result of\n+ <a>converting a structured field bare item to a JavaScript value</a>\n+ given <var>sfItem</var>'s bare item.\n+\n+ <li><p>Let <var>params</var> be the result of\n+ <a>converting structured field parameters to a JavaScript Map</a>\n+ given <var>sfItem</var>'s <a>structured field parameters</a>.\n+\n+ <li><p>Let <var>result</var> be\n+ <a href=\"https://tc39.es/ecma262/#sec-ordinaryobjectcreate\">OrdinaryObjectCreate</a>({{%Object.prototype%}}).\n+\n+ <li><p>Perform\n+ <a href=\"https://tc39.es/ecma262/#sec-createdataproperty\">CreateDataPropertyOrThrow</a>(<var>result</var>,\n+ \"<code>value</code>\", <var>value</var>).\n+\n+ <li><p>Perform\n+ <a href=\"https://tc39.es/ecma262/#sec-createdataproperty\">CreateDataPropertyOrThrow</a>(<var>result</var>,\n+ \"<code>params</code>\", <var>params</var>).\n+\n+ <li><p>Return <var>result</var>.\n+</ol>\n+\n+<p class=note>The returned object has the shape\n+<code>{ value: <var>bareItem</var>, params: Map }</code>.\n+</div>\n+\n+<div algorithm>\n+<p>To\n+<dfn>convert a structured field inner list to a JavaScript object</dfn>\n+given a <a>structured field inner list</a> <var>innerList</var>:\n+\n+<ol>\n+ <li><p>Let <var>items</var> be an empty <a for=/>list</a>.\n+\n+ <li>\n+  <p>For each <var>sfItem</var> of <var>innerList</var>'s members:\n+\n+  <ol>\n+   <li><p>Let <var>converted</var> be the result of\n+   <a>converting a structured field item to a JavaScript object</a>\n+   given <var>sfItem</var>.\n+\n+   <li><p><a for=list>Append</a> <var>converted</var> to <var>items</var>.\n+  </ol>\n+\n+ <li><p>Let <var>params</var> be the result of\n+ <a>converting structured field parameters to a JavaScript Map</a>\n+ given <var>innerList</var>'s <a>structured field parameters</a>.\n+\n+ <li><p>Let <var>jsArray</var> be\n+ <a href=\"https://tc39.es/ecma262/#sec-createarrayfromlist\">CreateArrayFromList</a>(<var>items</var>).\n+\n+ <li><p>Let <var>result</var> be\n+ <a href=\"https://tc39.es/ecma262/#sec-ordinaryobjectcreate\">OrdinaryObjectCreate</a>({{%Object.prototype%}}).\n+\n+ <li><p>Perform\n+ <a href=\"https://tc39.es/ecma262/#sec-createdataproperty\">CreateDataPropertyOrThrow</a>(<var>result</var>,\n+ \"<code>items</code>\", <var>jsArray</var>).\n+\n+ <li><p>Perform\n+ <a href=\"https://tc39.es/ecma262/#sec-createdataproperty\">CreateDataPropertyOrThrow</a>(<var>result</var>,\n+ \"<code>params</code>\", <var>params</var>).\n+\n+ <li><p>Return <var>result</var>.\n+</ol>\n+\n+<p class=note>The returned object has the shape\n+<code>{ items: [{ value, params }, ...], params: Map }</code>.\n+An inner list is distinguished from an item by the presence of\n+<code>items</code> rather than <code>value</code>.\n+</div>\n+\n+<div algorithm>\n+<p>To\n+<dfn>convert a structured field member to a JavaScript value</dfn>\n+given a structured field member <var>member</var>:\n+\n+<ol>\n+ <li><p>If <var>member</var> is a structured field item, return\n+ the result of <a>converting a structured field item to a JavaScript object</a>\n+ given <var>member</var>.\n+\n+ <li><p>If <var>member</var> is a <a>structured field inner list</a>, return\n+ the result of <a>converting a structured field inner list to a JavaScript object</a>\n+ given <var>member</var>.\n+</ol>\n+</div>\n+\n+<div algorithm>\n+<p>To\n+<dfn>convert a structured field to a JavaScript value</dfn>\n+given a <a>structured field value</a> <var>sfValue</var> and a\n+{{StructuredFieldType}} <var>type</var>:\n+\n+<ol>\n+ <li>\n+  <p>If <var>type</var> is \"<code>item</code>\":\n+\n+  <ol>\n+   <li><p>Return the result of\n+   <a>converting a structured field item to a JavaScript object</a>\n+   given <var>sfValue</var>.\n+  </ol>\n+\n+ <li>\n+  <p>If <var>type</var> is \"<code>list</code>\":\n+\n+  <ol>\n+   <li><p>Let <var>result</var> be an empty <a for=/>list</a>.\n+\n+   <li>\n+    <p>For each <var>member</var> of <var>sfValue</var>'s members:\n+\n+    <ol>\n+     <li><p>Let <var>converted</var> be the result of\n+     <a>converting a structured field member to a JavaScript value</a>\n+     given <var>member</var>.\n+\n+     <li><p><a for=list>Append</a> <var>converted</var> to <var>result</var>.\n+    </ol>\n+\n+   <li><p>Return\n+   <a href=\"https://tc39.es/ecma262/#sec-createarrayfromlist\">CreateArrayFromList</a>(<var>result</var>).\n+  </ol>\n+\n+ <li>\n+  <p>If <var>type</var> is \"<code>dictionary</code>\":\n+\n+  <ol>\n+   <li><p>Let <var>result</var> be a new {{Map}} object in the\n+   <a>current realm</a>.\n+\n+   <li>\n+    <p><a for=map>For each</a> <var>key</var> &rarr; <var>member</var> of\n+    <var>sfValue</var>'s members (in order):\n+\n+    <ol>\n+     <li><p>Let <var>converted</var> be the result of\n+     <a>converting a structured field member to a JavaScript value</a>\n+     given <var>member</var>.\n+\n+     <li><p>Perform <a href=\"https://tc39.es/ecma262/#sec-map.prototype.set\">%Map.prototype.set%</a>\n+     on <var>result</var> with arguments <var>key</var> and <var>converted</var>.\n+    </ol>\n+\n+   <li><p>Return <var>result</var>.\n+  </ol>\n+</ol>\n+</div>\n+\n+<hr>\n+\n+<p>The following algorithms convert JavaScript values to structured field\n+values for use with {{Headers/setStructured()}}.\n+\n+<div algorithm>\n+<p>To\n+<dfn>convert a JavaScript value to a structured field bare item</dfn>\n+given a JavaScript value <var>jsValue</var>:\n+\n+<ol>\n+ <li><p>If <a href=\"https://tc39.es/ecma262/#sec-typeof-operator\">Type</a>(<var>jsValue</var>)\n+ is Boolean, return a <a>structured field boolean</a> with <var>jsValue</var>'s value.\n+\n+ <li>\n+  <p>If <a href=\"https://tc39.es/ecma262/#sec-typeof-operator\">Type</a>(<var>jsValue</var>)\n+  is Number:\n+\n+  <ol>\n+   <li><p>If <var>jsValue</var> is NaN, +&infin;, or &minus;&infin;,\n+   then <a>throw</a> a {{TypeError}}.\n+\n+   <li><p>If <var>jsValue</var> is an\n+   <a href=\"https://tc39.es/ecma262/#sec-isinteger\">integral number</a>,\n+   return a <a>structured field integer</a> with <var>jsValue</var>'s value.\n+\n+   <li><p>Otherwise, return a <a>structured field decimal</a> with\n+   <var>jsValue</var>'s value.",
+    "path": "fetch.bs",
+    "commit_id": "96f7cf5f5e9686c0676f00b43a4078943a322d71",
+    "original_commit_id": "96f7cf5f5e9686c0676f00b43a4078943a322d71",
+    "user": {
+      "login": "jasnell",
+      "id": 439929,
+      "node_id": "MDQ6VXNlcjQzOTkyOQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/439929?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jasnell",
+      "html_url": "https://github.com/jasnell",
+      "followers_url": "https://api.github.com/users/jasnell/followers",
+      "following_url": "https://api.github.com/users/jasnell/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jasnell/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jasnell/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jasnell/subscriptions",
+      "organizations_url": "https://api.github.com/users/jasnell/orgs",
+      "repos_url": "https://api.github.com/users/jasnell/repos",
+      "events_url": "https://api.github.com/users/jasnell/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jasnell/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "No, in that case the correct response would be to return null. The fallback would be to just use the existing get method. ",
+    "created_at": "2026-08-04T04:30:30Z",
+    "updated_at": "2026-08-04T04:30:30Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1943#discussion_r3709467150",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1943",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3709467150"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1943#discussion_r3709467150"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1943"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3709467150/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 8440,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 8445,
+    "side": "RIGHT",
+    "in_reply_to_id": 3708996169,
+    "author_association": "NONE",
+    "original_position": 399,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3709753054",
+    "pull_request_review_id": 4850993728,
+    "id": 3709753054,
+    "node_id": "PRRC_kwDOAFgnJc7dHlbe",
+    "diff_hunk": "@@ -8075,6 +8183,587 @@ from a {{Headers}} object (<var>headers</var>), run these steps:\n <p class=note>This is called when headers are modified by unprivileged code.\n </div>\n \n+<hr>\n+\n+<h4 id=structured-field-conversion>Structured field conversion</h4>\n+\n+<p class=note>The following algorithms convert between JavaScript values and the\n+abstract data types defined in [[RFC9651]]. They are used by\n+{{Headers/getStructured()}} and {{Headers/setStructured()}}.\n+\n+<div algorithm>\n+<p>To\n+<dfn>convert a structured field bare item to a JavaScript value</dfn>\n+given a bare item <var>bareItem</var>:\n+\n+<ol>\n+ <li><p>If <var>bareItem</var> is a <a>structured field integer</a>,\n+ then return <var>bareItem</var>'s value as a Number.\n+\n+ <li><p>If <var>bareItem</var> is a <a>structured field decimal</a>,\n+ then return <var>bareItem</var>'s value as a Number.\n+\n+ <li><p>If <var>bareItem</var> is a <a>structured field string</a>,\n+ then return <var>bareItem</var>'s value as a String.\n+\n+ <li><p>If <var>bareItem</var> is a <a>structured field token</a>,\n+ then return <var>bareItem</var>'s value as a String.\n+\n+ <li><p>If <var>bareItem</var> is a <a>structured field boolean</a>,\n+ then return <var>bareItem</var>'s value as a Boolean.\n+\n+ <li><p>If <var>bareItem</var> is a <a>structured field byte sequence</a>,\n+ then return a new {{Uint8Array}} in the <a>current realm</a> whose\n+ contents are <var>bareItem</var>'s byte sequence.\n+\n+ <li><p>If <var>bareItem</var> is a <a>structured field date</a>,\n+ then return <var>bareItem</var>'s value (seconds since the Unix epoch)\n+ as a Number.\n+\n+ <li><p>If <var>bareItem</var> is a <a>structured field display string</a>,\n+ then return <var>bareItem</var>'s value as a String.\n+</ol>\n+\n+<p class=note>Both <a>structured field tokens</a> and\n+<a>structured field strings</a> are returned as JavaScript Strings.\n+Tokens are a constrained profile of string &mdash; they conform to the\n+token syntax defined in [[RFC9651]]\n+(<a href=\"https://httpwg.org/specs/rfc9651.html#token\">Section 3.3.4</a>)\n+&mdash; and are represented as plain strings rather than a distinct type,\n+following the pattern of {{DOMString}}, {{USVString}}, and {{ByteString}}.\n+</div>\n+\n+<div algorithm>\n+<p>To\n+<dfn>convert structured field parameters to a JavaScript Map</dfn>\n+given <a>structured field parameters</a> <var>params</var>:\n+\n+<ol>\n+ <li><p>Let <var>result</var> be a new {{Map}} object in the\n+ <a>current realm</a>.\n+\n+ <li>\n+  <p><a for=map>For each</a> <var>key</var> &rarr; <var>bareItem</var> of\n+  <var>params</var>:\n+\n+  <ol>\n+   <li><p>Let <var>jsValue</var> be the result of\n+   <a>converting a structured field bare item to a JavaScript value</a>\n+   given <var>bareItem</var>.\n+\n+   <li><p>Perform <a href=\"https://tc39.es/ecma262/#sec-map.prototype.set\">%Map.prototype.set%</a>\n+   on <var>result</var> with arguments <var>key</var> and <var>jsValue</var>.\n+  </ol>\n+\n+ <li><p>Return <var>result</var>.\n+</ol>\n+</div>\n+\n+<div algorithm>\n+<p>To\n+<dfn>convert a structured field item to a JavaScript object</dfn>\n+given a structured field item <var>sfItem</var>:\n+\n+<ol>\n+ <li><p>Let <var>value</var> be the result of\n+ <a>converting a structured field bare item to a JavaScript value</a>\n+ given <var>sfItem</var>'s bare item.\n+\n+ <li><p>Let <var>params</var> be the result of\n+ <a>converting structured field parameters to a JavaScript Map</a>\n+ given <var>sfItem</var>'s <a>structured field parameters</a>.\n+\n+ <li><p>Let <var>result</var> be\n+ <a href=\"https://tc39.es/ecma262/#sec-ordinaryobjectcreate\">OrdinaryObjectCreate</a>({{%Object.prototype%}}).\n+\n+ <li><p>Perform\n+ <a href=\"https://tc39.es/ecma262/#sec-createdataproperty\">CreateDataPropertyOrThrow</a>(<var>result</var>,\n+ \"<code>value</code>\", <var>value</var>).\n+\n+ <li><p>Perform\n+ <a href=\"https://tc39.es/ecma262/#sec-createdataproperty\">CreateDataPropertyOrThrow</a>(<var>result</var>,\n+ \"<code>params</code>\", <var>params</var>).\n+\n+ <li><p>Return <var>result</var>.\n+</ol>\n+\n+<p class=note>The returned object has the shape\n+<code>{ value: <var>bareItem</var>, params: Map }</code>.\n+</div>\n+\n+<div algorithm>\n+<p>To\n+<dfn>convert a structured field inner list to a JavaScript object</dfn>\n+given a <a>structured field inner list</a> <var>innerList</var>:\n+\n+<ol>\n+ <li><p>Let <var>items</var> be an empty <a for=/>list</a>.\n+\n+ <li>\n+  <p>For each <var>sfItem</var> of <var>innerList</var>'s members:\n+\n+  <ol>\n+   <li><p>Let <var>converted</var> be the result of\n+   <a>converting a structured field item to a JavaScript object</a>\n+   given <var>sfItem</var>.\n+\n+   <li><p><a for=list>Append</a> <var>converted</var> to <var>items</var>.\n+  </ol>\n+\n+ <li><p>Let <var>params</var> be the result of\n+ <a>converting structured field parameters to a JavaScript Map</a>\n+ given <var>innerList</var>'s <a>structured field parameters</a>.\n+\n+ <li><p>Let <var>jsArray</var> be\n+ <a href=\"https://tc39.es/ecma262/#sec-createarrayfromlist\">CreateArrayFromList</a>(<var>items</var>).\n+\n+ <li><p>Let <var>result</var> be\n+ <a href=\"https://tc39.es/ecma262/#sec-ordinaryobjectcreate\">OrdinaryObjectCreate</a>({{%Object.prototype%}}).\n+\n+ <li><p>Perform\n+ <a href=\"https://tc39.es/ecma262/#sec-createdataproperty\">CreateDataPropertyOrThrow</a>(<var>result</var>,\n+ \"<code>items</code>\", <var>jsArray</var>).\n+\n+ <li><p>Perform\n+ <a href=\"https://tc39.es/ecma262/#sec-createdataproperty\">CreateDataPropertyOrThrow</a>(<var>result</var>,\n+ \"<code>params</code>\", <var>params</var>).\n+\n+ <li><p>Return <var>result</var>.\n+</ol>\n+\n+<p class=note>The returned object has the shape\n+<code>{ items: [{ value, params }, ...], params: Map }</code>.\n+An inner list is distinguished from an item by the presence of\n+<code>items</code> rather than <code>value</code>.\n+</div>\n+\n+<div algorithm>\n+<p>To\n+<dfn>convert a structured field member to a JavaScript value</dfn>\n+given a structured field member <var>member</var>:\n+\n+<ol>\n+ <li><p>If <var>member</var> is a structured field item, return\n+ the result of <a>converting a structured field item to a JavaScript object</a>\n+ given <var>member</var>.\n+\n+ <li><p>If <var>member</var> is a <a>structured field inner list</a>, return\n+ the result of <a>converting a structured field inner list to a JavaScript object</a>\n+ given <var>member</var>.\n+</ol>\n+</div>\n+\n+<div algorithm>\n+<p>To\n+<dfn>convert a structured field to a JavaScript value</dfn>\n+given a <a>structured field value</a> <var>sfValue</var> and a\n+{{StructuredFieldType}} <var>type</var>:\n+\n+<ol>\n+ <li>\n+  <p>If <var>type</var> is \"<code>item</code>\":\n+\n+  <ol>\n+   <li><p>Return the result of\n+   <a>converting a structured field item to a JavaScript object</a>\n+   given <var>sfValue</var>.\n+  </ol>\n+\n+ <li>\n+  <p>If <var>type</var> is \"<code>list</code>\":\n+\n+  <ol>\n+   <li><p>Let <var>result</var> be an empty <a for=/>list</a>.\n+\n+   <li>\n+    <p>For each <var>member</var> of <var>sfValue</var>'s members:\n+\n+    <ol>\n+     <li><p>Let <var>converted</var> be the result of\n+     <a>converting a structured field member to a JavaScript value</a>\n+     given <var>member</var>.\n+\n+     <li><p><a for=list>Append</a> <var>converted</var> to <var>result</var>.\n+    </ol>\n+\n+   <li><p>Return\n+   <a href=\"https://tc39.es/ecma262/#sec-createarrayfromlist\">CreateArrayFromList</a>(<var>result</var>).\n+  </ol>\n+\n+ <li>\n+  <p>If <var>type</var> is \"<code>dictionary</code>\":\n+\n+  <ol>\n+   <li><p>Let <var>result</var> be a new {{Map}} object in the\n+   <a>current realm</a>.\n+\n+   <li>\n+    <p><a for=map>For each</a> <var>key</var> &rarr; <var>member</var> of\n+    <var>sfValue</var>'s members (in order):\n+\n+    <ol>\n+     <li><p>Let <var>converted</var> be the result of\n+     <a>converting a structured field member to a JavaScript value</a>\n+     given <var>member</var>.\n+\n+     <li><p>Perform <a href=\"https://tc39.es/ecma262/#sec-map.prototype.set\">%Map.prototype.set%</a>\n+     on <var>result</var> with arguments <var>key</var> and <var>converted</var>.\n+    </ol>\n+\n+   <li><p>Return <var>result</var>.\n+  </ol>\n+</ol>\n+</div>\n+\n+<hr>\n+\n+<p>The following algorithms convert JavaScript values to structured field\n+values for use with {{Headers/setStructured()}}.\n+\n+<div algorithm>\n+<p>To\n+<dfn>convert a JavaScript value to a structured field bare item</dfn>\n+given a JavaScript value <var>jsValue</var>:\n+\n+<ol>\n+ <li><p>If <a href=\"https://tc39.es/ecma262/#sec-typeof-operator\">Type</a>(<var>jsValue</var>)\n+ is Boolean, return a <a>structured field boolean</a> with <var>jsValue</var>'s value.\n+\n+ <li>\n+  <p>If <a href=\"https://tc39.es/ecma262/#sec-typeof-operator\">Type</a>(<var>jsValue</var>)\n+  is Number:\n+\n+  <ol>\n+   <li><p>If <var>jsValue</var> is NaN, +&infin;, or &minus;&infin;,\n+   then <a>throw</a> a {{TypeError}}.\n+\n+   <li><p>If <var>jsValue</var> is an\n+   <a href=\"https://tc39.es/ecma262/#sec-isinteger\">integral number</a>,\n+   return a <a>structured field integer</a> with <var>jsValue</var>'s value.\n+\n+   <li><p>Otherwise, return a <a>structured field decimal</a> with\n+   <var>jsValue</var>'s value.",
+    "path": "fetch.bs",
+    "commit_id": "96f7cf5f5e9686c0676f00b43a4078943a322d71",
+    "original_commit_id": "96f7cf5f5e9686c0676f00b43a4078943a322d71",
+    "user": {
+      "login": "martinthomson",
+      "id": 67641,
+      "node_id": "MDQ6VXNlcjY3NjQx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/67641?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/martinthomson",
+      "html_url": "https://github.com/martinthomson",
+      "followers_url": "https://api.github.com/users/martinthomson/followers",
+      "following_url": "https://api.github.com/users/martinthomson/following{/other_user}",
+      "gists_url": "https://api.github.com/users/martinthomson/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/martinthomson/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/martinthomson/subscriptions",
+      "organizations_url": "https://api.github.com/users/martinthomson/orgs",
+      "repos_url": "https://api.github.com/users/martinthomson/repos",
+      "events_url": "https://api.github.com/users/martinthomson/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/martinthomson/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Is that because 6e110 doesn't fit in a double?  I'm thinking of those cases where the range of permissible values in a JS Number is outside the range of permissible SF integers.  What then?  Translate, and let the application enjoy the (possible) surprise (possible because there is nothing preventing an implementation from accepting more than the minimal range).\r\n\r\nYou need this to be explicit in the algorithm.",
+    "created_at": "2026-08-04T05:40:26Z",
+    "updated_at": "2026-08-04T05:40:26Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1943#discussion_r3709753054",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1943",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3709753054"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1943#discussion_r3709753054"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1943"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3709753054/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 8440,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 8445,
+    "side": "RIGHT",
+    "in_reply_to_id": 3708996169,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 399,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3737597444",
+    "pull_request_review_id": 4885153285,
+    "id": 3737597444,
+    "node_id": "PRRC_kwDOAFgnJc7exzYE",
+    "diff_hunk": "@@ -7970,6 +7991,93 @@ new Headers(meta2);\n  <dd><p>Replaces the value of the first header whose name is <var>name</var> with <var>value</var>\n  and removes any remaining headers whose name is <var>name</var>.\n \n+ <dt><code><var>result</var> = <var>headers</var> . <a method for=Headers lt=getStructured()>getStructured</a>(<var>name</var>, <var>type</var>)</code>\n+ <dd>\n+  <p>Parses the value of the header named <var>name</var> as a structured field\n+  ([[RFC9651]]) of the given <var>type</var> and returns the result as a\n+  JavaScript value.\n+\n+  <p>Returns null if the header is not present or its value fails to parse as\n+  the specified structured field type.\n+\n+  <p>The <var>type</var> must be one of \"<code>item</code>\",\n+  \"<code>list</code>\", or \"<code>dictionary</code>\".\n+\n+  <p>Structured field values are converted to JavaScript as follows:\n+  integers, decimals, and dates become numbers (dates as seconds since the\n+  Unix epoch), strings and tokens both become strings, booleans become\n+  booleans, and byte sequences become {{Uint8Array}}. Items are returned as\n+  objects with <code>value</code> and <code>params</code> properties. Inner\n+  lists are returned as objects with <code>items</code> and <code>params</code>\n+  properties. Lists are returned as arrays. Dictionaries and parameters are\n+  returned as {{Map}} objects.\n+\n+  <p class=note>Tokens are represented as plain strings, following the same\n+  pattern as {{DOMString}}, {{USVString}}, and {{ByteString}} &mdash; they are a\n+  constrained profile of string rather than a separate type. When serializing\n+  via {{Headers/setStructured()}}, strings that conform to\n+  <a>structured field token</a> syntax are serialized as tokens; all other\n+  strings are serialized as quoted structured field strings.",
+    "path": "fetch.bs",
+    "commit_id": "96f7cf5f5e9686c0676f00b43a4078943a322d71",
+    "original_commit_id": "96f7cf5f5e9686c0676f00b43a4078943a322d71",
+    "user": {
+      "login": "jasnell",
+      "id": 439929,
+      "node_id": "MDQ6VXNlcjQzOTkyOQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/439929?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jasnell",
+      "html_url": "https://github.com/jasnell",
+      "followers_url": "https://api.github.com/users/jasnell/followers",
+      "following_url": "https://api.github.com/users/jasnell/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jasnell/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jasnell/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jasnell/subscriptions",
+      "organizations_url": "https://api.github.com/users/jasnell/orgs",
+      "repos_url": "https://api.github.com/users/jasnell/repos",
+      "events_url": "https://api.github.com/users/jasnell/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jasnell/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Ok, updated....\r\n\r\n```js\r\n// Without sfType — auto-detects as token (unquoted)\r\nheaders.setStructured(\"Example\", \"item\", { value: \"foo\" });\r\n// → Example: foo\r\n\r\n// With sfType — forces quoted string\r\nheaders.setStructured(\"Example\", \"item\", { value: \"foo\", sfType: \"string\" });\r\n// → Example: \"foo\"\r\n\r\n// Token validation — throws if value doesn't match token syntax\r\nheaders.setStructured(\"Example\", \"item\", { value: \"hello world\", sfType: \"token\" });\r\n// → TypeError (spaces not allowed in tokens)\r\n\r\n// Deprecation header (RFC 9745) — defined as an SF Date\r\nheaders.setStructured(\"Deprecation\", \"item\", {\r\n  value: 1659578233,\r\n  sfType: \"date\"\r\n});\r\n// → Deprecation: @1659578233\r\n\r\n// Without sfType, the same number becomes an integer:\r\nheaders.setStructured(\"Deprecation\", \"item\", { value: 1659578233 });\r\n// → Deprecation: 1659578233   (wrong — missing @ prefix)\r\n\r\nheaders.setStructured(\"Example\", \"item\", {\r\n  value: \"Ünïcödé\",\r\n  sfType: \"displaystring\"\r\n});\r\n// → Example: %\"...percent-encoded UTF-8...\"\r\n\r\n// Without sfType, this would try to serialize as a regular SF string,\r\n// which only permits printable ASCII — serialization would fail.\r\n\r\n// Force decimal even for an integer value\r\nheaders.setStructured(\"Example\", \"item\", { value: 42, sfType: \"decimal\" });\r\n// → Example: 42.0\r\n\r\n// Force integer — throws if not integral\r\nheaders.setStructured(\"Example\", \"item\", { value: 3.14, sfType: \"integer\" });\r\n// → TypeError\r\n\r\n// Dictionary with mixed sfType overrides\r\nheaders.setStructured(\"My-Header\", \"dictionary\", {\r\n  name: { value: \"cdn\", sfType: \"string\" },   // quoted: \"cdn\"\r\n  kind: { value: \"cdn\" },                      // auto: unquoted token cdn\r\n  ts:   { value: 1700000000, sfType: \"date\" }  // date: @1700000000\r\n});\r\n// → My-Header: name=\"cdn\", kind=cdn, ts=@1700000000\r\n\r\n// List with sfType\r\nheaders.setStructured(\"My-List\", \"list\", [\r\n  { value: \"keep-alive\", sfType: \"string\" },  // \"keep-alive\"\r\n  { value: \"upgrade\", sfType: \"token\" }        // upgrade\r\n]);\r\n// → My-List: \"keep-alive\", upgrade\r\n\r\n// Integer out of range — throws\r\nheaders.setStructured(\"X\", \"item\", { value: 1e16 });\r\n// → TypeError (exceeds 15-digit SF integer limit)\r\n\r\n// Decimal with too-large integer component — throws\r\nheaders.setStructured(\"X\", \"item\", { value: 9999999999999.5 });\r\n// → TypeError (integer component exceeds 12 digits)\r\n\r\n// sfType: \"date\" with non-integer — throws\r\nheaders.setStructured(\"X\", \"item\", { value: 3.14, sfType: \"date\" });\r\n// → TypeError (dates must be integral)\r\n\r\n// sfType only applies to item objects, not parameter values.\r\n// Parameters always use auto-detection:\r\nheaders.setStructured(\"Cache-Status\", \"list\", [\r\n  { value: \"cdn\", sfType: \"token\", params: { hit: true, ttl: 3600 } }\r\n  //                                         ^^^ bare values, no sfType\r\n]);\r\n// → Cache-Status: cdn;hit;ttl=3600\r\n```",
+    "created_at": "2026-08-07T17:30:34Z",
+    "updated_at": "2026-08-07T17:30:34Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1943#discussion_r3737597444",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1943",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3737597444"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1943#discussion_r3737597444"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1943"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3737597444/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 8017,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 8020,
+    "side": "RIGHT",
+    "in_reply_to_id": 3708937795,
+    "author_association": "NONE",
+    "original_position": 72,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3737599800",
+    "pull_request_review_id": 4885156058,
+    "id": 3737599800,
+    "node_id": "PRRC_kwDOAFgnJc7exz84",
+    "diff_hunk": "@@ -8075,6 +8183,587 @@ from a {{Headers}} object (<var>headers</var>), run these steps:\n <p class=note>This is called when headers are modified by unprivileged code.\n </div>\n \n+<hr>\n+\n+<h4 id=structured-field-conversion>Structured field conversion</h4>\n+\n+<p class=note>The following algorithms convert between JavaScript values and the\n+abstract data types defined in [[RFC9651]]. They are used by\n+{{Headers/getStructured()}} and {{Headers/setStructured()}}.\n+\n+<div algorithm>\n+<p>To\n+<dfn>convert a structured field bare item to a JavaScript value</dfn>\n+given a bare item <var>bareItem</var>:\n+\n+<ol>\n+ <li><p>If <var>bareItem</var> is a <a>structured field integer</a>,\n+ then return <var>bareItem</var>'s value as a Number.\n+\n+ <li><p>If <var>bareItem</var> is a <a>structured field decimal</a>,\n+ then return <var>bareItem</var>'s value as a Number.\n+\n+ <li><p>If <var>bareItem</var> is a <a>structured field string</a>,\n+ then return <var>bareItem</var>'s value as a String.\n+\n+ <li><p>If <var>bareItem</var> is a <a>structured field token</a>,\n+ then return <var>bareItem</var>'s value as a String.\n+\n+ <li><p>If <var>bareItem</var> is a <a>structured field boolean</a>,\n+ then return <var>bareItem</var>'s value as a Boolean.\n+\n+ <li><p>If <var>bareItem</var> is a <a>structured field byte sequence</a>,\n+ then return a new {{Uint8Array}} in the <a>current realm</a> whose\n+ contents are <var>bareItem</var>'s byte sequence.\n+\n+ <li><p>If <var>bareItem</var> is a <a>structured field date</a>,\n+ then return <var>bareItem</var>'s value (seconds since the Unix epoch)\n+ as a Number.\n+\n+ <li><p>If <var>bareItem</var> is a <a>structured field display string</a>,\n+ then return <var>bareItem</var>'s value as a String.\n+</ol>\n+\n+<p class=note>Both <a>structured field tokens</a> and\n+<a>structured field strings</a> are returned as JavaScript Strings.\n+Tokens are a constrained profile of string &mdash; they conform to the\n+token syntax defined in [[RFC9651]]\n+(<a href=\"https://httpwg.org/specs/rfc9651.html#token\">Section 3.3.4</a>)\n+&mdash; and are represented as plain strings rather than a distinct type,\n+following the pattern of {{DOMString}}, {{USVString}}, and {{ByteString}}.\n+</div>\n+\n+<div algorithm>\n+<p>To\n+<dfn>convert structured field parameters to a JavaScript Map</dfn>\n+given <a>structured field parameters</a> <var>params</var>:\n+\n+<ol>\n+ <li><p>Let <var>result</var> be a new {{Map}} object in the\n+ <a>current realm</a>.\n+\n+ <li>\n+  <p><a for=map>For each</a> <var>key</var> &rarr; <var>bareItem</var> of\n+  <var>params</var>:\n+\n+  <ol>\n+   <li><p>Let <var>jsValue</var> be the result of\n+   <a>converting a structured field bare item to a JavaScript value</a>\n+   given <var>bareItem</var>.\n+\n+   <li><p>Perform <a href=\"https://tc39.es/ecma262/#sec-map.prototype.set\">%Map.prototype.set%</a>\n+   on <var>result</var> with arguments <var>key</var> and <var>jsValue</var>.\n+  </ol>\n+\n+ <li><p>Return <var>result</var>.\n+</ol>\n+</div>\n+\n+<div algorithm>\n+<p>To\n+<dfn>convert a structured field item to a JavaScript object</dfn>\n+given a structured field item <var>sfItem</var>:\n+\n+<ol>\n+ <li><p>Let <var>value</var> be the result of\n+ <a>converting a structured field bare item to a JavaScript value</a>\n+ given <var>sfItem</var>'s bare item.\n+\n+ <li><p>Let <var>params</var> be the result of\n+ <a>converting structured field parameters to a JavaScript Map</a>\n+ given <var>sfItem</var>'s <a>structured field parameters</a>.\n+\n+ <li><p>Let <var>result</var> be\n+ <a href=\"https://tc39.es/ecma262/#sec-ordinaryobjectcreate\">OrdinaryObjectCreate</a>({{%Object.prototype%}}).\n+\n+ <li><p>Perform\n+ <a href=\"https://tc39.es/ecma262/#sec-createdataproperty\">CreateDataPropertyOrThrow</a>(<var>result</var>,\n+ \"<code>value</code>\", <var>value</var>).\n+\n+ <li><p>Perform\n+ <a href=\"https://tc39.es/ecma262/#sec-createdataproperty\">CreateDataPropertyOrThrow</a>(<var>result</var>,\n+ \"<code>params</code>\", <var>params</var>).\n+\n+ <li><p>Return <var>result</var>.\n+</ol>\n+\n+<p class=note>The returned object has the shape\n+<code>{ value: <var>bareItem</var>, params: Map }</code>.\n+</div>\n+\n+<div algorithm>\n+<p>To\n+<dfn>convert a structured field inner list to a JavaScript object</dfn>\n+given a <a>structured field inner list</a> <var>innerList</var>:\n+\n+<ol>\n+ <li><p>Let <var>items</var> be an empty <a for=/>list</a>.\n+\n+ <li>\n+  <p>For each <var>sfItem</var> of <var>innerList</var>'s members:\n+\n+  <ol>\n+   <li><p>Let <var>converted</var> be the result of\n+   <a>converting a structured field item to a JavaScript object</a>\n+   given <var>sfItem</var>.\n+\n+   <li><p><a for=list>Append</a> <var>converted</var> to <var>items</var>.\n+  </ol>\n+\n+ <li><p>Let <var>params</var> be the result of\n+ <a>converting structured field parameters to a JavaScript Map</a>\n+ given <var>innerList</var>'s <a>structured field parameters</a>.\n+\n+ <li><p>Let <var>jsArray</var> be\n+ <a href=\"https://tc39.es/ecma262/#sec-createarrayfromlist\">CreateArrayFromList</a>(<var>items</var>).\n+\n+ <li><p>Let <var>result</var> be\n+ <a href=\"https://tc39.es/ecma262/#sec-ordinaryobjectcreate\">OrdinaryObjectCreate</a>({{%Object.prototype%}}).\n+\n+ <li><p>Perform\n+ <a href=\"https://tc39.es/ecma262/#sec-createdataproperty\">CreateDataPropertyOrThrow</a>(<var>result</var>,\n+ \"<code>items</code>\", <var>jsArray</var>).\n+\n+ <li><p>Perform\n+ <a href=\"https://tc39.es/ecma262/#sec-createdataproperty\">CreateDataPropertyOrThrow</a>(<var>result</var>,\n+ \"<code>params</code>\", <var>params</var>).\n+\n+ <li><p>Return <var>result</var>.\n+</ol>\n+\n+<p class=note>The returned object has the shape\n+<code>{ items: [{ value, params }, ...], params: Map }</code>.\n+An inner list is distinguished from an item by the presence of\n+<code>items</code> rather than <code>value</code>.\n+</div>\n+\n+<div algorithm>\n+<p>To\n+<dfn>convert a structured field member to a JavaScript value</dfn>\n+given a structured field member <var>member</var>:\n+\n+<ol>\n+ <li><p>If <var>member</var> is a structured field item, return\n+ the result of <a>converting a structured field item to a JavaScript object</a>\n+ given <var>member</var>.\n+\n+ <li><p>If <var>member</var> is a <a>structured field inner list</a>, return\n+ the result of <a>converting a structured field inner list to a JavaScript object</a>\n+ given <var>member</var>.\n+</ol>\n+</div>\n+\n+<div algorithm>\n+<p>To\n+<dfn>convert a structured field to a JavaScript value</dfn>\n+given a <a>structured field value</a> <var>sfValue</var> and a\n+{{StructuredFieldType}} <var>type</var>:\n+\n+<ol>\n+ <li>\n+  <p>If <var>type</var> is \"<code>item</code>\":\n+\n+  <ol>\n+   <li><p>Return the result of\n+   <a>converting a structured field item to a JavaScript object</a>\n+   given <var>sfValue</var>.\n+  </ol>\n+\n+ <li>\n+  <p>If <var>type</var> is \"<code>list</code>\":\n+\n+  <ol>\n+   <li><p>Let <var>result</var> be an empty <a for=/>list</a>.\n+\n+   <li>\n+    <p>For each <var>member</var> of <var>sfValue</var>'s members:\n+\n+    <ol>\n+     <li><p>Let <var>converted</var> be the result of\n+     <a>converting a structured field member to a JavaScript value</a>\n+     given <var>member</var>.\n+\n+     <li><p><a for=list>Append</a> <var>converted</var> to <var>result</var>.\n+    </ol>\n+\n+   <li><p>Return\n+   <a href=\"https://tc39.es/ecma262/#sec-createarrayfromlist\">CreateArrayFromList</a>(<var>result</var>).\n+  </ol>\n+\n+ <li>\n+  <p>If <var>type</var> is \"<code>dictionary</code>\":\n+\n+  <ol>\n+   <li><p>Let <var>result</var> be a new {{Map}} object in the\n+   <a>current realm</a>.\n+\n+   <li>\n+    <p><a for=map>For each</a> <var>key</var> &rarr; <var>member</var> of\n+    <var>sfValue</var>'s members (in order):\n+\n+    <ol>\n+     <li><p>Let <var>converted</var> be the result of\n+     <a>converting a structured field member to a JavaScript value</a>\n+     given <var>member</var>.\n+\n+     <li><p>Perform <a href=\"https://tc39.es/ecma262/#sec-map.prototype.set\">%Map.prototype.set%</a>\n+     on <var>result</var> with arguments <var>key</var> and <var>converted</var>.\n+    </ol>\n+\n+   <li><p>Return <var>result</var>.\n+  </ol>\n+</ol>\n+</div>\n+\n+<hr>\n+\n+<p>The following algorithms convert JavaScript values to structured field\n+values for use with {{Headers/setStructured()}}.\n+\n+<div algorithm>\n+<p>To\n+<dfn>convert a JavaScript value to a structured field bare item</dfn>\n+given a JavaScript value <var>jsValue</var>:\n+\n+<ol>\n+ <li><p>If <a href=\"https://tc39.es/ecma262/#sec-typeof-operator\">Type</a>(<var>jsValue</var>)\n+ is Boolean, return a <a>structured field boolean</a> with <var>jsValue</var>'s value.\n+\n+ <li>\n+  <p>If <a href=\"https://tc39.es/ecma262/#sec-typeof-operator\">Type</a>(<var>jsValue</var>)\n+  is Number:\n+\n+  <ol>\n+   <li><p>If <var>jsValue</var> is NaN, +&infin;, or &minus;&infin;,\n+   then <a>throw</a> a {{TypeError}}.\n+\n+   <li><p>If <var>jsValue</var> is an\n+   <a href=\"https://tc39.es/ecma262/#sec-isinteger\">integral number</a>,\n+   return a <a>structured field integer</a> with <var>jsValue</var>'s value.\n+\n+   <li><p>Otherwise, return a <a>structured field decimal</a> with\n+   <var>jsValue</var>'s value.",
+    "path": "fetch.bs",
+    "commit_id": "96f7cf5f5e9686c0676f00b43a4078943a322d71",
+    "original_commit_id": "96f7cf5f5e9686c0676f00b43a4078943a322d71",
+    "user": {
+      "login": "jasnell",
+      "id": 439929,
+      "node_id": "MDQ6VXNlcjQzOTkyOQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/439929?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jasnell",
+      "html_url": "https://github.com/jasnell",
+      "followers_url": "https://api.github.com/users/jasnell/followers",
+      "following_url": "https://api.github.com/users/jasnell/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jasnell/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jasnell/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jasnell/subscriptions",
+      "organizations_url": "https://api.github.com/users/jasnell/orgs",
+      "repos_url": "https://api.github.com/users/jasnell/repos",
+      "events_url": "https://api.github.com/users/jasnell/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jasnell/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Updated to be more explicit ",
+    "created_at": "2026-08-07T17:31:00Z",
+    "updated_at": "2026-08-07T17:31:00Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1943#discussion_r3737599800",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1943",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3737599800"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1943#discussion_r3737599800"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1943"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3737599800/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 8440,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 8445,
+    "side": "RIGHT",
+    "in_reply_to_id": 3708996169,
+    "author_association": "NONE",
+    "original_position": 399,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3737600866",
+    "pull_request_review_id": 4885157306,
+    "id": 3737600866,
+    "node_id": "PRRC_kwDOAFgnJc7ex0Ni",
+    "diff_hunk": "@@ -8174,6 +8863,77 @@ method steps are:\n </ol>\n </div>\n \n+<div algorithm>\n+<p>The <dfn export for=Headers method><code>getStructured(<var>name</var>, <var>type</var>)</code></dfn>\n+method steps are:\n+\n+<ol>\n+ <li><p>If <var>name</var> is not a <a for=/>header name</a>, then <a>throw</a>\n+ a {{TypeError}}.\n+\n+ <li><p>Let <var>sfValue</var> be the result of <a for=\"header list\">getting\n+ a structured field value</a> given <var>name</var> and <var>type</var> from\n+ <a>this</a>'s <a for=Headers>header list</a>.\n+\n+ <li><p>If <var>sfValue</var> is null, then return null.\n+\n+ <li><p>Return the result of <a>converting a structured field to a\n+ JavaScript value</a> given <var>sfValue</var> and <var>type</var>.\n+</ol>\n+</div>\n+\n+<p class=note>Parsing structured fields and converting the result to\n+JavaScript objects is entirely optional. Implementations that do not\n+support structured field parsing are fully compliant with this\n+specification by having <a for=\"header list\">get a structured field value</a>\n+return null. Returning null matches the behavior when the header is absent or\n+malformed, ensuring no feature-detection breakage. The presence of the\n+{{Headers/getStructured()}} method itself is required.\n+\n+<div algorithm>\n+<p>The <dfn export for=Headers method><code>setStructured(<var>name</var>, <var>type</var>, <var>value</var>)</code></dfn>\n+method steps are:\n+\n+<ol>\n+ <li><p>If <var>name</var> is not a <a for=/>header name</a>, then <a>throw</a>\n+ a {{TypeError}}.\n+\n+ <li><p>If <a>this</a>'s <a for=Headers>guard</a> is \"<code>immutable</code>\",\n+ then <a>throw</a> a {{TypeError}}.\n+\n+ <li><p>Let <var>sfValue</var> be the result of\n+ <a>converting a JavaScript value to a structured field</a> given\n+ <var>value</var> and <var>type</var>.\n+\n+ <li><p>Let <var>serialized</var> be the result of\n+ <a>serializing structured fields</a> on <var>sfValue</var>.\n+\n+ <li><p>If serialization fails, then <a>throw</a> a {{TypeError}}.\n+\n+ <li><p>If <a for=Headers>validating</a> (<var>name</var>, <var>serialized</var>)\n+ for <a>this</a> returns false, then return.\n+\n+ <li><p>If <a>this</a>'s <a for=Headers>guard</a> is\n+ \"<code>request-no-cors</code>\" and (<var>name</var>, <var>serialized</var>)\n+ is not a <a>no-CORS-safelisted request-header</a>, then return.\n+\n+ <li><p><a for=\"header list\">Set</a> (<var>name</var>, <var>serialized</var>)\n+ in <a>this</a>'s <a for=Headers>header list</a>.\n+\n+ <li><p>If <a>this</a>'s <a for=Headers>guard</a> is\n+ \"<code>request-no-cors</code>\", then <a for=Headers>remove privileged\n+ no-CORS request-headers</a> from <a>this</a>.\n+</ol>\n+</div>\n+\n+<p class=note>Serializing structured fields is entirely optional.\n+Implementations that do not support structured field serialization are\n+fully compliant with this specification. The minimum conformance\n+requirement is that {{Headers/setStructured()}} does not throw for valid\n+inputs &mdash; an implementation that silently ignores the call is compliant.\n+Whether to actually serialize and set the header is an implementation\n+decision.",
+    "path": "fetch.bs",
+    "commit_id": "96f7cf5f5e9686c0676f00b43a4078943a322d71",
+    "original_commit_id": "96f7cf5f5e9686c0676f00b43a4078943a322d71",
+    "user": {
+      "login": "jasnell",
+      "id": 439929,
+      "node_id": "MDQ6VXNlcjQzOTkyOQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/439929?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jasnell",
+      "html_url": "https://github.com/jasnell",
+      "followers_url": "https://api.github.com/users/jasnell/followers",
+      "following_url": "https://api.github.com/users/jasnell/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jasnell/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jasnell/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jasnell/subscriptions",
+      "organizations_url": "https://api.github.com/users/jasnell/orgs",
+      "repos_url": "https://api.github.com/users/jasnell/repos",
+      "events_url": "https://api.github.com/users/jasnell/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jasnell/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Updated to make it required.",
+    "created_at": "2026-08-07T17:31:13Z",
+    "updated_at": "2026-08-07T17:31:13Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1943#discussion_r3737600866",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1943",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3737600866"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1943#discussion_r3737600866"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1943"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3737600866/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 8929,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 8935,
+    "side": "RIGHT",
+    "in_reply_to_id": 3709002291,
+    "author_association": "NONE",
+    "original_position": 797,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/issues/comments/6578774659",
+    "html_url": "https://github.com/whatwg/fetch/issues/1826#issuecomment-6578774659",
+    "issue_url": "https://api.github.com/repos/whatwg/fetch/issues/1826",
+    "id": 6578774659,
+    "node_id": "IC_kwDOAFgnJc8AAAABiCAigw",
+    "user": {
+      "login": "rifmj",
+      "id": 6716115,
+      "node_id": "MDQ6VXNlcjY3MTYxMTU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6716115?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/rifmj",
+      "html_url": "https://github.com/rifmj",
+      "followers_url": "https://api.github.com/users/rifmj/followers",
+      "following_url": "https://api.github.com/users/rifmj/following{/other_user}",
+      "gists_url": "https://api.github.com/users/rifmj/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/rifmj/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/rifmj/subscriptions",
+      "organizations_url": "https://api.github.com/users/rifmj/orgs",
+      "repos_url": "https://api.github.com/users/rifmj/repos",
+      "events_url": "https://api.github.com/users/rifmj/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/rifmj/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-02T13:47:01Z",
+    "updated_at": "2026-11-02T13:47:01Z",
+    "body": "One more remaining piece: removing expired cookies.\n\nFetch calls \"garbage collect cookies\" only while processing `Set-Cookie`, and nothing calls \"remove expired cookies\" otherwise. \"Retrieve Cookies\" has no expiry condition, because layered-cookies leaves this to Fetch and other callers (its \"Requirements Specific to Browser User Agents\" lists Remove Expired Cookies as a hook). So if no `Set-Cookie` is processed after a cookie expires, the steps return it:\n\n`m=1; Max-Age=2`, then a request 4 seconds later with no response in between.\n\nChromium 156, Firefox 157 and WebKit 27.2 do not send it. This was already noted on #1807 (\"clearing cookies periodically\"), but it is not in the list above.\n\n`cookies/attributes/expired-at-read.html` in web-platform-tests/wpt#64550 covers the request header and `document.cookie` separately, and passes in all three. I found no WPT that waits for expiry.\n\nDrafted with AI help.\n",
+    "author_association": "NONE",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/issues/comments/6578774659/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

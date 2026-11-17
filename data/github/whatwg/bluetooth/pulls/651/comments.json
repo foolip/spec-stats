@@ -1,0 +1,862 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2051255175",
+    "pull_request_review_id": 2779636891,
+    "id": 2051255175,
+    "node_id": "PRRC_kwDOAVr2cs56Q6uH",
+    "diff_hunk": "@@ -5510,6 +5511,55 @@ A [=local end=] could simulate a device gatt connection response of success\n </pre>\n </div>\n \n+#### The bluetooth.simulateGattDisconnection Command #### {#bluetooth-simulategattdisconnection-command}\n+\n+<pre highlight=\"cddl\" class=\"cddl remote-cddl local-cddl\">\n+bluetooth.SimulateGattDisconnection = (\n+   method: \"bluetooth.simulateGattDisconnection\",\n+   params: bluetooth.SimulateGattDisconnectionParameters,\n+)\n+\n+bluetooth.SimulateGattDisconnectionParameters = {\n+   context: text,\n+   address: text,\n+}\n+\n+</pre>\n+\n+<div algorithm=\"remote end steps for bluetooth.simulateGattDisconnection\">\n+The [=remote end steps=] with command parameters |params| are:\n+\n+1. Let |contextId| be |params|[`\"context\"`].\n+1. Let |navigable| be the result of [=trying=] to [=get a navigable=] with |contextId|.\n+1. Let |deviceAddress| be |params|[`\"address\"`].\n+1. Let |simulatedBluetoothAdapter| be |navigable|'s <a>simulated Bluetooth adapter</a>.\n+1. If |simulatedBluetoothAdapter| is empty, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |deviceMapping| be |simulatedBluetoothAdapter|'s <a>simulated Bluetooth device mapping</a>.\n+1. If |deviceMapping|[|deviceAddress|] [=map/exists=], let |simulatedDevice| be |deviceMapping|[|deviceAddress|].\n+    Otherwise, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |simulatedDeviceInstance| be the result of <a>get the <code>BluetoothDevice</code> representing</a>\n+    |simulatedDevice| inside |navigable|'s <a>active window</a>'s <a spec=HTML>associated <code>Navigator</code></a>'s\n+    [=associated Bluetooth=].\n+1. If |simulatedDeviceInstance|.{{[[gatt]]}}.{{[[automatedGATTConnectionResponse]]}} is `\"expected\"`,\n+    return [=error=] with [=error code=] [=invalid element state=].",
+    "path": "index.bs",
+    "commit_id": "2e5191f78fa1047f782467027f49839c50e9ecdc",
+    "original_commit_id": "8d31e483789ee8c4b9767ed03a02529ffbbed467",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think it's fine for `simulateGattDisconnection` to be a response to a connection request.",
+    "created_at": "2025-04-18T23:52:34Z",
+    "updated_at": "2025-04-18T23:53:16Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/651#discussion_r2051255175",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/651",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2051255175"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/651#discussion_r2051255175"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/651"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2051255175/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 5543,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 5544,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 42,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2051255595",
+    "pull_request_review_id": 2779636891,
+    "id": 2051255595,
+    "node_id": "PRRC_kwDOAVr2cs56Q60r",
+    "diff_hunk": "@@ -5510,6 +5511,55 @@ A [=local end=] could simulate a device gatt connection response of success\n </pre>\n </div>\n \n+#### The bluetooth.simulateGattDisconnection Command #### {#bluetooth-simulategattdisconnection-command}\n+\n+<pre highlight=\"cddl\" class=\"cddl remote-cddl local-cddl\">\n+bluetooth.SimulateGattDisconnection = (\n+   method: \"bluetooth.simulateGattDisconnection\",\n+   params: bluetooth.SimulateGattDisconnectionParameters,\n+)\n+\n+bluetooth.SimulateGattDisconnectionParameters = {\n+   context: text,\n+   address: text,\n+}\n+\n+</pre>\n+\n+<div algorithm=\"remote end steps for bluetooth.simulateGattDisconnection\">\n+The [=remote end steps=] with command parameters |params| are:\n+\n+1. Let |contextId| be |params|[`\"context\"`].\n+1. Let |navigable| be the result of [=trying=] to [=get a navigable=] with |contextId|.\n+1. Let |deviceAddress| be |params|[`\"address\"`].\n+1. Let |simulatedBluetoothAdapter| be |navigable|'s <a>simulated Bluetooth adapter</a>.\n+1. If |simulatedBluetoothAdapter| is empty, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |deviceMapping| be |simulatedBluetoothAdapter|'s <a>simulated Bluetooth device mapping</a>.\n+1. If |deviceMapping|[|deviceAddress|] [=map/exists=], let |simulatedDevice| be |deviceMapping|[|deviceAddress|].\n+    Otherwise, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |simulatedDeviceInstance| be the result of <a>get the <code>BluetoothDevice</code> representing</a>\n+    |simulatedDevice| inside |navigable|'s <a>active window</a>'s <a spec=HTML>associated <code>Navigator</code></a>'s\n+    [=associated Bluetooth=].\n+1. If |simulatedDeviceInstance|.{{[[gatt]]}}.{{[[automatedGATTConnectionResponse]]}} is `\"expected\"`,\n+    return [=error=] with [=error code=] [=invalid element state=].\n+1. <a>Clean up the disconnected device</a> |simulatedDeviceInstance|.",
+    "path": "index.bs",
+    "commit_id": "2e5191f78fa1047f782467027f49839c50e9ecdc",
+    "original_commit_id": "8d31e483789ee8c4b9767ed03a02529ffbbed467",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The \"clean up the disconnected device\" algorithm should clear `[[automatedGATTConnectionResponse]]`.",
+    "created_at": "2025-04-18T23:53:06Z",
+    "updated_at": "2025-04-18T23:53:16Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/651#discussion_r2051255595",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/651",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2051255595"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/651#discussion_r2051255595"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/651"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2051255595/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 5545,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 43,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2051422504",
+    "pull_request_review_id": 2779901284,
+    "id": 2051422504,
+    "node_id": "PRRC_kwDOAVr2cs56Rjko",
+    "diff_hunk": "@@ -5510,6 +5511,55 @@ A [=local end=] could simulate a device gatt connection response of success\n </pre>\n </div>\n \n+#### The bluetooth.simulateGattDisconnection Command #### {#bluetooth-simulategattdisconnection-command}\n+\n+<pre highlight=\"cddl\" class=\"cddl remote-cddl local-cddl\">\n+bluetooth.SimulateGattDisconnection = (\n+   method: \"bluetooth.simulateGattDisconnection\",\n+   params: bluetooth.SimulateGattDisconnectionParameters,\n+)\n+\n+bluetooth.SimulateGattDisconnectionParameters = {\n+   context: text,\n+   address: text,\n+}\n+\n+</pre>\n+\n+<div algorithm=\"remote end steps for bluetooth.simulateGattDisconnection\">\n+The [=remote end steps=] with command parameters |params| are:\n+\n+1. Let |contextId| be |params|[`\"context\"`].\n+1. Let |navigable| be the result of [=trying=] to [=get a navigable=] with |contextId|.\n+1. Let |deviceAddress| be |params|[`\"address\"`].\n+1. Let |simulatedBluetoothAdapter| be |navigable|'s <a>simulated Bluetooth adapter</a>.\n+1. If |simulatedBluetoothAdapter| is empty, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |deviceMapping| be |simulatedBluetoothAdapter|'s <a>simulated Bluetooth device mapping</a>.\n+1. If |deviceMapping|[|deviceAddress|] [=map/exists=], let |simulatedDevice| be |deviceMapping|[|deviceAddress|].\n+    Otherwise, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |simulatedDeviceInstance| be the result of <a>get the <code>BluetoothDevice</code> representing</a>\n+    |simulatedDevice| inside |navigable|'s <a>active window</a>'s <a spec=HTML>associated <code>Navigator</code></a>'s\n+    [=associated Bluetooth=].\n+1. If |simulatedDeviceInstance|.{{[[gatt]]}}.{{[[automatedGATTConnectionResponse]]}} is `\"expected\"`,\n+    return [=error=] with [=error code=] [=invalid element state=].\n+1. <a>Clean up the disconnected device</a> |simulatedDeviceInstance|.",
+    "path": "index.bs",
+    "commit_id": "2e5191f78fa1047f782467027f49839c50e9ecdc",
+    "original_commit_id": "8d31e483789ee8c4b9767ed03a02529ffbbed467",
+    "user": {
+      "login": "chengweih001",
+      "id": 97704544,
+      "node_id": "U_kgDOBdLaYA",
+      "avatar_url": "https://avatars.githubusercontent.com/u/97704544?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chengweih001",
+      "html_url": "https://github.com/chengweih001",
+      "followers_url": "https://api.github.com/users/chengweih001/followers",
+      "following_url": "https://api.github.com/users/chengweih001/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chengweih001/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chengweih001/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chengweih001/subscriptions",
+      "organizations_url": "https://api.github.com/users/chengweih001/orgs",
+      "repos_url": "https://api.github.com/users/chengweih001/repos",
+      "events_url": "https://api.github.com/users/chengweih001/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chengweih001/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2025-04-19T07:38:15Z",
+    "updated_at": "2025-04-19T07:38:15Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/651#discussion_r2051422504",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/651",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2051422504"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/651#discussion_r2051422504"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/651"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2051422504/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 5545,
+    "side": "RIGHT",
+    "in_reply_to_id": 2051255595,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 43,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2051422566",
+    "pull_request_review_id": 2779901394,
+    "id": 2051422566,
+    "node_id": "PRRC_kwDOAVr2cs56Rjlm",
+    "diff_hunk": "@@ -5510,6 +5511,55 @@ A [=local end=] could simulate a device gatt connection response of success\n </pre>\n </div>\n \n+#### The bluetooth.simulateGattDisconnection Command #### {#bluetooth-simulategattdisconnection-command}\n+\n+<pre highlight=\"cddl\" class=\"cddl remote-cddl local-cddl\">\n+bluetooth.SimulateGattDisconnection = (\n+   method: \"bluetooth.simulateGattDisconnection\",\n+   params: bluetooth.SimulateGattDisconnectionParameters,\n+)\n+\n+bluetooth.SimulateGattDisconnectionParameters = {\n+   context: text,\n+   address: text,\n+}\n+\n+</pre>\n+\n+<div algorithm=\"remote end steps for bluetooth.simulateGattDisconnection\">\n+The [=remote end steps=] with command parameters |params| are:\n+\n+1. Let |contextId| be |params|[`\"context\"`].\n+1. Let |navigable| be the result of [=trying=] to [=get a navigable=] with |contextId|.\n+1. Let |deviceAddress| be |params|[`\"address\"`].\n+1. Let |simulatedBluetoothAdapter| be |navigable|'s <a>simulated Bluetooth adapter</a>.\n+1. If |simulatedBluetoothAdapter| is empty, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |deviceMapping| be |simulatedBluetoothAdapter|'s <a>simulated Bluetooth device mapping</a>.\n+1. If |deviceMapping|[|deviceAddress|] [=map/exists=], let |simulatedDevice| be |deviceMapping|[|deviceAddress|].\n+    Otherwise, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |simulatedDeviceInstance| be the result of <a>get the <code>BluetoothDevice</code> representing</a>\n+    |simulatedDevice| inside |navigable|'s <a>active window</a>'s <a spec=HTML>associated <code>Navigator</code></a>'s\n+    [=associated Bluetooth=].\n+1. If |simulatedDeviceInstance|.{{[[gatt]]}}.{{[[automatedGATTConnectionResponse]]}} is `\"expected\"`,\n+    return [=error=] with [=error code=] [=invalid element state=].",
+    "path": "index.bs",
+    "commit_id": "2e5191f78fa1047f782467027f49839c50e9ecdc",
+    "original_commit_id": "8d31e483789ee8c4b9767ed03a02529ffbbed467",
+    "user": {
+      "login": "chengweih001",
+      "id": 97704544,
+      "node_id": "U_kgDOBdLaYA",
+      "avatar_url": "https://avatars.githubusercontent.com/u/97704544?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chengweih001",
+      "html_url": "https://github.com/chengweih001",
+      "followers_url": "https://api.github.com/users/chengweih001/followers",
+      "following_url": "https://api.github.com/users/chengweih001/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chengweih001/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chengweih001/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chengweih001/subscriptions",
+      "organizations_url": "https://api.github.com/users/chengweih001/orgs",
+      "repos_url": "https://api.github.com/users/chengweih001/repos",
+      "events_url": "https://api.github.com/users/chengweih001/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chengweih001/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2025-04-19T07:38:45Z",
+    "updated_at": "2025-04-19T07:38:46Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/651#discussion_r2051422566",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/651",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2051422566"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/651#discussion_r2051422566"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/651"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2051422566/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 5543,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 5544,
+    "side": "RIGHT",
+    "in_reply_to_id": 2051255175,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 42,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2052875102",
+    "pull_request_review_id": 2782037121,
+    "id": 2052875102,
+    "node_id": "PRRC_kwDOAVr2cs56XGNe",
+    "diff_hunk": "@@ -5510,6 +5513,55 @@ A [=local end=] could simulate a device gatt connection response of success\n </pre>\n </div>\n \n+#### The bluetooth.simulateGattDisconnection Command #### {#bluetooth-simulategattdisconnection-command}\n+\n+<pre highlight=\"cddl\" class=\"cddl remote-cddl local-cddl\">\n+bluetooth.SimulateGattDisconnection = (\n+   method: \"bluetooth.simulateGattDisconnection\",\n+   params: bluetooth.SimulateGattDisconnectionParameters,\n+)\n+\n+bluetooth.SimulateGattDisconnectionParameters = {\n+   context: text,\n+   address: text,\n+}\n+\n+</pre>\n+\n+<div algorithm=\"remote end steps for bluetooth.simulateGattDisconnection\">\n+The [=remote end steps=] with command parameters |params| are:\n+\n+1. Let |contextId| be |params|[`\"context\"`].\n+1. Let |navigable| be the result of [=trying=] to [=get a navigable=] with |contextId|.\n+1. Let |deviceAddress| be |params|[`\"address\"`].\n+1. Let |simulatedBluetoothAdapter| be |navigable|'s <a>simulated Bluetooth adapter</a>.\n+1. If |simulatedBluetoothAdapter| is empty, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |deviceMapping| be |simulatedBluetoothAdapter|'s <a>simulated Bluetooth device mapping</a>.\n+1. If |deviceMapping|[|deviceAddress|] [=map/exists=], let |simulatedDevice| be |deviceMapping|[|deviceAddress|].\n+    Otherwise, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |simulatedDeviceInstance| be the result of <a>get the <code>BluetoothDevice</code> representing</a>\n+    |simulatedDevice| inside |navigable|'s <a>active window</a>'s <a spec=HTML>associated <code>Navigator</code></a>'s\n+    [=associated Bluetooth=].\n+1. If |simulatedDeviceInstance|.{{[[gatt]]}}.{{[[automatedGATTConnectionResponse]]}} is `\"expected\"`,\n+    set |simulatedDeviceInstance|.{{[[gatt]]}}.{{[[automatedGATTConnectionResponse]]}} to `\"disconnection-simulated\"`\n+1. Otherwise, <a>clean up the disconnected device</a> |simulatedDeviceInstance|.\n+\n+</div>\n+\n+<div class=\"example\">\n+A [=local end=] could simulate device gatt disconnection by sending the following message:",
+    "path": "index.bs",
+    "commit_id": "2e5191f78fa1047f782467027f49839c50e9ecdc",
+    "original_commit_id": "91a3fa64f1572dc152b314734f3f2be3671a8713",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\nA [=local end=] could simulate device GATT disconnection by sending the following message:\r\n```",
+    "created_at": "2025-04-21T19:07:41Z",
+    "updated_at": "2025-04-21T19:09:32Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/651#discussion_r2052875102",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/651",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2052875102"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/651#discussion_r2052875102"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/651"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2052875102/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 5552,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 57,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2052876744",
+    "pull_request_review_id": 2782037121,
+    "id": 2052876744,
+    "node_id": "PRRC_kwDOAVr2cs56XGnI",
+    "diff_hunk": "@@ -5510,6 +5513,55 @@ A [=local end=] could simulate a device gatt connection response of success\n </pre>\n </div>\n \n+#### The bluetooth.simulateGattDisconnection Command #### {#bluetooth-simulategattdisconnection-command}\n+\n+<pre highlight=\"cddl\" class=\"cddl remote-cddl local-cddl\">\n+bluetooth.SimulateGattDisconnection = (\n+   method: \"bluetooth.simulateGattDisconnection\",\n+   params: bluetooth.SimulateGattDisconnectionParameters,\n+)\n+\n+bluetooth.SimulateGattDisconnectionParameters = {\n+   context: text,\n+   address: text,\n+}\n+\n+</pre>\n+\n+<div algorithm=\"remote end steps for bluetooth.simulateGattDisconnection\">\n+The [=remote end steps=] with command parameters |params| are:\n+\n+1. Let |contextId| be |params|[`\"context\"`].\n+1. Let |navigable| be the result of [=trying=] to [=get a navigable=] with |contextId|.\n+1. Let |deviceAddress| be |params|[`\"address\"`].\n+1. Let |simulatedBluetoothAdapter| be |navigable|'s <a>simulated Bluetooth adapter</a>.\n+1. If |simulatedBluetoothAdapter| is empty, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |deviceMapping| be |simulatedBluetoothAdapter|'s <a>simulated Bluetooth device mapping</a>.\n+1. If |deviceMapping|[|deviceAddress|] [=map/exists=], let |simulatedDevice| be |deviceMapping|[|deviceAddress|].\n+    Otherwise, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |simulatedDeviceInstance| be the result of <a>get the <code>BluetoothDevice</code> representing</a>\n+    |simulatedDevice| inside |navigable|'s <a>active window</a>'s <a spec=HTML>associated <code>Navigator</code></a>'s\n+    [=associated Bluetooth=].\n+1. If |simulatedDeviceInstance|.{{[[gatt]]}}.{{[[automatedGATTConnectionResponse]]}} is `\"expected\"`,\n+    set |simulatedDeviceInstance|.{{[[gatt]]}}.{{[[automatedGATTConnectionResponse]]}} to `\"disconnection-simulated\"`",
+    "path": "index.bs",
+    "commit_id": "2e5191f78fa1047f782467027f49839c50e9ecdc",
+    "original_commit_id": "91a3fa64f1572dc152b314734f3f2be3671a8713",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The `\"disconnection-simulated\"` value isn't mentioned anywhere else. To match the values expected by the `connect()` algorithm it should be an integer GATT response code matching what we would expect from the platform if the browser tried to connect to a disconnected device.",
+    "created_at": "2025-04-21T19:09:21Z",
+    "updated_at": "2025-04-21T19:09:32Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/651#discussion_r2052876744",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/651",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2052876744"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/651#discussion_r2052876744"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/651"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2052876744/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 5546,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 51,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2053003346",
+    "pull_request_review_id": 2782257359,
+    "id": 2053003346,
+    "node_id": "PRRC_kwDOAVr2cs56XlhS",
+    "diff_hunk": "@@ -5510,6 +5513,55 @@ A [=local end=] could simulate a device gatt connection response of success\n </pre>\n </div>\n \n+#### The bluetooth.simulateGattDisconnection Command #### {#bluetooth-simulategattdisconnection-command}\n+\n+<pre highlight=\"cddl\" class=\"cddl remote-cddl local-cddl\">\n+bluetooth.SimulateGattDisconnection = (\n+   method: \"bluetooth.simulateGattDisconnection\",\n+   params: bluetooth.SimulateGattDisconnectionParameters,\n+)\n+\n+bluetooth.SimulateGattDisconnectionParameters = {\n+   context: text,\n+   address: text,\n+}\n+\n+</pre>\n+\n+<div algorithm=\"remote end steps for bluetooth.simulateGattDisconnection\">\n+The [=remote end steps=] with command parameters |params| are:\n+\n+1. Let |contextId| be |params|[`\"context\"`].\n+1. Let |navigable| be the result of [=trying=] to [=get a navigable=] with |contextId|.\n+1. Let |deviceAddress| be |params|[`\"address\"`].\n+1. Let |simulatedBluetoothAdapter| be |navigable|'s <a>simulated Bluetooth adapter</a>.\n+1. If |simulatedBluetoothAdapter| is empty, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |deviceMapping| be |simulatedBluetoothAdapter|'s <a>simulated Bluetooth device mapping</a>.\n+1. If |deviceMapping|[|deviceAddress|] [=map/exists=], let |simulatedDevice| be |deviceMapping|[|deviceAddress|].\n+    Otherwise, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |simulatedDeviceInstance| be the result of <a>get the <code>BluetoothDevice</code> representing</a>\n+    |simulatedDevice| inside |navigable|'s <a>active window</a>'s <a spec=HTML>associated <code>Navigator</code></a>'s\n+    [=associated Bluetooth=].\n+1. If |simulatedDeviceInstance|.{{[[gatt]]}}.{{[[automatedGATTConnectionResponse]]}} is `\"expected\"`,\n+    set |simulatedDeviceInstance|.{{[[gatt]]}}.{{[[automatedGATTConnectionResponse]]}} to `\"disconnection-simulated\"`\n+1. Otherwise, <a>clean up the disconnected device</a> |simulatedDeviceInstance|.\n+\n+</div>\n+\n+<div class=\"example\">\n+A [=local end=] could simulate device gatt disconnection by sending the following message:",
+    "path": "index.bs",
+    "commit_id": "2e5191f78fa1047f782467027f49839c50e9ecdc",
+    "original_commit_id": "91a3fa64f1572dc152b314734f3f2be3671a8713",
+    "user": {
+      "login": "chengweih001",
+      "id": 97704544,
+      "node_id": "U_kgDOBdLaYA",
+      "avatar_url": "https://avatars.githubusercontent.com/u/97704544?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chengweih001",
+      "html_url": "https://github.com/chengweih001",
+      "followers_url": "https://api.github.com/users/chengweih001/followers",
+      "following_url": "https://api.github.com/users/chengweih001/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chengweih001/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chengweih001/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chengweih001/subscriptions",
+      "organizations_url": "https://api.github.com/users/chengweih001/orgs",
+      "repos_url": "https://api.github.com/users/chengweih001/repos",
+      "events_url": "https://api.github.com/users/chengweih001/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chengweih001/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2025-04-21T21:14:02Z",
+    "updated_at": "2025-04-21T21:14:02Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/651#discussion_r2053003346",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/651",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2053003346"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/651#discussion_r2053003346"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/651"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2053003346/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 5552,
+    "side": "RIGHT",
+    "in_reply_to_id": 2052875102,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 57,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2053004866",
+    "pull_request_review_id": 2782259633,
+    "id": 2053004866,
+    "node_id": "PRRC_kwDOAVr2cs56Xl5C",
+    "diff_hunk": "@@ -5510,6 +5513,55 @@ A [=local end=] could simulate a device gatt connection response of success\n </pre>\n </div>\n \n+#### The bluetooth.simulateGattDisconnection Command #### {#bluetooth-simulategattdisconnection-command}\n+\n+<pre highlight=\"cddl\" class=\"cddl remote-cddl local-cddl\">\n+bluetooth.SimulateGattDisconnection = (\n+   method: \"bluetooth.simulateGattDisconnection\",\n+   params: bluetooth.SimulateGattDisconnectionParameters,\n+)\n+\n+bluetooth.SimulateGattDisconnectionParameters = {\n+   context: text,\n+   address: text,\n+}\n+\n+</pre>\n+\n+<div algorithm=\"remote end steps for bluetooth.simulateGattDisconnection\">\n+The [=remote end steps=] with command parameters |params| are:\n+\n+1. Let |contextId| be |params|[`\"context\"`].\n+1. Let |navigable| be the result of [=trying=] to [=get a navigable=] with |contextId|.\n+1. Let |deviceAddress| be |params|[`\"address\"`].\n+1. Let |simulatedBluetoothAdapter| be |navigable|'s <a>simulated Bluetooth adapter</a>.\n+1. If |simulatedBluetoothAdapter| is empty, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |deviceMapping| be |simulatedBluetoothAdapter|'s <a>simulated Bluetooth device mapping</a>.\n+1. If |deviceMapping|[|deviceAddress|] [=map/exists=], let |simulatedDevice| be |deviceMapping|[|deviceAddress|].\n+    Otherwise, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |simulatedDeviceInstance| be the result of <a>get the <code>BluetoothDevice</code> representing</a>\n+    |simulatedDevice| inside |navigable|'s <a>active window</a>'s <a spec=HTML>associated <code>Navigator</code></a>'s\n+    [=associated Bluetooth=].\n+1. If |simulatedDeviceInstance|.{{[[gatt]]}}.{{[[automatedGATTConnectionResponse]]}} is `\"expected\"`,\n+    set |simulatedDeviceInstance|.{{[[gatt]]}}.{{[[automatedGATTConnectionResponse]]}} to `\"disconnection-simulated\"`",
+    "path": "index.bs",
+    "commit_id": "2e5191f78fa1047f782467027f49839c50e9ecdc",
+    "original_commit_id": "91a3fa64f1572dc152b314734f3f2be3671a8713",
+    "user": {
+      "login": "chengweih001",
+      "id": 97704544,
+      "node_id": "U_kgDOBdLaYA",
+      "avatar_url": "https://avatars.githubusercontent.com/u/97704544?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chengweih001",
+      "html_url": "https://github.com/chengweih001",
+      "followers_url": "https://api.github.com/users/chengweih001/followers",
+      "following_url": "https://api.github.com/users/chengweih001/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chengweih001/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chengweih001/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chengweih001/subscriptions",
+      "organizations_url": "https://api.github.com/users/chengweih001/orgs",
+      "repos_url": "https://api.github.com/users/chengweih001/repos",
+      "events_url": "https://api.github.com/users/chengweih001/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chengweih001/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I updated it to `0x44` which represents `Operation Cancelled by Host`.",
+    "created_at": "2025-04-21T21:15:41Z",
+    "updated_at": "2025-04-21T21:15:41Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/651#discussion_r2053004866",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/651",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2053004866"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/651#discussion_r2053004866"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/651"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2053004866/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 5546,
+    "side": "RIGHT",
+    "in_reply_to_id": 2052876744,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 51,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2053033593",
+    "pull_request_review_id": 2782304895,
+    "id": 2053033593,
+    "node_id": "PRRC_kwDOAVr2cs56Xs55",
+    "diff_hunk": "@@ -5510,6 +5513,55 @@ A [=local end=] could simulate a device gatt connection response of success\n </pre>\n </div>\n \n+#### The bluetooth.simulateGattDisconnection Command #### {#bluetooth-simulategattdisconnection-command}\n+\n+<pre highlight=\"cddl\" class=\"cddl remote-cddl local-cddl\">\n+bluetooth.SimulateGattDisconnection = (\n+   method: \"bluetooth.simulateGattDisconnection\",\n+   params: bluetooth.SimulateGattDisconnectionParameters,\n+)\n+\n+bluetooth.SimulateGattDisconnectionParameters = {\n+   context: text,\n+   address: text,\n+}\n+\n+</pre>\n+\n+<div algorithm=\"remote end steps for bluetooth.simulateGattDisconnection\">\n+The [=remote end steps=] with command parameters |params| are:\n+\n+1. Let |contextId| be |params|[`\"context\"`].\n+1. Let |navigable| be the result of [=trying=] to [=get a navigable=] with |contextId|.\n+1. Let |deviceAddress| be |params|[`\"address\"`].\n+1. Let |simulatedBluetoothAdapter| be |navigable|'s <a>simulated Bluetooth adapter</a>.\n+1. If |simulatedBluetoothAdapter| is empty, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |deviceMapping| be |simulatedBluetoothAdapter|'s <a>simulated Bluetooth device mapping</a>.\n+1. If |deviceMapping|[|deviceAddress|] [=map/exists=], let |simulatedDevice| be |deviceMapping|[|deviceAddress|].\n+    Otherwise, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |simulatedDeviceInstance| be the result of <a>get the <code>BluetoothDevice</code> representing</a>\n+    |simulatedDevice| inside |navigable|'s <a>active window</a>'s <a spec=HTML>associated <code>Navigator</code></a>'s\n+    [=associated Bluetooth=].\n+1. If |simulatedDeviceInstance|.{{[[gatt]]}}.{{[[automatedGATTConnectionResponse]]}} is `\"expected\"`,\n+    set |simulatedDeviceInstance|.{{[[gatt]]}}.{{[[automatedGATTConnectionResponse]]}} to `\"disconnection-simulated\"`",
+    "path": "index.bs",
+    "commit_id": "2e5191f78fa1047f782467027f49839c50e9ecdc",
+    "original_commit_id": "91a3fa64f1572dc152b314734f3f2be3671a8713",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Isn't `simulateGattDisconnection` supposed to simulate a device-initiated disconnection? That's probably \"Connection Accept Timeout Exceeded\" (0x10) or \"Remote Device Terminated Connection due to Power Off\" (0x15).",
+    "created_at": "2025-04-21T21:46:36Z",
+    "updated_at": "2025-04-21T21:46:36Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/651#discussion_r2053033593",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/651",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2053033593"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/651#discussion_r2053033593"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/651"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2053033593/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 5546,
+    "side": "RIGHT",
+    "in_reply_to_id": 2052876744,
+    "author_association": "COLLABORATOR",
+    "original_position": 51,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2053040081",
+    "pull_request_review_id": 2782314678,
+    "id": 2053040081,
+    "node_id": "PRRC_kwDOAVr2cs56XufR",
+    "diff_hunk": "@@ -5510,6 +5513,55 @@ A [=local end=] could simulate a device gatt connection response of success\n </pre>\n </div>\n \n+#### The bluetooth.simulateGattDisconnection Command #### {#bluetooth-simulategattdisconnection-command}\n+\n+<pre highlight=\"cddl\" class=\"cddl remote-cddl local-cddl\">\n+bluetooth.SimulateGattDisconnection = (\n+   method: \"bluetooth.simulateGattDisconnection\",\n+   params: bluetooth.SimulateGattDisconnectionParameters,\n+)\n+\n+bluetooth.SimulateGattDisconnectionParameters = {\n+   context: text,\n+   address: text,\n+}\n+\n+</pre>\n+\n+<div algorithm=\"remote end steps for bluetooth.simulateGattDisconnection\">\n+The [=remote end steps=] with command parameters |params| are:\n+\n+1. Let |contextId| be |params|[`\"context\"`].\n+1. Let |navigable| be the result of [=trying=] to [=get a navigable=] with |contextId|.\n+1. Let |deviceAddress| be |params|[`\"address\"`].\n+1. Let |simulatedBluetoothAdapter| be |navigable|'s <a>simulated Bluetooth adapter</a>.\n+1. If |simulatedBluetoothAdapter| is empty, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |deviceMapping| be |simulatedBluetoothAdapter|'s <a>simulated Bluetooth device mapping</a>.\n+1. If |deviceMapping|[|deviceAddress|] [=map/exists=], let |simulatedDevice| be |deviceMapping|[|deviceAddress|].\n+    Otherwise, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |simulatedDeviceInstance| be the result of <a>get the <code>BluetoothDevice</code> representing</a>\n+    |simulatedDevice| inside |navigable|'s <a>active window</a>'s <a spec=HTML>associated <code>Navigator</code></a>'s\n+    [=associated Bluetooth=].\n+1. If |simulatedDeviceInstance|.{{[[gatt]]}}.{{[[automatedGATTConnectionResponse]]}} is `\"expected\"`,\n+    set |simulatedDeviceInstance|.{{[[gatt]]}}.{{[[automatedGATTConnectionResponse]]}} to `\"disconnection-simulated\"`",
+    "path": "index.bs",
+    "commit_id": "2e5191f78fa1047f782467027f49839c50e9ecdc",
+    "original_commit_id": "91a3fa64f1572dc152b314734f3f2be3671a8713",
+    "user": {
+      "login": "chengweih001",
+      "id": 97704544,
+      "node_id": "U_kgDOBdLaYA",
+      "avatar_url": "https://avatars.githubusercontent.com/u/97704544?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chengweih001",
+      "html_url": "https://github.com/chengweih001",
+      "followers_url": "https://api.github.com/users/chengweih001/followers",
+      "following_url": "https://api.github.com/users/chengweih001/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chengweih001/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chengweih001/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chengweih001/subscriptions",
+      "organizations_url": "https://api.github.com/users/chengweih001/orgs",
+      "repos_url": "https://api.github.com/users/chengweih001/repos",
+      "events_url": "https://api.github.com/users/chengweih001/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chengweih001/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Ah.. right, I think I probably overlooked those error codes. Updated that to `0x15`.",
+    "created_at": "2025-04-21T21:54:54Z",
+    "updated_at": "2025-04-21T21:54:55Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/651#discussion_r2053040081",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/651",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2053040081"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/651#discussion_r2053040081"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/651"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2053040081/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 5546,
+    "side": "RIGHT",
+    "in_reply_to_id": 2052876744,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 51,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2053074352",
+    "pull_request_review_id": 2782366599,
+    "id": 2053074352,
+    "node_id": "PRRC_kwDOAVr2cs56X22w",
+    "diff_hunk": "@@ -5510,6 +5513,55 @@ A [=local end=] could simulate a device gatt connection response of success\n </pre>\n </div>\n \n+#### The bluetooth.simulateGattDisconnection Command #### {#bluetooth-simulategattdisconnection-command}\n+\n+<pre highlight=\"cddl\" class=\"cddl remote-cddl local-cddl\">\n+bluetooth.SimulateGattDisconnection = (\n+   method: \"bluetooth.simulateGattDisconnection\",\n+   params: bluetooth.SimulateGattDisconnectionParameters,\n+)\n+\n+bluetooth.SimulateGattDisconnectionParameters = {\n+   context: text,\n+   address: text,\n+}\n+\n+</pre>\n+\n+<div algorithm=\"remote end steps for bluetooth.simulateGattDisconnection\">\n+The [=remote end steps=] with command parameters |params| are:\n+\n+1. Let |contextId| be |params|[`\"context\"`].\n+1. Let |navigable| be the result of [=trying=] to [=get a navigable=] with |contextId|.\n+1. Let |deviceAddress| be |params|[`\"address\"`].\n+1. Let |simulatedBluetoothAdapter| be |navigable|'s <a>simulated Bluetooth adapter</a>.\n+1. If |simulatedBluetoothAdapter| is empty, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |deviceMapping| be |simulatedBluetoothAdapter|'s <a>simulated Bluetooth device mapping</a>.\n+1. If |deviceMapping|[|deviceAddress|] [=map/exists=], let |simulatedDevice| be |deviceMapping|[|deviceAddress|].\n+    Otherwise, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |simulatedDeviceInstance| be the result of <a>get the <code>BluetoothDevice</code> representing</a>\n+    |simulatedDevice| inside |navigable|'s <a>active window</a>'s <a spec=HTML>associated <code>Navigator</code></a>'s\n+    [=associated Bluetooth=].\n+1. If |simulatedDeviceInstance|.{{[[gatt]]}}.{{[[automatedGATTConnectionResponse]]}} is `\"expected\"`,\n+    set |simulatedDeviceInstance|.{{[[gatt]]}}.{{[[automatedGATTConnectionResponse]]}} to `\"disconnection-simulated\"`",
+    "path": "index.bs",
+    "commit_id": "2e5191f78fa1047f782467027f49839c50e9ecdc",
+    "original_commit_id": "91a3fa64f1572dc152b314734f3f2be3671a8713",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Please add a note explaining what 0x15 means and why it was chosen.",
+    "created_at": "2025-04-21T22:41:15Z",
+    "updated_at": "2025-04-21T22:41:15Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/651#discussion_r2053074352",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/651",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2053074352"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/651#discussion_r2053074352"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/651"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2053074352/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 5546,
+    "side": "RIGHT",
+    "in_reply_to_id": 2052876744,
+    "author_association": "COLLABORATOR",
+    "original_position": 51,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2053093077",
+    "pull_request_review_id": 2782394341,
+    "id": 2053093077,
+    "node_id": "PRRC_kwDOAVr2cs56X7bV",
+    "diff_hunk": "@@ -5510,6 +5513,55 @@ A [=local end=] could simulate a device gatt connection response of success\n </pre>\n </div>\n \n+#### The bluetooth.simulateGattDisconnection Command #### {#bluetooth-simulategattdisconnection-command}\n+\n+<pre highlight=\"cddl\" class=\"cddl remote-cddl local-cddl\">\n+bluetooth.SimulateGattDisconnection = (\n+   method: \"bluetooth.simulateGattDisconnection\",\n+   params: bluetooth.SimulateGattDisconnectionParameters,\n+)\n+\n+bluetooth.SimulateGattDisconnectionParameters = {\n+   context: text,\n+   address: text,\n+}\n+\n+</pre>\n+\n+<div algorithm=\"remote end steps for bluetooth.simulateGattDisconnection\">\n+The [=remote end steps=] with command parameters |params| are:\n+\n+1. Let |contextId| be |params|[`\"context\"`].\n+1. Let |navigable| be the result of [=trying=] to [=get a navigable=] with |contextId|.\n+1. Let |deviceAddress| be |params|[`\"address\"`].\n+1. Let |simulatedBluetoothAdapter| be |navigable|'s <a>simulated Bluetooth adapter</a>.\n+1. If |simulatedBluetoothAdapter| is empty, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |deviceMapping| be |simulatedBluetoothAdapter|'s <a>simulated Bluetooth device mapping</a>.\n+1. If |deviceMapping|[|deviceAddress|] [=map/exists=], let |simulatedDevice| be |deviceMapping|[|deviceAddress|].\n+    Otherwise, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |simulatedDeviceInstance| be the result of <a>get the <code>BluetoothDevice</code> representing</a>\n+    |simulatedDevice| inside |navigable|'s <a>active window</a>'s <a spec=HTML>associated <code>Navigator</code></a>'s\n+    [=associated Bluetooth=].\n+1. If |simulatedDeviceInstance|.{{[[gatt]]}}.{{[[automatedGATTConnectionResponse]]}} is `\"expected\"`,\n+    set |simulatedDeviceInstance|.{{[[gatt]]}}.{{[[automatedGATTConnectionResponse]]}} to `\"disconnection-simulated\"`",
+    "path": "index.bs",
+    "commit_id": "2e5191f78fa1047f782467027f49839c50e9ecdc",
+    "original_commit_id": "91a3fa64f1572dc152b314734f3f2be3671a8713",
+    "user": {
+      "login": "chengweih001",
+      "id": 97704544,
+      "node_id": "U_kgDOBdLaYA",
+      "avatar_url": "https://avatars.githubusercontent.com/u/97704544?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chengweih001",
+      "html_url": "https://github.com/chengweih001",
+      "followers_url": "https://api.github.com/users/chengweih001/followers",
+      "following_url": "https://api.github.com/users/chengweih001/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chengweih001/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chengweih001/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chengweih001/subscriptions",
+      "organizations_url": "https://api.github.com/users/chengweih001/orgs",
+      "repos_url": "https://api.github.com/users/chengweih001/repos",
+      "events_url": "https://api.github.com/users/chengweih001/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chengweih001/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2025-04-21T23:12:06Z",
+    "updated_at": "2025-04-21T23:12:06Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/651#discussion_r2053093077",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/651",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2053093077"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/651#discussion_r2053093077"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/651"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2053093077/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 5546,
+    "side": "RIGHT",
+    "in_reply_to_id": 2052876744,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 51,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

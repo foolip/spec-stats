@@ -1,0 +1,144 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1440860395",
+    "pull_request_review_id": 1802963461,
+    "id": 1440860395,
+    "node_id": "PRRC_kwDOGdsLdc5V4cjr",
+    "diff_hunk": "@@ -124,50 +124,97 @@ Issue: We should consider having further normative restrictions on file names th\n never be allowed using this API, rather than leaving it entirely up to underlying file\n systems.\n \n+A <dfn>lock type</dfn> is a [=string=] that may exclusively be \"`open`\",\n+\"`exclusive`\", or \"`shared`\".\n+\n+A <dfn>file lock</dfn> is a [=struct=] with the following [=struct/items=]:\n+\n+: <dfn for=\"file lock\">type</dfn>\n+:: A [=lock type=].\n+: <dfn for=\"file lock\">globals</dfn>\n+:: A [=/list=] of [=realm/global objects=] representing the current holders of the lock.\n+\n A <dfn export id=file>file entry</dfn> additionally consists of\n <dfn for=\"file entry\" export>binary data</dfn> (a [=byte sequence=]), a\n <dfn for=\"file entry\">modification timestamp</dfn> (a number representing the number of milliseconds since the <a spec=FileAPI>Unix Epoch</a>),\n-a <dfn for=\"file entry\">lock</dfn> (a string that may exclusively be \"`open`\", \"`taken-exclusive`\" or \"`taken-shared`\")\n-and a <dfn for=\"file entry\">shared lock count</dfn> (a number representing the number shared locks that are taken at a given point in time).\n+a <dfn for=\"file entry\">lock</dfn> (a [=file lock=]), a <dfn for=\"file entry\">pending lock</dfn> (a [=file lock=]),\n+and <dfn for=\"file entry\">pending steps</dfn> (a [=/list=] of sets of steps).\n \n A user agent has an associated <dfn>file system queue</dfn> which is the\n result of [=starting a new parallel queue=]. This queue is to be used for all\n file system operations.\n \n <div algorithm>\n-To <dfn for=\"file entry/lock\">take</dfn> a [=file entry/lock=] with a |value| of\n-\"`exclusive`\" or \"`shared`\" on a given [=file entry=] |file|:\n-\n-1. Let |lock| be the |file|'s [=file entry/lock=].\n-1. Let |count| be the |file|'s [=file entry/shared lock count=].\n-1. If |value| is \"`exclusive`\":\n-   1. If |lock| is \"`open`\":\n-     1. Set lock to \"`taken-exclusive`\".\n-     1. Return \"`success`\".\n-1. If |value| is \"`shared`\":\n-   1. If |lock| is \"`open`\":\n-     1. Set |lock| to \"`taken-shared`\".\n-     1. Set |count| to 1.\n-     1. Return \"`success`\".\n-   1. Otherwise, if |lock| is \"`taken-shared`\":\n-     1. Increase |count| by 1.\n-     1. Return \"`success`\".\n-1. Return \"`failure`\".\n+To <dfn for=\"file entry\" id=file-entry-lock-take>take a lock</dfn> on a given [=file entry=] |file|\n+with a |lockType| (a [=lock type=]), a set of steps |resultSteps|, a [=realm/global object=] |global|,",
+    "path": "index.bs",
+    "commit_id": "46d0186706159700c677f577751fa91c42dbc9ce",
+    "original_commit_id": "46d0186706159700c677f577751fa91c42dbc9ce",
+    "user": {
+      "login": "nathanmemmott",
+      "id": 123413584,
+      "node_id": "U_kgDOB1skUA",
+      "avatar_url": "https://avatars.githubusercontent.com/u/123413584?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nathanmemmott",
+      "html_url": "https://github.com/nathanmemmott",
+      "followers_url": "https://api.github.com/users/nathanmemmott/followers",
+      "following_url": "https://api.github.com/users/nathanmemmott/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nathanmemmott/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nathanmemmott/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nathanmemmott/subscriptions",
+      "organizations_url": "https://api.github.com/users/nathanmemmott/orgs",
+      "repos_url": "https://api.github.com/users/nathanmemmott/repos",
+      "events_url": "https://api.github.com/users/nathanmemmott/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nathanmemmott/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I couldn't find an example of a spec algorithm which took steps and passed a result to them. I thought about returning the result, but the steps will be run before the algorithm returns.",
+    "created_at": "2024-01-03T19:38:26Z",
+    "updated_at": "2024-01-03T19:45:58Z",
+    "html_url": "https://github.com/whatwg/fs/pull/154#discussion_r1440860395",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/154",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1440860395"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/154#discussion_r1440860395"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/154"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1440860395/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 149,
+    "original_line": 149,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 46,
+    "position": 46,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1440867293",
+    "pull_request_review_id": 1802963461,
+    "id": 1440867293,
+    "node_id": "PRRC_kwDOGdsLdc5V4ePd",
+    "diff_hunk": "@@ -124,50 +124,97 @@ Issue: We should consider having further normative restrictions on file names th\n never be allowed using this API, rather than leaving it entirely up to underlying file\n systems.\n \n+A <dfn>lock type</dfn> is a [=string=] that may exclusively be \"`open`\",\n+\"`exclusive`\", or \"`shared`\".\n+\n+A <dfn>file lock</dfn> is a [=struct=] with the following [=struct/items=]:\n+\n+: <dfn for=\"file lock\">type</dfn>\n+:: A [=lock type=].\n+: <dfn for=\"file lock\">globals</dfn>\n+:: A [=/list=] of [=realm/global objects=] representing the current holders of the lock.\n+\n A <dfn export id=file>file entry</dfn> additionally consists of\n <dfn for=\"file entry\" export>binary data</dfn> (a [=byte sequence=]), a\n <dfn for=\"file entry\">modification timestamp</dfn> (a number representing the number of milliseconds since the <a spec=FileAPI>Unix Epoch</a>),\n-a <dfn for=\"file entry\">lock</dfn> (a string that may exclusively be \"`open`\", \"`taken-exclusive`\" or \"`taken-shared`\")\n-and a <dfn for=\"file entry\">shared lock count</dfn> (a number representing the number shared locks that are taken at a given point in time).\n+a <dfn for=\"file entry\">lock</dfn> (a [=file lock=]), a <dfn for=\"file entry\">pending lock</dfn> (a [=file lock=]),\n+and <dfn for=\"file entry\">pending steps</dfn> (a [=/list=] of sets of steps).\n \n A user agent has an associated <dfn>file system queue</dfn> which is the\n result of [=starting a new parallel queue=]. This queue is to be used for all\n file system operations.\n \n <div algorithm>\n-To <dfn for=\"file entry/lock\">take</dfn> a [=file entry/lock=] with a |value| of\n-\"`exclusive`\" or \"`shared`\" on a given [=file entry=] |file|:\n-\n-1. Let |lock| be the |file|'s [=file entry/lock=].\n-1. Let |count| be the |file|'s [=file entry/shared lock count=].\n-1. If |value| is \"`exclusive`\":\n-   1. If |lock| is \"`open`\":\n-     1. Set lock to \"`taken-exclusive`\".\n-     1. Return \"`success`\".\n-1. If |value| is \"`shared`\":\n-   1. If |lock| is \"`open`\":\n-     1. Set |lock| to \"`taken-shared`\".\n-     1. Set |count| to 1.\n-     1. Return \"`success`\".\n-   1. Otherwise, if |lock| is \"`taken-shared`\":\n-     1. Increase |count| by 1.\n-     1. Return \"`success`\".\n-1. Return \"`failure`\".\n+To <dfn for=\"file entry\" id=file-entry-lock-take>take a lock</dfn> on a given [=file entry=] |file|\n+with a |lockType| (a [=lock type=]), a set of steps |resultSteps|, a [=realm/global object=] |global|,\n+and a |lockResult| (a [=string=]):\n+\n+1. [=Assert=]: |lockType| is not \"`open`\".\n+1. Let |pendingLock| be the |file|'s [=file entry/pending lock=].\n+1. Let |pendingSteps| be the |file|'s [=file entry/pending steps=].\n+1. Let |activeLock| be the |file|'s [=file entry/lock=].\n+1. If |pendingLock|'s [=file lock/type=] is not \"`open`\":\n+  1. Set |activeLock| to |pendingLock|.\n+1. Let |activeLockType| be the |activeLock|'s [=file lock/type=].\n+1. If |activeLockType| is not \"`open`\":\n+  1. If |activeLockType| is not equal to |lockType| or is \"`exclusive`\":\n+    1. Let |evictedStatus| be the result of [=file lock/evicting all globals=] on |activeLock|.\n+    1. If |evictedStatus| is \"`failure`\":\n+      1. Set |lockResult| to `failure`.\n+      1. Run |resultSteps|.\n+      1. Return.\n+    1. [=list/Empty=] |pendingLock|'s [=file lock/globals=].\n+    1. [=list/Empty=] |pendingSteps|.\n+    1. Set |activeLock| to |pendingLock|.\n+1. Set |lockResult| to `success`.\n+1. Set the |activeLock|'s [=file lock/type=] to |lockType|.\n+1. [=list/Append=] |global| to |activeLock|'s [=file lock/globals=].\n+1. If |activeLock| is the |pendingLock|:\n+  1. [=list/Append=] |resultSteps| to |pendingSteps|.\n+1. Otherwise:\n+  1. Run |resultSteps|.\n \n Note: These steps have to be run on the [=file system queue=].\n \n </div>\n \n+<div algorithm>\n+To <dfn for=\"file lock\">evict all globals</dfn> for a [=file entry/lock=] |lock|.\n+\n+1. [=set/For each=] |global| of |lock|'s [=file lock/globals=]:\n+  1. If |global| is a {{Window}} object whose [=associated Document=] is [=Document/fully active=]:\n+    1. Return \"`failure`\".\n+  1. If |global| is a {{WorkerGlobalScope}} object whose [=WorkerGlobalScope/closing=] flag is false and whose {{worker}} is not a [[html/workers#the-worker's-lifetime|suspendable worker]]:",
+    "path": "index.bs",
+    "commit_id": "46d0186706159700c677f577751fa91c42dbc9ce",
+    "original_commit_id": "46d0186706159700c677f577751fa91c42dbc9ce",
+    "user": {
+      "login": "nathanmemmott",
+      "id": 123413584,
+      "node_id": "U_kgDOB1skUA",
+      "avatar_url": "https://avatars.githubusercontent.com/u/123413584?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nathanmemmott",
+      "html_url": "https://github.com/nathanmemmott",
+      "followers_url": "https://api.github.com/users/nathanmemmott/followers",
+      "following_url": "https://api.github.com/users/nathanmemmott/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nathanmemmott/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nathanmemmott/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nathanmemmott/subscriptions",
+      "organizations_url": "https://api.github.com/users/nathanmemmott/orgs",
+      "repos_url": "https://api.github.com/users/nathanmemmott/repos",
+      "events_url": "https://api.github.com/users/nathanmemmott/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nathanmemmott/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Uncertain if this is the right condition to exclude workers. This is taken from another [PR](https://github.com/whatwg/html/pull/8972) with BFCache interaction.",
+    "created_at": "2024-01-03T19:45:07Z",
+    "updated_at": "2024-01-03T19:45:58Z",
+    "html_url": "https://github.com/whatwg/fs/pull/154#discussion_r1440867293",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/154",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1440867293"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/154#discussion_r1440867293"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/154"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1440867293/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 187,
+    "original_line": 187,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 84,
+    "position": 84,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

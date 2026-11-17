@@ -1,0 +1,145 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/2067923003",
+    "pull_request_review_id": 2805860916,
+    "id": 2067923003,
+    "node_id": "PRRC_kwDOAFgnJc57QgA7",
+    "diff_hunk": "@@ -4439,15 +4439,28 @@ the response. [[!HTTP-CACHING]]\n <p>To <dfn>populate request from client</dfn> given a <a for=/>request</a> <var>request</var>:\n \n <ol>\n- <li><p>If <var>request</var>'s <a for=request>window</a> is \"<code>client</code>\", then: set\n- <var>request</var>'s <a for=request>window</a> to <var>request</var>'s <a for=request>client</a>\n- if <var>request</var>'s <a for=request>client</a>'s\n- <a for=\"environment settings object\">global object</a> is a {{Window}} object; otherwise\n- \"<code>no-window</code>\".\n-\n- <li><p>If <var>request</var>'s <a for=request>origin</a> is \"<code>client</code>\", then set\n- <var>request</var>'s <a for=request>origin</a> to  <var>request</var>'s <a for=request>client</a>'s\n- <a for=\"environment settings object\">origin</a>.\n+ <li>\n+  <p>If <var>request</var>'s <a for=request>window</a> is \"<code>client</code>\":\n+\n+  <ol>\n+   <li><p>If <var>request</var>'s <a for=request>client</a> is non-null and <var>request</var>'s\n+   <a for=request>client</a>'s <a for=\"environment settings object\">global object</a> is a\n+   {{Window}} object, then set <var>request</var>'s <a for=request>window</a> to\n+   <var>request</var>'s <a for=request>client</a>'s\n+   <a for=\"environment settings object\">global object</a>.\n+\n+   <li><p>Otherwise, set <var>request</var>'s <a for=request>window</a> to \"<code>no-window</code>\".",
+    "path": "fetch.bs",
+    "commit_id": "eed7c23885e30b04e09ad66aa9c848888b5c99b3",
+    "original_commit_id": "eed7c23885e30b04e09ad66aa9c848888b5c99b3",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This seems wrong for the null client case. Since I think a null client case is always a navigation (or perhaps something especially esoteric in the network stack) and thus would have a window to show dialogs in.",
+    "created_at": "2025-04-30T06:16:12Z",
+    "updated_at": "2025-04-30T06:16:46Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1820#discussion_r2067923003",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1820",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/2067923003"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1820#discussion_r2067923003"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1820"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/2067923003/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 4452,
+    "original_line": 4452,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 23,
+    "position": 23,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/2067998260",
+    "pull_request_review_id": 2805980915,
+    "id": 2067998260,
+    "node_id": "PRRC_kwDOAFgnJc57QyY0",
+    "diff_hunk": "@@ -4439,15 +4439,28 @@ the response. [[!HTTP-CACHING]]\n <p>To <dfn>populate request from client</dfn> given a <a for=/>request</a> <var>request</var>:\n \n <ol>\n- <li><p>If <var>request</var>'s <a for=request>window</a> is \"<code>client</code>\", then: set\n- <var>request</var>'s <a for=request>window</a> to <var>request</var>'s <a for=request>client</a>\n- if <var>request</var>'s <a for=request>client</a>'s\n- <a for=\"environment settings object\">global object</a> is a {{Window}} object; otherwise\n- \"<code>no-window</code>\".\n-\n- <li><p>If <var>request</var>'s <a for=request>origin</a> is \"<code>client</code>\", then set\n- <var>request</var>'s <a for=request>origin</a> to  <var>request</var>'s <a for=request>client</a>'s\n- <a for=\"environment settings object\">origin</a>.\n+ <li>\n+  <p>If <var>request</var>'s <a for=request>window</a> is \"<code>client</code>\":\n+\n+  <ol>\n+   <li><p>If <var>request</var>'s <a for=request>client</a> is non-null and <var>request</var>'s\n+   <a for=request>client</a>'s <a for=\"environment settings object\">global object</a> is a\n+   {{Window}} object, then set <var>request</var>'s <a for=request>window</a> to\n+   <var>request</var>'s <a for=request>client</a>'s\n+   <a for=\"environment settings object\">global object</a>.\n+\n+   <li><p>Otherwise, set <var>request</var>'s <a for=request>window</a> to \"<code>no-window</code>\".",
+    "path": "fetch.bs",
+    "commit_id": "eed7c23885e30b04e09ad66aa9c848888b5c99b3",
+    "original_commit_id": "eed7c23885e30b04e09ad66aa9c848888b5c99b3",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Upon reflection, I think most spec authors will use the null client case for things from the network stack. They won't necessarily be super-esoteric... just \"browser features\" like FedCM or similar.\r\n\r\nSo we might still want to do this automatically for them. Even if the browser UI navigation case goes a different path.\r\n\r\nI'll leave this PR open in case we do want to go this route, and open a separate PR for the browser UI navigation path.",
+    "created_at": "2025-04-30T07:07:03Z",
+    "updated_at": "2025-04-30T07:07:03Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1820#discussion_r2067998260",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1820",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/2067998260"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1820#discussion_r2067998260"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1820"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/2067998260/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 4452,
+    "original_line": 4452,
+    "side": "RIGHT",
+    "in_reply_to_id": 2067923003,
+    "author_association": "MEMBER",
+    "original_position": 23,
+    "position": 23,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

@@ -1,0 +1,358 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1294875864",
+    "pull_request_review_id": 1579014935,
+    "id": 1294875864,
+    "node_id": "PRRC_kwDOGdsLdc5NLjzY",
+    "diff_hunk": "@@ -221,6 +221,11 @@ childAccessHandle.close();\n await parentHandle.remove(); // successful\n ```\n \n+### Interactions with BFCache\n+A page should not be made aware that it or another page is or has been in the BFCache. A fully active page could be made aware of a BFCached page if there is contention between locks they hold. The File System Access API operations/primitives hold locks that may cause this issue.",
+    "path": "proposals/MultipleReadersWriters.md",
+    "commit_id": "1d781981879a56da15165c8d0d805353610d969e",
+    "original_commit_id": "c0713f829feb3b2a28613fdef2b099df86b3ee3c",
+    "user": {
+      "login": "a-sully",
+      "id": 77407429,
+      "node_id": "MDQ6VXNlcjc3NDA3NDI5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77407429?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/a-sully",
+      "html_url": "https://github.com/a-sully",
+      "followers_url": "https://api.github.com/users/a-sully/followers",
+      "following_url": "https://api.github.com/users/a-sully/following{/other_user}",
+      "gists_url": "https://api.github.com/users/a-sully/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/a-sully/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/a-sully/subscriptions",
+      "organizations_url": "https://api.github.com/users/a-sully/orgs",
+      "repos_url": "https://api.github.com/users/a-sully/repos",
+      "events_url": "https://api.github.com/users/a-sully/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/a-sully/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The key issue is that _a page may still hold a file system lock when it enters the BFCache_. The last sentence hints at this, but I think this paragraph could be more concise if that was stated more directly",
+    "created_at": "2023-08-15T16:55:16Z",
+    "updated_at": "2023-08-15T16:59:48Z",
+    "html_url": "https://github.com/whatwg/fs/pull/142#discussion_r1294875864",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/142",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1294875864"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/142#discussion_r1294875864"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/142"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1294875864/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 225,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 5,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1294879049",
+    "pull_request_review_id": 1579014935,
+    "id": 1294879049,
+    "node_id": "PRRC_kwDOGdsLdc5NLklJ",
+    "diff_hunk": "@@ -221,6 +221,11 @@ childAccessHandle.close();\n await parentHandle.remove(); // successful\n ```\n \n+### Interactions with BFCache\n+A page should not be made aware that it or another page is or has been in the BFCache. A fully active page could be made aware of a BFCached page if there is contention between locks they hold. The File System Access API operations/primitives hold locks that may cause this issue.\n+\n+To keep BFCache enabled when a site uses the File System Access API, a BFCached page should be evicted only on locking contention with a fully active page. This allows the site to have the performance gains of BFCache up until it would be made aware of the BFCache.",
+    "path": "proposals/MultipleReadersWriters.md",
+    "commit_id": "1d781981879a56da15165c8d0d805353610d969e",
+    "original_commit_id": "c0713f829feb3b2a28613fdef2b099df86b3ee3c",
+    "user": {
+      "login": "a-sully",
+      "id": 77407429,
+      "node_id": "MDQ6VXNlcjc3NDA3NDI5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77407429?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/a-sully",
+      "html_url": "https://github.com/a-sully",
+      "followers_url": "https://api.github.com/users/a-sully/followers",
+      "following_url": "https://api.github.com/users/a-sully/following{/other_user}",
+      "gists_url": "https://api.github.com/users/a-sully/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/a-sully/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/a-sully/subscriptions",
+      "organizations_url": "https://api.github.com/users/a-sully/orgs",
+      "repos_url": "https://api.github.com/users/a-sully/repos",
+      "events_url": "https://api.github.com/users/a-sully/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/a-sully/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "> a BFCached page should be evicted only on locking contention with a fully active page\r\n\r\nA BFCached page may be evicted for any number of reasons unrelated to this API. Rather than say that a page will _only_ be evicted due to lock contention (which implies that no lock contention == no eviction), we should say that a page _must_ be evicted if it causes lock contention (which says nothing about what happens when there's no lock contention)",
+    "created_at": "2023-08-15T16:58:35Z",
+    "updated_at": "2023-08-15T16:59:48Z",
+    "html_url": "https://github.com/whatwg/fs/pull/142#discussion_r1294879049",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/142",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1294879049"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/142#discussion_r1294879049"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/142"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1294879049/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 227,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 7,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1326637185",
+    "pull_request_review_id": 1628023321,
+    "id": 1326637185,
+    "node_id": "PRRC_kwDOGdsLdc5PEuCB",
+    "diff_hunk": "@@ -221,6 +221,11 @@ childAccessHandle.close();\n await parentHandle.remove(); // successful\n ```\n \n+### Interactions with BFCache\n+A page should not be made aware that it or another page is or has been in the BFCache. A fully active page could be made aware of a BFCached page if there is contention between locks they hold. The File System Access API operations/primitives hold locks that may cause this issue.\n+\n+To keep BFCache enabled when a site uses the File System Access API, a BFCached page should be evicted only on locking contention with a fully active page. This allows the site to have the performance gains of BFCache up until it would be made aware of the BFCache.",
+    "path": "proposals/MultipleReadersWriters.md",
+    "commit_id": "1d781981879a56da15165c8d0d805353610d969e",
+    "original_commit_id": "c0713f829feb3b2a28613fdef2b099df86b3ee3c",
+    "user": {
+      "login": "nathanmemmott",
+      "id": 123413584,
+      "node_id": "U_kgDOB1skUA",
+      "avatar_url": "https://avatars.githubusercontent.com/u/123413584?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nathanmemmott",
+      "html_url": "https://github.com/nathanmemmott",
+      "followers_url": "https://api.github.com/users/nathanmemmott/followers",
+      "following_url": "https://api.github.com/users/nathanmemmott/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nathanmemmott/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nathanmemmott/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nathanmemmott/subscriptions",
+      "organizations_url": "https://api.github.com/users/nathanmemmott/orgs",
+      "repos_url": "https://api.github.com/users/nathanmemmott/repos",
+      "events_url": "https://api.github.com/users/nathanmemmott/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nathanmemmott/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Ok updated",
+    "created_at": "2023-09-15T00:08:11Z",
+    "updated_at": "2023-09-15T00:08:11Z",
+    "html_url": "https://github.com/whatwg/fs/pull/142#discussion_r1326637185",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/142",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1326637185"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/142#discussion_r1326637185"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/142"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1326637185/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 227,
+    "side": "RIGHT",
+    "in_reply_to_id": 1294879049,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 7,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1326929960",
+    "pull_request_review_id": 1628395328,
+    "id": 1326929960,
+    "node_id": "PRRC_kwDOGdsLdc5PF1go",
+    "diff_hunk": "@@ -221,6 +221,11 @@ childAccessHandle.close();\n await parentHandle.remove(); // successful\n ```\n \n+### Interactions with BFCache\n+The File System Access API operations/primitives hold locks in the BFCache. A page should not be made aware that it or another page is or has been in the BFCache. A fully active page could be made aware of a BFCached page if there is contention between locks they hold.\n+\n+To keep BFCache enabled when a site uses the File System Access API, a BFCached page must be evicted on locking contention with a fully active page. Otherwise, a file system lock held by a page will not affect the page's eligibility for BFCache. This allows the site to have the performance gains of BFCache up until it would be made aware of the BFCache.",
+    "path": "proposals/MultipleReadersWriters.md",
+    "commit_id": "1d781981879a56da15165c8d0d805353610d969e",
+    "original_commit_id": "496970c48b141b50a1f76b037861eee350530755",
+    "user": {
+      "login": "a-sully",
+      "id": 77407429,
+      "node_id": "MDQ6VXNlcjc3NDA3NDI5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77407429?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/a-sully",
+      "html_url": "https://github.com/a-sully",
+      "followers_url": "https://api.github.com/users/a-sully/followers",
+      "following_url": "https://api.github.com/users/a-sully/following{/other_user}",
+      "gists_url": "https://api.github.com/users/a-sully/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/a-sully/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/a-sully/subscriptions",
+      "organizations_url": "https://api.github.com/users/a-sully/orgs",
+      "repos_url": "https://api.github.com/users/a-sully/repos",
+      "events_url": "https://api.github.com/users/a-sully/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/a-sully/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "> This allows the site to have the performance gains of BFCache up until it would be made aware of the BFCache.\r\n\r\nThis sentence is a bit misleading, since it suggests there is just \"the site\", whereas there are two pages in question here: (1) the page in the BFCache, and (2) the active page. These pages may not correspond to the same site for local file system access",
+    "created_at": "2023-09-15T07:49:15Z",
+    "updated_at": "2023-09-15T07:58:19Z",
+    "html_url": "https://github.com/whatwg/fs/pull/142#discussion_r1326929960",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/142",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1326929960"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/142#discussion_r1326929960"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/142"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1326929960/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 227,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 7,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1326937160",
+    "pull_request_review_id": 1628395328,
+    "id": 1326937160,
+    "node_id": "PRRC_kwDOGdsLdc5PF3RI",
+    "diff_hunk": "@@ -221,6 +221,11 @@ childAccessHandle.close();\n await parentHandle.remove(); // successful\n ```\n \n+### Interactions with BFCache\n+The File System Access API operations/primitives hold locks in the BFCache. A page should not be made aware that it or another page is or has been in the BFCache. A fully active page could be made aware of a BFCached page if there is contention between locks they hold.",
+    "path": "proposals/MultipleReadersWriters.md",
+    "commit_id": "1d781981879a56da15165c8d0d805353610d969e",
+    "original_commit_id": "496970c48b141b50a1f76b037861eee350530755",
+    "user": {
+      "login": "a-sully",
+      "id": 77407429,
+      "node_id": "MDQ6VXNlcjc3NDA3NDI5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77407429?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/a-sully",
+      "html_url": "https://github.com/a-sully",
+      "followers_url": "https://api.github.com/users/a-sully/followers",
+      "following_url": "https://api.github.com/users/a-sully/following{/other_user}",
+      "gists_url": "https://api.github.com/users/a-sully/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/a-sully/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/a-sully/subscriptions",
+      "organizations_url": "https://api.github.com/users/a-sully/orgs",
+      "repos_url": "https://api.github.com/users/a-sully/repos",
+      "events_url": "https://api.github.com/users/a-sully/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/a-sully/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\nA page may still hold a file system lock when it enters the BFCache. A fully active page could then be made aware of a BFCached page if there is contention between locks they hold.\r\n```",
+    "created_at": "2023-09-15T07:55:18Z",
+    "updated_at": "2023-09-15T07:58:19Z",
+    "html_url": "https://github.com/whatwg/fs/pull/142#discussion_r1326937160",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/142",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1326937160"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/142#discussion_r1326937160"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/142"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1326937160/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 225,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 5,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

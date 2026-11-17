@@ -1,0 +1,717 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966226197",
+    "pull_request_review_id": 2634317710,
+    "id": 1966226197,
+    "node_id": "PRRC_kwDOAVr2cs51MjsV",
+    "diff_hunk": "@@ -4972,6 +4972,8 @@ Each <a>simulated Bluetooth adapter</a> has an <dfn>adapter state</dfn> that is\n   * \"powered-off\"\n   * \"absent\"\n \n+Each <a>simulated Bluetooth adapter</a> has a <dfn>le supported state</dfn> that is a boolean describing if the adapter supports Bluetooth Low Energy.",
+    "path": "index.bs",
+    "commit_id": "6d9537f790f1bf70d654f2d88c669fec9055ab8d",
+    "original_commit_id": "fdd72231a51d52801f7a6f8034f78c900f272f5c",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\nEach <a>simulated Bluetooth adapter</a> has a <dfn lt=\"LE supported state\">low-energy supported state</dfn> that is a boolean describing if the adapter supports Bluetooth Low Energy.\r\n```",
+    "created_at": "2025-02-21T21:39:59Z",
+    "updated_at": "2025-02-21T21:44:48Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/646#discussion_r1966226197",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/646",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966226197"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/646#discussion_r1966226197"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/646"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966226197/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 4975,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 4,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966228455",
+    "pull_request_review_id": 2634317710,
+    "id": 1966228455,
+    "node_id": "PRRC_kwDOAVr2cs51MkPn",
+    "diff_hunk": "@@ -5201,27 +5205,71 @@ The [=remote end steps=] with command parameters |params| are:\n 1. Let |contextId| be params[\"context\"].\n 1. Let |navigable| be the result of [=trying=] to [=get a navigable=] with |contextId|.\n 1. If |navigable| is not a [=navigable/top-level traversable=], return [=error=] with [=error code=] [=invalid argument=].\n-1. Let |simulatedBluetoothAdapter| be a new [=simulated Bluetooth adapter=].\n-1. Set |simulatedBluetoothAdapter|'s <a>adapter state</a> to |params|[`\"state\"`].\n-1. Set |navigable|'s <a>simulated Bluetooth adapter</a> to |simulatedBluetoothAdapter|.\n-1. Return [=success=] with data `null`.\n+1. If |params|[`\"type\"`] is `create`, run the following steps:\n+    1. If |params|[`\"leSupported\"`] does not [=map/exist=], return [=error=] with [=error code=] [=invalid argument=].\n+    1. If |params|[`\"state\"`] does not [=map/exist=], return [=error=] with [=error code=] [=invalid argument=].\n+    1. Let |simulatedBluetoothAdapter| be a new [=simulated Bluetooth adapter=].\n+    1. Set |simulatedBluetoothAdapter|'s <a>le supported state</a> to |params|[`\"leSupported\"`].",
+    "path": "index.bs",
+    "commit_id": "6d9537f790f1bf70d654f2d88c669fec9055ab8d",
+    "original_commit_id": "fdd72231a51d52801f7a6f8034f78c900f272f5c",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n    1. Set |simulatedBluetoothAdapter|'s <a>LE supported state</a> to |params|[`\"leSupported\"`].\r\n```",
+    "created_at": "2025-02-21T21:40:57Z",
+    "updated_at": "2025-02-21T21:44:48Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/646#discussion_r1966228455",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/646",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966228455"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/646#discussion_r1966228455"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/646"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966228455/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 5212,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 32,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966231263",
+    "pull_request_review_id": 2634317710,
+    "id": 1966231263,
+    "node_id": "PRRC_kwDOAVr2cs51Mk7f",
+    "diff_hunk": "@@ -5201,27 +5205,71 @@ The [=remote end steps=] with command parameters |params| are:\n 1. Let |contextId| be params[\"context\"].\n 1. Let |navigable| be the result of [=trying=] to [=get a navigable=] with |contextId|.\n 1. If |navigable| is not a [=navigable/top-level traversable=], return [=error=] with [=error code=] [=invalid argument=].\n-1. Let |simulatedBluetoothAdapter| be a new [=simulated Bluetooth adapter=].\n-1. Set |simulatedBluetoothAdapter|'s <a>adapter state</a> to |params|[`\"state\"`].\n-1. Set |navigable|'s <a>simulated Bluetooth adapter</a> to |simulatedBluetoothAdapter|.\n-1. Return [=success=] with data `null`.\n+1. If |params|[`\"type\"`] is `create`, run the following steps:\n+    1. If |params|[`\"leSupported\"`] does not [=map/exist=], return [=error=] with [=error code=] [=invalid argument=].\n+    1. If |params|[`\"state\"`] does not [=map/exist=], return [=error=] with [=error code=] [=invalid argument=].\n+    1. Let |simulatedBluetoothAdapter| be a new [=simulated Bluetooth adapter=].\n+    1. Set |simulatedBluetoothAdapter|'s <a>le supported state</a> to |params|[`\"leSupported\"`].\n+    1. Set |simulatedBluetoothAdapter|'s <a>adapter state</a> to |params|[`\"state\"`].\n+    1. Set |navigable|'s <a>simulated Bluetooth adapter</a> to |simulatedBluetoothAdapter|.\n+    1. Return [=success=] with data `null`.\n+1. If |params|[`\"type\"`] is `update`, run the following steps:\n+    1. If |params|[`\"state\"`] does not [=map/exist=], return [=error=] with [=error code=] [=invalid argument=].",
+    "path": "index.bs",
+    "commit_id": "6d9537f790f1bf70d654f2d88c669fec9055ab8d",
+    "original_commit_id": "fdd72231a51d52801f7a6f8034f78c900f272f5c",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Return an error if `leSupported` is passed to an `update` command since we don't support updating it after creation?",
+    "created_at": "2025-02-21T21:42:10Z",
+    "updated_at": "2025-02-21T21:44:48Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/646#discussion_r1966231263",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/646",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966231263"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/646#discussion_r1966231263"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/646"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966231263/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 5221,
+    "original_line": 5217,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 37,
+    "position": 48,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966232504",
+    "pull_request_review_id": 2634317710,
+    "id": 1966232504,
+    "node_id": "PRRC_kwDOAVr2cs51MlO4",
+    "diff_hunk": "@@ -5201,27 +5205,71 @@ The [=remote end steps=] with command parameters |params| are:\n 1. Let |contextId| be params[\"context\"].\n 1. Let |navigable| be the result of [=trying=] to [=get a navigable=] with |contextId|.\n 1. If |navigable| is not a [=navigable/top-level traversable=], return [=error=] with [=error code=] [=invalid argument=].\n-1. Let |simulatedBluetoothAdapter| be a new [=simulated Bluetooth adapter=].\n-1. Set |simulatedBluetoothAdapter|'s <a>adapter state</a> to |params|[`\"state\"`].\n-1. Set |navigable|'s <a>simulated Bluetooth adapter</a> to |simulatedBluetoothAdapter|.\n-1. Return [=success=] with data `null`.\n+1. If |params|[`\"type\"`] is `create`, run the following steps:\n+    1. If |params|[`\"leSupported\"`] does not [=map/exist=], return [=error=] with [=error code=] [=invalid argument=].\n+    1. If |params|[`\"state\"`] does not [=map/exist=], return [=error=] with [=error code=] [=invalid argument=].\n+    1. Let |simulatedBluetoothAdapter| be a new [=simulated Bluetooth adapter=].\n+    1. Set |simulatedBluetoothAdapter|'s <a>le supported state</a> to |params|[`\"leSupported\"`].\n+    1. Set |simulatedBluetoothAdapter|'s <a>adapter state</a> to |params|[`\"state\"`].\n+    1. Set |navigable|'s <a>simulated Bluetooth adapter</a> to |simulatedBluetoothAdapter|.\n+    1. Return [=success=] with data `null`.\n+1. If |params|[`\"type\"`] is `update`, run the following steps:\n+    1. If |params|[`\"state\"`] does not [=map/exist=], return [=error=] with [=error code=] [=invalid argument=].\n+    1. Let |simulatedBluetoothAdapter| be |navigable|'s <a>simulated Bluetooth adapter</a>.\n+    1. If |simulatedBluetoothAdapter| is empty, return [=error=] with [=error code=] [=invalid argument=].\n+    1. Set |simulatedBluetoothAdapter|'s <a>adapter state</a> to |params|[`\"state\"`].\n+    1. Return [=success=] with data `null`.\n+1. If |params|[`\"type\"`] is `remove`, run the following steps:\n+    1. Set |navigable|'s <a>simulated Bluetooth adapter</a> to empty.",
+    "path": "index.bs",
+    "commit_id": "6d9537f790f1bf70d654f2d88c669fec9055ab8d",
+    "original_commit_id": "fdd72231a51d52801f7a6f8034f78c900f272f5c",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Return an error if `leSupported` or `state` are provided when removing the adapter?",
+    "created_at": "2025-02-21T21:42:36Z",
+    "updated_at": "2025-02-21T21:44:48Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/646#discussion_r1966232504",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/646",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966232504"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/646#discussion_r1966232504"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/646"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966232504/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 5229,
+    "original_line": 5223,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 43,
+    "position": 56,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966239463",
+    "pull_request_review_id": 2634317710,
+    "id": 1966239463,
+    "node_id": "PRRC_kwDOAVr2cs51Mm7n",
+    "diff_hunk": "@@ -4972,6 +4972,8 @@ Each <a>simulated Bluetooth adapter</a> has an <dfn>adapter state</dfn> that is\n   * \"powered-off\"\n   * \"absent\"\n \n+Each <a>simulated Bluetooth adapter</a> has a <dfn>le supported state</dfn> that is a boolean describing if the adapter supports Bluetooth Low Energy.",
+    "path": "index.bs",
+    "commit_id": "6d9537f790f1bf70d654f2d88c669fec9055ab8d",
+    "original_commit_id": "fdd72231a51d52801f7a6f8034f78c900f272f5c",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Update the `getAvailability()` algorithm to check whether the simulated adapter supports Bluetooth Low Energy.",
+    "created_at": "2025-02-21T21:44:40Z",
+    "updated_at": "2025-02-21T21:44:48Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/646#discussion_r1966239463",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/646",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966239463"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/646#discussion_r1966239463"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/646"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966239463/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 4975,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 4,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966276470",
+    "pull_request_review_id": 2634401859,
+    "id": 1966276470,
+    "node_id": "PRRC_kwDOAVr2cs51Mv92",
+    "diff_hunk": "@@ -5201,27 +5205,71 @@ The [=remote end steps=] with command parameters |params| are:\n 1. Let |contextId| be params[\"context\"].\n 1. Let |navigable| be the result of [=trying=] to [=get a navigable=] with |contextId|.\n 1. If |navigable| is not a [=navigable/top-level traversable=], return [=error=] with [=error code=] [=invalid argument=].\n-1. Let |simulatedBluetoothAdapter| be a new [=simulated Bluetooth adapter=].\n-1. Set |simulatedBluetoothAdapter|'s <a>adapter state</a> to |params|[`\"state\"`].\n-1. Set |navigable|'s <a>simulated Bluetooth adapter</a> to |simulatedBluetoothAdapter|.\n-1. Return [=success=] with data `null`.\n+1. If |params|[`\"type\"`] is `create`, run the following steps:\n+    1. If |params|[`\"leSupported\"`] does not [=map/exist=], return [=error=] with [=error code=] [=invalid argument=].\n+    1. If |params|[`\"state\"`] does not [=map/exist=], return [=error=] with [=error code=] [=invalid argument=].\n+    1. Let |simulatedBluetoothAdapter| be a new [=simulated Bluetooth adapter=].\n+    1. Set |simulatedBluetoothAdapter|'s <a>le supported state</a> to |params|[`\"leSupported\"`].\n+    1. Set |simulatedBluetoothAdapter|'s <a>adapter state</a> to |params|[`\"state\"`].\n+    1. Set |navigable|'s <a>simulated Bluetooth adapter</a> to |simulatedBluetoothAdapter|.\n+    1. Return [=success=] with data `null`.\n+1. If |params|[`\"type\"`] is `update`, run the following steps:\n+    1. If |params|[`\"state\"`] does not [=map/exist=], return [=error=] with [=error code=] [=invalid argument=].\n+    1. Let |simulatedBluetoothAdapter| be |navigable|'s <a>simulated Bluetooth adapter</a>.\n+    1. If |simulatedBluetoothAdapter| is empty, return [=error=] with [=error code=] [=invalid argument=].\n+    1. Set |simulatedBluetoothAdapter|'s <a>adapter state</a> to |params|[`\"state\"`].\n+    1. Return [=success=] with data `null`.\n+1. If |params|[`\"type\"`] is `remove`, run the following steps:\n+    1. Set |navigable|'s <a>simulated Bluetooth adapter</a> to empty.",
+    "path": "index.bs",
+    "commit_id": "6d9537f790f1bf70d654f2d88c669fec9055ab8d",
+    "original_commit_id": "fdd72231a51d52801f7a6f8034f78c900f272f5c",
+    "user": {
+      "login": "chengweih001",
+      "id": 97704544,
+      "node_id": "U_kgDOBdLaYA",
+      "avatar_url": "https://avatars.githubusercontent.com/u/97704544?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chengweih001",
+      "html_url": "https://github.com/chengweih001",
+      "followers_url": "https://api.github.com/users/chengweih001/followers",
+      "following_url": "https://api.github.com/users/chengweih001/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chengweih001/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chengweih001/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chengweih001/subscriptions",
+      "organizations_url": "https://api.github.com/users/chengweih001/orgs",
+      "repos_url": "https://api.github.com/users/chengweih001/repos",
+      "events_url": "https://api.github.com/users/chengweih001/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chengweih001/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2025-02-21T22:25:31Z",
+    "updated_at": "2025-02-21T22:25:32Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/646#discussion_r1966276470",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/646",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966276470"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/646#discussion_r1966276470"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/646"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966276470/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 5229,
+    "original_line": 5223,
+    "side": "RIGHT",
+    "in_reply_to_id": 1966232504,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 43,
+    "position": 56,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966276495",
+    "pull_request_review_id": 2634401896,
+    "id": 1966276495,
+    "node_id": "PRRC_kwDOAVr2cs51Mv-P",
+    "diff_hunk": "@@ -5201,27 +5205,71 @@ The [=remote end steps=] with command parameters |params| are:\n 1. Let |contextId| be params[\"context\"].\n 1. Let |navigable| be the result of [=trying=] to [=get a navigable=] with |contextId|.\n 1. If |navigable| is not a [=navigable/top-level traversable=], return [=error=] with [=error code=] [=invalid argument=].\n-1. Let |simulatedBluetoothAdapter| be a new [=simulated Bluetooth adapter=].\n-1. Set |simulatedBluetoothAdapter|'s <a>adapter state</a> to |params|[`\"state\"`].\n-1. Set |navigable|'s <a>simulated Bluetooth adapter</a> to |simulatedBluetoothAdapter|.\n-1. Return [=success=] with data `null`.\n+1. If |params|[`\"type\"`] is `create`, run the following steps:\n+    1. If |params|[`\"leSupported\"`] does not [=map/exist=], return [=error=] with [=error code=] [=invalid argument=].\n+    1. If |params|[`\"state\"`] does not [=map/exist=], return [=error=] with [=error code=] [=invalid argument=].\n+    1. Let |simulatedBluetoothAdapter| be a new [=simulated Bluetooth adapter=].\n+    1. Set |simulatedBluetoothAdapter|'s <a>le supported state</a> to |params|[`\"leSupported\"`].\n+    1. Set |simulatedBluetoothAdapter|'s <a>adapter state</a> to |params|[`\"state\"`].\n+    1. Set |navigable|'s <a>simulated Bluetooth adapter</a> to |simulatedBluetoothAdapter|.\n+    1. Return [=success=] with data `null`.\n+1. If |params|[`\"type\"`] is `update`, run the following steps:\n+    1. If |params|[`\"state\"`] does not [=map/exist=], return [=error=] with [=error code=] [=invalid argument=].",
+    "path": "index.bs",
+    "commit_id": "6d9537f790f1bf70d654f2d88c669fec9055ab8d",
+    "original_commit_id": "fdd72231a51d52801f7a6f8034f78c900f272f5c",
+    "user": {
+      "login": "chengweih001",
+      "id": 97704544,
+      "node_id": "U_kgDOBdLaYA",
+      "avatar_url": "https://avatars.githubusercontent.com/u/97704544?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chengweih001",
+      "html_url": "https://github.com/chengweih001",
+      "followers_url": "https://api.github.com/users/chengweih001/followers",
+      "following_url": "https://api.github.com/users/chengweih001/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chengweih001/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chengweih001/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chengweih001/subscriptions",
+      "organizations_url": "https://api.github.com/users/chengweih001/orgs",
+      "repos_url": "https://api.github.com/users/chengweih001/repos",
+      "events_url": "https://api.github.com/users/chengweih001/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chengweih001/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2025-02-21T22:25:33Z",
+    "updated_at": "2025-02-21T22:25:33Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/646#discussion_r1966276495",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/646",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966276495"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/646#discussion_r1966276495"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/646"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966276495/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 5221,
+    "original_line": 5217,
+    "side": "RIGHT",
+    "in_reply_to_id": 1966231263,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 37,
+    "position": 48,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966276904",
+    "pull_request_review_id": 2634402508,
+    "id": 1966276904,
+    "node_id": "PRRC_kwDOAVr2cs51MwEo",
+    "diff_hunk": "@@ -4972,6 +4972,8 @@ Each <a>simulated Bluetooth adapter</a> has an <dfn>adapter state</dfn> that is\n   * \"powered-off\"\n   * \"absent\"\n \n+Each <a>simulated Bluetooth adapter</a> has a <dfn>le supported state</dfn> that is a boolean describing if the adapter supports Bluetooth Low Energy.",
+    "path": "index.bs",
+    "commit_id": "6d9537f790f1bf70d654f2d88c669fec9055ab8d",
+    "original_commit_id": "fdd72231a51d52801f7a6f8034f78c900f272f5c",
+    "user": {
+      "login": "chengweih001",
+      "id": 97704544,
+      "node_id": "U_kgDOBdLaYA",
+      "avatar_url": "https://avatars.githubusercontent.com/u/97704544?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chengweih001",
+      "html_url": "https://github.com/chengweih001",
+      "followers_url": "https://api.github.com/users/chengweih001/followers",
+      "following_url": "https://api.github.com/users/chengweih001/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chengweih001/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chengweih001/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chengweih001/subscriptions",
+      "organizations_url": "https://api.github.com/users/chengweih001/orgs",
+      "repos_url": "https://api.github.com/users/chengweih001/repos",
+      "events_url": "https://api.github.com/users/chengweih001/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chengweih001/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2025-02-21T22:26:02Z",
+    "updated_at": "2025-02-21T22:26:02Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/646#discussion_r1966276904",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/646",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966276904"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/646#discussion_r1966276904"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/646"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966276904/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 4975,
+    "side": "RIGHT",
+    "in_reply_to_id": 1966226197,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 4,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966277875",
+    "pull_request_review_id": 2634403797,
+    "id": 1966277875,
+    "node_id": "PRRC_kwDOAVr2cs51MwTz",
+    "diff_hunk": "@@ -5201,27 +5205,71 @@ The [=remote end steps=] with command parameters |params| are:\n 1. Let |contextId| be params[\"context\"].\n 1. Let |navigable| be the result of [=trying=] to [=get a navigable=] with |contextId|.\n 1. If |navigable| is not a [=navigable/top-level traversable=], return [=error=] with [=error code=] [=invalid argument=].\n-1. Let |simulatedBluetoothAdapter| be a new [=simulated Bluetooth adapter=].\n-1. Set |simulatedBluetoothAdapter|'s <a>adapter state</a> to |params|[`\"state\"`].\n-1. Set |navigable|'s <a>simulated Bluetooth adapter</a> to |simulatedBluetoothAdapter|.\n-1. Return [=success=] with data `null`.\n+1. If |params|[`\"type\"`] is `create`, run the following steps:\n+    1. If |params|[`\"leSupported\"`] does not [=map/exist=], return [=error=] with [=error code=] [=invalid argument=].\n+    1. If |params|[`\"state\"`] does not [=map/exist=], return [=error=] with [=error code=] [=invalid argument=].\n+    1. Let |simulatedBluetoothAdapter| be a new [=simulated Bluetooth adapter=].\n+    1. Set |simulatedBluetoothAdapter|'s <a>le supported state</a> to |params|[`\"leSupported\"`].",
+    "path": "index.bs",
+    "commit_id": "6d9537f790f1bf70d654f2d88c669fec9055ab8d",
+    "original_commit_id": "fdd72231a51d52801f7a6f8034f78c900f272f5c",
+    "user": {
+      "login": "chengweih001",
+      "id": 97704544,
+      "node_id": "U_kgDOBdLaYA",
+      "avatar_url": "https://avatars.githubusercontent.com/u/97704544?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chengweih001",
+      "html_url": "https://github.com/chengweih001",
+      "followers_url": "https://api.github.com/users/chengweih001/followers",
+      "following_url": "https://api.github.com/users/chengweih001/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chengweih001/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chengweih001/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chengweih001/subscriptions",
+      "organizations_url": "https://api.github.com/users/chengweih001/orgs",
+      "repos_url": "https://api.github.com/users/chengweih001/repos",
+      "events_url": "https://api.github.com/users/chengweih001/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chengweih001/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2025-02-21T22:27:10Z",
+    "updated_at": "2025-02-21T22:27:11Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/646#discussion_r1966277875",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/646",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966277875"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/646#discussion_r1966277875"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/646"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966277875/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 5212,
+    "side": "RIGHT",
+    "in_reply_to_id": 1966228455,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 32,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966278017",
+    "pull_request_review_id": 2634404026,
+    "id": 1966278017,
+    "node_id": "PRRC_kwDOAVr2cs51MwWB",
+    "diff_hunk": "@@ -4972,6 +4972,8 @@ Each <a>simulated Bluetooth adapter</a> has an <dfn>adapter state</dfn> that is\n   * \"powered-off\"\n   * \"absent\"\n \n+Each <a>simulated Bluetooth adapter</a> has a <dfn>le supported state</dfn> that is a boolean describing if the adapter supports Bluetooth Low Energy.",
+    "path": "index.bs",
+    "commit_id": "6d9537f790f1bf70d654f2d88c669fec9055ab8d",
+    "original_commit_id": "fdd72231a51d52801f7a6f8034f78c900f272f5c",
+    "user": {
+      "login": "chengweih001",
+      "id": 97704544,
+      "node_id": "U_kgDOBdLaYA",
+      "avatar_url": "https://avatars.githubusercontent.com/u/97704544?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chengweih001",
+      "html_url": "https://github.com/chengweih001",
+      "followers_url": "https://api.github.com/users/chengweih001/followers",
+      "following_url": "https://api.github.com/users/chengweih001/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chengweih001/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chengweih001/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chengweih001/subscriptions",
+      "organizations_url": "https://api.github.com/users/chengweih001/orgs",
+      "repos_url": "https://api.github.com/users/chengweih001/repos",
+      "events_url": "https://api.github.com/users/chengweih001/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chengweih001/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2025-02-21T22:27:25Z",
+    "updated_at": "2025-02-21T22:27:25Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/646#discussion_r1966278017",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/646",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966278017"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/646#discussion_r1966278017"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/646"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1966278017/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 4975,
+    "side": "RIGHT",
+    "in_reply_to_id": 1966239463,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 4,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

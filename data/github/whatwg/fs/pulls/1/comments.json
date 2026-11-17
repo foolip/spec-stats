@@ -1,0 +1,144 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/761878365",
+    "pull_request_review_id": 822572996,
+    "id": 761878365,
+    "node_id": "PRRC_kwDOGdsLdc4taVdd",
+    "diff_hunk": "@@ -1871,136 +980,14 @@ invoked, must run these steps:\n \n </div>\n \n-Note: In Chrome the directory entry returned by the above algorithm refers to the same storage as the\n-<a href=\"https://dev.w3.org/2009/dap/file-system/file-dir-sys.html#dfn-temporary\">temporary\n-file system</a> as used to be defined in [[file-system-api|File API: Directories and System]].\n-\n-# Accessibility Considerations # {#accessibility-considerations}\n-\n-*This section is non-normative.*\n-\n-When this specification is used to present information in the user interface,\n-implementors will want to follow the OS level accessibility guidelines for the platform.\n-\n-\n-# Privacy Considerations # {#privacy-considerations}\n-\n-*This section is non-normative.*\n-\n-This API does not give websites any more read access to data than the existing `<input type=file>`\n-and `<input type=file webkitdirectory>` APIs already do. Furthermore similarly to those APIs, all\n-access to files and directories is explicitly gated behind a file or directory picker.\n-\n-There are however several major privacy risks with this new API:\n-\n-## Users giving access to more, or more sensitive files than they intended. ## {#privacy-wide-access}\n-\n-This isn't a new risk with this API, but user agents should try to make sure that users are aware\n-of what exactly they're giving websites access to. This is particularly important when giving\n-access to a directory, where it might not be immediately clear to a user just how many files\n-actually exist in that directory.\n-\n-A related risk is having a user give access to particularly sensitive data. This\n-could include some of a user agent's configuration data, network cache or cookie store,\n-or operating system configuration data such as password files. To protect against this, user agents\n-are encouraged to restrict which directories a user is allowed to select in a directory picker,\n-and potentially even restrict which files the user is allowed to select. This will make it much\n-harder to accidentally give access to a directory that contains particularly sensitive data. Care\n-must be taken to strike the right balance between restricting what the API can access while still\n-having the API be useful. After all, this API intentionally lets the user use websites to interact\n-with some of their most private personal data.\n-\n-Examples of directories that user agents might want to restrict as being\n-<dfn>too sensitive or dangerous</dfn> include:\n-\n-* The directory or directories containing the user agent itself.\n-* Directories where the user agent stores [=storage|website storage=].\n-* Directories containing system files (such as `C:\\Windows` on Windows).\n-* Directories such as `/dev/`, `/sys`, and `/proc` on Linux that would give access to low-level devices.\n-* A user's entire \"home\" directory.\n-  Individual files and directories inside the home directory should still be allowed,\n-  but user agents should not generally let users give blanket access to the entire directory.\n-* The default directory for downloads, if the user agent has such a thing.\n-  Individual files inside the directory again should be allowed, but the whole directory would risk leaking more data than a user realizes.\n-* Files with names that end in `.lnk`, when selecting a file to write to. Writing to\n-  these files on Windows is similar to creating symlinks on other operating systems,\n-  and as such can be used to attempt to trick users into giving access to files they didn't intend to expose.\n-* Files with names that end in `.local`, when selecting a file to write to.\n-  Windows uses these files to decide what DLLs to load, and as such writing to\n-  these files could be used to cause code to be executed.\n-\n-## Websites trying to use this API for tracking. ## {#privacy-tracking}\n-\n-This API could be used by websites to track the user across clearing browsing\n-data. This is because, in contrast with existing file access APIs, user agents are\n-able to grant persistent access to files or directories and can re-prompt. In\n-combination with the ability to write to files, websites will be able to persist an\n-identifier on the users' disk. Clearing browsing data will not affect those files\n-in any way, making these identifiers persist through those actions.\n-\n-This risk is somewhat mitigated by the fact that clearing browsing data will clear all handles\n-that a website had persisted (for example in IndexedDB),\n-so websites won't have any handles to re-prompt for permission after browsing data was cleared.\n-Furthermore user agents are encouraged to make it clear what files and directories a website has\n-access to, and to automatically expire permission grants except for particularly well trusted\n-origins (for example persistent permissions could be limited to \"installed\" web applications).\n-\n-User agents also are encouraged to provide a way for users to revoke permissions granted.\n-Clearing browsing data is expected to revoke all permissions as well.\n-\n-## First-party vs third-party contexts. ## {#privacy-third-party}\n-\n-In third-party contexts (e.g. an iframe whose origin does not match that of the top-level frame)\n-websites can't gain access to data they don't already have access to. This includes both getting\n-access to new files or directories via the [=local file system handle factories=], as well as requesting\n-more permissions to existing handles via the {{requestPermission}} API.\n-\n-Handles can also only be post-messaged to same-origin destinations. Attempts to send a handle to\n-a cross-origin destination will result in a {{MessagePort/messageerror}} event.\n-\n-# Security Considerations # {#security-considerations}\n-\n-*This section is non-normative.*\n-\n-This API gives websites the ability to modify existing files on disk, as well as write to new\n-files. This has a couple of important security considerations:\n-\n-## Malware ## {#security-malware}\n-\n-This API could be used by websites to try to store and/or execute malware on the users system.\n-To mitigate this risk, this API does not provide any way to mark files as executable (on the other\n-hand files that are already executable likely remain that way, even after the files are modified\n-through this API). Furthermore user agents are encouraged to apply things like Mark-of-the-Web to\n-files created or modified by this API.\n-\n-Finally, user agents are encouraged to verify the contents of files modified by this API via <dfn>malware\n-scans and safe browsing checks</dfn>, unless some kind of external strong trust relation already exists.\n-This of course has effects on the performance characteristics of this API.\n-\n-## Ransomware attacks ## {#security-ransomware}\n-\n-Another risk factor is that of ransomware attacks. The limitations described above regarding\n-blocking access to certain sensitive directories helps limit the damage such an attack can do.\n-Additionally user agents can grant write access to files at whatever granularity they deem\n-appropriate.\n \n-## Filling up a users disk ## {#filling-up-disk}\n+<h2 class=no-num id=\"acks\">Acknowledgments</h2>\n \n-Other than files in the [=origin private file system=], files written by this API are not subject\n-to [=storage quota=]. As such websites can fill up a users disk without being limited by\n-quota, which could leave a users device in a bad state (do note that even with storage that is\n-subject to [=storage quota=] it is still possible to fill up, or come close to filling up, a users\n-disk, since [=storage quota=] in general is not dependent on the amount of available disk\n-space).\n+<p>This standard is written by <span lang=nl>Marijn Kruisselbrink</span>\n+(<a href=https://www.google.com/>Google</a>, <a href=mailto:mek@chromium.org>mek@chromium.org</a>).\n \n-Without this API websites can write data to disk not subject to quota limitations already\n-by triggering downloads of large files (potentially created client side, to not incur any network\n-overhead). While the presence of {{FileSystemWritableFileStream/truncate()}} and writing at a\n-potentially really large offset past the end of a file makes it much easier and lower cost to\n-create large files, on most file systems such files should not actually take up as much disk space as\n-most commonly used file systems support sparse files (and thus wouldn't actually store the NUL\n-bytes generated by resizing a file or seeking past the end of it).\n \n-Whatever mitigations user agents use to guard against websites filling up a disk via either\n-quota managed storage or the existing downloads mechanism should also be employed when websites\n-use this API to write to disk.\n+<p boilerplate=ipr>This Living Standard includes material copied from W3C WICG’s\n+<a href=https://wicg.github.io/file-system-access/>File System Access</a>, which is available under",
+    "path": "index.bs",
+    "commit_id": "8c671c2cf35851e0df148da7e30c9a1f60e5bf2c",
+    "original_commit_id": "c1e8029dee5d2df22aaec15d931a942286faed2b",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Add `<cite>`?",
+    "created_at": "2021-12-03T12:03:23Z",
+    "updated_at": "2021-12-03T12:04:39Z",
+    "html_url": "https://github.com/whatwg/fs/pull/1#discussion_r761878365",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/1",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/761878365"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/1#discussion_r761878365"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/1"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/761878365/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 991,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 1412,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/761878499",
+    "pull_request_review_id": 822572996,
+    "id": 761878499,
+    "node_id": "PRRC_kwDOGdsLdc4taVfj",
+    "diff_hunk": "@@ -1871,136 +980,14 @@ invoked, must run these steps:\n \n </div>\n \n-Note: In Chrome the directory entry returned by the above algorithm refers to the same storage as the\n-<a href=\"https://dev.w3.org/2009/dap/file-system/file-dir-sys.html#dfn-temporary\">temporary\n-file system</a> as used to be defined in [[file-system-api|File API: Directories and System]].\n-\n-# Accessibility Considerations # {#accessibility-considerations}\n-\n-*This section is non-normative.*\n-\n-When this specification is used to present information in the user interface,\n-implementors will want to follow the OS level accessibility guidelines for the platform.\n-\n-\n-# Privacy Considerations # {#privacy-considerations}\n-\n-*This section is non-normative.*\n-\n-This API does not give websites any more read access to data than the existing `<input type=file>`\n-and `<input type=file webkitdirectory>` APIs already do. Furthermore similarly to those APIs, all\n-access to files and directories is explicitly gated behind a file or directory picker.\n-\n-There are however several major privacy risks with this new API:\n-\n-## Users giving access to more, or more sensitive files than they intended. ## {#privacy-wide-access}\n-\n-This isn't a new risk with this API, but user agents should try to make sure that users are aware\n-of what exactly they're giving websites access to. This is particularly important when giving\n-access to a directory, where it might not be immediately clear to a user just how many files\n-actually exist in that directory.\n-\n-A related risk is having a user give access to particularly sensitive data. This\n-could include some of a user agent's configuration data, network cache or cookie store,\n-or operating system configuration data such as password files. To protect against this, user agents\n-are encouraged to restrict which directories a user is allowed to select in a directory picker,\n-and potentially even restrict which files the user is allowed to select. This will make it much\n-harder to accidentally give access to a directory that contains particularly sensitive data. Care\n-must be taken to strike the right balance between restricting what the API can access while still\n-having the API be useful. After all, this API intentionally lets the user use websites to interact\n-with some of their most private personal data.\n-\n-Examples of directories that user agents might want to restrict as being\n-<dfn>too sensitive or dangerous</dfn> include:\n-\n-* The directory or directories containing the user agent itself.\n-* Directories where the user agent stores [=storage|website storage=].\n-* Directories containing system files (such as `C:\\Windows` on Windows).\n-* Directories such as `/dev/`, `/sys`, and `/proc` on Linux that would give access to low-level devices.\n-* A user's entire \"home\" directory.\n-  Individual files and directories inside the home directory should still be allowed,\n-  but user agents should not generally let users give blanket access to the entire directory.\n-* The default directory for downloads, if the user agent has such a thing.\n-  Individual files inside the directory again should be allowed, but the whole directory would risk leaking more data than a user realizes.\n-* Files with names that end in `.lnk`, when selecting a file to write to. Writing to\n-  these files on Windows is similar to creating symlinks on other operating systems,\n-  and as such can be used to attempt to trick users into giving access to files they didn't intend to expose.\n-* Files with names that end in `.local`, when selecting a file to write to.\n-  Windows uses these files to decide what DLLs to load, and as such writing to\n-  these files could be used to cause code to be executed.\n-\n-## Websites trying to use this API for tracking. ## {#privacy-tracking}\n-\n-This API could be used by websites to track the user across clearing browsing\n-data. This is because, in contrast with existing file access APIs, user agents are\n-able to grant persistent access to files or directories and can re-prompt. In\n-combination with the ability to write to files, websites will be able to persist an\n-identifier on the users' disk. Clearing browsing data will not affect those files\n-in any way, making these identifiers persist through those actions.\n-\n-This risk is somewhat mitigated by the fact that clearing browsing data will clear all handles\n-that a website had persisted (for example in IndexedDB),\n-so websites won't have any handles to re-prompt for permission after browsing data was cleared.\n-Furthermore user agents are encouraged to make it clear what files and directories a website has\n-access to, and to automatically expire permission grants except for particularly well trusted\n-origins (for example persistent permissions could be limited to \"installed\" web applications).\n-\n-User agents also are encouraged to provide a way for users to revoke permissions granted.\n-Clearing browsing data is expected to revoke all permissions as well.\n-\n-## First-party vs third-party contexts. ## {#privacy-third-party}\n-\n-In third-party contexts (e.g. an iframe whose origin does not match that of the top-level frame)\n-websites can't gain access to data they don't already have access to. This includes both getting\n-access to new files or directories via the [=local file system handle factories=], as well as requesting\n-more permissions to existing handles via the {{requestPermission}} API.\n-\n-Handles can also only be post-messaged to same-origin destinations. Attempts to send a handle to\n-a cross-origin destination will result in a {{MessagePort/messageerror}} event.\n-\n-# Security Considerations # {#security-considerations}\n-\n-*This section is non-normative.*\n-\n-This API gives websites the ability to modify existing files on disk, as well as write to new\n-files. This has a couple of important security considerations:\n-\n-## Malware ## {#security-malware}\n-\n-This API could be used by websites to try to store and/or execute malware on the users system.\n-To mitigate this risk, this API does not provide any way to mark files as executable (on the other\n-hand files that are already executable likely remain that way, even after the files are modified\n-through this API). Furthermore user agents are encouraged to apply things like Mark-of-the-Web to\n-files created or modified by this API.\n-\n-Finally, user agents are encouraged to verify the contents of files modified by this API via <dfn>malware\n-scans and safe browsing checks</dfn>, unless some kind of external strong trust relation already exists.\n-This of course has effects on the performance characteristics of this API.\n-\n-## Ransomware attacks ## {#security-ransomware}\n-\n-Another risk factor is that of ransomware attacks. The limitations described above regarding\n-blocking access to certain sensitive directories helps limit the damage such an attack can do.\n-Additionally user agents can grant write access to files at whatever granularity they deem\n-appropriate.\n \n-## Filling up a users disk ## {#filling-up-disk}\n+<h2 class=no-num id=\"acks\">Acknowledgments</h2>\n \n-Other than files in the [=origin private file system=], files written by this API are not subject\n-to [=storage quota=]. As such websites can fill up a users disk without being limited by\n-quota, which could leave a users device in a bad state (do note that even with storage that is\n-subject to [=storage quota=] it is still possible to fill up, or come close to filling up, a users\n-disk, since [=storage quota=] in general is not dependent on the amount of available disk\n-space).\n+<p>This standard is written by <span lang=nl>Marijn Kruisselbrink</span>\n+(<a href=https://www.google.com/>Google</a>, <a href=mailto:mek@chromium.org>mek@chromium.org</a>).\n \n-Without this API websites can write data to disk not subject to quota limitations already\n-by triggering downloads of large files (potentially created client side, to not incur any network\n-overhead). While the presence of {{FileSystemWritableFileStream/truncate()}} and writing at a\n-potentially really large offset past the end of a file makes it much easier and lower cost to\n-create large files, on most file systems such files should not actually take up as much disk space as\n-most commonly used file systems support sparse files (and thus wouldn't actually store the NUL\n-bytes generated by resizing a file or seeking past the end of it).\n \n-Whatever mitigations user agents use to guard against websites filling up a disk via either\n-quota managed storage or the existing downloads mechanism should also be employed when websites\n-use this API to write to disk.\n+<p boilerplate=ipr>This Living Standard includes material copied from W3C WICG’s",
+    "path": "index.bs",
+    "commit_id": "8c671c2cf35851e0df148da7e30c9a1f60e5bf2c",
+    "original_commit_id": "c1e8029dee5d2df22aaec15d931a942286faed2b",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n<p boilerplate=ipr>This Living Standard includes material copied from W3C WICG's\r\n```",
+    "created_at": "2021-12-03T12:03:34Z",
+    "updated_at": "2021-12-03T12:04:39Z",
+    "html_url": "https://github.com/whatwg/fs/pull/1#discussion_r761878499",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/1",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/761878499"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/1#discussion_r761878499"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/1"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/761878499/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 990,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 1411,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

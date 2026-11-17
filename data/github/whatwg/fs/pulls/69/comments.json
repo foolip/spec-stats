@@ -1,0 +1,430 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1007453773",
+    "pull_request_review_id": 1159144758,
+    "id": 1007453773,
+    "node_id": "PRRC_kwDOGdsLdc48DIZN",
+    "diff_hunk": "@@ -788,19 +787,19 @@ Similarly, when piping a {{ReadableStream}} into a {{FileSystemWritableFileStrea\n \n <div algorithm>\n To <dfn>create a new FileSystemWritableFileStream</dfn> given a [=file entry=] |file|\n-in a [=/Realm=] |realm|, perform the following steps:\n+in a [=/Realm=] |realm|, run these steps:\n \n 1. Let |stream| be a [=new=] {{FileSystemWritableFileStream}} in |realm|.\n 1. Set |stream|.[=FileSystemWritableFileStream/[[file]]=] to |file|.\n 1. Let |writeAlgorithm| be an algorithm which takes a |chunk| argument\n    and returns the result of running the [=write a chunk=] algorithm with |stream| and |chunk|.\n-1. Let |closeAlgorithm| be the following steps:\n+1. Let |closeAlgorithm| be these steps:\n    1. Let |closeResult| be [=a new promise=].\n-   1. Run the following steps [=in parallel=]:\n+   1. Run these steps [=in parallel=]:\n       1. Let |access| be the result of running |file|'s [=entry/query access=] given \"`readwrite`\".\n       1. If |access| is not \"{{PermissionState/granted}}\",\n          reject |closeResult| with a {{NotAllowedError}} and abort.\n-      1. Perform [=implementation-defined=] malware scans and safe browsing checks.\n+      1. Run [=implementation-defined=] malware scans and safe browsing checks.",
+    "path": "index.bs",
+    "commit_id": "344cedd093de1f31f92714d31eb37fefdfb2ebb2",
+    "original_commit_id": "9a267e7da7402641a2ca94b4a642a118a82f04f2",
+    "user": {
+      "login": "a-sully",
+      "id": 77407429,
+      "node_id": "MDQ6VXNlcjc3NDA3NDI5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77407429?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/a-sully",
+      "html_url": "https://github.com/a-sully",
+      "followers_url": "https://api.github.com/users/a-sully/followers",
+      "following_url": "https://api.github.com/users/a-sully/following{/other_user}",
+      "gists_url": "https://api.github.com/users/a-sully/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/a-sully/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/a-sully/subscriptions",
+      "organizations_url": "https://api.github.com/users/a-sully/orgs",
+      "repos_url": "https://api.github.com/users/a-sully/repos",
+      "events_url": "https://api.github.com/users/a-sully/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/a-sully/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Note: this change is not find-and-replace, but it seems to fit the pattern",
+    "created_at": "2022-10-27T23:18:12Z",
+    "updated_at": "2022-10-27T23:18:23Z",
+    "html_url": "https://github.com/whatwg/fs/pull/69#discussion_r1007453773",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/69",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1007453773"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/69#discussion_r1007453773"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/69"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1007453773/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 801,
+    "original_line": 801,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 152,
+    "position": 124,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1007453808",
+    "pull_request_review_id": 1159144758,
+    "id": 1007453808,
+    "node_id": "PRRC_kwDOGdsLdc48DIZw",
+    "diff_hunk": "@@ -811,7 +810,7 @@ in a [=/Realm=] |realm|, perform the following steps:\n       1. [=file entry/lock/release|Release the lock=] on |stream|.[=FileSystemWritableFileStream/[[file]]=].\n       1. [=/Resolve=] |closeResult| with `undefined`.\n    1. Return |closeResult|.\n-1. Let |abortAlgorithm| be the following step:\n+1. Let |abortAlgorithm| be these steps:",
+    "path": "index.bs",
+    "commit_id": "344cedd093de1f31f92714d31eb37fefdfb2ebb2",
+    "original_commit_id": "9a267e7da7402641a2ca94b4a642a118a82f04f2",
+    "user": {
+      "login": "a-sully",
+      "id": 77407429,
+      "node_id": "MDQ6VXNlcjc3NDA3NDI5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77407429?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/a-sully",
+      "html_url": "https://github.com/a-sully",
+      "followers_url": "https://api.github.com/users/a-sully/followers",
+      "following_url": "https://api.github.com/users/a-sully/following{/other_user}",
+      "gists_url": "https://api.github.com/users/a-sully/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/a-sully/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/a-sully/subscriptions",
+      "organizations_url": "https://api.github.com/users/a-sully/orgs",
+      "repos_url": "https://api.github.com/users/a-sully/repos",
+      "events_url": "https://api.github.com/users/a-sully/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/a-sully/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Question: should one-step algorithms say \"this step\" or \"these steps\"?",
+    "created_at": "2022-10-27T23:18:17Z",
+    "updated_at": "2022-10-27T23:18:23Z",
+    "html_url": "https://github.com/whatwg/fs/pull/69#discussion_r1007453808",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/69",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1007453808"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/69#discussion_r1007453808"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/69"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1007453808/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 813,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 161,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1007777248",
+    "pull_request_review_id": 1159641284,
+    "id": 1007777248,
+    "node_id": "PRRC_kwDOGdsLdc48EXXg",
+    "diff_hunk": "@@ -94,7 +94,7 @@ and a <dfn for=\"file entry\">shared lock count</dfn> (a number representing the n\n \n <div algorithm>\n To <dfn for=\"file entry/lock\">take</dfn> a [=file entry/lock=] with a |value| of \"`exclusive`\" or \"`shared`\" on a given [=file entry=] |file|,\n-run the following steps:\n+run these steps:",
+    "path": "index.bs",
+    "commit_id": "344cedd093de1f31f92714d31eb37fefdfb2ebb2",
+    "original_commit_id": "9a267e7da7402641a2ca94b4a642a118a82f04f2",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "@domenic has been encouraging me to leave of \"run these steps\" entirely, when they occur at the end. I think it works well, especially for sentences starting with \"To\".",
+    "created_at": "2022-10-28T08:07:23Z",
+    "updated_at": "2022-10-28T08:12:25Z",
+    "html_url": "https://github.com/whatwg/fs/pull/69#discussion_r1007777248",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/69",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1007777248"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/69#discussion_r1007777248"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/69"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1007777248/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 96,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 97,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 5,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1007780159",
+    "pull_request_review_id": 1159641284,
+    "id": 1007780159,
+    "node_id": "PRRC_kwDOGdsLdc48EYE_",
+    "diff_hunk": "@@ -811,7 +810,7 @@ in a [=/Realm=] |realm|, perform the following steps:\n       1. [=file entry/lock/release|Release the lock=] on |stream|.[=FileSystemWritableFileStream/[[file]]=].\n       1. [=/Resolve=] |closeResult| with `undefined`.\n    1. Return |closeResult|.\n-1. Let |abortAlgorithm| be the following step:\n+1. Let |abortAlgorithm| be these steps:\n       1. [=file entry/lock/release|Release the lock=] on |stream|.[=FileSystemWritableFileStream/[[file]]=].",
+    "path": "index.bs",
+    "commit_id": "344cedd093de1f31f92714d31eb37fefdfb2ebb2",
+    "original_commit_id": "9a267e7da7402641a2ca94b4a642a118a82f04f2",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n1. Let |abortAlgorithm| be this step: [=file entry/lock/release|release the lock=] on \r\n   |stream|.[=FileSystemWritableFileStream/[[file]]=].\r\n```\r\nWe generally don't use dots to separate fields. It's almost always `'s `, but I see this is done here more often.",
+    "created_at": "2022-10-28T08:10:42Z",
+    "updated_at": "2022-10-28T08:12:25Z",
+    "html_url": "https://github.com/whatwg/fs/pull/69#discussion_r1007780159",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/69",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1007780159"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/69#discussion_r1007780159"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/69"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1007780159/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 813,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 814,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 162,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1007781766",
+    "pull_request_review_id": 1159641284,
+    "id": 1007781766,
+    "node_id": "PRRC_kwDOGdsLdc48EYeG",
+    "diff_hunk": "@@ -788,19 +787,19 @@ Similarly, when piping a {{ReadableStream}} into a {{FileSystemWritableFileStrea\n \n <div algorithm>\n To <dfn>create a new FileSystemWritableFileStream</dfn> given a [=file entry=] |file|\n-in a [=/Realm=] |realm|, perform the following steps:\n+in a [=/Realm=] |realm|, run these steps:\n \n 1. Let |stream| be a [=new=] {{FileSystemWritableFileStream}} in |realm|.\n 1. Set |stream|.[=FileSystemWritableFileStream/[[file]]=] to |file|.\n 1. Let |writeAlgorithm| be an algorithm which takes a |chunk| argument\n    and returns the result of running the [=write a chunk=] algorithm with |stream| and |chunk|.\n-1. Let |closeAlgorithm| be the following steps:\n+1. Let |closeAlgorithm| be these steps:\n    1. Let |closeResult| be [=a new promise=].\n-   1. Run the following steps [=in parallel=]:\n+   1. Run these steps [=in parallel=]:\n       1. Let |access| be the result of running |file|'s [=entry/query access=] given \"`readwrite`\".\n       1. If |access| is not \"{{PermissionState/granted}}\",\n          reject |closeResult| with a {{NotAllowedError}} and abort.\n-      1. Perform [=implementation-defined=] malware scans and safe browsing checks.\n+      1. Run [=implementation-defined=] malware scans and safe browsing checks.",
+    "path": "index.bs",
+    "commit_id": "344cedd093de1f31f92714d31eb37fefdfb2ebb2",
+    "original_commit_id": "9a267e7da7402641a2ca94b4a642a118a82f04f2",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Yeah. I'm not sure how good we are on \"Run\" vs \"Perform\" in general. Both seem okay and JavaScript uses \"Perform\" a lot, but the web platform has indeed more \"Run\".",
+    "created_at": "2022-10-28T08:12:13Z",
+    "updated_at": "2022-10-28T08:12:25Z",
+    "html_url": "https://github.com/whatwg/fs/pull/69#discussion_r1007781766",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/69",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1007781766"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/69#discussion_r1007781766"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/69"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1007781766/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 801,
+    "original_line": 801,
+    "side": "RIGHT",
+    "in_reply_to_id": 1007453773,
+    "author_association": "MEMBER",
+    "original_position": 152,
+    "position": 124,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1009645608",
+    "pull_request_review_id": 1162215296,
+    "id": 1009645608,
+    "node_id": "PRRC_kwDOGdsLdc48Lfgo",
+    "diff_hunk": "@@ -94,7 +94,7 @@ and a <dfn for=\"file entry\">shared lock count</dfn> (a number representing the n\n \n <div algorithm>\n To <dfn for=\"file entry/lock\">take</dfn> a [=file entry/lock=] with a |value| of \"`exclusive`\" or \"`shared`\" on a given [=file entry=] |file|,\n-run the following steps:\n+run these steps:",
+    "path": "index.bs",
+    "commit_id": "344cedd093de1f31f92714d31eb37fefdfb2ebb2",
+    "original_commit_id": "9a267e7da7402641a2ca94b4a642a118a82f04f2",
+    "user": {
+      "login": "a-sully",
+      "id": 77407429,
+      "node_id": "MDQ6VXNlcjc3NDA3NDI5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77407429?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/a-sully",
+      "html_url": "https://github.com/a-sully",
+      "followers_url": "https://api.github.com/users/a-sully/followers",
+      "following_url": "https://api.github.com/users/a-sully/following{/other_user}",
+      "gists_url": "https://api.github.com/users/a-sully/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/a-sully/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/a-sully/subscriptions",
+      "organizations_url": "https://api.github.com/users/a-sully/orgs",
+      "repos_url": "https://api.github.com/users/a-sully/repos",
+      "events_url": "https://api.github.com/users/a-sully/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/a-sully/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Ah nice, that sounds good to me",
+    "created_at": "2022-10-31T16:52:42Z",
+    "updated_at": "2022-10-31T16:52:42Z",
+    "html_url": "https://github.com/whatwg/fs/pull/69#discussion_r1009645608",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/69",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1009645608"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/69#discussion_r1009645608"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/69"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1009645608/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 96,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 97,
+    "side": "RIGHT",
+    "in_reply_to_id": 1007777248,
+    "author_association": "COLLABORATOR",
+    "original_position": 5,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

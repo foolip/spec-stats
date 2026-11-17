@@ -1,0 +1,144 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/2068110721",
+    "pull_request_review_id": 2806151756,
+    "id": 2068110721,
+    "node_id": "PRRC_kwDOAFgnJc57RN2B",
+    "diff_hunk": "@@ -1666,17 +1666,48 @@ of the <a for=\"environment\">target browsing context</a>'s <a>active document</a>\n <a>environment settings object</a>.\n \n <p>A <a for=/>request</a> has an associated\n-<dfn export for=request id=concept-request-window>window</dfn>\n-(\"<code>no-window</code>\", \"<code>client</code>\", or an\n-<a>environment settings object</a> whose\n-<a for=\"environment settings object\">global object</a> is a\n-{{Window}} object). Unless stated otherwise it is\n-\"<code>client</code>\".\n+<dfn export for=request id=concept-request-window>window</dfn>, that is \"<code>no-window</code>\",\n+\"<code>from-browser-ui</code>\", \"<code>client</code>\", or an <a>environment settings object</a>\n+whose <a for=\"environment settings object\">global object</a> is a {{Window}} object. Unless stated\n+otherwise it is \"<code>client</code>\".\n+\n+<div class=note>\n+ <p>This is used to determine whether and where to show necessary UI for the request, such as\n+ authentication prompts or client certificate dialogs.\n+\n+ <dl>\n+  <dt>\"<code>no-window</code>\"\n+  <dd>No UI is shown; usually the request fails with a <a>network error</a>.\n \n-<p class=note>The \"<code>client</code>\" value is changed to \"<code>no-window</code>\" or\n-<a for=/>request</a>'s <a for=request>client</a> during <a lt=fetch for=/>fetching</a>. It provides\n-a convenient way for standards to not have to explicitly set <a for=/>request</a>'s\n-<a for=request>window</a>.\n+  <dt>\"<code>from-browser-ui</code>\"\n+  <dd>This request was initiated by browser UI, and so any UI shown will not be associated to a\n+  specific window.\n+\n+  <dt>\"<code>client</code>\"\n+  <dd>This value will automatically be changed to either \"<code>no-window</code>\" or the request's\n+  <a for=request>client</a> during <a lt=fetch for=/>fetching</a>. This provides a convenient way\n+  for standards to not have to explicitly set a request's <a for=request>window</a>.\n+\n+  <dt>an <a>environment settings object</a>\n+  <dd>The UI shown will be associated with the specified {{Window}} object.\n+ </dl>\n+</div>\n+\n+<p>The <dfn for=request>appropriate user prompt context</dfn> for a <a for=/>request</a>\n+<var>request</var> is determined as follows:\n+\n+<ol>\n+ <li><p><a>Assert</a>: <var>request</var>'s <a for=request>window</a> is not \"<code>client</code>\".\n+\n+ <li><p>If the request's <a for=request>window</a> is an <a>environment settings object</a>, then\n+ the prompt should occur in a way attributable to <var>request</var>'s <a for=request>window</a>.\n+\n+ <li><p>Otherwise, if <var>request</var>'s <a for=request>window</a> is\n+ \"<code>from-browser-ui</code>\", then the prompt should occur in a neutral context, e.g., on top of\n+ a blank page.",
+    "path": "fetch.bs",
+    "commit_id": "7070b90f98ebef6423553320f0c9c90e4241839f",
+    "original_commit_id": "7070b90f98ebef6423553320f0c9c90e4241839f",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Should we note here that the address bar should probably contain some variation on the request's current URL?",
+    "created_at": "2025-04-30T08:00:34Z",
+    "updated_at": "2025-04-30T08:08:01Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1821#discussion_r2068110721",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1821",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/2068110721"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1821#discussion_r2068110721"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1821"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/2068110721/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 1707,
+    "original_line": 1707,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 52,
+    "position": 52,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/2068116763",
+    "pull_request_review_id": 2806151756,
+    "id": 2068116763,
+    "node_id": "PRRC_kwDOAFgnJc57RPUb",
+    "diff_hunk": "@@ -6156,10 +6186,8 @@ optional boolean <var>forceNewConnection</var> (default false), run these steps:\n     <p>If the HTTP request results in a TLS client certificate dialog, then:\n \n     <ol>\n-     <li><p>If <var>request</var>'s <a for=request>window</a>\n-     is an <a>environment settings object</a>, make the dialog\n-     available in <var>request</var>'s\n-     <a for=request>window</a>.\n+     <li><p>If <var>request</var> has an <a>appropriate user prompt context</a>, then make the\n+     dialog available in <var>request</var>'s <a>appropriate user prompt context</a>.",
+    "path": "fetch.bs",
+    "commit_id": "7070b90f98ebef6423553320f0c9c90e4241839f",
+    "original_commit_id": "7070b90f98ebef6423553320f0c9c90e4241839f",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n     dialog available therein.\r\n```\r\nMight be a bit nicer.",
+    "created_at": "2025-04-30T08:04:20Z",
+    "updated_at": "2025-04-30T08:08:01Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1821#discussion_r2068116763",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1821",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/2068116763"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1821#discussion_r2068116763"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1821"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/2068116763/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 6190,
+    "original_line": 6190,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 102,
+    "position": 102,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

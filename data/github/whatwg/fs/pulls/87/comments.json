@@ -1,0 +1,360 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1068228727",
+    "pull_request_review_id": 1245768845,
+    "id": 1068228727,
+    "node_id": "PRRC_kwDOGdsLdc4_q-B3",
+    "diff_hunk": "@@ -1230,14 +1230,19 @@ The <dfn method for=FileSystemSyncAccessHandle>flush()</dfn> method steps are:\n \n <div class=\"note domintro\">\n   : |handle| . {{FileSystemSyncAccessHandle/close()}}\n-  :: Closes the access handle. This disables any further operations on it and\n+  :: Closes the access handle or no-ops if the access handle is already closed.\n+     This disables any further operations on it and\n      [=file entry/lock/release|releases the lock=] on the\n      [=FileSystemHandle/entry=] associated with |handle|.\n </div>\n \n <div algorithm>\n-The <dfn method for=FileSystemSyncAccessHandle>close()</dfn> method steps are\n-to set [=this=].[=[[state]]=] to \"`closed`\".\n+The <dfn method for=FileSystemSyncAccessHandle>close()</dfn> method steps are:\n+\n+1. If [=this=].[=[[state]]=] is \"`closed`\", return.\n+1. Set [=this=].[=[[state]]=] to \"`closed`\".\n+1. [=file entry/lock/release|Release the lock=] on\n+   [=this=].[=FileSystemSyncAccessHandle/[[file]]=].",
+    "path": "index.bs",
+    "commit_id": "74f01443a00f33702317d14e8164d2aa00494343",
+    "original_commit_id": "b9c4e471df97925de94cba0580ee34b1f21dfd33",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "So this can never fail? Asking as @szewai suggested it might.",
+    "created_at": "2023-01-12T14:59:07Z",
+    "updated_at": "2023-01-12T15:00:32Z",
+    "html_url": "https://github.com/whatwg/fs/pull/87#discussion_r1068228727",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/87",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1068228727"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/87#discussion_r1068228727"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/87"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1068228727/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 1244,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 1245,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 19,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1068229665",
+    "pull_request_review_id": 1245768845,
+    "id": 1068229665,
+    "node_id": "PRRC_kwDOGdsLdc4_q-Qh",
+    "diff_hunk": "@@ -1230,14 +1230,19 @@ The <dfn method for=FileSystemSyncAccessHandle>flush()</dfn> method steps are:\n \n <div class=\"note domintro\">\n   : |handle| . {{FileSystemSyncAccessHandle/close()}}\n-  :: Closes the access handle. This disables any further operations on it and\n+  :: Closes the access handle or no-ops if the access handle is already closed.\n+     This disables any further operations on it and\n      [=file entry/lock/release|releases the lock=] on the\n      [=FileSystemHandle/entry=] associated with |handle|.\n </div>\n \n <div algorithm>\n-The <dfn method for=FileSystemSyncAccessHandle>close()</dfn> method steps are\n-to set [=this=].[=[[state]]=] to \"`closed`\".\n+The <dfn method for=FileSystemSyncAccessHandle>close()</dfn> method steps are:\n+\n+1. If [=this=].[=[[state]]=] is \"`closed`\", return.\n+1. Set [=this=].[=[[state]]=] to \"`closed`\".\n+1. [=file entry/lock/release|Release the lock=] on\n+   [=this=].[=FileSystemSyncAccessHandle/[[file]]=].",
+    "path": "index.bs",
+    "commit_id": "74f01443a00f33702317d14e8164d2aa00494343",
+    "original_commit_id": "b9c4e471df97925de94cba0580ee34b1f21dfd33",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n   [=this=]'s [=FileSystemSyncAccessHandle/[[file]]=].\r\n```\r\nWe generally don't do dot access for concepts.",
+    "created_at": "2023-01-12T14:59:48Z",
+    "updated_at": "2023-01-12T15:00:32Z",
+    "html_url": "https://github.com/whatwg/fs/pull/87#discussion_r1068229665",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/87",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1068229665"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/87#discussion_r1068229665"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/87"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1068229665/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1245,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 19,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1068429519",
+    "pull_request_review_id": 1246151157,
+    "id": 1068429519,
+    "node_id": "PRRC_kwDOGdsLdc4_rvDP",
+    "diff_hunk": "@@ -1230,14 +1230,19 @@ The <dfn method for=FileSystemSyncAccessHandle>flush()</dfn> method steps are:\n \n <div class=\"note domintro\">\n   : |handle| . {{FileSystemSyncAccessHandle/close()}}\n-  :: Closes the access handle. This disables any further operations on it and\n+  :: Closes the access handle or no-ops if the access handle is already closed.\n+     This disables any further operations on it and\n      [=file entry/lock/release|releases the lock=] on the\n      [=FileSystemHandle/entry=] associated with |handle|.\n </div>\n \n <div algorithm>\n-The <dfn method for=FileSystemSyncAccessHandle>close()</dfn> method steps are\n-to set [=this=].[=[[state]]=] to \"`closed`\".\n+The <dfn method for=FileSystemSyncAccessHandle>close()</dfn> method steps are:\n+\n+1. If [=this=].[=[[state]]=] is \"`closed`\", return.\n+1. Set [=this=].[=[[state]]=] to \"`closed`\".\n+1. [=file entry/lock/release|Release the lock=] on\n+   [=this=].[=FileSystemSyncAccessHandle/[[file]]=].",
+    "path": "index.bs",
+    "commit_id": "74f01443a00f33702317d14e8164d2aa00494343",
+    "original_commit_id": "b9c4e471df97925de94cba0580ee34b1f21dfd33",
+    "user": {
+      "login": "a-sully",
+      "id": 77407429,
+      "node_id": "MDQ6VXNlcjc3NDA3NDI5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77407429?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/a-sully",
+      "html_url": "https://github.com/a-sully",
+      "followers_url": "https://api.github.com/users/a-sully/followers",
+      "following_url": "https://api.github.com/users/a-sully/following{/other_user}",
+      "gists_url": "https://api.github.com/users/a-sully/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/a-sully/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/a-sully/subscriptions",
+      "organizations_url": "https://api.github.com/users/a-sully/orgs",
+      "repos_url": "https://api.github.com/users/a-sully/repos",
+      "events_url": "https://api.github.com/users/a-sully/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/a-sully/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "AFAICT I don't think this should be able to fail. Either the SyncAccessHandle is open and this method properly closes it, or it's already closed and this method is a no-op... \r\n\r\n#35 asks what should happen if the underlying file is removed while it has an open SyncAccessHandle (say, if the user clears site data or runs `rm -rf` on their browser's storage profile). I haven't thought all the way through how to specify how the API should behave in this scenario, but refusing to close the SyncAccessHandle doesn't seem like a good idea (which makes it impossible to release the associated lock)\r\n\r\nThoughts? @szewai @jesup ",
+    "created_at": "2023-01-12T17:48:20Z",
+    "updated_at": "2023-01-12T17:48:20Z",
+    "html_url": "https://github.com/whatwg/fs/pull/87#discussion_r1068429519",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/87",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1068429519"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/87#discussion_r1068429519"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/87"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1068429519/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 1244,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 1245,
+    "side": "RIGHT",
+    "in_reply_to_id": 1068228727,
+    "author_association": "COLLABORATOR",
+    "original_position": 19,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1072873715",
+    "pull_request_review_id": 1252521463,
+    "id": 1072873715,
+    "node_id": "PRRC_kwDOGdsLdc4_8sDz",
+    "diff_hunk": "@@ -1230,14 +1230,19 @@ The <dfn method for=FileSystemSyncAccessHandle>flush()</dfn> method steps are:\n \n <div class=\"note domintro\">\n   : |handle| . {{FileSystemSyncAccessHandle/close()}}\n-  :: Closes the access handle. This disables any further operations on it and\n+  :: Closes the access handle or no-ops if the access handle is already closed.\n+     This disables any further operations on it and\n      [=file entry/lock/release|releases the lock=] on the\n      [=FileSystemHandle/entry=] associated with |handle|.\n </div>\n \n <div algorithm>\n-The <dfn method for=FileSystemSyncAccessHandle>close()</dfn> method steps are\n-to set [=this=].[=[[state]]=] to \"`closed`\".\n+The <dfn method for=FileSystemSyncAccessHandle>close()</dfn> method steps are:\n+\n+1. If [=this=].[=[[state]]=] is \"`closed`\", return.\n+1. Set [=this=].[=[[state]]=] to \"`closed`\".\n+1. [=file entry/lock/release|Release the lock=] on\n+   [=this=].[=FileSystemSyncAccessHandle/[[file]]=].",
+    "path": "index.bs",
+    "commit_id": "74f01443a00f33702317d14e8164d2aa00494343",
+    "original_commit_id": "b9c4e471df97925de94cba0580ee34b1f21dfd33",
+    "user": {
+      "login": "a-sully",
+      "id": 77407429,
+      "node_id": "MDQ6VXNlcjc3NDA3NDI5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77407429?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/a-sully",
+      "html_url": "https://github.com/a-sully",
+      "followers_url": "https://api.github.com/users/a-sully/followers",
+      "following_url": "https://api.github.com/users/a-sully/following{/other_user}",
+      "gists_url": "https://api.github.com/users/a-sully/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/a-sully/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/a-sully/subscriptions",
+      "organizations_url": "https://api.github.com/users/a-sully/orgs",
+      "repos_url": "https://api.github.com/users/a-sully/repos",
+      "events_url": "https://api.github.com/users/a-sully/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/a-sully/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Just to clarify, this `[=this=].[=[[state]]=]` should also be `[=this=]'s [=[[state]]=]`, correct?",
+    "created_at": "2023-01-17T22:01:02Z",
+    "updated_at": "2023-01-17T22:01:03Z",
+    "html_url": "https://github.com/whatwg/fs/pull/87#discussion_r1072873715",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/87",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1072873715"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/87#discussion_r1072873715"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/87"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1072873715/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1245,
+    "side": "RIGHT",
+    "in_reply_to_id": 1068229665,
+    "author_association": "COLLABORATOR",
+    "original_position": 19,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1085495781",
+    "pull_request_review_id": 1267730908,
+    "id": 1085495781,
+    "node_id": "PRRC_kwDOGdsLdc5As1nl",
+    "diff_hunk": "@@ -1230,14 +1230,19 @@ The <dfn method for=FileSystemSyncAccessHandle>flush()</dfn> method steps are:\n \n <div class=\"note domintro\">\n   : |handle| . {{FileSystemSyncAccessHandle/close()}}\n-  :: Closes the access handle. This disables any further operations on it and\n+  :: Closes the access handle or no-ops if the access handle is already closed.\n+     This disables any further operations on it and\n      [=file entry/lock/release|releases the lock=] on the\n      [=FileSystemHandle/entry=] associated with |handle|.\n </div>\n \n <div algorithm>\n-The <dfn method for=FileSystemSyncAccessHandle>close()</dfn> method steps are\n-to set [=this=].[=[[state]]=] to \"`closed`\".\n+The <dfn method for=FileSystemSyncAccessHandle>close()</dfn> method steps are:\n+\n+1. If [=this=].[=[[state]]=] is \"`closed`\", return.\n+1. Set [=this=].[=[[state]]=] to \"`closed`\".\n+1. [=file entry/lock/release|Release the lock=] on\n+   [=this=].[=FileSystemSyncAccessHandle/[[file]]=].",
+    "path": "index.bs",
+    "commit_id": "74f01443a00f33702317d14e8164d2aa00494343",
+    "original_commit_id": "b9c4e471df97925de94cba0580ee34b1f21dfd33",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Yeah.",
+    "created_at": "2023-01-24T15:30:54Z",
+    "updated_at": "2023-01-24T15:30:54Z",
+    "html_url": "https://github.com/whatwg/fs/pull/87#discussion_r1085495781",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/87",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1085495781"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/87#discussion_r1085495781"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/87"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1085495781/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1245,
+    "side": "RIGHT",
+    "in_reply_to_id": 1068229665,
+    "author_association": "MEMBER",
+    "original_position": 19,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

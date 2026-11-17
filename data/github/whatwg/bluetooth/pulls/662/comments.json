@@ -1,0 +1,288 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2252820455",
+    "pull_request_review_id": 3086129309,
+    "id": 2252820455,
+    "node_id": "PRRC_kwDOAVr2cs6GR0_n",
+    "diff_hunk": "@@ -6025,7 +6093,46 @@ bluetooth.SimulateDescriptorParameters = {\n \n <div algorithm=\"remote end steps for bluetooth.simulateDescriptor\">\n \n-Issue: TODO: Finish the algorithm of bluetooth.simulateDescriptor.\n+1. Let |contextId| be |params|[`\"context\"`].\n+1. Let |navigable| be the result of [=trying=] to [=get a navigable=] with |contextId|.\n+1. Let |deviceAddress| be |params|[`\"address\"`].\n+1. Let |simulatedBluetoothAdapter| be |navigable|'s <a>simulated Bluetooth adapter</a>.\n+1. If |simulatedBluetoothAdapter| is empty, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |deviceMapping| be |simulatedBluetoothAdapter|'s <a>simulated Bluetooth device mapping</a>.\n+1. If |deviceMapping|[|deviceAddress|] [=map/exists=], let |simulatedDevice| be |deviceMapping|[|deviceAddress|].\n+1. Otherwise, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |simulatedDeviceInstance| be the result of <a>get the <code>BluetoothDevice</code> representing</a>\n+    |simulatedDevice| inside |navigable|'s <a>active window</a>'s <a spec=HTML>associated <code>Navigator</code></a>'s\n+    [=associated Bluetooth=].\n+1. Let |serviceMapping| be |simulatedDevice|'s <a>simulated GATT service mapping</a>.\n+1. Let |serviceUuid| be |params|[`\"serviceUuid\"`].\n+1. If |serviceMapping|[|serviceUuid|] [=map/exists=], let |simulatedService| be |serviceMapping|[|serviceUuid|].\n+1. Otherwise, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |characteristicMapping| be |simulatedService|'s <a>simulated GATT characteristic mapping</a>.\n+1. Let |characteristicUuid| be |params|[`\"characteristicUuid\"`].\n+1. If |characteristicMapping|[|characteristicUuid|] [=map/exists=], let |simulatedCharacteristic| be\n+    |characteristicMapping|[|characteristicUuid|].\n+1. Otherwise, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |descriptorMapping| be |simulatedCharacteristic|'s <a>simulated GATT descriptor mapping</a>.\n+1. Let |descriptorUuid| be |params|[`\"descriptorUuid\"`].\n+1. If |params|[`\"type\"`] is `\"add\"`:\n+    1. If |descriptorMapping|[|descriptorUuid|] [=map/exists=], return [=error=] with\n+        [=error code=] [=invalid element state=].\n+    1. Let |simulatedGattDescriptor| be a new <a>simulated GATT descriptor</a>.\n+    1. Set |simulatedGattDescriptor|'s <a>UUID</a> to |descriptorUuid|.\n+    1. Set |descriptorMapping|[|descriptorUuid|] to |simulatedGattDescriptor|.\n+    1. <a>Create a <code>BluetoothRemoteGATTDescriptor</code> representing</a> |simulatedGattDescriptor|\n+        and add a mapping from |simulatedGattDescriptor| to the resulting {{Promise}} in\n+        |simulatedDeviceInstance|.{{[[context]]}}.{{Bluetooth/[[attributeInstanceMap]]}}.\n+    1. Return [=success=] with data `null`.\n+1. Else if |params|[`\"type\"`] is `\"remove\"`:",
+    "path": "index.bs",
+    "commit_id": "0a2c94d722d38d9427ef97852cf6d5da2b3eb32f",
+    "original_commit_id": "4014bedadd6eb05317bf3dd62999e35ba4235ea3",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n1. If |params|[`\"type\"`] is `\"remove\"`:\r\n```",
+    "created_at": "2025-08-05T00:05:05Z",
+    "updated_at": "2025-08-05T00:08:10Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/662#discussion_r2252820455",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/662",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2252820455"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/662#discussion_r2252820455"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/662"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2252820455/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 6128,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 196,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2252822683",
+    "pull_request_review_id": 3086129309,
+    "id": 2252822683,
+    "node_id": "PRRC_kwDOAVr2cs6GR1ib",
+    "diff_hunk": "@@ -6243,7 +6387,27 @@ bluetooth.DescriptorEventGeneratedParameters = {\n \n <div algorithm=\"remote end event trigger for bluetooth.descriptorEventGenerated\">\n \n-Issue: TODO: Finish the algorithm of bluetooth.descriptorEventGenerated.\n+To <dfn>trigger a simulated descriptor event </dfn> given a [=navigable=] |navigable|, a {{BluetoothDevice}} |device|, a\n+<a>simulated GATT descriptor</a> |descriptor|, <a>string</a> |type|, and an optional <a>byte sequence</a> |bytes|:\n+\n+1. Let |navigableId| be |navigable|'s [=navigable id=].\n+1. Let |params| be a [=map=] matching the <code>bluetooth.DescriptorEventGeneratedParameters</code> production and run\n+    the following steps:\n+    1. Set |params|[`\"context\"`] to |navigableId|.\n+    1. Set |params|[`\"address\"`] to |device|.{{[[representedDevice]]}}'s address.\n+    1. Let |characteristic| be the <a>simulated GATT characteristic</a> containing |descriptor|.\n+    1. Let |service| be the <a>simulated GATT service</a> containing |characteristic|.\n+    1. Set |params|[`\"serviceUuid\"`] to |service|'s <a>UUID</a>.\n+    1. Set |params|[`\"characteristicUuid\"`] to |characteristic|'s <a>UUID</a>.\n+    1. Set |params|[`\"descriptorUuid\"`] to |descriptor|'s <a>UUID</a>.\n+    1. Set |params|[`\"type\"`] to |type|.\n+    1. If |type| is `write`, set |params|[`\"data\"`] to a [=new=] {{Uint8Array}} wrapping a [=new=] {{ArrayBuffer}} containing |bytes|.",
+    "path": "index.bs",
+    "commit_id": "0a2c94d722d38d9427ef97852cf6d5da2b3eb32f",
+    "original_commit_id": "4014bedadd6eb05317bf3dd62999e35ba4235ea3",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I missed this in the previous PR but since `params` isn't a WebIDL type I don't think using a `Uint8Array` is correct here. Isn't there a CDDL type we should be initializing for a byte array?",
+    "created_at": "2025-08-05T00:08:06Z",
+    "updated_at": "2025-08-05T00:08:10Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/662#discussion_r2252822683",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/662",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2252822683"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/662#discussion_r2252822683"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/662"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2252822683/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 6404,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 272,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2253404198",
+    "pull_request_review_id": 3086940321,
+    "id": 2253404198,
+    "node_id": "PRRC_kwDOAVr2cs6GUDgm",
+    "diff_hunk": "@@ -6025,7 +6093,46 @@ bluetooth.SimulateDescriptorParameters = {\n \n <div algorithm=\"remote end steps for bluetooth.simulateDescriptor\">\n \n-Issue: TODO: Finish the algorithm of bluetooth.simulateDescriptor.\n+1. Let |contextId| be |params|[`\"context\"`].\n+1. Let |navigable| be the result of [=trying=] to [=get a navigable=] with |contextId|.\n+1. Let |deviceAddress| be |params|[`\"address\"`].\n+1. Let |simulatedBluetoothAdapter| be |navigable|'s <a>simulated Bluetooth adapter</a>.\n+1. If |simulatedBluetoothAdapter| is empty, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |deviceMapping| be |simulatedBluetoothAdapter|'s <a>simulated Bluetooth device mapping</a>.\n+1. If |deviceMapping|[|deviceAddress|] [=map/exists=], let |simulatedDevice| be |deviceMapping|[|deviceAddress|].\n+1. Otherwise, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |simulatedDeviceInstance| be the result of <a>get the <code>BluetoothDevice</code> representing</a>\n+    |simulatedDevice| inside |navigable|'s <a>active window</a>'s <a spec=HTML>associated <code>Navigator</code></a>'s\n+    [=associated Bluetooth=].\n+1. Let |serviceMapping| be |simulatedDevice|'s <a>simulated GATT service mapping</a>.\n+1. Let |serviceUuid| be |params|[`\"serviceUuid\"`].\n+1. If |serviceMapping|[|serviceUuid|] [=map/exists=], let |simulatedService| be |serviceMapping|[|serviceUuid|].\n+1. Otherwise, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |characteristicMapping| be |simulatedService|'s <a>simulated GATT characteristic mapping</a>.\n+1. Let |characteristicUuid| be |params|[`\"characteristicUuid\"`].\n+1. If |characteristicMapping|[|characteristicUuid|] [=map/exists=], let |simulatedCharacteristic| be\n+    |characteristicMapping|[|characteristicUuid|].\n+1. Otherwise, return [=error=] with [=error code=] [=invalid argument=].\n+1. Let |descriptorMapping| be |simulatedCharacteristic|'s <a>simulated GATT descriptor mapping</a>.\n+1. Let |descriptorUuid| be |params|[`\"descriptorUuid\"`].\n+1. If |params|[`\"type\"`] is `\"add\"`:\n+    1. If |descriptorMapping|[|descriptorUuid|] [=map/exists=], return [=error=] with\n+        [=error code=] [=invalid element state=].\n+    1. Let |simulatedGattDescriptor| be a new <a>simulated GATT descriptor</a>.\n+    1. Set |simulatedGattDescriptor|'s <a>UUID</a> to |descriptorUuid|.\n+    1. Set |descriptorMapping|[|descriptorUuid|] to |simulatedGattDescriptor|.\n+    1. <a>Create a <code>BluetoothRemoteGATTDescriptor</code> representing</a> |simulatedGattDescriptor|\n+        and add a mapping from |simulatedGattDescriptor| to the resulting {{Promise}} in\n+        |simulatedDeviceInstance|.{{[[context]]}}.{{Bluetooth/[[attributeInstanceMap]]}}.\n+    1. Return [=success=] with data `null`.\n+1. Else if |params|[`\"type\"`] is `\"remove\"`:",
+    "path": "index.bs",
+    "commit_id": "0a2c94d722d38d9427ef97852cf6d5da2b3eb32f",
+    "original_commit_id": "4014bedadd6eb05317bf3dd62999e35ba4235ea3",
+    "user": {
+      "login": "chengweih001",
+      "id": 97704544,
+      "node_id": "U_kgDOBdLaYA",
+      "avatar_url": "https://avatars.githubusercontent.com/u/97704544?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chengweih001",
+      "html_url": "https://github.com/chengweih001",
+      "followers_url": "https://api.github.com/users/chengweih001/followers",
+      "following_url": "https://api.github.com/users/chengweih001/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chengweih001/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chengweih001/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chengweih001/subscriptions",
+      "organizations_url": "https://api.github.com/users/chengweih001/orgs",
+      "repos_url": "https://api.github.com/users/chengweih001/repos",
+      "events_url": "https://api.github.com/users/chengweih001/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chengweih001/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2025-08-05T07:28:32Z",
+    "updated_at": "2025-08-05T07:28:32Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/662#discussion_r2253404198",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/662",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2253404198"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/662#discussion_r2253404198"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/662"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2253404198/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 6128,
+    "side": "RIGHT",
+    "in_reply_to_id": 2252820455,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 196,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2253416271",
+    "pull_request_review_id": 3086957154,
+    "id": 2253416271,
+    "node_id": "PRRC_kwDOAVr2cs6GUGdP",
+    "diff_hunk": "@@ -6243,7 +6387,27 @@ bluetooth.DescriptorEventGeneratedParameters = {\n \n <div algorithm=\"remote end event trigger for bluetooth.descriptorEventGenerated\">\n \n-Issue: TODO: Finish the algorithm of bluetooth.descriptorEventGenerated.\n+To <dfn>trigger a simulated descriptor event </dfn> given a [=navigable=] |navigable|, a {{BluetoothDevice}} |device|, a\n+<a>simulated GATT descriptor</a> |descriptor|, <a>string</a> |type|, and an optional <a>byte sequence</a> |bytes|:\n+\n+1. Let |navigableId| be |navigable|'s [=navigable id=].\n+1. Let |params| be a [=map=] matching the <code>bluetooth.DescriptorEventGeneratedParameters</code> production and run\n+    the following steps:\n+    1. Set |params|[`\"context\"`] to |navigableId|.\n+    1. Set |params|[`\"address\"`] to |device|.{{[[representedDevice]]}}'s address.\n+    1. Let |characteristic| be the <a>simulated GATT characteristic</a> containing |descriptor|.\n+    1. Let |service| be the <a>simulated GATT service</a> containing |characteristic|.\n+    1. Set |params|[`\"serviceUuid\"`] to |service|'s <a>UUID</a>.\n+    1. Set |params|[`\"characteristicUuid\"`] to |characteristic|'s <a>UUID</a>.\n+    1. Set |params|[`\"descriptorUuid\"`] to |descriptor|'s <a>UUID</a>.\n+    1. Set |params|[`\"type\"`] to |type|.\n+    1. If |type| is `write`, set |params|[`\"data\"`] to a [=new=] {{Uint8Array}} wrapping a [=new=] {{ArrayBuffer}} containing |bytes|.",
+    "path": "index.bs",
+    "commit_id": "0a2c94d722d38d9427ef97852cf6d5da2b3eb32f",
+    "original_commit_id": "4014bedadd6eb05317bf3dd62999e35ba4235ea3",
+    "user": {
+      "login": "chengweih001",
+      "id": 97704544,
+      "node_id": "U_kgDOBdLaYA",
+      "avatar_url": "https://avatars.githubusercontent.com/u/97704544?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chengweih001",
+      "html_url": "https://github.com/chengweih001",
+      "followers_url": "https://api.github.com/users/chengweih001/followers",
+      "following_url": "https://api.github.com/users/chengweih001/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chengweih001/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chengweih001/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chengweih001/subscriptions",
+      "organizations_url": "https://api.github.com/users/chengweih001/orgs",
+      "repos_url": "https://api.github.com/users/chengweih001/repos",
+      "events_url": "https://api.github.com/users/chengweih001/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chengweih001/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Updated. Please see the latest patch.\r\n\r\nI didn't find anything relative in [CDDL spec](https://datatracker.ietf.org/doc/rfc8610/), but I found one example in  https://www.w3.org/TR/webdriver-bidi/#get-the-response-data (for how it populate `headers` field). I just followed it to init an empty array and populate the array with value.",
+    "created_at": "2025-08-05T07:33:49Z",
+    "updated_at": "2025-08-05T07:34:11Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/662#discussion_r2253416271",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/662",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2253416271"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/662#discussion_r2253416271"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/662"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/2253416271/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 6404,
+    "side": "RIGHT",
+    "in_reply_to_id": 2252822683,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 272,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

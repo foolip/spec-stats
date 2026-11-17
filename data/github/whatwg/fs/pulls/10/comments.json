@@ -1,0 +1,576 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1012315219",
+    "pull_request_review_id": 1166036165,
+    "id": 1012315219,
+    "node_id": "PRRC_kwDOGdsLdc48VrRT",
+    "diff_hunk": "@@ -234,6 +238,110 @@ The <dfn attribute for=FileSystemHandle>kind</dfn> getter steps are to return\n \n The <dfn attribute for=FileSystemHandle>name</dfn> getter steps are to return [=this=]'s [=entry/name=].\n \n+### The {{FileSystemHandle/move(destination_directory, new_entry_name)|move()}} method ### {#api-filesystemhandle-move}\n+\n+<div class=\"note domintro\">\n+  : await |handle| . {{FileSystemHandle/move(new_entry_name)|move}}({ {{USVString}}: |new_entry_name|})\n+  :: Attempts to rename the entry represented by |handle| to\n+     |new_entry_name| in the underlying file system.\n+\n+  : await |handle| . {{FileSystemHandle/move(destination_directory)|move}}({ {{FileSystemDirectoryHandle}}: |destination_directory|})\n+  :: Attempts to move the entry represented by |handle| to |destination_directory|,\n+     while keeping its existing name.\n+\n+  : await |handle| . {{FileSystemHandle/move(destination_directory, new_entry_name)|move}}({ {{FileSystemDirectoryHandle}}: |destination_directory|, {{USVString}}: |new_entry_name|})\n+  :: Attempts to move the entry represented by |handle| to |destination_directory|,\n+     as well as renaming to |new_entry_name|.\n+\n+     If |destination_directory| is not on the same underlying filesystem, this move\n+     is not guaranteed to be atomic and will involve duplicating data.\n+\n+     For files or directories with multiple hardlinks or symlinks, the entry\n+     which is moved is the entry corresponding to the path which was used to\n+     obtain the handle.\n+\n+     Attempting to move a file or directory that does not exist, passing an\n+     invalid name, or attempting to overwrite an existing file or directory\n+     will result in a promise rejection.\n+</div>\n+\n+<div algorithm>\n+The <dfn method for=FileSystemHandle>move({{FileSystemDirectoryHandle}}: |destination_directory|, {{USVString}}: |new_entry_name|)</dfn>\n+method steps are:\n+\n+1. Let |result| be [=a new promise=].\n+1. Run these steps [=in parallel=]:\n+  1. Let |entry| be <b>[=this=]</b>'s [=FileSystemHandle/entry=].\n+    1. If |entry| is the [=root directory of the origin private file system=]:\n+      1. [=/Reject=] |result| with an \"{{NoModificationAllowedError}}\" {{DOMException}}\n+         and abort.\n+  1. Let |new_name| be |new_entry_name| if specified, otherwise [=entry/name=].\n+     If |new_name| is invalid or deemed too dangerous, user agents should\n+     sanitize it, similar to the sanitization done when fetching something\n+     <a spec=html>as a download</a>, or [=/reject=] |result| with a\n+     {{TypeError}} and abort.\n+  1. Let |new_directory| be |destination_directory| if specified, otherwise [=entry/parent=].\n+     If |new_directory| does not exist, [=/reject=] |result| with a\n+      \"{{NotFoundError}}\" {{DOMException}} and abort.\n+  1. Let |destination_entry| be an [=/entry=] in |new_directory|'s [=directory entry/children=].\n+    1. Set |destination_entry|'s [=entry/name=] to |new_name|.\n+    1. If |entry| is [=the same as=] |destination_entry|,\n+       [=/resolve=] |result| with `undefined`.\n+     1. If |destination_entry| exists in the underlying file system:\n+       1. [=/Reject=] |result| with an \"{{InvalidModificationError}}\" {{DOMException}}\n+           and abort.\n+\n+  1. Let |accessSource| be the result of running |entry|'s\n+     [=entry/request access=] given \"`readwrite`\".\n+  1. If |accessSource| is not \"{{PermissionState/granted}}\", reject |result| with a\n+     \"{{NotAllowedError}}\" {{DOMException}} and abort.\n+  1. If |new_directory| is not [=entry/parent=]:\n+    1. Let |accessDest| be the result of running |new_directory|'s\n+       [=entry/request access=] given \"`readwrite`\".\n+    1. If |accessDest| is not \"{{PermissionState/granted}}\", reject |result| with a\n+       \"{{NotAllowedError}}\" {{DOMException}} and abort.\n+\n+  1. Let |lockResultSource| be the result of [=file entry/lock/take|taking a lock=]\n+     with \"`exclusive`\" on |entry|.\n+  1. If |lockResultSource| is false, [=reject=] |result| with a\n+     \"{{NoModificationAllowedError}}\" {{DOMException}} and abort.\n+  1. Let |lockResultDestination| be the result of [=file entry/lock/take|taking a lock=]\n+     with \"`exclusive`\" on |destination_entry|.\n+  1. If |lockResultDestination| is false, [=reject=] |result| with a\n+     \"{{NoModificationAllowedError}}\" {{DOMException}} and abort.\n+\n+  1. If |new_directory| does not exist in the underlying file system:\n+    1. [=/Reject=] |result| with a \"{{NotFoundError}}\" {{DOMException}} and abort.\n+  1. If |entry| does not exist in the underlying file system:\n+      1. [=/Reject=] |result| with a \"{{NotFoundError}}\" {{DOMException}} and abort.\n+  1. If |entry| is a [=directory entry=]:\n+    1. If |entry| is in the Origin Private File System and |destination_entry| is not:\n+      1. [=set/For each=] of |entry|'s [=directory entry/children=]:\n+        1. Run [=implementation-defined=] malware scans and safe browsing checks.\n+           If these checks fail, [=/reject=] |result| with an\n+           \"{{AbortError}}\" {{DOMException}} and abort.\n+  1. If |entry| is a [=file entry=]:\n+    1. If |destination_entry| is not in the Origin Private File System:\n+      1. Run [=implementation-defined=] malware scans and safe browsing checks.\n+         If these checks fail, [=/reject=] |result| with an\n+         \"{{AbortError}}\" {{DOMException}} and abort.\n+\n+  1. Attempt to move |entry| to |destination_entry| in the underlying file system.\n+    1. If the underlying move operation throws an exception, [=/reject=]\n+       |result| with that exception and abort.\n+\n+     Issue(68): Better specify what possible exceptions this could throw.\n+\n+  1. Set |entry|'s [=entry/name=] to |new_name|.",
+    "path": "index.bs",
+    "commit_id": "f04431393e38b60e0e8420bffca23a9c58ae6d48",
+    "original_commit_id": "22226d4a752ef013eab90d8e5ba36cf15a7ae6f7",
+    "user": {
+      "login": "a-sully",
+      "id": 77407429,
+      "node_id": "MDQ6VXNlcjc3NDA3NDI5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77407429?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/a-sully",
+      "html_url": "https://github.com/a-sully",
+      "followers_url": "https://api.github.com/users/a-sully/followers",
+      "following_url": "https://api.github.com/users/a-sully/following{/other_user}",
+      "gists_url": "https://api.github.com/users/a-sully/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/a-sully/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/a-sully/subscriptions",
+      "organizations_url": "https://api.github.com/users/a-sully/orgs",
+      "repos_url": "https://api.github.com/users/a-sully/repos",
+      "events_url": "https://api.github.com/users/a-sully/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/a-sully/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "note: we should also specify that |entry|'s parent is now |new_directory|. Not sure how this should be worded until we have resolution on #59 ",
+    "created_at": "2022-11-02T21:30:47Z",
+    "updated_at": "2022-11-02T21:30:47Z",
+    "html_url": "https://github.com/whatwg/fs/pull/10#discussion_r1012315219",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/10",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1012315219"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/10#discussion_r1012315219"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/10"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1012315219/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 335,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 109,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1018158417",
+    "pull_request_review_id": 1174373790,
+    "id": 1018158417,
+    "node_id": "PRRC_kwDOGdsLdc48r91R",
+    "diff_hunk": "@@ -188,6 +188,10 @@ interface FileSystemHandle {\n   readonly attribute FileSystemHandleKind kind;\n   readonly attribute USVString name;\n \n+  Promise<undefined> move(USVString new_entry_name);\n+  Promise<undefined> move(FileSystemDirectoryHandle destination_directory);\n+  Promise<undefined> move(FileSystemDirectoryHandle destination_directory, USVString new_entry_name);",
+    "path": "index.bs",
+    "commit_id": "f04431393e38b60e0e8420bffca23a9c58ae6d48",
+    "original_commit_id": "22226d4a752ef013eab90d8e5ba36cf15a7ae6f7",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Hmm, this results in somewhat convoluted overloading I thought we were trying to move away from. @domenic what do you think? Should this use a dictionary?",
+    "created_at": "2022-11-09T16:26:03Z",
+    "updated_at": "2022-11-09T16:27:11Z",
+    "html_url": "https://github.com/whatwg/fs/pull/10#discussion_r1018158417",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/10",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1018158417"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/10#discussion_r1018158417"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/10"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1018158417/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 191,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 193,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 6,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1018159246",
+    "pull_request_review_id": 1174373790,
+    "id": 1018159246,
+    "node_id": "PRRC_kwDOGdsLdc48r-CO",
+    "diff_hunk": "@@ -188,6 +188,10 @@ interface FileSystemHandle {\n   readonly attribute FileSystemHandleKind kind;\n   readonly attribute USVString name;\n \n+  Promise<undefined> move(USVString new_entry_name);\n+  Promise<undefined> move(FileSystemDirectoryHandle destination_directory);\n+  Promise<undefined> move(FileSystemDirectoryHandle destination_directory, USVString new_entry_name);",
+    "path": "index.bs",
+    "commit_id": "f04431393e38b60e0e8420bffca23a9c58ae6d48",
+    "original_commit_id": "22226d4a752ef013eab90d8e5ba36cf15a7ae6f7",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Also generally we don't follow Python and instead use camelCase for variable names.",
+    "created_at": "2022-11-09T16:26:43Z",
+    "updated_at": "2022-11-09T16:27:11Z",
+    "html_url": "https://github.com/whatwg/fs/pull/10#discussion_r1018159246",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/10",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1018159246"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/10#discussion_r1018159246"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/10"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1018159246/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 191,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 193,
+    "side": "RIGHT",
+    "in_reply_to_id": 1018158417,
+    "author_association": "MEMBER",
+    "original_position": 6,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1018556977",
+    "pull_request_review_id": 1174949644,
+    "id": 1018556977,
+    "node_id": "PRRC_kwDOGdsLdc48tfIx",
+    "diff_hunk": "@@ -188,6 +188,10 @@ interface FileSystemHandle {\n   readonly attribute FileSystemHandleKind kind;\n   readonly attribute USVString name;\n \n+  Promise<undefined> move(USVString new_entry_name);\n+  Promise<undefined> move(FileSystemDirectoryHandle destination_directory);\n+  Promise<undefined> move(FileSystemDirectoryHandle destination_directory, USVString new_entry_name);",
+    "path": "index.bs",
+    "commit_id": "f04431393e38b60e0e8420bffca23a9c58ae6d48",
+    "original_commit_id": "22226d4a752ef013eab90d8e5ba36cf15a7ae6f7",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think the overloading might be OK here, although you could reduce it by combining the latter two into `move(FileSystemDirectoryHandle destinationDirectory, optional USVString newEntryName)`.\r\n\r\nIn terms of API design, I think all of the following are worth considering:\r\n\r\n- Positional parameters, varying order (this proposal):\r\n  - `fileHandle.move(\"renamed.txt\")`\r\n  - `fileHandle.move(directoryHandle)`\r\n  - `fileHandle.move(directoryHandle, \"renamed.txt\")`\r\n- Positional parameters, consistent order (this will choke on https://github.com/plinss/widlparser/issues/79 but is still valid...)\r\n  - `fileHandle.move(\"renamed.txt\")`\r\n  - `fileHandle.move(undefined, directoryHandle)`\r\n  - `fileHandle.move(\"renamed.txt\" directoryHandle)`\r\n- Directory in an options bag (still requires overloading)\r\n  - `fileHandle.move(\"renamed.txt\")`\r\n  - `fileHandle.move({ directory: directoryHandle })`\r\n  - `fileHandle.move(\"renamed.txt\", { directory: directoryHandle })`\r\n- Options bag for everything\r\n  - `fileHandle.move({ name: \"renamed.txt\"} )`\r\n  - `fileHandle.move({ directory: directoryHandle })`\r\n  - `fileHandle.move({ name: \"renamed.txt\", directory: directoryHandle })`\r\n- Separate out move within directory vs. move to a new directory\r\n  - `fileHandle.move(\"renamed.txt\")` (or maybe `fileHandle.rename(\"renamed.txt\")`)\r\n  - `fileHandle.moveTo(directoryHandle)`\r\n  - `fileHandle.moveTo(directoryHandle, \"renamed.txt\")`\r\n- Path-based version?? Seems counter to how much of the rest of the API works, but is more what I would expect from other FS APIs.\r\n  - `fileHandle.move(\"renamed.txt\")`\r\n  - `fileHandle.move(directoryHandle.resolve(fileHandle.name))` (not great...)\r\n  - `fileHandle.move(directoryHandle.resolve(\"renamed.txt\"))`\r\n\r\nOn balance I think all of these are pretty reasonable, including the current proposal.\r\n\r\nApologies if this has been discussed before; I didn't see it in a quick skim of the several issues and PRs that seem to be about this feature.",
+    "created_at": "2022-11-10T01:09:11Z",
+    "updated_at": "2022-11-10T01:09:11Z",
+    "html_url": "https://github.com/whatwg/fs/pull/10#discussion_r1018556977",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/10",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1018556977"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/10#discussion_r1018556977"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/10"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1018556977/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 191,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 193,
+    "side": "RIGHT",
+    "in_reply_to_id": 1018158417,
+    "author_association": "MEMBER",
+    "original_position": 6,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1018585899",
+    "pull_request_review_id": 1174987545,
+    "id": 1018585899,
+    "node_id": "PRRC_kwDOGdsLdc48tmMr",
+    "diff_hunk": "@@ -188,6 +188,10 @@ interface FileSystemHandle {\n   readonly attribute FileSystemHandleKind kind;\n   readonly attribute USVString name;\n \n+  Promise<undefined> move(USVString new_entry_name);\n+  Promise<undefined> move(FileSystemDirectoryHandle destination_directory);\n+  Promise<undefined> move(FileSystemDirectoryHandle destination_directory, USVString new_entry_name);",
+    "path": "index.bs",
+    "commit_id": "f04431393e38b60e0e8420bffca23a9c58ae6d48",
+    "original_commit_id": "22226d4a752ef013eab90d8e5ba36cf15a7ae6f7",
+    "user": {
+      "login": "a-sully",
+      "id": 77407429,
+      "node_id": "MDQ6VXNlcjc3NDA3NDI5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77407429?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/a-sully",
+      "html_url": "https://github.com/a-sully",
+      "followers_url": "https://api.github.com/users/a-sully/followers",
+      "following_url": "https://api.github.com/users/a-sully/following{/other_user}",
+      "gists_url": "https://api.github.com/users/a-sully/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/a-sully/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/a-sully/subscriptions",
+      "organizations_url": "https://api.github.com/users/a-sully/orgs",
+      "repos_url": "https://api.github.com/users/a-sully/repos",
+      "events_url": "https://api.github.com/users/a-sully/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/a-sully/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "On Chromium we already support `move()` for files within the OPFS, so if there's not a strong preference towards any one option I'd prefer to not make any breaking changes. Combining the latter two to make `newEntryName` optional seems reasonable, though, and wouldn't be a breaking change.\r\n\r\nIf we're convinced we need to change this, the options bag would be my preference since it's more extensible if we want to add more options in the future (e.g. \"should this overwrite an existing file at this location?\").\r\n\r\nRegarding the `rename()` and `moveTo` proposals, I had previously proposed a separate `rename()` method for the first case, (i.e. `fileHandle.rename(\"renamed.txt\")`) but received feedback from developers that a consolidated `move()` method was preferred.\r\n\r\nI would especially recommend against a path-based version, since I think it could be confusing to only support relative paths and absolute paths don't make sense outside of the OPFS and won't make sense once sites have access to multiple OPFS instances when Storage Buckets is eventually supported. I'd much rather make it easier to get the destination directory through a convenience method like the one proposed here https://github.com/WICG/file-system-access/issues/378",
+    "created_at": "2022-11-10T02:14:14Z",
+    "updated_at": "2022-11-10T02:14:14Z",
+    "html_url": "https://github.com/whatwg/fs/pull/10#discussion_r1018585899",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/10",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1018585899"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/10#discussion_r1018585899"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/10"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1018585899/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 191,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 193,
+    "side": "RIGHT",
+    "in_reply_to_id": 1018158417,
+    "author_association": "COLLABORATOR",
+    "original_position": 6,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1018595545",
+    "pull_request_review_id": 1175000405,
+    "id": 1018595545,
+    "node_id": "PRRC_kwDOGdsLdc48tojZ",
+    "diff_hunk": "@@ -188,6 +188,10 @@ interface FileSystemHandle {\n   readonly attribute FileSystemHandleKind kind;\n   readonly attribute USVString name;\n \n+  Promise<undefined> move(USVString new_entry_name);\n+  Promise<undefined> move(FileSystemDirectoryHandle destination_directory);\n+  Promise<undefined> move(FileSystemDirectoryHandle destination_directory, USVString new_entry_name);",
+    "path": "index.bs",
+    "commit_id": "f04431393e38b60e0e8420bffca23a9c58ae6d48",
+    "original_commit_id": "22226d4a752ef013eab90d8e5ba36cf15a7ae6f7",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "If there are already developers using and happy with the current proposal, then yeah, I think that tips the balance toward it. It's pretty nice anyway.",
+    "created_at": "2022-11-10T02:34:01Z",
+    "updated_at": "2022-11-10T02:34:01Z",
+    "html_url": "https://github.com/whatwg/fs/pull/10#discussion_r1018595545",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/10",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1018595545"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/10#discussion_r1018595545"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/10"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1018595545/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 191,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 193,
+    "side": "RIGHT",
+    "in_reply_to_id": 1018158417,
+    "author_association": "MEMBER",
+    "original_position": 6,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1018790440",
+    "pull_request_review_id": 1175273394,
+    "id": 1018790440,
+    "node_id": "PRRC_kwDOGdsLdc48uYIo",
+    "diff_hunk": "@@ -188,6 +188,10 @@ interface FileSystemHandle {\n   readonly attribute FileSystemHandleKind kind;\n   readonly attribute USVString name;\n \n+  Promise<undefined> move(USVString new_entry_name);\n+  Promise<undefined> move(FileSystemDirectoryHandle destination_directory);\n+  Promise<undefined> move(FileSystemDirectoryHandle destination_directory, USVString new_entry_name);",
+    "path": "index.bs",
+    "commit_id": "f04431393e38b60e0e8420bffca23a9c58ae6d48",
+    "original_commit_id": "22226d4a752ef013eab90d8e5ba36cf15a7ae6f7",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "And if we add even more options we overload the first argument with a dictionary that accepts everything? (I.e., we end up supporting the status quo and the \"options bag\".)",
+    "created_at": "2022-11-10T08:35:04Z",
+    "updated_at": "2022-11-10T08:35:05Z",
+    "html_url": "https://github.com/whatwg/fs/pull/10#discussion_r1018790440",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/10",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1018790440"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/10#discussion_r1018790440"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/10"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1018790440/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 191,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 193,
+    "side": "RIGHT",
+    "in_reply_to_id": 1018158417,
+    "author_association": "MEMBER",
+    "original_position": 6,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1019684585",
+    "pull_request_review_id": 1176597882,
+    "id": 1019684585,
+    "node_id": "PRRC_kwDOGdsLdc48xybp",
+    "diff_hunk": "@@ -188,6 +188,10 @@ interface FileSystemHandle {\n   readonly attribute FileSystemHandleKind kind;\n   readonly attribute USVString name;\n \n+  Promise<undefined> move(USVString new_entry_name);\n+  Promise<undefined> move(FileSystemDirectoryHandle destination_directory);\n+  Promise<undefined> move(FileSystemDirectoryHandle destination_directory, USVString new_entry_name);",
+    "path": "index.bs",
+    "commit_id": "f04431393e38b60e0e8420bffca23a9c58ae6d48",
+    "original_commit_id": "22226d4a752ef013eab90d8e5ba36cf15a7ae6f7",
+    "user": {
+      "login": "a-sully",
+      "id": 77407429,
+      "node_id": "MDQ6VXNlcjc3NDA3NDI5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77407429?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/a-sully",
+      "html_url": "https://github.com/a-sully",
+      "followers_url": "https://api.github.com/users/a-sully/followers",
+      "following_url": "https://api.github.com/users/a-sully/following{/other_user}",
+      "gists_url": "https://api.github.com/users/a-sully/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/a-sully/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/a-sully/subscriptions",
+      "organizations_url": "https://api.github.com/users/a-sully/orgs",
+      "repos_url": "https://api.github.com/users/a-sully/repos",
+      "events_url": "https://api.github.com/users/a-sully/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/a-sully/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "It's not the most pretty, but it seems reasonable enough to me",
+    "created_at": "2022-11-10T22:56:13Z",
+    "updated_at": "2022-11-10T22:56:14Z",
+    "html_url": "https://github.com/whatwg/fs/pull/10#discussion_r1019684585",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/10",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1019684585"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/10#discussion_r1019684585"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/10"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1019684585/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 191,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 193,
+    "side": "RIGHT",
+    "in_reply_to_id": 1018158417,
+    "author_association": "COLLABORATOR",
+    "original_position": 6,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

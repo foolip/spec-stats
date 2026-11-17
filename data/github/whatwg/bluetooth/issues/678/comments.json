@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/issues/comments/5736540106",
+    "html_url": "https://github.com/whatwg/bluetooth/issues/678#issuecomment-5736540106",
+    "issue_url": "https://api.github.com/repos/whatwg/bluetooth/issues/678",
+    "id": 5736540106,
+    "node_id": "IC_kwDOAVr2cs8AAAABVeynyg",
+    "user": {
+      "login": "nondebug",
+      "id": 14099571,
+      "node_id": "MDQ6VXNlcjE0MDk5NTcx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14099571?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nondebug",
+      "html_url": "https://github.com/nondebug",
+      "followers_url": "https://api.github.com/users/nondebug/followers",
+      "following_url": "https://api.github.com/users/nondebug/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nondebug/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nondebug/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nondebug/subscriptions",
+      "organizations_url": "https://api.github.com/users/nondebug/orgs",
+      "repos_url": "https://api.github.com/users/nondebug/repos",
+      "events_url": "https://api.github.com/users/nondebug/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nondebug/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-09-18T21:43:27Z",
+    "updated_at": "2026-09-18T21:43:27Z",
+    "body": "I think this should be `InvalidStateError` for consistency with other APIs.\n\nThese specs use InvalidStateError:\n* [Permission.query()](https://w3c.github.io/permissions/#query-method)\n* [HTMLDialogElement.showModal()](https://html.spec.whatwg.org/#show-a-modal-dialog)\n* [HTMLElement.showPopover()](https://html.spec.whatwg.org/#check-popover-validity)\n* [CloseWatcher constructor](https://html.spec.whatwg.org/multipage/interaction.html#close-watcher)\n* [LockManager.request()](https://w3c.github.io/web-locks/#dom-lockmanager-request)\n* [LanguageModel.clone()](https://webmachinelearning.github.io/prompt-api/#clone-a-language-model)\n\n[ScreenWakeLock.request()](https://w3c.github.io/screen-wake-lock/#the-request-method) uses NotAllowedError.\n\n`AbortError` makes sense if document was fully active when the call was issued but became not-fully-active before the call could complete. I still think we should use `InvalidStateError` because it's not important for developers to distinguish failures due to calling the method with an invalid state and failures due to loss of document activity.\n\n`UnknownError` implies an unexpected failure, which is misleading since an inactive document is not an unexpected scenario.",
+    "author_association": "NONE",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/issues/comments/5736540106/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

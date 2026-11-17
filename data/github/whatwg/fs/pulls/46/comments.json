@@ -1,0 +1,145 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/947354811",
+    "pull_request_review_id": 1074914238,
+    "id": 947354811,
+    "node_id": "PRRC_kwDOGdsLdc44d3y7",
+    "diff_hunk": "@@ -0,0 +1,227 @@\n+# FileSystemHandle Unique ID\n+\n+## Authors:\n+\n+* Austin Sullivan (asully@chromium.org)\n+\n+## Participate\n+\n+* [Issue tracker](https://github.com/whatwg/fs/issues)\n+\n+## Table of Contents\n+\n+<!-- START doctoc generated TOC please keep comment here to allow auto update -->\n+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->\n+\n+- [Introduction](#introduction)\n+- [Goals & Use Cases](#goals--use-cases)\n+- [Non-goals](#non-goals)\n+- [Use Cases](#use-cases)\n+  - [O(1) access to handles in IndexedDB](#o1-access-to-handles-in-indexeddb)\n+    - [Application-level resource identification](#application-level-resource-identification)\n+    - [Application-level locking using WebLocks](#application-level-locking-using-weblocks)\n+    - [Storing a representation of a handle in the database of your choice](#storing-a-representation-of-a-handle-in-the-database-of-your-choice)\n+- [Why Hashing Isn’t Enough](#why-hashing-isnt-enough)\n+- [Alternatives Considered](#alternatives-considered)\n+    - [Maintain status quo: O(n) lookups of a `FileSystemHandle` in IndexedDB](#maintain-status-quo-on-lookups-of-a-filesystemhandle-in-indexeddb)\n+    - [Expose the full file path](#expose-the-full-file-path)\n+    - [Expose the same ID to all sites](#expose-the-same-id-to-all-sites)\n+    - [Expose a method to convert an ID to its corresponding `FileSystemHandle`](#expose-a-method-to-convert-an-id-to-its-corresponding-filesystemhandle)\n+    - [Tie the salt to the lifetime of the current browsing session](#tie-the-salt-to-the-lifetime-of-the-current-browsing-session)\n+    - [Expose a truly persistent ID which is stable even after clearing site data](#expose-a-truly-persistent-id-which-is-stable-even-after-clearing-site-data)\n+- [Stakeholder Feedback / Opposition](#stakeholder-feedback--opposition)\n+- [References & acknowledgements](#references--acknowledgements)\n+\n+<!-- END doctoc generated TOC please keep comment here to allow auto update -->\n+\n+## Introduction\n+\n+Currently, `FileSystemHandle` objects can be opaquely serialized by the browser\n+to be stored as values in IndexedDB. But there is no way for a site to generate\n+a string from script which is guaranteed to be uniquely identifying for the file\n+referenced by the `FileSystemHandle`.\n+\n+Developers have complained that building rich experiences on top of the File\n+System Access API is challenging due to the inability to uniquely identify (and\n+index on) handles.\n+\n+## Goals & Use Cases\n+\n+* Support O(1) access to a FileSystemHandle stored in IndexedDB\n+* Two colluding sites cannot “join” a user by comparing IDs server-side\n+* IDs should be stable across browsing sessions, making it suitable to use as a\n+  key for storing the corresponding FileSystemHandle in IndexedDB\n+* IDs should not be stable after clearing browsing data. In other words, this\n+  should not be a truly persistent, unclearable identifier\n+* IDs should not be stable across normal browsing mode and private browsing\n+  modes\n+* No information should be gleaned from the ID. It is completely opaque to the\n+  site\n+* Avoid surprises by having the same semantics as `isSameEntry()`, namely:\n+  `await a.isSameEntry(b) === (await a.getUniqueId() === await b.getUniqueId())`\n+\n+## Non-goals\n+\n+* Support obtaining a `FileSystemHandle` from its ID\n+\n+## Use Cases\n+\n+### O(1) access to handles in IndexedDB\n+\n+An application wants to quickly tell whether it’s already seen a file which was\n+recently selected from the file picker. Currently, storing handles in IndexedDB\n+requires creating an arbitrary key mapping to a list of handles. Identifying\n+whether a given handle is already stored in IndexedDB requires iterating through\n+this list and calling the `isSameEntry()` method on each handle - an O(n)\n+operation which is unacceptable given that sites may have access to an unbounded\n+number of handles. A `FileSystemHandle`’s unique ID can be used as a key for\n+IndexedDB, allowing for constant-time access.\n+\n+Before:\n+\n+```javascript\n+// IndexedDB structure\n+// { \"handles\": [handle1, handle2, … ] }\n+const key = await handle.getUniqueId();\n+var handles = await get(\"handles\");\n+handles.push(handle);\n+await set(\"handles\", handles);",
+    "path": "UniqueID.md",
+    "commit_id": "9063e176651af48aa8ad8f0a6537e710d477def2",
+    "original_commit_id": "0d309160fee8937a7e475208d169918c9e6d7aa7",
+    "user": {
+      "login": "martinthomson",
+      "id": 67641,
+      "node_id": "MDQ6VXNlcjY3NjQx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/67641?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/martinthomson",
+      "html_url": "https://github.com/martinthomson",
+      "followers_url": "https://api.github.com/users/martinthomson/followers",
+      "following_url": "https://api.github.com/users/martinthomson/following{/other_user}",
+      "gists_url": "https://api.github.com/users/martinthomson/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/martinthomson/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/martinthomson/subscriptions",
+      "organizations_url": "https://api.github.com/users/martinthomson/orgs",
+      "repos_url": "https://api.github.com/users/martinthomson/repos",
+      "events_url": "https://api.github.com/users/martinthomson/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/martinthomson/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I don't understand this example.  `key` is assigned but unused.",
+    "created_at": "2022-08-17T00:43:46Z",
+    "updated_at": "2022-08-17T00:49:22Z",
+    "html_url": "https://github.com/whatwg/fs/pull/46#discussion_r947354811",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/46",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/947354811"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/46#discussion_r947354811"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/46"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/947354811/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 85,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 88,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 88,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/947361609",
+    "pull_request_review_id": 1074923257,
+    "id": 947361609,
+    "node_id": "PRRC_kwDOGdsLdc44d5dJ",
+    "diff_hunk": "@@ -0,0 +1,227 @@\n+# FileSystemHandle Unique ID\n+\n+## Authors:\n+\n+* Austin Sullivan (asully@chromium.org)\n+\n+## Participate\n+\n+* [Issue tracker](https://github.com/whatwg/fs/issues)\n+\n+## Table of Contents\n+\n+<!-- START doctoc generated TOC please keep comment here to allow auto update -->\n+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->\n+\n+- [Introduction](#introduction)\n+- [Goals & Use Cases](#goals--use-cases)\n+- [Non-goals](#non-goals)\n+- [Use Cases](#use-cases)\n+  - [O(1) access to handles in IndexedDB](#o1-access-to-handles-in-indexeddb)\n+    - [Application-level resource identification](#application-level-resource-identification)\n+    - [Application-level locking using WebLocks](#application-level-locking-using-weblocks)\n+    - [Storing a representation of a handle in the database of your choice](#storing-a-representation-of-a-handle-in-the-database-of-your-choice)\n+- [Why Hashing Isn’t Enough](#why-hashing-isnt-enough)\n+- [Alternatives Considered](#alternatives-considered)\n+    - [Maintain status quo: O(n) lookups of a `FileSystemHandle` in IndexedDB](#maintain-status-quo-on-lookups-of-a-filesystemhandle-in-indexeddb)\n+    - [Expose the full file path](#expose-the-full-file-path)\n+    - [Expose the same ID to all sites](#expose-the-same-id-to-all-sites)\n+    - [Expose a method to convert an ID to its corresponding `FileSystemHandle`](#expose-a-method-to-convert-an-id-to-its-corresponding-filesystemhandle)\n+    - [Tie the salt to the lifetime of the current browsing session](#tie-the-salt-to-the-lifetime-of-the-current-browsing-session)\n+    - [Expose a truly persistent ID which is stable even after clearing site data](#expose-a-truly-persistent-id-which-is-stable-even-after-clearing-site-data)\n+- [Stakeholder Feedback / Opposition](#stakeholder-feedback--opposition)\n+- [References & acknowledgements](#references--acknowledgements)\n+\n+<!-- END doctoc generated TOC please keep comment here to allow auto update -->\n+\n+## Introduction\n+\n+Currently, `FileSystemHandle` objects can be opaquely serialized by the browser\n+to be stored as values in IndexedDB. But there is no way for a site to generate\n+a string from script which is guaranteed to be uniquely identifying for the file\n+referenced by the `FileSystemHandle`.\n+\n+Developers have complained that building rich experiences on top of the File\n+System Access API is challenging due to the inability to uniquely identify (and\n+index on) handles.\n+\n+## Goals & Use Cases\n+\n+* Support O(1) access to a FileSystemHandle stored in IndexedDB\n+* Two colluding sites cannot “join” a user by comparing IDs server-side\n+* IDs should be stable across browsing sessions, making it suitable to use as a\n+  key for storing the corresponding FileSystemHandle in IndexedDB\n+* IDs should not be stable after clearing browsing data. In other words, this\n+  should not be a truly persistent, unclearable identifier\n+* IDs should not be stable across normal browsing mode and private browsing\n+  modes\n+* No information should be gleaned from the ID. It is completely opaque to the\n+  site\n+* Avoid surprises by having the same semantics as `isSameEntry()`, namely:\n+  `await a.isSameEntry(b) === (await a.getUniqueId() === await b.getUniqueId())`\n+\n+## Non-goals\n+\n+* Support obtaining a `FileSystemHandle` from its ID\n+\n+## Use Cases\n+\n+### O(1) access to handles in IndexedDB\n+\n+An application wants to quickly tell whether it’s already seen a file which was\n+recently selected from the file picker. Currently, storing handles in IndexedDB\n+requires creating an arbitrary key mapping to a list of handles. Identifying\n+whether a given handle is already stored in IndexedDB requires iterating through\n+this list and calling the `isSameEntry()` method on each handle - an O(n)\n+operation which is unacceptable given that sites may have access to an unbounded\n+number of handles. A `FileSystemHandle`’s unique ID can be used as a key for\n+IndexedDB, allowing for constant-time access.\n+\n+Before:\n+\n+```javascript\n+// IndexedDB structure\n+// { \"handles\": [handle1, handle2, … ] }\n+const key = await handle.getUniqueId();\n+var handles = await get(\"handles\");\n+handles.push(handle);\n+await set(\"handles\", handles);",
+    "path": "UniqueID.md",
+    "commit_id": "9063e176651af48aa8ad8f0a6537e710d477def2",
+    "original_commit_id": "0d309160fee8937a7e475208d169918c9e6d7aa7",
+    "user": {
+      "login": "a-sully",
+      "id": 77407429,
+      "node_id": "MDQ6VXNlcjc3NDA3NDI5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77407429?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/a-sully",
+      "html_url": "https://github.com/a-sully",
+      "followers_url": "https://api.github.com/users/a-sully/followers",
+      "following_url": "https://api.github.com/users/a-sully/following{/other_user}",
+      "gists_url": "https://api.github.com/users/a-sully/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/a-sully/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/a-sully/subscriptions",
+      "organizations_url": "https://api.github.com/users/a-sully/orgs",
+      "repos_url": "https://api.github.com/users/a-sully/repos",
+      "events_url": "https://api.github.com/users/a-sully/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/a-sully/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Whoops, `getUniqueId()` isn't available in the \"before\" state. This was a copy-paste error that I've now fixed",
+    "created_at": "2022-08-17T01:00:49Z",
+    "updated_at": "2022-08-17T01:00:50Z",
+    "html_url": "https://github.com/whatwg/fs/pull/46#discussion_r947361609",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/46",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/947361609"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/46#discussion_r947361609"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/46"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/947361609/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 85,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 88,
+    "side": "RIGHT",
+    "in_reply_to_id": 947354811,
+    "author_association": "COLLABORATOR",
+    "original_position": 88,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

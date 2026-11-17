@@ -1,0 +1,217 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2263494091",
+    "pull_request_review_id": 3101511795,
+    "id": 2263494091,
+    "node_id": "PRRC_kwDOAys5jc6G6i3L",
+    "diff_hunk": "@@ -1086,13 +1086,12 @@ run the following steps:\n     1. If the [=byte sequence=] [=byte sequence/length=] of |encodedDomain| is greater than the [=cookie/maximum attribute value size=], then return failure.\n     1. [=list/Append=] \\``Domain`\\`/|encodedDomain| to |attributes|.\n 1. If |expires| is given, then [=list/append=] \\``Expires`\\`/|expires| ([=date serialized=]) to |attributes|.\n-1. If |path| is not null:\n-    1. If |path| does not start with U+002F (/), then return failure.\n-    1. If |path| is not U+002F (/), and |name|, [=byte-lowercased=], [=byte sequence/starts with=] \\``__host-`\\`, then return failure.\n-    1. Let |encodedPath| be the result of [=UTF-8 encode|UTF-8 encoding=] |path|.\n-    1. If the [=byte sequence=] [=byte sequence/length=] of |encodedPath| is greater than the [=cookie/maximum attribute value size=], then return failure.\n-    1. [=list/Append=] \\``Path`\\`/|encodedPath| to |attributes|.\n-1. Otherwise, [=list/append=] \\``Path`\\`/ U+002F (/) to |attributes|.\n+1. If |path| is the empty string, then set |path| to the [=/URL path serializer|URL path serialization=] of |url|.",
+    "path": "index.bs",
+    "commit_id": "7f81ad76375964ed43c68e8ae3ca2f4a81f8c8d5",
+    "original_commit_id": "3cda30e69184eb10aa73306f2b36324e8ba2abb4",
+    "user": {
+      "login": "DCtheTall",
+      "id": 13906920,
+      "node_id": "MDQ6VXNlcjEzOTA2OTIw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13906920?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/DCtheTall",
+      "html_url": "https://github.com/DCtheTall",
+      "followers_url": "https://api.github.com/users/DCtheTall/followers",
+      "following_url": "https://api.github.com/users/DCtheTall/following{/other_user}",
+      "gists_url": "https://api.github.com/users/DCtheTall/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/DCtheTall/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/DCtheTall/subscriptions",
+      "organizations_url": "https://api.github.com/users/DCtheTall/orgs",
+      "repos_url": "https://api.github.com/users/DCtheTall/repos",
+      "events_url": "https://api.github.com/users/DCtheTall/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/DCtheTall/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Since |path| is an optional parameter, I still think we need to handle the case when it is not provided, i.e. \"path is null,\" and have that default to `\"/\"` like we have been.",
+    "created_at": "2025-08-08T16:34:16Z",
+    "updated_at": "2025-08-08T16:34:18Z",
+    "html_url": "https://github.com/whatwg/cookiestore/pull/283#discussion_r2263494091",
+    "pull_request_url": "https://api.github.com/repos/whatwg/cookiestore/pulls/283",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2263494091"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/cookiestore/pull/283#discussion_r2263494091"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/cookiestore/pulls/283"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2263494091/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1089,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 11,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2263527815",
+    "pull_request_review_id": 3101547357,
+    "id": 2263527815,
+    "node_id": "PRRC_kwDOAys5jc6G6rGH",
+    "diff_hunk": "@@ -1086,13 +1086,12 @@ run the following steps:\n     1. If the [=byte sequence=] [=byte sequence/length=] of |encodedDomain| is greater than the [=cookie/maximum attribute value size=], then return failure.\n     1. [=list/Append=] \\``Domain`\\`/|encodedDomain| to |attributes|.\n 1. If |expires| is given, then [=list/append=] \\``Expires`\\`/|expires| ([=date serialized=]) to |attributes|.\n-1. If |path| is not null:\n-    1. If |path| does not start with U+002F (/), then return failure.\n-    1. If |path| is not U+002F (/), and |name|, [=byte-lowercased=], [=byte sequence/starts with=] \\``__host-`\\`, then return failure.\n-    1. Let |encodedPath| be the result of [=UTF-8 encode|UTF-8 encoding=] |path|.\n-    1. If the [=byte sequence=] [=byte sequence/length=] of |encodedPath| is greater than the [=cookie/maximum attribute value size=], then return failure.\n-    1. [=list/Append=] \\``Path`\\`/|encodedPath| to |attributes|.\n-1. Otherwise, [=list/append=] \\``Path`\\`/ U+002F (/) to |attributes|.\n+1. If |path| is the empty string, then set |path| to the [=/URL path serializer|URL path serialization=] of |url|.",
+    "path": "index.bs",
+    "commit_id": "7f81ad76375964ed43c68e8ae3ca2f4a81f8c8d5",
+    "original_commit_id": "3cda30e69184eb10aa73306f2b36324e8ba2abb4",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Are you talking about the case where `set()` is given _options_? IDL handles it for us there. Also, if IDL didn't handle it that would mean _path_ didn't exist in _options_ and we'd hit a different kind of problem earlier on. It can't be null here.",
+    "created_at": "2025-08-08T16:41:04Z",
+    "updated_at": "2025-08-08T16:41:04Z",
+    "html_url": "https://github.com/whatwg/cookiestore/pull/283#discussion_r2263527815",
+    "pull_request_url": "https://api.github.com/repos/whatwg/cookiestore/pulls/283",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2263527815"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/cookiestore/pull/283#discussion_r2263527815"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/cookiestore/pulls/283"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2263527815/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1089,
+    "side": "RIGHT",
+    "in_reply_to_id": 2263494091,
+    "author_association": "MEMBER",
+    "original_position": 11,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2263550333",
+    "pull_request_review_id": 3101575152,
+    "id": 2263550333,
+    "node_id": "PRRC_kwDOAys5jc6G6wl9",
+    "diff_hunk": "@@ -1086,13 +1086,12 @@ run the following steps:\n     1. If the [=byte sequence=] [=byte sequence/length=] of |encodedDomain| is greater than the [=cookie/maximum attribute value size=], then return failure.\n     1. [=list/Append=] \\``Domain`\\`/|encodedDomain| to |attributes|.\n 1. If |expires| is given, then [=list/append=] \\``Expires`\\`/|expires| ([=date serialized=]) to |attributes|.\n-1. If |path| is not null:\n-    1. If |path| does not start with U+002F (/), then return failure.\n-    1. If |path| is not U+002F (/), and |name|, [=byte-lowercased=], [=byte sequence/starts with=] \\``__host-`\\`, then return failure.\n-    1. Let |encodedPath| be the result of [=UTF-8 encode|UTF-8 encoding=] |path|.\n-    1. If the [=byte sequence=] [=byte sequence/length=] of |encodedPath| is greater than the [=cookie/maximum attribute value size=], then return failure.\n-    1. [=list/Append=] \\``Path`\\`/|encodedPath| to |attributes|.\n-1. Otherwise, [=list/append=] \\``Path`\\`/ U+002F (/) to |attributes|.\n+1. If |path| is the empty string, then set |path| to the [=/URL path serializer|URL path serialization=] of |url|.",
+    "path": "index.bs",
+    "commit_id": "7f81ad76375964ed43c68e8ae3ca2f4a81f8c8d5",
+    "original_commit_id": "3cda30e69184eb10aa73306f2b36324e8ba2abb4",
+    "user": {
+      "login": "DCtheTall",
+      "id": 13906920,
+      "node_id": "MDQ6VXNlcjEzOTA2OTIw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13906920?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/DCtheTall",
+      "html_url": "https://github.com/DCtheTall",
+      "followers_url": "https://api.github.com/users/DCtheTall/followers",
+      "following_url": "https://api.github.com/users/DCtheTall/following{/other_user}",
+      "gists_url": "https://api.github.com/users/DCtheTall/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/DCtheTall/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/DCtheTall/subscriptions",
+      "organizations_url": "https://api.github.com/users/DCtheTall/orgs",
+      "repos_url": "https://api.github.com/users/DCtheTall/repos",
+      "events_url": "https://api.github.com/users/DCtheTall/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/DCtheTall/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Ah I see the default value and your point. It appears the null check was added in https://github.com/whatwg/cookiestore/commit/abae748ecf1f94069772b80955dbf73d752221aa, which is recent. Let's remove it. Thanks!",
+    "created_at": "2025-08-08T16:51:29Z",
+    "updated_at": "2025-08-08T16:51:29Z",
+    "html_url": "https://github.com/whatwg/cookiestore/pull/283#discussion_r2263550333",
+    "pull_request_url": "https://api.github.com/repos/whatwg/cookiestore/pulls/283",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2263550333"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/cookiestore/pull/283#discussion_r2263550333"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/cookiestore/pulls/283"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2263550333/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1089,
+    "side": "RIGHT",
+    "in_reply_to_id": 2263494091,
+    "author_association": "MEMBER",
+    "original_position": 11,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

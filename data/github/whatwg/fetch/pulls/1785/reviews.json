@@ -1,0 +1,170 @@
+[
+  {
+    "id": 2430399730,
+    "node_id": "PRR_kwDOAFgnJc6Q3PTy",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?u=af3e22b4d81e37d0a193da5a5149c79d98ec54ed&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "So the idea with this PR is that `<var>makeCORSPreflight</var>` variable is really closer to \"makeCORSPreflight if needed\", and can be set to true because it won't trigger preflights except for when requests otherwise demand them by using an unsafe method or request header?\r\n\r\nBut I think this PR will have side effects on other requests that would suddenly start triggering preflights, when they shouldn't. For example:\r\n\r\n```\r\nfetch(\"https://google.com\", {method: 'GET', mode: 'no-cors', headers: {'Content-Type': 'application/json'}})\r\n```\r\n\r\n... uses an unsafe request header, which would ordinarily trigger a preflight, but for the `no-cors` mode which never sends preflights[^1]. I think this PR would change that, and preflights would be sent for these kinds of `no-cors` requests, at the very least.\r\n\r\nAnother way to achieve this is to set the [use-CORS-preflight](https://fetch.spec.whatwg.org/#use-cors-preflight-flag) flag on the relevant kinds of navigation requests that we want to subject to preflights. Unfortunately, that wouldn't integrate cleanly with \"Main fetch\" today, given how `mode=navigate` fetches are [handled before](https://fetch.spec.whatwg.org/#ref-for-concept-request-mode%E2%91%A0%E2%91%A0) we consider [the use-CORS-preflight flag, just a few conditions down](https://fetch.spec.whatwg.org/#ref-for-use-cors-preflight-flag%E2%91%A1).\r\n\r\nSo maybe the best option is to modify scheme fetch to only turn a false \"makeCORSPreflight\" to true if the request mode is navigate (instead of unconditionally as you're doing now)?\r\n\r\n[^1]: This is because scheme fetch is [invoked from the no-cors path](https://fetch.spec.whatwg.org/#ref-for-concept-request-mode%E2%91%A0%E2%91%A2), which today calls HTTP fetch without the `makeCORSPreflight` variable set to true, so we would never even test the method or request headers.",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/fetch/pull/1785#pullrequestreview-2430399730",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1785",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1785#pullrequestreview-2430399730"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1785"
+      }
+    },
+    "submitted_at": "2024-11-12T18:32:04Z",
+    "commit_id": "dda4b4f0e8e065302771cca360c40593f655b475"
+  },
+  {
+    "id": 2446487984,
+    "node_id": "PRR_kwDOAFgnJc6R0nGw",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?u=af3e22b4d81e37d0a193da5a5149c79d98ec54ed&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/fetch/pull/1785#pullrequestreview-2446487984",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1785",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1785#pullrequestreview-2446487984"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1785"
+      }
+    },
+    "submitted_at": "2024-11-19T19:33:53Z",
+    "commit_id": "8d27e59a115aa9404af559087c68fbf4e66f4cb2"
+  },
+  {
+    "id": 2447314990,
+    "node_id": "PRR_kwDOAFgnJc6R3xAu",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?u=af3e22b4d81e37d0a193da5a5149c79d98ec54ed&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Non-editor LGTM",
+    "state": "APPROVED",
+    "html_url": "https://github.com/whatwg/fetch/pull/1785#pullrequestreview-2447314990",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1785",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1785#pullrequestreview-2447314990"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1785"
+      }
+    },
+    "submitted_at": "2024-11-20T04:04:18Z",
+    "commit_id": "cb0d8ad9802940b5b3c7bacc100db2c2dd5bf158"
+  },
+  {
+    "id": 2485084809,
+    "node_id": "PRR_kwDOAFgnJc6UH2KJ",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?u=5d39bb7a31325e2905672ce29876c4c00e2a152e&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think these need to be separate steps as this is confusing. (Though not in the way you had before. Initialize the boolean in one step, then make the HTTP fetch call.) It also misses a bunch of markup for the various concepts.\r\n\r\nThen, I wonder if we need to identify these preflights are for navigations in some respect to the server as they might well want to enforce different policies between subresources and navigations. Perhaps Sec-Fetch-Dest suffices for that. Ideally we find something here that is unified with Private/Local Network Access.\r\n\r\nI would also like to research why we identify whether a request needs a preflight in two separate locations currently. I can't remember and having now read it a few times I don't understand. Any chance you want to dig into blame? If not I'll get to it in due course.\r\n\r\nThe name _makeCORSPreflight_ also seems rather confusing as it doesn't actually mean a CORS preflight will be made.",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/fetch/pull/1785#pullrequestreview-2485084809",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1785",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1785#pullrequestreview-2485084809"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1785"
+      }
+    },
+    "submitted_at": "2024-12-06T15:08:53Z",
+    "commit_id": "cb0d8ad9802940b5b3c7bacc100db2c2dd5bf158"
+  }
+]

@@ -1,0 +1,145 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/compression/pulls/comments/2382691508",
+    "pull_request_review_id": 3272666990,
+    "id": 2382691508,
+    "node_id": "PRRC_kwDODH3UzM6OBPy0",
+    "diff_hunk": "@@ -139,15 +139,16 @@ The <dfn>decompress and enqueue a chunk</dfn> algorithm, given a {{Decompression\n     1. If |buffer| is empty, return.\n     1. Let |arrays| be the result of splitting |buffer| into one or more non-empty pieces and converting them into {{Uint8Array}}s.\n     1. [=list/For each=] {{Uint8Array}} |array| of |arrays|, [=TransformStream/enqueue=] |array| in |ds|'s [=GenericTransformStream/transform=].\n+    1. If the end of the compressed input has been reached, and [=DecompressionStream/context=] has not fully consumed |chunk|, then throw a {{TypeError}}.\n </div>\n \n <div algorithm>\n The <dfn>decompress flush and enqueue</dfn> algorithm, which handles the end of data from the input {{ReadableStream}} object, given a {{DecompressionStream}} object |ds|, runs these steps:\n     1. Let |buffer| be the result of decompressing an empty input with |ds|'s <a for=DecompressionStream>format</a> and <a for=DecompressionStream>context</a>, with the finish flag.\n+    1. If |buffer| is not empty:\n+       1. Let |arrays| be the result of splitting |buffer| into one or more non-empty pieces and converting them into {{Uint8Array}}s.\n+       1. [=list/For each=] {{Uint8Array}} |array| of |arrays|, [=TransformStream/enqueue=] |array| in |ds|'s [=GenericTransformStream/transform=].\n     1. If the end of the compressed input has not been reached, then throw a {{TypeError}}.",
+    "path": "index.bs",
+    "commit_id": "39ab58b6c67764f5a7cc0ae8627903fc5bfe8f69",
+    "original_commit_id": "58a9fa59291e28e33f20bcbfd0d68cec3e1d3c91",
+    "user": {
+      "login": "saschanaz",
+      "id": 3396686,
+      "node_id": "MDQ6VXNlcjMzOTY2ODY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3396686?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/saschanaz",
+      "html_url": "https://github.com/saschanaz",
+      "followers_url": "https://api.github.com/users/saschanaz/followers",
+      "following_url": "https://api.github.com/users/saschanaz/following{/other_user}",
+      "gists_url": "https://api.github.com/users/saschanaz/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/saschanaz/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/saschanaz/subscriptions",
+      "organizations_url": "https://api.github.com/users/saschanaz/orgs",
+      "repos_url": "https://api.github.com/users/saschanaz/repos",
+      "events_url": "https://api.github.com/users/saschanaz/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/saschanaz/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This is the order of [what Blink does](https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/compression/inflate_transformer.cc;l=84-94;drc=6240300fdc9d4c9009f37aa301dbc06ccf03fcee), but does this matter right now? I couldn't craft a test input where this actually matters - flushing would actually enqueue any extra chunk, even though this theoretically can happen..",
+    "created_at": "2025-09-26T15:02:35Z",
+    "updated_at": "2025-09-26T15:02:41Z",
+    "html_url": "https://github.com/whatwg/compression/pull/77#discussion_r2382691508",
+    "pull_request_url": "https://api.github.com/repos/whatwg/compression/pulls/77",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/compression/pulls/comments/2382691508"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/compression/pull/77#discussion_r2382691508"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/compression/pulls/77"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/compression/pulls/comments/2382691508/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 151,
+    "original_line": 151,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 13,
+    "position": 13,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/compression/pulls/comments/2388016631",
+    "pull_request_review_id": 3279886286,
+    "id": 2388016631,
+    "node_id": "PRRC_kwDODH3UzM6OVj33",
+    "diff_hunk": "@@ -139,15 +139,16 @@ The <dfn>decompress and enqueue a chunk</dfn> algorithm, given a {{Decompression\n     1. If |buffer| is empty, return.\n     1. Let |arrays| be the result of splitting |buffer| into one or more non-empty pieces and converting them into {{Uint8Array}}s.\n     1. [=list/For each=] {{Uint8Array}} |array| of |arrays|, [=TransformStream/enqueue=] |array| in |ds|'s [=GenericTransformStream/transform=].\n+    1. If the end of the compressed input has been reached, and [=DecompressionStream/context=] has not fully consumed |chunk|, then throw a {{TypeError}}.\n </div>\n \n <div algorithm>\n The <dfn>decompress flush and enqueue</dfn> algorithm, which handles the end of data from the input {{ReadableStream}} object, given a {{DecompressionStream}} object |ds|, runs these steps:\n     1. Let |buffer| be the result of decompressing an empty input with |ds|'s <a for=DecompressionStream>format</a> and <a for=DecompressionStream>context</a>, with the finish flag.\n+    1. If |buffer| is not empty:\n+       1. Let |arrays| be the result of splitting |buffer| into one or more non-empty pieces and converting them into {{Uint8Array}}s.\n+       1. [=list/For each=] {{Uint8Array}} |array| of |arrays|, [=TransformStream/enqueue=] |array| in |ds|'s [=GenericTransformStream/transform=].\n     1. If the end of the compressed input has not been reached, then throw a {{TypeError}}.",
+    "path": "index.bs",
+    "commit_id": "39ab58b6c67764f5a7cc0ae8627903fc5bfe8f69",
+    "original_commit_id": "58a9fa59291e28e33f20bcbfd0d68cec3e1d3c91",
+    "user": {
+      "login": "ricea",
+      "id": 6678407,
+      "node_id": "MDQ6VXNlcjY2Nzg0MDc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6678407?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ricea",
+      "html_url": "https://github.com/ricea",
+      "followers_url": "https://api.github.com/users/ricea/followers",
+      "following_url": "https://api.github.com/users/ricea/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ricea/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ricea/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ricea/subscriptions",
+      "organizations_url": "https://api.github.com/users/ricea/orgs",
+      "repos_url": "https://api.github.com/users/ricea/repos",
+      "events_url": "https://api.github.com/users/ricea/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ricea/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The implementation of inflate() used by Blink has this comment:\r\n```\r\n   In this implementation, the flush parameter of inflate() only affects the\r\n   return code (per zlib.h).  inflate() always writes as much as possible to\r\n   strm->next_out, given the space available and the provided input--the effect\r\n   documented in zlib.h of Z_SYNC_FLUSH. \r\n```\r\nI think this implies that in some other implementation it could make a difference, but it doesn't in Blink.\r\n\r\nI think it anyway it can only apply to the \"deflate-raw\" format, as \"deflate\" and \"gzip\" both end with checksums. \r\n\r\n[RFC1951](https://www.rfc-editor.org/rfc/rfc1951) doesn't seem to shed any light on the behaviour of decompressors.\r\n\r\nMy feeling is that it is good for the standard to be explicit about how to handle any remaining output, even if real implementations don't need this step.",
+    "created_at": "2025-09-29T13:37:52Z",
+    "updated_at": "2025-09-29T13:38:52Z",
+    "html_url": "https://github.com/whatwg/compression/pull/77#discussion_r2388016631",
+    "pull_request_url": "https://api.github.com/repos/whatwg/compression/pulls/77",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/compression/pulls/comments/2388016631"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/compression/pull/77#discussion_r2388016631"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/compression/pulls/77"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/compression/pulls/comments/2388016631/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 151,
+    "original_line": 151,
+    "side": "RIGHT",
+    "in_reply_to_id": 2382691508,
+    "author_association": "COLLABORATOR",
+    "original_position": 13,
+    "position": 13,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

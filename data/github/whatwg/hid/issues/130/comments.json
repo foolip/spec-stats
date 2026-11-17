@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/hid/issues/comments/3535019449",
+    "html_url": "https://github.com/whatwg/hid/issues/130#issuecomment-3535019449",
+    "issue_url": "https://api.github.com/repos/whatwg/hid/issues/130",
+    "id": 3535019449,
+    "node_id": "IC_kwDOCPOi6M7StB25",
+    "user": {
+      "login": "nondebug",
+      "id": 14099571,
+      "node_id": "MDQ6VXNlcjE0MDk5NTcx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14099571?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nondebug",
+      "html_url": "https://github.com/nondebug",
+      "followers_url": "https://api.github.com/users/nondebug/followers",
+      "following_url": "https://api.github.com/users/nondebug/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nondebug/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nondebug/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nondebug/subscriptions",
+      "organizations_url": "https://api.github.com/users/nondebug/orgs",
+      "repos_url": "https://api.github.com/users/nondebug/repos",
+      "events_url": "https://api.github.com/users/nondebug/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nondebug/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2025-11-14T23:18:46Z",
+    "updated_at": "2025-11-14T23:18:46Z",
+    "body": "Vendor 0x152A product 0x889B, is it this device \"Fosi Audio Q6\"?\n\nhttps://linux-hardware.org/?id=usb:152a-889b\n\nhttps://fosiaudio.com/products/q6-dac\n\nI looked at the user manual but I don't see any reference to HID capability. Can you share more information about what you're trying to do?\n\nIf you saw \"Sent successfully\" then I think everything is working correctly. `chrome://device-log` records when a device is added or removed and when an error occurs. I wouldn't expect anything to be recorded if `sendReport` succeeds, but I do expect a message to be recorded when the device is added. On macOS the device added log message contains the base64-encoded report descriptor, can you share the log message here?\n\nFrom your example code it seems this device uses numbered reports and has a top level collection with vendor-defined usage ff83:0001 containing a 63-byte output report with ID 1. You're sending an output report with ID 1 and initial bytes [0x77, 0x8e, 0x44, 0xac] and the remaining bytes set to zero. That seems reasonable to me but I don't know how this device is designed to work or what the vendor-defined report is intended to do. Your code listens for input reports but none are received. This usually means the device isn't sending any input reports, which might be expected depending on how the device is designed to work.",
+    "author_association": "COLLABORATOR",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/hid/issues/comments/3535019449/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

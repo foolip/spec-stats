@@ -1,0 +1,144 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/675001832",
+    "pull_request_review_id": 713043258,
+    "id": 675001832,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY3NTAwMTgzMg==",
+    "diff_hunk": "@@ -5423,20 +5409,28 @@ optional boolean <var>forceNewConnection</var> (default false), run these steps:\n          <li><p>If <var>bytes</var> is failure, then <a lt=terminated for=fetch>terminate</a> the\n          ongoing fetch.\n \n-         <li><p><a for=ReadableStream>Enqueue</a> a {{Uint8Array}} wrapping an {{ArrayBuffer}}\n-         containing <var>bytes</var> into <var>stream</var>.\n+         <li>\n+          <p>Let <var>handleResponseBytes</var> be these steps:\n \n-         <li><p>If <var>stream</var> is <a for=ReadableStream>errored</a>, then\n-         <a lt=terminated for=fetch>terminate</a> the ongoing fetch.\n+          <ol>\n+           <li><p><a for=ReadableStream>Enqueue</a> a {{Uint8Array}} wrapping an {{ArrayBuffer}}\n+           containing <var>bytes</var> into <var>stream</var>.",
+    "path": "fetch.bs",
+    "commit_id": "0a3de95d0731e6430ba5ebf9bc53bab489ee32ae",
+    "original_commit_id": "0a3de95d0731e6430ba5ebf9bc53bab489ee32ae",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "FWIW this can be made rigorous these days with https://heycam.github.io/webidl/#arraybufferview-create (`[=ArrayBufferView/new=] {{Uint8Array}} given |bytes| in some realm`).",
+    "created_at": "2021-07-22T17:17:19Z",
+    "updated_at": "2021-07-22T17:21:47Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1270#discussion_r675001832",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1270",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/675001832"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1270#discussion_r675001832"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1270"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/675001832/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 5417,
+    "original_line": 5417,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 92,
+    "position": 92,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/675002463",
+    "pull_request_review_id": 713043258,
+    "id": 675002463,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY3NTAwMjQ2Mw==",
+    "diff_hunk": "@@ -5423,20 +5409,28 @@ optional boolean <var>forceNewConnection</var> (default false), run these steps:\n          <li><p>If <var>bytes</var> is failure, then <a lt=terminated for=fetch>terminate</a> the\n          ongoing fetch.\n \n-         <li><p><a for=ReadableStream>Enqueue</a> a {{Uint8Array}} wrapping an {{ArrayBuffer}}\n-         containing <var>bytes</var> into <var>stream</var>.\n+         <li>\n+          <p>Let <var>handleResponseBytes</var> be these steps:\n \n-         <li><p>If <var>stream</var> is <a for=ReadableStream>errored</a>, then\n-         <a lt=terminated for=fetch>terminate</a> the ongoing fetch.\n+          <ol>\n+           <li><p><a for=ReadableStream>Enqueue</a> a {{Uint8Array}} wrapping an {{ArrayBuffer}}\n+           containing <var>bytes</var> into <var>stream</var>.\n \n-         <li><p>If <var>stream</var> doesn't <a for=ReadableStream>need more data</a> ask the user\n-         agent to <a for=fetch>suspend</a> the ongoing fetch.\n+           <li><p>If <var>stream</var> is <a for=ReadableStream>errored</a>, then\n+           <a lt=terminated for=fetch>terminate</a> the ongoing fetch.\n+\n+           <li><p>If <var>stream</var> doesn't <a for=ReadableStream>need more data</a> ask the user\n+           agent to <a for=fetch>suspend</a> the ongoing fetch.\n+          </ol>\n+\n+         <li><p>Otherwise, if the bytes transmission for <var>response</var>'s message body is done\n+         normally and <var>stream</var> is <a for=ReadableStream>readable</a>, then\n+         <a for=ReadableStream>close</a> <var>stream</var>, <a for=/>finalize response</a> for\n+         <var>fetchParams</var> and <var>response</var>.",
+    "path": "fetch.bs",
+    "commit_id": "0a3de95d0731e6430ba5ebf9bc53bab489ee32ae",
+    "original_commit_id": "0a3de95d0731e6430ba5ebf9bc53bab489ee32ae",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Closing should also be done in a task right?",
+    "created_at": "2021-07-22T17:18:27Z",
+    "updated_at": "2021-07-22T17:21:48Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1270#discussion_r675002463",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1270",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/675002463"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1270#discussion_r675002463"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1270"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/675002463/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 5429,
+    "original_line": 5429,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 106,
+    "position": 106,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

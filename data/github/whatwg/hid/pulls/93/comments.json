@@ -1,0 +1,575 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/hid/pulls/comments/816182358",
+    "pull_request_review_id": 895498871,
+    "id": 816182358,
+    "node_id": "PRRC_kwDOCPOi6M4wpfRW",
+    "diff_hunk": "@@ -2664,11 +2730,15 @@ <h2>\n                 filters: [\n                   {\n                     vendorId: 0xabcd,\n-                    productId: 0x1234,\n                     usagePage: 0x000c,\n                     usage: 0x0001,\n                   },\n                 ],\n+                excludes: [\n+                  {\n+                    productId: 0x1234,",
+    "path": "index.html",
+    "commit_id": "46c3fe7d0a6af1581e4b4f6a3b7943e533b0c494",
+    "original_commit_id": "bc8667f4e4c0f7d7cd14fd4e5ce80389b11da19b",
+    "user": {
+      "login": "nondebug",
+      "id": 14099571,
+      "node_id": "MDQ6VXNlcjE0MDk5NTcx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14099571?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nondebug",
+      "html_url": "https://github.com/nondebug",
+      "followers_url": "https://api.github.com/users/nondebug/followers",
+      "following_url": "https://api.github.com/users/nondebug/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nondebug/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nondebug/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nondebug/subscriptions",
+      "organizations_url": "https://api.github.com/users/nondebug/orgs",
+      "repos_url": "https://api.github.com/users/nondebug/repos",
+      "events_url": "https://api.github.com/users/nondebug/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nondebug/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I feel we should make it an error to specify a `HIDDeviceExclude` with `productId` but no `vendorId`. In this scenario we're already filtering on the vendor ID so we'll only exclude devices from that vendor, but in the general case you could filter on usages or multiple vendor IDs and then exclude based on product ID which would somewhat randomly exclude devices based on how each vendor assigns their product IDs.",
+    "created_at": "2022-02-28T19:21:02Z",
+    "updated_at": "2022-02-28T19:25:33Z",
+    "html_url": "https://github.com/whatwg/hid/pull/93#discussion_r816182358",
+    "pull_request_url": "https://api.github.com/repos/whatwg/hid/pulls/93",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/hid/pulls/comments/816182358"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/hid/pull/93#discussion_r816182358"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/hid/pulls/93"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/hid/pulls/comments/816182358/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 2721,
+    "original_line": 2739,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 131,
+    "position": 156,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/hid/pulls/comments/816182408",
+    "pull_request_review_id": 895498871,
+    "id": 816182408,
+    "node_id": "PRRC_kwDOCPOi6M4wpfSI",
+    "diff_hunk": "@@ -1263,6 +1273,61 @@ <h4>\n             </li>\n           </ol>\n         </section>\n+        <section data-dfn-for=\"HIDDeviceExclude\">\n+          <h4>\n+            <dfn>HIDDeviceExclude</dfn> dictionary",
+    "path": "index.html",
+    "commit_id": "46c3fe7d0a6af1581e4b4f6a3b7943e533b0c494",
+    "original_commit_id": "bc8667f4e4c0f7d7cd14fd4e5ce80389b11da19b",
+    "user": {
+      "login": "nondebug",
+      "id": 14099571,
+      "node_id": "MDQ6VXNlcjE0MDk5NTcx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14099571?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nondebug",
+      "html_url": "https://github.com/nondebug",
+      "followers_url": "https://api.github.com/users/nondebug/followers",
+      "following_url": "https://api.github.com/users/nondebug/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nondebug/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nondebug/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nondebug/subscriptions",
+      "organizations_url": "https://api.github.com/users/nondebug/orgs",
+      "repos_url": "https://api.github.com/users/nondebug/repos",
+      "events_url": "https://api.github.com/users/nondebug/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nondebug/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think there's not much value in defining a new dictionary type for exclusion filters. Let's reuse `HIDDeviceFilter` for the exclusion filters and specify that `usagePage` and `usage` must not be defined when a `HIDDeviceFilter` is used for exclusion.",
+    "created_at": "2022-02-28T19:21:06Z",
+    "updated_at": "2022-02-28T19:25:33Z",
+    "html_url": "https://github.com/whatwg/hid/pull/93#discussion_r816182408",
+    "pull_request_url": "https://api.github.com/repos/whatwg/hid/pulls/93",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/hid/pulls/comments/816182408"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/hid/pull/93#discussion_r816182408"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/hid/pulls/93"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/hid/pulls/comments/816182408/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1278,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 50,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/hid/pulls/comments/816182433",
+    "pull_request_review_id": 895498871,
+    "id": 816182433,
+    "node_id": "PRRC_kwDOCPOi6M4wpfSh",
+    "diff_hunk": "@@ -1097,6 +1100,12 @@ <h4>\n             <dd>\n               Filters for HID devices.\n             </dd>\n+            <dt>\n+              <dfn>excludes</dfn> member",
+    "path": "index.html",
+    "commit_id": "46c3fe7d0a6af1581e4b4f6a3b7943e533b0c494",
+    "original_commit_id": "bc8667f4e4c0f7d7cd14fd4e5ce80389b11da19b",
+    "user": {
+      "login": "nondebug",
+      "id": 14099571,
+      "node_id": "MDQ6VXNlcjE0MDk5NTcx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14099571?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nondebug",
+      "html_url": "https://github.com/nondebug",
+      "followers_url": "https://api.github.com/users/nondebug/followers",
+      "following_url": "https://api.github.com/users/nondebug/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nondebug/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nondebug/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nondebug/subscriptions",
+      "organizations_url": "https://api.github.com/users/nondebug/orgs",
+      "repos_url": "https://api.github.com/users/nondebug/repos",
+      "events_url": "https://api.github.com/users/nondebug/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nondebug/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Calling this `excludes` seems a little odd to me. `excludes` is a verb and `filters` (at least in my head) is used as a noun. I'd like to rename it to `exclusionFilters` so it's clearer that both attributes hold sets of filters but one set of filters has the opposite effect from the other set.",
+    "created_at": "2022-02-28T19:21:08Z",
+    "updated_at": "2022-02-28T19:25:33Z",
+    "html_url": "https://github.com/whatwg/hid/pull/93#discussion_r816182433",
+    "pull_request_url": "https://api.github.com/repos/whatwg/hid/pulls/93",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/hid/pulls/comments/816182433"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/hid/pull/93#discussion_r816182433"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/hid/pulls/93"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/hid/pulls/comments/816182433/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1104,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 24,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/hid/pulls/comments/816664856",
+    "pull_request_review_id": 896157003,
+    "id": 816664856,
+    "node_id": "PRRC_kwDOCPOi6M4wrVEY",
+    "diff_hunk": "@@ -2664,11 +2730,15 @@ <h2>\n                 filters: [\n                   {\n                     vendorId: 0xabcd,\n-                    productId: 0x1234,\n                     usagePage: 0x000c,\n                     usage: 0x0001,\n                   },\n                 ],\n+                excludes: [\n+                  {\n+                    productId: 0x1234,",
+    "path": "index.html",
+    "commit_id": "46c3fe7d0a6af1581e4b4f6a3b7943e533b0c494",
+    "original_commit_id": "bc8667f4e4c0f7d7cd14fd4e5ce80389b11da19b",
+    "user": {
+      "login": "beaufortfrancois",
+      "id": 634478,
+      "node_id": "MDQ6VXNlcjYzNDQ3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/634478?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/beaufortfrancois",
+      "html_url": "https://github.com/beaufortfrancois",
+      "followers_url": "https://api.github.com/users/beaufortfrancois/followers",
+      "following_url": "https://api.github.com/users/beaufortfrancois/following{/other_user}",
+      "gists_url": "https://api.github.com/users/beaufortfrancois/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/beaufortfrancois/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/beaufortfrancois/subscriptions",
+      "organizations_url": "https://api.github.com/users/beaufortfrancois/orgs",
+      "repos_url": "https://api.github.com/users/beaufortfrancois/repos",
+      "events_url": "https://api.github.com/users/beaufortfrancois/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/beaufortfrancois/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Got it.",
+    "created_at": "2022-03-01T10:59:04Z",
+    "updated_at": "2022-03-01T10:59:04Z",
+    "html_url": "https://github.com/whatwg/hid/pull/93#discussion_r816664856",
+    "pull_request_url": "https://api.github.com/repos/whatwg/hid/pulls/93",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/hid/pulls/comments/816664856"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/hid/pull/93#discussion_r816664856"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/hid/pulls/93"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/hid/pulls/comments/816664856/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 2721,
+    "original_line": 2739,
+    "side": "RIGHT",
+    "in_reply_to_id": 816182358,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 131,
+    "position": 156,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/hid/pulls/comments/816665097",
+    "pull_request_review_id": 896157359,
+    "id": 816665097,
+    "node_id": "PRRC_kwDOCPOi6M4wrVIJ",
+    "diff_hunk": "@@ -1263,6 +1273,61 @@ <h4>\n             </li>\n           </ol>\n         </section>\n+        <section data-dfn-for=\"HIDDeviceExclude\">\n+          <h4>\n+            <dfn>HIDDeviceExclude</dfn> dictionary",
+    "path": "index.html",
+    "commit_id": "46c3fe7d0a6af1581e4b4f6a3b7943e533b0c494",
+    "original_commit_id": "bc8667f4e4c0f7d7cd14fd4e5ce80389b11da19b",
+    "user": {
+      "login": "beaufortfrancois",
+      "id": 634478,
+      "node_id": "MDQ6VXNlcjYzNDQ3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/634478?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/beaufortfrancois",
+      "html_url": "https://github.com/beaufortfrancois",
+      "followers_url": "https://api.github.com/users/beaufortfrancois/followers",
+      "following_url": "https://api.github.com/users/beaufortfrancois/following{/other_user}",
+      "gists_url": "https://api.github.com/users/beaufortfrancois/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/beaufortfrancois/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/beaufortfrancois/subscriptions",
+      "organizations_url": "https://api.github.com/users/beaufortfrancois/orgs",
+      "repos_url": "https://api.github.com/users/beaufortfrancois/repos",
+      "events_url": "https://api.github.com/users/beaufortfrancois/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/beaufortfrancois/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2022-03-01T10:59:25Z",
+    "updated_at": "2022-03-01T10:59:25Z",
+    "html_url": "https://github.com/whatwg/hid/pull/93#discussion_r816665097",
+    "pull_request_url": "https://api.github.com/repos/whatwg/hid/pulls/93",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/hid/pulls/comments/816665097"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/hid/pull/93#discussion_r816665097"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/hid/pulls/93"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/hid/pulls/comments/816665097/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1278,
+    "side": "RIGHT",
+    "in_reply_to_id": 816182408,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 50,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/hid/pulls/comments/816665264",
+    "pull_request_review_id": 896157578,
+    "id": 816665264,
+    "node_id": "PRRC_kwDOCPOi6M4wrVKw",
+    "diff_hunk": "@@ -1097,6 +1100,12 @@ <h4>\n             <dd>\n               Filters for HID devices.\n             </dd>\n+            <dt>\n+              <dfn>excludes</dfn> member",
+    "path": "index.html",
+    "commit_id": "46c3fe7d0a6af1581e4b4f6a3b7943e533b0c494",
+    "original_commit_id": "bc8667f4e4c0f7d7cd14fd4e5ce80389b11da19b",
+    "user": {
+      "login": "beaufortfrancois",
+      "id": 634478,
+      "node_id": "MDQ6VXNlcjYzNDQ3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/634478?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/beaufortfrancois",
+      "html_url": "https://github.com/beaufortfrancois",
+      "followers_url": "https://api.github.com/users/beaufortfrancois/followers",
+      "following_url": "https://api.github.com/users/beaufortfrancois/following{/other_user}",
+      "gists_url": "https://api.github.com/users/beaufortfrancois/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/beaufortfrancois/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/beaufortfrancois/subscriptions",
+      "organizations_url": "https://api.github.com/users/beaufortfrancois/orgs",
+      "repos_url": "https://api.github.com/users/beaufortfrancois/repos",
+      "events_url": "https://api.github.com/users/beaufortfrancois/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/beaufortfrancois/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "LGTM",
+    "created_at": "2022-03-01T10:59:39Z",
+    "updated_at": "2022-03-01T10:59:39Z",
+    "html_url": "https://github.com/whatwg/hid/pull/93#discussion_r816665264",
+    "pull_request_url": "https://api.github.com/repos/whatwg/hid/pulls/93",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/hid/pulls/comments/816665264"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/hid/pull/93#discussion_r816665264"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/hid/pulls/93"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/hid/pulls/comments/816665264/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1104,
+    "side": "RIGHT",
+    "in_reply_to_id": 816182433,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 24,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/hid/pulls/comments/819157807",
+    "pull_request_review_id": 899657868,
+    "id": 819157807,
+    "node_id": "PRRC_kwDOCPOi6M4w01sv",
+    "diff_hunk": "@@ -1263,6 +1273,61 @@ <h4>\n             </li>\n           </ol>\n         </section>\n+        <section data-dfn-for=\"HIDDeviceExclude\">\n+          <h4>\n+            <dfn>HIDDeviceExclude</dfn> dictionary",
+    "path": "index.html",
+    "commit_id": "46c3fe7d0a6af1581e4b4f6a3b7943e533b0c494",
+    "original_commit_id": "bc8667f4e4c0f7d7cd14fd4e5ce80389b11da19b",
+    "user": {
+      "login": "nondebug",
+      "id": 14099571,
+      "node_id": "MDQ6VXNlcjE0MDk5NTcx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14099571?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nondebug",
+      "html_url": "https://github.com/nondebug",
+      "followers_url": "https://api.github.com/users/nondebug/followers",
+      "following_url": "https://api.github.com/users/nondebug/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nondebug/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nondebug/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nondebug/subscriptions",
+      "organizations_url": "https://api.github.com/users/nondebug/orgs",
+      "repos_url": "https://api.github.com/users/nondebug/repos",
+      "events_url": "https://api.github.com/users/nondebug/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nondebug/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Actually, I think it makes more sense to treat exclusion filters exactly the same as normal (inclusion?) filters other than whether they include or exclude. If the filters look the same they should behave the same. Let's allow filtering by `usagePage` and `usage` (even though I can't think of a good reason to do that). In the future I think we may add filter parameters for connection type (usb, bluetooth, etc) and it would be nice to not need duplicate language in the spec for inclusion vs exclusion.",
+    "created_at": "2022-03-03T23:50:08Z",
+    "updated_at": "2022-03-03T23:50:08Z",
+    "html_url": "https://github.com/whatwg/hid/pull/93#discussion_r819157807",
+    "pull_request_url": "https://api.github.com/repos/whatwg/hid/pulls/93",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/hid/pulls/comments/819157807"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/hid/pull/93#discussion_r819157807"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/hid/pulls/93"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/hid/pulls/comments/819157807/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1278,
+    "side": "RIGHT",
+    "in_reply_to_id": 816182408,
+    "author_association": "COLLABORATOR",
+    "original_position": 50,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/hid/pulls/comments/819482960",
+    "pull_request_review_id": 900102199,
+    "id": 819482960,
+    "node_id": "PRRC_kwDOCPOi6M4w2FFQ",
+    "diff_hunk": "@@ -1263,6 +1273,61 @@ <h4>\n             </li>\n           </ol>\n         </section>\n+        <section data-dfn-for=\"HIDDeviceExclude\">\n+          <h4>\n+            <dfn>HIDDeviceExclude</dfn> dictionary",
+    "path": "index.html",
+    "commit_id": "46c3fe7d0a6af1581e4b4f6a3b7943e533b0c494",
+    "original_commit_id": "bc8667f4e4c0f7d7cd14fd4e5ce80389b11da19b",
+    "user": {
+      "login": "beaufortfrancois",
+      "id": 634478,
+      "node_id": "MDQ6VXNlcjYzNDQ3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/634478?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/beaufortfrancois",
+      "html_url": "https://github.com/beaufortfrancois",
+      "followers_url": "https://api.github.com/users/beaufortfrancois/followers",
+      "following_url": "https://api.github.com/users/beaufortfrancois/following{/other_user}",
+      "gists_url": "https://api.github.com/users/beaufortfrancois/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/beaufortfrancois/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/beaufortfrancois/subscriptions",
+      "organizations_url": "https://api.github.com/users/beaufortfrancois/orgs",
+      "repos_url": "https://api.github.com/users/beaufortfrancois/repos",
+      "events_url": "https://api.github.com/users/beaufortfrancois/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/beaufortfrancois/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I've updated spec PR based on your feedback. Please have another look.",
+    "created_at": "2022-03-04T11:14:32Z",
+    "updated_at": "2022-03-04T11:14:32Z",
+    "html_url": "https://github.com/whatwg/hid/pull/93#discussion_r819482960",
+    "pull_request_url": "https://api.github.com/repos/whatwg/hid/pulls/93",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/hid/pulls/comments/819482960"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/hid/pull/93#discussion_r819482960"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/hid/pulls/93"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/hid/pulls/comments/819482960/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1278,
+    "side": "RIGHT",
+    "in_reply_to_id": 816182408,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 50,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

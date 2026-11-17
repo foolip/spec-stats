@@ -1,0 +1,287 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1007398719",
+    "pull_request_review_id": 1159070371,
+    "id": 1007398719,
+    "node_id": "PRRC_kwDOGdsLdc48C68_",
+    "diff_hunk": "@@ -299,9 +298,9 @@ The <dfn method for=FileSystemFileHandle>getFile()</dfn> method steps are:\n   1. Let |f| be a new {{File}}.\n   1. Set |f|'s <a spec=FileAPI>snapshot state</a> to the current state of |entry|.\n   1. Set |f|'s underlying byte sequence to a copy of |entry|'s [=binary data=].\n-  1. Initialize the value of |f|'s {{File/name}} attribute to |entry|'s [=entry/name=].\n-  1. Initialize the value of |f|'s {{File/lastModified}} attribute to |entry|'s [=file entry/modification timestamp=].\n-  1. Initialize the value of |f|'s {{Blob/type}} attribute to an [=implementation-defined=] value, based on for example |entry|'s [=entry/name=] or its file extension.\n+  1. Set |f|.{{File/name}} to |entry|'s [=entry/name=].\n+  1. Set |f|.{{File/lastModified}} to |entry|'s [=file entry/modification timestamp=].\n+  1. Set |f|.{{Blob/type}} to an [=implementation-defined=] value, based on for example |entry|'s [=entry/name=] or its file extension.",
+    "path": "index.bs",
+    "commit_id": "b722b4f510bff0e11bb5433d2e12bb75549afa28",
+    "original_commit_id": "9bf47c4fe5cc76366e3c7b84084c2b25ef7e92ad",
+    "user": {
+      "login": "a-sully",
+      "id": 77407429,
+      "node_id": "MDQ6VXNlcjc3NDA3NDI5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77407429?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/a-sully",
+      "html_url": "https://github.com/a-sully",
+      "followers_url": "https://api.github.com/users/a-sully/followers",
+      "following_url": "https://api.github.com/users/a-sully/following{/other_user}",
+      "gists_url": "https://api.github.com/users/a-sully/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/a-sully/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/a-sully/subscriptions",
+      "organizations_url": "https://api.github.com/users/a-sully/orgs",
+      "repos_url": "https://api.github.com/users/a-sully/repos",
+      "events_url": "https://api.github.com/users/a-sully/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/a-sully/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "These setters follow the \"Set f.name to entry's name\" pattern as opposed to the \"Set f's name to entry's name\" pattern to match https://w3c.github.io/FileAPI/#dfn-file\r\n\r\nThat being said, lines 299 and 300 make a lot more sense in the current pattern (there's no ByteSequence definition to link to, AFAIK).... so maybe we should make this consistent and use the latter pattern for 301 through 303?",
+    "created_at": "2022-10-27T21:31:26Z",
+    "updated_at": "2022-10-27T21:31:52Z",
+    "html_url": "https://github.com/whatwg/fs/pull/68#discussion_r1007398719",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/68",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1007398719"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/68#discussion_r1007398719"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/68"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1007398719/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 301,
+    "original_start_line": 301,
+    "start_side": "RIGHT",
+    "line": 303,
+    "original_line": 303,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 25,
+    "position": 26,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1007773726",
+    "pull_request_review_id": 1159635907,
+    "id": 1007773726,
+    "node_id": "PRRC_kwDOGdsLdc48EWge",
+    "diff_hunk": "@@ -229,12 +229,11 @@ Their [=deserialization steps=], given |serialized| and |value| are:\n   :: Returns the [=entry/name=] of the entry represented by |handle|.\n </div>\n \n-The <dfn attribute for=FileSystemHandle>kind</dfn> attribute must\n-return {{FileSystemHandleKind/\"file\"}} if the associated [=FileSystemHandle/entry=] is a [=file entry=],\n+The <dfn attribute for=FileSystemHandle>kind</dfn> getter steps are to\n+return {{FileSystemHandleKind/\"file\"}} if this is a [=file entry=],\n and return {{FileSystemHandleKind/\"directory\"}} otherwise.",
+    "path": "index.bs",
+    "commit_id": "b722b4f510bff0e11bb5433d2e12bb75549afa28",
+    "original_commit_id": "9bf47c4fe5cc76366e3c7b84084c2b25ef7e92ad",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\nThe <dfn attribute for=FileSystemHandle>kind</dfn> getter steps are to return \r\n{{FileSystemHandleKind/\"file\"}} if [=this=] is a [=file entry=]; otherwise \r\n{{FileSystemHandleKind/\"directory\"}}.\r\n```",
+    "created_at": "2022-10-28T08:03:10Z",
+    "updated_at": "2022-10-28T08:06:17Z",
+    "html_url": "https://github.com/whatwg/fs/pull/68#discussion_r1007773726",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/68",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1007773726"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/68#discussion_r1007773726"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/68"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1007773726/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 232,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 234,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 8,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1007774281",
+    "pull_request_review_id": 1159635907,
+    "id": 1007774281,
+    "node_id": "PRRC_kwDOGdsLdc48EWpJ",
+    "diff_hunk": "@@ -229,12 +229,11 @@ Their [=deserialization steps=], given |serialized| and |value| are:\n   :: Returns the [=entry/name=] of the entry represented by |handle|.\n </div>\n \n-The <dfn attribute for=FileSystemHandle>kind</dfn> attribute must\n-return {{FileSystemHandleKind/\"file\"}} if the associated [=FileSystemHandle/entry=] is a [=file entry=],\n+The <dfn attribute for=FileSystemHandle>kind</dfn> getter steps are to\n+return {{FileSystemHandleKind/\"file\"}} if this is a [=file entry=],\n and return {{FileSystemHandleKind/\"directory\"}} otherwise.\n \n-The <dfn attribute for=FileSystemHandle>name</dfn> attribute must return the [=entry/name=] of the\n-associated [=FileSystemHandle/entry=].\n+The <dfn attribute for=FileSystemHandle>name</dfn> getter steps are to return the [=entry/name=] of this.",
+    "path": "index.bs",
+    "commit_id": "b722b4f510bff0e11bb5433d2e12bb75549afa28",
+    "original_commit_id": "9bf47c4fe5cc76366e3c7b84084c2b25ef7e92ad",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\nThe <dfn attribute for=FileSystemHandle>name</dfn> getter steps are to return [=this=]'s [=entry/name=].\r\n```",
+    "created_at": "2022-10-28T08:03:56Z",
+    "updated_at": "2022-10-28T08:06:17Z",
+    "html_url": "https://github.com/whatwg/fs/pull/68#discussion_r1007774281",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/68",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1007774281"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/68#discussion_r1007774281"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/68"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1007774281/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 236,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 12,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1007776178",
+    "pull_request_review_id": 1159635907,
+    "id": 1007776178,
+    "node_id": "PRRC_kwDOGdsLdc48EXGy",
+    "diff_hunk": "@@ -299,9 +298,9 @@ The <dfn method for=FileSystemFileHandle>getFile()</dfn> method steps are:\n   1. Let |f| be a new {{File}}.\n   1. Set |f|'s <a spec=FileAPI>snapshot state</a> to the current state of |entry|.\n   1. Set |f|'s underlying byte sequence to a copy of |entry|'s [=binary data=].\n-  1. Initialize the value of |f|'s {{File/name}} attribute to |entry|'s [=entry/name=].\n-  1. Initialize the value of |f|'s {{File/lastModified}} attribute to |entry|'s [=file entry/modification timestamp=].\n-  1. Initialize the value of |f|'s {{Blob/type}} attribute to an [=implementation-defined=] value, based on for example |entry|'s [=entry/name=] or its file extension.\n+  1. Set |f|.{{File/name}} to |entry|'s [=entry/name=].\n+  1. Set |f|.{{File/lastModified}} to |entry|'s [=file entry/modification timestamp=].\n+  1. Set |f|.{{Blob/type}} to an [=implementation-defined=] value, based on for example |entry|'s [=entry/name=] or its file extension.",
+    "path": "index.bs",
+    "commit_id": "b722b4f510bff0e11bb5433d2e12bb75549afa28",
+    "original_commit_id": "9bf47c4fe5cc76366e3c7b84084c2b25ef7e92ad",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think what you have here currently is okay. The larger problem here is that the File API doesn't do a good job of defining the model of `File` object so you cannot manipulate the internal fields directly, which is what you'd want to do here.",
+    "created_at": "2022-10-28T08:06:10Z",
+    "updated_at": "2022-10-28T08:06:18Z",
+    "html_url": "https://github.com/whatwg/fs/pull/68#discussion_r1007776178",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/68",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1007776178"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/68#discussion_r1007776178"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/68"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1007776178/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 301,
+    "original_start_line": 301,
+    "start_side": "RIGHT",
+    "line": 303,
+    "original_line": 303,
+    "side": "RIGHT",
+    "in_reply_to_id": 1007398719,
+    "author_association": "MEMBER",
+    "original_position": 25,
+    "position": 26,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

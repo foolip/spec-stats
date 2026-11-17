@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/hid/issues/comments/6439784300",
+    "html_url": "https://github.com/whatwg/hid/issues/139#issuecomment-6439784300",
+    "issue_url": "https://api.github.com/repos/whatwg/hid/issues/139",
+    "id": 6439784300,
+    "node_id": "IC_kwDOCPOi6M8AAAABf9dPbA",
+    "user": {
+      "login": "nondebug",
+      "id": 14099571,
+      "node_id": "MDQ6VXNlcjE0MDk5NTcx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14099571?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nondebug",
+      "html_url": "https://github.com/nondebug",
+      "followers_url": "https://api.github.com/users/nondebug/followers",
+      "following_url": "https://api.github.com/users/nondebug/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nondebug/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nondebug/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nondebug/subscriptions",
+      "organizations_url": "https://api.github.com/users/nondebug/orgs",
+      "repos_url": "https://api.github.com/users/nondebug/repos",
+      "events_url": "https://api.github.com/users/nondebug/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nondebug/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-10-27T10:38:28Z",
+    "updated_at": "2026-10-27T11:51:08Z",
+    "body": "Agreed, we should avoid setting `reportItem[\"isRange\"]` to true if either of `usageMinimum` or `usageMaximum` is missing. The purpose of `isRange` is to indicate whether to use `usageMinimum`/`usageMaximum` or the `usages` array for this item. It's possible that a malformed descriptor might only have `usageMinimum` or `usageMaximum`, in this case we should not use a default value of 0 and should set `isRange` to false, even if `usages` is empty.\n\nA malformed descriptor could have both usage min/max and non-empty `usages`, in this case I think we should prefer to set `isRange` to true and leave `usages` undefined. It's not clear to me if it's better to keep the min/max or `usages` in this case but since the device descriptor is malformed I think it doesn't matter. \n\nA valid descriptor could have usage min == usage max, in this case we should set `isRange` to true.\n\nI think your proposed steps satisfy all of these.",
+    "author_association": "COLLABORATOR",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/hid/issues/comments/6439784300/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

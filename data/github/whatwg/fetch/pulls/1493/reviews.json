@@ -1,0 +1,86 @@
+[
+  {
+    "id": 1119834039,
+    "node_id": "PRR_kwDOAFgnJc5Cv0-3",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?u=5d39bb7a31325e2905672ce29876c4c00e2a152e&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Thanks, this looks good. I was initially thinking we might want to de-duplicate some of the domintro with the duplex dictionary member, but for now this actually seems fine as they are somewhat different features even if they share a name. And we can revise when we add \"full\".",
+    "state": "APPROVED",
+    "html_url": "https://github.com/whatwg/fetch/pull/1493#pullrequestreview-1119834039",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1493",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1493#pullrequestreview-1119834039"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1493"
+      }
+    },
+    "submitted_at": "2022-09-26T08:52:35Z",
+    "commit_id": "b4e2b480a647e0488d1720f52c62c2fd4905cb60"
+  },
+  {
+    "id": 1120032568,
+    "node_id": "PRR_kwDOAFgnJc5Cwlc4",
+    "user": {
+      "login": "lucacasonato",
+      "id": 7829205,
+      "node_id": "MDQ6VXNlcjc4MjkyMDU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7829205?u=280fa15bf97605fa9a7a1d331327485daaad7871&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lucacasonato",
+      "html_url": "https://github.com/lucacasonato",
+      "followers_url": "https://api.github.com/users/lucacasonato/followers",
+      "following_url": "https://api.github.com/users/lucacasonato/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lucacasonato/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lucacasonato/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lucacasonato/subscriptions",
+      "organizations_url": "https://api.github.com/users/lucacasonato/orgs",
+      "repos_url": "https://api.github.com/users/lucacasonato/repos",
+      "events_url": "https://api.github.com/users/lucacasonato/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lucacasonato/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I agree with the motivation for this change.\r\n\r\nI do have a concern with this implementation though, namely that this effectively sets the default value for `duplex` to `\"half\"` (even if the user did not specify a value). This is incompatible with Deno, because our default value has always been `\"full\"` there (even though this is not explicitly exposed on a `.duplex` member on the `Request` object.\r\n\r\nI think we'll just have to swallow the \"implementation will vary from spec\" pill here though, as we implemented full duplex streaming before standardization.\r\n\r\nThe user observable change here will be:\r\n\r\n```\r\n// Chrome\r\nconst req = new Request(\"Hello World\");\r\nreq.duplex; // \"half\"\r\n\r\n// Deno\r\nconst req = new Request(\"Hello World\");\r\nreq.duplex; // \"full\"\r\n```\r\n\r\nThis is not much worse than the status quo though, as the actual behaviour would be different between Deno and other browsers regardless of this PR. This PR just explicitly exposes this difference between the default duplex streaming behaviours in a string value that the user can see.\r\n\r\nAlso of note: this does not close the door to updating the default for `duplex` being `\"full\"` when a user specifies a `ReadableStream` body.\r\n\r\nLGTM",
+    "state": "APPROVED",
+    "html_url": "https://github.com/whatwg/fetch/pull/1493#pullrequestreview-1120032568",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1493",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1493#pullrequestreview-1120032568"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1493"
+      }
+    },
+    "submitted_at": "2022-09-26T11:19:53Z",
+    "commit_id": "b4e2b480a647e0488d1720f52c62c2fd4905cb60"
+  }
+]

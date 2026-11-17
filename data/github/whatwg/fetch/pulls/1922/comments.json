@@ -1,0 +1,359 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3085877448",
+    "pull_request_review_id": 4112883707,
+    "id": 3085877448,
+    "node_id": "PRRC_kwDOAFgnJc637sDI",
+    "diff_hunk": "@@ -9802,6 +9779,542 @@ that RFC's normative processing requirements to be compatible with deployed cont\n </div>\n \n \n+<h2 id=formats>Formats</h2>\n+\n+<h3 id=multipart-form-data><code>multipart/form-data</code></h3>\n+\n+<h4 id=multipart-form-data-serializing>Serializing</h4>\n+\n+<p>A <dfn export for=\"multipart/form-data\" lt=\"boundary\"><code>multipart/form-data</code>\n+boundary</dfn> is a <a for=/>byte sequence</a> such that:\n+\n+<ul>\n+ <li><p>its length is greater than 26 and less than 71, and\n+\n+ <li><p>it is composed by bytes in the ranges 0x30 to 0x39, 0x41 to 0x5A, or 0x61 to 0x7A,\n+ inclusive (<a>ASCII alphanumeric</a>), or which are 0x27 ('), 0x2D (-) or 0x5F (_).\n+</ul>\n+\n+<div algorithm>\n+<p>To <dfn export for=\"multipart/form-data/boundary\">generate</dfn> a\n+<a for=\"multipart/form-data\" lt=\"boundary\"><code>multipart/form-data</code> boundary</a>, return an\n+<a>implementation-defined</a> <a for=/>byte sequence</a> which fulfills the conditions for\n+boundaries, such that part of it is randomly generated, with a minimum entropy of 95 bits.",
+    "path": "fetch.bs",
+    "commit_id": "df46626fa5f64ffd329b00eda70f978e0567ab11",
+    "original_commit_id": "4af534c22feaddb7f8ccbff1adec5f219cc7218b",
+    "user": {
+      "login": "andreubotella",
+      "id": 8225977,
+      "node_id": "MDQ6VXNlcjgyMjU5Nzc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8225977?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/andreubotella",
+      "html_url": "https://github.com/andreubotella",
+      "followers_url": "https://api.github.com/users/andreubotella/followers",
+      "following_url": "https://api.github.com/users/andreubotella/following{/other_user}",
+      "gists_url": "https://api.github.com/users/andreubotella/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/andreubotella/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/andreubotella/subscriptions",
+      "organizations_url": "https://api.github.com/users/andreubotella/orgs",
+      "repos_url": "https://api.github.com/users/andreubotella/repos",
+      "events_url": "https://api.github.com/users/andreubotella/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/andreubotella/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This was based on my analysis which IIRC concluded that Chromium/WebKit's boundary had exactly 95 bits of entropy, and that Gecko's was probably close to but less than 96 bits. But I see that at least Gecko has changed its boundary string generation now, and I'm not sure where it stands.\n\nDo we want to spec something here that aligns with current implementations, or do we want to change this to some round number that makes sense (e.g. 32 * 3 = 96 bits would be easy to implement), and make implementations match?",
+    "created_at": "2026-04-15T10:51:55Z",
+    "updated_at": "2026-04-15T10:51:55Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1922#discussion_r3085877448",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1922",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3085877448"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1922#discussion_r3085877448"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1922"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3085877448/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 10026,
+    "original_line": 9802,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 99,
+    "position": 172,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3168431077",
+    "pull_request_review_id": 4205716642,
+    "id": 3168431077,
+    "node_id": "PRRC_kwDOAFgnJc682mvl",
+    "diff_hunk": "@@ -9802,6 +9779,542 @@ that RFC's normative processing requirements to be compatible with deployed cont\n </div>\n \n \n+<h2 id=formats>Formats</h2>\n+\n+<h3 id=multipart-form-data><code>multipart/form-data</code></h3>\n+\n+<h4 id=multipart-form-data-serializing>Serializing</h4>\n+\n+<p>A <dfn export for=\"multipart/form-data\" lt=\"boundary\"><code>multipart/form-data</code>\n+boundary</dfn> is a <a for=/>byte sequence</a> such that:\n+\n+<ul>\n+ <li><p>its length is greater than 26 and less than 71, and\n+\n+ <li><p>it is composed by bytes in the ranges 0x30 to 0x39, 0x41 to 0x5A, or 0x61 to 0x7A,\n+ inclusive (<a>ASCII alphanumeric</a>), or which are 0x27 ('), 0x2D (-) or 0x5F (_).\n+</ul>\n+\n+<div algorithm>\n+<p>To <dfn export for=\"multipart/form-data/boundary\">generate</dfn> a\n+<a for=\"multipart/form-data\" lt=\"boundary\"><code>multipart/form-data</code> boundary</a>, return an\n+<a>implementation-defined</a> <a for=/>byte sequence</a> which fulfills the conditions for\n+boundaries, such that part of it is randomly generated, with a minimum entropy of 95 bits.\n+</div>\n+\n+<p class=note>Previous definitions of <code>multipart/form-data</code> specified that the\n+<a for=\"multipart/form-data\" lt=\"boundary\"><code>multipart/form-data</code> boundary</a> associated\n+with a <code>multipart/form-data</code> payload not be present anywhere in the payload other than as\n+a delimiter, although they allow for generating the\n+<a for=\"multipart/form-data\" lt=\"boundary\"><code>multipart/form-data</code> boundary</a>\n+probabilistically. Since this generation algorithm is separate from a payload, however, it has to\n+specify a minimum entropy instead. [[RFC7578]] [[RFC2046]]\n+\n+<p class=note>If a user agent generates <code>multipart/form-data</code> boundaries with a length\n+of 27 and an entropy of 95 bits, given a payload made specifically to generate collisions with that\n+user agent's boundaries, the expected length of the payload before a collision is found is well over\n+a yottabyte.\n+\n+<hr>\n+\n+<div algorithm=\"escape a multipart/form-data name\">\n+<p>To <dfn export>escape a <code>multipart/form-data</code> name</dfn> with a string\n+<var>name</var>, an optional <a for=/>encoding</a> <var>encoding</var> (default <a>UTF-8</a>) and an\n+optional boolean <dfn for=\"escape name\"><var>isFilename</var></dfn> (default false):\n+\n+<ol>\n+ <li><p>If <var>isFilename</var> is true, then set <var>name</var> to the result of\n+ <a for=string>converting</a> <var>name</var>.\n+\n+ <li>\n+  <p>Otherwise:\n+\n+  <ol>\n+   <li><p><a for=/>Assert</a>: <var>name</var> is a <a for=/>scalar value string</a>.\n+\n+   <li><p>Replace every occurrence of U+000D (CR) not followed by U+000A (LF), and every occurrence\n+   of U+000A (LF) not preceded by U+000D (CR), in <var>name</var>, by a string consisting of\n+   U+000D (CR) and U+000A (LF).\n+  </ol>\n+\n+ <li><p>Let <var>encoded</var> be the result of <a lt=\"encode\">encoding</a> <var>name</var> with\n+ <var>encoding</var>.\n+\n+ <li><p>Replace every 0x0A (LF) byte in <var>encoded</var> with the byte sequence\n+ `<code>%0A</code>`, 0x0D (CR) with `<code>%0D</code>` and 0x22 (\") with `<code>%22</code>`.\n+\n+ <li><p>Return <var>encoded</var>.\n+</ol>\n+</div>\n+\n+<div algorithm>\n+<p>The <dfn export><code>multipart/form-data</code> chunk serializer</dfn> takes an\n+<a for=/>entry list</a> <var>entries</var> and an optional <a for=/>encoding</a>\n+<var>encoding</var> (default <a>UTF-8</a>), and returns a tuple of a\n+<a for=\"multipart/form-data\" lt=\"boundary\"><code>multipart/form-data</code> boundary</a> and a list\n+of chunks, each of which can be either a <a for=/>byte sequence</a> or a {{File}}:\n+\n+<ol>\n+ <li><p>Set <var>encoding</var> to the result of <a>getting an output encoding</a> from\n+ <var>encoding</var>.\n+\n+ <li><p>Let <var>boundary</var> be the result of\n+ <a for=\"multipart/form-data/boundary\">generating</a> a\n+ <a for=\"multipart/form-data\" lt=\"boundary\"><code>multipart/form-data</code> boundary</a>.\n+\n+ <li><p>Let <var>outputChunks</var> be an empty <a for=/>list</a>.\n+\n+ <li>\n+  <p><a for=list>For each</a> <var>entry</var> of <var>entries</var>:\n+\n+  <ol>\n+   <li><p>Let <var>chunk</var> be a <a for=/>byte sequence</a> containing `<code>--</code>`,\n+   followed by <var>boundary</var>, followed by 0x0D 0x0A (CR LF).\n+\n+   <li><p>Append `<code>Content-Disposition: form-data; name=\"</code>`, followed by the result of\n+   <a>escaping a <code>multipart/form-data</code> name</a> given <var>entry</var>'s\n+   <a for=\"entry list/entry\">name</a> and <var>encoding</var>, followed by 0x22 (\"), to\n+   <var>chunk</var>.\n+\n+   <li><p>Let <var>value</var> be <var>entry</var>'s <a for=\"entry list/entry\">value</a>.\n+\n+   <li>\n+    <p>If <var>value</var> is a string:\n+\n+    <ol>\n+     <li><p>Append 0x0D 0x0A 0x0D 0x0A (CR LF CR LF) to <var>chunk</var>.\n+\n+     <li><p>Replace every occurrence of U+000D (CR) not followed by U+000A (LF), and every\n+     occurrence of U+000A (LF) not preceded by U+000D (CR), in <var>value</var>, by a string\n+     consisting of U+000D (CR) and U+000A (LF).\n+\n+     <li><p>Append the result of <a lt=\"encode\">encoding</a> <var>value</var> with\n+     <var>encoding</var> to <var>chunk</var>.\n+\n+     <li><p>Append 0x0D 0x0A (CR LF) to <var>chunk</var>.\n+\n+     <li><p><a for=list>Append</a> <var>chunk</var> to <var>outputChunks</var>.\n+    </ol>\n+\n+   <li>\n+    <p>Otherwise:\n+\n+    <ol>\n+     <li><p><a for=/>Assert</a>: <var>value</var> is a {{File}}.\n+\n+     <li><p>Append `<code>; filename=\"</code>`, followed by the result of\n+     <a>escaping a <code>multipart/form-data</code> name</a> given <var>value</var>'s {{File/name}}\n+     with <var>encoding</var> and <a><i>isFilename</i></a> set to true,\n+     followed by 0x22 0x0D 0x0A (\" CR LF), to <var>chunk</var>.\n+\n+     <li><p>Let <var>type</var> be <var>value</var>'s {{Blob/type}}, if it is not the empty string,\n+     or \"<code>application/octet-stream</code>\" otherwise.\n+\n+     <li><p>Append `<code>Content-Type: </code>`, followed by the result of\n+     <a>isomorphic encoding</a> <var>type</var>, to <var>chunk</var>.\n+\n+     <li><p>Append 0x0D 0x0A 0x0D 0x0A (CR LF CR LF) to <var>chunk</var>.\n+\n+     <li><p><a for=list>Append</a> <var>chunk</var>, followed by <var>value</var>, followed by the\n+     <a for=/>byte sequence</a> 0x0D 0x0A (CR LF), to <var>outputChunks</var>.\n+    </ol>\n+  </ol>\n+\n+ <li><p><a for=list>Append</a> the <a for=/>byte sequence</a> containing `<code>--</code>`,\n+ followed by <var>boundary</var>, followed by `<code>--</code>`, followed by 0x0D 0x0A (CR LF), to\n+ <var>outputChunks</var>.\n+\n+ <li><p>Return the tuple (<var>boundary</var>, <var>outputChunks</var>).\n+</ol>\n+</div>\n+\n+<hr>\n+\n+<div algorithm>\n+<p>The <dfn export for=\"multipart/form-data\">length</dfn> of a <code>multipart/form-data</code>\n+payload, given a list of chunks <var>chunks</var> which can be either <a for=/>byte sequences</a> or\n+{{File}} objects, is the result of running the following steps:\n+\n+<ol>\n+ <li><p>Let <var>length</var> be 0.\n+\n+ <li>\n+  <p><a for=list>For each</a> <var>chunk</var> of <var>chunks</var>:\n+\n+  <ol>\n+   <li>\n+    <p>If <var>chunk</var> is a <a for=/>byte sequence</a>:\n+\n+    <ol>\n+     <li><p>Increase <var>length</var> by <var>chunk</var>'s <a for=\"byte sequence\">length</a>.\n+    </ol>\n+\n+   <li>\n+    <p>Otherwise:\n+\n+    <ol>\n+     <li><p><a for=/>Assert</a>: <var>chunk</var> is a {{File}}.\n+\n+     <li><p>Increase <var>length</var> by <var>chunk</var>'s {{Blob/size}}.\n+    </ol>\n+  </ol>\n+\n+ <li><p>Return <var>length</var>.\n+</ol>\n+</div>\n+\n+<div algorithm>\n+<p>To <dfn export>create a <code>multipart/form-data</code> readable stream</dfn> from a list of\n+chunks <var>chunks</var> which can be either <a for=/>byte sequences</a> or {{File}} objects:\n+\n+<ol>\n+ <li><p>Let <var>fileStream</var> be null.\n+\n+ <li><p>Let <var>stream</var> be a <a>new</a> {{ReadableStream}}.\n+\n+ <li>\n+  <p>Let <var>pullAlgorithm</var> be an algorithm that runs the following steps:\n+\n+  <dl class=switch>\n+   <dt>If <var>fileStream</var> is null and <var>chunks</var> is not <a for=list>empty</a>\n+   <dd>\n+    <ol>\n+     <li>\n+      <p>If <var>chunks</var>[0] is a <a for=/>byte sequence</a>, then\n+      <a for=ReadableStream>enqueue</a> the result of\n+      [=ArrayBufferView/create|creating=] a {{Uint8Array}} from <var>chunks</var>[0] into\n+      <var>stream</var>.\n+\n+     <li>\n+      <p>Otherwise:\n+\n+      <ol>\n+       <li><p><a for=/>Assert</a>: <var>chunks</var>[0] is a {{File}} object.\n+\n+       <li><p>Set <var>fileStream</var> to the result of running <var>chunks</var>[0]'s\n+       {{Blob/stream}} method.\n+\n+       <li><p>Run <var>pullAlgorithm</var>.\n+      </ol>\n+\n+     <li><p><a for=list>Remove</a> the first item from <var>chunks</var>.\n+    </ol>\n+\n+   <dt>If <var>fileStream</var> is null and <var>chunks</var> is <a for=list>empty</a>\n+   <dd>\n+    <ol>\n+     <li><p><a for=ReadableStream>Close</a> <var>stream</var>.\n+    </ol>\n+\n+   <dt>If <var>fileStream</var> is not null\n+   <dd>\n+    <ol>\n+     <li>\n+      <p>Let <var>readRequest</var> be a new <a>read request</a> with the following\n+      <a for=struct>items</a>:\n+\n+      <dl>\n+       <dt><a for=\"read request\">chunk steps</a>, given <var>chunk</var>\n+       <dd>\n+        <ol>\n+         <li><p>If <var>chunk</var> is not a {{Uint8Array}} object, then <a for=ReadableStream>error</a>\n+         <var>stream</var> with a {{TypeError}} and abort these steps.\n+\n+         <li><p><a for=ReadableStream>Enqueue</a> <var>chunk</var> into <var>stream</var>.\n+        </ol>\n+\n+       <dt><a for=\"read request\">close steps</a>\n+       <dd>\n+        <ol>\n+         <li><p>Set <var>fileStream</var> to null.\n+\n+         <li><p>Run <var>pullAlgorithm</var>.\n+        </ol>\n+\n+       <dt><a for=\"read request\">error steps</a>, given <var>e</var>\n+       <dd>\n+        <ol>\n+         <li><p><a for=ReadableStream>Error</a> <var>stream</var> with <var>e</var>.\n+        </ol>\n+      </dl>\n+\n+     <li><p>Let <var>reader</var> be the result of <a for=ReadableStream>getting a reader</a> for\n+     <var>fileStream</var>.\n+\n+     <li><p><a for=ReadableStreamDefaultReader>Read a chunk</a> from <var>reader</var> with\n+     <var>readRequest</var>.\n+    </ol>\n+  </dl>\n+\n+ <li>\n+  <p>Let <var>cancelAlgorithm</var> be an algorithm that runs the following steps, given\n+  <var>reason</var>:\n+\n+  <ol>\n+   <li><p>If <var>fileStream</var> is not null, then <a for=ReadableStream>cancel</a>\n+   <var>fileStream</var> with <var>reason</var>.\n+  </ol>\n+\n+ <li><p><a for=ReadableStream>Set up</a> <var>stream</var> with\n+ <a for=\"ReadableStream/set up\"><var>pullAlgorithm</var></a> set to <var>pullAlgorithm</var> and\n+ <a for=\"ReadableStream/set up\"><var>cancelAlgorithm</var></a> set to <var>cancelAlgorithm</var>.\n+\n+ <li><p>Return <var>stream</var>.\n+</ol>\n+</div>\n+\n+<h4 id=multipart-form-data-parsing>Parsing</h4>\n+\n+<div algorithm>\n+<p>The <dfn export><code>multipart/form-data</code> parser</dfn> takes a <a for=/>byte sequence</a>\n+<var>input</var> and a <a for=/>MIME type</a> <var>mimeType</var>, and returns either an\n+<a for=/>entry list</a> or failure:\n+\n+<ol>\n+ <li><p><a for=/>Assert</a>: <var>mimeType</var>'s <a for=\"MIME type\">essence</a> is\n+ \"<code>multipart/form-data</code>\".\n+\n+ <li><p>If <var>mimeType</var>'s <a for=\"MIME type\">parameters</a>[\"<code>boundary</code>\"] does not\n+ <a for=map>exist</a>, then return failure.\n+\n+ <li>\n+  <p>Let <var>boundary</var> be the result of <a>UTF-8 encoding</a> <var>mimeType</var>'s\n+  <a for=\"MIME type\">parameters</a>[\"<code>boundary</code>\"].\n+\n+  <p class=note>The definition of <a for=/>MIME type</a> in Mime Sniffing has the\n+  <a for=\"MIME type\">parameter</a> values being <a>ASCII strings</a>, but the\n+  <a lt=\"parse a MIME type\">parse a MIME type</a> algorithm can create\n+  <a>MIME type records</a> containing non-ASCII parameter values. See\n+  <a href=\"https://github.com/whatwg/mimesniff/issues/141\">whatwg/mimesniff#141</a>.\n+\n+ <li><p>Let <var>entryList</var> be an empty <a for=/>entry list</a>.\n+\n+ <li><p>Let <var>position</var> be a pointer to a byte in <var>input</var>, initially pointing at\n+ the first byte.\n+\n+ <li>\n+  <p>While true:\n+\n+  <ol>\n+   <li><p>If <var>position</var> does not point to a sequence of bytes starting with 0x2D 0x2D\n+   (`<code>--</code>`) followed by <var>boundary</var>, then return failure.\n+\n+   <li><p>Advance <var>position</var> by 2 + the length of <var>boundary</var>.\n+\n+   <li><p>Collect a sequence of bytes that are <a>HTTP tab or space bytes</a> given\n+   <var>position</var>. (Do nothing with those bytes.)\n+\n+   <li>\n+    <p>If <var>position</var> points to a sequence of bytes starting with 0x2D 0x2D\n+    (`<code>--</code>`):\n+\n+    <ol>\n+     <li><p>If <var>position</var> + 2 points to the end of <var>input</var>, or\n+     <var>position</var> + 2 points to a sequence of bytes starting with 0x0D 0x0A (CR LF), then\n+     return <var>entryList</var>.",
+    "path": "fetch.bs",
+    "commit_id": "4af534c22feaddb7f8ccbff1adec5f219cc7218b",
+    "original_commit_id": "4af534c22feaddb7f8ccbff1adec5f219cc7218b",
+    "user": {
+      "login": "youennf",
+      "id": 5575980,
+      "node_id": "MDQ6VXNlcjU1NzU5ODA=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5575980?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/youennf",
+      "html_url": "https://github.com/youennf",
+      "followers_url": "https://api.github.com/users/youennf/followers",
+      "following_url": "https://api.github.com/users/youennf/following{/other_user}",
+      "gists_url": "https://api.github.com/users/youennf/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/youennf/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/youennf/subscriptions",
+      "organizations_url": "https://api.github.com/users/youennf/orgs",
+      "repos_url": "https://api.github.com/users/youennf/repos",
+      "events_url": "https://api.github.com/users/youennf/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/youennf/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "According RFC, there could be some spaces between `--` and CRLF, not sure what UAs are doing though.\nAlso, I am not sure what happens with UAs if there are non whitespace characters after `--`. Maybe entryList is returned instead of a failure.",
+    "created_at": "2026-04-30T13:55:06Z",
+    "updated_at": "2026-04-30T13:55:06Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1922#discussion_r3168431077",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1922",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3168431077"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1922#discussion_r3168431077"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1922"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3168431077/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 10114,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 411,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3970350360",
+    "pull_request_review_id": 5156603553,
+    "id": 3970350360,
+    "node_id": "PRRC_kwDOAFgnJc7spr0Y",
+    "diff_hunk": "@@ -9802,6 +9779,542 @@ that RFC's normative processing requirements to be compatible with deployed cont\n </div>\n \n \n+<h2 id=formats>Formats</h2>\n+\n+<h3 id=multipart-form-data><code>multipart/form-data</code></h3>\n+\n+<h4 id=multipart-form-data-serializing>Serializing</h4>\n+\n+<p>A <dfn export for=\"multipart/form-data\" lt=\"boundary\"><code>multipart/form-data</code>\n+boundary</dfn> is a <a for=/>byte sequence</a> such that:\n+\n+<ul>\n+ <li><p>its length is greater than 26 and less than 71, and\n+\n+ <li><p>it is composed by bytes in the ranges 0x30 to 0x39, 0x41 to 0x5A, or 0x61 to 0x7A,\n+ inclusive (<a>ASCII alphanumeric</a>), or which are 0x27 ('), 0x2D (-) or 0x5F (_).\n+</ul>\n+\n+<div algorithm>\n+<p>To <dfn export for=\"multipart/form-data/boundary\">generate</dfn> a\n+<a for=\"multipart/form-data\" lt=\"boundary\"><code>multipart/form-data</code> boundary</a>, return an\n+<a>implementation-defined</a> <a for=/>byte sequence</a> which fulfills the conditions for\n+boundaries, such that part of it is randomly generated, with a minimum entropy of 95 bits.",
+    "path": "fetch.bs",
+    "commit_id": "df46626fa5f64ffd329b00eda70f978e0567ab11",
+    "original_commit_id": "4af534c22feaddb7f8ccbff1adec5f219cc7218b",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think for now matching implementations makes sense (Gecko indeed seems to have a far higher number) and then separately pursue an improvement on top.",
+    "created_at": "2026-09-09T15:44:13Z",
+    "updated_at": "2026-09-09T15:44:13Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1922#discussion_r3970350360",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1922",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3970350360"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1922#discussion_r3970350360"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1922"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3970350360/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 10026,
+    "original_line": 9802,
+    "side": "RIGHT",
+    "in_reply_to_id": 3085877448,
+    "author_association": "MEMBER",
+    "original_position": 99,
+    "position": 172,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3970501852",
+    "pull_request_review_id": 5156812945,
+    "id": 3970501852,
+    "node_id": "PRRC_kwDOAFgnJc7sqQzc",
+    "diff_hunk": "@@ -9802,6 +9779,542 @@ that RFC's normative processing requirements to be compatible with deployed cont\n </div>\n \n \n+<h2 id=formats>Formats</h2>\n+\n+<h3 id=multipart-form-data><code>multipart/form-data</code></h3>\n+\n+<h4 id=multipart-form-data-serializing>Serializing</h4>\n+\n+<p>A <dfn export for=\"multipart/form-data\" lt=\"boundary\"><code>multipart/form-data</code>\n+boundary</dfn> is a <a for=/>byte sequence</a> such that:\n+\n+<ul>\n+ <li><p>its length is greater than 26 and less than 71, and\n+\n+ <li><p>it is composed by bytes in the ranges 0x30 to 0x39, 0x41 to 0x5A, or 0x61 to 0x7A,\n+ inclusive (<a>ASCII alphanumeric</a>), or which are 0x27 ('), 0x2D (-) or 0x5F (_).\n+</ul>\n+\n+<div algorithm>\n+<p>To <dfn export for=\"multipart/form-data/boundary\">generate</dfn> a\n+<a for=\"multipart/form-data\" lt=\"boundary\"><code>multipart/form-data</code> boundary</a>, return an\n+<a>implementation-defined</a> <a for=/>byte sequence</a> which fulfills the conditions for\n+boundaries, such that part of it is randomly generated, with a minimum entropy of 95 bits.\n+</div>\n+\n+<p class=note>Previous definitions of <code>multipart/form-data</code> specified that the\n+<a for=\"multipart/form-data\" lt=\"boundary\"><code>multipart/form-data</code> boundary</a> associated\n+with a <code>multipart/form-data</code> payload not be present anywhere in the payload other than as\n+a delimiter, although they allow for generating the\n+<a for=\"multipart/form-data\" lt=\"boundary\"><code>multipart/form-data</code> boundary</a>\n+probabilistically. Since this generation algorithm is separate from a payload, however, it has to\n+specify a minimum entropy instead. [[RFC7578]] [[RFC2046]]\n+\n+<p class=note>If a user agent generates <code>multipart/form-data</code> boundaries with a length\n+of 27 and an entropy of 95 bits, given a payload made specifically to generate collisions with that\n+user agent's boundaries, the expected length of the payload before a collision is found is well over\n+a yottabyte.\n+\n+<hr>\n+\n+<div algorithm=\"escape a multipart/form-data name\">\n+<p>To <dfn export>escape a <code>multipart/form-data</code> name</dfn> with a string\n+<var>name</var>, an optional <a for=/>encoding</a> <var>encoding</var> (default <a>UTF-8</a>) and an\n+optional boolean <dfn for=\"escape name\"><var>isFilename</var></dfn> (default false):\n+\n+<ol>\n+ <li><p>If <var>isFilename</var> is true, then set <var>name</var> to the result of\n+ <a for=string>converting</a> <var>name</var>.\n+\n+ <li>\n+  <p>Otherwise:\n+\n+  <ol>\n+   <li><p><a for=/>Assert</a>: <var>name</var> is a <a for=/>scalar value string</a>.\n+\n+   <li><p>Replace every occurrence of U+000D (CR) not followed by U+000A (LF), and every occurrence\n+   of U+000A (LF) not preceded by U+000D (CR), in <var>name</var>, by a string consisting of\n+   U+000D (CR) and U+000A (LF).\n+  </ol>\n+\n+ <li><p>Let <var>encoded</var> be the result of <a lt=\"encode\">encoding</a> <var>name</var> with\n+ <var>encoding</var>.\n+\n+ <li><p>Replace every 0x0A (LF) byte in <var>encoded</var> with the byte sequence\n+ `<code>%0A</code>`, 0x0D (CR) with `<code>%0D</code>` and 0x22 (\") with `<code>%22</code>`.\n+\n+ <li><p>Return <var>encoded</var>.\n+</ol>\n+</div>\n+\n+<div algorithm>\n+<p>The <dfn export><code>multipart/form-data</code> chunk serializer</dfn> takes an\n+<a for=/>entry list</a> <var>entries</var> and an optional <a for=/>encoding</a>\n+<var>encoding</var> (default <a>UTF-8</a>), and returns a tuple of a\n+<a for=\"multipart/form-data\" lt=\"boundary\"><code>multipart/form-data</code> boundary</a> and a list\n+of chunks, each of which can be either a <a for=/>byte sequence</a> or a {{File}}:\n+\n+<ol>\n+ <li><p>Set <var>encoding</var> to the result of <a>getting an output encoding</a> from\n+ <var>encoding</var>.\n+\n+ <li><p>Let <var>boundary</var> be the result of\n+ <a for=\"multipart/form-data/boundary\">generating</a> a\n+ <a for=\"multipart/form-data\" lt=\"boundary\"><code>multipart/form-data</code> boundary</a>.\n+\n+ <li><p>Let <var>outputChunks</var> be an empty <a for=/>list</a>.\n+\n+ <li>\n+  <p><a for=list>For each</a> <var>entry</var> of <var>entries</var>:\n+\n+  <ol>\n+   <li><p>Let <var>chunk</var> be a <a for=/>byte sequence</a> containing `<code>--</code>`,\n+   followed by <var>boundary</var>, followed by 0x0D 0x0A (CR LF).\n+\n+   <li><p>Append `<code>Content-Disposition: form-data; name=\"</code>`, followed by the result of\n+   <a>escaping a <code>multipart/form-data</code> name</a> given <var>entry</var>'s\n+   <a for=\"entry list/entry\">name</a> and <var>encoding</var>, followed by 0x22 (\"), to\n+   <var>chunk</var>.\n+\n+   <li><p>Let <var>value</var> be <var>entry</var>'s <a for=\"entry list/entry\">value</a>.\n+\n+   <li>\n+    <p>If <var>value</var> is a string:\n+\n+    <ol>\n+     <li><p>Append 0x0D 0x0A 0x0D 0x0A (CR LF CR LF) to <var>chunk</var>.\n+\n+     <li><p>Replace every occurrence of U+000D (CR) not followed by U+000A (LF), and every\n+     occurrence of U+000A (LF) not preceded by U+000D (CR), in <var>value</var>, by a string\n+     consisting of U+000D (CR) and U+000A (LF).\n+\n+     <li><p>Append the result of <a lt=\"encode\">encoding</a> <var>value</var> with\n+     <var>encoding</var> to <var>chunk</var>.\n+\n+     <li><p>Append 0x0D 0x0A (CR LF) to <var>chunk</var>.\n+\n+     <li><p><a for=list>Append</a> <var>chunk</var> to <var>outputChunks</var>.\n+    </ol>\n+\n+   <li>\n+    <p>Otherwise:\n+\n+    <ol>\n+     <li><p><a for=/>Assert</a>: <var>value</var> is a {{File}}.\n+\n+     <li><p>Append `<code>; filename=\"</code>`, followed by the result of\n+     <a>escaping a <code>multipart/form-data</code> name</a> given <var>value</var>'s {{File/name}}\n+     with <var>encoding</var> and <a><i>isFilename</i></a> set to true,\n+     followed by 0x22 0x0D 0x0A (\" CR LF), to <var>chunk</var>.\n+\n+     <li><p>Let <var>type</var> be <var>value</var>'s {{Blob/type}}, if it is not the empty string,\n+     or \"<code>application/octet-stream</code>\" otherwise.\n+\n+     <li><p>Append `<code>Content-Type: </code>`, followed by the result of\n+     <a>isomorphic encoding</a> <var>type</var>, to <var>chunk</var>.\n+\n+     <li><p>Append 0x0D 0x0A 0x0D 0x0A (CR LF CR LF) to <var>chunk</var>.\n+\n+     <li><p><a for=list>Append</a> <var>chunk</var>, followed by <var>value</var>, followed by the\n+     <a for=/>byte sequence</a> 0x0D 0x0A (CR LF), to <var>outputChunks</var>.\n+    </ol>\n+  </ol>\n+\n+ <li><p><a for=list>Append</a> the <a for=/>byte sequence</a> containing `<code>--</code>`,\n+ followed by <var>boundary</var>, followed by `<code>--</code>`, followed by 0x0D 0x0A (CR LF), to\n+ <var>outputChunks</var>.\n+\n+ <li><p>Return the tuple (<var>boundary</var>, <var>outputChunks</var>).\n+</ol>\n+</div>\n+\n+<hr>\n+\n+<div algorithm>\n+<p>The <dfn export for=\"multipart/form-data\">length</dfn> of a <code>multipart/form-data</code>\n+payload, given a list of chunks <var>chunks</var> which can be either <a for=/>byte sequences</a> or\n+{{File}} objects, is the result of running the following steps:\n+\n+<ol>\n+ <li><p>Let <var>length</var> be 0.\n+\n+ <li>\n+  <p><a for=list>For each</a> <var>chunk</var> of <var>chunks</var>:\n+\n+  <ol>\n+   <li>\n+    <p>If <var>chunk</var> is a <a for=/>byte sequence</a>:\n+\n+    <ol>\n+     <li><p>Increase <var>length</var> by <var>chunk</var>'s <a for=\"byte sequence\">length</a>.\n+    </ol>\n+\n+   <li>\n+    <p>Otherwise:\n+\n+    <ol>\n+     <li><p><a for=/>Assert</a>: <var>chunk</var> is a {{File}}.\n+\n+     <li><p>Increase <var>length</var> by <var>chunk</var>'s {{Blob/size}}.\n+    </ol>\n+  </ol>\n+\n+ <li><p>Return <var>length</var>.\n+</ol>\n+</div>\n+\n+<div algorithm>\n+<p>To <dfn export>create a <code>multipart/form-data</code> readable stream</dfn> from a list of\n+chunks <var>chunks</var> which can be either <a for=/>byte sequences</a> or {{File}} objects:\n+\n+<ol>\n+ <li><p>Let <var>fileStream</var> be null.\n+\n+ <li><p>Let <var>stream</var> be a <a>new</a> {{ReadableStream}}.\n+\n+ <li>\n+  <p>Let <var>pullAlgorithm</var> be an algorithm that runs the following steps:\n+\n+  <dl class=switch>\n+   <dt>If <var>fileStream</var> is null and <var>chunks</var> is not <a for=list>empty</a>\n+   <dd>\n+    <ol>\n+     <li>\n+      <p>If <var>chunks</var>[0] is a <a for=/>byte sequence</a>, then\n+      <a for=ReadableStream>enqueue</a> the result of\n+      [=ArrayBufferView/create|creating=] a {{Uint8Array}} from <var>chunks</var>[0] into\n+      <var>stream</var>.\n+\n+     <li>\n+      <p>Otherwise:\n+\n+      <ol>\n+       <li><p><a for=/>Assert</a>: <var>chunks</var>[0] is a {{File}} object.\n+\n+       <li><p>Set <var>fileStream</var> to the result of running <var>chunks</var>[0]'s\n+       {{Blob/stream}} method.\n+\n+       <li><p>Run <var>pullAlgorithm</var>.\n+      </ol>\n+\n+     <li><p><a for=list>Remove</a> the first item from <var>chunks</var>.\n+    </ol>\n+\n+   <dt>If <var>fileStream</var> is null and <var>chunks</var> is <a for=list>empty</a>\n+   <dd>\n+    <ol>\n+     <li><p><a for=ReadableStream>Close</a> <var>stream</var>.\n+    </ol>\n+\n+   <dt>If <var>fileStream</var> is not null\n+   <dd>\n+    <ol>\n+     <li>\n+      <p>Let <var>readRequest</var> be a new <a>read request</a> with the following\n+      <a for=struct>items</a>:\n+\n+      <dl>\n+       <dt><a for=\"read request\">chunk steps</a>, given <var>chunk</var>\n+       <dd>\n+        <ol>\n+         <li><p>If <var>chunk</var> is not a {{Uint8Array}} object, then <a for=ReadableStream>error</a>\n+         <var>stream</var> with a {{TypeError}} and abort these steps.\n+\n+         <li><p><a for=ReadableStream>Enqueue</a> <var>chunk</var> into <var>stream</var>.\n+        </ol>\n+\n+       <dt><a for=\"read request\">close steps</a>\n+       <dd>\n+        <ol>\n+         <li><p>Set <var>fileStream</var> to null.\n+\n+         <li><p>Run <var>pullAlgorithm</var>.\n+        </ol>\n+\n+       <dt><a for=\"read request\">error steps</a>, given <var>e</var>\n+       <dd>\n+        <ol>\n+         <li><p><a for=ReadableStream>Error</a> <var>stream</var> with <var>e</var>.\n+        </ol>\n+      </dl>\n+\n+     <li><p>Let <var>reader</var> be the result of <a for=ReadableStream>getting a reader</a> for\n+     <var>fileStream</var>.\n+\n+     <li><p><a for=ReadableStreamDefaultReader>Read a chunk</a> from <var>reader</var> with\n+     <var>readRequest</var>.\n+    </ol>\n+  </dl>\n+\n+ <li>\n+  <p>Let <var>cancelAlgorithm</var> be an algorithm that runs the following steps, given\n+  <var>reason</var>:\n+\n+  <ol>\n+   <li><p>If <var>fileStream</var> is not null, then <a for=ReadableStream>cancel</a>\n+   <var>fileStream</var> with <var>reason</var>.\n+  </ol>\n+\n+ <li><p><a for=ReadableStream>Set up</a> <var>stream</var> with\n+ <a for=\"ReadableStream/set up\"><var>pullAlgorithm</var></a> set to <var>pullAlgorithm</var> and\n+ <a for=\"ReadableStream/set up\"><var>cancelAlgorithm</var></a> set to <var>cancelAlgorithm</var>.\n+\n+ <li><p>Return <var>stream</var>.\n+</ol>\n+</div>\n+\n+<h4 id=multipart-form-data-parsing>Parsing</h4>\n+\n+<div algorithm>\n+<p>The <dfn export><code>multipart/form-data</code> parser</dfn> takes a <a for=/>byte sequence</a>\n+<var>input</var> and a <a for=/>MIME type</a> <var>mimeType</var>, and returns either an\n+<a for=/>entry list</a> or failure:\n+\n+<ol>\n+ <li><p><a for=/>Assert</a>: <var>mimeType</var>'s <a for=\"MIME type\">essence</a> is\n+ \"<code>multipart/form-data</code>\".\n+\n+ <li><p>If <var>mimeType</var>'s <a for=\"MIME type\">parameters</a>[\"<code>boundary</code>\"] does not\n+ <a for=map>exist</a>, then return failure.\n+\n+ <li>\n+  <p>Let <var>boundary</var> be the result of <a>UTF-8 encoding</a> <var>mimeType</var>'s\n+  <a for=\"MIME type\">parameters</a>[\"<code>boundary</code>\"].\n+\n+  <p class=note>The definition of <a for=/>MIME type</a> in Mime Sniffing has the\n+  <a for=\"MIME type\">parameter</a> values being <a>ASCII strings</a>, but the\n+  <a lt=\"parse a MIME type\">parse a MIME type</a> algorithm can create\n+  <a>MIME type records</a> containing non-ASCII parameter values. See\n+  <a href=\"https://github.com/whatwg/mimesniff/issues/141\">whatwg/mimesniff#141</a>.\n+\n+ <li><p>Let <var>entryList</var> be an empty <a for=/>entry list</a>.\n+\n+ <li><p>Let <var>position</var> be a pointer to a byte in <var>input</var>, initially pointing at\n+ the first byte.\n+\n+ <li>\n+  <p>While true:\n+\n+  <ol>\n+   <li><p>If <var>position</var> does not point to a sequence of bytes starting with 0x2D 0x2D\n+   (`<code>--</code>`) followed by <var>boundary</var>, then return failure.\n+\n+   <li><p>Advance <var>position</var> by 2 + the length of <var>boundary</var>.\n+\n+   <li><p>Collect a sequence of bytes that are <a>HTTP tab or space bytes</a> given\n+   <var>position</var>. (Do nothing with those bytes.)\n+\n+   <li>\n+    <p>If <var>position</var> points to a sequence of bytes starting with 0x2D 0x2D\n+    (`<code>--</code>`):\n+\n+    <ol>\n+     <li><p>If <var>position</var> + 2 points to the end of <var>input</var>, or\n+     <var>position</var> + 2 points to a sequence of bytes starting with 0x0D 0x0A (CR LF), then\n+     return <var>entryList</var>.",
+    "path": "fetch.bs",
+    "commit_id": "4af534c22feaddb7f8ccbff1adec5f219cc7218b",
+    "original_commit_id": "4af534c22feaddb7f8ccbff1adec5f219cc7218b",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Thanks, this uncovered some more issues.",
+    "created_at": "2026-09-09T16:01:11Z",
+    "updated_at": "2026-09-09T16:01:12Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1922#discussion_r3970501852",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1922",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3970501852"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1922#discussion_r3970501852"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1922"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3970501852/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 10114,
+    "side": "RIGHT",
+    "in_reply_to_id": 3168431077,
+    "author_association": "MEMBER",
+    "original_position": 411,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/4102270345",
+    "pull_request_review_id": 5314907046,
+    "id": 4102270345,
+    "node_id": "PRRC_kwDOAFgnJc70g62J",
+    "diff_hunk": "@@ -10317,17 +10319,17 @@ chunks <var>chunks</var> which can be either <a for=/>byte sequences</a> or {{Fi\n \n    <li><p>Advance <var>position</var> by 2 + the length of <var>boundary</var>.\n \n-   <li><p><a>Collect a sequence of bytes</a> that are <a>HTTP tab or space bytes</a> given\n+   <li><p>Collect a sequence of bytes that are <a>HTTP tab or space bytes</a> given",
+    "path": "fetch.bs",
+    "commit_id": "0e68e58df03b1337414a2644c9d8ea83ce39fc47",
+    "original_commit_id": "0e68e58df03b1337414a2644c9d8ea83ce39fc47",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Should this use isomorphic decode + collect a sequence of code points? Or define collect a sequence of bytes?",
+    "created_at": "2026-09-25T07:35:44Z",
+    "updated_at": "2026-09-25T07:42:51Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1922#discussion_r4102270345",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1922",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/4102270345"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1922#discussion_r4102270345"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1922"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/4102270345/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 10322,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 51,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

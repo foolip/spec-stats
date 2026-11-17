@@ -1,0 +1,789 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1160106055",
+    "pull_request_review_id": 1375345615,
+    "id": 1160106055,
+    "node_id": "PRRC_kwDOGdsLdc5FJdBH",
+    "diff_hunk": "@@ -535,15 +549,17 @@ The <dfn method for=FileSystemFileHandle>createWritable(|options|)</dfn> method\n      The returned {{FileSystemSyncAccessHandle}} offers synchronous methods. This allows for higher performance\n      on contexts where asynchronous operations come with high overhead, e.g., WebAssembly.\n \n-     For the time being, this method will only succeed when the |fileHandle| belongs to the\n-     [=origin private file system=].\n+     For the time being, this method will only succeed when the |fileHandle|\n+     [=FileSystemHandle/is in an origin private file system=].\n </div>\n \n <div algorithm>\n The <dfn method for=FileSystemFileHandle>createSyncAccessHandle()</dfn> method steps are:\n \n 1. Let |result| be [=a new promise=].\n 1. Let |locator| be [=this=]'s [=FileSystemHandle/locator=].\n+1. Let |isInOriginPrivateFileSystem| be whether\n+   [=this=] [=FileSystemHandle/is in an origin private file system=].",
+    "path": "index.bs",
+    "commit_id": "355151dbf8632909196b51d205b975bce205a427",
+    "original_commit_id": "2b149ba55527cfaddc718757b4b45e85b36157e0",
+    "user": {
+      "login": "a-sully",
+      "id": 77407429,
+      "node_id": "MDQ6VXNlcjc3NDA3NDI5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77407429?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/a-sully",
+      "html_url": "https://github.com/a-sully",
+      "followers_url": "https://api.github.com/users/a-sully/followers",
+      "following_url": "https://api.github.com/users/a-sully/following{/other_user}",
+      "gists_url": "https://api.github.com/users/a-sully/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/a-sully/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/a-sully/subscriptions",
+      "organizations_url": "https://api.github.com/users/a-sully/orgs",
+      "repos_url": "https://api.github.com/users/a-sully/repos",
+      "events_url": "https://api.github.com/users/a-sully/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/a-sully/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Alternatively we could specify \"origin private file system\"-ness on the `file system locator` so that it can be checked in parallel, but that seemed less easy to understand",
+    "created_at": "2023-04-06T18:04:20Z",
+    "updated_at": "2023-04-06T20:35:25Z",
+    "html_url": "https://github.com/whatwg/fs/pull/110#discussion_r1160106055",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/110",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1160106055"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/110#discussion_r1160106055"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/110"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1160106055/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 561,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 623,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 46,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1160107260",
+    "pull_request_review_id": 1375345615,
+    "id": 1160107260,
+    "node_id": "PRRC_kwDOGdsLdc5FJdT8",
+    "diff_hunk": "@@ -552,12 +568,13 @@ The <dfn method for=FileSystemFileHandle>createSyncAccessHandle()</dfn> method s\n   1. If |access| is not \"{{PermissionState/granted}}\",\n      [=reject=] |result| with a \"{{NotAllowedError}}\" {{DOMException}} and abort.\n \n+  1. If |isInOriginPrivateFileSystem| is true, [=reject=] |result|\n+     with an \"{{InvalidStateError}}\" {{DOMException}} and abort.",
+    "path": "index.bs",
+    "commit_id": "355151dbf8632909196b51d205b975bce205a427",
+    "original_commit_id": "2b149ba55527cfaddc718757b4b45e85b36157e0",
+    "user": {
+      "login": "a-sully",
+      "id": 77407429,
+      "node_id": "MDQ6VXNlcjc3NDA3NDI5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77407429?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/a-sully",
+      "html_url": "https://github.com/a-sully",
+      "followers_url": "https://api.github.com/users/a-sully/followers",
+      "following_url": "https://api.github.com/users/a-sully/following{/other_user}",
+      "gists_url": "https://api.github.com/users/a-sully/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/a-sully/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/a-sully/subscriptions",
+      "organizations_url": "https://api.github.com/users/a-sully/orgs",
+      "repos_url": "https://api.github.com/users/a-sully/repos",
+      "events_url": "https://api.github.com/users/a-sully/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/a-sully/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Don't you worry, #95 will get rid of this in-parallel promise rejection :)",
+    "created_at": "2023-04-06T18:05:47Z",
+    "updated_at": "2023-04-06T20:35:25Z",
+    "html_url": "https://github.com/whatwg/fs/pull/110#discussion_r1160107260",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/110",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1160107260"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/110#discussion_r1160107260"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/110"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1160107260/reactions",
+      "total_count": 1,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 1,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 571,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 572,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 55,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1160108901",
+    "pull_request_review_id": 1375345615,
+    "id": 1160108901,
+    "node_id": "PRRC_kwDOGdsLdc5FJdtl",
+    "diff_hunk": "@@ -297,6 +297,20 @@ A {{FileSystemHandle}} object is associated with a <dfn for=FileSystemHandle exp\n Note: Multiple {{FileSystemHandle}} objects can have\n [=the same locator as|the same=] [=/file system locator=].\n \n+A {{FileSystemHandle}}\n+<dfn for=FileSystemHandle export>is in an origin private file system</dfn>\n+if the first [=list/item=] of its [=FileSystemHandle/locator=]'s\n+[=file system locator/path=] is the empty string.",
+    "path": "index.bs",
+    "commit_id": "355151dbf8632909196b51d205b975bce205a427",
+    "original_commit_id": "2b149ba55527cfaddc718757b4b45e85b36157e0",
+    "user": {
+      "login": "a-sully",
+      "id": 77407429,
+      "node_id": "MDQ6VXNlcjc3NDA3NDI5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77407429?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/a-sully",
+      "html_url": "https://github.com/a-sully",
+      "followers_url": "https://api.github.com/users/a-sully/followers",
+      "following_url": "https://api.github.com/users/a-sully/following{/other_user}",
+      "gists_url": "https://api.github.com/users/a-sully/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/a-sully/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/a-sully/subscriptions",
+      "organizations_url": "https://api.github.com/users/a-sully/orgs",
+      "repos_url": "https://api.github.com/users/a-sully/repos",
+      "events_url": "https://api.github.com/users/a-sully/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/a-sully/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Another option here is to define \"the root directory of the origin private file system\" and check whether the handle \"resolves\" to that, but that doesn't set us up well for a multi-OPFS future (#92)\r\n\r\nEventually it would be nice to use Storage Buckets here, but I think this is the best we can do for now",
+    "created_at": "2023-04-06T18:08:00Z",
+    "updated_at": "2023-04-06T20:35:25Z",
+    "html_url": "https://github.com/whatwg/fs/pull/110#discussion_r1160108901",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/110",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1160108901"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/110#discussion_r1160108901"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/110"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1160108901/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 347,
+    "original_line": 347,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 16,
+    "position": 16,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1160374876",
+    "pull_request_review_id": 1375739209,
+    "id": 1160374876,
+    "node_id": "PRRC_kwDOGdsLdc5FKepc",
+    "diff_hunk": "@@ -297,6 +297,20 @@ A {{FileSystemHandle}} object is associated with a <dfn for=FileSystemHandle exp\n Note: Multiple {{FileSystemHandle}} objects can have\n [=the same locator as|the same=] [=/file system locator=].\n \n+A {{FileSystemHandle}}\n+<dfn for=FileSystemHandle export>is in an origin private file system</dfn>\n+if the first [=list/item=] of its [=FileSystemHandle/locator=]'s\n+[=file system locator/path=] is the empty string.",
+    "path": "index.bs",
+    "commit_id": "355151dbf8632909196b51d205b975bce205a427",
+    "original_commit_id": "2b149ba55527cfaddc718757b4b45e85b36157e0",
+    "user": {
+      "login": "a-sully",
+      "id": 77407429,
+      "node_id": "MDQ6VXNlcjc3NDA3NDI5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77407429?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/a-sully",
+      "html_url": "https://github.com/a-sully",
+      "followers_url": "https://api.github.com/users/a-sully/followers",
+      "following_url": "https://api.github.com/users/a-sully/following{/other_user}",
+      "gists_url": "https://api.github.com/users/a-sully/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/a-sully/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/a-sully/subscriptions",
+      "organizations_url": "https://api.github.com/users/a-sully/orgs",
+      "repos_url": "https://api.github.com/users/a-sully/repos",
+      "events_url": "https://api.github.com/users/a-sully/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/a-sully/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Just kidding, I just realized that I've been confusing the incubating [Storage Buckets API](https://wicg.github.io/storage-buckets/) with the already-specified [storage bucket concept](https://storage.spec.whatwg.org/#storage-bucket).\r\n\r\nWe could give a \"file system root\" the option to be/have a \"storage bucket\" (or bottle?), but there's currently no way to get a bucket from the current environment AFAICT? Sorry, I'm not as familiar with how this model is intended to work and I don't have all the context for the issues listed here https://wicg.github.io/storage-buckets/#storage-bucket-getdirectory @evanstade @ayuishii",
+    "created_at": "2023-04-07T01:41:44Z",
+    "updated_at": "2023-04-07T04:48:36Z",
+    "html_url": "https://github.com/whatwg/fs/pull/110#discussion_r1160374876",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/110",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1160374876"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/110#discussion_r1160374876"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/110"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1160374876/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 347,
+    "original_line": 347,
+    "side": "RIGHT",
+    "in_reply_to_id": 1160108901,
+    "author_association": "COLLABORATOR",
+    "original_position": 16,
+    "position": 16,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1160766995",
+    "pull_request_review_id": 1376298391,
+    "id": 1160766995,
+    "node_id": "PRRC_kwDOGdsLdc5FL-YT",
+    "diff_hunk": "@@ -297,6 +297,20 @@ A {{FileSystemHandle}} object is associated with a <dfn for=FileSystemHandle exp\n Note: Multiple {{FileSystemHandle}} objects can have\n [=the same locator as|the same=] [=/file system locator=].\n \n+A {{FileSystemHandle}}\n+<dfn for=FileSystemHandle export>is in an origin private file system</dfn>\n+if the first [=list/item=] of its [=FileSystemHandle/locator=]'s\n+[=file system locator/path=] is the empty string.",
+    "path": "index.bs",
+    "commit_id": "355151dbf8632909196b51d205b975bce205a427",
+    "original_commit_id": "2b149ba55527cfaddc718757b4b45e85b36157e0",
+    "user": {
+      "login": "evanstade",
+      "id": 1127449,
+      "node_id": "MDQ6VXNlcjExMjc0NDk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1127449?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/evanstade",
+      "html_url": "https://github.com/evanstade",
+      "followers_url": "https://api.github.com/users/evanstade/followers",
+      "following_url": "https://api.github.com/users/evanstade/following{/other_user}",
+      "gists_url": "https://api.github.com/users/evanstade/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/evanstade/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/evanstade/subscriptions",
+      "organizations_url": "https://api.github.com/users/evanstade/orgs",
+      "repos_url": "https://api.github.com/users/evanstade/repos",
+      "events_url": "https://api.github.com/users/evanstade/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/evanstade/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "OPFS is a storage endpoint and there's one storage bottle inside a storage bucket for each storage endpoint. (The endpoint is like a class, whereas the bottle is an instance of that class.) A storage shelf equates to a storage partition defined by a StorageKey. So a shelf contains buckets which contains bottles.\r\n\r\nThe issue mentioned in the storage buckets spec is that we need a version of [this algorithm](https://whatpr.org/fs/110.html#dom-storagemanager-getdirectory) which works for any bucket. You'll notice if you drill down into \"obtain a local storage bottle map\" that it currently assumes the \"default\" bucket. This just means passing an additional parameter.\r\n\r\nWe do not currently have a way to go from bottle to bucket for any storage endpoint.",
+    "created_at": "2023-04-07T15:08:48Z",
+    "updated_at": "2023-04-07T15:08:48Z",
+    "html_url": "https://github.com/whatwg/fs/pull/110#discussion_r1160766995",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/110",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1160766995"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/110#discussion_r1160766995"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/110"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1160766995/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 347,
+    "original_line": 347,
+    "side": "RIGHT",
+    "in_reply_to_id": 1160108901,
+    "author_association": "NONE",
+    "original_position": 16,
+    "position": 16,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1160890796",
+    "pull_request_review_id": 1376476587,
+    "id": 1160890796,
+    "node_id": "PRRC_kwDOGdsLdc5FMcms",
+    "diff_hunk": "@@ -297,6 +297,20 @@ A {{FileSystemHandle}} object is associated with a <dfn for=FileSystemHandle exp\n Note: Multiple {{FileSystemHandle}} objects can have\n [=the same locator as|the same=] [=/file system locator=].\n \n+A {{FileSystemHandle}}\n+<dfn for=FileSystemHandle export>is in an origin private file system</dfn>\n+if the first [=list/item=] of its [=FileSystemHandle/locator=]'s\n+[=file system locator/path=] is the empty string.",
+    "path": "index.bs",
+    "commit_id": "355151dbf8632909196b51d205b975bce205a427",
+    "original_commit_id": "2b149ba55527cfaddc718757b4b45e85b36157e0",
+    "user": {
+      "login": "a-sully",
+      "id": 77407429,
+      "node_id": "MDQ6VXNlcjc3NDA3NDI5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77407429?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/a-sully",
+      "html_url": "https://github.com/a-sully",
+      "followers_url": "https://api.github.com/users/a-sully/followers",
+      "following_url": "https://api.github.com/users/a-sully/following{/other_user}",
+      "gists_url": "https://api.github.com/users/a-sully/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/a-sully/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/a-sully/subscriptions",
+      "organizations_url": "https://api.github.com/users/a-sully/orgs",
+      "repos_url": "https://api.github.com/users/a-sully/repos",
+      "events_url": "https://api.github.com/users/a-sully/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/a-sully/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Thanks for the clarification @estade. I filed #112 to track making `getDirectory()` work for non-default buckets. Addressing https://github.com/whatwg/storage/issues/2 seems like a prerequisite for adding another parameter to \"obtain a local storage bottle map\"?\r\n\r\n> We do not currently have a way to go from bottle to bucket for any storage endpoint.\r\n\r\nWe just need some way to tie a FileSystemHandle to its root (i.e. two files of the same \"file system path\" must be considered different if they're from different buckets). There's one OPFS instance per storage bucket, though since there's also only one \"fileSystem\" bottle per bucket, then using the bottle would also work... though currently, it seems like it's only possible to get a \"storage bottle map\" and not the storage bottle itself. It seems a bit clumsy to associate a \"storage bottle map\" with each \"file system locator\"\r\n\r\nWhich raises the question of... why don't we just point to the directory entry at `map[\"root\"]` directly? That would essentially make every \"file system locator\" a relative path, which on one hand could improve the hand-waviness of the recently-added \"[locate an entry](https://fs.spec.whatwg.org/#locating-an-entry)\" and \"[get the locator](https://fs.spec.whatwg.org/#getting-the-locator)\" methods, but on the other hand re-raises some of the questions of #59 (i.e. what happens if a root is deleted or moved? https://github.com/whatwg/fs/pull/9#discussion_r1045021650)\r\n\r\nSo, for now at least, I'd prefer to keep \"file system locators\" absolute and find a way to point to a bottle/bucket :)",
+    "created_at": "2023-04-07T18:45:38Z",
+    "updated_at": "2023-04-07T18:45:39Z",
+    "html_url": "https://github.com/whatwg/fs/pull/110#discussion_r1160890796",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/110",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1160890796"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/110#discussion_r1160890796"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/110"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1160890796/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 347,
+    "original_line": 347,
+    "side": "RIGHT",
+    "in_reply_to_id": 1160108901,
+    "author_association": "COLLABORATOR",
+    "original_position": 16,
+    "position": 16,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1160924638",
+    "pull_request_review_id": 1376527809,
+    "id": 1160924638,
+    "node_id": "PRRC_kwDOGdsLdc5FMk3e",
+    "diff_hunk": "@@ -297,6 +297,20 @@ A {{FileSystemHandle}} object is associated with a <dfn for=FileSystemHandle exp\n Note: Multiple {{FileSystemHandle}} objects can have\n [=the same locator as|the same=] [=/file system locator=].\n \n+A {{FileSystemHandle}}\n+<dfn for=FileSystemHandle export>is in an origin private file system</dfn>\n+if the first [=list/item=] of its [=FileSystemHandle/locator=]'s\n+[=file system locator/path=] is the empty string.",
+    "path": "index.bs",
+    "commit_id": "355151dbf8632909196b51d205b975bce205a427",
+    "original_commit_id": "2b149ba55527cfaddc718757b4b45e85b36157e0",
+    "user": {
+      "login": "evanstade",
+      "id": 1127449,
+      "node_id": "MDQ6VXNlcjExMjc0NDk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1127449?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/evanstade",
+      "html_url": "https://github.com/evanstade",
+      "followers_url": "https://api.github.com/users/evanstade/followers",
+      "following_url": "https://api.github.com/users/evanstade/following{/other_user}",
+      "gists_url": "https://api.github.com/users/evanstade/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/evanstade/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/evanstade/subscriptions",
+      "organizations_url": "https://api.github.com/users/evanstade/orgs",
+      "repos_url": "https://api.github.com/users/evanstade/repos",
+      "events_url": "https://api.github.com/users/evanstade/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/evanstade/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I don't think there's any reason not to have a way to retrieve a bottle. We do have ways to get a bucket, but they're currently specified [here](https://pr-preview.s3.amazonaws.com/evanstade/storage-buckets/pull/88.html#storage-bucket-open) instead of in the storage spec.",
+    "created_at": "2023-04-07T19:45:40Z",
+    "updated_at": "2023-04-07T19:45:41Z",
+    "html_url": "https://github.com/whatwg/fs/pull/110#discussion_r1160924638",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/110",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1160924638"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/110#discussion_r1160924638"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/110"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1160924638/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 347,
+    "original_line": 347,
+    "side": "RIGHT",
+    "in_reply_to_id": 1160108901,
+    "author_association": "NONE",
+    "original_position": 16,
+    "position": 16,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1211554555",
+    "pull_request_review_id": 1452934517,
+    "id": 1211554555,
+    "node_id": "PRRC_kwDOGdsLdc5INtr7",
+    "diff_hunk": "@@ -297,6 +297,20 @@ A {{FileSystemHandle}} object is associated with a <dfn for=FileSystemHandle exp\n Note: Multiple {{FileSystemHandle}} objects can have\n [=the same locator as|the same=] [=/file system locator=].\n \n+A {{FileSystemHandle}} is\n+<dfn for=FileSystemHandle export>in an origin private file system</dfn>",
+    "path": "index.bs",
+    "commit_id": "355151dbf8632909196b51d205b975bce205a427",
+    "original_commit_id": "9d65def08360746377e0746b5fcfe6e434077dbe",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "As in programming, it probably makes sense to make \"is\" part of the name here?",
+    "created_at": "2023-05-31T11:22:53Z",
+    "updated_at": "2023-05-31T11:25:45Z",
+    "html_url": "https://github.com/whatwg/fs/pull/110#discussion_r1211554555",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/110",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1211554555"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/110#discussion_r1211554555"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/110"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1211554555/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 301,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 14,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1211557259",
+    "pull_request_review_id": 1452934517,
+    "id": 1211557259,
+    "node_id": "PRRC_kwDOGdsLdc5INuWL",
+    "diff_hunk": "@@ -297,6 +297,20 @@ A {{FileSystemHandle}} object is associated with a <dfn for=FileSystemHandle exp\n Note: Multiple {{FileSystemHandle}} objects can have\n [=the same locator as|the same=] [=/file system locator=].\n \n+A {{FileSystemHandle}}\n+<dfn for=FileSystemHandle export>is in an origin private file system</dfn>\n+if the first [=list/item=] of its [=FileSystemHandle/locator=]'s\n+[=file system locator/path=] is the empty string.",
+    "path": "index.bs",
+    "commit_id": "355151dbf8632909196b51d205b975bce205a427",
+    "original_commit_id": "2b149ba55527cfaddc718757b4b45e85b36157e0",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think if we define OPFS in terms of https://storage.spec.whatwg.org/#obtain-a-local-storage-bottle-map you could make this rely less on magic. But that's a more substantial overhaul.",
+    "created_at": "2023-05-31T11:25:35Z",
+    "updated_at": "2023-05-31T11:25:46Z",
+    "html_url": "https://github.com/whatwg/fs/pull/110#discussion_r1211557259",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/110",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1211557259"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/110#discussion_r1211557259"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/110"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1211557259/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 347,
+    "original_line": 347,
+    "side": "RIGHT",
+    "in_reply_to_id": 1160108901,
+    "author_association": "MEMBER",
+    "original_position": 16,
+    "position": 16,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1228978130",
+    "pull_request_review_id": 1478468784,
+    "id": 1228978130,
+    "node_id": "PRRC_kwDOGdsLdc5JQLfS",
+    "diff_hunk": "@@ -297,6 +297,20 @@ A {{FileSystemHandle}} object is associated with a <dfn for=FileSystemHandle exp\n Note: Multiple {{FileSystemHandle}} objects can have\n [=the same locator as|the same=] [=/file system locator=].\n \n+A {{FileSystemHandle}}\n+<dfn for=FileSystemHandle export>is in an origin private file system</dfn>\n+if the first [=list/item=] of its [=FileSystemHandle/locator=]'s\n+[=file system locator/path=] is the empty string.",
+    "path": "index.bs",
+    "commit_id": "355151dbf8632909196b51d205b975bce205a427",
+    "original_commit_id": "2b149ba55527cfaddc718757b4b45e85b36157e0",
+    "user": {
+      "login": "a-sully",
+      "id": 77407429,
+      "node_id": "MDQ6VXNlcjc3NDA3NDI5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77407429?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/a-sully",
+      "html_url": "https://github.com/a-sully",
+      "followers_url": "https://api.github.com/users/a-sully/followers",
+      "following_url": "https://api.github.com/users/a-sully/following{/other_user}",
+      "gists_url": "https://api.github.com/users/a-sully/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/a-sully/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/a-sully/subscriptions",
+      "organizations_url": "https://api.github.com/users/a-sully/orgs",
+      "repos_url": "https://api.github.com/users/a-sully/repos",
+      "events_url": "https://api.github.com/users/a-sully/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/a-sully/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Ack. I'll leave this PR as just specifying OPFS-ness on a `FileSystemHandle`, then we can leave better defining the OPFS itself (in terms of the Storage spec) to a follow-up",
+    "created_at": "2023-06-14T04:45:30Z",
+    "updated_at": "2023-06-14T04:45:31Z",
+    "html_url": "https://github.com/whatwg/fs/pull/110#discussion_r1228978130",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/110",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1228978130"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/110#discussion_r1228978130"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/110"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1228978130/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 347,
+    "original_line": 347,
+    "side": "RIGHT",
+    "in_reply_to_id": 1160108901,
+    "author_association": "COLLABORATOR",
+    "original_position": 16,
+    "position": 16,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1229328572",
+    "pull_request_review_id": 1478984683,
+    "id": 1229328572,
+    "node_id": "PRRC_kwDOGdsLdc5JRhC8",
+    "diff_hunk": "@@ -605,6 +619,8 @@ The <dfn method for=FileSystemFileHandle>createSyncAccessHandle()</dfn> method s\n 1. Let |locator| be [=this=]'s [=FileSystemHandle/locator=].\n 1. Let |realm| be [=this=]'s [=relevant Realm=].\n 1. Let |global| be [=this=]'s [=relevant global object=].\n+1. Let |isInAnOriginPrivateFileSystem| be whether\n+   [=this=] [=FileSystemHandle/is in an origin private file system=].",
+    "path": "index.bs",
+    "commit_id": "355151dbf8632909196b51d205b975bce205a427",
+    "original_commit_id": "332030324cd286480433601b0e2c54a7ef1ceb42",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "> Let x be true if ...; otherwise false\r\n\r\nwould be clearer I think.",
+    "created_at": "2023-06-14T09:47:37Z",
+    "updated_at": "2023-06-14T09:49:25Z",
+    "html_url": "https://github.com/whatwg/fs/pull/110#discussion_r1229328572",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fs/pulls/110",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/comments/1229328572"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fs/pull/110#discussion_r1229328572"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fs/pulls/110"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fs/pulls/comments/1229328572/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 622,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 623,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 46,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

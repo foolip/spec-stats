@@ -1,0 +1,1070 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717394410",
+    "pull_request_review_id": 765195478,
+    "id": 717394410,
+    "node_id": "PRRC_kwDOAFgnJc4qwpHq",
+    "diff_hunk": "@@ -770,6 +770,9 @@ production as\n <ol>\n  <li><p>Let <var>value</var> be <var>header</var>'s <a for=header>value</a>.\n \n+ <li><p>If <var>value</var>'s <a for=\"byte sequence\">length</a> is greater than 128, then return\n+ false.",
+    "path": "fetch.bs",
+    "commit_id": "ed0a9cab11ab36a85454d67e38b3ab3c0c536742",
+    "original_commit_id": "482eaf1430547c346bdb50e024bdffae28ccc8e0",
+    "user": {
+      "login": "jakearchibald",
+      "id": 93594,
+      "node_id": "MDQ6VXNlcjkzNTk0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/93594?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jakearchibald",
+      "html_url": "https://github.com/jakearchibald",
+      "followers_url": "https://api.github.com/users/jakearchibald/followers",
+      "following_url": "https://api.github.com/users/jakearchibald/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jakearchibald/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jakearchibald/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jakearchibald/subscriptions",
+      "organizations_url": "https://api.github.com/users/jakearchibald/orgs",
+      "repos_url": "https://api.github.com/users/jakearchibald/repos",
+      "events_url": "https://api.github.com/users/jakearchibald/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jakearchibald/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Feels like this simple condition should go before the more complex conditions. I don't feel strongly about it though.",
+    "created_at": "2021-09-28T09:27:40Z",
+    "updated_at": "2021-09-28T09:27:40Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1312#discussion_r717394410",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1312",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717394410"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1312#discussion_r717394410"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1312"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717394410/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 774,
+    "original_line": 774,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 5,
+    "position": 5,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717394826",
+    "pull_request_review_id": 765196027,
+    "id": 717394826,
+    "node_id": "PRRC_kwDOAFgnJc4qwpOK",
+    "diff_hunk": "@@ -1038,6 +1041,75 @@ run these steps:\n  <li><p>Return <var>values</var>.\n </ol>\n \n+<p>To determine if a <a>byte sequence</a> <var>value</var> is a\n+<dfn>simple range header value</dfn>, perform the following steps. They return a <a>boolean</a>.\n+\n+<ol>\n+ <li><p>If <var>value</var> does not <a for=\"byte sequence\" lt=\"starts with\">start with</a>\n+ `<code>bytes </code>`, then return false.\n+\n+ <li><p>If the 6th <a>byte</a> of <var>value</var> is not in the range 0x30 (0) to 0x39 (9),\n+ inclusive, then return false.\n+\n+ <li><p>Let <var>rangeStartBytes</var> be the 6th <a>byte</a> of <var>value</var>.\n+\n+ <li><p>Let <var>rangeEndBytes</var> be an empty <a>byte sequence</a>.\n+\n+ <li><p>Let <var>state</var> be \"<code>rangeStart</code>\".\n+\n+ <li><p>Let <var>i</var> be 7.\n+\n+ <li>\n+  <p>While <var>i</var> is less than <var>value</var>'s <a for=\"byte sequence\">length</a>:\n+\n+  <ol>\n+   <li>\n+    <p>Switch on <var>state</var>:\n+\n+    <dl class=\"switch\">\n+     <dt>\"<code>rangeStart</code>\"\n+     <dd>\n+      <ol>\n+       <li><p>If the <var>i</var>th <a>byte</a> of <var>value</var> is 0x2D (-), then set\n+       <var>state</var> to \"<code>rangeEnd</code>\".\n+\n+       <li>\n+        <p>Otherwise:\n+\n+        <ol>\n+         <li><p>If the <var>i</var>th <a>byte</a> of <var>value</var> is not in the range 0x30 (0)\n+         to 0x39 (9), inclusive, then return false.\n+\n+         <li><p>Append the <var>i</var>th <a>byte</a> of <var>value</var> to\n+         <var>rangeStartBytes</var>.\n+        </ol>\n+      </ol>\n+\n+     <dt>\"<code>rangeEnd</code>\"\n+     <dd>\n+      <ol>\n+       <li><p>If the <var>i</var>th <a>byte</a> of <var>value</var> is not in the range 0x30 (0) to\n+       0x39 (9), inclusive, then return false.\n+\n+       <li><p>Append the <var>i</var>th <a>byte</a> of <var>value</var> to <var>rangeEndBytes</var>.\n+      </ol>\n+    </dl>\n+\n+    <li><p>Increment <var>i</var>.\n+  </ol>\n+\n+ <li>If <var>rangeEndBytes</var>'s <a for=\"byte sequence\">length</a> is 0, then return true.\n+\n+ <li><p>If <var>rangeStartBytes</var>, parsed as an integer, is greater than\n+ <var>rangeEndBytes</var>, parsed as an integer, then return false.",
+    "path": "fetch.bs",
+    "commit_id": "ed0a9cab11ab36a85454d67e38b3ab3c0c536742",
+    "original_commit_id": "482eaf1430547c346bdb50e024bdffae28ccc8e0",
+    "user": {
+      "login": "jakearchibald",
+      "id": 93594,
+      "node_id": "MDQ6VXNlcjkzNTk0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/93594?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jakearchibald",
+      "html_url": "https://github.com/jakearchibald",
+      "followers_url": "https://api.github.com/users/jakearchibald/followers",
+      "following_url": "https://api.github.com/users/jakearchibald/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jakearchibald/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jakearchibald/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jakearchibald/subscriptions",
+      "organizations_url": "https://api.github.com/users/jakearchibald/orgs",
+      "repos_url": "https://api.github.com/users/jakearchibald/repos",
+      "events_url": "https://api.github.com/users/jakearchibald/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jakearchibald/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "\"parsed as an integer\" feels hand-wavey, but I wasn't sure of the 'right' way.",
+    "created_at": "2021-09-28T09:28:13Z",
+    "updated_at": "2021-09-28T09:28:13Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1312#discussion_r717394826",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1312",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717394826"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1312#discussion_r717394826"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1312"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717394826/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1104,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 91,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717419079",
+    "pull_request_review_id": 765228478,
+    "id": 717419079,
+    "node_id": "PRRC_kwDOAFgnJc4qwvJH",
+    "diff_hunk": "@@ -1038,6 +1041,77 @@ run these steps:\n  <li><p>Return <var>values</var>.\n </ol>\n \n+<p>To determine if a <a>byte sequence</a> <var>value</var> is a\n+<dfn>simple range header value</dfn>, perform the following steps. They return a <a>boolean</a>.\n+\n+<ol>\n+ <li><p>If <var>value</var> does not <a for=\"byte sequence\">start with</a> `<code>bytes </code>`,\n+ then return false.\n+\n+ <li><p>If the 6th <a>byte</a> of <var>value</var> is not in the range 0x30 (0) to 0x39 (9),\n+ inclusive, then return false.\n+\n+ <li><p>Let <var>rangeStartBytes</var> be the 6th <a>byte</a> of <var>value</var>.",
+    "path": "fetch.bs",
+    "commit_id": "ed0a9cab11ab36a85454d67e38b3ab3c0c536742",
+    "original_commit_id": "4ef481d1df6b5d44278395bba41c78390da54849",
+    "user": {
+      "login": "yutakahirano",
+      "id": 5187874,
+      "node_id": "MDQ6VXNlcjUxODc4NzQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5187874?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yutakahirano",
+      "html_url": "https://github.com/yutakahirano",
+      "followers_url": "https://api.github.com/users/yutakahirano/followers",
+      "following_url": "https://api.github.com/users/yutakahirano/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yutakahirano/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yutakahirano/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yutakahirano/subscriptions",
+      "organizations_url": "https://api.github.com/users/yutakahirano/orgs",
+      "repos_url": "https://api.github.com/users/yutakahirano/repos",
+      "events_url": "https://api.github.com/users/yutakahirano/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yutakahirano/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Is \"_i_ th\" well-defined? I'm wondering if it's 0-based or 1-based.",
+    "created_at": "2021-09-28T09:58:58Z",
+    "updated_at": "2021-09-28T10:02:09Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1312#discussion_r717419079",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1312",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717419079"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1312#discussion_r717419079"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1312"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717419079/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1054,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 41,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717421046",
+    "pull_request_review_id": 765228478,
+    "id": 717421046,
+    "node_id": "PRRC_kwDOAFgnJc4qwvn2",
+    "diff_hunk": "@@ -1038,6 +1041,77 @@ run these steps:\n  <li><p>Return <var>values</var>.\n </ol>\n \n+<p>To determine if a <a>byte sequence</a> <var>value</var> is a\n+<dfn>simple range header value</dfn>, perform the following steps. They return a <a>boolean</a>.\n+\n+<ol>",
+    "path": "fetch.bs",
+    "commit_id": "ed0a9cab11ab36a85454d67e38b3ab3c0c536742",
+    "original_commit_id": "4ef481d1df6b5d44278395bba41c78390da54849",
+    "user": {
+      "login": "yutakahirano",
+      "id": 5187874,
+      "node_id": "MDQ6VXNlcjUxODc4NzQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5187874?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yutakahirano",
+      "html_url": "https://github.com/yutakahirano",
+      "followers_url": "https://api.github.com/users/yutakahirano/followers",
+      "following_url": "https://api.github.com/users/yutakahirano/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yutakahirano/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yutakahirano/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yutakahirano/subscriptions",
+      "organizations_url": "https://api.github.com/users/yutakahirano/orgs",
+      "repos_url": "https://api.github.com/users/yutakahirano/repos",
+      "events_url": "https://api.github.com/users/yutakahirano/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yutakahirano/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "How about using regexp?",
+    "created_at": "2021-09-28T10:01:28Z",
+    "updated_at": "2021-09-28T10:02:09Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1312#discussion_r717421046",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1312",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717421046"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1312#discussion_r717421046"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1312"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717421046/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 1047,
+    "original_line": 1047,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 34,
+    "position": 34,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717422422",
+    "pull_request_review_id": 765232965,
+    "id": 717422422,
+    "node_id": "PRRC_kwDOAFgnJc4qwv9W",
+    "diff_hunk": "@@ -1038,6 +1041,77 @@ run these steps:\n  <li><p>Return <var>values</var>.\n </ol>\n \n+<p>To determine if a <a>byte sequence</a> <var>value</var> is a\n+<dfn>simple range header value</dfn>, perform the following steps. They return a <a>boolean</a>.\n+\n+<ol>\n+ <li><p>If <var>value</var> does not <a for=\"byte sequence\">start with</a> `<code>bytes </code>`,\n+ then return false.\n+\n+ <li><p>If the 6th <a>byte</a> of <var>value</var> is not in the range 0x30 (0) to 0x39 (9),\n+ inclusive, then return false.\n+\n+ <li><p>Let <var>rangeStartBytes</var> be the 6th <a>byte</a> of <var>value</var>.",
+    "path": "fetch.bs",
+    "commit_id": "ed0a9cab11ab36a85454d67e38b3ab3c0c536742",
+    "original_commit_id": "4ef481d1df6b5d44278395bba41c78390da54849",
+    "user": {
+      "login": "jakearchibald",
+      "id": 93594,
+      "node_id": "MDQ6VXNlcjkzNTk0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/93594?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jakearchibald",
+      "html_url": "https://github.com/jakearchibald",
+      "followers_url": "https://api.github.com/users/jakearchibald/followers",
+      "following_url": "https://api.github.com/users/jakearchibald/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jakearchibald/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jakearchibald/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jakearchibald/subscriptions",
+      "organizations_url": "https://api.github.com/users/jakearchibald/orgs",
+      "repos_url": "https://api.github.com/users/jakearchibald/repos",
+      "events_url": "https://api.github.com/users/jakearchibald/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jakearchibald/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "https://infra.spec.whatwg.org/#byte-sequence-prefix was my inspiration here, which uses _i_ th, and starts at 0.",
+    "created_at": "2021-09-28T10:03:18Z",
+    "updated_at": "2021-09-28T10:31:17Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1312#discussion_r717422422",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1312",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717422422"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1312#discussion_r717422422"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1312"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717422422/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1054,
+    "side": "RIGHT",
+    "in_reply_to_id": 717419079,
+    "author_association": "COLLABORATOR",
+    "original_position": 41,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717427378",
+    "pull_request_review_id": 765240003,
+    "id": 717427378,
+    "node_id": "PRRC_kwDOAFgnJc4qwxKy",
+    "diff_hunk": "@@ -1038,6 +1041,77 @@ run these steps:\n  <li><p>Return <var>values</var>.\n </ol>\n \n+<p>To determine if a <a>byte sequence</a> <var>value</var> is a\n+<dfn>simple range header value</dfn>, perform the following steps. They return a <a>boolean</a>.\n+\n+<ol>",
+    "path": "fetch.bs",
+    "commit_id": "ed0a9cab11ab36a85454d67e38b3ab3c0c536742",
+    "original_commit_id": "4ef481d1df6b5d44278395bba41c78390da54849",
+    "user": {
+      "login": "jakearchibald",
+      "id": 93594,
+      "node_id": "MDQ6VXNlcjkzNTk0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/93594?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jakearchibald",
+      "html_url": "https://github.com/jakearchibald",
+      "followers_url": "https://api.github.com/users/jakearchibald/followers",
+      "following_url": "https://api.github.com/users/jakearchibald/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jakearchibald/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jakearchibald/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jakearchibald/subscriptions",
+      "organizations_url": "https://api.github.com/users/jakearchibald/orgs",
+      "repos_url": "https://api.github.com/users/jakearchibald/repos",
+      "events_url": "https://api.github.com/users/jakearchibald/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jakearchibald/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I haven't seen regexp used in a spec before (and it raises questions about the flavour of regexp). I'm going to switch to \"collect a sequence\". Hopefully that'll be more readable.",
+    "created_at": "2021-09-28T10:10:05Z",
+    "updated_at": "2021-09-28T10:10:05Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1312#discussion_r717427378",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1312",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717427378"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1312#discussion_r717427378"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1312"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717427378/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 1047,
+    "original_line": 1047,
+    "side": "RIGHT",
+    "in_reply_to_id": 717421046,
+    "author_association": "COLLABORATOR",
+    "original_position": 34,
+    "position": 34,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717481870",
+    "pull_request_review_id": 765314296,
+    "id": 717481870,
+    "node_id": "PRRC_kwDOAFgnJc4qw-eO",
+    "diff_hunk": "@@ -822,13 +825,13 @@ fetch(\"https://victim.example/naïve-endpoint\", {\n </code></pre>\n     </div>\n \n+   <dt>`<code>Range</code>`",
+    "path": "fetch.bs",
+    "commit_id": "ed0a9cab11ab36a85454d67e38b3ab3c0c536742",
+    "original_commit_id": "9db2a6525827bc2c3b7d00dbb0c1e73cdcebbfe5",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n   <dt>`<code>range</code>`\r\n```\r\n(it's lowercased above)",
+    "created_at": "2021-09-28T11:30:31Z",
+    "updated_at": "2021-09-28T11:38:54Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1312#discussion_r717481870",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1312",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717481870"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1312#discussion_r717481870"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1312"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717481870/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 828,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 14,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717484501",
+    "pull_request_review_id": 765314296,
+    "id": 717484501,
+    "node_id": "PRRC_kwDOAFgnJc4qw_HV",
+    "diff_hunk": "@@ -1038,6 +1041,39 @@ run these steps:\n  <li><p>Return <var>values</var>.\n </ol>\n \n+<p>To determine if a <a>byte sequence</a> <var>value</var> is a\n+<dfn>simple range header value</dfn>, perform the following steps. They return a <a>boolean</a>.\n+\n+<ol>\n+ <li><p>Let <var>data</var> be the <a>isomorphic decoding</a> of <var>value</var>.\n+\n+ <li><p>If <var>data</var> does not <a for=string>start with</a> \"<code>bytes </code>\", then return false.",
+    "path": "fetch.bs",
+    "commit_id": "ed0a9cab11ab36a85454d67e38b3ab3c0c536742",
+    "original_commit_id": "9db2a6525827bc2c3b7d00dbb0c1e73cdcebbfe5",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "While I agree with you on wrapping, until we change it I do think we should maintain consistency.",
+    "created_at": "2021-09-28T11:34:31Z",
+    "updated_at": "2021-09-28T11:38:54Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1312#discussion_r717484501",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1312",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717484501"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1312#discussion_r717484501"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1312"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717484501/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1050,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 37,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717485465",
+    "pull_request_review_id": 765314296,
+    "id": 717485465,
+    "node_id": "PRRC_kwDOAFgnJc4qw_WZ",
+    "diff_hunk": "@@ -1038,6 +1041,39 @@ run these steps:\n  <li><p>Return <var>values</var>.\n </ol>\n \n+<p>To determine if a <a>byte sequence</a> <var>value</var> is a\n+<dfn>simple range header value</dfn>, perform the following steps. They return a <a>boolean</a>.\n+\n+<ol>\n+ <li><p>Let <var>data</var> be the <a>isomorphic decoding</a> of <var>value</var>.\n+\n+ <li><p>If <var>data</var> does not <a for=string>start with</a> \"<code>bytes </code>\", then return false.\n+\n+ <li><p>Let <var>position</var> be a <a>position variable</a> for <var>data</var>, initially pointing at the 6th <a>code point</a> of <var>data</var>.\n+\n+ <li><p>Let <var>rangeStart</var> be the result of <a>collecting a sequence of code points</a> that are in the range U+0030 (0) to U+0039 (9), inclusive, from <var>data</var> given <var>position</var>.\n+\n+ <li><p>If the <a>code point</a> at <var>position</var> within <var>data</var> is not U+002D (-), then return false.\n+\n+ <li><p>Advance <var>position</var> by 1.\n+\n+ <li><p>Let <var>rangeEnd</var> be the result of <a>collecting a sequence of code points</a> that are in the range U+0030 (0) to U+0039 (9), inclusive, from <var>data</var> given <var>position</var>.",
+    "path": "fetch.bs",
+    "commit_id": "ed0a9cab11ab36a85454d67e38b3ab3c0c536742",
+    "original_commit_id": "9db2a6525827bc2c3b7d00dbb0c1e73cdcebbfe5",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Either you need to collect all code points here or you need to do another check at the end. At the moment `bytes 0-0garbage` is valid I think.",
+    "created_at": "2021-09-28T11:35:56Z",
+    "updated_at": "2021-09-28T11:38:54Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1312#discussion_r717485465",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1312",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717485465"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1312#discussion_r717485465"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1312"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717485465/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1060,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 47,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717486213",
+    "pull_request_review_id": 765314296,
+    "id": 717486213,
+    "node_id": "PRRC_kwDOAFgnJc4qw_iF",
+    "diff_hunk": "@@ -1038,6 +1041,39 @@ run these steps:\n  <li><p>Return <var>values</var>.\n </ol>\n \n+<p>To determine if a <a>byte sequence</a> <var>value</var> is a\n+<dfn>simple range header value</dfn>, perform the following steps. They return a <a>boolean</a>.\n+\n+<ol>\n+ <li><p>Let <var>data</var> be the <a>isomorphic decoding</a> of <var>value</var>.\n+\n+ <li><p>If <var>data</var> does not <a for=string>start with</a> \"<code>bytes </code>\", then return false.\n+\n+ <li><p>Let <var>position</var> be a <a>position variable</a> for <var>data</var>, initially pointing at the 6th <a>code point</a> of <var>data</var>.\n+\n+ <li><p>Let <var>rangeStart</var> be the result of <a>collecting a sequence of code points</a> that are in the range U+0030 (0) to U+0039 (9), inclusive, from <var>data</var> given <var>position</var>.\n+\n+ <li><p>If the <a>code point</a> at <var>position</var> within <var>data</var> is not U+002D (-), then return false.\n+\n+ <li><p>Advance <var>position</var> by 1.\n+\n+ <li><p>Let <var>rangeEnd</var> be the result of <a>collecting a sequence of code points</a> that are in the range U+0030 (0) to U+0039 (9), inclusive, from <var>data</var> given <var>position</var>.\n+\n+ <li>\n+  <p>If <var>rangeEnd</var>'s <a for=string>length</a> is 0, then return true.\n+\n+  <p class=\"note\">The range end can be omitted, e.g., `<code>bytes 0-</code>` is valid.\n+\n+ <li><p>If <var>rangeStart</var>, parsed as an integer, is greater than <var>rangeEnd</var>, parsed\n+ as an integer, then return false.\n+\n+ <li><p>Return true.\n+</ol>\n+\n+<p class=\"note\">A <a>simple range header value</a> is a subset of allowed range header values, but\n+it's the most common form used by user agents when requesting media or resuming downloads. This",
+    "path": "fetch.bs",
+    "commit_id": "ed0a9cab11ab36a85454d67e38b3ab3c0c536742",
+    "original_commit_id": "9db2a6525827bc2c3b7d00dbb0c1e73cdcebbfe5",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "it is*",
+    "created_at": "2021-09-28T11:37:02Z",
+    "updated_at": "2021-09-28T11:38:54Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1312#discussion_r717486213",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1312",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717486213"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1312#discussion_r717486213"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1312"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717486213/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1074,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 61,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717487150",
+    "pull_request_review_id": 765314296,
+    "id": 717487150,
+    "node_id": "PRRC_kwDOAFgnJc4qw_wu",
+    "diff_hunk": "@@ -1038,6 +1041,39 @@ run these steps:\n  <li><p>Return <var>values</var>.\n </ol>\n \n+<p>To determine if a <a>byte sequence</a> <var>value</var> is a\n+<dfn>simple range header value</dfn>, perform the following steps. They return a <a>boolean</a>.\n+\n+<ol>\n+ <li><p>Let <var>data</var> be the <a>isomorphic decoding</a> of <var>value</var>.\n+\n+ <li><p>If <var>data</var> does not <a for=string>start with</a> \"<code>bytes </code>\", then return false.\n+\n+ <li><p>Let <var>position</var> be a <a>position variable</a> for <var>data</var>, initially pointing at the 6th <a>code point</a> of <var>data</var>.\n+\n+ <li><p>Let <var>rangeStart</var> be the result of <a>collecting a sequence of code points</a> that are in the range U+0030 (0) to U+0039 (9), inclusive, from <var>data</var> given <var>position</var>.\n+\n+ <li><p>If the <a>code point</a> at <var>position</var> within <var>data</var> is not U+002D (-), then return false.\n+\n+ <li><p>Advance <var>position</var> by 1.\n+\n+ <li><p>Let <var>rangeEnd</var> be the result of <a>collecting a sequence of code points</a> that are in the range U+0030 (0) to U+0039 (9), inclusive, from <var>data</var> given <var>position</var>.\n+\n+ <li>\n+  <p>If <var>rangeEnd</var>'s <a for=string>length</a> is 0, then return true.\n+\n+  <p class=\"note\">The range end can be omitted, e.g., `<code>bytes 0-</code>` is valid.\n+\n+ <li><p>If <var>rangeStart</var>, parsed as an integer, is greater than <var>rangeEnd</var>, parsed",
+    "path": "fetch.bs",
+    "commit_id": "ed0a9cab11ab36a85454d67e38b3ab3c0c536742",
+    "original_commit_id": "9db2a6525827bc2c3b7d00dbb0c1e73cdcebbfe5",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "interpreted as decimal number is what I used in Content-Length.",
+    "created_at": "2021-09-28T11:38:23Z",
+    "updated_at": "2021-09-28T11:38:54Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1312#discussion_r717487150",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1312",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717487150"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1312#discussion_r717487150"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1312"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717487150/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1067,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 54,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717504570",
+    "pull_request_review_id": 765344634,
+    "id": 717504570,
+    "node_id": "PRRC_kwDOAFgnJc4qxEA6",
+    "diff_hunk": "@@ -1038,6 +1041,39 @@ run these steps:\n  <li><p>Return <var>values</var>.\n </ol>\n \n+<p>To determine if a <a>byte sequence</a> <var>value</var> is a\n+<dfn>simple range header value</dfn>, perform the following steps. They return a <a>boolean</a>.\n+\n+<ol>\n+ <li><p>Let <var>data</var> be the <a>isomorphic decoding</a> of <var>value</var>.\n+\n+ <li><p>If <var>data</var> does not <a for=string>start with</a> \"<code>bytes </code>\", then return false.",
+    "path": "fetch.bs",
+    "commit_id": "ed0a9cab11ab36a85454d67e38b3ab3c0c536742",
+    "original_commit_id": "9db2a6525827bc2c3b7d00dbb0c1e73cdcebbfe5",
+    "user": {
+      "login": "jakearchibald",
+      "id": 93594,
+      "node_id": "MDQ6VXNlcjkzNTk0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/93594?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jakearchibald",
+      "html_url": "https://github.com/jakearchibald",
+      "followers_url": "https://api.github.com/users/jakearchibald/followers",
+      "following_url": "https://api.github.com/users/jakearchibald/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jakearchibald/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jakearchibald/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jakearchibald/subscriptions",
+      "organizations_url": "https://api.github.com/users/jakearchibald/orgs",
+      "repos_url": "https://api.github.com/users/jakearchibald/repos",
+      "events_url": "https://api.github.com/users/jakearchibald/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jakearchibald/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Yeah, just forgot 😄 ",
+    "created_at": "2021-09-28T12:02:49Z",
+    "updated_at": "2021-09-28T12:02:49Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1312#discussion_r717504570",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1312",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717504570"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1312#discussion_r717504570"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1312"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/717504570/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1050,
+    "side": "RIGHT",
+    "in_reply_to_id": 717484501,
+    "author_association": "COLLABORATOR",
+    "original_position": 37,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/718231692",
+    "pull_request_review_id": 766303345,
+    "id": 718231692,
+    "node_id": "PRRC_kwDOAFgnJc4qz1iM",
+    "diff_hunk": "@@ -1038,6 +1041,48 @@ run these steps:\n  <li><p>Return <var>values</var>.\n </ol>\n \n+<p>To determine if a <a>byte sequence</a> <var>value</var> is a\n+<dfn>simple range header value</dfn>, perform the following steps. They return a <a>boolean</a>.\n+\n+<ol>\n+ <li><p>Let <var>data</var> be the <a>isomorphic decoding</a> of <var>value</var>.\n+\n+ <li><p>If <var>data</var> does not <a for=string>start with</a> \"<code>bytes=</code>\", then return\n+ false.\n+\n+ <li><p>Let <var>position</var> be a <a>position variable</a> for <var>data</var>, initially\n+ pointing at the 6th <a>code point</a> of <var>data</var>.\n+\n+ <li><p>Let <var>rangeStart</var> be the result of <a>collecting a sequence of code points</a> that\n+ are in the range U+0030 (0) to U+0039 (9), inclusive, from <var>data</var> given\n+ <var>position</var>.",
+    "path": "fetch.bs",
+    "commit_id": "ed0a9cab11ab36a85454d67e38b3ab3c0c536742",
+    "original_commit_id": "057361d7c6a3515d8bed15a895690a2403804f0c",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n are <a>ASCII digits</a>, from <var>data</var> given <var>position</var>.\r\n```",
+    "created_at": "2021-09-29T07:33:27Z",
+    "updated_at": "2021-09-29T07:38:05Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1312#discussion_r718231692",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1312",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/718231692"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1312#discussion_r718231692"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1312"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/718231692/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 1057,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 1058,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 45,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/718231943",
+    "pull_request_review_id": 766303345,
+    "id": 718231943,
+    "node_id": "PRRC_kwDOAFgnJc4qz1mH",
+    "diff_hunk": "@@ -1038,6 +1041,48 @@ run these steps:\n  <li><p>Return <var>values</var>.\n </ol>\n \n+<p>To determine if a <a>byte sequence</a> <var>value</var> is a\n+<dfn>simple range header value</dfn>, perform the following steps. They return a <a>boolean</a>.\n+\n+<ol>\n+ <li><p>Let <var>data</var> be the <a>isomorphic decoding</a> of <var>value</var>.\n+\n+ <li><p>If <var>data</var> does not <a for=string>start with</a> \"<code>bytes=</code>\", then return\n+ false.\n+\n+ <li><p>Let <var>position</var> be a <a>position variable</a> for <var>data</var>, initially\n+ pointing at the 6th <a>code point</a> of <var>data</var>.\n+\n+ <li><p>Let <var>rangeStart</var> be the result of <a>collecting a sequence of code points</a> that\n+ are in the range U+0030 (0) to U+0039 (9), inclusive, from <var>data</var> given\n+ <var>position</var>.\n+\n+ <li><p>If the <a>code point</a> at <var>position</var> within <var>data</var> is not U+002D (-),\n+ then return false.\n+\n+ <li><p>Advance <var>position</var> by 1.\n+\n+ <li><p>Let <var>rangeEnd</var> be the result of <a>collecting a sequence of code points</a> that\n+ are in the range U+0030 (0) to U+0039 (9), inclusive, from <var>data</var> given\n+ <var>position</var>.",
+    "path": "fetch.bs",
+    "commit_id": "ed0a9cab11ab36a85454d67e38b3ab3c0c536742",
+    "original_commit_id": "057361d7c6a3515d8bed15a895690a2403804f0c",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n are <a>ASCII digits</a>, from <var>data</var> given <var>position</var>.\r\n```",
+    "created_at": "2021-09-29T07:33:49Z",
+    "updated_at": "2021-09-29T07:38:05Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1312#discussion_r718231943",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1312",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/718231943"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1312#discussion_r718231943"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1312"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/718231943/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 1066,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 1067,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 54,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/718232180",
+    "pull_request_review_id": 766303345,
+    "id": 718232180,
+    "node_id": "PRRC_kwDOAFgnJc4qz1p0",
+    "diff_hunk": "@@ -1038,6 +1041,48 @@ run these steps:\n  <li><p>Return <var>values</var>.\n </ol>\n \n+<p>To determine if a <a>byte sequence</a> <var>value</var> is a\n+<dfn>simple range header value</dfn>, perform the following steps. They return a <a>boolean</a>.\n+\n+<ol>\n+ <li><p>Let <var>data</var> be the <a>isomorphic decoding</a> of <var>value</var>.\n+\n+ <li><p>If <var>data</var> does not <a for=string>start with</a> \"<code>bytes=</code>\", then return\n+ false.\n+\n+ <li><p>Let <var>position</var> be a <a>position variable</a> for <var>data</var>, initially\n+ pointing at the 6th <a>code point</a> of <var>data</var>.\n+\n+ <li><p>Let <var>rangeStart</var> be the result of <a>collecting a sequence of code points</a> that\n+ are in the range U+0030 (0) to U+0039 (9), inclusive, from <var>data</var> given\n+ <var>position</var>.\n+\n+ <li><p>If the <a>code point</a> at <var>position</var> within <var>data</var> is not U+002D (-),\n+ then return false.\n+\n+ <li><p>Advance <var>position</var> by 1.\n+\n+ <li><p>Let <var>rangeEnd</var> be the result of <a>collecting a sequence of code points</a> that\n+ are in the range U+0030 (0) to U+0039 (9), inclusive, from <var>data</var> given\n+ <var>position</var>.\n+\n+ <li><p>If <var>position</var> is not past the end of <var>data</var>, return false.",
+    "path": "fetch.bs",
+    "commit_id": "ed0a9cab11ab36a85454d67e38b3ab3c0c536742",
+    "original_commit_id": "057361d7c6a3515d8bed15a895690a2403804f0c",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n <li><p>If <var>position</var> is not past the end of <var>data</var>, then return false.\r\n```",
+    "created_at": "2021-09-29T07:34:09Z",
+    "updated_at": "2021-09-29T07:38:05Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1312#discussion_r718232180",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1312",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/718232180"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1312#discussion_r718232180"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1312"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/718232180/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 1069,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 56,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

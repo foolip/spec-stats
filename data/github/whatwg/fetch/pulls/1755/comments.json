@@ -1,0 +1,73 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/1637830018",
+    "pull_request_review_id": 2115166104,
+    "id": 1637830018,
+    "node_id": "PRRC_kwDOAFgnJc5hn02C",
+    "diff_hunk": "@@ -3275,6 +3289,370 @@ through TLS using ALPN. The protocol cannot be spoofed through HTTP requests in\n </div>\n \n \n+<h3 id=orb>Opaque-response blocking</h3>\n+\n+<div class=note>\n+ <p>Opaque-response blocking, also known as <abbr>ORB</abbr>, is a network filter that blocks access\n+ to <a>opaque filtered responses</a>. These responses would likely would not have been useful to the\n+ fetching party. Blocking them reduces information leakage to potential attackers.\n+\n+ <p>Essentially, CSS, JavaScript, images, and media (audio and video) can be requested across\n+ origins without the <a>CORS protocol</a>. And unfortunately except for CSS there is no MIME type\n+ enforcement. This algorithm aims to block as many responses as possible that are not one of these\n+ types (or are newer variants of those types) to avoid leaking their contents through side channels.\n+\n+ <p>The network filter combines pro-active blocking based on response headers, sniffing a limited\n+ set of bytes, and ultimately falls back to a full parse due to unfortunate (lack of) design\n+ decisions in the early days of the web platform. As a result there are still quite a few responses\n+ whose secrets can end up being revealed to attackers. Web developers are strongly encouraged to use\n+ the `<code http-header>Cross-Origin-Resource-Policy</code>` response header to defend them.",
+    "path": "fetch.bs",
+    "commit_id": "00ef4cf812e2fec947e799f54e6eae29a0a13484",
+    "original_commit_id": "0908c4bb5c1a22b59e9fa4766db07ffa9fa44b7f",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The `http-header` attribute seems to cause a build error. Try `dfn-type=http-header`",
+    "created_at": "2024-06-13T08:44:37Z",
+    "updated_at": "2024-06-13T08:44:37Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1755#discussion_r1637830018",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1755",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/1637830018"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1755#discussion_r1637830018"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1755"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/1637830018/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 3308,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 48,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

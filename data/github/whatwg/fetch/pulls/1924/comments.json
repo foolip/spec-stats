@@ -1,0 +1,217 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3160619112",
+    "pull_request_review_id": 4196516105,
+    "id": 3160619112,
+    "node_id": "PRRC_kwDOAFgnJc68Yzho",
+    "diff_hunk": "@@ -3601,9 +3604,59 @@ request <a for=/>header</a> indicates where a\n <!-- Ian Hickson told me Adam Barth researched that -->\n \n <p>Its possible <a for=header>values</a> are all the return values of\n-<a>byte-serializing a request origin</a>, given a <a for=/>request</a>.\n+<a>byte-serializing a request origin</a>, given a <a for=/>request</a>. These are represented by\n+the following <a>ABNF</a>:\n+\n+<pre><code class=lang-abnf>\n+<dfn export>serialized-ipv4</dfn>   = <a>dec-octet</a> \".\" <a>dec-octet</a> \".\" <a>dec-octet</a> \".\" <a>dec-octet</a>\n+<dfn export>dec-octet</dfn>         = DIGIT                 ; 0-9\n+                  / %x31-39 DIGIT         ; 10-99\n+                  / \"1\" 2DIGIT            ; 100-199\n+                  / \"2\" %x30-34 DIGIT     ; 200-249\n+                  / \"25\" %x30-35          ; 250-255\n+\n+<dfn export>serialized-ipv6</dfn>   =                            7( h16 \":\" ) h16\n+                  /                       \"::\" 5( h16 \":\" ) h16\n+                  / [               h16 ] \"::\" 4( h16 \":\" ) h16\n+                  / [ *1( h16 \":\" ) h16 ] \"::\" 3( h16 \":\" ) h16\n+                  / [ *2( h16 \":\" ) h16 ] \"::\" 2( h16 \":\" ) h16\n+                  / [ *3( h16 \":\" ) h16 ] \"::\"    h16 \":\"   h16\n+                  / [ *4( h16 \":\" ) h16 ] \"::\"              h16\n+                  / [ *5( h16 \":\" ) h16 ] \"::\"\n+<dfn export>h16</dfn>               = \"0\" / ( non-zero-hex 0*3hex )\n+<dfn export>non-zero-hex</dfn>      = %x31-39 / %x61-66 ; '1'-'9' or lowercase 'a'-'f'\n+<dfn export>hex</dfn>               = %x30-39 / %x61-66 ; '0'-'9' or lowercase 'a'-'f\n+\n+<dfn export>lower-alpha</dfn>       = %x61-7A\n+<dfn export>lower-alphanum</dfn>    = <a>lower-alpha</a> / DIGIT\n+<dfn export>domain-label</dfn>      = <a>lower-alphanum</a> / ( <a>lower-alphanum</a> *( <a>lower-alphanum</a> / \"-\" ) <a>lower-alphanum</a> )\n+<dfn export>serialized-domain</dfn> = *( <a>domain-label</a> \".\" ) <a>domain-label</a>\n+\n+<dfn export>serialized-scheme</dfn> = <a>lower-alpha</a> *( <a>lower-alphanum</a> / \"+\" / \"-\" / \".\" )\n+<dfn export>serialized-host</dfn>   = <a>serialized-ipv4</a> / \"[\" <a>serialized-ipv6</a> \"]\" / <a>serialized-domain</a>\n+<dfn export>serialized-port</dfn>   = 1*5DIGIT",
+    "path": "fetch.bs",
+    "commit_id": "0d064b98d05cea2d513379bca6d6458854f271e4",
+    "original_commit_id": "0d064b98d05cea2d513379bca6d6458854f271e4",
+    "user": {
+      "login": "hm-harshit",
+      "id": 34433141,
+      "node_id": "MDQ6VXNlcjM0NDMzMTQx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/34433141?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/hm-harshit",
+      "html_url": "https://github.com/hm-harshit",
+      "followers_url": "https://api.github.com/users/hm-harshit/followers",
+      "following_url": "https://api.github.com/users/hm-harshit/following{/other_user}",
+      "gists_url": "https://api.github.com/users/hm-harshit/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/hm-harshit/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/hm-harshit/subscriptions",
+      "organizations_url": "https://api.github.com/users/hm-harshit/orgs",
+      "repos_url": "https://api.github.com/users/hm-harshit/repos",
+      "events_url": "https://api.github.com/users/hm-harshit/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/hm-harshit/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "> The current rule:\n> ```abnf\n> serialized-port = 1*5DIGIT\n> ```\n> Could we use something like this here?\n\n> ```abnf\n> serialized-port = \"0\" / ( %x31-39 0*4DIGIT )\n> ```\n>",
+    "created_at": "2026-04-29T11:32:20Z",
+    "updated_at": "2026-04-29T11:32:20Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1924#discussion_r3160619112",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1924",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3160619112"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1924#discussion_r3160619112"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1924"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3160619112/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 3637,
+    "original_line": 3637,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 45,
+    "position": 45,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3161434753",
+    "pull_request_review_id": 4197470423,
+    "id": 3161434753,
+    "node_id": "PRRC_kwDOAFgnJc68b6qB",
+    "diff_hunk": "@@ -3601,9 +3604,59 @@ request <a for=/>header</a> indicates where a\n <!-- Ian Hickson told me Adam Barth researched that -->\n \n <p>Its possible <a for=header>values</a> are all the return values of\n-<a>byte-serializing a request origin</a>, given a <a for=/>request</a>.\n+<a>byte-serializing a request origin</a>, given a <a for=/>request</a>. These are represented by\n+the following <a>ABNF</a>:\n+\n+<pre><code class=lang-abnf>\n+<dfn export>serialized-ipv4</dfn>   = <a>dec-octet</a> \".\" <a>dec-octet</a> \".\" <a>dec-octet</a> \".\" <a>dec-octet</a>\n+<dfn export>dec-octet</dfn>         = DIGIT                 ; 0-9\n+                  / %x31-39 DIGIT         ; 10-99\n+                  / \"1\" 2DIGIT            ; 100-199\n+                  / \"2\" %x30-34 DIGIT     ; 200-249\n+                  / \"25\" %x30-35          ; 250-255\n+\n+<dfn export>serialized-ipv6</dfn>   =                            7( h16 \":\" ) h16\n+                  /                       \"::\" 5( h16 \":\" ) h16\n+                  / [               h16 ] \"::\" 4( h16 \":\" ) h16\n+                  / [ *1( h16 \":\" ) h16 ] \"::\" 3( h16 \":\" ) h16\n+                  / [ *2( h16 \":\" ) h16 ] \"::\" 2( h16 \":\" ) h16\n+                  / [ *3( h16 \":\" ) h16 ] \"::\"    h16 \":\"   h16\n+                  / [ *4( h16 \":\" ) h16 ] \"::\"              h16\n+                  / [ *5( h16 \":\" ) h16 ] \"::\"\n+<dfn export>h16</dfn>               = \"0\" / ( non-zero-hex 0*3hex )\n+<dfn export>non-zero-hex</dfn>      = %x31-39 / %x61-66 ; '1'-'9' or lowercase 'a'-'f'\n+<dfn export>hex</dfn>               = %x30-39 / %x61-66 ; '0'-'9' or lowercase 'a'-'f\n+\n+<dfn export>lower-alpha</dfn>       = %x61-7A\n+<dfn export>lower-alphanum</dfn>    = <a>lower-alpha</a> / DIGIT\n+<dfn export>domain-label</dfn>      = <a>lower-alphanum</a> / ( <a>lower-alphanum</a> *( <a>lower-alphanum</a> / \"-\" ) <a>lower-alphanum</a> )\n+<dfn export>serialized-domain</dfn> = *( <a>domain-label</a> \".\" ) <a>domain-label</a>\n+\n+<dfn export>serialized-scheme</dfn> = <a>lower-alpha</a> *( <a>lower-alphanum</a> / \"+\" / \"-\" / \".\" )\n+<dfn export>serialized-host</dfn>   = <a>serialized-ipv4</a> / \"[\" <a>serialized-ipv6</a> \"]\" / <a>serialized-domain</a>\n+<dfn export>serialized-port</dfn>   = 1*5DIGIT",
+    "path": "fetch.bs",
+    "commit_id": "0d064b98d05cea2d513379bca6d6458854f271e4",
+    "original_commit_id": "0d064b98d05cea2d513379bca6d6458854f271e4",
+    "user": {
+      "login": "mikewest",
+      "id": 1497,
+      "node_id": "MDQ6VXNlcjE0OTc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1497?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mikewest",
+      "html_url": "https://github.com/mikewest",
+      "followers_url": "https://api.github.com/users/mikewest/followers",
+      "following_url": "https://api.github.com/users/mikewest/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mikewest/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mikewest/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mikewest/subscriptions",
+      "organizations_url": "https://api.github.com/users/mikewest/orgs",
+      "repos_url": "https://api.github.com/users/mikewest/repos",
+      "events_url": "https://api.github.com/users/mikewest/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mikewest/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "If you want to get much more granular, we'd probably want to do something similar to `dec-octet` to spell out all the valid numbers between 0 and 65535:\r\n\r\n```\r\n  DIGIT               ; 0-9\r\n/ %x31-39 1*3DIGIT    ; 10-9999\r\n/ %x31-35 4DIGIT      ; 10000-59999\r\n/ \"6\" %x30-34 3DIGIT  ; 60000-64999\r\n/ \"65\" %x30-34 2DIGIT ; 65000-65499\r\n/ \"655\" %x30-32 DIGIT ; 65500-65529\r\n/ \"6553\" %x30-35      ; 65530-65535\r\n```\r\n\r\nThat seems like overkill to me (and, really, much of the complexity in this patch is arguably over the line of what grammar should be responsible for already). It's a kinda fun little puzzle to see what we can do with the grammar, but I'm not sure it's helpful. @annevk, WDYT?",
+    "created_at": "2026-04-29T13:41:00Z",
+    "updated_at": "2026-04-29T13:41:00Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1924#discussion_r3161434753",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1924",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3161434753"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1924#discussion_r3161434753"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1924"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3161434753/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 3637,
+    "original_line": 3637,
+    "side": "RIGHT",
+    "in_reply_to_id": 3160619112,
+    "author_association": "MEMBER",
+    "original_position": 45,
+    "position": 45,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3165126155",
+    "pull_request_review_id": 4201842460,
+    "id": 3165126155,
+    "node_id": "PRRC_kwDOAFgnJc68p_4L",
+    "diff_hunk": "@@ -3601,9 +3604,59 @@ request <a for=/>header</a> indicates where a\n <!-- Ian Hickson told me Adam Barth researched that -->\n \n <p>Its possible <a for=header>values</a> are all the return values of\n-<a>byte-serializing a request origin</a>, given a <a for=/>request</a>.\n+<a>byte-serializing a request origin</a>, given a <a for=/>request</a>. These are represented by\n+the following <a>ABNF</a>:\n+\n+<pre><code class=lang-abnf>\n+<dfn export>serialized-ipv4</dfn>   = <a>dec-octet</a> \".\" <a>dec-octet</a> \".\" <a>dec-octet</a> \".\" <a>dec-octet</a>\n+<dfn export>dec-octet</dfn>         = DIGIT                 ; 0-9\n+                  / %x31-39 DIGIT         ; 10-99\n+                  / \"1\" 2DIGIT            ; 100-199\n+                  / \"2\" %x30-34 DIGIT     ; 200-249\n+                  / \"25\" %x30-35          ; 250-255\n+\n+<dfn export>serialized-ipv6</dfn>   =                            7( h16 \":\" ) h16\n+                  /                       \"::\" 5( h16 \":\" ) h16\n+                  / [               h16 ] \"::\" 4( h16 \":\" ) h16\n+                  / [ *1( h16 \":\" ) h16 ] \"::\" 3( h16 \":\" ) h16\n+                  / [ *2( h16 \":\" ) h16 ] \"::\" 2( h16 \":\" ) h16\n+                  / [ *3( h16 \":\" ) h16 ] \"::\"    h16 \":\"   h16\n+                  / [ *4( h16 \":\" ) h16 ] \"::\"              h16\n+                  / [ *5( h16 \":\" ) h16 ] \"::\"\n+<dfn export>h16</dfn>               = \"0\" / ( non-zero-hex 0*3hex )\n+<dfn export>non-zero-hex</dfn>      = %x31-39 / %x61-66 ; '1'-'9' or lowercase 'a'-'f'\n+<dfn export>hex</dfn>               = %x30-39 / %x61-66 ; '0'-'9' or lowercase 'a'-'f\n+\n+<dfn export>lower-alpha</dfn>       = %x61-7A\n+<dfn export>lower-alphanum</dfn>    = <a>lower-alpha</a> / DIGIT\n+<dfn export>domain-label</dfn>      = <a>lower-alphanum</a> / ( <a>lower-alphanum</a> *( <a>lower-alphanum</a> / \"-\" ) <a>lower-alphanum</a> )\n+<dfn export>serialized-domain</dfn> = *( <a>domain-label</a> \".\" ) <a>domain-label</a>\n+\n+<dfn export>serialized-scheme</dfn> = <a>lower-alpha</a> *( <a>lower-alphanum</a> / \"+\" / \"-\" / \".\" )\n+<dfn export>serialized-host</dfn>   = <a>serialized-ipv4</a> / \"[\" <a>serialized-ipv6</a> \"]\" / <a>serialized-domain</a>\n+<dfn export>serialized-port</dfn>   = 1*5DIGIT",
+    "path": "fetch.bs",
+    "commit_id": "0d064b98d05cea2d513379bca6d6458854f271e4",
+    "original_commit_id": "0d064b98d05cea2d513379bca6d6458854f271e4",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "If we want to do that it's okay I think. I don't have a strong opinion.",
+    "created_at": "2026-04-30T01:14:22Z",
+    "updated_at": "2026-04-30T01:14:22Z",
+    "html_url": "https://github.com/whatwg/fetch/pull/1924#discussion_r3165126155",
+    "pull_request_url": "https://api.github.com/repos/whatwg/fetch/pulls/1924",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3165126155"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/fetch/pull/1924#discussion_r3165126155"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/fetch/pulls/1924"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/pulls/comments/3165126155/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 3637,
+    "original_line": 3637,
+    "side": "RIGHT",
+    "in_reply_to_id": 3160619112,
+    "author_association": "MEMBER",
+    "original_position": 45,
+    "position": 45,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

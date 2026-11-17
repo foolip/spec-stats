@@ -1,0 +1,645 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1342326057",
+    "pull_request_review_id": 1652177382,
+    "id": 1342326057,
+    "node_id": "PRRC_kwDOAVr2cs5QAkUp",
+    "diff_hunk": "@@ -0,0 +1,144 @@\n+# Bluetooth requestLEScan API for granted devices\n+\n+## Motivation\n+\n+The Bluetooth requestLEScan API for granted devices is a proposed expansion of the existing [requestLEScan](https://webbluetoothcg.github.io/web-bluetooth/scanning.html#dom-bluetooth-requestlescan) API to allow web apps to listen for advertisements from Bluetooth devices that have been granted permission to be used by the app. This is motivated by the following:\n+\n+* Using watchAdvertisements API to listen to advertisements from multiple granted devices requires writing redundant code, the API is using [AbortController](https://developer.mozilla.org/en-US/docs/Web/API/AbortController) for stopping the scanning activity, which is not recommended, and the API is still in development trials, not yet available to all users.\n+* The new requestLEScan API for granted devices would allow developers to write clear and concise code for listening to advertisements from granted devices, and it would avoid the confusion of what API to use for listening advertisements from bluetooth devices when requestLEScan for surrounding devices is officially launched in the future.\n+\n+## Interface\n+\n+```diff\n+dictionary BluetoothLEScanOptions {\n+  sequence<BluetoothLEScanFilterInit> filters;\n+  boolean keepRepeatedDevices = false;\n+  boolean acceptAllAdvertisements = false;\n++ boolean listenOnlyGrantedDevices = false;\n+};\n+\n+dictionary BluetoothLEScanFilterInit {\n+    sequence<BluetoothServiceUUID> services;\n+    DOMString name;\n+    DOMString namePrefix;\n+    sequence<BluetoothManufacturerDataFilterInit> manufacturerData;\n++   DOMString id;",
+    "path": "requestLEScan-for-granted-devices-explainer.md",
+    "commit_id": "76152e68d1dd0c8070dbab6ddb3901f45d6c05be",
+    "original_commit_id": "40d7aee7618ba1ed65d42ead8f387a7851ec904c",
+    "user": {
+      "login": "beaufortfrancois",
+      "id": 634478,
+      "node_id": "MDQ6VXNlcjYzNDQ3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/634478?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/beaufortfrancois",
+      "html_url": "https://github.com/beaufortfrancois",
+      "followers_url": "https://api.github.com/users/beaufortfrancois/followers",
+      "following_url": "https://api.github.com/users/beaufortfrancois/following{/other_user}",
+      "gists_url": "https://api.github.com/users/beaufortfrancois/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/beaufortfrancois/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/beaufortfrancois/subscriptions",
+      "organizations_url": "https://api.github.com/users/beaufortfrancois/orgs",
+      "repos_url": "https://api.github.com/users/beaufortfrancois/repos",
+      "events_url": "https://api.github.com/users/beaufortfrancois/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/beaufortfrancois/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Can you add an alternatives section if any?\r\nFor instance why not `sequence<BluetoothDevice> devices in `BluetoothLEScanFilterInit` instead of those two new fields proposed here?\r\n\r\nThis would allow developers to watch advertisement from granted devices with something like this:\r\n\r\n```js\r\nconst devices = await navigator.bluetooth.getDevices();\r\nconst scan = await navigator.bluetooth.requestLEScan({ devices });\r\n```\r\n\r\nOr `sequence<DOMString> ids in `BluetoothLEScanFilterInit` instead of those two new fields proposed here?\r\n\r\n```js\r\nconst devices = await navigator.bluetooth.getDevices();\r\nconst ids = devices.map(device => device.id);\r\nconst scan = await navigator.bluetooth.requestLEScan({ ids });\r\n```",
+    "created_at": "2023-10-02T06:44:24Z",
+    "updated_at": "2023-10-04T05:48:14Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/614#discussion_r1342326057",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/614",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1342326057"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/614#discussion_r1342326057"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/614"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1342326057/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 25,
+    "original_line": 25,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 25,
+    "position": 25,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1343162296",
+    "pull_request_review_id": 1653511591,
+    "id": 1343162296,
+    "node_id": "PRRC_kwDOAVr2cs5QDwe4",
+    "diff_hunk": "@@ -0,0 +1,147 @@\n+# Bluetooth requestLEScan API for granted devices\n+\n+## Motivation\n+\n+The Bluetooth requestLEScan API for granted devices is a proposed expansion of the existing [requestLEScan](https://webbluetoothcg.github.io/web-bluetooth/scanning.html#dom-bluetooth-requestlescan) API to allow web apps to listen for advertisements from Bluetooth devices that have been granted permission to be used by the app. This is motivated by the following:",
+    "path": "requestLEScan-for-granted-devices-explainer.md",
+    "commit_id": "76152e68d1dd0c8070dbab6ddb3901f45d6c05be",
+    "original_commit_id": "bf5860aad55127cc3668a78ef9407ab08a0dcb23",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\nThe Bluetooth [requestLEScan](https://webbluetoothcg.github.io/web-bluetooth/scanning.html#dom-bluetooth-requestlescan) API to allows web apps to listen for advertisements from any Bluetooth device. We propose an extension to this API that limits scanning to only devices that the web app has been granted permission to connect to. This is motivated by the following:\r\n```",
+    "created_at": "2023-10-02T21:03:12Z",
+    "updated_at": "2023-10-02T21:15:07Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/614#discussion_r1343162296",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/614",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1343162296"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/614#discussion_r1343162296"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/614"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1343162296/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 5,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 5,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1343164505",
+    "pull_request_review_id": 1653511591,
+    "id": 1343164505,
+    "node_id": "PRRC_kwDOAVr2cs5QDxBZ",
+    "diff_hunk": "@@ -0,0 +1,147 @@\n+# Bluetooth requestLEScan API for granted devices\n+\n+## Motivation\n+\n+The Bluetooth requestLEScan API for granted devices is a proposed expansion of the existing [requestLEScan](https://webbluetoothcg.github.io/web-bluetooth/scanning.html#dom-bluetooth-requestlescan) API to allow web apps to listen for advertisements from Bluetooth devices that have been granted permission to be used by the app. This is motivated by the following:\n+\n+* Using watchAdvertisements API to listen to advertisements from multiple granted devices requires writing redundant code, the API is using [AbortController](https://developer.mozilla.org/en-US/docs/Web/API/AbortController) for stopping the scanning activity, which is not recommended, and the API is still in development trials, not yet available to all users.",
+    "path": "requestLEScan-for-granted-devices-explainer.md",
+    "commit_id": "76152e68d1dd0c8070dbab6ddb3901f45d6c05be",
+    "original_commit_id": "bf5860aad55127cc3668a78ef9407ab08a0dcb23",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n* Using the watchAdvertisements API to listen to advertisements from multiple granted devices, which we believe to be the most common scenario, requires complex code to start and manage multiple scanning sessions.\r\n```",
+    "created_at": "2023-10-02T21:05:57Z",
+    "updated_at": "2023-10-02T21:15:07Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/614#discussion_r1343164505",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/614",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1343164505"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/614#discussion_r1343164505"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/614"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1343164505/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 7,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 7,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1343169339",
+    "pull_request_review_id": 1653511591,
+    "id": 1343169339,
+    "node_id": "PRRC_kwDOAVr2cs5QDyM7",
+    "diff_hunk": "@@ -0,0 +1,147 @@\n+# Bluetooth requestLEScan API for granted devices\n+\n+## Motivation\n+\n+The Bluetooth requestLEScan API for granted devices is a proposed expansion of the existing [requestLEScan](https://webbluetoothcg.github.io/web-bluetooth/scanning.html#dom-bluetooth-requestlescan) API to allow web apps to listen for advertisements from Bluetooth devices that have been granted permission to be used by the app. This is motivated by the following:\n+\n+* Using watchAdvertisements API to listen to advertisements from multiple granted devices requires writing redundant code, the API is using [AbortController](https://developer.mozilla.org/en-US/docs/Web/API/AbortController) for stopping the scanning activity, which is not recommended, and the API is still in development trials, not yet available to all users.\n+* The new requestLEScan API for granted devices would allow developers to write clear and concise code for listening to advertisements from granted devices, and it would avoid the confusion of what API to use for listening advertisements from bluetooth devices when requestLEScan for surrounding devices is officially launched in the future.",
+    "path": "requestLEScan-for-granted-devices-explainer.md",
+    "commit_id": "76152e68d1dd0c8070dbab6ddb3901f45d6c05be",
+    "original_commit_id": "bf5860aad55127cc3668a78ef9407ab08a0dcb23",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n* The requestLEScan API already supports scanning for advertisements from multiple devices and can be augmented with a way to filter advertisements to only devices the site has permission to connect to. This allows user agents to tailor the permission UI for the relevant scenario.\r\n```",
+    "created_at": "2023-10-02T21:12:09Z",
+    "updated_at": "2023-10-02T21:15:07Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/614#discussion_r1343169339",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/614",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1343169339"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/614#discussion_r1343169339"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/614"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1343169339/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 8,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 8,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1343170388",
+    "pull_request_review_id": 1653511591,
+    "id": 1343170388,
+    "node_id": "PRRC_kwDOAVr2cs5QDydU",
+    "diff_hunk": "@@ -0,0 +1,147 @@\n+# Bluetooth requestLEScan API for granted devices\n+\n+## Motivation\n+\n+The Bluetooth requestLEScan API for granted devices is a proposed expansion of the existing [requestLEScan](https://webbluetoothcg.github.io/web-bluetooth/scanning.html#dom-bluetooth-requestlescan) API to allow web apps to listen for advertisements from Bluetooth devices that have been granted permission to be used by the app. This is motivated by the following:\n+\n+* Using watchAdvertisements API to listen to advertisements from multiple granted devices requires writing redundant code, the API is using [AbortController](https://developer.mozilla.org/en-US/docs/Web/API/AbortController) for stopping the scanning activity, which is not recommended, and the API is still in development trials, not yet available to all users.\n+* The new requestLEScan API for granted devices would allow developers to write clear and concise code for listening to advertisements from granted devices, and it would avoid the confusion of what API to use for listening advertisements from bluetooth devices when requestLEScan for surrounding devices is officially launched in the future.\n+\n+## Interface\n+\n+```diff\n+dictionary BluetoothLEScanOptions {\n+  sequence<BluetoothLEScanFilterInit> filters;\n+  boolean keepRepeatedDevices = false;\n+  boolean acceptAllAdvertisements = false;\n++ boolean listenOnlyGrantedDevices = false;\n+};\n+\n+dictionary BluetoothLEScanFilterInit {\n+    sequence<BluetoothServiceUUID> services;\n+    DOMString name;\n+    DOMString namePrefix;\n+    sequence<BluetoothManufacturerDataFilterInit> manufacturerData;\n++   DOMString id;\n+};\n+\n+```\n+\n+A new flag named **listenOnlyGrantedDevices** will be added to [BluetoothLEScanOptions](https://webbluetoothcg.github.io/web-bluetooth/scanning.html#dictdef-bluetoothlescanoptions) to indicate requestLEScan is being used for listening for granted devices when it is set to `true`. This flag is needed to avoid confusion with the current experimental requestLEScan API which is for surrounding devices in the environment (i.e. including both granted and ungranted devices). The default value for listenOnlyGrantedDevices is `false`.",
+    "path": "requestLEScan-for-granted-devices-explainer.md",
+    "commit_id": "76152e68d1dd0c8070dbab6ddb3901f45d6c05be",
+    "original_commit_id": "bf5860aad55127cc3668a78ef9407ab08a0dcb23",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\nA new flag named **listenOnlyGrantedDevices** will be added to [BluetoothLEScanOptions](https://webbluetoothcg.github.io/web-bluetooth/scanning.html#dictdef-bluetoothlescanoptions) to indicate requestLEScan is being used for listening for granted devices when it is set to `true`. This flag allows the user agent to only prompt for user consent when the site is requesting information about devices it doesn't already have permission to access. The default value for listenOnlyGrantedDevices is `false`.\r\n```",
+    "created_at": "2023-10-02T21:13:40Z",
+    "updated_at": "2023-10-02T21:15:07Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/614#discussion_r1343170388",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/614",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1343170388"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/614#discussion_r1343170388"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/614"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1343170388/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 30,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 30,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1343669975",
+    "pull_request_review_id": 1652177382,
+    "id": 1343669975,
+    "node_id": "PRRC_kwDOAVr2cs5QFsbX",
+    "diff_hunk": "@@ -0,0 +1,144 @@\n+# Bluetooth requestLEScan API for granted devices\n+\n+## Motivation\n+\n+The Bluetooth requestLEScan API for granted devices is a proposed expansion of the existing [requestLEScan](https://webbluetoothcg.github.io/web-bluetooth/scanning.html#dom-bluetooth-requestlescan) API to allow web apps to listen for advertisements from Bluetooth devices that have been granted permission to be used by the app. This is motivated by the following:\n+\n+* Using watchAdvertisements API to listen to advertisements from multiple granted devices requires writing redundant code, the API is using [AbortController](https://developer.mozilla.org/en-US/docs/Web/API/AbortController) for stopping the scanning activity, which is not recommended, and the API is still in development trials, not yet available to all users.\n+* The new requestLEScan API for granted devices would allow developers to write clear and concise code for listening to advertisements from granted devices, and it would avoid the confusion of what API to use for listening advertisements from bluetooth devices when requestLEScan for surrounding devices is officially launched in the future.\n+\n+## Interface\n+\n+```diff\n+dictionary BluetoothLEScanOptions {\n+  sequence<BluetoothLEScanFilterInit> filters;\n+  boolean keepRepeatedDevices = false;\n+  boolean acceptAllAdvertisements = false;\n++ boolean listenOnlyGrantedDevices = false;\n+};\n+\n+dictionary BluetoothLEScanFilterInit {\n+    sequence<BluetoothServiceUUID> services;\n+    DOMString name;\n+    DOMString namePrefix;\n+    sequence<BluetoothManufacturerDataFilterInit> manufacturerData;\n++   DOMString id;",
+    "path": "requestLEScan-for-granted-devices-explainer.md",
+    "commit_id": "76152e68d1dd0c8070dbab6ddb3901f45d6c05be",
+    "original_commit_id": "40d7aee7618ba1ed65d42ead8f387a7851ec904c",
+    "user": {
+      "login": "beaufortfrancois",
+      "id": 634478,
+      "node_id": "MDQ6VXNlcjYzNDQ3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/634478?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/beaufortfrancois",
+      "html_url": "https://github.com/beaufortfrancois",
+      "followers_url": "https://api.github.com/users/beaufortfrancois/followers",
+      "following_url": "https://api.github.com/users/beaufortfrancois/following{/other_user}",
+      "gists_url": "https://api.github.com/users/beaufortfrancois/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/beaufortfrancois/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/beaufortfrancois/subscriptions",
+      "organizations_url": "https://api.github.com/users/beaufortfrancois/orgs",
+      "repos_url": "https://api.github.com/users/beaufortfrancois/repos",
+      "events_url": "https://api.github.com/users/beaufortfrancois/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/beaufortfrancois/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "@chengweih001 (gentle ping)",
+    "created_at": "2023-10-03T08:01:15Z",
+    "updated_at": "2023-10-04T05:48:14Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/614#discussion_r1343669975",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/614",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1343669975"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/614#discussion_r1343669975"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/614"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1343669975/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 25,
+    "original_line": 25,
+    "side": "RIGHT",
+    "in_reply_to_id": 1342326057,
+    "author_association": "COLLABORATOR",
+    "original_position": 25,
+    "position": 25,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1346126824",
+    "pull_request_review_id": 1658000763,
+    "id": 1346126824,
+    "node_id": "PRRC_kwDOAVr2cs5QPEPo",
+    "diff_hunk": "@@ -0,0 +1,144 @@\n+# Bluetooth requestLEScan API for granted devices\n+\n+## Motivation\n+\n+The Bluetooth requestLEScan API for granted devices is a proposed expansion of the existing [requestLEScan](https://webbluetoothcg.github.io/web-bluetooth/scanning.html#dom-bluetooth-requestlescan) API to allow web apps to listen for advertisements from Bluetooth devices that have been granted permission to be used by the app. This is motivated by the following:\n+\n+* Using watchAdvertisements API to listen to advertisements from multiple granted devices requires writing redundant code, the API is using [AbortController](https://developer.mozilla.org/en-US/docs/Web/API/AbortController) for stopping the scanning activity, which is not recommended, and the API is still in development trials, not yet available to all users.\n+* The new requestLEScan API for granted devices would allow developers to write clear and concise code for listening to advertisements from granted devices, and it would avoid the confusion of what API to use for listening advertisements from bluetooth devices when requestLEScan for surrounding devices is officially launched in the future.\n+\n+## Interface\n+\n+```diff\n+dictionary BluetoothLEScanOptions {\n+  sequence<BluetoothLEScanFilterInit> filters;\n+  boolean keepRepeatedDevices = false;\n+  boolean acceptAllAdvertisements = false;\n++ boolean listenOnlyGrantedDevices = false;\n+};\n+\n+dictionary BluetoothLEScanFilterInit {\n+    sequence<BluetoothServiceUUID> services;\n+    DOMString name;\n+    DOMString namePrefix;\n+    sequence<BluetoothManufacturerDataFilterInit> manufacturerData;\n++   DOMString id;",
+    "path": "requestLEScan-for-granted-devices-explainer.md",
+    "commit_id": "76152e68d1dd0c8070dbab6ddb3901f45d6c05be",
+    "original_commit_id": "40d7aee7618ba1ed65d42ead8f387a7851ec904c",
+    "user": {
+      "login": "chengweih001",
+      "id": 97704544,
+      "node_id": "U_kgDOBdLaYA",
+      "avatar_url": "https://avatars.githubusercontent.com/u/97704544?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chengweih001",
+      "html_url": "https://github.com/chengweih001",
+      "followers_url": "https://api.github.com/users/chengweih001/followers",
+      "following_url": "https://api.github.com/users/chengweih001/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chengweih001/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chengweih001/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chengweih001/subscriptions",
+      "organizations_url": "https://api.github.com/users/chengweih001/orgs",
+      "repos_url": "https://api.github.com/users/chengweih001/repos",
+      "events_url": "https://api.github.com/users/chengweih001/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chengweih001/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Thanks for the suggestion! I will create another PR to have another section to cover alternative and why we decided not to.\r\n\r\nIn short, we thought about using `sequence<DOMString> ids` in the beginning of the proposal, however, we found it would make it harder if an app wants to do different filtering for different devices. For example, to filter like what we have in [this scenario of having co2 level sensor and temp sensor](https://github.com/WebBluetoothCG/web-bluetooth/blob/main/requestLEScan-for-granted-devices-explainer.md#:~:text=The%20app%20can,byte%20is%200x2.).\r\n\r\n",
+    "created_at": "2023-10-04T16:06:11Z",
+    "updated_at": "2023-10-04T16:06:11Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/614#discussion_r1346126824",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/614",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1346126824"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/614#discussion_r1346126824"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/614"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1346126824/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 25,
+    "original_line": 25,
+    "side": "RIGHT",
+    "in_reply_to_id": 1342326057,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 25,
+    "position": 25,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1360346808",
+    "pull_request_review_id": 1679475499,
+    "id": 1360346808,
+    "node_id": "PRRC_kwDOAVr2cs5RFT64",
+    "diff_hunk": "@@ -0,0 +1,144 @@\n+# Bluetooth requestLEScan API for granted devices\n+\n+## Motivation\n+\n+The Bluetooth requestLEScan API for granted devices is a proposed expansion of the existing [requestLEScan](https://webbluetoothcg.github.io/web-bluetooth/scanning.html#dom-bluetooth-requestlescan) API to allow web apps to listen for advertisements from Bluetooth devices that have been granted permission to be used by the app. This is motivated by the following:\n+\n+* Using watchAdvertisements API to listen to advertisements from multiple granted devices requires writing redundant code, the API is using [AbortController](https://developer.mozilla.org/en-US/docs/Web/API/AbortController) for stopping the scanning activity, which is not recommended, and the API is still in development trials, not yet available to all users.\n+* The new requestLEScan API for granted devices would allow developers to write clear and concise code for listening to advertisements from granted devices, and it would avoid the confusion of what API to use for listening advertisements from bluetooth devices when requestLEScan for surrounding devices is officially launched in the future.\n+\n+## Interface\n+\n+```diff\n+dictionary BluetoothLEScanOptions {\n+  sequence<BluetoothLEScanFilterInit> filters;\n+  boolean keepRepeatedDevices = false;\n+  boolean acceptAllAdvertisements = false;\n++ boolean listenOnlyGrantedDevices = false;\n+};\n+\n+dictionary BluetoothLEScanFilterInit {\n+    sequence<BluetoothServiceUUID> services;\n+    DOMString name;\n+    DOMString namePrefix;\n+    sequence<BluetoothManufacturerDataFilterInit> manufacturerData;\n++   DOMString id;",
+    "path": "requestLEScan-for-granted-devices-explainer.md",
+    "commit_id": "76152e68d1dd0c8070dbab6ddb3901f45d6c05be",
+    "original_commit_id": "40d7aee7618ba1ed65d42ead8f387a7851ec904c",
+    "user": {
+      "login": "beaufortfrancois",
+      "id": 634478,
+      "node_id": "MDQ6VXNlcjYzNDQ3OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/634478?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/beaufortfrancois",
+      "html_url": "https://github.com/beaufortfrancois",
+      "followers_url": "https://api.github.com/users/beaufortfrancois/followers",
+      "following_url": "https://api.github.com/users/beaufortfrancois/following{/other_user}",
+      "gists_url": "https://api.github.com/users/beaufortfrancois/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/beaufortfrancois/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/beaufortfrancois/subscriptions",
+      "organizations_url": "https://api.github.com/users/beaufortfrancois/orgs",
+      "repos_url": "https://api.github.com/users/beaufortfrancois/repos",
+      "events_url": "https://api.github.com/users/beaufortfrancois/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/beaufortfrancois/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "@chengweih001 @reillyeon gentle ping",
+    "created_at": "2023-10-16T08:59:37Z",
+    "updated_at": "2023-10-16T08:59:37Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/614#discussion_r1360346808",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/614",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1360346808"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/614#discussion_r1360346808"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/614"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1360346808/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 25,
+    "original_line": 25,
+    "side": "RIGHT",
+    "in_reply_to_id": 1342326057,
+    "author_association": "COLLABORATOR",
+    "original_position": 25,
+    "position": 25,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1361130231",
+    "pull_request_review_id": 1680737622,
+    "id": 1361130231,
+    "node_id": "PRRC_kwDOAVr2cs5RITL3",
+    "diff_hunk": "@@ -0,0 +1,144 @@\n+# Bluetooth requestLEScan API for granted devices\n+\n+## Motivation\n+\n+The Bluetooth requestLEScan API for granted devices is a proposed expansion of the existing [requestLEScan](https://webbluetoothcg.github.io/web-bluetooth/scanning.html#dom-bluetooth-requestlescan) API to allow web apps to listen for advertisements from Bluetooth devices that have been granted permission to be used by the app. This is motivated by the following:\n+\n+* Using watchAdvertisements API to listen to advertisements from multiple granted devices requires writing redundant code, the API is using [AbortController](https://developer.mozilla.org/en-US/docs/Web/API/AbortController) for stopping the scanning activity, which is not recommended, and the API is still in development trials, not yet available to all users.\n+* The new requestLEScan API for granted devices would allow developers to write clear and concise code for listening to advertisements from granted devices, and it would avoid the confusion of what API to use for listening advertisements from bluetooth devices when requestLEScan for surrounding devices is officially launched in the future.\n+\n+## Interface\n+\n+```diff\n+dictionary BluetoothLEScanOptions {\n+  sequence<BluetoothLEScanFilterInit> filters;\n+  boolean keepRepeatedDevices = false;\n+  boolean acceptAllAdvertisements = false;\n++ boolean listenOnlyGrantedDevices = false;\n+};\n+\n+dictionary BluetoothLEScanFilterInit {\n+    sequence<BluetoothServiceUUID> services;\n+    DOMString name;\n+    DOMString namePrefix;\n+    sequence<BluetoothManufacturerDataFilterInit> manufacturerData;\n++   DOMString id;",
+    "path": "requestLEScan-for-granted-devices-explainer.md",
+    "commit_id": "76152e68d1dd0c8070dbab6ddb3901f45d6c05be",
+    "original_commit_id": "40d7aee7618ba1ed65d42ead8f387a7851ec904c",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Jack is out so he's unlikely to get to the PR he mentioned above for a while but the reason for not adding a `sequence<BluetoothDevice>` or `sequence<DOMString>` to `BluetoothLEScanFilterInit` is that all of the properties in a filter are ANDed together (e.g. this is how services work) so specifying multiple devices in a single filter would never match anything.\r\n\r\nThe `listenOnlyGrantedDevices` gives developers the behavior they are most likely to want by default (all advertisements they are allowed to receive) while they can provide per-device filters if they want to.",
+    "created_at": "2023-10-16T18:37:35Z",
+    "updated_at": "2023-10-16T18:37:35Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/614#discussion_r1361130231",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/614",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1361130231"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/614#discussion_r1361130231"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/614"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/1361130231/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 25,
+    "original_line": 25,
+    "side": "RIGHT",
+    "in_reply_to_id": 1342326057,
+    "author_association": "COLLABORATOR",
+    "original_position": 25,
+    "position": 25,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

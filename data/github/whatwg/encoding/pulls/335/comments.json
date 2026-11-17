@@ -1,0 +1,360 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/encoding/pulls/comments/1763183205",
+    "pull_request_review_id": 2309654707,
+    "id": 1763183205,
+    "node_id": "PRRC_kwDOAFf2rs5pGApl",
+    "diff_hunk": "@@ -2347,14 +2350,162 @@ consumers of content generated with <a>GBK</a>'s <a for=/>encoder</a>.\n      <li><p>Return <a>error</a>.\n     </ol>\n \n-   <li><p>Let <var>code point</var> be the <a>index gb18030 ranges code point</a> for\n+   <li><p>Let <var>code point</var> be null.\n+\n+   <li>\n+    <p>If <a for=\"gb18030 decoder\">is GBK</a> is false and there is a row in the table below whose\n+    first column is <a>gb18030 first</a>, second column is <a>gb18030 second</a>, third column is\n+    <a>gb18030 third</a>, and fourth column is <var>byte</var>, then set <var>code point</var> to\n+    the fifth column on the same row:",
+    "path": "encoding.bs",
+    "commit_id": "e43cf40ce0e0c46c528937b3ed49a721bc370499",
+    "original_commit_id": "e43cf40ce0e0c46c528937b3ed49a721bc370499",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Based on test results in Firefox I calculated the first override here and it appears that this is already the existing behavior of gb18030 as written in the standard. As such this table isn't needed. It's not clear to me why the Unicode recommendation calls out these four-byte sequences mapping to code points if that matches existing behavior.",
+    "created_at": "2024-09-17T12:46:34Z",
+    "updated_at": "2024-09-17T12:46:38Z",
+    "html_url": "https://github.com/whatwg/encoding/pull/335#discussion_r1763183205",
+    "pull_request_url": "https://api.github.com/repos/whatwg/encoding/pulls/335",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/encoding/pulls/comments/1763183205"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/encoding/pull/335#discussion_r1763183205"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/encoding/pulls/335"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/encoding/pulls/comments/1763183205/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 2356,
+    "original_start_line": 2356,
+    "start_side": "RIGHT",
+    "line": 2359,
+    "original_line": 2359,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 51,
+    "position": 51,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/encoding/pulls/comments/1763430611",
+    "pull_request_review_id": 2310066157,
+    "id": 1763430611,
+    "node_id": "PRRC_kwDOAFf2rs5pG9DT",
+    "diff_hunk": "@@ -2431,8 +2688,131 @@ consumers of content generated with <a>GBK</a>'s <a for=/>encoder</a>.\n   <p class=note><a>Index gb18030</a> maps 0xA3 0xA0 to U+3000 rather than U+E5E5 for\n   compatibility with deployed content. Therefore it cannot roundtrip.\n \n- <li><p>If <a>is GBK</a> is true and <var>code point</var> is\n- U+20AC, return byte 0x80.\n+ <li><p>If <a for=\"gb18030 encoder\">is GBK</a> is true and <var>code point</var> is U+20AC, then\n+ return byte 0x80.\n+\n+ <li>\n+  <p>If <a for=\"gb18030 encoder\">is GBK</a> is false and there is a row in the table below whose\n+  first column is <var>code point</var>, then return the two bytes on the same row listed in the\n+  second column:",
+    "path": "encoding.bs",
+    "commit_id": "e43cf40ce0e0c46c528937b3ed49a721bc370499",
+    "original_commit_id": "e43cf40ce0e0c46c528937b3ed49a721bc370499",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "As long as we layer this on top of the existing gb18030 index, we can remove all the U+EXXX PUA entries below as they are already in that table and map to the correct bytes.\r\n\r\nAn implementation that updates that table would need these U+EXXX mappings though, as evidenced by WebKit. (Which I assume has a completely separate implementation for GBK.)\r\n\r\nWith those U+EXXX mappings removed however it probably makes the most sense to create a small \"gb18030 2022 index\" which can be reused across the decoder and encoder as a special case when GBK is not in use. Bit more work, but overall would present the data more neatly.",
+    "created_at": "2024-09-17T15:12:32Z",
+    "updated_at": "2024-09-17T15:12:36Z",
+    "html_url": "https://github.com/whatwg/encoding/pull/335#discussion_r1763430611",
+    "pull_request_url": "https://api.github.com/repos/whatwg/encoding/pulls/335",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/encoding/pulls/comments/1763430611"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/encoding/pull/335#discussion_r1763430611"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/encoding/pulls/335"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/encoding/pulls/comments/1763430611/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 2695,
+    "original_start_line": 2695,
+    "start_side": "RIGHT",
+    "line": 2697,
+    "original_line": 2697,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 341,
+    "position": 341,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/encoding/pulls/comments/1764396847",
+    "pull_request_review_id": 2311621826,
+    "id": 1764396847,
+    "node_id": "PRRC_kwDOAFf2rs5pKo8v",
+    "diff_hunk": "@@ -2431,8 +2688,131 @@ consumers of content generated with <a>GBK</a>'s <a for=/>encoder</a>.\n   <p class=note><a>Index gb18030</a> maps 0xA3 0xA0 to U+3000 rather than U+E5E5 for\n   compatibility with deployed content. Therefore it cannot roundtrip.\n \n- <li><p>If <a>is GBK</a> is true and <var>code point</var> is\n- U+20AC, return byte 0x80.\n+ <li><p>If <a for=\"gb18030 encoder\">is GBK</a> is true and <var>code point</var> is U+20AC, then\n+ return byte 0x80.\n+\n+ <li>\n+  <p>If <a for=\"gb18030 encoder\">is GBK</a> is false and there is a row in the table below whose\n+  first column is <var>code point</var>, then return the two bytes on the same row listed in the\n+  second column:",
+    "path": "encoding.bs",
+    "commit_id": "e43cf40ce0e0c46c528937b3ed49a721bc370499",
+    "original_commit_id": "e43cf40ce0e0c46c528937b3ed49a721bc370499",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "WebKit (and presumably Chromium) having updated the table (as evidenced by https://github.com/vitorroriz/WebKit/commit/b7d4f07a3aac04e70f1d91d09be57e4dd2ded612) means GBK is impacted at the moment as well. In particular for the symmetrical mappings at the top of https://github.com/whatwg/encoding/issues/312#issuecomment-2354764499. What do we want to do for GBK? Perhaps it's okay if that gets slightly less PUA as well? @hsivonen what do you think?",
+    "created_at": "2024-09-18T05:11:43Z",
+    "updated_at": "2024-09-18T05:11:43Z",
+    "html_url": "https://github.com/whatwg/encoding/pull/335#discussion_r1764396847",
+    "pull_request_url": "https://api.github.com/repos/whatwg/encoding/pulls/335",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/encoding/pulls/comments/1764396847"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/encoding/pull/335#discussion_r1764396847"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/encoding/pulls/335"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/encoding/pulls/comments/1764396847/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 2695,
+    "original_start_line": 2695,
+    "start_side": "RIGHT",
+    "line": 2697,
+    "original_line": 2697,
+    "side": "RIGHT",
+    "in_reply_to_id": 1763430611,
+    "author_association": "MEMBER",
+    "original_position": 341,
+    "position": 341,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/encoding/pulls/comments/1764897144",
+    "pull_request_review_id": 2312426792,
+    "id": 1764897144,
+    "node_id": "PRRC_kwDOAFf2rs5pMjF4",
+    "diff_hunk": "@@ -2431,8 +2688,131 @@ consumers of content generated with <a>GBK</a>'s <a for=/>encoder</a>.\n   <p class=note><a>Index gb18030</a> maps 0xA3 0xA0 to U+3000 rather than U+E5E5 for\n   compatibility with deployed content. Therefore it cannot roundtrip.\n \n- <li><p>If <a>is GBK</a> is true and <var>code point</var> is\n- U+20AC, return byte 0x80.\n+ <li><p>If <a for=\"gb18030 encoder\">is GBK</a> is true and <var>code point</var> is U+20AC, then\n+ return byte 0x80.\n+\n+ <li>\n+  <p>If <a for=\"gb18030 encoder\">is GBK</a> is false and there is a row in the table below whose\n+  first column is <var>code point</var>, then return the two bytes on the same row listed in the\n+  second column:",
+    "path": "encoding.bs",
+    "commit_id": "e43cf40ce0e0c46c528937b3ed49a721bc370499",
+    "original_commit_id": "e43cf40ce0e0c46c528937b3ed49a721bc370499",
+    "user": {
+      "login": "hsivonen",
+      "id": 478856,
+      "node_id": "MDQ6VXNlcjQ3ODg1Ng==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/478856?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/hsivonen",
+      "html_url": "https://github.com/hsivonen",
+      "followers_url": "https://api.github.com/users/hsivonen/followers",
+      "following_url": "https://api.github.com/users/hsivonen/following{/other_user}",
+      "gists_url": "https://api.github.com/users/hsivonen/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/hsivonen/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/hsivonen/subscriptions",
+      "organizations_url": "https://api.github.com/users/hsivonen/orgs",
+      "repos_url": "https://api.github.com/users/hsivonen/repos",
+      "events_url": "https://api.github.com/users/hsivonen/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/hsivonen/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "As discussed on Matrix, given that WebKit and Chromium did not get complaints for decoding less PUA for GBK, let's keep GB18030 and GBK aligned even though it means diverging from Windows Code Page 936.",
+    "created_at": "2024-09-18T11:36:53Z",
+    "updated_at": "2024-09-18T11:36:54Z",
+    "html_url": "https://github.com/whatwg/encoding/pull/335#discussion_r1764897144",
+    "pull_request_url": "https://api.github.com/repos/whatwg/encoding/pulls/335",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/encoding/pulls/comments/1764897144"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/encoding/pull/335#discussion_r1764897144"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/encoding/pulls/335"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/encoding/pulls/comments/1764897144/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 2695,
+    "original_start_line": 2695,
+    "start_side": "RIGHT",
+    "line": 2697,
+    "original_line": 2697,
+    "side": "RIGHT",
+    "in_reply_to_id": 1763430611,
+    "author_association": "MEMBER",
+    "original_position": 341,
+    "position": 341,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/encoding/pulls/comments/1765954742",
+    "pull_request_review_id": 2314125318,
+    "id": 1765954742,
+    "node_id": "PRRC_kwDOAFf2rs5pQlS2",
+    "diff_hunk": "@@ -2431,8 +2688,131 @@ consumers of content generated with <a>GBK</a>'s <a for=/>encoder</a>.\n   <p class=note><a>Index gb18030</a> maps 0xA3 0xA0 to U+3000 rather than U+E5E5 for\n   compatibility with deployed content. Therefore it cannot roundtrip.\n \n- <li><p>If <a>is GBK</a> is true and <var>code point</var> is\n- U+20AC, return byte 0x80.\n+ <li><p>If <a for=\"gb18030 encoder\">is GBK</a> is true and <var>code point</var> is U+20AC, then\n+ return byte 0x80.\n+\n+ <li>\n+  <p>If <a for=\"gb18030 encoder\">is GBK</a> is false and there is a row in the table below whose\n+  first column is <var>code point</var>, then return the two bytes on the same row listed in the\n+  second column:",
+    "path": "encoding.bs",
+    "commit_id": "e43cf40ce0e0c46c528937b3ed49a721bc370499",
+    "original_commit_id": "e43cf40ce0e0c46c528937b3ed49a721bc370499",
+    "user": {
+      "login": "StoneChi8",
+      "id": 181920584,
+      "node_id": "U_kgDOCtfjSA",
+      "avatar_url": "https://avatars.githubusercontent.com/u/181920584?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/StoneChi8",
+      "html_url": "https://github.com/StoneChi8",
+      "followers_url": "https://api.github.com/users/StoneChi8/followers",
+      "following_url": "https://api.github.com/users/StoneChi8/following{/other_user}",
+      "gists_url": "https://api.github.com/users/StoneChi8/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/StoneChi8/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/StoneChi8/subscriptions",
+      "organizations_url": "https://api.github.com/users/StoneChi8/orgs",
+      "repos_url": "https://api.github.com/users/StoneChi8/repos",
+      "events_url": "https://api.github.com/users/StoneChi8/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/StoneChi8/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "GBK-1995 never been an offical standard, although it asign some characters in U+E8xx for GB+FExx, and 52 Chinese characters has been replaced by GB18030-2000 for unicode extension A, remained GB code GB+FExx unchanged, ex. GB+FE9F【䶮】 mapped to U+4DAE instead of U+E863.   For information interchange, we should use official GB18030-2022 mapping table enven in GBK quotation, in order to drop these duplicate unicode code to those same GB 2 bytes characters.\r\nWindows CP 936 method is wrong way to reach the GB18030 standard, i.e. remained U+E8xx characters in ttf font file (Source Han Sans & iOS never done these)，convert program using these PUA characters and assign 0x3F to 4 bytes GB18030 characters. \r\nOn the other hand, full BMP PUA code range is U+E000-U+F8FF, and SMP U+10000-U+10FFFF mapping to GB18030 is a GB+90308130~ only, no mapping table need for programming and future GB18030 amendments.  \r\nSee detail in https://zhuanlan.zhihu.com/p/661610604 for WAHTWG GB18030 convert program(in Chinese).",
+    "created_at": "2024-09-19T00:59:23Z",
+    "updated_at": "2024-09-19T02:14:43Z",
+    "html_url": "https://github.com/whatwg/encoding/pull/335#discussion_r1765954742",
+    "pull_request_url": "https://api.github.com/repos/whatwg/encoding/pulls/335",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/encoding/pulls/comments/1765954742"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/encoding/pull/335#discussion_r1765954742"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/encoding/pulls/335"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/encoding/pulls/comments/1765954742/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 2695,
+    "original_start_line": 2695,
+    "start_side": "RIGHT",
+    "line": 2697,
+    "original_line": 2697,
+    "side": "RIGHT",
+    "in_reply_to_id": 1763430611,
+    "author_association": "NONE",
+    "original_position": 341,
+    "position": 341,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

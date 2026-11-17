@@ -1,0 +1,504 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2301240014",
+    "pull_request_review_id": 3155995878,
+    "id": 2301240014,
+    "node_id": "PRRC_kwDOAys5jc6JKiLO",
+    "diff_hunk": "@@ -648,20 +648,17 @@ The <dfn method for=CookieStore>set(|name|, |value|)</dfn> method steps are:\n 1. Let |origin| be |settings|'s [=environment settings object/origin=].\n 1. If |origin| is an [=opaque origin=], then return [=a promise rejected with=] a \"{{SecurityError}}\" {{DOMException}}.\n 1. Let |url| be |settings|'s [=environment/creation URL=].\n-1. Let |domain| be null.\n-1. Let |path| be \"/\".\n-1. Let |sameSite| be {{CookieSameSite/strict}}.\n-1. Let |partitioned| be false.\n 1. Let |p| be [=a new promise=].\n 1. Run the following steps [=in parallel=]:\n     1. Let |r| be the result of running [=set a cookie=] with\n         |url|,\n         |name|,\n         |value|,\n-        |domain|,\n-        |path|,\n-        |sameSite|, and\n-        |partitioned|.\n+        null,",
+    "path": "index.bs",
+    "commit_id": "166cb5aee063672010a81a16dbfb0aeb80022849",
+    "original_commit_id": "166cb5aee063672010a81a16dbfb0aeb80022849",
+    "user": {
+      "login": "DCtheTall",
+      "id": 13906920,
+      "node_id": "MDQ6VXNlcjEzOTA2OTIw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13906920?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/DCtheTall",
+      "html_url": "https://github.com/DCtheTall",
+      "followers_url": "https://api.github.com/users/DCtheTall/followers",
+      "following_url": "https://api.github.com/users/DCtheTall/following{/other_user}",
+      "gists_url": "https://api.github.com/users/DCtheTall/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/DCtheTall/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/DCtheTall/subscriptions",
+      "organizations_url": "https://api.github.com/users/DCtheTall/orgs",
+      "repos_url": "https://api.github.com/users/DCtheTall/repos",
+      "events_url": "https://api.github.com/users/DCtheTall/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/DCtheTall/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "One thing that is kind of nice about the way the spec does this before your change is it is easy to mentally map which value is for which attribute. This new syntax makes that more difficult, is there any way we can find a compromise there?",
+    "created_at": "2025-08-26T14:44:29Z",
+    "updated_at": "2025-08-26T15:01:17Z",
+    "html_url": "https://github.com/whatwg/cookiestore/pull/288#discussion_r2301240014",
+    "pull_request_url": "https://api.github.com/repos/whatwg/cookiestore/pulls/288",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2301240014"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/cookiestore/pull/288#discussion_r2301240014"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/cookiestore/pulls/288"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2301240014/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 657,
+    "original_line": 657,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 38,
+    "position": 38,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2301279739",
+    "pull_request_review_id": 3155995878,
+    "id": 2301279739,
+    "node_id": "PRRC_kwDOAys5jc6JKr37",
+    "diff_hunk": "@@ -1084,34 +1079,34 @@ run the following steps:\n 1. Let |encodedValue| be the result of [=UTF-8 encode|UTF-8 encoding=] |value|.\n 1. If the [=byte sequence=] [=byte sequence/length=] of |encodedName| plus the [=byte sequence=] [=byte sequence/length=] of |encodedValue| is greater than the <a for=cookie>maximum name/value pair size</a>, then return failure.\n 1. Let |host| be |url|'s [=url/host=]\n-1. Let |attributes| be a new [=/list=].\n-1. If |domain| is not null, then run these steps:\n+1. Let |attributes| be « ».\n+1. If |domain| is non-null:\n     1. If |domain| starts with U+002E (.), then return failure.\n     1. If |name|, [=byte-lowercased=], [=byte sequence/starts with=] \\``__host-`\\`, then return failure.\n     1. If |domain| [=is a registrable domain suffix of or is equal to|is not a registrable domain suffix of and is not equal to=] |host|, then return failure.\n     1. Let |parsedDomain| be the result of [=host parser|host parsing=] |domain|.\n     1. Assert: |parsedDomain| is not failure.\n     1. Let |encodedDomain| be the result of [=UTF-8 encode|UTF-8 encoding=] |parsedDomain|.\n     1. If the [=byte sequence=] [=byte sequence/length=] of |encodedDomain| is greater than the [=cookie/maximum attribute value size=], then return failure.\n-    1. [=list/Append=] \\``Domain`\\`/|encodedDomain| to |attributes|.\n-1. If |expires| is given, then [=list/append=] \\``Expires`\\`/|expires| ([=date serialized=]) to |attributes|.\n+    1. [=list/Append=] (\\``Domain`\\`, |encodedDomain|) to |attributes|.\n+1. If |expires| is non-null, then [=list/append=] (\\``Expires`\\`, |expires| ([=date serialized=])) to |attributes|.\n 1. If |path| is the empty string, then set |path| to the [=/serialized cookie default path=] of |url|.\n 1. If |path| does not start with U+002F (/), then return failure.\n 1. If |path| is not U+002F (/), and |name|, [=byte-lowercased=], [=byte sequence/starts with=] \\``__host-`\\`, then return failure.\n 1. Let |encodedPath| be the result of [=UTF-8 encode|UTF-8 encoding=] |path|.\n 1. If the [=byte sequence=] [=byte sequence/length=] of |encodedPath| is greater than the [=cookie/maximum attribute value size=], then return failure.\n-1. [=list/Append=] \\``Path`\\`/|encodedPath| to |attributes|.\n-1. [=list/Append=] \\``Secure`\\`/\\`\\` to |attributes|.\n+1. [=list/Append=] (\\``Path`\\`, |encodedPath|) to |attributes|.\n+1. [=list/Append=] (\\``Secure`\\`, \\`\\`) to |attributes|.\n 1. Switch on |sameSite|:\n     <dl class=switch>\n         : \"{{CookieSameSite/none}}\"\n-        :: [=list/Append=] \\``SameSite`\\`/\\``None`\\` to |attributes|.\n+        :: [=list/Append=] (\\``SameSite`\\`, \\``None`\\`) to |attributes|.\n         : \"{{CookieSameSite/strict}}\"\n-        :: [=list/Append=] \\``SameSite`\\`/\\``Strict`\\` to |attributes|.\n+        :: [=list/Append=] (\\``SameSite`\\`, \\``Strict`\\`) to |attributes|.\n         : \"{{CookieSameSite/lax}}\"\n-        :: [=list/Append=] \\``SameSite`\\`/\\``Lax`\\` to |attributes|.\n+        :: [=list/Append=] (\\``SameSite`\\`, \\``Lax`\\`) to |attributes|.",
+    "path": "index.bs",
+    "commit_id": "166cb5aee063672010a81a16dbfb0aeb80022849",
+    "original_commit_id": "166cb5aee063672010a81a16dbfb0aeb80022849",
+    "user": {
+      "login": "DCtheTall",
+      "id": 13906920,
+      "node_id": "MDQ6VXNlcjEzOTA2OTIw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13906920?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/DCtheTall",
+      "html_url": "https://github.com/DCtheTall",
+      "followers_url": "https://api.github.com/users/DCtheTall/followers",
+      "following_url": "https://api.github.com/users/DCtheTall/following{/other_user}",
+      "gists_url": "https://api.github.com/users/DCtheTall/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/DCtheTall/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/DCtheTall/subscriptions",
+      "organizations_url": "https://api.github.com/users/DCtheTall/orgs",
+      "repos_url": "https://api.github.com/users/DCtheTall/repos",
+      "events_url": "https://api.github.com/users/DCtheTall/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/DCtheTall/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Should we add a `default` case here?",
+    "created_at": "2025-08-26T14:57:10Z",
+    "updated_at": "2025-08-26T15:01:17Z",
+    "html_url": "https://github.com/whatwg/cookiestore/pull/288#discussion_r2301279739",
+    "pull_request_url": "https://api.github.com/repos/whatwg/cookiestore/pulls/288",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2301279739"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/cookiestore/pull/288#discussion_r2301279739"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/cookiestore/pulls/288"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2301279739/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 1107,
+    "original_line": 1107,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 138,
+    "position": 138,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2336256074",
+    "pull_request_review_id": 3205441537,
+    "id": 2336256074,
+    "node_id": "PRRC_kwDOAys5jc6LQHBK",
+    "diff_hunk": "@@ -648,20 +648,17 @@ The <dfn method for=CookieStore>set(|name|, |value|)</dfn> method steps are:\n 1. Let |origin| be |settings|'s [=environment settings object/origin=].\n 1. If |origin| is an [=opaque origin=], then return [=a promise rejected with=] a \"{{SecurityError}}\" {{DOMException}}.\n 1. Let |url| be |settings|'s [=environment/creation URL=].\n-1. Let |domain| be null.\n-1. Let |path| be \"/\".\n-1. Let |sameSite| be {{CookieSameSite/strict}}.\n-1. Let |partitioned| be false.\n 1. Let |p| be [=a new promise=].\n 1. Run the following steps [=in parallel=]:\n     1. Let |r| be the result of running [=set a cookie=] with\n         |url|,\n         |name|,\n         |value|,\n-        |domain|,\n-        |path|,\n-        |sameSite|, and\n-        |partitioned|.\n+        null,",
+    "path": "index.bs",
+    "commit_id": "166cb5aee063672010a81a16dbfb0aeb80022849",
+    "original_commit_id": "166cb5aee063672010a81a16dbfb0aeb80022849",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "It was already somewhat inconsistent about this, but I don't think Infra really has anything for this other than named arguments which I don't think are warranted here.",
+    "created_at": "2025-09-10T10:08:01Z",
+    "updated_at": "2025-09-10T10:08:01Z",
+    "html_url": "https://github.com/whatwg/cookiestore/pull/288#discussion_r2336256074",
+    "pull_request_url": "https://api.github.com/repos/whatwg/cookiestore/pulls/288",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2336256074"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/cookiestore/pull/288#discussion_r2336256074"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/cookiestore/pulls/288"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2336256074/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 657,
+    "original_line": 657,
+    "side": "RIGHT",
+    "in_reply_to_id": 2301240014,
+    "author_association": "MEMBER",
+    "original_position": 38,
+    "position": 38,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2336258049",
+    "pull_request_review_id": 3205444136,
+    "id": 2336258049,
+    "node_id": "PRRC_kwDOAys5jc6LQHgB",
+    "diff_hunk": "@@ -1084,34 +1079,34 @@ run the following steps:\n 1. Let |encodedValue| be the result of [=UTF-8 encode|UTF-8 encoding=] |value|.\n 1. If the [=byte sequence=] [=byte sequence/length=] of |encodedName| plus the [=byte sequence=] [=byte sequence/length=] of |encodedValue| is greater than the <a for=cookie>maximum name/value pair size</a>, then return failure.\n 1. Let |host| be |url|'s [=url/host=]\n-1. Let |attributes| be a new [=/list=].\n-1. If |domain| is not null, then run these steps:\n+1. Let |attributes| be « ».\n+1. If |domain| is non-null:\n     1. If |domain| starts with U+002E (.), then return failure.\n     1. If |name|, [=byte-lowercased=], [=byte sequence/starts with=] \\``__host-`\\`, then return failure.\n     1. If |domain| [=is a registrable domain suffix of or is equal to|is not a registrable domain suffix of and is not equal to=] |host|, then return failure.\n     1. Let |parsedDomain| be the result of [=host parser|host parsing=] |domain|.\n     1. Assert: |parsedDomain| is not failure.\n     1. Let |encodedDomain| be the result of [=UTF-8 encode|UTF-8 encoding=] |parsedDomain|.\n     1. If the [=byte sequence=] [=byte sequence/length=] of |encodedDomain| is greater than the [=cookie/maximum attribute value size=], then return failure.\n-    1. [=list/Append=] \\``Domain`\\`/|encodedDomain| to |attributes|.\n-1. If |expires| is given, then [=list/append=] \\``Expires`\\`/|expires| ([=date serialized=]) to |attributes|.\n+    1. [=list/Append=] (\\``Domain`\\`, |encodedDomain|) to |attributes|.\n+1. If |expires| is non-null, then [=list/append=] (\\``Expires`\\`, |expires| ([=date serialized=])) to |attributes|.\n 1. If |path| is the empty string, then set |path| to the [=/serialized cookie default path=] of |url|.\n 1. If |path| does not start with U+002F (/), then return failure.\n 1. If |path| is not U+002F (/), and |name|, [=byte-lowercased=], [=byte sequence/starts with=] \\``__host-`\\`, then return failure.\n 1. Let |encodedPath| be the result of [=UTF-8 encode|UTF-8 encoding=] |path|.\n 1. If the [=byte sequence=] [=byte sequence/length=] of |encodedPath| is greater than the [=cookie/maximum attribute value size=], then return failure.\n-1. [=list/Append=] \\``Path`\\`/|encodedPath| to |attributes|.\n-1. [=list/Append=] \\``Secure`\\`/\\`\\` to |attributes|.\n+1. [=list/Append=] (\\``Path`\\`, |encodedPath|) to |attributes|.\n+1. [=list/Append=] (\\``Secure`\\`, \\`\\`) to |attributes|.\n 1. Switch on |sameSite|:\n     <dl class=switch>\n         : \"{{CookieSameSite/none}}\"\n-        :: [=list/Append=] \\``SameSite`\\`/\\``None`\\` to |attributes|.\n+        :: [=list/Append=] (\\``SameSite`\\`, \\``None`\\`) to |attributes|.\n         : \"{{CookieSameSite/strict}}\"\n-        :: [=list/Append=] \\``SameSite`\\`/\\``Strict`\\` to |attributes|.\n+        :: [=list/Append=] (\\``SameSite`\\`, \\``Strict`\\`) to |attributes|.\n         : \"{{CookieSameSite/lax}}\"\n-        :: [=list/Append=] \\``SameSite`\\`/\\``Lax`\\` to |attributes|.\n+        :: [=list/Append=] (\\``SameSite`\\`, \\``Lax`\\`) to |attributes|.",
+    "path": "index.bs",
+    "commit_id": "166cb5aee063672010a81a16dbfb0aeb80022849",
+    "original_commit_id": "166cb5aee063672010a81a16dbfb0aeb80022849",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "That seems like a non-editorial change or maybe I'm missing something?",
+    "created_at": "2025-09-10T10:08:53Z",
+    "updated_at": "2025-09-10T10:08:53Z",
+    "html_url": "https://github.com/whatwg/cookiestore/pull/288#discussion_r2336258049",
+    "pull_request_url": "https://api.github.com/repos/whatwg/cookiestore/pulls/288",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2336258049"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/cookiestore/pull/288#discussion_r2336258049"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/cookiestore/pulls/288"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2336258049/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 1107,
+    "original_line": 1107,
+    "side": "RIGHT",
+    "in_reply_to_id": 2301279739,
+    "author_association": "MEMBER",
+    "original_position": 138,
+    "position": 138,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2342600409",
+    "pull_request_review_id": 3214036530,
+    "id": 2342600409,
+    "node_id": "PRRC_kwDOAys5jc6LoT7Z",
+    "diff_hunk": "@@ -648,20 +648,17 @@ The <dfn method for=CookieStore>set(|name|, |value|)</dfn> method steps are:\n 1. Let |origin| be |settings|'s [=environment settings object/origin=].\n 1. If |origin| is an [=opaque origin=], then return [=a promise rejected with=] a \"{{SecurityError}}\" {{DOMException}}.\n 1. Let |url| be |settings|'s [=environment/creation URL=].\n-1. Let |domain| be null.\n-1. Let |path| be \"/\".\n-1. Let |sameSite| be {{CookieSameSite/strict}}.\n-1. Let |partitioned| be false.\n 1. Let |p| be [=a new promise=].\n 1. Run the following steps [=in parallel=]:\n     1. Let |r| be the result of running [=set a cookie=] with\n         |url|,\n         |name|,\n         |value|,\n-        |domain|,\n-        |path|,\n-        |sameSite|, and\n-        |partitioned|.\n+        null,",
+    "path": "index.bs",
+    "commit_id": "166cb5aee063672010a81a16dbfb0aeb80022849",
+    "original_commit_id": "166cb5aee063672010a81a16dbfb0aeb80022849",
+    "user": {
+      "login": "DCtheTall",
+      "id": 13906920,
+      "node_id": "MDQ6VXNlcjEzOTA2OTIw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13906920?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/DCtheTall",
+      "html_url": "https://github.com/DCtheTall",
+      "followers_url": "https://api.github.com/users/DCtheTall/followers",
+      "following_url": "https://api.github.com/users/DCtheTall/following{/other_user}",
+      "gists_url": "https://api.github.com/users/DCtheTall/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/DCtheTall/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/DCtheTall/subscriptions",
+      "organizations_url": "https://api.github.com/users/DCtheTall/orgs",
+      "repos_url": "https://api.github.com/users/DCtheTall/repos",
+      "events_url": "https://api.github.com/users/DCtheTall/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/DCtheTall/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Ok fair enough. I think we can just leave it as is then.",
+    "created_at": "2025-09-11T23:52:20Z",
+    "updated_at": "2025-09-11T23:52:20Z",
+    "html_url": "https://github.com/whatwg/cookiestore/pull/288#discussion_r2342600409",
+    "pull_request_url": "https://api.github.com/repos/whatwg/cookiestore/pulls/288",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2342600409"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/cookiestore/pull/288#discussion_r2342600409"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/cookiestore/pulls/288"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2342600409/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 657,
+    "original_line": 657,
+    "side": "RIGHT",
+    "in_reply_to_id": 2301240014,
+    "author_association": "MEMBER",
+    "original_position": 38,
+    "position": 38,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2342603322",
+    "pull_request_review_id": 3214040717,
+    "id": 2342603322,
+    "node_id": "PRRC_kwDOAys5jc6LoUo6",
+    "diff_hunk": "@@ -1084,34 +1079,34 @@ run the following steps:\n 1. Let |encodedValue| be the result of [=UTF-8 encode|UTF-8 encoding=] |value|.\n 1. If the [=byte sequence=] [=byte sequence/length=] of |encodedName| plus the [=byte sequence=] [=byte sequence/length=] of |encodedValue| is greater than the <a for=cookie>maximum name/value pair size</a>, then return failure.\n 1. Let |host| be |url|'s [=url/host=]\n-1. Let |attributes| be a new [=/list=].\n-1. If |domain| is not null, then run these steps:\n+1. Let |attributes| be « ».\n+1. If |domain| is non-null:\n     1. If |domain| starts with U+002E (.), then return failure.\n     1. If |name|, [=byte-lowercased=], [=byte sequence/starts with=] \\``__host-`\\`, then return failure.\n     1. If |domain| [=is a registrable domain suffix of or is equal to|is not a registrable domain suffix of and is not equal to=] |host|, then return failure.\n     1. Let |parsedDomain| be the result of [=host parser|host parsing=] |domain|.\n     1. Assert: |parsedDomain| is not failure.\n     1. Let |encodedDomain| be the result of [=UTF-8 encode|UTF-8 encoding=] |parsedDomain|.\n     1. If the [=byte sequence=] [=byte sequence/length=] of |encodedDomain| is greater than the [=cookie/maximum attribute value size=], then return failure.\n-    1. [=list/Append=] \\``Domain`\\`/|encodedDomain| to |attributes|.\n-1. If |expires| is given, then [=list/append=] \\``Expires`\\`/|expires| ([=date serialized=]) to |attributes|.\n+    1. [=list/Append=] (\\``Domain`\\`, |encodedDomain|) to |attributes|.\n+1. If |expires| is non-null, then [=list/append=] (\\``Expires`\\`, |expires| ([=date serialized=])) to |attributes|.\n 1. If |path| is the empty string, then set |path| to the [=/serialized cookie default path=] of |url|.\n 1. If |path| does not start with U+002F (/), then return failure.\n 1. If |path| is not U+002F (/), and |name|, [=byte-lowercased=], [=byte sequence/starts with=] \\``__host-`\\`, then return failure.\n 1. Let |encodedPath| be the result of [=UTF-8 encode|UTF-8 encoding=] |path|.\n 1. If the [=byte sequence=] [=byte sequence/length=] of |encodedPath| is greater than the [=cookie/maximum attribute value size=], then return failure.\n-1. [=list/Append=] \\``Path`\\`/|encodedPath| to |attributes|.\n-1. [=list/Append=] \\``Secure`\\`/\\`\\` to |attributes|.\n+1. [=list/Append=] (\\``Path`\\`, |encodedPath|) to |attributes|.\n+1. [=list/Append=] (\\``Secure`\\`, \\`\\`) to |attributes|.\n 1. Switch on |sameSite|:\n     <dl class=switch>\n         : \"{{CookieSameSite/none}}\"\n-        :: [=list/Append=] \\``SameSite`\\`/\\``None`\\` to |attributes|.\n+        :: [=list/Append=] (\\``SameSite`\\`, \\``None`\\`) to |attributes|.\n         : \"{{CookieSameSite/strict}}\"\n-        :: [=list/Append=] \\``SameSite`\\`/\\``Strict`\\` to |attributes|.\n+        :: [=list/Append=] (\\``SameSite`\\`, \\``Strict`\\`) to |attributes|.\n         : \"{{CookieSameSite/lax}}\"\n-        :: [=list/Append=] \\``SameSite`\\`/\\``Lax`\\` to |attributes|.\n+        :: [=list/Append=] (\\``SameSite`\\`, \\``Lax`\\`) to |attributes|.",
+    "path": "index.bs",
+    "commit_id": "166cb5aee063672010a81a16dbfb0aeb80022849",
+    "original_commit_id": "166cb5aee063672010a81a16dbfb0aeb80022849",
+    "user": {
+      "login": "DCtheTall",
+      "id": 13906920,
+      "node_id": "MDQ6VXNlcjEzOTA2OTIw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13906920?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/DCtheTall",
+      "html_url": "https://github.com/DCtheTall",
+      "followers_url": "https://api.github.com/users/DCtheTall/followers",
+      "following_url": "https://api.github.com/users/DCtheTall/following{/other_user}",
+      "gists_url": "https://api.github.com/users/DCtheTall/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/DCtheTall/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/DCtheTall/subscriptions",
+      "organizations_url": "https://api.github.com/users/DCtheTall/orgs",
+      "repos_url": "https://api.github.com/users/DCtheTall/repos",
+      "events_url": "https://api.github.com/users/DCtheTall/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/DCtheTall/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "What about the case when the user supplies a string that is not in the cases provided here?\r\n\r\n[In RFC6265bis](https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-rfc6265bis-20#name-the-samesite-attribute-2) we have the attribute be set to `Default` when the string is not `lax`, `none`, or `strict`.",
+    "created_at": "2025-09-11T23:54:44Z",
+    "updated_at": "2025-09-11T23:54:45Z",
+    "html_url": "https://github.com/whatwg/cookiestore/pull/288#discussion_r2342603322",
+    "pull_request_url": "https://api.github.com/repos/whatwg/cookiestore/pulls/288",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2342603322"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/cookiestore/pull/288#discussion_r2342603322"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/cookiestore/pulls/288"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2342603322/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 1107,
+    "original_line": 1107,
+    "side": "RIGHT",
+    "in_reply_to_id": 2301279739,
+    "author_association": "MEMBER",
+    "original_position": 138,
+    "position": 138,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2342617701",
+    "pull_request_review_id": 3214060071,
+    "id": 2342617701,
+    "node_id": "PRRC_kwDOAys5jc6LoYJl",
+    "diff_hunk": "@@ -1084,34 +1079,34 @@ run the following steps:\n 1. Let |encodedValue| be the result of [=UTF-8 encode|UTF-8 encoding=] |value|.\n 1. If the [=byte sequence=] [=byte sequence/length=] of |encodedName| plus the [=byte sequence=] [=byte sequence/length=] of |encodedValue| is greater than the <a for=cookie>maximum name/value pair size</a>, then return failure.\n 1. Let |host| be |url|'s [=url/host=]\n-1. Let |attributes| be a new [=/list=].\n-1. If |domain| is not null, then run these steps:\n+1. Let |attributes| be « ».\n+1. If |domain| is non-null:\n     1. If |domain| starts with U+002E (.), then return failure.\n     1. If |name|, [=byte-lowercased=], [=byte sequence/starts with=] \\``__host-`\\`, then return failure.\n     1. If |domain| [=is a registrable domain suffix of or is equal to|is not a registrable domain suffix of and is not equal to=] |host|, then return failure.\n     1. Let |parsedDomain| be the result of [=host parser|host parsing=] |domain|.\n     1. Assert: |parsedDomain| is not failure.\n     1. Let |encodedDomain| be the result of [=UTF-8 encode|UTF-8 encoding=] |parsedDomain|.\n     1. If the [=byte sequence=] [=byte sequence/length=] of |encodedDomain| is greater than the [=cookie/maximum attribute value size=], then return failure.\n-    1. [=list/Append=] \\``Domain`\\`/|encodedDomain| to |attributes|.\n-1. If |expires| is given, then [=list/append=] \\``Expires`\\`/|expires| ([=date serialized=]) to |attributes|.\n+    1. [=list/Append=] (\\``Domain`\\`, |encodedDomain|) to |attributes|.\n+1. If |expires| is non-null, then [=list/append=] (\\``Expires`\\`, |expires| ([=date serialized=])) to |attributes|.\n 1. If |path| is the empty string, then set |path| to the [=/serialized cookie default path=] of |url|.\n 1. If |path| does not start with U+002F (/), then return failure.\n 1. If |path| is not U+002F (/), and |name|, [=byte-lowercased=], [=byte sequence/starts with=] \\``__host-`\\`, then return failure.\n 1. Let |encodedPath| be the result of [=UTF-8 encode|UTF-8 encoding=] |path|.\n 1. If the [=byte sequence=] [=byte sequence/length=] of |encodedPath| is greater than the [=cookie/maximum attribute value size=], then return failure.\n-1. [=list/Append=] \\``Path`\\`/|encodedPath| to |attributes|.\n-1. [=list/Append=] \\``Secure`\\`/\\`\\` to |attributes|.\n+1. [=list/Append=] (\\``Path`\\`, |encodedPath|) to |attributes|.\n+1. [=list/Append=] (\\``Secure`\\`, \\`\\`) to |attributes|.\n 1. Switch on |sameSite|:\n     <dl class=switch>\n         : \"{{CookieSameSite/none}}\"\n-        :: [=list/Append=] \\``SameSite`\\`/\\``None`\\` to |attributes|.\n+        :: [=list/Append=] (\\``SameSite`\\`, \\``None`\\`) to |attributes|.\n         : \"{{CookieSameSite/strict}}\"\n-        :: [=list/Append=] \\``SameSite`\\`/\\``Strict`\\` to |attributes|.\n+        :: [=list/Append=] (\\``SameSite`\\`, \\``Strict`\\`) to |attributes|.\n         : \"{{CookieSameSite/lax}}\"\n-        :: [=list/Append=] \\``SameSite`\\`/\\``Lax`\\` to |attributes|.\n+        :: [=list/Append=] (\\``SameSite`\\`, \\``Lax`\\`) to |attributes|.",
+    "path": "index.bs",
+    "commit_id": "166cb5aee063672010a81a16dbfb0aeb80022849",
+    "original_commit_id": "166cb5aee063672010a81a16dbfb0aeb80022849",
+    "user": {
+      "login": "DCtheTall",
+      "id": 13906920,
+      "node_id": "MDQ6VXNlcjEzOTA2OTIw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13906920?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/DCtheTall",
+      "html_url": "https://github.com/DCtheTall",
+      "followers_url": "https://api.github.com/users/DCtheTall/followers",
+      "following_url": "https://api.github.com/users/DCtheTall/following{/other_user}",
+      "gists_url": "https://api.github.com/users/DCtheTall/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/DCtheTall/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/DCtheTall/subscriptions",
+      "organizations_url": "https://api.github.com/users/DCtheTall/orgs",
+      "repos_url": "https://api.github.com/users/DCtheTall/repos",
+      "events_url": "https://api.github.com/users/DCtheTall/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/DCtheTall/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Actually, it looks like that RFC6265bis handles when the cookie-attribute-value for `SameSite` is not set, so we can fall back on that.",
+    "created_at": "2025-09-12T00:08:27Z",
+    "updated_at": "2025-09-12T00:08:27Z",
+    "html_url": "https://github.com/whatwg/cookiestore/pull/288#discussion_r2342617701",
+    "pull_request_url": "https://api.github.com/repos/whatwg/cookiestore/pulls/288",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2342617701"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/cookiestore/pull/288#discussion_r2342617701"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/cookiestore/pulls/288"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/cookiestore/pulls/comments/2342617701/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 1107,
+    "original_line": 1107,
+    "side": "RIGHT",
+    "in_reply_to_id": 2301279739,
+    "author_association": "MEMBER",
+    "original_position": 138,
+    "position": 138,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/issues/comments/1592174264",
+    "html_url": "https://github.com/whatwg/fetch/issues/1673#issuecomment-1592174264",
+    "issue_url": "https://api.github.com/repos/whatwg/fetch/issues/1673",
+    "id": 1592174264,
+    "node_id": "IC_kwDOAFgnJc5e5qa4",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2023-06-15T00:55:03Z",
+    "updated_at": "2023-06-15T00:55:03Z",
+    "body": "> Should there be an assertion that callers set either a client or useParallelQueue?\r\n\r\nI believe this is the intent. Indeed, maybe _useParallelQueue_ should not be an explicit argument, and setting client to null should automatically cause the parallel queue to be used?\r\n\r\nhttps://fetch.spec.whatwg.org/#fetch-elsewhere-request discusses this a bit:\r\n\r\n> Set your [request](https://fetch.spec.whatwg.org/#concept-request)’s [client](https://fetch.spec.whatwg.org/#concept-request-client) to the [environment settings object](https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object) you’re operating in. Web-exposed APIs are generally defined with Web IDL, for which every object that implements an [interface](https://webidl.spec.whatwg.org/#dfn-interface) has a [relevant settings object](https://html.spec.whatwg.org/multipage/webappapis.html#relevant-settings-object) you can use. For example, a [request](https://fetch.spec.whatwg.org/#concept-request) associated with an [element](https://dom.spec.whatwg.org/#concept-element) would set the [request](https://fetch.spec.whatwg.org/#concept-request)’s [client](https://fetch.spec.whatwg.org/#concept-request-client) to the element’s [node document](https://dom.spec.whatwg.org/#concept-node-document)’s [relevant settings object](https://html.spec.whatwg.org/multipage/webappapis.html#relevant-settings-object). All features that are directly web-exposed by JavaScript, HTML, CSS, or other [Document](https://dom.spec.whatwg.org/#document) subresources should have a [client](https://fetch.spec.whatwg.org/#concept-request-client).\r\n>\r\n> If your [fetching](https://fetch.spec.whatwg.org/#concept-fetch) is not directly web-exposed, e.g., it is sent in the background without relying on a current [Window](https://html.spec.whatwg.org/multipage/nav-history-apis.html#window) or [Worker](https://html.spec.whatwg.org/multipage/workers.html#worker), leave [request](https://fetch.spec.whatwg.org/#concept-request)’s [client](https://fetch.spec.whatwg.org/#concept-request-client) as null and set the [request](https://fetch.spec.whatwg.org/#concept-request)’s [origin](https://fetch.spec.whatwg.org/#concept-request-origin), [policy container](https://fetch.spec.whatwg.org/#concept-request-policy-container), [service-workers mode](https://fetch.spec.whatwg.org/#request-service-workers-mode), and [referrer](https://fetch.spec.whatwg.org/#concept-request-referrer) to appropriate values instead, e.g., by copying them from the [environment settings object](https://html.spec.whatwg.org/multipage/webappapis.html#environment-settings-object) ahead of time. In these more advanced cases, make sure the details of how your fetch handles Content Security Policy and [referrer policy](https://w3c.github.io/webappsec-referrer-policy/#referrer-policy) are fleshed out. Also make sure you handle concurrency, as callbacks (see [Invoking fetch and processing responses](https://fetch.spec.whatwg.org/#fetch-elsewhere-fetch)) would be posted on a [parallel queue](https://html.spec.whatwg.org/multipage/infrastructure.html#parallel-queue). [[REFERRER]](https://fetch.spec.whatwg.org/#biblio-referrer) [[CSP]](https://fetch.spec.whatwg.org/#biblio-csp)\r\n>\r\n> [...]\r\n>\r\n> Note that the [fetch](https://fetch.spec.whatwg.org/#concept-fetch) operation starts in the same thread from which it was called, and then breaks off to run its internal operations [in parallel](https://html.spec.whatwg.org/multipage/infrastructure.html#in-parallel). The aforementioned callbacks are posted to a given [event loop](https://html.spec.whatwg.org/multipage/webappapis.html#event-loop) which is, by default, the [client](https://fetch.spec.whatwg.org/#concept-request-client)’s [global object](https://html.spec.whatwg.org/multipage/webappapis.html#concept-settings-object-global). To process responses [in parallel](https://html.spec.whatwg.org/multipage/infrastructure.html#in-parallel) and handle interactions with the main thread by yourself, [fetch](https://fetch.spec.whatwg.org/#concept-fetch) with [useParallelQueue](https://fetch.spec.whatwg.org/#fetch-useparallelqueue) set to true.",
+    "author_association": "MEMBER",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/issues/comments/1592174264/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

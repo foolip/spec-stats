@@ -1,0 +1,287 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/624303646",
+    "pull_request_review_id": 649688188,
+    "id": 624303646,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDYyNDMwMzY0Ng==",
+    "diff_hunk": "@@ -0,0 +1,118 @@\n+# Manufacturer data and service data filters\n+\n+This document covers the use cases identified by web developers asking for\n+manufacturer data and service data filtering support and explains the\n+specification changes that happened after the [TAG review].\n+\n+## Use cases\n+\n+Filtering by device name or prefix may not work for some hardware developers as\n+their users rename their devices. In addition, most of their advertised services\n+are custom, thus needing 128-bit UUID. Advertising 128-bit UUIDs will occupy",
+    "path": "data-filters-explainer.md",
+    "commit_id": "90ae2bd2c0d5cd9415c6e6c8e5e747b9be10e93a",
+    "original_commit_id": "bb935de70ba011e01c0595642dc44833d5f5311b",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "\"needings 128-bit UUIDs\"",
+    "created_at": "2021-04-30T23:38:08Z",
+    "updated_at": "2021-04-30T23:40:51Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/547#discussion_r624303646",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/547",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/624303646"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/547#discussion_r624303646"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/547"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/624303646/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 11,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 11,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/624304212",
+    "pull_request_review_id": 649688188,
+    "id": 624304212,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDYyNDMwNDIxMg==",
+    "diff_hunk": "@@ -0,0 +1,118 @@\n+# Manufacturer data and service data filters\n+\n+This document covers the use cases identified by web developers asking for\n+manufacturer data and service data filtering support and explains the\n+specification changes that happened after the [TAG review].\n+\n+## Use cases\n+\n+Filtering by device name or prefix may not work for some hardware developers as\n+their users rename their devices. In addition, most of their advertised services\n+are custom, thus needing 128-bit UUID. Advertising 128-bit UUIDs will occupy\n+space for important data they want to advertise. Hence, being able to filter on\n+manufacturer specific data such as the company identifier will help.\n+\n+Some devices will advertise some proprietary application level packets\n+encapsulated in manufacturer data or service data. Having a way to filter\n+devices with a specific pattern inside the manufacturer data or service data\n+will improve user experience as users will be able to select only Bluetooth\n+devices that matter to the application.\n+\n+## API shape\n+\n+In its simplest form, a manufacturer data filter requires a Bluetooth company\n+identifier, while a service data filter requires a Bluetooth service UUID.\n+\n+```js\n+let manufacturerData = [{ companyIdentifier: 0xffff }];\n+navigator.bluetooth.requestDevice({ filters: [{ manufacturerData }] });\n+```\n+\n+```js\n+let serviceData = [{ service: \"battery_service\" }];\n+navigator.bluetooth.requestDevice({ filters: [{ serviceData }] });\n+```\n+\n+Developers can also provide some data prefix that will filter manufacturer data",
+    "path": "data-filters-explainer.md",
+    "commit_id": "90ae2bd2c0d5cd9415c6e6c8e5e747b9be10e93a",
+    "original_commit_id": "bb935de70ba011e01c0595642dc44833d5f5311b",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "\"provide _a_ data prefix\"",
+    "created_at": "2021-04-30T23:39:15Z",
+    "updated_at": "2021-04-30T23:40:51Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/547#discussion_r624304212",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/547",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/624304212"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/547#discussion_r624304212"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/547"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/624304212/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 36,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 36,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/624304420",
+    "pull_request_review_id": 649688188,
+    "id": 624304420,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDYyNDMwNDQyMA==",
+    "diff_hunk": "@@ -0,0 +1,118 @@\n+# Manufacturer data and service data filters\n+\n+This document covers the use cases identified by web developers asking for\n+manufacturer data and service data filtering support and explains the\n+specification changes that happened after the [TAG review].\n+\n+## Use cases\n+\n+Filtering by device name or prefix may not work for some hardware developers as\n+their users rename their devices. In addition, most of their advertised services\n+are custom, thus needing 128-bit UUID. Advertising 128-bit UUIDs will occupy\n+space for important data they want to advertise. Hence, being able to filter on\n+manufacturer specific data such as the company identifier will help.\n+\n+Some devices will advertise some proprietary application level packets\n+encapsulated in manufacturer data or service data. Having a way to filter\n+devices with a specific pattern inside the manufacturer data or service data\n+will improve user experience as users will be able to select only Bluetooth\n+devices that matter to the application.\n+\n+## API shape\n+\n+In its simplest form, a manufacturer data filter requires a Bluetooth company\n+identifier, while a service data filter requires a Bluetooth service UUID.\n+\n+```js\n+let manufacturerData = [{ companyIdentifier: 0xffff }];\n+navigator.bluetooth.requestDevice({ filters: [{ manufacturerData }] });\n+```\n+\n+```js\n+let serviceData = [{ service: \"battery_service\" }];\n+navigator.bluetooth.requestDevice({ filters: [{ serviceData }] });\n+```\n+\n+Developers can also provide some data prefix that will filter manufacturer data\n+and service data from devices that start with it.\n+Examples below show you how to filter Bluetooth devices from Google company with\n+manufacturer data bytes that start with `[0x01, 0x02]`.\n+\n+```js\n+let manufacturerData = [{\n+  companyIdentifier: 0x00e0, /* Google */\n+  dataPrefix: new Uint8Array([0x01, 0x02]),\n+}];\n+navigator.bluetooth.requestDevice({ filters: [{ manufacturerData }] });\n+```\n+\n+A mask can also be used with data prefix to match some patterns in manufacturer",
+    "path": "data-filters-explainer.md",
+    "commit_id": "90ae2bd2c0d5cd9415c6e6c8e5e747b9be10e93a",
+    "original_commit_id": "bb935de70ba011e01c0595642dc44833d5f5311b",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "\"with _a_ data prefix\"",
+    "created_at": "2021-04-30T23:39:39Z",
+    "updated_at": "2021-04-30T23:40:51Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/547#discussion_r624304420",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/547",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/624304420"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/547#discussion_r624304420"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/547"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/624304420/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 49,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 49,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/625371647",
+    "pull_request_review_id": 650728461,
+    "id": 625371647,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDYyNTM3MTY0Nw==",
+    "diff_hunk": "@@ -0,0 +1,118 @@\n+# Manufacturer data and service data filters\n+\n+This document covers the use cases identified by web developers asking for\n+manufacturer data and service data filtering support and explains the\n+specification changes that happened after the [TAG review].\n+\n+## Use cases\n+\n+Filtering by device name or prefix may not work for some hardware developers as\n+their users rename their devices. In addition, most of their advertised services\n+are custom, thus needing 128-bit UUID. Advertising 128-bit UUIDs will occupy",
+    "path": "data-filters-explainer.md",
+    "commit_id": "90ae2bd2c0d5cd9415c6e6c8e5e747b9be10e93a",
+    "original_commit_id": "bb935de70ba011e01c0595642dc44833d5f5311b",
+    "user": {
+      "login": "reillyeon",
+      "id": 152137,
+      "node_id": "MDQ6VXNlcjE1MjEzNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/152137?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reillyeon",
+      "html_url": "https://github.com/reillyeon",
+      "followers_url": "https://api.github.com/users/reillyeon/followers",
+      "following_url": "https://api.github.com/users/reillyeon/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reillyeon/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reillyeon/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reillyeon/subscriptions",
+      "organizations_url": "https://api.github.com/users/reillyeon/orgs",
+      "repos_url": "https://api.github.com/users/reillyeon/repos",
+      "events_url": "https://api.github.com/users/reillyeon/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reillyeon/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I made a typo here, it should be \"needing 128-bit UUIDs\". I added an extra \"s\".",
+    "created_at": "2021-05-03T21:12:49Z",
+    "updated_at": "2021-05-03T21:12:50Z",
+    "html_url": "https://github.com/whatwg/bluetooth/pull/547#discussion_r625371647",
+    "pull_request_url": "https://api.github.com/repos/whatwg/bluetooth/pulls/547",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/625371647"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/bluetooth/pull/547#discussion_r625371647"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/bluetooth/pulls/547"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/pulls/comments/625371647/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 11,
+    "side": "RIGHT",
+    "in_reply_to_id": 624303646,
+    "author_association": "COLLABORATOR",
+    "original_position": 11,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]
