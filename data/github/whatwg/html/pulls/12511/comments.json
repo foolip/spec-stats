@@ -1,0 +1,718 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3348960287",
+    "pull_request_review_id": 4419096229,
+    "id": 3348960287,
+    "node_id": "PRRC_kwDOALaj487HnRQf",
+    "diff_hunk": "@@ -38937,38 +38937,42 @@ interface <dfn interface>MediaError</dfn> {\n      <dd>\n       <ol>\n        <li>\n-        <p>&#x231B; Let <var>pointer</var> be a position defined by two adjacent nodes in the\n-        <span>media element</span>'s child list, treating the start of the list (before the first\n-        child in the list, if any) and end of the list (after the last child in the list, if any) as\n-        nodes in their own right. One node is the node before <var>pointer</var>, and the\n-        other node is the node after <var>pointer</var>. Initially, let <var>pointer</var> be the position between the <var>candidate</var> node and the\n-        next node, if there are any, or the end of the list, if it is the last node.</p>\n+        <p>&#x231B; Let <var>pointerBefore</var> and <var>pointerAfter</var> be two variables that\n+        together identify a position in the <span>media element</span>'s child list.\n+        <var>pointerBefore</var> is either null or a child of the <span>media element</span>.\n+        <var>pointerAfter</var> is either null or a child of the <span>media element</span>. Null\n+        represents the position before the first child for <var>pointerBefore</var>, and the\n+        position after the last child for <var>pointerAfter</var>.</p>\n+\n+        <p>Initially, set <var>pointerBefore</var> to <var>candidate</var>. If <var>candidate</var>\n+        has a next sibling, then set <var>pointerAfter</var> to that sibling; otherwise, set\n+        <var>pointerAfter</var> to null.</p>\n \n         <p>As nodes are <span data-x=\"concept-node-insert-ext\">inserted</span>, <span\n         data-x=\"concept-node-remove-ext\">removed</span>, and <span\n-        data-x=\"concept-node-move-ext\">moved</span> into the <span>media element</span>,\n-        <var>pointer</var> must be updated as follows:</p>\n+        data-x=\"concept-node-move-ext\">moved</span> into, out of, or within the <span>media\n+        element</span>, <var>pointerBefore</var> and <var>pointerAfter</var> must be updated as\n+        follows:</p>\n \n         <dl>\n-         <dt>If a new node is <span data-x=\"concept-node-insert-ext\">inserted</span> or <span\n-         data-x=\"concept-node-move-ext\">moved</span> between the two nodes that define\n-         <var>pointer</var></dt>\n-         <dd>Let <var>pointer</var> be the point between the node before <var>pointer</var> and the\n-         new node. In other words, insertions at <var>pointer</var> go after\n-         <var>pointer</var>.</dd>\n-\n-         <dt>If the node before <var>pointer</var> is removed</dt>\n-         <dd>Let <var>pointer</var> be the point between the node after <var>pointer</var> and the\n-         node before the node after <var>pointer</var>. In other words, <var>pointer</var> doesn't\n-         move relative to the remaining nodes.</dd>\n-\n-         <dt>If the node after <var>pointer</var> is removed</dt>\n-         <dd>Let <var>pointer</var> be the point between the node before <var>pointer</var> and the\n-         node after the node before <var>pointer</var>. Just as with the previous case,\n-         <var>pointer</var> doesn't move relative to the remaining nodes.</dd>\n+         <dt>If a new node is <span data-x=\"concept-node-insert-ext\">inserted</span> or <span data-x=\"concept-node-move-ext\">moved</span> between <var>pointerBefore</var> and <var>pointerAfter</var></dt>\n+         <dd>Set <var>pointerAfter</var> to the new node. In other words, insertions at the pointer\n+         go after the pointer.</dd>\n+\n+         <dt>If <var>pointerBefore</var> is <span data-x=\"concept-node-remove-ext\">removed</span> or <span data-x=\"concept-node-move-ext\">moved</span></dt>\n+         <dd>Set <var>pointerBefore</var> to <var>pointerAfter</var>'s previous sibling, if\n+         <var>pointerAfter</var> is non-null; otherwise, set <var>pointerBefore</var> to the\n+         <span>media element</span>'s last child. In other words, the pointer does not move relative\n+         to the remaining nodes.</dd>\n+\n+         <dt>If <var>pointerAfter</var> is <span data-x=\"concept-node-remove-ext\">removed</span> or <span data-x=\"concept-node-move-ext\">moved</span></dt>\n+         <dd>Set <var>pointerAfter</var> to <var>pointerBefore</var>'s next sibling, if",
+    "path": "source",
+    "commit_id": "fb9eac1f1389b7286d3c207e080df47f3f883dfb",
+    "original_commit_id": "6f9dd4c73001232f17b128995588b757755ec59b",
+    "user": {
+      "login": "nicolo-ribaudo",
+      "id": 7000710,
+      "node_id": "MDQ6VXNlcjcwMDA3MTA=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7000710?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nicolo-ribaudo",
+      "html_url": "https://github.com/nicolo-ribaudo",
+      "followers_url": "https://api.github.com/users/nicolo-ribaudo/followers",
+      "following_url": "https://api.github.com/users/nicolo-ribaudo/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nicolo-ribaudo/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nicolo-ribaudo/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nicolo-ribaudo/subscriptions",
+      "organizations_url": "https://api.github.com/users/nicolo-ribaudo/orgs",
+      "repos_url": "https://api.github.com/users/nicolo-ribaudo/repos",
+      "events_url": "https://api.github.com/users/nicolo-ribaudo/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nicolo-ribaudo/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "(also in the previous `<dd>`)\n\nIs it implicit that if `pointerBefore` has no next sibling, `pointerAfter` is set to null?",
+    "created_at": "2026-06-03T13:44:35Z",
+    "updated_at": "2026-06-03T13:44:35Z",
+    "html_url": "https://github.com/whatwg/html/pull/12511#discussion_r3348960287",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12511",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3348960287"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12511#discussion_r3348960287"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12511"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3348960287/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 38969,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 57,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3349574227",
+    "pull_request_review_id": 4419837666,
+    "id": 3349574227,
+    "node_id": "PRRC_kwDOALaj487HpnJT",
+    "diff_hunk": "@@ -38937,38 +38937,42 @@ interface <dfn interface>MediaError</dfn> {\n      <dd>\n       <ol>\n        <li>\n-        <p>&#x231B; Let <var>pointer</var> be a position defined by two adjacent nodes in the\n-        <span>media element</span>'s child list, treating the start of the list (before the first\n-        child in the list, if any) and end of the list (after the last child in the list, if any) as\n-        nodes in their own right. One node is the node before <var>pointer</var>, and the\n-        other node is the node after <var>pointer</var>. Initially, let <var>pointer</var> be the position between the <var>candidate</var> node and the\n-        next node, if there are any, or the end of the list, if it is the last node.</p>\n+        <p>&#x231B; Let <var>pointerBefore</var> and <var>pointerAfter</var> be two variables that\n+        together identify a position in the <span>media element</span>'s child list.\n+        <var>pointerBefore</var> is either null or a child of the <span>media element</span>.\n+        <var>pointerAfter</var> is either null or a child of the <span>media element</span>. Null\n+        represents the position before the first child for <var>pointerBefore</var>, and the\n+        position after the last child for <var>pointerAfter</var>.</p>\n+\n+        <p>Initially, set <var>pointerBefore</var> to <var>candidate</var>. If <var>candidate</var>\n+        has a next sibling, then set <var>pointerAfter</var> to that sibling; otherwise, set\n+        <var>pointerAfter</var> to null.</p>\n \n         <p>As nodes are <span data-x=\"concept-node-insert-ext\">inserted</span>, <span\n         data-x=\"concept-node-remove-ext\">removed</span>, and <span\n-        data-x=\"concept-node-move-ext\">moved</span> into the <span>media element</span>,\n-        <var>pointer</var> must be updated as follows:</p>\n+        data-x=\"concept-node-move-ext\">moved</span> into, out of, or within the <span>media\n+        element</span>, <var>pointerBefore</var> and <var>pointerAfter</var> must be updated as\n+        follows:</p>\n \n         <dl>\n-         <dt>If a new node is <span data-x=\"concept-node-insert-ext\">inserted</span> or <span\n-         data-x=\"concept-node-move-ext\">moved</span> between the two nodes that define\n-         <var>pointer</var></dt>\n-         <dd>Let <var>pointer</var> be the point between the node before <var>pointer</var> and the\n-         new node. In other words, insertions at <var>pointer</var> go after\n-         <var>pointer</var>.</dd>\n-\n-         <dt>If the node before <var>pointer</var> is removed</dt>\n-         <dd>Let <var>pointer</var> be the point between the node after <var>pointer</var> and the\n-         node before the node after <var>pointer</var>. In other words, <var>pointer</var> doesn't\n-         move relative to the remaining nodes.</dd>\n-\n-         <dt>If the node after <var>pointer</var> is removed</dt>\n-         <dd>Let <var>pointer</var> be the point between the node before <var>pointer</var> and the\n-         node after the node before <var>pointer</var>. Just as with the previous case,\n-         <var>pointer</var> doesn't move relative to the remaining nodes.</dd>\n+         <dt>If a new node is <span data-x=\"concept-node-insert-ext\">inserted</span> or <span data-x=\"concept-node-move-ext\">moved</span> between <var>pointerBefore</var> and <var>pointerAfter</var></dt>\n+         <dd>Set <var>pointerAfter</var> to the new node. In other words, insertions at the pointer\n+         go after the pointer.</dd>\n+\n+         <dt>If <var>pointerBefore</var> is <span data-x=\"concept-node-remove-ext\">removed</span> or <span data-x=\"concept-node-move-ext\">moved</span></dt>\n+         <dd>Set <var>pointerBefore</var> to <var>pointerAfter</var>'s previous sibling, if\n+         <var>pointerAfter</var> is non-null; otherwise, set <var>pointerBefore</var> to the\n+         <span>media element</span>'s last child. In other words, the pointer does not move relative\n+         to the remaining nodes.</dd>\n+\n+         <dt>If <var>pointerAfter</var> is <span data-x=\"concept-node-remove-ext\">removed</span> or <span data-x=\"concept-node-move-ext\">moved</span></dt>\n+         <dd>Set <var>pointerAfter</var> to <var>pointerBefore</var>'s next sibling, if",
+    "path": "source",
+    "commit_id": "fb9eac1f1389b7286d3c207e080df47f3f883dfb",
+    "original_commit_id": "6f9dd4c73001232f17b128995588b757755ec59b",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "If `pointerBefore` had no next sibling, then `pointerAfter` would be null and it can't be removed or moved.\r\n\r\nHowever, there might not be any children left after removing or moving the only child, so `the <span>media element</span>'s first child` should account for that.",
+    "created_at": "2026-06-03T15:01:34Z",
+    "updated_at": "2026-06-03T15:01:34Z",
+    "html_url": "https://github.com/whatwg/html/pull/12511#discussion_r3349574227",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12511",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3349574227"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12511#discussion_r3349574227"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12511"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3349574227/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 38969,
+    "side": "RIGHT",
+    "in_reply_to_id": 3348960287,
+    "author_association": "MEMBER",
+    "original_position": 57,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3349709852",
+    "pull_request_review_id": 4419992564,
+    "id": 3349709852,
+    "node_id": "PRRC_kwDOALaj487HqIQc",
+    "diff_hunk": "@@ -38937,38 +38937,42 @@ interface <dfn interface>MediaError</dfn> {\n      <dd>\n       <ol>\n        <li>\n-        <p>&#x231B; Let <var>pointer</var> be a position defined by two adjacent nodes in the\n-        <span>media element</span>'s child list, treating the start of the list (before the first\n-        child in the list, if any) and end of the list (after the last child in the list, if any) as\n-        nodes in their own right. One node is the node before <var>pointer</var>, and the\n-        other node is the node after <var>pointer</var>. Initially, let <var>pointer</var> be the position between the <var>candidate</var> node and the\n-        next node, if there are any, or the end of the list, if it is the last node.</p>\n+        <p>&#x231B; Let <var>pointerBefore</var> and <var>pointerAfter</var> be two variables that\n+        together identify a position in the <span>media element</span>'s child list.\n+        <var>pointerBefore</var> is either null or a child of the <span>media element</span>.\n+        <var>pointerAfter</var> is either null or a child of the <span>media element</span>. Null\n+        represents the position before the first child for <var>pointerBefore</var>, and the\n+        position after the last child for <var>pointerAfter</var>.</p>\n+\n+        <p>Initially, set <var>pointerBefore</var> to <var>candidate</var>. If <var>candidate</var>\n+        has a next sibling, then set <var>pointerAfter</var> to that sibling; otherwise, set\n+        <var>pointerAfter</var> to null.</p>\n \n         <p>As nodes are <span data-x=\"concept-node-insert-ext\">inserted</span>, <span\n         data-x=\"concept-node-remove-ext\">removed</span>, and <span\n-        data-x=\"concept-node-move-ext\">moved</span> into the <span>media element</span>,\n-        <var>pointer</var> must be updated as follows:</p>\n+        data-x=\"concept-node-move-ext\">moved</span> into, out of, or within the <span>media\n+        element</span>, <var>pointerBefore</var> and <var>pointerAfter</var> must be updated as\n+        follows:</p>\n \n         <dl>\n-         <dt>If a new node is <span data-x=\"concept-node-insert-ext\">inserted</span> or <span\n-         data-x=\"concept-node-move-ext\">moved</span> between the two nodes that define\n-         <var>pointer</var></dt>\n-         <dd>Let <var>pointer</var> be the point between the node before <var>pointer</var> and the\n-         new node. In other words, insertions at <var>pointer</var> go after\n-         <var>pointer</var>.</dd>\n-\n-         <dt>If the node before <var>pointer</var> is removed</dt>\n-         <dd>Let <var>pointer</var> be the point between the node after <var>pointer</var> and the\n-         node before the node after <var>pointer</var>. In other words, <var>pointer</var> doesn't\n-         move relative to the remaining nodes.</dd>\n-\n-         <dt>If the node after <var>pointer</var> is removed</dt>\n-         <dd>Let <var>pointer</var> be the point between the node before <var>pointer</var> and the\n-         node after the node before <var>pointer</var>. Just as with the previous case,\n-         <var>pointer</var> doesn't move relative to the remaining nodes.</dd>\n+         <dt>If a new node is <span data-x=\"concept-node-insert-ext\">inserted</span> or <span data-x=\"concept-node-move-ext\">moved</span> between <var>pointerBefore</var> and <var>pointerAfter</var></dt>\n+         <dd>Set <var>pointerAfter</var> to the new node. In other words, insertions at the pointer\n+         go after the pointer.</dd>\n+\n+         <dt>If <var>pointerBefore</var> is <span data-x=\"concept-node-remove-ext\">removed</span> or <span data-x=\"concept-node-move-ext\">moved</span></dt>\n+         <dd>Set <var>pointerBefore</var> to <var>pointerAfter</var>'s previous sibling, if\n+         <var>pointerAfter</var> is non-null; otherwise, set <var>pointerBefore</var> to the\n+         <span>media element</span>'s last child. In other words, the pointer does not move relative\n+         to the remaining nodes.</dd>\n+\n+         <dt>If <var>pointerAfter</var> is <span data-x=\"concept-node-remove-ext\">removed</span> or <span data-x=\"concept-node-move-ext\">moved</span></dt>\n+         <dd>Set <var>pointerAfter</var> to <var>pointerBefore</var>'s next sibling, if",
+    "path": "source",
+    "commit_id": "fb9eac1f1389b7286d3c207e080df47f3f883dfb",
+    "original_commit_id": "6f9dd4c73001232f17b128995588b757755ec59b",
+    "user": {
+      "login": "nicolo-ribaudo",
+      "id": 7000710,
+      "node_id": "MDQ6VXNlcjcwMDA3MTA=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7000710?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nicolo-ribaudo",
+      "html_url": "https://github.com/nicolo-ribaudo",
+      "followers_url": "https://api.github.com/users/nicolo-ribaudo/followers",
+      "following_url": "https://api.github.com/users/nicolo-ribaudo/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nicolo-ribaudo/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nicolo-ribaudo/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nicolo-ribaudo/subscriptions",
+      "organizations_url": "https://api.github.com/users/nicolo-ribaudo/orgs",
+      "repos_url": "https://api.github.com/users/nicolo-ribaudo/repos",
+      "events_url": "https://api.github.com/users/nicolo-ribaudo/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nicolo-ribaudo/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "What I mean is the case where before the tree modification `pointerBefore` points to the second-to-last element and `pointerAfter` points to the last element.\r\n\r\nWhen `pointerAfter` is removed, `pointerBefore` does not have a next sibling.",
+    "created_at": "2026-06-03T15:18:50Z",
+    "updated_at": "2026-06-03T15:18:51Z",
+    "html_url": "https://github.com/whatwg/html/pull/12511#discussion_r3349709852",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12511",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3349709852"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12511#discussion_r3349709852"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12511"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3349709852/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 38969,
+    "side": "RIGHT",
+    "in_reply_to_id": 3348960287,
+    "author_association": "MEMBER",
+    "original_position": 57,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3349725206",
+    "pull_request_review_id": 4420007557,
+    "id": 3349725206,
+    "node_id": "PRRC_kwDOALaj487HqMAW",
+    "diff_hunk": "@@ -38937,38 +38937,42 @@ interface <dfn interface>MediaError</dfn> {\n      <dd>\n       <ol>\n        <li>\n-        <p>&#x231B; Let <var>pointer</var> be a position defined by two adjacent nodes in the\n-        <span>media element</span>'s child list, treating the start of the list (before the first\n-        child in the list, if any) and end of the list (after the last child in the list, if any) as\n-        nodes in their own right. One node is the node before <var>pointer</var>, and the\n-        other node is the node after <var>pointer</var>. Initially, let <var>pointer</var> be the position between the <var>candidate</var> node and the\n-        next node, if there are any, or the end of the list, if it is the last node.</p>\n+        <p>&#x231B; Let <var>pointerBefore</var> and <var>pointerAfter</var> be two variables that\n+        together identify a position in the <span>media element</span>'s child list.\n+        <var>pointerBefore</var> is either null or a child of the <span>media element</span>.\n+        <var>pointerAfter</var> is either null or a child of the <span>media element</span>. Null\n+        represents the position before the first child for <var>pointerBefore</var>, and the\n+        position after the last child for <var>pointerAfter</var>.</p>\n+\n+        <p>Initially, set <var>pointerBefore</var> to <var>candidate</var>. If <var>candidate</var>\n+        has a next sibling, then set <var>pointerAfter</var> to that sibling; otherwise, set\n+        <var>pointerAfter</var> to null.</p>\n \n         <p>As nodes are <span data-x=\"concept-node-insert-ext\">inserted</span>, <span\n         data-x=\"concept-node-remove-ext\">removed</span>, and <span\n-        data-x=\"concept-node-move-ext\">moved</span> into the <span>media element</span>,\n-        <var>pointer</var> must be updated as follows:</p>\n+        data-x=\"concept-node-move-ext\">moved</span> into, out of, or within the <span>media\n+        element</span>, <var>pointerBefore</var> and <var>pointerAfter</var> must be updated as\n+        follows:</p>\n \n         <dl>\n-         <dt>If a new node is <span data-x=\"concept-node-insert-ext\">inserted</span> or <span\n-         data-x=\"concept-node-move-ext\">moved</span> between the two nodes that define\n-         <var>pointer</var></dt>\n-         <dd>Let <var>pointer</var> be the point between the node before <var>pointer</var> and the\n-         new node. In other words, insertions at <var>pointer</var> go after\n-         <var>pointer</var>.</dd>\n-\n-         <dt>If the node before <var>pointer</var> is removed</dt>\n-         <dd>Let <var>pointer</var> be the point between the node after <var>pointer</var> and the\n-         node before the node after <var>pointer</var>. In other words, <var>pointer</var> doesn't\n-         move relative to the remaining nodes.</dd>\n-\n-         <dt>If the node after <var>pointer</var> is removed</dt>\n-         <dd>Let <var>pointer</var> be the point between the node before <var>pointer</var> and the\n-         node after the node before <var>pointer</var>. Just as with the previous case,\n-         <var>pointer</var> doesn't move relative to the remaining nodes.</dd>\n+         <dt>If a new node is <span data-x=\"concept-node-insert-ext\">inserted</span> or <span data-x=\"concept-node-move-ext\">moved</span> between <var>pointerBefore</var> and <var>pointerAfter</var></dt>\n+         <dd>Set <var>pointerAfter</var> to the new node. In other words, insertions at the pointer\n+         go after the pointer.</dd>\n+\n+         <dt>If <var>pointerBefore</var> is <span data-x=\"concept-node-remove-ext\">removed</span> or <span data-x=\"concept-node-move-ext\">moved</span></dt>\n+         <dd>Set <var>pointerBefore</var> to <var>pointerAfter</var>'s previous sibling, if\n+         <var>pointerAfter</var> is non-null; otherwise, set <var>pointerBefore</var> to the\n+         <span>media element</span>'s last child. In other words, the pointer does not move relative\n+         to the remaining nodes.</dd>\n+\n+         <dt>If <var>pointerAfter</var> is <span data-x=\"concept-node-remove-ext\">removed</span> or <span data-x=\"concept-node-move-ext\">moved</span></dt>\n+         <dd>Set <var>pointerAfter</var> to <var>pointerBefore</var>'s next sibling, if",
+    "path": "source",
+    "commit_id": "fb9eac1f1389b7286d3c207e080df47f3f883dfb",
+    "original_commit_id": "6f9dd4c73001232f17b128995588b757755ec59b",
+    "user": {
+      "login": "nicolo-ribaudo",
+      "id": 7000710,
+      "node_id": "MDQ6VXNlcjcwMDA3MTA=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7000710?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nicolo-ribaudo",
+      "html_url": "https://github.com/nicolo-ribaudo",
+      "followers_url": "https://api.github.com/users/nicolo-ribaudo/followers",
+      "following_url": "https://api.github.com/users/nicolo-ribaudo/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nicolo-ribaudo/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nicolo-ribaudo/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nicolo-ribaudo/subscriptions",
+      "organizations_url": "https://api.github.com/users/nicolo-ribaudo/orgs",
+      "repos_url": "https://api.github.com/users/nicolo-ribaudo/repos",
+      "events_url": "https://api.github.com/users/nicolo-ribaudo/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nicolo-ribaudo/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I see that the definitions of `next sibling` and `previous sibling` would cover this, they just need to be xref'ed.",
+    "created_at": "2026-06-03T15:20:23Z",
+    "updated_at": "2026-06-03T15:20:24Z",
+    "html_url": "https://github.com/whatwg/html/pull/12511#discussion_r3349725206",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12511",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3349725206"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12511#discussion_r3349725206"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12511"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3349725206/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 38969,
+    "side": "RIGHT",
+    "in_reply_to_id": 3348960287,
+    "author_association": "MEMBER",
+    "original_position": 57,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3354138421",
+    "pull_request_review_id": 4425612237,
+    "id": 3354138421,
+    "node_id": "PRRC_kwDOALaj487H7Bc1",
+    "diff_hunk": "@@ -38937,38 +38937,42 @@ interface <dfn interface>MediaError</dfn> {\n      <dd>\n       <ol>\n        <li>\n-        <p>&#x231B; Let <var>pointer</var> be a position defined by two adjacent nodes in the\n-        <span>media element</span>'s child list, treating the start of the list (before the first\n-        child in the list, if any) and end of the list (after the last child in the list, if any) as\n-        nodes in their own right. One node is the node before <var>pointer</var>, and the\n-        other node is the node after <var>pointer</var>. Initially, let <var>pointer</var> be the position between the <var>candidate</var> node and the\n-        next node, if there are any, or the end of the list, if it is the last node.</p>\n+        <p>&#x231B; Let <var>pointerBefore</var> and <var>pointerAfter</var> be two variables that",
+    "path": "source",
+    "commit_id": "fb9eac1f1389b7286d3c207e080df47f3f883dfb",
+    "original_commit_id": "fb9eac1f1389b7286d3c207e080df47f3f883dfb",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\n        <p>&#x231B; Let <var>pointerBefore</var> and <var>pointerAfter</var>\n```",
+    "created_at": "2026-06-04T07:06:35Z",
+    "updated_at": "2026-06-04T07:09:44Z",
+    "html_url": "https://github.com/whatwg/html/pull/12511#discussion_r3354138421",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12511",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3354138421"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12511#discussion_r3354138421"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12511"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3354138421/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 38940,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 10,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3354148082",
+    "pull_request_review_id": 4425612237,
+    "id": 3354148082,
+    "node_id": "PRRC_kwDOALaj487H7Dzy",
+    "diff_hunk": "@@ -38937,38 +38937,42 @@ interface <dfn interface>MediaError</dfn> {\n      <dd>\n       <ol>\n        <li>\n-        <p>&#x231B; Let <var>pointer</var> be a position defined by two adjacent nodes in the\n-        <span>media element</span>'s child list, treating the start of the list (before the first\n-        child in the list, if any) and end of the list (after the last child in the list, if any) as\n-        nodes in their own right. One node is the node before <var>pointer</var>, and the\n-        other node is the node after <var>pointer</var>. Initially, let <var>pointer</var> be the position between the <var>candidate</var> node and the\n-        next node, if there are any, or the end of the list, if it is the last node.</p>\n+        <p>&#x231B; Let <var>pointerBefore</var> and <var>pointerAfter</var> be two variables that\n+        together identify a position in the <span>media element</span>'s child list.\n+        <var>pointerBefore</var> is either null or a child of the <span>media element</span>.\n+        <var>pointerAfter</var> is either null or a child of the <span>media element</span>. Null\n+        represents the position before the first child for <var>pointerBefore</var>, and the\n+        position after the last child for <var>pointerAfter</var>.</p>\n+\n+        <p>Initially, set <var>pointerBefore</var> to <var>candidate</var>. If <var>candidate</var>\n+        has a next sibling, then set <var>pointerAfter</var> to that sibling; otherwise, set\n+        <var>pointerAfter</var> to null.</p>\n \n         <p>As nodes are <span data-x=\"concept-node-insert-ext\">inserted</span>, <span",
+    "path": "source",
+    "commit_id": "0dfe9305014e350b716bdc975f00619699997a6e",
+    "original_commit_id": "fb9eac1f1389b7286d3c207e080df47f3f883dfb",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "We have test coverage here for arbitrary nodes? Surprised we don't use `source` element insertion/removal/moving steps.",
+    "created_at": "2026-06-04T07:08:33Z",
+    "updated_at": "2026-06-04T07:09:44Z",
+    "html_url": "https://github.com/whatwg/html/pull/12511#discussion_r3354148082",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12511",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3354148082"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12511#discussion_r3354148082"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12511"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3354148082/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 38951,
+    "original_line": 38951,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 21,
+    "position": 21,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3354151116",
+    "pull_request_review_id": 4425612237,
+    "id": 3354151116,
+    "node_id": "PRRC_kwDOALaj487H7EjM",
+    "diff_hunk": "@@ -39024,14 +39028,15 @@ interface <dfn interface>MediaError</dfn> {\n        <li><p>&#x231B; <i>Find next candidate</i>: Let <var>candidate</var> be\n        null.</p></li>\n \n-       <li><p>&#x231B; <i>Search loop</i>: If the node after <var>pointer</var> is\n-       the end of the list, then jump to the <i>waiting</i> step below.</p></li>\n+       <li><p>&#x231B; <i>Search loop</i>: If <var>pointerAfter</var> is null, then jump to the\n+       <i>waiting</i> step below.</p></li>\n \n-       <li><p>&#x231B; If the node after <var>pointer</var> is a <code>source</code> element,\n-       let <var>candidate</var> be that element.</p></li>\n+       <li><p>&#x231B; If <var>pointerAfter</var> is a <code>source</code> element, let",
+    "path": "source",
+    "commit_id": "fb9eac1f1389b7286d3c207e080df47f3f883dfb",
+    "original_commit_id": "fb9eac1f1389b7286d3c207e080df47f3f883dfb",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "then set _candidate_ to that element*?",
+    "created_at": "2026-06-04T07:09:14Z",
+    "updated_at": "2026-06-04T07:09:44Z",
+    "html_url": "https://github.com/whatwg/html/pull/12511#discussion_r3354151116",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12511",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3354151116"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12511#discussion_r3354151116"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12511"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3354151116/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 39034,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 79,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3355399165",
+    "pull_request_review_id": 4427130571,
+    "id": 3355399165,
+    "node_id": "PRRC_kwDOALaj487H_1P9",
+    "diff_hunk": "@@ -38937,38 +38937,42 @@ interface <dfn interface>MediaError</dfn> {\n      <dd>\n       <ol>\n        <li>\n-        <p>&#x231B; Let <var>pointer</var> be a position defined by two adjacent nodes in the\n-        <span>media element</span>'s child list, treating the start of the list (before the first\n-        child in the list, if any) and end of the list (after the last child in the list, if any) as\n-        nodes in their own right. One node is the node before <var>pointer</var>, and the\n-        other node is the node after <var>pointer</var>. Initially, let <var>pointer</var> be the position between the <var>candidate</var> node and the\n-        next node, if there are any, or the end of the list, if it is the last node.</p>\n+        <p>&#x231B; Let <var>pointerBefore</var> and <var>pointerAfter</var> be two variables that\n+        together identify a position in the <span>media element</span>'s child list.\n+        <var>pointerBefore</var> is either null or a child of the <span>media element</span>.\n+        <var>pointerAfter</var> is either null or a child of the <span>media element</span>. Null\n+        represents the position before the first child for <var>pointerBefore</var>, and the\n+        position after the last child for <var>pointerAfter</var>.</p>\n+\n+        <p>Initially, set <var>pointerBefore</var> to <var>candidate</var>. If <var>candidate</var>\n+        has a next sibling, then set <var>pointerAfter</var> to that sibling; otherwise, set\n+        <var>pointerAfter</var> to null.</p>\n \n         <p>As nodes are <span data-x=\"concept-node-insert-ext\">inserted</span>, <span",
+    "path": "source",
+    "commit_id": "0dfe9305014e350b716bdc975f00619699997a6e",
+    "original_commit_id": "fb9eac1f1389b7286d3c207e080df47f3f883dfb",
+    "user": {
+      "login": "nicolo-ribaudo",
+      "id": 7000710,
+      "node_id": "MDQ6VXNlcjcwMDA3MTA=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7000710?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nicolo-ribaudo",
+      "html_url": "https://github.com/nicolo-ribaudo",
+      "followers_url": "https://api.github.com/users/nicolo-ribaudo/followers",
+      "following_url": "https://api.github.com/users/nicolo-ribaudo/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nicolo-ribaudo/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nicolo-ribaudo/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nicolo-ribaudo/subscriptions",
+      "organizations_url": "https://api.github.com/users/nicolo-ribaudo/orgs",
+      "repos_url": "https://api.github.com/users/nicolo-ribaudo/repos",
+      "events_url": "https://api.github.com/users/nicolo-ribaudo/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nicolo-ribaudo/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "> Surprised we don't use source element insertion/removal/moving steps.\r\n\r\nAgree -- (unless @zcorpan gets to it first!), it's in my \"hopefully I'll get to open a PR to it\" list from https://github.com/whatwg/html/pull/12502.\r\n\r\nWe already have `source` element insertion/removal steps, we just need to extend them.",
+    "created_at": "2026-06-04T10:48:04Z",
+    "updated_at": "2026-06-04T10:49:44Z",
+    "html_url": "https://github.com/whatwg/html/pull/12511#discussion_r3355399165",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12511",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3355399165"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12511#discussion_r3355399165"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12511"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3355399165/reactions",
+      "total_count": 1,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 1,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 38951,
+    "original_line": 38951,
+    "side": "RIGHT",
+    "in_reply_to_id": 3354148082,
+    "author_association": "MEMBER",
+    "original_position": 21,
+    "position": 21,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3360812387",
+    "pull_request_review_id": 4434021025,
+    "id": 3360812387,
+    "node_id": "PRRC_kwDOALaj487IUe1j",
+    "diff_hunk": "@@ -38937,38 +38937,42 @@ interface <dfn interface>MediaError</dfn> {\n      <dd>\n       <ol>\n        <li>\n-        <p>&#x231B; Let <var>pointer</var> be a position defined by two adjacent nodes in the\n-        <span>media element</span>'s child list, treating the start of the list (before the first\n-        child in the list, if any) and end of the list (after the last child in the list, if any) as\n-        nodes in their own right. One node is the node before <var>pointer</var>, and the\n-        other node is the node after <var>pointer</var>. Initially, let <var>pointer</var> be the position between the <var>candidate</var> node and the\n-        next node, if there are any, or the end of the list, if it is the last node.</p>\n+        <p>&#x231B; Let <var>pointerBefore</var> and <var>pointerAfter</var> be two variables that\n+        together identify a position in the <span>media element</span>'s child list.\n+        <var>pointerBefore</var> is either null or a child of the <span>media element</span>.\n+        <var>pointerAfter</var> is either null or a child of the <span>media element</span>. Null\n+        represents the position before the first child for <var>pointerBefore</var>, and the\n+        position after the last child for <var>pointerAfter</var>.</p>\n+\n+        <p>Initially, set <var>pointerBefore</var> to <var>candidate</var>. If <var>candidate</var>\n+        has a next sibling, then set <var>pointerAfter</var> to that sibling; otherwise, set\n+        <var>pointerAfter</var> to null.</p>\n \n         <p>As nodes are <span data-x=\"concept-node-insert-ext\">inserted</span>, <span",
+    "path": "source",
+    "commit_id": "0dfe9305014e350b716bdc975f00619699997a6e",
+    "original_commit_id": "fb9eac1f1389b7286d3c207e080df47f3f883dfb",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Yes I was thinking also we should switch to tracking only the `source` children, but it's a slightly larger leap for the spec. There are tests at https://wpt.fyi/results/html/semantics/embedded-content/media-elements/loading-the-media-resource?label=experimental&label=master&aligned",
+    "created_at": "2026-06-05T06:27:16Z",
+    "updated_at": "2026-06-05T06:27:16Z",
+    "html_url": "https://github.com/whatwg/html/pull/12511#discussion_r3360812387",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12511",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3360812387"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12511#discussion_r3360812387"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12511"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3360812387/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 38951,
+    "original_line": 38951,
+    "side": "RIGHT",
+    "in_reply_to_id": 3354148082,
+    "author_association": "MEMBER",
+    "original_position": 21,
+    "position": 21,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3360955990",
+    "pull_request_review_id": 4434207787,
+    "id": 3360955990,
+    "node_id": "PRRC_kwDOALaj487IVB5W",
+    "diff_hunk": "@@ -38937,38 +38937,42 @@ interface <dfn interface>MediaError</dfn> {\n      <dd>\n       <ol>\n        <li>\n-        <p>&#x231B; Let <var>pointer</var> be a position defined by two adjacent nodes in the\n-        <span>media element</span>'s child list, treating the start of the list (before the first\n-        child in the list, if any) and end of the list (after the last child in the list, if any) as\n-        nodes in their own right. One node is the node before <var>pointer</var>, and the\n-        other node is the node after <var>pointer</var>. Initially, let <var>pointer</var> be the position between the <var>candidate</var> node and the\n-        next node, if there are any, or the end of the list, if it is the last node.</p>\n+        <p>&#x231B; Let <var>pointerBefore</var> and <var>pointerAfter</var> be two variables that\n+        together identify a position in the <span>media element</span>'s child list.\n+        <var>pointerBefore</var> is either null or a child of the <span>media element</span>.\n+        <var>pointerAfter</var> is either null or a child of the <span>media element</span>. Null\n+        represents the position before the first child for <var>pointerBefore</var>, and the\n+        position after the last child for <var>pointerAfter</var>.</p>\n+\n+        <p>Initially, set <var>pointerBefore</var> to <var>candidate</var>. If <var>candidate</var>\n+        has a next sibling, then set <var>pointerAfter</var> to that sibling; otherwise, set\n+        <var>pointerAfter</var> to null.</p>\n \n         <p>As nodes are <span data-x=\"concept-node-insert-ext\">inserted</span>, <span\n         data-x=\"concept-node-remove-ext\">removed</span>, and <span\n-        data-x=\"concept-node-move-ext\">moved</span> into the <span>media element</span>,\n-        <var>pointer</var> must be updated as follows:</p>\n+        data-x=\"concept-node-move-ext\">moved</span> into, out of, or within the <span>media\n+        element</span>, <var>pointerBefore</var> and <var>pointerAfter</var> must be updated as\n+        follows:</p>\n \n         <dl>\n-         <dt>If a new node is <span data-x=\"concept-node-insert-ext\">inserted</span> or <span\n-         data-x=\"concept-node-move-ext\">moved</span> between the two nodes that define\n-         <var>pointer</var></dt>\n-         <dd>Let <var>pointer</var> be the point between the node before <var>pointer</var> and the\n-         new node. In other words, insertions at <var>pointer</var> go after\n-         <var>pointer</var>.</dd>\n-\n-         <dt>If the node before <var>pointer</var> is removed</dt>\n-         <dd>Let <var>pointer</var> be the point between the node after <var>pointer</var> and the\n-         node before the node after <var>pointer</var>. In other words, <var>pointer</var> doesn't\n-         move relative to the remaining nodes.</dd>\n-\n-         <dt>If the node after <var>pointer</var> is removed</dt>\n-         <dd>Let <var>pointer</var> be the point between the node before <var>pointer</var> and the\n-         node after the node before <var>pointer</var>. Just as with the previous case,\n-         <var>pointer</var> doesn't move relative to the remaining nodes.</dd>\n+         <dt>If a new node is <span data-x=\"concept-node-insert-ext\">inserted</span> or <span data-x=\"concept-node-move-ext\">moved</span> between <var>pointerBefore</var> and <var>pointerAfter</var></dt>\n+         <dd>Set <var>pointerAfter</var> to the new node. In other words, insertions at the pointer\n+         go after the pointer.</dd>\n+\n+         <dt>If <var>pointerBefore</var> is <span data-x=\"concept-node-remove-ext\">removed</span> or <span data-x=\"concept-node-move-ext\">moved</span></dt>\n+         <dd>Set <var>pointerBefore</var> to <var>pointerAfter</var>'s previous sibling, if\n+         <var>pointerAfter</var> is non-null; otherwise, set <var>pointerBefore</var> to the\n+         <span>media element</span>'s last child. In other words, the pointer does not move relative\n+         to the remaining nodes.</dd>\n+\n+         <dt>If <var>pointerAfter</var> is <span data-x=\"concept-node-remove-ext\">removed</span> or <span data-x=\"concept-node-move-ext\">moved</span></dt>\n+         <dd>Set <var>pointerAfter</var> to <var>pointerBefore</var>'s next sibling, if",
+    "path": "source",
+    "commit_id": "fb9eac1f1389b7286d3c207e080df47f3f883dfb",
+    "original_commit_id": "6f9dd4c73001232f17b128995588b757755ec59b",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2026-06-05T07:03:14Z",
+    "updated_at": "2026-06-05T07:03:14Z",
+    "html_url": "https://github.com/whatwg/html/pull/12511#discussion_r3360955990",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12511",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3360955990"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12511#discussion_r3360955990"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12511"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3360955990/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 38969,
+    "side": "RIGHT",
+    "in_reply_to_id": 3348960287,
+    "author_association": "MEMBER",
+    "original_position": 57,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]
