@@ -331,8 +331,9 @@ done, every run also spends at least one request on the events listing.
 Each run logs the hourly limit GitHub reports for its token. The
 workflow commits after every run. With a 5,000-an-hour token (the
 built-in one has had that here) a backfill run stops at the reserve after about 4,500 requests (some 20
-minutes), so a backfill takes one run per hour of budget; the 300-minute
-deadline, inside the job's 350-minute limit, is a backstop.
+minutes), so a backfill takes one run per hour of budget; the 50-minute
+deadline, inside the job's 60-minute limit, is a backstop that also
+keeps a slow run from holding up the next hourly one.
 
 ## The weekly reconcile (`extract --reconcile`)
 
