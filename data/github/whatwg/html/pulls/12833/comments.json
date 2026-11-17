@@ -1,0 +1,932 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3966840852",
+    "pull_request_review_id": 5152439385,
+    "id": 3966840852,
+    "node_id": "PRRC_kwDOALaj487scTAU",
+    "diff_hunk": "@@ -35472,7 +35476,38 @@ interface <dfn interface>HTMLIFrameElement</dfn> : <span>HTMLElement</span> {\n    directive</span> given the attribute's value and <var>insertedNode</var>'s\n    <span><code>iframe</code> sandboxing flag set</span>.</p></li>\n \n-   <li><p><span>Create a new child navigable</span> for <var>insertedNode</var>.</p></li>\n+   <li><p>Let <var>hasImmediateNavigationForWebDriver</var> be true.</p></li>\n+\n+   <li>\n+    <p>If <var>insertedNode</var> does not have a <code\n+    data-x=\"attr-iframe-srcdoc\">srcdoc</code> attribute, then:</p>\n+\n+    <ol>\n+     <li><p>Let <var>url</var> be the result of <span>getting the URL for an <code>iframe</code> or\n+     <code>frame</code></span> given <var>insertedNode</var>.</p></li>\n+\n+     <li><p>If <var>url</var> is null or <var>url</var> <span>matches\n+     <code>about:blank</code></span>, then set <var>hasImmediateNavigationForWebDriver</var> to false.</p></li>\n+    </ol>\n+   </li>\n+\n+   <li>\n+    <p>If all of the following are true:</p>\n+\n+    <ul class=\"brief\">\n+     <li><p><var>hasImmediateNavigationForWebDriver</var> is true;</p></li>\n+\n+     <li><p>the <span>will lazy load element steps</span> given <var>insertedNode</var> return true;\n+     and</p></li>\n+\n+     <li><p><var>insertedNode</var> does not <span>intersect the viewport</span>,</p></li>",
+    "path": "source",
+    "commit_id": "d261bd13b6761360efad421d818d76ccc7a7542e",
+    "original_commit_id": "d261bd13b6761360efad421d818d76ccc7a7542e",
+    "user": {
+      "login": "whimboo",
+      "id": 129603,
+      "node_id": "MDQ6VXNlcjEyOTYwMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/129603?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/whimboo",
+      "html_url": "https://github.com/whimboo",
+      "followers_url": "https://api.github.com/users/whimboo/followers",
+      "following_url": "https://api.github.com/users/whimboo/following{/other_user}",
+      "gists_url": "https://api.github.com/users/whimboo/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/whimboo/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/whimboo/subscriptions",
+      "organizations_url": "https://api.github.com/users/whimboo/orgs",
+      "repos_url": "https://api.github.com/users/whimboo/repos",
+      "events_url": "https://api.github.com/users/whimboo/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/whimboo/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "For lazy loaded iframes the intersection with the viewport cannot be determined here because it would have to be rendered first, right? As such we would never set the flag to `false` and it stays true.\n\nShould we remove this particular condition so that clients then wait for `browsingContext.load` only for the non-lazy case, and a lazy iframe that resumes shows up as a normal navigation later. Or should it maybe part of https://html.spec.whatwg.org/#process-the-iframe-attributes but that would defer the `WebDriver BiDi navigable created` invocation.",
+    "created_at": "2026-09-09T09:36:25Z",
+    "updated_at": "2026-09-09T09:58:13Z",
+    "html_url": "https://github.com/whatwg/html/pull/12833#discussion_r3966840852",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12833",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3966840852"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12833#discussion_r3966840852"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12833"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3966840852/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 35503,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 48,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3966919081",
+    "pull_request_review_id": 5152439385,
+    "id": 3966919081,
+    "node_id": "PRRC_kwDOALaj487scmGp",
+    "diff_hunk": "@@ -97277,10 +97333,15 @@ dictionary <dfn dictionary>WindowPostMessageOptions</dfn> : <span>StructuredSeri\n    <li><p>If <var>noreferrer</var> is true, then set <var>noopener</var> to true and set\n    <var>referrerPolicy</var> to \"<code data-x=\"\">no-referrer</code>\".</p></li>\n \n+   <li><p>Let <var>hasImmediateNavigationForWebDriver</var> be true if <var>urlRecord</var> is non-null and does\n+   not <span data-x=\"matches about:blank\">match <code>about:blank</code></span>; otherwise\n+   false.</p></li>\n+\n    <li>\n     <p>Let <var>targetNavigable</var> and <var>windowType</var> be the result of applying <span>the\n     rules for choosing a navigable</span> given <var>target</var>, <var>sourceDocument</var>'s\n-    <span>node navigable</span>, and <var>noopener</var>.</p>\n+    <span>node navigable</span>, <var>noopener</var>, and\n+    <var>hasImmediateNavigationForWebDriver</var>.</p>",
+    "path": "source",
+    "commit_id": "d261bd13b6761360efad421d818d76ccc7a7542e",
+    "original_commit_id": "d261bd13b6761360efad421d818d76ccc7a7542e",
+    "user": {
+      "login": "whimboo",
+      "id": 129603,
+      "node_id": "MDQ6VXNlcjEyOTYwMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/129603?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/whimboo",
+      "html_url": "https://github.com/whimboo",
+      "followers_url": "https://api.github.com/users/whimboo/followers",
+      "following_url": "https://api.github.com/users/whimboo/following{/other_user}",
+      "gists_url": "https://api.github.com/users/whimboo/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/whimboo/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/whimboo/subscriptions",
+      "organizations_url": "https://api.github.com/users/whimboo/orgs",
+      "repos_url": "https://api.github.com/users/whimboo/repos",
+      "events_url": "https://api.github.com/users/whimboo/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/whimboo/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "https://html.spec.whatwg.org/#the-rules-for-choosing-a-navigable creates traversables before the caller knows if a navigation will take place or not. How would we handle cases with `target=\"_blank\">` for `mailto` links, form action, links to files with a special MIME type like `.pdf`?\n\nIf we cannot guarantee that a navigation will clearly happen clients might need a fallback.",
+    "created_at": "2026-09-09T09:43:40Z",
+    "updated_at": "2026-09-09T09:58:13Z",
+    "html_url": "https://github.com/whatwg/html/pull/12833#discussion_r3966919081",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12833",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3966919081"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12833#discussion_r3966919081"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12833"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3966919081/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 97344,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 158,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3966938489",
+    "pull_request_review_id": 5152439385,
+    "id": 3966938489,
+    "node_id": "PRRC_kwDOALaj487scq15",
+    "diff_hunk": "@@ -105529,7 +105594,8 @@ interface <dfn interface>NotRestoredReasons</dfn> {\n     </ol>\n    </li>\n \n-   <li><p>Invoke <span>WebDriver BiDi navigable created</span> with <var>traversable</var>.</p></li>\n+   <li><p>Invoke <span>WebDriver BiDi navigable created</span> with <var>navigable</var> and",
+    "path": "source",
+    "commit_id": "6adbe5881762cb5b15b3bb5b296554327d14b3c1",
+    "original_commit_id": "d261bd13b6761360efad421d818d76ccc7a7542e",
+    "user": {
+      "login": "whimboo",
+      "id": 129603,
+      "node_id": "MDQ6VXNlcjEyOTYwMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/129603?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/whimboo",
+      "html_url": "https://github.com/whimboo",
+      "followers_url": "https://api.github.com/users/whimboo/followers",
+      "following_url": "https://api.github.com/users/whimboo/following{/other_user}",
+      "gists_url": "https://api.github.com/users/whimboo/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/whimboo/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/whimboo/subscriptions",
+      "organizations_url": "https://api.github.com/users/whimboo/orgs",
+      "repos_url": "https://api.github.com/users/whimboo/repos",
+      "events_url": "https://api.github.com/users/whimboo/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/whimboo/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Is there a reason why you changed `traversable` to `navigable`?",
+    "created_at": "2026-09-09T09:45:37Z",
+    "updated_at": "2026-09-09T09:58:13Z",
+    "html_url": "https://github.com/whatwg/html/pull/12833#discussion_r3966938489",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12833",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3966938489"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12833#discussion_r3966938489"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12833"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3966938489/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 105594,
+    "original_line": 105597,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 212,
+    "position": 219,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3966973217",
+    "pull_request_review_id": 5152439385,
+    "id": 3966973217,
+    "node_id": "PRRC_kwDOALaj487sczUh",
+    "diff_hunk": "@@ -36418,7 +36467,7 @@ interface <dfn interface>HTMLEmbedElement</dfn> : <span>HTMLElement</span> {\n          <dd>\n           <ol>\n            <li><p>If <var>element</var>'s <span>content navigable</span> is null, then\n-           <span>create a new child navigable</span> for <var>element</var>.</p></li>\n+           <span>create a new child navigable</span> given <var>element</var> and true.</p></li>",
+    "path": "source",
+    "commit_id": "6adbe5881762cb5b15b3bb5b296554327d14b3c1",
+    "original_commit_id": "d261bd13b6761360efad421d818d76ccc7a7542e",
+    "user": {
+      "login": "whimboo",
+      "id": 129603,
+      "node_id": "MDQ6VXNlcjEyOTYwMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/129603?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/whimboo",
+      "html_url": "https://github.com/whimboo",
+      "followers_url": "https://api.github.com/users/whimboo/followers",
+      "following_url": "https://api.github.com/users/whimboo/following{/other_user}",
+      "gists_url": "https://api.github.com/users/whimboo/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/whimboo/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/whimboo/subscriptions",
+      "organizations_url": "https://api.github.com/users/whimboo/orgs",
+      "repos_url": "https://api.github.com/users/whimboo/repos",
+      "events_url": "https://api.github.com/users/whimboo/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/whimboo/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Is there a reason why we pass `true` for `embed` but compute it for `object` based on the response URL?",
+    "created_at": "2026-09-09T09:49:28Z",
+    "updated_at": "2026-09-09T09:58:13Z",
+    "html_url": "https://github.com/whatwg/html/pull/12833#discussion_r3966973217",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12833",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3966973217"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12833#discussion_r3966973217"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12833"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3966973217/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 36465,
+    "original_line": 36470,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 98,
+    "position": 93,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3967030772",
+    "pull_request_review_id": 5152439385,
+    "id": 3967030772,
+    "node_id": "PRRC_kwDOALaj487sdBX0",
+    "diff_hunk": "@@ -36914,14 +36963,18 @@ interface <dfn interface>HTMLObjectElement</dfn> : <span>HTMLElement</span> {\n        does not start with \"<code data-x=\"\">image/</code>\"</dt>\n \n        <dd>\n-        <p>If the <code>object</code> element's <span>content navigable</span> is null, then\n-        <span>create a new child navigable</span> for the element.</p>\n-\n         <p>Let <var>response</var> be the <span data-x=\"concept-response\">response</span> from\n         <span data-x=\"concept-fetch\">fetch</span>.</p>\n \n-        <p>If <var>response</var>'s <span data-x=\"concept-response-url\">URL</span> does not <span\n-        data-x=\"matches about:blank\">match <code>about:blank</code></span>, then\n+        <p>Let <var>hasImmediateNavigationForWebDriver</var> be true if <var>response</var>'s <span",
+    "path": "source",
+    "commit_id": "d261bd13b6761360efad421d818d76ccc7a7542e",
+    "original_commit_id": "d261bd13b6761360efad421d818d76ccc7a7542e",
+    "user": {
+      "login": "whimboo",
+      "id": 129603,
+      "node_id": "MDQ6VXNlcjEyOTYwMw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/129603?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/whimboo",
+      "html_url": "https://github.com/whimboo",
+      "followers_url": "https://api.github.com/users/whimboo/followers",
+      "following_url": "https://api.github.com/users/whimboo/following{/other_user}",
+      "gists_url": "https://api.github.com/users/whimboo/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/whimboo/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/whimboo/subscriptions",
+      "organizations_url": "https://api.github.com/users/whimboo/orgs",
+      "repos_url": "https://api.github.com/users/whimboo/repos",
+      "events_url": "https://api.github.com/users/whimboo/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/whimboo/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "It's `immediate` the right term to use? As it looks like the navigation can happen instantly but as well can be delayed. Maybe `hasPendingNavigationForWebDriver` would be better?",
+    "created_at": "2026-09-09T09:56:44Z",
+    "updated_at": "2026-09-09T09:58:13Z",
+    "html_url": "https://github.com/whatwg/html/pull/12833#discussion_r3967030772",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12833",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3967030772"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12833#discussion_r3967030772"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12833"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3967030772/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 36969,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 114,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3977796326",
+    "pull_request_review_id": 5165558463,
+    "id": 3977796326,
+    "node_id": "PRRC_kwDOALaj487tGFrm",
+    "diff_hunk": "@@ -36914,14 +36963,18 @@ interface <dfn interface>HTMLObjectElement</dfn> : <span>HTMLElement</span> {\n        does not start with \"<code data-x=\"\">image/</code>\"</dt>\n \n        <dd>\n-        <p>If the <code>object</code> element's <span>content navigable</span> is null, then\n-        <span>create a new child navigable</span> for the element.</p>\n-\n         <p>Let <var>response</var> be the <span data-x=\"concept-response\">response</span> from\n         <span data-x=\"concept-fetch\">fetch</span>.</p>\n \n-        <p>If <var>response</var>'s <span data-x=\"concept-response-url\">URL</span> does not <span\n-        data-x=\"matches about:blank\">match <code>about:blank</code></span>, then\n+        <p>Let <var>hasImmediateNavigationForWebDriver</var> be true if <var>response</var>'s <span",
+    "path": "source",
+    "commit_id": "d261bd13b6761360efad421d818d76ccc7a7542e",
+    "original_commit_id": "d261bd13b6761360efad421d818d76ccc7a7542e",
+    "user": {
+      "login": "lutien",
+      "id": 5276969,
+      "node_id": "MDQ6VXNlcjUyNzY5Njk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5276969?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lutien",
+      "html_url": "https://github.com/lutien",
+      "followers_url": "https://api.github.com/users/lutien/followers",
+      "following_url": "https://api.github.com/users/lutien/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lutien/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lutien/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lutien/subscriptions",
+      "organizations_url": "https://api.github.com/users/lutien/orgs",
+      "repos_url": "https://api.github.com/users/lutien/repos",
+      "events_url": "https://api.github.com/users/lutien/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lutien/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "`Pending` could mean that for lazy iframes the navigation might happen when they're in the viewport, but that's not what we want to say here. We would like to indicate that the navigation should happen any moment. ",
+    "created_at": "2026-09-10T09:52:20Z",
+    "updated_at": "2026-09-10T09:52:20Z",
+    "html_url": "https://github.com/whatwg/html/pull/12833#discussion_r3977796326",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12833",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3977796326"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12833#discussion_r3977796326"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12833"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3977796326/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 36969,
+    "side": "RIGHT",
+    "in_reply_to_id": 3967030772,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 114,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3980639691",
+    "pull_request_review_id": 5168976206,
+    "id": 3980639691,
+    "node_id": "PRRC_kwDOALaj487tQ73L",
+    "diff_hunk": "@@ -36418,7 +36467,7 @@ interface <dfn interface>HTMLEmbedElement</dfn> : <span>HTMLElement</span> {\n          <dd>\n           <ol>\n            <li><p>If <var>element</var>'s <span>content navigable</span> is null, then\n-           <span>create a new child navigable</span> for <var>element</var>.</p></li>\n+           <span>create a new child navigable</span> given <var>element</var> and true.</p></li>",
+    "path": "source",
+    "commit_id": "6adbe5881762cb5b15b3bb5b296554327d14b3c1",
+    "original_commit_id": "d261bd13b6761360efad421d818d76ccc7a7542e",
+    "user": {
+      "login": "lutien",
+      "id": 5276969,
+      "node_id": "MDQ6VXNlcjUyNzY5Njk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5276969?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lutien",
+      "html_url": "https://github.com/lutien",
+      "followers_url": "https://api.github.com/users/lutien/followers",
+      "following_url": "https://api.github.com/users/lutien/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lutien/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lutien/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lutien/subscriptions",
+      "organizations_url": "https://api.github.com/users/lutien/orgs",
+      "repos_url": "https://api.github.com/users/lutien/repos",
+      "events_url": "https://api.github.com/users/lutien/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lutien/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "yes, because for `object` we can navigate to `about:blank` and I think for `embeded` we cannot.",
+    "created_at": "2026-09-10T15:19:33Z",
+    "updated_at": "2026-09-10T15:19:33Z",
+    "html_url": "https://github.com/whatwg/html/pull/12833#discussion_r3980639691",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12833",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3980639691"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12833#discussion_r3980639691"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12833"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3980639691/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 36465,
+    "original_line": 36470,
+    "side": "RIGHT",
+    "in_reply_to_id": 3966973217,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 98,
+    "position": 93,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3980666458",
+    "pull_request_review_id": 5169007558,
+    "id": 3980666458,
+    "node_id": "PRRC_kwDOALaj487tRCZa",
+    "diff_hunk": "@@ -105529,7 +105594,8 @@ interface <dfn interface>NotRestoredReasons</dfn> {\n     </ol>\n    </li>\n \n-   <li><p>Invoke <span>WebDriver BiDi navigable created</span> with <var>traversable</var>.</p></li>\n+   <li><p>Invoke <span>WebDriver BiDi navigable created</span> with <var>navigable</var> and",
+    "path": "source",
+    "commit_id": "6adbe5881762cb5b15b3bb5b296554327d14b3c1",
+    "original_commit_id": "d261bd13b6761360efad421d818d76ccc7a7542e",
+    "user": {
+      "login": "lutien",
+      "id": 5276969,
+      "node_id": "MDQ6VXNlcjUyNzY5Njk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5276969?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lutien",
+      "html_url": "https://github.com/lutien",
+      "followers_url": "https://api.github.com/users/lutien/followers",
+      "following_url": "https://api.github.com/users/lutien/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lutien/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lutien/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lutien/subscriptions",
+      "organizations_url": "https://api.github.com/users/lutien/orgs",
+      "repos_url": "https://api.github.com/users/lutien/repos",
+      "events_url": "https://api.github.com/users/lutien/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lutien/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Yes, because `traversable` is the parent of `navigable`, but we actually want to notify about the child being created, so `navigable` is the correct variable here.",
+    "created_at": "2026-09-10T15:22:24Z",
+    "updated_at": "2026-09-10T15:22:24Z",
+    "html_url": "https://github.com/whatwg/html/pull/12833#discussion_r3980666458",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12833",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3980666458"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12833#discussion_r3980666458"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12833"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3980666458/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 105594,
+    "original_line": 105597,
+    "side": "RIGHT",
+    "in_reply_to_id": 3966938489,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 212,
+    "position": 219,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3989218251",
+    "pull_request_review_id": 5178742220,
+    "id": 3989218251,
+    "node_id": "PRRC_kwDOALaj487txqPL",
+    "diff_hunk": "@@ -97277,10 +97333,15 @@ dictionary <dfn dictionary>WindowPostMessageOptions</dfn> : <span>StructuredSeri\n    <li><p>If <var>noreferrer</var> is true, then set <var>noopener</var> to true and set\n    <var>referrerPolicy</var> to \"<code data-x=\"\">no-referrer</code>\".</p></li>\n \n+   <li><p>Let <var>hasImmediateNavigationForWebDriver</var> be true if <var>urlRecord</var> is non-null and does\n+   not <span data-x=\"matches about:blank\">match <code>about:blank</code></span>; otherwise\n+   false.</p></li>\n+\n    <li>\n     <p>Let <var>targetNavigable</var> and <var>windowType</var> be the result of applying <span>the\n     rules for choosing a navigable</span> given <var>target</var>, <var>sourceDocument</var>'s\n-    <span>node navigable</span>, and <var>noopener</var>.</p>\n+    <span>node navigable</span>, <var>noopener</var>, and\n+    <var>hasImmediateNavigationForWebDriver</var>.</p>",
+    "path": "source",
+    "commit_id": "d261bd13b6761360efad421d818d76ccc7a7542e",
+    "original_commit_id": "d261bd13b6761360efad421d818d76ccc7a7542e",
+    "user": {
+      "login": "lutien",
+      "id": 5276969,
+      "node_id": "MDQ6VXNlcjUyNzY5Njk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5276969?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lutien",
+      "html_url": "https://github.com/lutien",
+      "followers_url": "https://api.github.com/users/lutien/followers",
+      "following_url": "https://api.github.com/users/lutien/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lutien/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lutien/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lutien/subscriptions",
+      "organizations_url": "https://api.github.com/users/lutien/orgs",
+      "repos_url": "https://api.github.com/users/lutien/repos",
+      "events_url": "https://api.github.com/users/lutien/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lutien/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "But I think in all these cases we will still trigger `browsingContext.navigationStarted`, right? Yes, there might be no load events or/and `navigationFailed`/ `navigationAborted`. Which is the case with navigation to a normal page, it can still fail with, e.g., `404`. So I doubt that our goal here should be to say there will be a successful navigation, we probably want to only say that the navigation is planned (maybe that's a better name for the flag).",
+    "created_at": "2026-09-11T12:43:31Z",
+    "updated_at": "2026-09-11T12:43:31Z",
+    "html_url": "https://github.com/whatwg/html/pull/12833#discussion_r3989218251",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12833",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3989218251"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12833#discussion_r3989218251"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12833"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3989218251/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 97344,
+    "side": "RIGHT",
+    "in_reply_to_id": 3966919081,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 158,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3989678387",
+    "pull_request_review_id": 5179271816,
+    "id": 3989678387,
+    "node_id": "PRRC_kwDOALaj487tzakz",
+    "diff_hunk": "@@ -35472,7 +35476,38 @@ interface <dfn interface>HTMLIFrameElement</dfn> : <span>HTMLElement</span> {\n    directive</span> given the attribute's value and <var>insertedNode</var>'s\n    <span><code>iframe</code> sandboxing flag set</span>.</p></li>\n \n-   <li><p><span>Create a new child navigable</span> for <var>insertedNode</var>.</p></li>\n+   <li><p>Let <var>hasImmediateNavigationForWebDriver</var> be true.</p></li>\n+\n+   <li>\n+    <p>If <var>insertedNode</var> does not have a <code\n+    data-x=\"attr-iframe-srcdoc\">srcdoc</code> attribute, then:</p>\n+\n+    <ol>\n+     <li><p>Let <var>url</var> be the result of <span>getting the URL for an <code>iframe</code> or\n+     <code>frame</code></span> given <var>insertedNode</var>.</p></li>\n+\n+     <li><p>If <var>url</var> is null or <var>url</var> <span>matches\n+     <code>about:blank</code></span>, then set <var>hasImmediateNavigationForWebDriver</var> to false.</p></li>\n+    </ol>\n+   </li>\n+\n+   <li>\n+    <p>If all of the following are true:</p>\n+\n+    <ul class=\"brief\">\n+     <li><p><var>hasImmediateNavigationForWebDriver</var> is true;</p></li>\n+\n+     <li><p>the <span>will lazy load element steps</span> given <var>insertedNode</var> return true;\n+     and</p></li>\n+\n+     <li><p><var>insertedNode</var> does not <span>intersect the viewport</span>,</p></li>",
+    "path": "source",
+    "commit_id": "d261bd13b6761360efad421d818d76ccc7a7542e",
+    "original_commit_id": "d261bd13b6761360efad421d818d76ccc7a7542e",
+    "user": {
+      "login": "lutien",
+      "id": 5276969,
+      "node_id": "MDQ6VXNlcjUyNzY5Njk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5276969?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lutien",
+      "html_url": "https://github.com/lutien",
+      "followers_url": "https://api.github.com/users/lutien/followers",
+      "following_url": "https://api.github.com/users/lutien/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lutien/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lutien/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lutien/subscriptions",
+      "organizations_url": "https://api.github.com/users/lutien/orgs",
+      "repos_url": "https://api.github.com/users/lutien/repos",
+      "events_url": "https://api.github.com/users/lutien/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lutien/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Yeah, I think you're right that we need the reflow to happen to know if the iframe is in the viewport, so the `WebDriver BiDi navigable created` is happening too early for that. I think it wouldn't be such a good idea to move the timing of the event. I think we will need some other event for lazy iframes + a property on the \"browsingContext.contextCreated\" to indicate that it's a `lazy` navigable. I've updated the name of the property and removed the condition for the intersection and renamed the variable.",
+    "created_at": "2026-09-11T13:39:40Z",
+    "updated_at": "2026-09-11T13:39:41Z",
+    "html_url": "https://github.com/whatwg/html/pull/12833#discussion_r3989678387",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12833",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3989678387"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12833#discussion_r3989678387"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12833"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3989678387/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 35503,
+    "side": "RIGHT",
+    "in_reply_to_id": 3966840852,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 48,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3989687425",
+    "pull_request_review_id": 5179281777,
+    "id": 3989687425,
+    "node_id": "PRRC_kwDOALaj487tzcyB",
+    "diff_hunk": "@@ -36914,14 +36963,18 @@ interface <dfn interface>HTMLObjectElement</dfn> : <span>HTMLElement</span> {\n        does not start with \"<code data-x=\"\">image/</code>\"</dt>\n \n        <dd>\n-        <p>If the <code>object</code> element's <span>content navigable</span> is null, then\n-        <span>create a new child navigable</span> for the element.</p>\n-\n         <p>Let <var>response</var> be the <span data-x=\"concept-response\">response</span> from\n         <span data-x=\"concept-fetch\">fetch</span>.</p>\n \n-        <p>If <var>response</var>'s <span data-x=\"concept-response-url\">URL</span> does not <span\n-        data-x=\"matches about:blank\">match <code>about:blank</code></span>, then\n+        <p>Let <var>hasImmediateNavigationForWebDriver</var> be true if <var>response</var>'s <span",
+    "path": "source",
+    "commit_id": "d261bd13b6761360efad421d818d76ccc7a7542e",
+    "original_commit_id": "d261bd13b6761360efad421d818d76ccc7a7542e",
+    "user": {
+      "login": "lutien",
+      "id": 5276969,
+      "node_id": "MDQ6VXNlcjUyNzY5Njk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5276969?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lutien",
+      "html_url": "https://github.com/lutien",
+      "followers_url": "https://api.github.com/users/lutien/followers",
+      "following_url": "https://api.github.com/users/lutien/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lutien/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lutien/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lutien/subscriptions",
+      "organizations_url": "https://api.github.com/users/lutien/orgs",
+      "repos_url": "https://api.github.com/users/lutien/repos",
+      "events_url": "https://api.github.com/users/lutien/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lutien/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Ok, so I've changed the behavior for the lazy iframes, so I think actually `hasPlannedNavigationForWebDriver` would be a better name here.",
+    "created_at": "2026-09-11T13:40:44Z",
+    "updated_at": "2026-09-11T13:40:45Z",
+    "html_url": "https://github.com/whatwg/html/pull/12833#discussion_r3989687425",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12833",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3989687425"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12833#discussion_r3989687425"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12833"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3989687425/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 36969,
+    "side": "RIGHT",
+    "in_reply_to_id": 3967030772,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 114,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4025738534",
+    "pull_request_review_id": 5222326385,
+    "id": 4025738534,
+    "node_id": "PRRC_kwDOALaj487v8-Um",
+    "diff_hunk": "@@ -105257,8 +105314,8 @@ interface <dfn interface>NotRestoredReasons</dfn> {\n \n   <div algorithm>\n   <p>To <dfn data-x=\"creating a new top-level traversable\">create a new top-level traversable</dfn>\n-  given a <span>browsing context</span>-or-null <var>opener</var>, a string\n-  <var>targetName</var>, and an optional <span>navigable</span>\n+  given a <span>browsing context</span>-or-null <var>opener</var>, a string <var>targetName</var>, a\n+  boolean <var>hasPlannedNavigationForWebDriver</var>, and an optional <span>navigable</span>",
+    "path": "source",
+    "commit_id": "037bc7d43d3417b16565549870a0a1f6830b97c4",
+    "original_commit_id": "037bc7d43d3417b16565549870a0a1f6830b97c4",
+    "user": {
+      "login": "sadym-chromium",
+      "id": 69349599,
+      "node_id": "MDQ6VXNlcjY5MzQ5NTk5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/69349599?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/sadym-chromium",
+      "html_url": "https://github.com/sadym-chromium",
+      "followers_url": "https://api.github.com/users/sadym-chromium/followers",
+      "following_url": "https://api.github.com/users/sadym-chromium/following{/other_user}",
+      "gists_url": "https://api.github.com/users/sadym-chromium/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/sadym-chromium/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/sadym-chromium/subscriptions",
+      "organizations_url": "https://api.github.com/users/sadym-chromium/orgs",
+      "repos_url": "https://api.github.com/users/sadym-chromium/repos",
+      "events_url": "https://api.github.com/users/sadym-chromium/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/sadym-chromium/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "NIT: this is a breaking API change. Maybe define `default null` for `<span>navigable</span>` and pass `hasPlannedNavigationForWebDriver` as the last optional argument with default value as well?",
+    "created_at": "2026-09-16T11:59:23Z",
+    "updated_at": "2026-09-16T12:15:20Z",
+    "html_url": "https://github.com/whatwg/html/pull/12833#discussion_r4025738534",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12833",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/4025738534"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12833#discussion_r4025738534"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12833"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4025738534/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 105318,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 173,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4046081946",
+    "pull_request_review_id": 5247002601,
+    "id": 4046081946,
+    "node_id": "PRRC_kwDOALaj487xKk-a",
+    "diff_hunk": "@@ -105257,8 +105314,8 @@ interface <dfn interface>NotRestoredReasons</dfn> {\n \n   <div algorithm>\n   <p>To <dfn data-x=\"creating a new top-level traversable\">create a new top-level traversable</dfn>\n-  given a <span>browsing context</span>-or-null <var>opener</var>, a string\n-  <var>targetName</var>, and an optional <span>navigable</span>\n+  given a <span>browsing context</span>-or-null <var>opener</var>, a string <var>targetName</var>, a\n+  boolean <var>hasPlannedNavigationForWebDriver</var>, and an optional <span>navigable</span>",
+    "path": "source",
+    "commit_id": "037bc7d43d3417b16565549870a0a1f6830b97c4",
+    "original_commit_id": "037bc7d43d3417b16565549870a0a1f6830b97c4",
+    "user": {
+      "login": "lutien",
+      "id": 5276969,
+      "node_id": "MDQ6VXNlcjUyNzY5Njk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5276969?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lutien",
+      "html_url": "https://github.com/lutien",
+      "followers_url": "https://api.github.com/users/lutien/followers",
+      "following_url": "https://api.github.com/users/lutien/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lutien/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lutien/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lutien/subscriptions",
+      "organizations_url": "https://api.github.com/users/lutien/orgs",
+      "repos_url": "https://api.github.com/users/lutien/repos",
+      "events_url": "https://api.github.com/users/lutien/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lutien/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Sure, updated to keep the order of arguments.",
+    "created_at": "2026-09-18T10:55:27Z",
+    "updated_at": "2026-09-18T10:55:27Z",
+    "html_url": "https://github.com/whatwg/html/pull/12833#discussion_r4046081946",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12833",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/4046081946"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12833#discussion_r4046081946"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12833"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4046081946/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 105318,
+    "side": "RIGHT",
+    "in_reply_to_id": 4025738534,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 173,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

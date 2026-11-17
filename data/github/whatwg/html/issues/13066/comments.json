@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/6369188288",
+    "html_url": "https://github.com/whatwg/html/issues/13066#issuecomment-6369188288",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/13066",
+    "id": 6369188288,
+    "node_id": "IC_kwDOALaj488AAAABe6IZwA",
+    "user": {
+      "login": "krasavamarat",
+      "id": 344456620,
+      "node_id": "U_kgDOFIf9rA",
+      "avatar_url": "https://avatars.githubusercontent.com/u/344456620?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/krasavamarat",
+      "html_url": "https://github.com/krasavamarat",
+      "followers_url": "https://api.github.com/users/krasavamarat/followers",
+      "following_url": "https://api.github.com/users/krasavamarat/following{/other_user}",
+      "gists_url": "https://api.github.com/users/krasavamarat/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/krasavamarat/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/krasavamarat/subscriptions",
+      "organizations_url": "https://api.github.com/users/krasavamarat/orgs",
+      "repos_url": "https://api.github.com/users/krasavamarat/repos",
+      "events_url": "https://api.github.com/users/krasavamarat/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/krasavamarat/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-10-23T16:04:45Z",
+    "updated_at": "2026-10-23T16:04:45Z",
+    "body": "I think there's a bug in the ancestor origin list creation steps.\n\nThe algorithm starts by getting the document's container document, but this is derived from its node navigable, which is null until the document becomes a navigable's active document. Both callers invoke these steps before that happens:\n\ncreate a new browsing context invokes them before creating the navigable.\ncreate and initialize a Document object invokes them before the new document becomes active during navigation.\n\nAs a result, parentDoc is always null, and location.ancestorOrigins is always empty.\n\nCould we pass parentDoc explicitly to the ancestor origin list creation steps instead? The initial about:blank document could use the embedder's node document, while documents created during navigation could use navigationParams' navigable's container document.",
+    "author_association": "NONE",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/6369188288/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

@@ -1,0 +1,572 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2559605703",
+    "pull_request_review_id": 3504596887,
+    "id": 2559605703,
+    "node_id": "PRRC_kwDOALaj486YkHvH",
+    "diff_hunk": "@@ -124396,6 +124408,158 @@ interface <dfn interface>XMLSerializer</dfn> {\n \n   </div>\n \n+\n+  <h4>The <code data-x=\"dom-Element-streamHTMLUnsafe\">streamHTMLUnsafe()</code> method</h4>\n+\n+  <dl class=\"domintro\">\n+   <dt><code data-x=\"\"><var>element</var>.<span subdfn\n+   data-x=\"dom-Element-streamHTMLUnsafe\">streamHTMLUnsafe</span>(<var>options</var>)</code></dt>\n+\n+   <dd>\n+    <p>Returns a writable stream that acts as the input stream of an HTML parser. <var>options</var>\n+    can contain the following values:</p>\n+\n+    <ul>\n+     <li><p><code subdfn data-x=\"dom-StreamHTMLUnsafeOptions-runScripts\">runScripts</code> can be\n+     set to true to run scripts when they are inserted into the document.</p></li>\n+    </ul>\n+\n+    <p>Existing children of <var>element</var> are removed and new nodes are added as they are\n+    produced by the parser.</p>\n+   </dd>\n+\n+   <dt><code data-x=\"\"><var>shadowRoot</var>.<span subdfn\n+   data-x=\"dom-ShadowRoot-streamHTMLUnsafe\">streamHTMLUnsafe</span>(<var>options</var>)</code></dt>\n+\n+   <dd>\n+    <p>Returns a writable stream that acts as the input stream of an HTML parser. <var>options</var>\n+    has the same values as above. Existing children of <var>shadowRoot</var> are removed and new\n+    nodes are added as they are produced by the parser.</p>\n+   </dd>\n+  </dl>\n+\n+  <p class=\"warning\">These methods perform no sanitization to remove potentially-dangerous elements\n+  and attributes like <code>script</code> or <span>event handler content attributes</span>.</p>\n+\n+  <div w-nodev>\n+\n+  <pre><code class=\"idl\">partial interface <span>Element</span> {\n+  WritableStream <span data-x=\"dom-Element-streamHTMLUnsafe\">streamHTMLUnsafe</span>(optional StreamHTMLUnsafeOptions options = {});\n+};\n+\n+partial interface <span>ShadowRoot</span> {\n+  WritableStream <span data-x=\"dom-ShadowRoot-streamHTMLUnsafe\">streamHTMLUnsafe</span>(optional StreamHTMLUnsafeOptions options = {});\n+};\n+\n+dictionary <dfn dictionary>StreamHTMLUnsafeOptions</dfn> {\n+  boolean <dfn dict-member for=\"StreamHTMLUnsafeOptions\" data-x=\"dom-StreamHTMLUnsafeOptions-runScripts\">runScripts</dfn> = false;\n+};</code></pre>\n+\n+  <div algorithm>\n+  <p><code>Element</code>'s <dfn method for=\"Element\"><code\n+  data-x=\"dom-Element-streamHTMLUnsafe\">streamHTMLUnsafe(<var>options</var>)</code></dfn> method steps\n+  are:</p>\n+\n+  <ol>\n+   <li><p>If <var>this</var>'s <span>node document</span> is an <span data-x=\"XML documents\">XML\n+   document</span>, then throw an <span>\"<code>InvalidStateError</code>\"</span>\n+   <code>DOMException</code>.</p></li>\n+\n+   <li><p>Let <var>disposition</var> be the result of invoking the <span\n+   data-x=\"tt-shouldblock\">should sink type mismatch violation be blocked by content security\n+   policy?</span> algorithm given <span>this</span>'s <span>relevant global object</span>,\n+   \"Element streamHTMLUnsafe\", \"script\", and \"\".</p></li>\n+\n+   <li><p>If <var>disposition</var> is not \"<code data-x=\"\">Allowed</code>\", then throw a\n+   <code>TypeError</code> exception.</p></li>\n+\n+   <li><p>Let <var>target</var> be <span>this</span>'s <span>template contents</span> if\n+   <span>this</span> is a <code>template</code> element; otherwise <span>this</span>.</p></li>\n+\n+   <li><p>Return the result of <span>unsafely stream HTML</span> given <var>target</var>,\n+   <span>this</span>, and <var>options</var>.</p></li>\n+  </ol>\n+  </div>\n+\n+  <div algorithm>\n+  <p><code>ShadowRoot</code>'s <dfn method for=\"ShadowRoot\"><code\n+  data-x=\"dom-ShadowRoot-streamHTMLUnsafe\">streamHTMLUnsafe(<var>options</var>)</code></dfn> method steps\n+  are:</p>\n+\n+  <ol>\n+   <li><p>If <var>this</var>'s <span>node document</span> is an <span data-x=\"XML documents\">XML\n+   document</span>, then throw an <span>\"<code>InvalidStateError</code>\"</span>\n+   <code>DOMException</code>.</p></li>\n+\n+   <li><p>Let <var>disposition</var> be the result of invoking the <span\n+   data-x=\"tt-shouldblock\">should sink type mismatch violation be blocked by content security\n+   policy?</span> algorithm given <span>this</span>'s <span>relevant global object</span>,\n+   \"ShadowRoot streamHTMLUnsafe\", \"script\", and \"\".</p></li>\n+\n+   <li><p>If <var>disposition</var> is not \"<code data-x=\"\">Allowed</code>\", then throw a\n+   <code>TypeError</code> exception.</p></li>\n+\n+   <li><p>Return the result of <span>unsafely stream HTML</span> given <span>this</span>,\n+   <span>this</span>'s <span data-x=\"concept-DocumentFragment-host\">shadow host</span>, and\n+   <var>options</var>.</p></li>\n+  </ol>\n+  </div>\n+\n+  <div algorithm>\n+  <p>To <dfn>unsafely stream HTML</dfn>, given an <code>Element</code> or <code>DocumentFragment</code>\n+  <var>target</var>, an <code>Element</code> <var>contextElement</var>, and <var>options</var>:</p>\n+\n+  <ol>\n+   <li><p><span data-x=\"concept-node-remove\">Remove</span> all <var>target</var>'s <span\n+   data-x=\"concept-tree-child\">children</span>, in <span>tree order</span>, with the <i>suppress\n+   observers flag</i> set.</p></li>",
+    "path": "source",
+    "commit_id": "e1868c1f127815870aedc6b9177da01492ec0e0a",
+    "original_commit_id": "e1868c1f127815870aedc6b9177da01492ec0e0a",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This flag is currently internal to DOM (and just got renamed).\r\n\r\nI also don't see how you are accounting for the suppression by creating your own mutation records. Am I missing something?",
+    "created_at": "2025-11-25T11:17:31Z",
+    "updated_at": "2025-11-25T11:21:18Z",
+    "html_url": "https://github.com/whatwg/html/pull/11631#discussion_r2559605703",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11631",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2559605703"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11631#discussion_r2559605703"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11631"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2559605703/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 124515,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 152,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2559607411",
+    "pull_request_review_id": 3504596887,
+    "id": 2559607411,
+    "node_id": "PRRC_kwDOALaj486YkIJz",
+    "diff_hunk": "@@ -124396,6 +124408,158 @@ interface <dfn interface>XMLSerializer</dfn> {\n \n   </div>\n \n+\n+  <h4>The <code data-x=\"dom-Element-streamHTMLUnsafe\">streamHTMLUnsafe()</code> method</h4>\n+\n+  <dl class=\"domintro\">\n+   <dt><code data-x=\"\"><var>element</var>.<span subdfn\n+   data-x=\"dom-Element-streamHTMLUnsafe\">streamHTMLUnsafe</span>(<var>options</var>)</code></dt>\n+\n+   <dd>\n+    <p>Returns a writable stream that acts as the input stream of an HTML parser. <var>options</var>\n+    can contain the following values:</p>\n+\n+    <ul>\n+     <li><p><code subdfn data-x=\"dom-StreamHTMLUnsafeOptions-runScripts\">runScripts</code> can be\n+     set to true to run scripts when they are inserted into the document.</p></li>\n+    </ul>\n+\n+    <p>Existing children of <var>element</var> are removed and new nodes are added as they are\n+    produced by the parser.</p>\n+   </dd>\n+\n+   <dt><code data-x=\"\"><var>shadowRoot</var>.<span subdfn\n+   data-x=\"dom-ShadowRoot-streamHTMLUnsafe\">streamHTMLUnsafe</span>(<var>options</var>)</code></dt>\n+\n+   <dd>\n+    <p>Returns a writable stream that acts as the input stream of an HTML parser. <var>options</var>\n+    has the same values as above. Existing children of <var>shadowRoot</var> are removed and new\n+    nodes are added as they are produced by the parser.</p>\n+   </dd>\n+  </dl>\n+\n+  <p class=\"warning\">These methods perform no sanitization to remove potentially-dangerous elements\n+  and attributes like <code>script</code> or <span>event handler content attributes</span>.</p>\n+\n+  <div w-nodev>\n+\n+  <pre><code class=\"idl\">partial interface <span>Element</span> {\n+  WritableStream <span data-x=\"dom-Element-streamHTMLUnsafe\">streamHTMLUnsafe</span>(optional StreamHTMLUnsafeOptions options = {});\n+};\n+\n+partial interface <span>ShadowRoot</span> {\n+  WritableStream <span data-x=\"dom-ShadowRoot-streamHTMLUnsafe\">streamHTMLUnsafe</span>(optional StreamHTMLUnsafeOptions options = {});\n+};\n+\n+dictionary <dfn dictionary>StreamHTMLUnsafeOptions</dfn> {\n+  boolean <dfn dict-member for=\"StreamHTMLUnsafeOptions\" data-x=\"dom-StreamHTMLUnsafeOptions-runScripts\">runScripts</dfn> = false;\n+};</code></pre>\n+\n+  <div algorithm>\n+  <p><code>Element</code>'s <dfn method for=\"Element\"><code\n+  data-x=\"dom-Element-streamHTMLUnsafe\">streamHTMLUnsafe(<var>options</var>)</code></dfn> method steps\n+  are:</p>\n+\n+  <ol>\n+   <li><p>If <var>this</var>'s <span>node document</span> is an <span data-x=\"XML documents\">XML\n+   document</span>, then throw an <span>\"<code>InvalidStateError</code>\"</span>\n+   <code>DOMException</code>.</p></li>\n+\n+   <li><p>Let <var>disposition</var> be the result of invoking the <span\n+   data-x=\"tt-shouldblock\">should sink type mismatch violation be blocked by content security\n+   policy?</span> algorithm given <span>this</span>'s <span>relevant global object</span>,\n+   \"Element streamHTMLUnsafe\", \"script\", and \"\".</p></li>\n+\n+   <li><p>If <var>disposition</var> is not \"<code data-x=\"\">Allowed</code>\", then throw a\n+   <code>TypeError</code> exception.</p></li>\n+\n+   <li><p>Let <var>target</var> be <span>this</span>'s <span>template contents</span> if\n+   <span>this</span> is a <code>template</code> element; otherwise <span>this</span>.</p></li>\n+\n+   <li><p>Return the result of <span>unsafely stream HTML</span> given <var>target</var>,\n+   <span>this</span>, and <var>options</var>.</p></li>\n+  </ol>\n+  </div>\n+\n+  <div algorithm>\n+  <p><code>ShadowRoot</code>'s <dfn method for=\"ShadowRoot\"><code\n+  data-x=\"dom-ShadowRoot-streamHTMLUnsafe\">streamHTMLUnsafe(<var>options</var>)</code></dfn> method steps\n+  are:</p>\n+\n+  <ol>\n+   <li><p>If <var>this</var>'s <span>node document</span> is an <span data-x=\"XML documents\">XML\n+   document</span>, then throw an <span>\"<code>InvalidStateError</code>\"</span>\n+   <code>DOMException</code>.</p></li>\n+\n+   <li><p>Let <var>disposition</var> be the result of invoking the <span\n+   data-x=\"tt-shouldblock\">should sink type mismatch violation be blocked by content security\n+   policy?</span> algorithm given <span>this</span>'s <span>relevant global object</span>,\n+   \"ShadowRoot streamHTMLUnsafe\", \"script\", and \"\".</p></li>",
+    "path": "source",
+    "commit_id": "e1868c1f127815870aedc6b9177da01492ec0e0a",
+    "original_commit_id": "e1868c1f127815870aedc6b9177da01492ec0e0a",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Use `<code>` for string contents.",
+    "created_at": "2025-11-25T11:18:03Z",
+    "updated_at": "2025-11-25T11:21:18Z",
+    "html_url": "https://github.com/whatwg/html/pull/11631#discussion_r2559607411",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11631",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2559607411"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11631#discussion_r2559607411"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11631"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2559607411/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 124497,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 134,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2559608980",
+    "pull_request_review_id": 3504596887,
+    "id": 2559608980,
+    "node_id": "PRRC_kwDOALaj486YkIiU",
+    "diff_hunk": "@@ -124396,6 +124408,158 @@ interface <dfn interface>XMLSerializer</dfn> {\n \n   </div>\n \n+\n+  <h4>The <code data-x=\"dom-Element-streamHTMLUnsafe\">streamHTMLUnsafe()</code> method</h4>\n+\n+  <dl class=\"domintro\">\n+   <dt><code data-x=\"\"><var>element</var>.<span subdfn\n+   data-x=\"dom-Element-streamHTMLUnsafe\">streamHTMLUnsafe</span>(<var>options</var>)</code></dt>\n+\n+   <dd>\n+    <p>Returns a writable stream that acts as the input stream of an HTML parser. <var>options</var>\n+    can contain the following values:</p>\n+\n+    <ul>\n+     <li><p><code subdfn data-x=\"dom-StreamHTMLUnsafeOptions-runScripts\">runScripts</code> can be\n+     set to true to run scripts when they are inserted into the document.</p></li>\n+    </ul>\n+\n+    <p>Existing children of <var>element</var> are removed and new nodes are added as they are\n+    produced by the parser.</p>\n+   </dd>\n+\n+   <dt><code data-x=\"\"><var>shadowRoot</var>.<span subdfn\n+   data-x=\"dom-ShadowRoot-streamHTMLUnsafe\">streamHTMLUnsafe</span>(<var>options</var>)</code></dt>\n+\n+   <dd>\n+    <p>Returns a writable stream that acts as the input stream of an HTML parser. <var>options</var>\n+    has the same values as above. Existing children of <var>shadowRoot</var> are removed and new\n+    nodes are added as they are produced by the parser.</p>\n+   </dd>\n+  </dl>\n+\n+  <p class=\"warning\">These methods perform no sanitization to remove potentially-dangerous elements\n+  and attributes like <code>script</code> or <span>event handler content attributes</span>.</p>\n+\n+  <div w-nodev>\n+\n+  <pre><code class=\"idl\">partial interface <span>Element</span> {\n+  WritableStream <span data-x=\"dom-Element-streamHTMLUnsafe\">streamHTMLUnsafe</span>(optional StreamHTMLUnsafeOptions options = {});\n+};\n+\n+partial interface <span>ShadowRoot</span> {\n+  WritableStream <span data-x=\"dom-ShadowRoot-streamHTMLUnsafe\">streamHTMLUnsafe</span>(optional StreamHTMLUnsafeOptions options = {});\n+};\n+\n+dictionary <dfn dictionary>StreamHTMLUnsafeOptions</dfn> {\n+  boolean <dfn dict-member for=\"StreamHTMLUnsafeOptions\" data-x=\"dom-StreamHTMLUnsafeOptions-runScripts\">runScripts</dfn> = false;\n+};</code></pre>\n+\n+  <div algorithm>\n+  <p><code>Element</code>'s <dfn method for=\"Element\"><code\n+  data-x=\"dom-Element-streamHTMLUnsafe\">streamHTMLUnsafe(<var>options</var>)</code></dfn> method steps\n+  are:</p>\n+\n+  <ol>\n+   <li><p>If <var>this</var>'s <span>node document</span> is an <span data-x=\"XML documents\">XML\n+   document</span>, then throw an <span>\"<code>InvalidStateError</code>\"</span>\n+   <code>DOMException</code>.</p></li>\n+\n+   <li><p>Let <var>disposition</var> be the result of invoking the <span\n+   data-x=\"tt-shouldblock\">should sink type mismatch violation be blocked by content security\n+   policy?</span> algorithm given <span>this</span>'s <span>relevant global object</span>,\n+   \"Element streamHTMLUnsafe\", \"script\", and \"\".</p></li>\n+\n+   <li><p>If <var>disposition</var> is not \"<code data-x=\"\">Allowed</code>\", then throw a\n+   <code>TypeError</code> exception.</p></li>\n+\n+   <li><p>Let <var>target</var> be <span>this</span>'s <span>template contents</span> if\n+   <span>this</span> is a <code>template</code> element; otherwise <span>this</span>.</p></li>\n+\n+   <li><p>Return the result of <span>unsafely stream HTML</span> given <var>target</var>,\n+   <span>this</span>, and <var>options</var>.</p></li>\n+  </ol>\n+  </div>\n+\n+  <div algorithm>\n+  <p><code>ShadowRoot</code>'s <dfn method for=\"ShadowRoot\"><code\n+  data-x=\"dom-ShadowRoot-streamHTMLUnsafe\">streamHTMLUnsafe(<var>options</var>)</code></dfn> method steps\n+  are:</p>\n+\n+  <ol>\n+   <li><p>If <var>this</var>'s <span>node document</span> is an <span data-x=\"XML documents\">XML\n+   document</span>, then throw an <span>\"<code>InvalidStateError</code>\"</span>\n+   <code>DOMException</code>.</p></li>\n+\n+   <li><p>Let <var>disposition</var> be the result of invoking the <span\n+   data-x=\"tt-shouldblock\">should sink type mismatch violation be blocked by content security\n+   policy?</span> algorithm given <span>this</span>'s <span>relevant global object</span>,\n+   \"ShadowRoot streamHTMLUnsafe\", \"script\", and \"\".</p></li>\n+\n+   <li><p>If <var>disposition</var> is not \"<code data-x=\"\">Allowed</code>\", then throw a\n+   <code>TypeError</code> exception.</p></li>\n+\n+   <li><p>Return the result of <span>unsafely stream HTML</span> given <span>this</span>,\n+   <span>this</span>'s <span data-x=\"concept-DocumentFragment-host\">shadow host</span>, and\n+   <var>options</var>.</p></li>\n+  </ol>\n+  </div>\n+\n+  <div algorithm>\n+  <p>To <dfn>unsafely stream HTML</dfn>, given an <code>Element</code> or <code>DocumentFragment</code>\n+  <var>target</var>, an <code>Element</code> <var>contextElement</var>, and <var>options</var>:</p>\n+\n+  <ol>\n+   <li><p><span data-x=\"concept-node-remove\">Remove</span> all <var>target</var>'s <span\n+   data-x=\"concept-tree-child\">children</span>, in <span>tree order</span>, with the <i>suppress\n+   observers flag</i> set.</p></li>\n+\n+   <li> <p>Let <var>parser</var> be an <span>HTML parser</span> using the <span>streaming HTML\n+   fragment parsing algorithm</span> given <var>target</var>, <var>contextElement</var>,\n+   and <var>options</var>.</p></li>\n+\n+   <li>\n+    <p>Let <var>writeAlgorithm</var> be an algorithm which takes a <var>chunk</var> argument and\n+    runs the following steps:</p>\n+\n+    <ol>\n+     <li><p>Let <var>input</var> be the result of <span\n+     data-x=\"concept-idl-convert\">converting</span> <var>chunk</var> to a <code\n+     data-x=\"idl-DOMString\">DOMString</code>. If this throws an exception, return <span>a promise",
+    "path": "source",
+    "commit_id": "e1868c1f127815870aedc6b9177da01492ec0e0a",
+    "original_commit_id": "e1868c1f127815870aedc6b9177da01492ec0e0a",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "then return",
+    "created_at": "2025-11-25T11:18:35Z",
+    "updated_at": "2025-11-25T11:21:18Z",
+    "html_url": "https://github.com/whatwg/html/pull/11631#discussion_r2559608980",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11631",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2559608980"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11631#discussion_r2559608980"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11631"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2559608980/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 124528,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 165,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2559612309",
+    "pull_request_review_id": 3504596887,
+    "id": 2559612309,
+    "node_id": "PRRC_kwDOALaj486YkJWV",
+    "diff_hunk": "@@ -124396,6 +124408,158 @@ interface <dfn interface>XMLSerializer</dfn> {\n \n   </div>\n \n+\n+  <h4>The <code data-x=\"dom-Element-streamHTMLUnsafe\">streamHTMLUnsafe()</code> method</h4>\n+\n+  <dl class=\"domintro\">\n+   <dt><code data-x=\"\"><var>element</var>.<span subdfn\n+   data-x=\"dom-Element-streamHTMLUnsafe\">streamHTMLUnsafe</span>(<var>options</var>)</code></dt>\n+\n+   <dd>\n+    <p>Returns a writable stream that acts as the input stream of an HTML parser. <var>options</var>\n+    can contain the following values:</p>\n+\n+    <ul>\n+     <li><p><code subdfn data-x=\"dom-StreamHTMLUnsafeOptions-runScripts\">runScripts</code> can be\n+     set to true to run scripts when they are inserted into the document.</p></li>\n+    </ul>\n+\n+    <p>Existing children of <var>element</var> are removed and new nodes are added as they are\n+    produced by the parser.</p>\n+   </dd>\n+\n+   <dt><code data-x=\"\"><var>shadowRoot</var>.<span subdfn\n+   data-x=\"dom-ShadowRoot-streamHTMLUnsafe\">streamHTMLUnsafe</span>(<var>options</var>)</code></dt>\n+\n+   <dd>\n+    <p>Returns a writable stream that acts as the input stream of an HTML parser. <var>options</var>\n+    has the same values as above. Existing children of <var>shadowRoot</var> are removed and new\n+    nodes are added as they are produced by the parser.</p>\n+   </dd>\n+  </dl>\n+\n+  <p class=\"warning\">These methods perform no sanitization to remove potentially-dangerous elements\n+  and attributes like <code>script</code> or <span>event handler content attributes</span>.</p>\n+\n+  <div w-nodev>\n+\n+  <pre><code class=\"idl\">partial interface <span>Element</span> {\n+  WritableStream <span data-x=\"dom-Element-streamHTMLUnsafe\">streamHTMLUnsafe</span>(optional StreamHTMLUnsafeOptions options = {});\n+};\n+\n+partial interface <span>ShadowRoot</span> {\n+  WritableStream <span data-x=\"dom-ShadowRoot-streamHTMLUnsafe\">streamHTMLUnsafe</span>(optional StreamHTMLUnsafeOptions options = {});\n+};\n+\n+dictionary <dfn dictionary>StreamHTMLUnsafeOptions</dfn> {\n+  boolean <dfn dict-member for=\"StreamHTMLUnsafeOptions\" data-x=\"dom-StreamHTMLUnsafeOptions-runScripts\">runScripts</dfn> = false;\n+};</code></pre>\n+\n+  <div algorithm>\n+  <p><code>Element</code>'s <dfn method for=\"Element\"><code\n+  data-x=\"dom-Element-streamHTMLUnsafe\">streamHTMLUnsafe(<var>options</var>)</code></dfn> method steps\n+  are:</p>\n+\n+  <ol>\n+   <li><p>If <var>this</var>'s <span>node document</span> is an <span data-x=\"XML documents\">XML\n+   document</span>, then throw an <span>\"<code>InvalidStateError</code>\"</span>\n+   <code>DOMException</code>.</p></li>\n+\n+   <li><p>Let <var>disposition</var> be the result of invoking the <span\n+   data-x=\"tt-shouldblock\">should sink type mismatch violation be blocked by content security\n+   policy?</span> algorithm given <span>this</span>'s <span>relevant global object</span>,\n+   \"Element streamHTMLUnsafe\", \"script\", and \"\".</p></li>\n+\n+   <li><p>If <var>disposition</var> is not \"<code data-x=\"\">Allowed</code>\", then throw a\n+   <code>TypeError</code> exception.</p></li>\n+\n+   <li><p>Let <var>target</var> be <span>this</span>'s <span>template contents</span> if\n+   <span>this</span> is a <code>template</code> element; otherwise <span>this</span>.</p></li>\n+\n+   <li><p>Return the result of <span>unsafely stream HTML</span> given <var>target</var>,\n+   <span>this</span>, and <var>options</var>.</p></li>\n+  </ol>\n+  </div>\n+\n+  <div algorithm>\n+  <p><code>ShadowRoot</code>'s <dfn method for=\"ShadowRoot\"><code\n+  data-x=\"dom-ShadowRoot-streamHTMLUnsafe\">streamHTMLUnsafe(<var>options</var>)</code></dfn> method steps\n+  are:</p>\n+\n+  <ol>\n+   <li><p>If <var>this</var>'s <span>node document</span> is an <span data-x=\"XML documents\">XML\n+   document</span>, then throw an <span>\"<code>InvalidStateError</code>\"</span>\n+   <code>DOMException</code>.</p></li>\n+\n+   <li><p>Let <var>disposition</var> be the result of invoking the <span\n+   data-x=\"tt-shouldblock\">should sink type mismatch violation be blocked by content security\n+   policy?</span> algorithm given <span>this</span>'s <span>relevant global object</span>,\n+   \"ShadowRoot streamHTMLUnsafe\", \"script\", and \"\".</p></li>\n+\n+   <li><p>If <var>disposition</var> is not \"<code data-x=\"\">Allowed</code>\", then throw a\n+   <code>TypeError</code> exception.</p></li>\n+\n+   <li><p>Return the result of <span>unsafely stream HTML</span> given <span>this</span>,\n+   <span>this</span>'s <span data-x=\"concept-DocumentFragment-host\">shadow host</span>, and\n+   <var>options</var>.</p></li>\n+  </ol>\n+  </div>\n+\n+  <div algorithm>\n+  <p>To <dfn>unsafely stream HTML</dfn>, given an <code>Element</code> or <code>DocumentFragment</code>\n+  <var>target</var>, an <code>Element</code> <var>contextElement</var>, and <var>options</var>:</p>\n+\n+  <ol>\n+   <li><p><span data-x=\"concept-node-remove\">Remove</span> all <var>target</var>'s <span\n+   data-x=\"concept-tree-child\">children</span>, in <span>tree order</span>, with the <i>suppress\n+   observers flag</i> set.</p></li>\n+\n+   <li> <p>Let <var>parser</var> be an <span>HTML parser</span> using the <span>streaming HTML",
+    "path": "source",
+    "commit_id": "e1868c1f127815870aedc6b9177da01492ec0e0a",
+    "original_commit_id": "e1868c1f127815870aedc6b9177da01492ec0e0a",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n   <li><p>Let <var>parser</var> be an <span>HTML parser</span> using the <span>streaming HTML\r\n```",
+    "created_at": "2025-11-25T11:19:32Z",
+    "updated_at": "2025-11-25T11:21:18Z",
+    "html_url": "https://github.com/whatwg/html/pull/11631#discussion_r2559612309",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11631",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2559612309"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11631#discussion_r2559612309"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11631"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2559612309/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 124517,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 154,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2559618187",
+    "pull_request_review_id": 3504596887,
+    "id": 2559618187,
+    "node_id": "PRRC_kwDOALaj486YkKyL",
+    "diff_hunk": "@@ -144561,7 +144725,28 @@ console.assert(container.firstChild instanceof SuperP);\n \n   </div>\n \n+  <div algorithm>\n+  <p>The <dfn>streaming HTML fragment parsing algorithm</dfn>, given an <code>Element</code> or\n+  <code>DocumentFragment</code> <var>target</var>, an <code>Element</code>\n+  <var>contextElement</var>, and <var>options</var> is the same as the <span>HTML fragment parsing\n+  algorithm</span> with these differences:</p>\n+\n+  <ul>\n+   <li><p>There is no <i>input</i> argument, instead input is placed into the <span>input\n+   stream</span> by the caller.</p></li>\n+\n+   <li><p>If <var>options</var>[\"<code data-x=\"dom-StreamHTMLUnsafeOptions-runScripts\">runScripts</code>\"]\n+   is true, <span>already started</span> is set to false for <code>script</code> elements before\n+   they are inserted.</p></li>\n+\n+   <li><p>When the parser would insert a node to the <i>root</i> node, that node is instead appended\n+   to <var>target</var>.</p></li>\n+\n+   <li><p>The algorithm doesn't return anything.</p></li>\n+  </ul>\n \n+  <p class=\"XXX\">Achieve the above by refactoring instead of enumerating the differences.</p>\n+  </div>",
+    "path": "source",
+    "commit_id": "e7a2dcb0ae1d4b4db243439bef3d28d10dc86552",
+    "original_commit_id": "e1868c1f127815870aedc6b9177da01492ec0e0a",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Given that a lot of the complexity is here, I was hoping this would have been a bit more flushed out before the stage 2 request. The overall API shape seems fine, but I feel like as we're discussing this feature we keep discovering new issues with the supposedly \"straightforward\" HTML parser integration and we still don't quite know what that is going to look like.",
+    "created_at": "2025-11-25T11:21:14Z",
+    "updated_at": "2025-11-25T11:21:18Z",
+    "html_url": "https://github.com/whatwg/html/pull/11631#discussion_r2559618187",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11631",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2559618187"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11631#discussion_r2559618187"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11631"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2559618187/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 144749,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 228,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2559656301",
+    "pull_request_review_id": 3504662894,
+    "id": 2559656301,
+    "node_id": "PRRC_kwDOALaj486YkUFt",
+    "diff_hunk": "@@ -124396,6 +124408,158 @@ interface <dfn interface>XMLSerializer</dfn> {\n \n   </div>\n \n+\n+  <h4>The <code data-x=\"dom-Element-streamHTMLUnsafe\">streamHTMLUnsafe()</code> method</h4>\n+\n+  <dl class=\"domintro\">\n+   <dt><code data-x=\"\"><var>element</var>.<span subdfn\n+   data-x=\"dom-Element-streamHTMLUnsafe\">streamHTMLUnsafe</span>(<var>options</var>)</code></dt>\n+\n+   <dd>\n+    <p>Returns a writable stream that acts as the input stream of an HTML parser. <var>options</var>\n+    can contain the following values:</p>\n+\n+    <ul>\n+     <li><p><code subdfn data-x=\"dom-StreamHTMLUnsafeOptions-runScripts\">runScripts</code> can be\n+     set to true to run scripts when they are inserted into the document.</p></li>\n+    </ul>\n+\n+    <p>Existing children of <var>element</var> are removed and new nodes are added as they are\n+    produced by the parser.</p>\n+   </dd>\n+\n+   <dt><code data-x=\"\"><var>shadowRoot</var>.<span subdfn\n+   data-x=\"dom-ShadowRoot-streamHTMLUnsafe\">streamHTMLUnsafe</span>(<var>options</var>)</code></dt>\n+\n+   <dd>\n+    <p>Returns a writable stream that acts as the input stream of an HTML parser. <var>options</var>\n+    has the same values as above. Existing children of <var>shadowRoot</var> are removed and new\n+    nodes are added as they are produced by the parser.</p>\n+   </dd>\n+  </dl>\n+\n+  <p class=\"warning\">These methods perform no sanitization to remove potentially-dangerous elements\n+  and attributes like <code>script</code> or <span>event handler content attributes</span>.</p>\n+\n+  <div w-nodev>\n+\n+  <pre><code class=\"idl\">partial interface <span>Element</span> {\n+  WritableStream <span data-x=\"dom-Element-streamHTMLUnsafe\">streamHTMLUnsafe</span>(optional StreamHTMLUnsafeOptions options = {});\n+};\n+\n+partial interface <span>ShadowRoot</span> {\n+  WritableStream <span data-x=\"dom-ShadowRoot-streamHTMLUnsafe\">streamHTMLUnsafe</span>(optional StreamHTMLUnsafeOptions options = {});\n+};\n+\n+dictionary <dfn dictionary>StreamHTMLUnsafeOptions</dfn> {\n+  boolean <dfn dict-member for=\"StreamHTMLUnsafeOptions\" data-x=\"dom-StreamHTMLUnsafeOptions-runScripts\">runScripts</dfn> = false;\n+};</code></pre>\n+\n+  <div algorithm>\n+  <p><code>Element</code>'s <dfn method for=\"Element\"><code\n+  data-x=\"dom-Element-streamHTMLUnsafe\">streamHTMLUnsafe(<var>options</var>)</code></dfn> method steps\n+  are:</p>\n+\n+  <ol>\n+   <li><p>If <var>this</var>'s <span>node document</span> is an <span data-x=\"XML documents\">XML\n+   document</span>, then throw an <span>\"<code>InvalidStateError</code>\"</span>\n+   <code>DOMException</code>.</p></li>\n+\n+   <li><p>Let <var>disposition</var> be the result of invoking the <span\n+   data-x=\"tt-shouldblock\">should sink type mismatch violation be blocked by content security\n+   policy?</span> algorithm given <span>this</span>'s <span>relevant global object</span>,\n+   \"Element streamHTMLUnsafe\", \"script\", and \"\".</p></li>\n+\n+   <li><p>If <var>disposition</var> is not \"<code data-x=\"\">Allowed</code>\", then throw a\n+   <code>TypeError</code> exception.</p></li>\n+\n+   <li><p>Let <var>target</var> be <span>this</span>'s <span>template contents</span> if\n+   <span>this</span> is a <code>template</code> element; otherwise <span>this</span>.</p></li>\n+\n+   <li><p>Return the result of <span>unsafely stream HTML</span> given <var>target</var>,\n+   <span>this</span>, and <var>options</var>.</p></li>\n+  </ol>\n+  </div>\n+\n+  <div algorithm>\n+  <p><code>ShadowRoot</code>'s <dfn method for=\"ShadowRoot\"><code\n+  data-x=\"dom-ShadowRoot-streamHTMLUnsafe\">streamHTMLUnsafe(<var>options</var>)</code></dfn> method steps\n+  are:</p>\n+\n+  <ol>\n+   <li><p>If <var>this</var>'s <span>node document</span> is an <span data-x=\"XML documents\">XML\n+   document</span>, then throw an <span>\"<code>InvalidStateError</code>\"</span>\n+   <code>DOMException</code>.</p></li>\n+\n+   <li><p>Let <var>disposition</var> be the result of invoking the <span\n+   data-x=\"tt-shouldblock\">should sink type mismatch violation be blocked by content security\n+   policy?</span> algorithm given <span>this</span>'s <span>relevant global object</span>,\n+   \"ShadowRoot streamHTMLUnsafe\", \"script\", and \"\".</p></li>\n+\n+   <li><p>If <var>disposition</var> is not \"<code data-x=\"\">Allowed</code>\", then throw a\n+   <code>TypeError</code> exception.</p></li>\n+\n+   <li><p>Return the result of <span>unsafely stream HTML</span> given <span>this</span>,\n+   <span>this</span>'s <span data-x=\"concept-DocumentFragment-host\">shadow host</span>, and\n+   <var>options</var>.</p></li>\n+  </ol>\n+  </div>\n+\n+  <div algorithm>\n+  <p>To <dfn>unsafely stream HTML</dfn>, given an <code>Element</code> or <code>DocumentFragment</code>\n+  <var>target</var>, an <code>Element</code> <var>contextElement</var>, and <var>options</var>:</p>\n+\n+  <ol>\n+   <li><p><span data-x=\"concept-node-remove\">Remove</span> all <var>target</var>'s <span\n+   data-x=\"concept-tree-child\">children</span>, in <span>tree order</span>, with the <i>suppress\n+   observers flag</i> set.</p></li>",
+    "path": "source",
+    "commit_id": "e1868c1f127815870aedc6b9177da01492ec0e0a",
+    "original_commit_id": "e1868c1f127815870aedc6b9177da01492ec0e0a",
+    "user": {
+      "login": "foolip",
+      "id": 498917,
+      "node_id": "MDQ6VXNlcjQ5ODkxNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/498917?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/foolip",
+      "html_url": "https://github.com/foolip",
+      "followers_url": "https://api.github.com/users/foolip/followers",
+      "following_url": "https://api.github.com/users/foolip/following{/other_user}",
+      "gists_url": "https://api.github.com/users/foolip/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/foolip/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/foolip/subscriptions",
+      "organizations_url": "https://api.github.com/users/foolip/orgs",
+      "repos_url": "https://api.github.com/users/foolip/repos",
+      "events_url": "https://api.github.com/users/foolip/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/foolip/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "There's actually no good reason to suppress mutation observer here, I tested it for `innerHTML` in https://software.hixie.ch/utilities/js/live-dom-viewer/?saved=14325 and mutation observer is triggered. I'll remove the flag here.",
+    "created_at": "2025-11-25T11:33:34Z",
+    "updated_at": "2025-11-25T11:33:34Z",
+    "html_url": "https://github.com/whatwg/html/pull/11631#discussion_r2559656301",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11631",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2559656301"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11631#discussion_r2559656301"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11631"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2559656301/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 124515,
+    "side": "RIGHT",
+    "in_reply_to_id": 2559605703,
+    "author_association": "MEMBER",
+    "original_position": 152,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2559677667",
+    "pull_request_review_id": 3504689186,
+    "id": 2559677667,
+    "node_id": "PRRC_kwDOALaj486YkZTj",
+    "diff_hunk": "@@ -124396,6 +124408,158 @@ interface <dfn interface>XMLSerializer</dfn> {\n \n   </div>\n \n+\n+  <h4>The <code data-x=\"dom-Element-streamHTMLUnsafe\">streamHTMLUnsafe()</code> method</h4>\n+\n+  <dl class=\"domintro\">\n+   <dt><code data-x=\"\"><var>element</var>.<span subdfn\n+   data-x=\"dom-Element-streamHTMLUnsafe\">streamHTMLUnsafe</span>(<var>options</var>)</code></dt>\n+\n+   <dd>\n+    <p>Returns a writable stream that acts as the input stream of an HTML parser. <var>options</var>\n+    can contain the following values:</p>\n+\n+    <ul>\n+     <li><p><code subdfn data-x=\"dom-StreamHTMLUnsafeOptions-runScripts\">runScripts</code> can be\n+     set to true to run scripts when they are inserted into the document.</p></li>\n+    </ul>\n+\n+    <p>Existing children of <var>element</var> are removed and new nodes are added as they are\n+    produced by the parser.</p>\n+   </dd>\n+\n+   <dt><code data-x=\"\"><var>shadowRoot</var>.<span subdfn\n+   data-x=\"dom-ShadowRoot-streamHTMLUnsafe\">streamHTMLUnsafe</span>(<var>options</var>)</code></dt>\n+\n+   <dd>\n+    <p>Returns a writable stream that acts as the input stream of an HTML parser. <var>options</var>\n+    has the same values as above. Existing children of <var>shadowRoot</var> are removed and new\n+    nodes are added as they are produced by the parser.</p>\n+   </dd>\n+  </dl>\n+\n+  <p class=\"warning\">These methods perform no sanitization to remove potentially-dangerous elements\n+  and attributes like <code>script</code> or <span>event handler content attributes</span>.</p>\n+\n+  <div w-nodev>\n+\n+  <pre><code class=\"idl\">partial interface <span>Element</span> {\n+  WritableStream <span data-x=\"dom-Element-streamHTMLUnsafe\">streamHTMLUnsafe</span>(optional StreamHTMLUnsafeOptions options = {});\n+};\n+\n+partial interface <span>ShadowRoot</span> {\n+  WritableStream <span data-x=\"dom-ShadowRoot-streamHTMLUnsafe\">streamHTMLUnsafe</span>(optional StreamHTMLUnsafeOptions options = {});\n+};\n+\n+dictionary <dfn dictionary>StreamHTMLUnsafeOptions</dfn> {\n+  boolean <dfn dict-member for=\"StreamHTMLUnsafeOptions\" data-x=\"dom-StreamHTMLUnsafeOptions-runScripts\">runScripts</dfn> = false;\n+};</code></pre>\n+\n+  <div algorithm>\n+  <p><code>Element</code>'s <dfn method for=\"Element\"><code\n+  data-x=\"dom-Element-streamHTMLUnsafe\">streamHTMLUnsafe(<var>options</var>)</code></dfn> method steps\n+  are:</p>\n+\n+  <ol>\n+   <li><p>If <var>this</var>'s <span>node document</span> is an <span data-x=\"XML documents\">XML\n+   document</span>, then throw an <span>\"<code>InvalidStateError</code>\"</span>\n+   <code>DOMException</code>.</p></li>\n+\n+   <li><p>Let <var>disposition</var> be the result of invoking the <span\n+   data-x=\"tt-shouldblock\">should sink type mismatch violation be blocked by content security\n+   policy?</span> algorithm given <span>this</span>'s <span>relevant global object</span>,\n+   \"Element streamHTMLUnsafe\", \"script\", and \"\".</p></li>\n+\n+   <li><p>If <var>disposition</var> is not \"<code data-x=\"\">Allowed</code>\", then throw a\n+   <code>TypeError</code> exception.</p></li>\n+\n+   <li><p>Let <var>target</var> be <span>this</span>'s <span>template contents</span> if\n+   <span>this</span> is a <code>template</code> element; otherwise <span>this</span>.</p></li>\n+\n+   <li><p>Return the result of <span>unsafely stream HTML</span> given <var>target</var>,\n+   <span>this</span>, and <var>options</var>.</p></li>\n+  </ol>\n+  </div>\n+\n+  <div algorithm>\n+  <p><code>ShadowRoot</code>'s <dfn method for=\"ShadowRoot\"><code\n+  data-x=\"dom-ShadowRoot-streamHTMLUnsafe\">streamHTMLUnsafe(<var>options</var>)</code></dfn> method steps\n+  are:</p>\n+\n+  <ol>\n+   <li><p>If <var>this</var>'s <span>node document</span> is an <span data-x=\"XML documents\">XML\n+   document</span>, then throw an <span>\"<code>InvalidStateError</code>\"</span>\n+   <code>DOMException</code>.</p></li>\n+\n+   <li><p>Let <var>disposition</var> be the result of invoking the <span\n+   data-x=\"tt-shouldblock\">should sink type mismatch violation be blocked by content security\n+   policy?</span> algorithm given <span>this</span>'s <span>relevant global object</span>,\n+   \"ShadowRoot streamHTMLUnsafe\", \"script\", and \"\".</p></li>\n+\n+   <li><p>If <var>disposition</var> is not \"<code data-x=\"\">Allowed</code>\", then throw a\n+   <code>TypeError</code> exception.</p></li>\n+\n+   <li><p>Return the result of <span>unsafely stream HTML</span> given <span>this</span>,\n+   <span>this</span>'s <span data-x=\"concept-DocumentFragment-host\">shadow host</span>, and\n+   <var>options</var>.</p></li>\n+  </ol>\n+  </div>\n+\n+  <div algorithm>\n+  <p>To <dfn>unsafely stream HTML</dfn>, given an <code>Element</code> or <code>DocumentFragment</code>\n+  <var>target</var>, an <code>Element</code> <var>contextElement</var>, and <var>options</var>:</p>\n+\n+  <ol>\n+   <li><p><span data-x=\"concept-node-remove\">Remove</span> all <var>target</var>'s <span\n+   data-x=\"concept-tree-child\">children</span>, in <span>tree order</span>, with the <i>suppress\n+   observers flag</i> set.</p></li>",
+    "path": "source",
+    "commit_id": "e1868c1f127815870aedc6b9177da01492ec0e0a",
+    "original_commit_id": "e1868c1f127815870aedc6b9177da01492ec0e0a",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "You probably have to use the \"replace all\" algorithm though as I doubt removing the nodes one-by-one gives the record we want here.",
+    "created_at": "2025-11-25T11:41:10Z",
+    "updated_at": "2025-11-25T11:41:11Z",
+    "html_url": "https://github.com/whatwg/html/pull/11631#discussion_r2559677667",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11631",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2559677667"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11631#discussion_r2559677667"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11631"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2559677667/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 124515,
+    "side": "RIGHT",
+    "in_reply_to_id": 2559605703,
+    "author_association": "MEMBER",
+    "original_position": 152,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2560393053",
+    "pull_request_review_id": 3505588129,
+    "id": 2560393053,
+    "node_id": "PRRC_kwDOALaj486YnH9d",
+    "diff_hunk": "@@ -124396,6 +124429,155 @@ interface <dfn interface>XMLSerializer</dfn> {\n \n   </div>\n \n+\n+  <h4>The <code data-x=\"dom-Element-streamHTMLUnsafe\">streamHTMLUnsafe()</code> method</h4>\n+\n+  <dl class=\"domintro\">\n+   <dt><code data-x=\"\"><var>element</var>.<span subdfn\n+   data-x=\"dom-Element-streamHTMLUnsafe\">streamHTMLUnsafe</span>(<var>options</var>)</code></dt>\n+\n+   <dd>\n+    <p>Returns a writable stream that acts as the input stream of an HTML parser. <var>options</var>\n+    can contain the following values:</p>\n+\n+    <ul>\n+     <li><p><code data-x=\"dom-SetHTMLUnsafeOptions-runScripts\">runScripts</code> can be set to true\n+     to run scripts when they are inserted into the document.</p></li>\n+    </ul>\n+\n+    <p>Existing children of <var>element</var> are removed and new nodes are added as they are\n+    produced by the parser.</p>\n+   </dd>\n+\n+   <dt><code data-x=\"\"><var>shadowRoot</var>.<span subdfn\n+   data-x=\"dom-ShadowRoot-streamHTMLUnsafe\">streamHTMLUnsafe</span>(<var>options</var>)</code></dt>\n+\n+   <dd>\n+    <p>Returns a writable stream that acts as the input stream of an HTML parser. <var>options</var>\n+    has the same values as above. Existing children of <var>shadowRoot</var> are removed and new\n+    nodes are added as they are produced by the parser.</p>\n+   </dd>\n+  </dl>\n+\n+  <p class=\"warning\">These methods perform no sanitization to remove potentially-dangerous elements\n+  and attributes like <code>script</code> or <span>event handler content attributes</span>.</p>\n+\n+  <div w-nodev>\n+\n+  <pre><code class=\"idl\">partial interface <span>Element</span> {\n+  WritableStream <span data-x=\"dom-Element-streamHTMLUnsafe\">streamHTMLUnsafe</span>(optional <span>SetHTMLUnsafeOptions</span> options = {});\n+};\n+\n+partial interface <span>ShadowRoot</span> {\n+  WritableStream <span data-x=\"dom-ShadowRoot-streamHTMLUnsafe\">streamHTMLUnsafe</span>(optional <span>SetHTMLUnsafeOptions</span> options = {});\n+};</code></pre>\n+\n+  <div algorithm>\n+  <p><code>Element</code>'s <dfn method for=\"Element\"><code\n+  data-x=\"dom-Element-streamHTMLUnsafe\">streamHTMLUnsafe(<var>options</var>)</code></dfn> method steps\n+  are:</p>\n+\n+  <ol>\n+   <li><p>If <var>this</var>'s <span>node document</span> is an <span data-x=\"XML documents\">XML\n+   document</span>, then throw an <span>\"<code>InvalidStateError</code>\"</span>\n+   <code>DOMException</code>.</p></li>\n+\n+   <li><p>Let <var>disposition</var> be the result of invoking the <span\n+   data-x=\"tt-shouldblock\">should sink type mismatch violation be blocked by content security\n+   policy?</span> algorithm given <span>this</span>'s <span>relevant global object</span>,\n+   \"<code data-x=\"\">Element streamHTMLUnsafe</code>\", \"<code data-x=\"\">script</code>\", and\n+   \"\".</p></li>\n+\n+   <li><p>If <var>disposition</var> is not \"<code data-x=\"\">Allowed</code>\", then throw a\n+   <code>TypeError</code> exception.</p></li>\n+\n+   <li><p>Let <var>target</var> be <span>this</span>'s <span>template contents</span> if\n+   <span>this</span> is a <code>template</code> element; otherwise <span>this</span>.</p></li>\n+\n+   <li><p>Return the result of <span>unsafely stream HTML</span> given <var>target</var>,\n+   <span>this</span>, and <var>options</var>.</p></li>\n+  </ol>\n+  </div>\n+\n+  <div algorithm>\n+  <p><code>ShadowRoot</code>'s <dfn method for=\"ShadowRoot\"><code\n+  data-x=\"dom-ShadowRoot-streamHTMLUnsafe\">streamHTMLUnsafe(<var>options</var>)</code></dfn> method steps\n+  are:</p>\n+\n+  <ol>\n+   <li><p>If <var>this</var>'s <span>node document</span> is an <span data-x=\"XML documents\">XML\n+   document</span>, then throw an <span>\"<code>InvalidStateError</code>\"</span>\n+   <code>DOMException</code>.</p></li>\n+\n+   <li><p>Let <var>disposition</var> be the result of invoking the <span\n+   data-x=\"tt-shouldblock\">should sink type mismatch violation be blocked by content security\n+   policy?</span> algorithm given <span>this</span>'s <span>relevant global object</span>,\n+   \"<code data-x=\"\">ShadowRoot streamHTMLUnsafe</code>\", \"<code data-x=\"\">script</code>\", and\n+   \"\".</p></li>",
+    "path": "source",
+    "commit_id": "8e828912be1850ecb173345ad1d164456c0e8019",
+    "original_commit_id": "6821d773000159e4975ea922560c2fd19e5f999c",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "the empty string*",
+    "created_at": "2025-11-25T15:16:46Z",
+    "updated_at": "2025-11-25T15:20:32Z",
+    "html_url": "https://github.com/whatwg/html/pull/11631#discussion_r2560393053",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11631",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2560393053"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11631#discussion_r2560393053"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11631"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2560393053/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 124516,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 243,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

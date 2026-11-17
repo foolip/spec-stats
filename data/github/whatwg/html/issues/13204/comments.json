@@ -1,0 +1,48 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/6919305619",
+    "html_url": "https://github.com/whatwg/html/pull/13204#issuecomment-6919305619",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/13204",
+    "id": 6919305619,
+    "node_id": "IC_kwDOALaj488AAAABnGw5kw",
+    "user": {
+      "login": "noamr",
+      "id": 88566,
+      "node_id": "MDQ6VXNlcjg4NTY2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88566?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/noamr",
+      "html_url": "https://github.com/noamr",
+      "followers_url": "https://api.github.com/users/noamr/followers",
+      "following_url": "https://api.github.com/users/noamr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/noamr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/noamr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/noamr/subscriptions",
+      "organizations_url": "https://api.github.com/users/noamr/orgs",
+      "repos_url": "https://api.github.com/users/noamr/repos",
+      "events_url": "https://api.github.com/users/noamr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/noamr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-16T14:31:01Z",
+    "updated_at": "2026-11-16T14:31:01Z",
+    "body": "<details><summary>AI review</summary>\r\n\r\n`workers/modules/dedicated-worker-import-failure.html` currently only checks top-level 1-argument `importScripts('empty-worker.js')` in `Window` -> `new Worker(url, { type: 'module' })` (and awaits `onmessage` without rejecting on `onerror`, stalling until timeout on uncaught errors). Would it make sense to expand it in a companion WPT PR to cover the remaining cases of `worker global scope`'s `type`?\r\n- Zero-argument `importScripts()` and invalid-URL `importScripts('http://invalid:123$')` in a `{ type: 'module' }` dedicated worker, where `import scripts into worker global scope` step 1 throws `TypeError` before step 3's empty-list return and step 5's URL parsing. For example, `new Worker(blobURLWithZeroArgImportScripts, { type: 'module' })` throws `TypeError` in Chrome Canary 160, whereas Firefox Nightly 160 returns `undefined` without throwing because [`workerinternals::Load`](https://github.com/mozilla-firefox/firefox/blob/d7161e35da7704cff60e48ee86fb7747ffcc93c7/dom/workers/ScriptLoader.cpp#L1944-L1946) returns early on empty `aScriptURLs` before [`WorkerScriptLoader::CreateScriptRequests`](https://github.com/mozilla-firefox/firefox/blob/d7161e35da7704cff60e48ee86fb7747ffcc93c7/dom/workers/ScriptLoader.cpp#L555-L563) checks `WorkerType::Module`.\r\n- Distinguishing `worker global scope`'s `type` from the active script's type, plus explicit `{ type: 'classic' }`: `new Worker('resources/import-scripts-worker.js', { type: 'classic' })`, a `{ type: 'classic' }` dedicated worker dynamically `import()`ing a module that calls `importScripts()`, and a `{ type: 'module' }` dedicated worker running `setTimeout(\"importScripts(...)\", 0)`.\r\n- Nested dedicated workers (`new Worker(url, { type: 'module' })` from a classic dedicated worker and `new Worker(url, { type: 'classic' })` from a module dedicated worker).\r\n\r\n</details>",
+    "author_association": "CONTRIBUTOR",
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/6919305619/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]
