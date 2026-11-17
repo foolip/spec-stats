@@ -1,0 +1,73 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/698481231",
+    "pull_request_review_id": 741639216,
+    "id": 698481231,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY5ODQ4MTIzMQ==",
+    "diff_hunk": "@@ -87788,98 +87801,54 @@ new PaymentRequest(&hellip;); // Allowed to use\n   data-x=\"attr-media-autoplay\">autoplay</span>.</p>\n \n \n-  <h4 id=\"read-plugin\"><dfn data-x=\"navigate-plugin\">Page load processing model for content that uses plugins</dfn></h4>\n+  <h4 id=\"read-ua-inline\"><span id=\"read-ua-plugin\"></span><span id=\"navigate-plugin\"></span><dfn\n+  data-x=\"navigate-ua-inline\">Page load processing model for inline content that doesn't have a\n+  DOM</dfn></h4>\n \n-  <p>When a resource that requires an external resource to be rendered is to be loaded, provided\n-  <span>navigation params</span> <var>navigationParams</var> and a string <var>type</var>, the user\n-  agent should:\n+  <p>When the user agent is to display a user agent page or PDF viewer inline, provided a\n+  <span>browsing context</span> <var>browsingContext</var>, a <span\n+  data-x=\"navigation-id\">navigation id</span> <var>navigationId</var>, and a <span>history handling\n+  behavior</span> <var>historyHandling</var>, the user agent should:</p>\n \n   <ol>\n-   <li><p>Let <var>document</var> be the result of <span\n-   data-x=\"create-the-document-object\">creating and initializing a <code>Document</code>\n-   object</span> given \"<code data-x=\"\">html</code>\", <var>type</var>, and\n-   <var>navigationParmas</var>.</p></li>\n-\n-   <li><p>Set <var>document</var>'s <span data-x=\"concept-document-mode\">mode</span>\n-   to \"<code data-x=\"\">no-quirks</code>\".</p></li>\n-\n-   <li><p>Mark <var>document</var> as being a <dfn>plugin document</dfn></p></li>\n-\n-   <li><p>Append an <code>html</code> element to <var>document</var>.</p></li>\n-\n-   <li><p>Append a <code>head</code> element to the <code>html</code> element.</p></li>\n-\n-   <li><p>Append a <code>body</code> element to the <code>html</code> element.</p></li>\n-\n-   <li><p>Append an <code>embed</code> to the <code>body</code> element.</p></li>\n-\n-   <li><p>Set the <code data-x=\"attr-embed-src\">src</code> attribute of the <code>embed</code>\n-   element to the address of the resource.</p></li>\n-  </ol>\n-\n-  <p class=\"note\">The term <span>plugin document</span> is used by\n-  <cite>Content Security Policy</cite> as part of the mechanism that ensures <code>iframe</code>s\n-  can't be used to evade <code data-x=\"\">plugin-types</code> directives. <ref spec=CSP></p>\n-\n-  <!-- next three paragraphs are similar to the navigate-text section, keep them in sync -->\n-\n-  <p>Then, the user agent must act as if it had <span data-x=\"stop parsing\">stopped\n-  parsing</span>.</p>\n-\n-  <p>After creating the <code>Document</code> object, but potentially before the page has finished\n-  fully loading, the user agent must <span>update the session history with the new page</span> given\n-  <var>navigationParams</var> and the newly-created <code>Document</code>.</p>\n-\n-  <p>User agents may add content to the <code>head</code> element of the <code>Document</code>, or\n-  attributes to the <code>embed</code> element, e.g. to link to a style sheet or to give the\n-  document a <code>title</code>.</p>\n-\n-  <p class=\"note\" id=\"sandboxPluginNavigate\">If the <code>Document</code>'s <span>active sandboxing\n-  flag set</span> has its <span>sandboxed plugins browsing context flag</span> set, the synthesized\n-  <code>embed</code> element will <a href=\"#sandboxPluginEmbed\">fail to render the content</a> if\n-  the relevant <span>plugin</span> cannot be <span data-x=\"concept-plugin-secure\">secured</span>.</p>\n-\n-\n-  <h4 id=\"read-ua-inline\"><dfn data-x=\"navigate-ua-inline\">Page load processing model for inline\n-  content that doesn't have a DOM</dfn></h4>\n-\n-  <p>When the user agent is to display a user agent page inline, provided a <span>browsing\n-  context</span> <var>browsingContext</var>, the user agent should:</p>\n-\n-  <ol>\n-   <li>\n-    <p>Let <var>navigationParams</var> be a new <span>navigation params</span> whose <span\n-    data-x=\"navigation-params-request\">request</span> is null, <span\n-    data-x=\"navigation-params-response\">response</span> is null, <span\n-    data-x=\"navigation-params-origin\">origin</span> is a new <span\n-    data-x=\"concept-origin-opaque\">opaque origin</span>, <span\n-    data-x=\"navigation-params-sandboxing\">final sandboxing flag set</span> is an empty set, <span\n-    data-x=\"navigation-params-coop\">cross-origin opener policy</span> is a new <span>cross-origin\n-    opener policy</span>, <span data-x=\"navigation-params-coop-enforcement-result\">COOP enforcement\n-    result</span> is a new <span data-x=\"coop-enforcement-result\">cross-origin opener policy\n-    enforcement result</span>, <span\n-    data-x=\"navigation-params-reserved-environment\">reserved environment</span> is null, and <span\n-    data-x=\"navigation-params-browsing-context\">browsing context</span> is\n-    <var>browsingContext</var>.</p>\n-\n-    <p class=\"XXX\">The algorithm called in the next step is not prepared to deal with a null <span\n-    data-x=\"navigation-params-response\">response</span>. Probably we should synthesize one\n-    instead.</p>\n-   </li>\n+   <li><p>Let <var>navigationParams</var> be a new <span>navigation params</span> whose <span\n+   data-x=\"navigation-params-id\">id</span> is <var>navigationId</var>, <span\n+   data-x=\"navigation-params-request\">request</span> is null, <span\n+   data-x=\"navigation-params-response\">response</span> is a new <span\n+   data-x=\"concept-response\">response</span>, <span data-x=\"navigation-params-origin\">origin</span>\n+   is a new <span data-x=\"concept-origin-opaque\">opaque origin</span>, <span\n+   data-x=\"navigation-params-policy-container\">policy container</span> is a new <span>policy\n+   container</span>, <span data-x=\"navigation-params-sandboxing\">final sandboxing flag set</span>\n+   is an empty set, <span data-x=\"navigation-params-coop\">cross-origin opener policy</span> is a\n+   new <span>cross-origin opener policy</span>, <span\n+   data-x=\"navigation-params-coop-enforcement-result\">COOP enforcement result</span> is a new <span\n+   data-x=\"coop-enforcement-result\">cross-origin opener policy enforcement result</span>, <span\n+   data-x=\"navigation-params-reserved-environment\">reserved environment</span> is null, <span\n+   data-x=\"navigation-params-browsing-context\">browsing context</span> is\n+   <var>browsingContext</var>, <span data-x=\"navigation-params-hh\">history handling</span> is\n+   <var>historyHandling</var>, and <span data-x=\"navigation-params-has-cross-origin-redirects\">has\n+   cross-origin redirects</span> is false.</p></li>\n \n    <li><p>Let <var>document</var> be the result of <span\n    data-x=\"create-the-document-object\">creating and initializing a <code>Document</code>\n    object</span> given \"<code data-x=\"\">html</code>\", \"<code data-x=\"\">text/html</code>\", and\n    <var>navigationParams</var>.</p></li>\n \n-   <li><p>Set <var>document</var>'s <span data-x=\"concept-document-mode\">mode</span>\n-   to \"<code data-x=\"\">no-quirks</code>\".</p></li>\n-\n    <li><p>Either associate <var>document</var> with a custom rendering that is not rendered using\n    the normal <code>Document</code> rendering rules, or mutate <var>document</var> until it\n    represents the content the user agent wants to render.</p>\n   </ol>\n \n+  <p class=\"note\">Because we ensure the resulting <code>Document</code>'s <span\n+  data-x=\"concept-document-origin\">origin</span> is <span\n+  data-x=\"concept-origin-opaque\">opaque</span>, and the resulting <code>Document</code> cannot run\n+  script with access to the DOM, the existence and properties of this <code>Document</code> are not\n+  observable to web developer code. This means that most of the above values, e.g. the",
+    "path": "source",
+    "commit_id": "b23a5c942941dab3400200de07ac21be9af1db53",
+    "original_commit_id": "c743dac9aecfd924ff0ab5f59752bcb0d09df03f",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n  observable to web developer code. This means that most of the above values, e.g., the\r\n```",
+    "created_at": "2021-08-30T13:19:55Z",
+    "updated_at": "2021-08-30T13:21:22Z",
+    "html_url": "https://github.com/whatwg/html/pull/6947#discussion_r698481231",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/6947",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/698481231"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/6947#discussion_r698481231"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/6947"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/698481231/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 87846,
+    "original_line": 87846,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 225,
+    "position": 199,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

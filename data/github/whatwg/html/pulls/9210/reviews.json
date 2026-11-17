@@ -1,0 +1,86 @@
+[
+  {
+    "id": 1403393652,
+    "node_id": "PRR_kwDOALaj485TphZ0",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "LGTM. Please restore the PR template so we can track when this is ready to merge.",
+    "state": "APPROVED",
+    "html_url": "https://github.com/whatwg/html/pull/9210#pullrequestreview-1403393652",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9210",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9210#pullrequestreview-1403393652"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9210"
+      }
+    },
+    "submitted_at": "2023-04-27T07:43:56Z",
+    "commit_id": "1b90cd1961ab6c556d1ad201d001c95552662a65"
+  },
+  {
+    "id": 1413230811,
+    "node_id": "PRR_kwDOALaj485UPDDb",
+    "user": {
+      "login": "nicolo-ribaudo",
+      "id": 7000710,
+      "node_id": "MDQ6VXNlcjcwMDA3MTA=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7000710?u=9529bd132769a1928a5c15808d0a18c525f09762&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nicolo-ribaudo",
+      "html_url": "https://github.com/nicolo-ribaudo",
+      "followers_url": "https://api.github.com/users/nicolo-ribaudo/followers",
+      "following_url": "https://api.github.com/users/nicolo-ribaudo/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nicolo-ribaudo/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nicolo-ribaudo/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nicolo-ribaudo/subscriptions",
+      "organizations_url": "https://api.github.com/users/nicolo-ribaudo/orgs",
+      "repos_url": "https://api.github.com/users/nicolo-ribaudo/repos",
+      "events_url": "https://api.github.com/users/nicolo-ribaudo/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nicolo-ribaudo/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "(I'm reviewing this PR because I changed many of the algorithms for module loading)\r\n\r\nWhile reading the updated spec, I initially couldn't figure out how it works with a module a.js that imports b.js and c.js, because I had the impression that b.js and c.js would share the same _script fetch options_ struct: they would both use _the descendant script fetch options of a.js' script fetch options_ ([HostLoadImportedModule step 6.3](https://html.spec.whatwg.org/#hostloadimportedmodule)).\r\n\r\nIt took me a while to realize that \"the descendant script fetch options\" is a new struct every time, so mutating it is safe. Maybe for clarity you could change the step linked above to\r\n> Set fetchOptions to <del>the</del><ins>a new</ins> [descendant script fetch options](https://html.spec.whatwg.org/#descendant-script-fetch-options) for referencingScript's [fetch options](https://html.spec.whatwg.org/#concept-script-script-fetch-options).\r\n\r\nor add a note making it clear that even if we use \"the\" it's not unique but it's a new one every time.",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/9210#pullrequestreview-1413230811",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9210",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9210#pullrequestreview-1413230811"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9210"
+      }
+    },
+    "submitted_at": "2023-05-04T14:21:59Z",
+    "commit_id": "1b90cd1961ab6c556d1ad201d001c95552662a65"
+  }
+]

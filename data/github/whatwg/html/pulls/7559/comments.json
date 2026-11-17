@@ -1,0 +1,644 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/805085257",
+    "pull_request_review_id": 880787905,
+    "id": 805085257,
+    "node_id": "PRRC_kwDOALaj484v_KBJ",
+    "diff_hunk": "@@ -14039,16 +14039,21 @@ interface <dfn interface>HTMLLinkElement</dfn> : <span>HTMLElement</span> {\n    <var>request</var>. If the result is false, then return.</p></li>\n \n    <li>\n-    <p>Run the following steps <span>in parallel</span>:</p>\n+    <p><!--FETCH--><span data-x=\"concept-fetch\">Fetch</span> <var>request</var> with <i\n+    data-x=\"processResponseConsumeBody\">processResponseConsumeBody</i> set to the following steps\n+    given <span data-x=\"concept-response\">response</span> <var>response</var>:</p>\n \n     <ol>\n-     <!--FETCH--><li><p>Let <var>response</var> be the result of <span\n-     data-x=\"concept-fetch\">fetching</span> <var>request</var>.</p></li>\n+     <li><p>Let <var>initiatorType</var> be \"<code data-x=\"\">css</code>\" if <var>el</var>'s\n+     <code data-x=\"attr-link-rel\">rel</code> is \"<code data-x=\"\">stylesheet</code>\";",
+    "path": "source",
+    "commit_id": "4cf85ed5a9ae8524c5e43b85ce5ee5c25f4b34ff",
+    "original_commit_id": "1aee4c8df749aaef924fa3d4cd80eaac5c2d4999",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "What if the rel is `\"stylesheet alternate\"` or `\"stylesheet preload\"` or `\"    stylesheet    \"` or...?",
+    "created_at": "2022-02-12T00:27:11Z",
+    "updated_at": "2022-02-12T00:30:29Z",
+    "html_url": "https://github.com/whatwg/html/pull/7559#discussion_r805085257",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7559",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/805085257"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7559#discussion_r805085257"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7559"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/805085257/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 14048,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 13,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/805085403",
+    "pull_request_review_id": 880787905,
+    "id": 805085403,
+    "node_id": "PRRC_kwDOALaj484v_KDb",
+    "diff_hunk": "@@ -14039,16 +14039,21 @@ interface <dfn interface>HTMLLinkElement</dfn> : <span>HTMLElement</span> {\n    <var>request</var>. If the result is false, then return.</p></li>\n \n    <li>\n-    <p>Run the following steps <span>in parallel</span>:</p>\n+    <p><!--FETCH--><span data-x=\"concept-fetch\">Fetch</span> <var>request</var> with <i\n+    data-x=\"processResponseConsumeBody\">processResponseConsumeBody</i> set to the following steps\n+    given <span data-x=\"concept-response\">response</span> <var>response</var>:</p>\n \n     <ol>\n-     <!--FETCH--><li><p>Let <var>response</var> be the result of <span\n-     data-x=\"concept-fetch\">fetching</span> <var>request</var>.</p></li>\n+     <li><p>Let <var>initiatorType</var> be \"<code data-x=\"\">css</code>\" if <var>el</var>'s\n+     <code data-x=\"attr-link-rel\">rel</code> is \"<code data-x=\"\">stylesheet</code>\";\n+     \"<code data-x=\"\">link</code>\" otherwise.</p></li>\n \n-     <li><p>Let <var>success</var> be true.</p></li>\n+     <li><p><span>Finalize and report timing</span> with <var>response</var>,\n+     <var>el</var>'s <span>node document</span>'s <span>relevant global object</span>, and\n+     <var>initiatorType</var>.</p></li>\n \n      <li>\n-      <p>If <var>response</var> is a <span>network error</span> or its <span\n+      <p>If <var>response</var> is a network error, or <var>response</var>'s <span",
+    "path": "source",
+    "commit_id": "4cf85ed5a9ae8524c5e43b85ce5ee5c25f4b34ff",
+    "original_commit_id": "1aee4c8df749aaef924fa3d4cd80eaac5c2d4999",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Why change this?",
+    "created_at": "2022-02-12T00:27:46Z",
+    "updated_at": "2022-02-12T00:30:29Z",
+    "html_url": "https://github.com/whatwg/html/pull/7559#discussion_r805085403",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7559",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/805085403"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7559#discussion_r805085403"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7559"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/805085403/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 14056,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 23,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/805312065",
+    "pull_request_review_id": 880962068,
+    "id": 805312065,
+    "node_id": "PRRC_kwDOALaj484wABZB",
+    "diff_hunk": "@@ -14039,16 +14039,21 @@ interface <dfn interface>HTMLLinkElement</dfn> : <span>HTMLElement</span> {\n    <var>request</var>. If the result is false, then return.</p></li>\n \n    <li>\n-    <p>Run the following steps <span>in parallel</span>:</p>\n+    <p><!--FETCH--><span data-x=\"concept-fetch\">Fetch</span> <var>request</var> with <i\n+    data-x=\"processResponseConsumeBody\">processResponseConsumeBody</i> set to the following steps\n+    given <span data-x=\"concept-response\">response</span> <var>response</var>:</p>\n \n     <ol>\n-     <!--FETCH--><li><p>Let <var>response</var> be the result of <span\n-     data-x=\"concept-fetch\">fetching</span> <var>request</var>.</p></li>\n+     <li><p>Let <var>initiatorType</var> be \"<code data-x=\"\">css</code>\" if <var>el</var>'s\n+     <code data-x=\"attr-link-rel\">rel</code> is \"<code data-x=\"\">stylesheet</code>\";\n+     \"<code data-x=\"\">link</code>\" otherwise.</p></li>\n \n-     <li><p>Let <var>success</var> be true.</p></li>\n+     <li><p><span>Finalize and report timing</span> with <var>response</var>,\n+     <var>el</var>'s <span>node document</span>'s <span>relevant global object</span>, and\n+     <var>initiatorType</var>.</p></li>\n \n      <li>\n-      <p>If <var>response</var> is a <span>network error</span> or its <span\n+      <p>If <var>response</var> is a network error, or <var>response</var>'s <span",
+    "path": "source",
+    "commit_id": "4cf85ed5a9ae8524c5e43b85ce5ee5c25f4b34ff",
+    "original_commit_id": "1aee4c8df749aaef924fa3d4cd80eaac5c2d4999",
+    "user": {
+      "login": "noamr",
+      "id": 88566,
+      "node_id": "MDQ6VXNlcjg4NTY2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88566?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/noamr",
+      "html_url": "https://github.com/noamr",
+      "followers_url": "https://api.github.com/users/noamr/followers",
+      "following_url": "https://api.github.com/users/noamr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/noamr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/noamr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/noamr/subscriptions",
+      "organizations_url": "https://api.github.com/users/noamr/orgs",
+      "repos_url": "https://api.github.com/users/noamr/repos",
+      "events_url": "https://api.github.com/users/noamr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/noamr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "probably a fluke, will unchange",
+    "created_at": "2022-02-13T10:17:22Z",
+    "updated_at": "2022-02-13T10:17:22Z",
+    "html_url": "https://github.com/whatwg/html/pull/7559#discussion_r805312065",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7559",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/805312065"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7559#discussion_r805312065"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7559"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/805312065/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 14056,
+    "side": "RIGHT",
+    "in_reply_to_id": 805085403,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 23,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/809460790",
+    "pull_request_review_id": 886542101,
+    "id": 809460790,
+    "node_id": "PRRC_kwDOALaj484wP2Q2",
+    "diff_hunk": "@@ -14145,16 +14145,22 @@ interface <dfn interface>HTMLLinkElement</dfn> : <span>HTMLElement</span> {\n    <var>request</var>. If the result is false, then return.</p></li>\n \n    <li>\n-    <p>Run the following steps <span>in parallel</span>:</p>\n+    <p><!--FETCH--><span data-x=\"concept-fetch\">Fetch</span> <var>request</var> with <i\n+    data-x=\"processResponseConsumeBody\">processResponseConsumeBody</i> set to the following steps\n+    given <span data-x=\"concept-response\">response</span> <var>response</var>:</p>\n \n     <ol>\n-     <!--FETCH--><li><p>Let <var>response</var> be the result of <span\n-     data-x=\"concept-fetch\">fetching</span> <var>request</var>.</p></li>\n+     <li><p>Let <var>initiatorType</var> be \"<code data-x=\"\">css</code>\" if <var>el</var>'s\n+     <code data-x=\"attr-link-rel\">rel</code> attribute also contains the keyword\n+     <code data-x=\"rel-stylesheet\">stylesheet</code>; \"<code data-x=\"\">link</code>\"\n+     otherwise.</p></li>",
+    "path": "source",
+    "commit_id": "4cf85ed5a9ae8524c5e43b85ce5ee5c25f4b34ff",
+    "original_commit_id": "c844da779f923090f8e1fa591ce79c011caa904f",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "\"also contains\" doesn't seem correct. Just \"contains\"?\r\n\r\n`rel` could have changed between the fetch starting and processResponseConsumeBody. I think you need to set the initiatorType before the fetch.",
+    "created_at": "2022-02-17T20:57:09Z",
+    "updated_at": "2022-02-17T20:58:08Z",
+    "html_url": "https://github.com/whatwg/html/pull/7559#discussion_r809460790",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7559",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/809460790"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7559#discussion_r809460790"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7559"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/809460790/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 14156,
+    "original_line": 14156,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 15,
+    "position": 21,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/810639260",
+    "pull_request_review_id": 888047951,
+    "id": 810639260,
+    "node_id": "PRRC_kwDOALaj484wUV-c",
+    "diff_hunk": "@@ -14145,16 +14145,22 @@ interface <dfn interface>HTMLLinkElement</dfn> : <span>HTMLElement</span> {\n    <var>request</var>. If the result is false, then return.</p></li>\n \n    <li>\n-    <p>Run the following steps <span>in parallel</span>:</p>\n+    <p><!--FETCH--><span data-x=\"concept-fetch\">Fetch</span> <var>request</var> with <i\n+    data-x=\"processResponseConsumeBody\">processResponseConsumeBody</i> set to the following steps\n+    given <span data-x=\"concept-response\">response</span> <var>response</var>:</p>\n \n     <ol>\n-     <!--FETCH--><li><p>Let <var>response</var> be the result of <span\n-     data-x=\"concept-fetch\">fetching</span> <var>request</var>.</p></li>\n+     <li><p>Let <var>initiatorType</var> be \"<code data-x=\"\">css</code>\" if <var>el</var>'s\n+     <code data-x=\"attr-link-rel\">rel</code> attribute also contains the keyword\n+     <code data-x=\"rel-stylesheet\">stylesheet</code>; \"<code data-x=\"\">link</code>\"\n+     otherwise.</p></li>",
+    "path": "source",
+    "commit_id": "4cf85ed5a9ae8524c5e43b85ce5ee5c25f4b34ff",
+    "original_commit_id": "c844da779f923090f8e1fa591ce79c011caa904f",
+    "user": {
+      "login": "noamr",
+      "id": 88566,
+      "node_id": "MDQ6VXNlcjg4NTY2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88566?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/noamr",
+      "html_url": "https://github.com/noamr",
+      "followers_url": "https://api.github.com/users/noamr/followers",
+      "following_url": "https://api.github.com/users/noamr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/noamr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/noamr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/noamr/subscriptions",
+      "organizations_url": "https://api.github.com/users/noamr/orgs",
+      "repos_url": "https://api.github.com/users/noamr/repos",
+      "events_url": "https://api.github.com/users/noamr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/noamr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Fixed",
+    "created_at": "2022-02-20T15:04:01Z",
+    "updated_at": "2022-02-20T15:04:01Z",
+    "html_url": "https://github.com/whatwg/html/pull/7559#discussion_r810639260",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7559",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/810639260"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7559#discussion_r810639260"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7559"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/810639260/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 14156,
+    "original_line": 14156,
+    "side": "RIGHT",
+    "in_reply_to_id": 809460790,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 15,
+    "position": 21,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/812155395",
+    "pull_request_review_id": 890084159,
+    "id": 812155395,
+    "node_id": "PRRC_kwDOALaj484waIID",
+    "diff_hunk": "@@ -14134,24 +14134,30 @@ interface <dfn interface>HTMLLinkElement</dfn> : <span>HTMLElement</span> {\n    <li><p>Let <var>request</var> be the result of <span data-x=\"create a link element\n    request\">creating a <code>link</code> element request</span> given <var>el</var>.</p></li>\n \n-   <li><p>If <var>request</var> is null, then return.</p></li>\n+  <li><p>If <var>request</var> is null, then return.</p></li>",
+    "path": "source",
+    "commit_id": "4cf85ed5a9ae8524c5e43b85ce5ee5c25f4b34ff",
+    "original_commit_id": "330cdced4f0d37aaa0e44ebd646223da3c86c593",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Please undo this change.\r\n\r\n(And in general, consider reviewing the diff using GitHub's files view, to prevent this sort of thing in the future.)",
+    "created_at": "2022-02-22T16:53:12Z",
+    "updated_at": "2022-02-22T16:54:20Z",
+    "html_url": "https://github.com/whatwg/html/pull/7559#discussion_r812155395",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7559",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/812155395"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7559#discussion_r812155395"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7559"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/812155395/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 14137,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 5,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/812156130",
+    "pull_request_review_id": 890084159,
+    "id": 812156130,
+    "node_id": "PRRC_kwDOALaj484waITi",
+    "diff_hunk": "@@ -127642,7 +127647,7 @@ INSERT INTERFACES HERE\n   Roland Steiner,\n   Roma Matusevich,\n   Romain Deltour,\n-  Roman Ivanov,\n+\\  Roman Ivanov,",
+    "path": "source",
+    "commit_id": "4cf85ed5a9ae8524c5e43b85ce5ee5c25f4b34ff",
+    "original_commit_id": "330cdced4f0d37aaa0e44ebd646223da3c86c593",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Please undo this change.",
+    "created_at": "2022-02-22T16:53:58Z",
+    "updated_at": "2022-02-22T16:54:20Z",
+    "html_url": "https://github.com/whatwg/html/pull/7559#discussion_r812156130",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7559",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/812156130"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7559#discussion_r812156130"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7559"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/812156130/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 127650,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 53,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/812156206",
+    "pull_request_review_id": 890084159,
+    "id": 812156206,
+    "node_id": "PRRC_kwDOALaj484waIUu",
+    "diff_hunk": "@@ -14134,24 +14134,30 @@ interface <dfn interface>HTMLLinkElement</dfn> : <span>HTMLElement</span> {\n    <li><p>Let <var>request</var> be the result of <span data-x=\"create a link element\n    request\">creating a <code>link</code> element request</span> given <var>el</var>.</p></li>\n \n-   <li><p>If <var>request</var> is null, then return.</p></li>\n+  <li><p>If <var>request</var> is null, then return.</p></li>\n \n    <li><p>Set <var>request</var>'s <span>synchronous flag</span>.</p></li>\n \n    <li><p>Run the <span>linked resource fetch setup steps</span>, given <var>el</var> and\n    <var>request</var>. If the result is false, then return.</p></li>\n \n+   <li><p>Let <var>initiatorType</var> be \"<code data-x=\"\">css</code>\" if <var>el</var>'s\n+   <code data-x=\"attr-link-rel\">rel</code> attribute contains the keyword\n+   <code data-x=\"rel-stylesheet\">stylesheet</code>; \"<code data-x=\"\">link</code>\"\n+   otherwise.</p></li>\n+\n    <li>\n-    <p>Run the following steps <span>in parallel</span>:</p>\n+    <p><!--FETCH--><span data-x=\"concept-fetch\">Fetch</span> <var>request</var> with <i\n+    data-x=\"processResponseConsumeBody\">processResponseConsumeBody</i> set to the following steps\n+    given <span data-x=\"concept-response\">response</span> <var>response</var>:</p>\n \n     <ol>\n-     <!--FETCH--><li><p>Let <var>response</var> be the result of <span\n-     data-x=\"concept-fetch\">fetching</span> <var>request</var>.</p></li>\n-\n-     <li><p>Let <var>success</var> be true.</p></li>\n+     <li><p><span>Finalize and report timing</span> with <var>response</var>,\n+     <var>el</var>'s <span>node document</span>'s <span>relevant global object</span>, and\n+     <var>initiatorType</var>.</p></li>\n \n      <li>\n-      <p>If <var>response</var> is a <span>network error</span> or its <span\n+      <p>If <var>response</var> is a <span>network error</span>, or its <span",
+    "path": "source",
+    "commit_id": "4cf85ed5a9ae8524c5e43b85ce5ee5c25f4b34ff",
+    "original_commit_id": "330cdced4f0d37aaa0e44ebd646223da3c86c593",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Please undo this change.",
+    "created_at": "2022-02-22T16:54:03Z",
+    "updated_at": "2022-02-22T16:54:20Z",
+    "html_url": "https://github.com/whatwg/html/pull/7559#discussion_r812156206",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7559",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/812156206"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7559#discussion_r812156206"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7559"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/812156206/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 14160,
+    "original_line": 14160,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 34,
+    "position": 25,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/812162182",
+    "pull_request_review_id": 890093395,
+    "id": 812162182,
+    "node_id": "PRRC_kwDOALaj484waJyG",
+    "diff_hunk": "@@ -14134,24 +14134,30 @@ interface <dfn interface>HTMLLinkElement</dfn> : <span>HTMLElement</span> {\n    <li><p>Let <var>request</var> be the result of <span data-x=\"create a link element\n    request\">creating a <code>link</code> element request</span> given <var>el</var>.</p></li>\n \n-   <li><p>If <var>request</var> is null, then return.</p></li>\n+  <li><p>If <var>request</var> is null, then return.</p></li>",
+    "path": "source",
+    "commit_id": "4cf85ed5a9ae8524c5e43b85ce5ee5c25f4b34ff",
+    "original_commit_id": "330cdced4f0d37aaa0e44ebd646223da3c86c593",
+    "user": {
+      "login": "noamr",
+      "id": 88566,
+      "node_id": "MDQ6VXNlcjg4NTY2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88566?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/noamr",
+      "html_url": "https://github.com/noamr",
+      "followers_url": "https://api.github.com/users/noamr/followers",
+      "following_url": "https://api.github.com/users/noamr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/noamr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/noamr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/noamr/subscriptions",
+      "organizations_url": "https://api.github.com/users/noamr/orgs",
+      "repos_url": "https://api.github.com/users/noamr/repos",
+      "events_url": "https://api.github.com/users/noamr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/noamr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I do that, but sometimes I work on several PRs and things slip through the cracks. Sorry for the noise.",
+    "created_at": "2022-02-22T16:59:46Z",
+    "updated_at": "2022-02-22T16:59:47Z",
+    "html_url": "https://github.com/whatwg/html/pull/7559#discussion_r812162182",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7559",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/812162182"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7559#discussion_r812162182"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7559"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/812162182/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 14137,
+    "side": "RIGHT",
+    "in_reply_to_id": 812155395,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 5,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

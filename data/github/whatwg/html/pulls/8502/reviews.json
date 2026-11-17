@@ -1,0 +1,1052 @@
+[
+  {
+    "id": 1343379934,
+    "node_id": "PRR_kwDOALaj485QElne",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?u=5d39bb7a31325e2905672ce29876c4c00e2a152e&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Thanks for your work on this! Editorially it looks great.\r\n\r\nI did an initial pass. I think this definitely needs review from multiple people given the size. I put my thoughts here as doing it line-by-line would probably be unwieldy.\r\n\r\n* Can download the hyperlink still be reconciled with the navigate algorithm? (Looks like yes.)\r\n* Nit: i.e. and e.g. trailing commas.\r\n* Why \"classic\" for \"classic history API state\" and not \"legacy\"?\r\n* Nit: I find the three letter variable names rather confusing. I would prefer sessionHistoryEntry or entry over she, for instance.\r\n* \"navigation API method tracker-derived result\" doesn't initialize _apiMethodTracker's_.\r\n* Missing word: \"that are not via navigation API methods\"\r\n* NavigationDestination isn't linked from IDL\r\n* The NavigateEvent's type attribute is never initialized. (This is a bit concerning as I guess it means the implementation wasn't written based on the specification.)\r\n* \"inner navigate event firing algorithm\" has a lot of magic around influencing the normal order of the event loop. Is this really unique to navigation or is there a deeper issue here?\r\n* \"user navigation involvement\" seems problematic in that isTrusted can be true for events dispatched by the user agent. Consider `onmessage = e => console.log(e.isTrusted);postMessage(\"x\")`. `click()` setting it to false seems more of an exception. Did not look at what `submit()` does here. It might be okay for a limited set of call sites, but then we ought to make that clear somehow. Perhaps by inlining it.\r\n* This doesn't impact BFCache, right?",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1343379934",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8502",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1343379934"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8502"
+      }
+    },
+    "submitted_at": "2023-03-16T11:34:01Z",
+    "commit_id": "c031deb6e596457068789babdddbef23ca0c9875"
+  },
+  {
+    "id": 1348316056,
+    "node_id": "PRR_kwDOALaj485QXauY",
+    "user": {
+      "login": "jakearchibald",
+      "id": 93594,
+      "node_id": "MDQ6VXNlcjkzNTk0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/93594?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jakearchibald",
+      "html_url": "https://github.com/jakearchibald",
+      "followers_url": "https://api.github.com/users/jakearchibald/followers",
+      "following_url": "https://api.github.com/users/jakearchibald/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jakearchibald/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jakearchibald/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jakearchibald/subscriptions",
+      "organizations_url": "https://api.github.com/users/jakearchibald/orgs",
+      "repos_url": "https://api.github.com/users/jakearchibald/repos",
+      "events_url": "https://api.github.com/users/jakearchibald/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jakearchibald/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Mostly nits\r\n\r\nOne thing I noticed that you're probably already aware of: If you take navigation entries from a same-process same-origin iframe/window, then the timing of the \"dispose\" event is linked to the other document, and that timing will be incorrect when observed by the parent window.",
+    "state": "APPROVED",
+    "html_url": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1348316056",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8502",
+    "author_association": "CONTRIBUTOR",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1348316056"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8502"
+      }
+    },
+    "submitted_at": "2023-03-20T14:16:27Z",
+    "commit_id": "5a7db73b8969ba49a8eeeb98e1e826d87bd746a7"
+  },
+  {
+    "id": 1351792335,
+    "node_id": "PRR_kwDOALaj485QkrbP",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1351792335",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8502",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1351792335"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8502"
+      }
+    },
+    "submitted_at": "2023-03-22T06:18:56Z",
+    "commit_id": "5a7db73b8969ba49a8eeeb98e1e826d87bd746a7"
+  },
+  {
+    "id": 1351796785,
+    "node_id": "PRR_kwDOALaj485Qksgx",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1351796785",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8502",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1351796785"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8502"
+      }
+    },
+    "submitted_at": "2023-03-22T06:24:48Z",
+    "commit_id": "5a7db73b8969ba49a8eeeb98e1e826d87bd746a7"
+  },
+  {
+    "id": 1356906536,
+    "node_id": "PRR_kwDOALaj485Q4MAo",
+    "user": {
+      "login": "tbondwilkinson",
+      "id": 2376574,
+      "node_id": "MDQ6VXNlcjIzNzY1NzQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2376574?u=c3bba059cd64e5fcd0b3428596c740c77243465d&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/tbondwilkinson",
+      "html_url": "https://github.com/tbondwilkinson",
+      "followers_url": "https://api.github.com/users/tbondwilkinson/followers",
+      "following_url": "https://api.github.com/users/tbondwilkinson/following{/other_user}",
+      "gists_url": "https://api.github.com/users/tbondwilkinson/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/tbondwilkinson/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/tbondwilkinson/subscriptions",
+      "organizations_url": "https://api.github.com/users/tbondwilkinson/orgs",
+      "repos_url": "https://api.github.com/users/tbondwilkinson/repos",
+      "events_url": "https://api.github.com/users/tbondwilkinson/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/tbondwilkinson/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Just nits really. This is a massive rewrite, really impressive seeing it all laid out!",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1356906536",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8502",
+    "author_association": "NONE",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1356906536"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8502"
+      }
+    },
+    "submitted_at": "2023-03-27T15:52:39Z",
+    "commit_id": "8826b497f9f9b22842dd8cd89ac53a6c8f11eb40"
+  },
+  {
+    "id": 1360100245,
+    "node_id": "PRR_kwDOALaj485REXuV",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1360100245",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8502",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1360100245"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8502"
+      }
+    },
+    "submitted_at": "2023-03-28T02:19:29Z",
+    "commit_id": "03bc42d7b6b3a3b2d4f606080cd1b70f5fa413ab"
+  },
+  {
+    "id": 1367039285,
+    "node_id": "PRR_kwDOALaj485Re101",
+    "user": {
+      "login": "smaug----",
+      "id": 9219935,
+      "node_id": "MDQ6VXNlcjkyMTk5MzU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9219935?u=abd81d7d90a892fe9588684050563dbaede3aa7f&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/smaug----",
+      "html_url": "https://github.com/smaug----",
+      "followers_url": "https://api.github.com/users/smaug----/followers",
+      "following_url": "https://api.github.com/users/smaug----/following{/other_user}",
+      "gists_url": "https://api.github.com/users/smaug----/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/smaug----/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/smaug----/subscriptions",
+      "organizations_url": "https://api.github.com/users/smaug----/orgs",
+      "repos_url": "https://api.github.com/users/smaug----/repos",
+      "events_url": "https://api.github.com/users/smaug----/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/smaug----/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1367039285",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8502",
+    "author_association": "NONE",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1367039285"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8502"
+      }
+    },
+    "submitted_at": "2023-03-31T14:20:41Z",
+    "commit_id": "5f7a92053d8f7b04d7cebe1b408f07938e6ee629"
+  },
+  {
+    "id": 1367069626,
+    "node_id": "PRR_kwDOALaj485Re9O6",
+    "user": {
+      "login": "smaug----",
+      "id": 9219935,
+      "node_id": "MDQ6VXNlcjkyMTk5MzU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9219935?u=abd81d7d90a892fe9588684050563dbaede3aa7f&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/smaug----",
+      "html_url": "https://github.com/smaug----",
+      "followers_url": "https://api.github.com/users/smaug----/followers",
+      "following_url": "https://api.github.com/users/smaug----/following{/other_user}",
+      "gists_url": "https://api.github.com/users/smaug----/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/smaug----/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/smaug----/subscriptions",
+      "organizations_url": "https://api.github.com/users/smaug----/orgs",
+      "repos_url": "https://api.github.com/users/smaug----/repos",
+      "events_url": "https://api.github.com/users/smaug----/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/smaug----/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1367069626",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8502",
+    "author_association": "NONE",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1367069626"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8502"
+      }
+    },
+    "submitted_at": "2023-03-31T14:37:38Z",
+    "commit_id": "5f7a92053d8f7b04d7cebe1b408f07938e6ee629"
+  },
+  {
+    "id": 1367078889,
+    "node_id": "PRR_kwDOALaj485Re_fp",
+    "user": {
+      "login": "smaug----",
+      "id": 9219935,
+      "node_id": "MDQ6VXNlcjkyMTk5MzU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9219935?u=abd81d7d90a892fe9588684050563dbaede3aa7f&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/smaug----",
+      "html_url": "https://github.com/smaug----",
+      "followers_url": "https://api.github.com/users/smaug----/followers",
+      "following_url": "https://api.github.com/users/smaug----/following{/other_user}",
+      "gists_url": "https://api.github.com/users/smaug----/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/smaug----/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/smaug----/subscriptions",
+      "organizations_url": "https://api.github.com/users/smaug----/orgs",
+      "repos_url": "https://api.github.com/users/smaug----/repos",
+      "events_url": "https://api.github.com/users/smaug----/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/smaug----/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1367078889",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8502",
+    "author_association": "NONE",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1367078889"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8502"
+      }
+    },
+    "submitted_at": "2023-03-31T14:42:57Z",
+    "commit_id": "5f7a92053d8f7b04d7cebe1b408f07938e6ee629"
+  },
+  {
+    "id": 1367145226,
+    "node_id": "PRR_kwDOALaj485RfPsK",
+    "user": {
+      "login": "smaug----",
+      "id": 9219935,
+      "node_id": "MDQ6VXNlcjkyMTk5MzU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9219935?u=abd81d7d90a892fe9588684050563dbaede3aa7f&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/smaug----",
+      "html_url": "https://github.com/smaug----",
+      "followers_url": "https://api.github.com/users/smaug----/followers",
+      "following_url": "https://api.github.com/users/smaug----/following{/other_user}",
+      "gists_url": "https://api.github.com/users/smaug----/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/smaug----/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/smaug----/subscriptions",
+      "organizations_url": "https://api.github.com/users/smaug----/orgs",
+      "repos_url": "https://api.github.com/users/smaug----/repos",
+      "events_url": "https://api.github.com/users/smaug----/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/smaug----/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1367145226",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8502",
+    "author_association": "NONE",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1367145226"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8502"
+      }
+    },
+    "submitted_at": "2023-03-31T15:19:40Z",
+    "commit_id": "5f7a92053d8f7b04d7cebe1b408f07938e6ee629"
+  },
+  {
+    "id": 1367183330,
+    "node_id": "PRR_kwDOALaj485RfY_i",
+    "user": {
+      "login": "smaug----",
+      "id": 9219935,
+      "node_id": "MDQ6VXNlcjkyMTk5MzU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9219935?u=abd81d7d90a892fe9588684050563dbaede3aa7f&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/smaug----",
+      "html_url": "https://github.com/smaug----",
+      "followers_url": "https://api.github.com/users/smaug----/followers",
+      "following_url": "https://api.github.com/users/smaug----/following{/other_user}",
+      "gists_url": "https://api.github.com/users/smaug----/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/smaug----/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/smaug----/subscriptions",
+      "organizations_url": "https://api.github.com/users/smaug----/orgs",
+      "repos_url": "https://api.github.com/users/smaug----/repos",
+      "events_url": "https://api.github.com/users/smaug----/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/smaug----/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1367183330",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8502",
+    "author_association": "NONE",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1367183330"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8502"
+      }
+    },
+    "submitted_at": "2023-03-31T15:43:16Z",
+    "commit_id": "5f7a92053d8f7b04d7cebe1b408f07938e6ee629"
+  },
+  {
+    "id": 1367230526,
+    "node_id": "PRR_kwDOALaj485Rfkg-",
+    "user": {
+      "login": "smaug----",
+      "id": 9219935,
+      "node_id": "MDQ6VXNlcjkyMTk5MzU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9219935?u=abd81d7d90a892fe9588684050563dbaede3aa7f&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/smaug----",
+      "html_url": "https://github.com/smaug----",
+      "followers_url": "https://api.github.com/users/smaug----/followers",
+      "following_url": "https://api.github.com/users/smaug----/following{/other_user}",
+      "gists_url": "https://api.github.com/users/smaug----/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/smaug----/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/smaug----/subscriptions",
+      "organizations_url": "https://api.github.com/users/smaug----/orgs",
+      "repos_url": "https://api.github.com/users/smaug----/repos",
+      "events_url": "https://api.github.com/users/smaug----/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/smaug----/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1367230526",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8502",
+    "author_association": "NONE",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1367230526"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8502"
+      }
+    },
+    "submitted_at": "2023-03-31T16:13:02Z",
+    "commit_id": "5f7a92053d8f7b04d7cebe1b408f07938e6ee629"
+  },
+  {
+    "id": 1367374688,
+    "node_id": "PRR_kwDOALaj485RgHtg",
+    "user": {
+      "login": "tbondwilkinson",
+      "id": 2376574,
+      "node_id": "MDQ6VXNlcjIzNzY1NzQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2376574?u=c3bba059cd64e5fcd0b3428596c740c77243465d&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/tbondwilkinson",
+      "html_url": "https://github.com/tbondwilkinson",
+      "followers_url": "https://api.github.com/users/tbondwilkinson/followers",
+      "following_url": "https://api.github.com/users/tbondwilkinson/following{/other_user}",
+      "gists_url": "https://api.github.com/users/tbondwilkinson/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/tbondwilkinson/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/tbondwilkinson/subscriptions",
+      "organizations_url": "https://api.github.com/users/tbondwilkinson/orgs",
+      "repos_url": "https://api.github.com/users/tbondwilkinson/repos",
+      "events_url": "https://api.github.com/users/tbondwilkinson/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/tbondwilkinson/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1367374688",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8502",
+    "author_association": "NONE",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1367374688"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8502"
+      }
+    },
+    "submitted_at": "2023-03-31T18:06:36Z",
+    "commit_id": "5f7a92053d8f7b04d7cebe1b408f07938e6ee629"
+  },
+  {
+    "id": 1367375018,
+    "node_id": "PRR_kwDOALaj485RgHyq",
+    "user": {
+      "login": "tbondwilkinson",
+      "id": 2376574,
+      "node_id": "MDQ6VXNlcjIzNzY1NzQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2376574?u=c3bba059cd64e5fcd0b3428596c740c77243465d&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/tbondwilkinson",
+      "html_url": "https://github.com/tbondwilkinson",
+      "followers_url": "https://api.github.com/users/tbondwilkinson/followers",
+      "following_url": "https://api.github.com/users/tbondwilkinson/following{/other_user}",
+      "gists_url": "https://api.github.com/users/tbondwilkinson/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/tbondwilkinson/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/tbondwilkinson/subscriptions",
+      "organizations_url": "https://api.github.com/users/tbondwilkinson/orgs",
+      "repos_url": "https://api.github.com/users/tbondwilkinson/repos",
+      "events_url": "https://api.github.com/users/tbondwilkinson/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/tbondwilkinson/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1367375018",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8502",
+    "author_association": "NONE",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1367375018"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8502"
+      }
+    },
+    "submitted_at": "2023-03-31T18:06:49Z",
+    "commit_id": "5f7a92053d8f7b04d7cebe1b408f07938e6ee629"
+  },
+  {
+    "id": 1368345405,
+    "node_id": "PRR_kwDOALaj485Rj0s9",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1368345405",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8502",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1368345405"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8502"
+      }
+    },
+    "submitted_at": "2023-04-03T06:13:09Z",
+    "commit_id": "5f7a92053d8f7b04d7cebe1b408f07938e6ee629"
+  },
+  {
+    "id": 1368347056,
+    "node_id": "PRR_kwDOALaj485Rj1Gw",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1368347056",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8502",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1368347056"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8502"
+      }
+    },
+    "submitted_at": "2023-04-03T06:14:56Z",
+    "commit_id": "5f7a92053d8f7b04d7cebe1b408f07938e6ee629"
+  },
+  {
+    "id": 1368347785,
+    "node_id": "PRR_kwDOALaj485Rj1SJ",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1368347785",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8502",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1368347785"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8502"
+      }
+    },
+    "submitted_at": "2023-04-03T06:15:41Z",
+    "commit_id": "5f7a92053d8f7b04d7cebe1b408f07938e6ee629"
+  },
+  {
+    "id": 1368350322,
+    "node_id": "PRR_kwDOALaj485Rj15y",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1368350322",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8502",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1368350322"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8502"
+      }
+    },
+    "submitted_at": "2023-04-03T06:18:32Z",
+    "commit_id": "5f7a92053d8f7b04d7cebe1b408f07938e6ee629"
+  },
+  {
+    "id": 1368356868,
+    "node_id": "PRR_kwDOALaj485Rj3gE",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1368356868",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8502",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1368356868"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8502"
+      }
+    },
+    "submitted_at": "2023-04-03T06:24:52Z",
+    "commit_id": "5f7a92053d8f7b04d7cebe1b408f07938e6ee629"
+  },
+  {
+    "id": 1368639208,
+    "node_id": "PRR_kwDOALaj485Rk8bo",
+    "user": {
+      "login": "smaug----",
+      "id": 9219935,
+      "node_id": "MDQ6VXNlcjkyMTk5MzU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9219935?u=abd81d7d90a892fe9588684050563dbaede3aa7f&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/smaug----",
+      "html_url": "https://github.com/smaug----",
+      "followers_url": "https://api.github.com/users/smaug----/followers",
+      "following_url": "https://api.github.com/users/smaug----/following{/other_user}",
+      "gists_url": "https://api.github.com/users/smaug----/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/smaug----/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/smaug----/subscriptions",
+      "organizations_url": "https://api.github.com/users/smaug----/orgs",
+      "repos_url": "https://api.github.com/users/smaug----/repos",
+      "events_url": "https://api.github.com/users/smaug----/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/smaug----/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1368639208",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8502",
+    "author_association": "NONE",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1368639208"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8502"
+      }
+    },
+    "submitted_at": "2023-04-03T09:25:10Z",
+    "commit_id": "5f7a92053d8f7b04d7cebe1b408f07938e6ee629"
+  },
+  {
+    "id": 1368741339,
+    "node_id": "PRR_kwDOALaj485RlVXb",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1368741339",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8502",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1368741339"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8502"
+      }
+    },
+    "submitted_at": "2023-04-03T10:24:01Z",
+    "commit_id": "5f7a92053d8f7b04d7cebe1b408f07938e6ee629"
+  },
+  {
+    "id": 1370939680,
+    "node_id": "PRR_kwDOALaj485RtuEg",
+    "user": {
+      "login": "smaug----",
+      "id": 9219935,
+      "node_id": "MDQ6VXNlcjkyMTk5MzU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9219935?u=abd81d7d90a892fe9588684050563dbaede3aa7f&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/smaug----",
+      "html_url": "https://github.com/smaug----",
+      "followers_url": "https://api.github.com/users/smaug----/followers",
+      "following_url": "https://api.github.com/users/smaug----/following{/other_user}",
+      "gists_url": "https://api.github.com/users/smaug----/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/smaug----/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/smaug----/subscriptions",
+      "organizations_url": "https://api.github.com/users/smaug----/orgs",
+      "repos_url": "https://api.github.com/users/smaug----/repos",
+      "events_url": "https://api.github.com/users/smaug----/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/smaug----/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1370939680",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8502",
+    "author_association": "NONE",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1370939680"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8502"
+      }
+    },
+    "submitted_at": "2023-04-04T13:07:41Z",
+    "commit_id": "f9bef6eb3592a9cc27bdd6fd783b809d19f479f9"
+  },
+  {
+    "id": 1371885640,
+    "node_id": "PRR_kwDOALaj485RxVBI",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1371885640",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8502",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1371885640"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8502"
+      }
+    },
+    "submitted_at": "2023-04-04T22:44:29Z",
+    "commit_id": "5f7a92053d8f7b04d7cebe1b408f07938e6ee629"
+  },
+  {
+    "id": 1372458474,
+    "node_id": "PRR_kwDOALaj485Rzg3q",
+    "user": {
+      "login": "smaug----",
+      "id": 9219935,
+      "node_id": "MDQ6VXNlcjkyMTk5MzU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9219935?u=abd81d7d90a892fe9588684050563dbaede3aa7f&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/smaug----",
+      "html_url": "https://github.com/smaug----",
+      "followers_url": "https://api.github.com/users/smaug----/followers",
+      "following_url": "https://api.github.com/users/smaug----/following{/other_user}",
+      "gists_url": "https://api.github.com/users/smaug----/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/smaug----/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/smaug----/subscriptions",
+      "organizations_url": "https://api.github.com/users/smaug----/orgs",
+      "repos_url": "https://api.github.com/users/smaug----/repos",
+      "events_url": "https://api.github.com/users/smaug----/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/smaug----/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1372458474",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8502",
+    "author_association": "NONE",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1372458474"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8502"
+      }
+    },
+    "submitted_at": "2023-04-05T08:54:39Z",
+    "commit_id": "f9bef6eb3592a9cc27bdd6fd783b809d19f479f9"
+  },
+  {
+    "id": 1374291543,
+    "node_id": "PRR_kwDOALaj485R6gZX",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1374291543",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8502",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8502#pullrequestreview-1374291543"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8502"
+      }
+    },
+    "submitted_at": "2023-04-06T08:07:32Z",
+    "commit_id": "5f7a92053d8f7b04d7cebe1b408f07938e6ee629"
+  }
+]

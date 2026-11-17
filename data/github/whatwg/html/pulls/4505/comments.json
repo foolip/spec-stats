@@ -1,0 +1,932 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/273060200",
+    "pull_request_review_id": 223860891,
+    "id": 273060200,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3MzA2MDIwMA==",
+    "diff_hunk": "@@ -87821,6 +88190,133 @@ interface <dfn>ApplicationCache</dfn> : <span>EventTarget</span> {\n    <li><p>Return <var>script</var>.</p></li>\n   </ol>\n \n+  <p>To <dfn data-x=\"creating an HTML module script\">create an HTML module script</dfn>, given a\n+  string <var>source</var>, an <span>environment settings object</span>\n+  <var>settings</var>, a <span>URL</span> <var>baseURL</var>, and some <span>script fetch\n+  options</span> <var>options</var>:</p>\n+\n+  <ol>\n+   <li><p>Let <var>module script</var> be a new <span>HTML module script</span> that this algorithm\n+   will subsequently initialize.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span>settings object</span> to <var>settings</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-base-url\">base URL</span> to\n+   <var>baseURL</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-script-fetch-options\">fetch\n+   options</span> to <var>options</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span> and\n+   <span data-x=\"concept-script-error-to-rethrow\">error to rethrow</span> to null.</p></li>\n+\n+   <li>\n+    <p>Let <var>result</var> be <span>ParseHTMLModule</span>(<var>source</var>,\n+    <var>setting</var>'s <span data-x=\"environment settings object's Realm\">Realm</span>,\n+    <var>script</var>).</p>\n+\n+    <p class=\"note\">Passing <var>script</var> as the last parameter here ensures\n+    <var>result</var>.[[HostDefined]] will be <var>script</var>.</p>\n+   </li>\n+\n+   <li>\n+    <p>If <var>result</var> is a <span>list</span> of errors, then:</p>\n+\n+    <ol>\n+     <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span> to\n+     <var>result</var>[0].</p></li>\n+\n+     <li><p>Return <var>script</var>.</p></li>\n+    </ol>\n+   </li>\n+\n+   <li id=\"html-module-validate-requested-module-specifiers\">\n+    <p><span data-x=\"list iterate\">For each</span> <span>ScriptEntry</span>\n+    <var>entry</var> of <var>result</var>.[[RequestedModules]] where\n+    <var>entry</var>.[[ExternalScriptURL]] is not null:</p>\n+\n+    <ol>\n+     <li><p>Let <var>requested</var> be <var>entry</var>.[[ExternalScriptURL]].</p></li>\n+     <li><p>Let <var>url</var> be the result of <span data-x=\"resolve a module specifier\">resolving\n+     a module specifier</span> given <var>script</var>'s <span data-x=\"concept-script-base-url\">base\n+     URL</span> and <var>requested</var>.</p></li>\n+\n+     <li>\n+      <p>If <var>url</var> is failure, then:</p>\n+\n+      <ol>\n+       <li><p>Let <var>error</var> be a new <code>TypeError</code> exception.</p></li>\n+\n+       <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span>\n+       to <var>error</var>.</p></li>\n+\n+       <li><p>Return <var>script</var>.</p></li>\n+      </ol>\n+     </li>\n+    </ol>\n+   </li>\n+  </ol>\n+\n+  <p>Define <dfn>ParseHTMLModule</dfn>(<var>source</var>, <var>realm</var>,\n+  <var>htmlModuleScript</var>) as the following:</p>\n+\n+  <ol>\n+   <li><p>Create a new <span>Document</span> node <var>document</var> whose\n+   <span data-x=\"concept-document-content-type\">content type</span> is\n+   <code data-x=\"\">text/html</code> and mark it as being an <span",
+    "path": "source",
+    "commit_id": "0337d295bdef630d24cf0755be71aafd59879c3a",
+    "original_commit_id": "a08ad9698925a7c7ecdc1d6dd46566954f184cd7",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I'd suggest this is a TODO as well, as I hope we can agree it should match the MIME type we end up picking.",
+    "created_at": "2019-04-08T13:58:24Z",
+    "updated_at": "2020-10-03T01:25:42Z",
+    "html_url": "https://github.com/whatwg/html/pull/4505#discussion_r273060200",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4505",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/273060200"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4505#discussion_r273060200"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4505"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/273060200/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 88266,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 702,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/273061122",
+    "pull_request_review_id": 223860891,
+    "id": 273061122,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3MzA2MTEyMg==",
+    "diff_hunk": "@@ -87821,6 +88190,133 @@ interface <dfn>ApplicationCache</dfn> : <span>EventTarget</span> {\n    <li><p>Return <var>script</var>.</p></li>\n   </ol>\n \n+  <p>To <dfn data-x=\"creating an HTML module script\">create an HTML module script</dfn>, given a\n+  string <var>source</var>, an <span>environment settings object</span>\n+  <var>settings</var>, a <span>URL</span> <var>baseURL</var>, and some <span>script fetch\n+  options</span> <var>options</var>:</p>\n+\n+  <ol>\n+   <li><p>Let <var>module script</var> be a new <span>HTML module script</span> that this algorithm\n+   will subsequently initialize.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span>settings object</span> to <var>settings</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-base-url\">base URL</span> to\n+   <var>baseURL</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-script-fetch-options\">fetch\n+   options</span> to <var>options</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span> and\n+   <span data-x=\"concept-script-error-to-rethrow\">error to rethrow</span> to null.</p></li>\n+\n+   <li>\n+    <p>Let <var>result</var> be <span>ParseHTMLModule</span>(<var>source</var>,\n+    <var>setting</var>'s <span data-x=\"environment settings object's Realm\">Realm</span>,\n+    <var>script</var>).</p>\n+\n+    <p class=\"note\">Passing <var>script</var> as the last parameter here ensures\n+    <var>result</var>.[[HostDefined]] will be <var>script</var>.</p>\n+   </li>\n+\n+   <li>\n+    <p>If <var>result</var> is a <span>list</span> of errors, then:</p>\n+\n+    <ol>\n+     <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span> to\n+     <var>result</var>[0].</p></li>\n+\n+     <li><p>Return <var>script</var>.</p></li>\n+    </ol>\n+   </li>\n+\n+   <li id=\"html-module-validate-requested-module-specifiers\">\n+    <p><span data-x=\"list iterate\">For each</span> <span>ScriptEntry</span>\n+    <var>entry</var> of <var>result</var>.[[RequestedModules]] where\n+    <var>entry</var>.[[ExternalScriptURL]] is not null:</p>\n+\n+    <ol>\n+     <li><p>Let <var>requested</var> be <var>entry</var>.[[ExternalScriptURL]].</p></li>\n+     <li><p>Let <var>url</var> be the result of <span data-x=\"resolve a module specifier\">resolving\n+     a module specifier</span> given <var>script</var>'s <span data-x=\"concept-script-base-url\">base\n+     URL</span> and <var>requested</var>.</p></li>\n+\n+     <li>\n+      <p>If <var>url</var> is failure, then:</p>\n+\n+      <ol>\n+       <li><p>Let <var>error</var> be a new <code>TypeError</code> exception.</p></li>\n+\n+       <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span>\n+       to <var>error</var>.</p></li>\n+\n+       <li><p>Return <var>script</var>.</p></li>\n+      </ol>\n+     </li>\n+    </ol>\n+   </li>\n+  </ol>\n+\n+  <p>Define <dfn>ParseHTMLModule</dfn>(<var>source</var>, <var>realm</var>,\n+  <var>htmlModuleScript</var>) as the following:</p>\n+\n+  <ol>\n+   <li><p>Create a new <span>Document</span> node <var>document</var> whose\n+   <span data-x=\"concept-document-content-type\">content type</span> is\n+   <code data-x=\"\">text/html</code> and mark it as being an <span\n+   data-x=\"HTML documents\">HTML document</span>.  Let <var>document</var> be in\n+   <span>no-quirks mode</span>.  <var>document</var> must be considered an",
+    "path": "source",
+    "commit_id": "0337d295bdef630d24cf0755be71aafd59879c3a",
+    "original_commit_id": "a08ad9698925a7c7ecdc1d6dd46566954f184cd7",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "\"no-quirks\" is the default so the main thing we have to ensure is that the parser cannot set it.",
+    "created_at": "2019-04-08T14:00:07Z",
+    "updated_at": "2020-10-03T01:25:42Z",
+    "html_url": "https://github.com/whatwg/html/pull/4505#discussion_r273061122",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4505",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/273061122"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4505#discussion_r273061122"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4505"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/273061122/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 88268,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 704,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/273061292",
+    "pull_request_review_id": 223860891,
+    "id": 273061292,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3MzA2MTI5Mg==",
+    "diff_hunk": "@@ -87821,6 +88190,133 @@ interface <dfn>ApplicationCache</dfn> : <span>EventTarget</span> {\n    <li><p>Return <var>script</var>.</p></li>\n   </ol>\n \n+  <p>To <dfn data-x=\"creating an HTML module script\">create an HTML module script</dfn>, given a\n+  string <var>source</var>, an <span>environment settings object</span>\n+  <var>settings</var>, a <span>URL</span> <var>baseURL</var>, and some <span>script fetch\n+  options</span> <var>options</var>:</p>\n+\n+  <ol>\n+   <li><p>Let <var>module script</var> be a new <span>HTML module script</span> that this algorithm\n+   will subsequently initialize.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span>settings object</span> to <var>settings</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-base-url\">base URL</span> to\n+   <var>baseURL</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-script-fetch-options\">fetch\n+   options</span> to <var>options</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span> and\n+   <span data-x=\"concept-script-error-to-rethrow\">error to rethrow</span> to null.</p></li>\n+\n+   <li>\n+    <p>Let <var>result</var> be <span>ParseHTMLModule</span>(<var>source</var>,\n+    <var>setting</var>'s <span data-x=\"environment settings object's Realm\">Realm</span>,\n+    <var>script</var>).</p>\n+\n+    <p class=\"note\">Passing <var>script</var> as the last parameter here ensures\n+    <var>result</var>.[[HostDefined]] will be <var>script</var>.</p>\n+   </li>\n+\n+   <li>\n+    <p>If <var>result</var> is a <span>list</span> of errors, then:</p>\n+\n+    <ol>\n+     <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span> to\n+     <var>result</var>[0].</p></li>\n+\n+     <li><p>Return <var>script</var>.</p></li>\n+    </ol>\n+   </li>\n+\n+   <li id=\"html-module-validate-requested-module-specifiers\">\n+    <p><span data-x=\"list iterate\">For each</span> <span>ScriptEntry</span>\n+    <var>entry</var> of <var>result</var>.[[RequestedModules]] where\n+    <var>entry</var>.[[ExternalScriptURL]] is not null:</p>\n+\n+    <ol>\n+     <li><p>Let <var>requested</var> be <var>entry</var>.[[ExternalScriptURL]].</p></li>\n+     <li><p>Let <var>url</var> be the result of <span data-x=\"resolve a module specifier\">resolving\n+     a module specifier</span> given <var>script</var>'s <span data-x=\"concept-script-base-url\">base\n+     URL</span> and <var>requested</var>.</p></li>\n+\n+     <li>\n+      <p>If <var>url</var> is failure, then:</p>\n+\n+      <ol>\n+       <li><p>Let <var>error</var> be a new <code>TypeError</code> exception.</p></li>\n+\n+       <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span>\n+       to <var>error</var>.</p></li>\n+\n+       <li><p>Return <var>script</var>.</p></li>\n+      </ol>\n+     </li>\n+    </ol>\n+   </li>\n+  </ol>\n+\n+  <p>Define <dfn>ParseHTMLModule</dfn>(<var>source</var>, <var>realm</var>,\n+  <var>htmlModuleScript</var>) as the following:</p>\n+\n+  <ol>\n+   <li><p>Create a new <span>Document</span> node <var>document</var> whose\n+   <span data-x=\"concept-document-content-type\">content type</span> is\n+   <code data-x=\"\">text/html</code> and mark it as being an <span\n+   data-x=\"HTML documents\">HTML document</span>.  Let <var>document</var> be in\n+   <span>no-quirks mode</span>.  <var>document</var> must be considered an\n+   <span>HTML module document</span>.</p></li>",
+    "path": "source",
+    "commit_id": "0337d295bdef630d24cf0755be71aafd59879c3a",
+    "original_commit_id": "a08ad9698925a7c7ecdc1d6dd46566954f184cd7",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Should we set the origin as well?",
+    "created_at": "2019-04-08T14:00:27Z",
+    "updated_at": "2020-10-03T01:25:42Z",
+    "html_url": "https://github.com/whatwg/html/pull/4505#discussion_r273061292",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4505",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/273061292"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4505#discussion_r273061292"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4505"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/273061292/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 88269,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 705,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/273061776",
+    "pull_request_review_id": 223860891,
+    "id": 273061776,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3MzA2MTc3Ng==",
+    "diff_hunk": "@@ -87821,6 +88190,133 @@ interface <dfn>ApplicationCache</dfn> : <span>EventTarget</span> {\n    <li><p>Return <var>script</var>.</p></li>\n   </ol>\n \n+  <p>To <dfn data-x=\"creating an HTML module script\">create an HTML module script</dfn>, given a\n+  string <var>source</var>, an <span>environment settings object</span>\n+  <var>settings</var>, a <span>URL</span> <var>baseURL</var>, and some <span>script fetch\n+  options</span> <var>options</var>:</p>\n+\n+  <ol>\n+   <li><p>Let <var>module script</var> be a new <span>HTML module script</span> that this algorithm\n+   will subsequently initialize.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span>settings object</span> to <var>settings</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-base-url\">base URL</span> to\n+   <var>baseURL</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-script-fetch-options\">fetch\n+   options</span> to <var>options</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span> and\n+   <span data-x=\"concept-script-error-to-rethrow\">error to rethrow</span> to null.</p></li>\n+\n+   <li>\n+    <p>Let <var>result</var> be <span>ParseHTMLModule</span>(<var>source</var>,\n+    <var>setting</var>'s <span data-x=\"environment settings object's Realm\">Realm</span>,\n+    <var>script</var>).</p>\n+\n+    <p class=\"note\">Passing <var>script</var> as the last parameter here ensures\n+    <var>result</var>.[[HostDefined]] will be <var>script</var>.</p>\n+   </li>\n+\n+   <li>\n+    <p>If <var>result</var> is a <span>list</span> of errors, then:</p>\n+\n+    <ol>\n+     <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span> to\n+     <var>result</var>[0].</p></li>\n+\n+     <li><p>Return <var>script</var>.</p></li>\n+    </ol>\n+   </li>\n+\n+   <li id=\"html-module-validate-requested-module-specifiers\">\n+    <p><span data-x=\"list iterate\">For each</span> <span>ScriptEntry</span>\n+    <var>entry</var> of <var>result</var>.[[RequestedModules]] where\n+    <var>entry</var>.[[ExternalScriptURL]] is not null:</p>\n+\n+    <ol>\n+     <li><p>Let <var>requested</var> be <var>entry</var>.[[ExternalScriptURL]].</p></li>\n+     <li><p>Let <var>url</var> be the result of <span data-x=\"resolve a module specifier\">resolving\n+     a module specifier</span> given <var>script</var>'s <span data-x=\"concept-script-base-url\">base\n+     URL</span> and <var>requested</var>.</p></li>\n+\n+     <li>\n+      <p>If <var>url</var> is failure, then:</p>\n+\n+      <ol>\n+       <li><p>Let <var>error</var> be a new <code>TypeError</code> exception.</p></li>\n+\n+       <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span>\n+       to <var>error</var>.</p></li>\n+\n+       <li><p>Return <var>script</var>.</p></li>\n+      </ol>\n+     </li>\n+    </ol>\n+   </li>\n+  </ol>\n+\n+  <p>Define <dfn>ParseHTMLModule</dfn>(<var>source</var>, <var>realm</var>,\n+  <var>htmlModuleScript</var>) as the following:</p>\n+\n+  <ol>\n+   <li><p>Create a new <span>Document</span> node <var>document</var> whose\n+   <span data-x=\"concept-document-content-type\">content type</span> is\n+   <code data-x=\"\">text/html</code> and mark it as being an <span\n+   data-x=\"HTML documents\">HTML document</span>.  Let <var>document</var> be in\n+   <span>no-quirks mode</span>.  <var>document</var> must be considered an\n+   <span>HTML module document</span>.</p></li>\n+\n+   <li><p>Create a new <span>HTML parser</span>, and associate it with <var>document</var>.</p></li>\n+\n+   <li><p>Place <var>source</var> into the <span>input stream</span> for the\n+   <span>HTML parser</span> just created. The encoding <span\n+   data-x=\"concept-encoding-confidence\">confidence</span> is <i>irrelevant</i>.</p></li>\n+\n+   <li><p>Start the parser and let it run until it has consumed all the characters just inserted\n+   into the input stream.</p></li>\n+\n+   <li><p>Set <var>htmlModuleScript</var>.[[document]] to <var>document</var>.</p></li>\n+\n+   <li><p>Let <var>scriptEntries</var> be an empty list of <span>ScriptEntry</span> Records.\n+   </p></li>\n+\n+   <li>\n+    <p>For each <span>HTMLScriptElement</span> <var>script</var> in <var>document</var>:</p>\n+\n+    <ol>\n+     <li><p>Let <var>scriptEntry</var> be a new <span>ScriptEntry</span> record.</p></li>\n+\n+     <li>\n+      <p>If <var>script</var> is inline:</p>\n+\n+      <ol>\n+       <li><p>Set <var>scriptEntry</var>.[[InlineModuleRecord]] = <var>script</var>'s\n+       <span>Source Text Module Record</span>.</p></li>\n+\n+       <li><p>Set <var>scriptEntry</var>.[[ExternalScriptURL]] = null.</p></li>\n+      </ol>\n+      <li>\n+       <p>Otherwise:</p>\n+\n+       <ol>\n+        <li><p>Set <var>scriptEntry</var>.[[InlineModuleRecord]] = null.</p></li>\n+\n+        <li><p>Set <var>scriptEntry</var>.[[ExternalScriptURL]] = *script’s* src URL.</p></li>",
+    "path": "source",
+    "commit_id": "0337d295bdef630d24cf0755be71aafd59879c3a",
+    "original_commit_id": "a08ad9698925a7c7ecdc1d6dd46566954f184cd7",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This needs more formal wording.",
+    "created_at": "2019-04-08T14:01:28Z",
+    "updated_at": "2020-10-03T01:25:42Z",
+    "html_url": "https://github.com/whatwg/html/pull/4505#discussion_r273061776",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4505",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/273061776"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4505#discussion_r273061776"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4505"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/273061776/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 88306,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 742,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/273061922",
+    "pull_request_review_id": 223860891,
+    "id": 273061922,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3MzA2MTkyMg==",
+    "diff_hunk": "@@ -87821,6 +88190,133 @@ interface <dfn>ApplicationCache</dfn> : <span>EventTarget</span> {\n    <li><p>Return <var>script</var>.</p></li>\n   </ol>\n \n+  <p>To <dfn data-x=\"creating an HTML module script\">create an HTML module script</dfn>, given a\n+  string <var>source</var>, an <span>environment settings object</span>\n+  <var>settings</var>, a <span>URL</span> <var>baseURL</var>, and some <span>script fetch\n+  options</span> <var>options</var>:</p>\n+\n+  <ol>\n+   <li><p>Let <var>module script</var> be a new <span>HTML module script</span> that this algorithm\n+   will subsequently initialize.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span>settings object</span> to <var>settings</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-base-url\">base URL</span> to\n+   <var>baseURL</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-script-fetch-options\">fetch\n+   options</span> to <var>options</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span> and\n+   <span data-x=\"concept-script-error-to-rethrow\">error to rethrow</span> to null.</p></li>\n+\n+   <li>\n+    <p>Let <var>result</var> be <span>ParseHTMLModule</span>(<var>source</var>,\n+    <var>setting</var>'s <span data-x=\"environment settings object's Realm\">Realm</span>,\n+    <var>script</var>).</p>\n+\n+    <p class=\"note\">Passing <var>script</var> as the last parameter here ensures\n+    <var>result</var>.[[HostDefined]] will be <var>script</var>.</p>\n+   </li>\n+\n+   <li>\n+    <p>If <var>result</var> is a <span>list</span> of errors, then:</p>\n+\n+    <ol>\n+     <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span> to\n+     <var>result</var>[0].</p></li>\n+\n+     <li><p>Return <var>script</var>.</p></li>\n+    </ol>\n+   </li>\n+\n+   <li id=\"html-module-validate-requested-module-specifiers\">\n+    <p><span data-x=\"list iterate\">For each</span> <span>ScriptEntry</span>\n+    <var>entry</var> of <var>result</var>.[[RequestedModules]] where\n+    <var>entry</var>.[[ExternalScriptURL]] is not null:</p>\n+\n+    <ol>\n+     <li><p>Let <var>requested</var> be <var>entry</var>.[[ExternalScriptURL]].</p></li>\n+     <li><p>Let <var>url</var> be the result of <span data-x=\"resolve a module specifier\">resolving\n+     a module specifier</span> given <var>script</var>'s <span data-x=\"concept-script-base-url\">base\n+     URL</span> and <var>requested</var>.</p></li>\n+\n+     <li>\n+      <p>If <var>url</var> is failure, then:</p>\n+\n+      <ol>\n+       <li><p>Let <var>error</var> be a new <code>TypeError</code> exception.</p></li>\n+\n+       <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span>\n+       to <var>error</var>.</p></li>\n+\n+       <li><p>Return <var>script</var>.</p></li>\n+      </ol>\n+     </li>\n+    </ol>\n+   </li>\n+  </ol>\n+\n+  <p>Define <dfn>ParseHTMLModule</dfn>(<var>source</var>, <var>realm</var>,\n+  <var>htmlModuleScript</var>) as the following:</p>\n+\n+  <ol>\n+   <li><p>Create a new <span>Document</span> node <var>document</var> whose\n+   <span data-x=\"concept-document-content-type\">content type</span> is\n+   <code data-x=\"\">text/html</code> and mark it as being an <span\n+   data-x=\"HTML documents\">HTML document</span>.  Let <var>document</var> be in\n+   <span>no-quirks mode</span>.  <var>document</var> must be considered an\n+   <span>HTML module document</span>.</p></li>\n+\n+   <li><p>Create a new <span>HTML parser</span>, and associate it with <var>document</var>.</p></li>\n+\n+   <li><p>Place <var>source</var> into the <span>input stream</span> for the\n+   <span>HTML parser</span> just created. The encoding <span\n+   data-x=\"concept-encoding-confidence\">confidence</span> is <i>irrelevant</i>.</p></li>\n+\n+   <li><p>Start the parser and let it run until it has consumed all the characters just inserted\n+   into the input stream.</p></li>\n+\n+   <li><p>Set <var>htmlModuleScript</var>.[[document]] to <var>document</var>.</p></li>\n+\n+   <li><p>Let <var>scriptEntries</var> be an empty list of <span>ScriptEntry</span> Records.\n+   </p></li>\n+\n+   <li>\n+    <p>For each <span>HTMLScriptElement</span> <var>script</var> in <var>document</var>:</p>\n+\n+    <ol>\n+     <li><p>Let <var>scriptEntry</var> be a new <span>ScriptEntry</span> record.</p></li>\n+\n+     <li>\n+      <p>If <var>script</var> is inline:</p>\n+\n+      <ol>\n+       <li><p>Set <var>scriptEntry</var>.[[InlineModuleRecord]] = <var>script</var>'s\n+       <span>Source Text Module Record</span>.</p></li>\n+\n+       <li><p>Set <var>scriptEntry</var>.[[ExternalScriptURL]] = null.</p></li>\n+      </ol>\n+      <li>\n+       <p>Otherwise:</p>\n+\n+       <ol>\n+        <li><p>Set <var>scriptEntry</var>.[[InlineModuleRecord]] = null.</p></li>",
+    "path": "source",
+    "commit_id": "0337d295bdef630d24cf0755be71aafd59879c3a",
+    "original_commit_id": "a08ad9698925a7c7ecdc1d6dd46566954f184cd7",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "You cannot use `=` like that. Seems like you want \"to\". (This happens more often, both above and below.)",
+    "created_at": "2019-04-08T14:01:41Z",
+    "updated_at": "2020-10-03T01:25:42Z",
+    "html_url": "https://github.com/whatwg/html/pull/4505#discussion_r273061922",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4505",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/273061922"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4505#discussion_r273061922"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4505"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/273061922/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 88304,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 740,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/273434991",
+    "pull_request_review_id": 224331250,
+    "id": 273434991,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3MzQzNDk5MQ==",
+    "diff_hunk": "@@ -58347,6 +58354,10 @@ o............A....e\n \n    </li>\n \n+   <li><p>If the element's <span>node document</span> is an <span>HTML module document</span>, then",
+    "path": "source",
+    "commit_id": "0337d295bdef630d24cf0755be71aafd59879c3a",
+    "original_commit_id": "a08ad9698925a7c7ecdc1d6dd46566954f184cd7",
+    "user": {
+      "login": "littledan",
+      "id": 189835,
+      "node_id": "MDQ6VXNlcjE4OTgzNQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/189835?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/littledan",
+      "html_url": "https://github.com/littledan",
+      "followers_url": "https://api.github.com/users/littledan/followers",
+      "following_url": "https://api.github.com/users/littledan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/littledan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/littledan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/littledan/subscriptions",
+      "organizations_url": "https://api.github.com/users/littledan/orgs",
+      "repos_url": "https://api.github.com/users/littledan/repos",
+      "events_url": "https://api.github.com/users/littledan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/littledan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Can script tags be dynamically added to an HTML module's document? If so, I don't understand when those scripts would be run.",
+    "created_at": "2019-04-09T10:58:06Z",
+    "updated_at": "2020-10-03T01:25:42Z",
+    "html_url": "https://github.com/whatwg/html/pull/4505#discussion_r273434991",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4505",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/273434991"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4505#discussion_r273434991"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4505"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/273434991/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 58357,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 57,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/275079508",
+    "pull_request_review_id": 226308034,
+    "id": 275079508,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3NTA3OTUwOA==",
+    "diff_hunk": "@@ -87821,6 +88190,133 @@ interface <dfn>ApplicationCache</dfn> : <span>EventTarget</span> {\n    <li><p>Return <var>script</var>.</p></li>\n   </ol>\n \n+  <p>To <dfn data-x=\"creating an HTML module script\">create an HTML module script</dfn>, given a\n+  string <var>source</var>, an <span>environment settings object</span>\n+  <var>settings</var>, a <span>URL</span> <var>baseURL</var>, and some <span>script fetch\n+  options</span> <var>options</var>:</p>\n+\n+  <ol>\n+   <li><p>Let <var>module script</var> be a new <span>HTML module script</span> that this algorithm\n+   will subsequently initialize.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span>settings object</span> to <var>settings</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-base-url\">base URL</span> to\n+   <var>baseURL</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-script-fetch-options\">fetch\n+   options</span> to <var>options</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span> and\n+   <span data-x=\"concept-script-error-to-rethrow\">error to rethrow</span> to null.</p></li>\n+\n+   <li>\n+    <p>Let <var>result</var> be <span>ParseHTMLModule</span>(<var>source</var>,\n+    <var>setting</var>'s <span data-x=\"environment settings object's Realm\">Realm</span>,\n+    <var>script</var>).</p>\n+\n+    <p class=\"note\">Passing <var>script</var> as the last parameter here ensures\n+    <var>result</var>.[[HostDefined]] will be <var>script</var>.</p>\n+   </li>\n+\n+   <li>\n+    <p>If <var>result</var> is a <span>list</span> of errors, then:</p>\n+\n+    <ol>\n+     <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span> to\n+     <var>result</var>[0].</p></li>\n+\n+     <li><p>Return <var>script</var>.</p></li>\n+    </ol>\n+   </li>\n+\n+   <li id=\"html-module-validate-requested-module-specifiers\">\n+    <p><span data-x=\"list iterate\">For each</span> <span>ScriptEntry</span>\n+    <var>entry</var> of <var>result</var>.[[RequestedModules]] where\n+    <var>entry</var>.[[ExternalScriptURL]] is not null:</p>\n+\n+    <ol>\n+     <li><p>Let <var>requested</var> be <var>entry</var>.[[ExternalScriptURL]].</p></li>\n+     <li><p>Let <var>url</var> be the result of <span data-x=\"resolve a module specifier\">resolving\n+     a module specifier</span> given <var>script</var>'s <span data-x=\"concept-script-base-url\">base\n+     URL</span> and <var>requested</var>.</p></li>\n+\n+     <li>\n+      <p>If <var>url</var> is failure, then:</p>\n+\n+      <ol>\n+       <li><p>Let <var>error</var> be a new <code>TypeError</code> exception.</p></li>\n+\n+       <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span>\n+       to <var>error</var>.</p></li>\n+\n+       <li><p>Return <var>script</var>.</p></li>\n+      </ol>\n+     </li>\n+    </ol>\n+   </li>\n+  </ol>\n+\n+  <p>Define <dfn>ParseHTMLModule</dfn>(<var>source</var>, <var>realm</var>,\n+  <var>htmlModuleScript</var>) as the following:</p>\n+\n+  <ol>\n+   <li><p>Create a new <span>Document</span> node <var>document</var> whose\n+   <span data-x=\"concept-document-content-type\">content type</span> is\n+   <code data-x=\"\">text/html</code> and mark it as being an <span",
+    "path": "source",
+    "commit_id": "0337d295bdef630d24cf0755be71aafd59879c3a",
+    "original_commit_id": "a08ad9698925a7c7ecdc1d6dd46566954f184cd7",
+    "user": {
+      "login": "dandclark",
+      "id": 1688716,
+      "node_id": "MDQ6VXNlcjE2ODg3MTY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1688716?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/dandclark",
+      "html_url": "https://github.com/dandclark",
+      "followers_url": "https://api.github.com/users/dandclark/followers",
+      "following_url": "https://api.github.com/users/dandclark/following{/other_user}",
+      "gists_url": "https://api.github.com/users/dandclark/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/dandclark/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/dandclark/subscriptions",
+      "organizations_url": "https://api.github.com/users/dandclark/orgs",
+      "repos_url": "https://api.github.com/users/dandclark/repos",
+      "events_url": "https://api.github.com/users/dandclark/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/dandclark/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Yes, updated in latest commit.",
+    "created_at": "2019-04-12T22:15:21Z",
+    "updated_at": "2020-10-03T01:25:42Z",
+    "html_url": "https://github.com/whatwg/html/pull/4505#discussion_r275079508",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4505",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/275079508"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4505#discussion_r275079508"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4505"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/275079508/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 88266,
+    "side": "RIGHT",
+    "in_reply_to_id": 273060200,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 702,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/275080020",
+    "pull_request_review_id": 226308655,
+    "id": 275080020,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3NTA4MDAyMA==",
+    "diff_hunk": "@@ -87821,6 +88190,133 @@ interface <dfn>ApplicationCache</dfn> : <span>EventTarget</span> {\n    <li><p>Return <var>script</var>.</p></li>\n   </ol>\n \n+  <p>To <dfn data-x=\"creating an HTML module script\">create an HTML module script</dfn>, given a\n+  string <var>source</var>, an <span>environment settings object</span>\n+  <var>settings</var>, a <span>URL</span> <var>baseURL</var>, and some <span>script fetch\n+  options</span> <var>options</var>:</p>\n+\n+  <ol>\n+   <li><p>Let <var>module script</var> be a new <span>HTML module script</span> that this algorithm\n+   will subsequently initialize.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span>settings object</span> to <var>settings</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-base-url\">base URL</span> to\n+   <var>baseURL</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-script-fetch-options\">fetch\n+   options</span> to <var>options</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span> and\n+   <span data-x=\"concept-script-error-to-rethrow\">error to rethrow</span> to null.</p></li>\n+\n+   <li>\n+    <p>Let <var>result</var> be <span>ParseHTMLModule</span>(<var>source</var>,\n+    <var>setting</var>'s <span data-x=\"environment settings object's Realm\">Realm</span>,\n+    <var>script</var>).</p>\n+\n+    <p class=\"note\">Passing <var>script</var> as the last parameter here ensures\n+    <var>result</var>.[[HostDefined]] will be <var>script</var>.</p>\n+   </li>\n+\n+   <li>\n+    <p>If <var>result</var> is a <span>list</span> of errors, then:</p>\n+\n+    <ol>\n+     <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span> to\n+     <var>result</var>[0].</p></li>\n+\n+     <li><p>Return <var>script</var>.</p></li>\n+    </ol>\n+   </li>\n+\n+   <li id=\"html-module-validate-requested-module-specifiers\">\n+    <p><span data-x=\"list iterate\">For each</span> <span>ScriptEntry</span>\n+    <var>entry</var> of <var>result</var>.[[RequestedModules]] where\n+    <var>entry</var>.[[ExternalScriptURL]] is not null:</p>\n+\n+    <ol>\n+     <li><p>Let <var>requested</var> be <var>entry</var>.[[ExternalScriptURL]].</p></li>\n+     <li><p>Let <var>url</var> be the result of <span data-x=\"resolve a module specifier\">resolving\n+     a module specifier</span> given <var>script</var>'s <span data-x=\"concept-script-base-url\">base\n+     URL</span> and <var>requested</var>.</p></li>\n+\n+     <li>\n+      <p>If <var>url</var> is failure, then:</p>\n+\n+      <ol>\n+       <li><p>Let <var>error</var> be a new <code>TypeError</code> exception.</p></li>\n+\n+       <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span>\n+       to <var>error</var>.</p></li>\n+\n+       <li><p>Return <var>script</var>.</p></li>\n+      </ol>\n+     </li>\n+    </ol>\n+   </li>\n+  </ol>\n+\n+  <p>Define <dfn>ParseHTMLModule</dfn>(<var>source</var>, <var>realm</var>,\n+  <var>htmlModuleScript</var>) as the following:</p>\n+\n+  <ol>\n+   <li><p>Create a new <span>Document</span> node <var>document</var> whose\n+   <span data-x=\"concept-document-content-type\">content type</span> is\n+   <code data-x=\"\">text/html</code> and mark it as being an <span\n+   data-x=\"HTML documents\">HTML document</span>.  Let <var>document</var> be in\n+   <span>no-quirks mode</span>.  <var>document</var> must be considered an",
+    "path": "source",
+    "commit_id": "0337d295bdef630d24cf0755be71aafd59879c3a",
+    "original_commit_id": "a08ad9698925a7c7ecdc1d6dd46566954f184cd7",
+    "user": {
+      "login": "dandclark",
+      "id": 1688716,
+      "node_id": "MDQ6VXNlcjE2ODg3MTY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1688716?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/dandclark",
+      "html_url": "https://github.com/dandclark",
+      "followers_url": "https://api.github.com/users/dandclark/followers",
+      "following_url": "https://api.github.com/users/dandclark/following{/other_user}",
+      "gists_url": "https://api.github.com/users/dandclark/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/dandclark/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/dandclark/subscriptions",
+      "organizations_url": "https://api.github.com/users/dandclark/orgs",
+      "repos_url": "https://api.github.com/users/dandclark/repos",
+      "events_url": "https://api.github.com/users/dandclark/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/dandclark/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Removed the redundant no-quirks assigment here at HTML Module doc creation time.\r\n\r\nSee [the initial insertion mode](https://dandclark.github.io/built-specs/whatwg-html/html-modules.html#the-initial-insertion-mode) for the parser change that prevents the parser from switching it to quirks.  I just followed the existing pattern for iframe srcdoc there.",
+    "created_at": "2019-04-12T22:18:09Z",
+    "updated_at": "2020-10-03T01:25:42Z",
+    "html_url": "https://github.com/whatwg/html/pull/4505#discussion_r275080020",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4505",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/275080020"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4505#discussion_r275080020"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4505"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/275080020/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 88268,
+    "side": "RIGHT",
+    "in_reply_to_id": 273061122,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 704,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/275080164",
+    "pull_request_review_id": 226308837,
+    "id": 275080164,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3NTA4MDE2NA==",
+    "diff_hunk": "@@ -87821,6 +88190,133 @@ interface <dfn>ApplicationCache</dfn> : <span>EventTarget</span> {\n    <li><p>Return <var>script</var>.</p></li>\n   </ol>\n \n+  <p>To <dfn data-x=\"creating an HTML module script\">create an HTML module script</dfn>, given a\n+  string <var>source</var>, an <span>environment settings object</span>\n+  <var>settings</var>, a <span>URL</span> <var>baseURL</var>, and some <span>script fetch\n+  options</span> <var>options</var>:</p>\n+\n+  <ol>\n+   <li><p>Let <var>module script</var> be a new <span>HTML module script</span> that this algorithm\n+   will subsequently initialize.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span>settings object</span> to <var>settings</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-base-url\">base URL</span> to\n+   <var>baseURL</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-script-fetch-options\">fetch\n+   options</span> to <var>options</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span> and\n+   <span data-x=\"concept-script-error-to-rethrow\">error to rethrow</span> to null.</p></li>\n+\n+   <li>\n+    <p>Let <var>result</var> be <span>ParseHTMLModule</span>(<var>source</var>,\n+    <var>setting</var>'s <span data-x=\"environment settings object's Realm\">Realm</span>,\n+    <var>script</var>).</p>\n+\n+    <p class=\"note\">Passing <var>script</var> as the last parameter here ensures\n+    <var>result</var>.[[HostDefined]] will be <var>script</var>.</p>\n+   </li>\n+\n+   <li>\n+    <p>If <var>result</var> is a <span>list</span> of errors, then:</p>\n+\n+    <ol>\n+     <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span> to\n+     <var>result</var>[0].</p></li>\n+\n+     <li><p>Return <var>script</var>.</p></li>\n+    </ol>\n+   </li>\n+\n+   <li id=\"html-module-validate-requested-module-specifiers\">\n+    <p><span data-x=\"list iterate\">For each</span> <span>ScriptEntry</span>\n+    <var>entry</var> of <var>result</var>.[[RequestedModules]] where\n+    <var>entry</var>.[[ExternalScriptURL]] is not null:</p>\n+\n+    <ol>\n+     <li><p>Let <var>requested</var> be <var>entry</var>.[[ExternalScriptURL]].</p></li>\n+     <li><p>Let <var>url</var> be the result of <span data-x=\"resolve a module specifier\">resolving\n+     a module specifier</span> given <var>script</var>'s <span data-x=\"concept-script-base-url\">base\n+     URL</span> and <var>requested</var>.</p></li>\n+\n+     <li>\n+      <p>If <var>url</var> is failure, then:</p>\n+\n+      <ol>\n+       <li><p>Let <var>error</var> be a new <code>TypeError</code> exception.</p></li>\n+\n+       <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span>\n+       to <var>error</var>.</p></li>\n+\n+       <li><p>Return <var>script</var>.</p></li>\n+      </ol>\n+     </li>\n+    </ol>\n+   </li>\n+  </ol>\n+\n+  <p>Define <dfn>ParseHTMLModule</dfn>(<var>source</var>, <var>realm</var>,\n+  <var>htmlModuleScript</var>) as the following:</p>\n+\n+  <ol>\n+   <li><p>Create a new <span>Document</span> node <var>document</var> whose\n+   <span data-x=\"concept-document-content-type\">content type</span> is\n+   <code data-x=\"\">text/html</code> and mark it as being an <span\n+   data-x=\"HTML documents\">HTML document</span>.  Let <var>document</var> be in\n+   <span>no-quirks mode</span>.  <var>document</var> must be considered an\n+   <span>HTML module document</span>.</p></li>",
+    "path": "source",
+    "commit_id": "0337d295bdef630d24cf0755be71aafd59879c3a",
+    "original_commit_id": "a08ad9698925a7c7ecdc1d6dd46566954f184cd7",
+    "user": {
+      "login": "dandclark",
+      "id": 1688716,
+      "node_id": "MDQ6VXNlcjE2ODg3MTY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1688716?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/dandclark",
+      "html_url": "https://github.com/dandclark",
+      "followers_url": "https://api.github.com/users/dandclark/followers",
+      "following_url": "https://api.github.com/users/dandclark/following{/other_user}",
+      "gists_url": "https://api.github.com/users/dandclark/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/dandclark/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/dandclark/subscriptions",
+      "organizations_url": "https://api.github.com/users/dandclark/orgs",
+      "repos_url": "https://api.github.com/users/dandclark/repos",
+      "events_url": "https://api.github.com/users/dandclark/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/dandclark/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Yes; updated this step to assign the origin from the environent settings object retrieved from the HTML Module script.",
+    "created_at": "2019-04-12T22:18:59Z",
+    "updated_at": "2020-10-03T01:25:42Z",
+    "html_url": "https://github.com/whatwg/html/pull/4505#discussion_r275080164",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4505",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/275080164"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4505#discussion_r275080164"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4505"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/275080164/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 88269,
+    "side": "RIGHT",
+    "in_reply_to_id": 273061292,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 705,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/275080238",
+    "pull_request_review_id": 226308932,
+    "id": 275080238,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3NTA4MDIzOA==",
+    "diff_hunk": "@@ -87821,6 +88190,133 @@ interface <dfn>ApplicationCache</dfn> : <span>EventTarget</span> {\n    <li><p>Return <var>script</var>.</p></li>\n   </ol>\n \n+  <p>To <dfn data-x=\"creating an HTML module script\">create an HTML module script</dfn>, given a\n+  string <var>source</var>, an <span>environment settings object</span>\n+  <var>settings</var>, a <span>URL</span> <var>baseURL</var>, and some <span>script fetch\n+  options</span> <var>options</var>:</p>\n+\n+  <ol>\n+   <li><p>Let <var>module script</var> be a new <span>HTML module script</span> that this algorithm\n+   will subsequently initialize.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span>settings object</span> to <var>settings</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-base-url\">base URL</span> to\n+   <var>baseURL</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-script-fetch-options\">fetch\n+   options</span> to <var>options</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span> and\n+   <span data-x=\"concept-script-error-to-rethrow\">error to rethrow</span> to null.</p></li>\n+\n+   <li>\n+    <p>Let <var>result</var> be <span>ParseHTMLModule</span>(<var>source</var>,\n+    <var>setting</var>'s <span data-x=\"environment settings object's Realm\">Realm</span>,\n+    <var>script</var>).</p>\n+\n+    <p class=\"note\">Passing <var>script</var> as the last parameter here ensures\n+    <var>result</var>.[[HostDefined]] will be <var>script</var>.</p>\n+   </li>\n+\n+   <li>\n+    <p>If <var>result</var> is a <span>list</span> of errors, then:</p>\n+\n+    <ol>\n+     <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span> to\n+     <var>result</var>[0].</p></li>\n+\n+     <li><p>Return <var>script</var>.</p></li>\n+    </ol>\n+   </li>\n+\n+   <li id=\"html-module-validate-requested-module-specifiers\">\n+    <p><span data-x=\"list iterate\">For each</span> <span>ScriptEntry</span>\n+    <var>entry</var> of <var>result</var>.[[RequestedModules]] where\n+    <var>entry</var>.[[ExternalScriptURL]] is not null:</p>\n+\n+    <ol>\n+     <li><p>Let <var>requested</var> be <var>entry</var>.[[ExternalScriptURL]].</p></li>\n+     <li><p>Let <var>url</var> be the result of <span data-x=\"resolve a module specifier\">resolving\n+     a module specifier</span> given <var>script</var>'s <span data-x=\"concept-script-base-url\">base\n+     URL</span> and <var>requested</var>.</p></li>\n+\n+     <li>\n+      <p>If <var>url</var> is failure, then:</p>\n+\n+      <ol>\n+       <li><p>Let <var>error</var> be a new <code>TypeError</code> exception.</p></li>\n+\n+       <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span>\n+       to <var>error</var>.</p></li>\n+\n+       <li><p>Return <var>script</var>.</p></li>\n+      </ol>\n+     </li>\n+    </ol>\n+   </li>\n+  </ol>\n+\n+  <p>Define <dfn>ParseHTMLModule</dfn>(<var>source</var>, <var>realm</var>,\n+  <var>htmlModuleScript</var>) as the following:</p>\n+\n+  <ol>\n+   <li><p>Create a new <span>Document</span> node <var>document</var> whose\n+   <span data-x=\"concept-document-content-type\">content type</span> is\n+   <code data-x=\"\">text/html</code> and mark it as being an <span\n+   data-x=\"HTML documents\">HTML document</span>.  Let <var>document</var> be in\n+   <span>no-quirks mode</span>.  <var>document</var> must be considered an\n+   <span>HTML module document</span>.</p></li>\n+\n+   <li><p>Create a new <span>HTML parser</span>, and associate it with <var>document</var>.</p></li>\n+\n+   <li><p>Place <var>source</var> into the <span>input stream</span> for the\n+   <span>HTML parser</span> just created. The encoding <span\n+   data-x=\"concept-encoding-confidence\">confidence</span> is <i>irrelevant</i>.</p></li>\n+\n+   <li><p>Start the parser and let it run until it has consumed all the characters just inserted\n+   into the input stream.</p></li>\n+\n+   <li><p>Set <var>htmlModuleScript</var>.[[document]] to <var>document</var>.</p></li>\n+\n+   <li><p>Let <var>scriptEntries</var> be an empty list of <span>ScriptEntry</span> Records.\n+   </p></li>\n+\n+   <li>\n+    <p>For each <span>HTMLScriptElement</span> <var>script</var> in <var>document</var>:</p>\n+\n+    <ol>\n+     <li><p>Let <var>scriptEntry</var> be a new <span>ScriptEntry</span> record.</p></li>\n+\n+     <li>\n+      <p>If <var>script</var> is inline:</p>\n+\n+      <ol>\n+       <li><p>Set <var>scriptEntry</var>.[[InlineModuleRecord]] = <var>script</var>'s\n+       <span>Source Text Module Record</span>.</p></li>\n+\n+       <li><p>Set <var>scriptEntry</var>.[[ExternalScriptURL]] = null.</p></li>\n+      </ol>\n+      <li>\n+       <p>Otherwise:</p>\n+\n+       <ol>\n+        <li><p>Set <var>scriptEntry</var>.[[InlineModuleRecord]] = null.</p></li>\n+\n+        <li><p>Set <var>scriptEntry</var>.[[ExternalScriptURL]] = *script’s* src URL.</p></li>",
+    "path": "source",
+    "commit_id": "0337d295bdef630d24cf0755be71aafd59879c3a",
+    "original_commit_id": "a08ad9698925a7c7ecdc1d6dd46566954f184cd7",
+    "user": {
+      "login": "dandclark",
+      "id": 1688716,
+      "node_id": "MDQ6VXNlcjE2ODg3MTY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1688716?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/dandclark",
+      "html_url": "https://github.com/dandclark",
+      "followers_url": "https://api.github.com/users/dandclark/followers",
+      "following_url": "https://api.github.com/users/dandclark/following{/other_user}",
+      "gists_url": "https://api.github.com/users/dandclark/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/dandclark/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/dandclark/subscriptions",
+      "organizations_url": "https://api.github.com/users/dandclark/orgs",
+      "repos_url": "https://api.github.com/users/dandclark/repos",
+      "events_url": "https://api.github.com/users/dandclark/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/dandclark/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Updated in latest commit.",
+    "created_at": "2019-04-12T22:19:22Z",
+    "updated_at": "2020-10-03T01:25:42Z",
+    "html_url": "https://github.com/whatwg/html/pull/4505#discussion_r275080238",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4505",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/275080238"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4505#discussion_r275080238"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4505"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/275080238/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 88306,
+    "side": "RIGHT",
+    "in_reply_to_id": 273061776,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 742,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/275080256",
+    "pull_request_review_id": 226308960,
+    "id": 275080256,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3NTA4MDI1Ng==",
+    "diff_hunk": "@@ -87821,6 +88190,133 @@ interface <dfn>ApplicationCache</dfn> : <span>EventTarget</span> {\n    <li><p>Return <var>script</var>.</p></li>\n   </ol>\n \n+  <p>To <dfn data-x=\"creating an HTML module script\">create an HTML module script</dfn>, given a\n+  string <var>source</var>, an <span>environment settings object</span>\n+  <var>settings</var>, a <span>URL</span> <var>baseURL</var>, and some <span>script fetch\n+  options</span> <var>options</var>:</p>\n+\n+  <ol>\n+   <li><p>Let <var>module script</var> be a new <span>HTML module script</span> that this algorithm\n+   will subsequently initialize.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span>settings object</span> to <var>settings</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-base-url\">base URL</span> to\n+   <var>baseURL</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-script-fetch-options\">fetch\n+   options</span> to <var>options</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span> and\n+   <span data-x=\"concept-script-error-to-rethrow\">error to rethrow</span> to null.</p></li>\n+\n+   <li>\n+    <p>Let <var>result</var> be <span>ParseHTMLModule</span>(<var>source</var>,\n+    <var>setting</var>'s <span data-x=\"environment settings object's Realm\">Realm</span>,\n+    <var>script</var>).</p>\n+\n+    <p class=\"note\">Passing <var>script</var> as the last parameter here ensures\n+    <var>result</var>.[[HostDefined]] will be <var>script</var>.</p>\n+   </li>\n+\n+   <li>\n+    <p>If <var>result</var> is a <span>list</span> of errors, then:</p>\n+\n+    <ol>\n+     <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span> to\n+     <var>result</var>[0].</p></li>\n+\n+     <li><p>Return <var>script</var>.</p></li>\n+    </ol>\n+   </li>\n+\n+   <li id=\"html-module-validate-requested-module-specifiers\">\n+    <p><span data-x=\"list iterate\">For each</span> <span>ScriptEntry</span>\n+    <var>entry</var> of <var>result</var>.[[RequestedModules]] where\n+    <var>entry</var>.[[ExternalScriptURL]] is not null:</p>\n+\n+    <ol>\n+     <li><p>Let <var>requested</var> be <var>entry</var>.[[ExternalScriptURL]].</p></li>\n+     <li><p>Let <var>url</var> be the result of <span data-x=\"resolve a module specifier\">resolving\n+     a module specifier</span> given <var>script</var>'s <span data-x=\"concept-script-base-url\">base\n+     URL</span> and <var>requested</var>.</p></li>\n+\n+     <li>\n+      <p>If <var>url</var> is failure, then:</p>\n+\n+      <ol>\n+       <li><p>Let <var>error</var> be a new <code>TypeError</code> exception.</p></li>\n+\n+       <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span>\n+       to <var>error</var>.</p></li>\n+\n+       <li><p>Return <var>script</var>.</p></li>\n+      </ol>\n+     </li>\n+    </ol>\n+   </li>\n+  </ol>\n+\n+  <p>Define <dfn>ParseHTMLModule</dfn>(<var>source</var>, <var>realm</var>,\n+  <var>htmlModuleScript</var>) as the following:</p>\n+\n+  <ol>\n+   <li><p>Create a new <span>Document</span> node <var>document</var> whose\n+   <span data-x=\"concept-document-content-type\">content type</span> is\n+   <code data-x=\"\">text/html</code> and mark it as being an <span\n+   data-x=\"HTML documents\">HTML document</span>.  Let <var>document</var> be in\n+   <span>no-quirks mode</span>.  <var>document</var> must be considered an\n+   <span>HTML module document</span>.</p></li>\n+\n+   <li><p>Create a new <span>HTML parser</span>, and associate it with <var>document</var>.</p></li>\n+\n+   <li><p>Place <var>source</var> into the <span>input stream</span> for the\n+   <span>HTML parser</span> just created. The encoding <span\n+   data-x=\"concept-encoding-confidence\">confidence</span> is <i>irrelevant</i>.</p></li>\n+\n+   <li><p>Start the parser and let it run until it has consumed all the characters just inserted\n+   into the input stream.</p></li>\n+\n+   <li><p>Set <var>htmlModuleScript</var>.[[document]] to <var>document</var>.</p></li>\n+\n+   <li><p>Let <var>scriptEntries</var> be an empty list of <span>ScriptEntry</span> Records.\n+   </p></li>\n+\n+   <li>\n+    <p>For each <span>HTMLScriptElement</span> <var>script</var> in <var>document</var>:</p>\n+\n+    <ol>\n+     <li><p>Let <var>scriptEntry</var> be a new <span>ScriptEntry</span> record.</p></li>\n+\n+     <li>\n+      <p>If <var>script</var> is inline:</p>\n+\n+      <ol>\n+       <li><p>Set <var>scriptEntry</var>.[[InlineModuleRecord]] = <var>script</var>'s\n+       <span>Source Text Module Record</span>.</p></li>\n+\n+       <li><p>Set <var>scriptEntry</var>.[[ExternalScriptURL]] = null.</p></li>\n+      </ol>\n+      <li>\n+       <p>Otherwise:</p>\n+\n+       <ol>\n+        <li><p>Set <var>scriptEntry</var>.[[InlineModuleRecord]] = null.</p></li>",
+    "path": "source",
+    "commit_id": "0337d295bdef630d24cf0755be71aafd59879c3a",
+    "original_commit_id": "a08ad9698925a7c7ecdc1d6dd46566954f184cd7",
+    "user": {
+      "login": "dandclark",
+      "id": 1688716,
+      "node_id": "MDQ6VXNlcjE2ODg3MTY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1688716?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/dandclark",
+      "html_url": "https://github.com/dandclark",
+      "followers_url": "https://api.github.com/users/dandclark/followers",
+      "following_url": "https://api.github.com/users/dandclark/following{/other_user}",
+      "gists_url": "https://api.github.com/users/dandclark/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/dandclark/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/dandclark/subscriptions",
+      "organizations_url": "https://api.github.com/users/dandclark/orgs",
+      "repos_url": "https://api.github.com/users/dandclark/repos",
+      "events_url": "https://api.github.com/users/dandclark/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/dandclark/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Updated in latest commit.",
+    "created_at": "2019-04-12T22:19:29Z",
+    "updated_at": "2020-10-03T01:25:42Z",
+    "html_url": "https://github.com/whatwg/html/pull/4505#discussion_r275080256",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4505",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/275080256"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4505#discussion_r275080256"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4505"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/275080256/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 88304,
+    "side": "RIGHT",
+    "in_reply_to_id": 273061922,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 740,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/275084330",
+    "pull_request_review_id": 226313936,
+    "id": 275084330,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3NTA4NDMzMA==",
+    "diff_hunk": "@@ -87821,6 +88190,133 @@ interface <dfn>ApplicationCache</dfn> : <span>EventTarget</span> {\n    <li><p>Return <var>script</var>.</p></li>\n   </ol>\n \n+  <p>To <dfn data-x=\"creating an HTML module script\">create an HTML module script</dfn>, given a\n+  string <var>source</var>, an <span>environment settings object</span>\n+  <var>settings</var>, a <span>URL</span> <var>baseURL</var>, and some <span>script fetch\n+  options</span> <var>options</var>:</p>\n+\n+  <ol>\n+   <li><p>Let <var>module script</var> be a new <span>HTML module script</span> that this algorithm\n+   will subsequently initialize.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span>settings object</span> to <var>settings</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-base-url\">base URL</span> to\n+   <var>baseURL</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-script-fetch-options\">fetch\n+   options</span> to <var>options</var>.</p></li>\n+\n+   <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span> and\n+   <span data-x=\"concept-script-error-to-rethrow\">error to rethrow</span> to null.</p></li>\n+\n+   <li>\n+    <p>Let <var>result</var> be <span>ParseHTMLModule</span>(<var>source</var>,\n+    <var>setting</var>'s <span data-x=\"environment settings object's Realm\">Realm</span>,\n+    <var>script</var>).</p>\n+\n+    <p class=\"note\">Passing <var>script</var> as the last parameter here ensures\n+    <var>result</var>.[[HostDefined]] will be <var>script</var>.</p>\n+   </li>\n+\n+   <li>\n+    <p>If <var>result</var> is a <span>list</span> of errors, then:</p>\n+\n+    <ol>\n+     <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span> to\n+     <var>result</var>[0].</p></li>\n+\n+     <li><p>Return <var>script</var>.</p></li>\n+    </ol>\n+   </li>\n+\n+   <li id=\"html-module-validate-requested-module-specifiers\">\n+    <p><span data-x=\"list iterate\">For each</span> <span>ScriptEntry</span>\n+    <var>entry</var> of <var>result</var>.[[RequestedModules]] where\n+    <var>entry</var>.[[ExternalScriptURL]] is not null:</p>\n+\n+    <ol>\n+     <li><p>Let <var>requested</var> be <var>entry</var>.[[ExternalScriptURL]].</p></li>\n+     <li><p>Let <var>url</var> be the result of <span data-x=\"resolve a module specifier\">resolving\n+     a module specifier</span> given <var>script</var>'s <span data-x=\"concept-script-base-url\">base\n+     URL</span> and <var>requested</var>.</p></li>\n+\n+     <li>\n+      <p>If <var>url</var> is failure, then:</p>\n+\n+      <ol>\n+       <li><p>Let <var>error</var> be a new <code>TypeError</code> exception.</p></li>\n+\n+       <li><p>Set <var>script</var>'s <span data-x=\"concept-script-parse-error\">parse error</span>\n+       to <var>error</var>.</p></li>\n+\n+       <li><p>Return <var>script</var>.</p></li>\n+      </ol>\n+     </li>\n+    </ol>\n+   </li>\n+  </ol>\n+\n+  <p>Define <dfn>ParseHTMLModule</dfn>(<var>source</var>, <var>realm</var>,\n+  <var>htmlModuleScript</var>) as the following:</p>\n+\n+  <ol>\n+   <li><p>Create a new <span>Document</span> node <var>document</var> whose\n+   <span data-x=\"concept-document-content-type\">content type</span> is\n+   <code data-x=\"\">text/html</code> and mark it as being an <span",
+    "path": "source",
+    "commit_id": "0337d295bdef630d24cf0755be71aafd59879c3a",
+    "original_commit_id": "a08ad9698925a7c7ecdc1d6dd46566954f184cd7",
+    "user": {
+      "login": "dandclark",
+      "id": 1688716,
+      "node_id": "MDQ6VXNlcjE2ODg3MTY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1688716?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/dandclark",
+      "html_url": "https://github.com/dandclark",
+      "followers_url": "https://api.github.com/users/dandclark/followers",
+      "following_url": "https://api.github.com/users/dandclark/following{/other_user}",
+      "gists_url": "https://api.github.com/users/dandclark/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/dandclark/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/dandclark/subscriptions",
+      "organizations_url": "https://api.github.com/users/dandclark/orgs",
+      "repos_url": "https://api.github.com/users/dandclark/repos",
+      "events_url": "https://api.github.com/users/dandclark/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/dandclark/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Thanks for the early feedback!",
+    "created_at": "2019-04-12T22:43:07Z",
+    "updated_at": "2020-10-03T01:25:42Z",
+    "html_url": "https://github.com/whatwg/html/pull/4505#discussion_r275084330",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4505",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/275084330"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4505#discussion_r275084330"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4505"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/275084330/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 88266,
+    "side": "RIGHT",
+    "in_reply_to_id": 273060200,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 702,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/275084462",
+    "pull_request_review_id": 226314111,
+    "id": 275084462,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI3NTA4NDQ2Mg==",
+    "diff_hunk": "@@ -58347,6 +58354,10 @@ o............A....e\n \n    </li>\n \n+   <li><p>If the element's <span>node document</span> is an <span>HTML module document</span>, then",
+    "path": "source",
+    "commit_id": "0337d295bdef630d24cf0755be71aafd59879c3a",
+    "original_commit_id": "a08ad9698925a7c7ecdc1d6dd46566954f184cd7",
+    "user": {
+      "login": "dandclark",
+      "id": 1688716,
+      "node_id": "MDQ6VXNlcjE2ODg3MTY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1688716?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/dandclark",
+      "html_url": "https://github.com/dandclark",
+      "followers_url": "https://api.github.com/users/dandclark/followers",
+      "following_url": "https://api.github.com/users/dandclark/following{/other_user}",
+      "gists_url": "https://api.github.com/users/dandclark/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/dandclark/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/dandclark/subscriptions",
+      "organizations_url": "https://api.github.com/users/dandclark/orgs",
+      "repos_url": "https://api.github.com/users/dandclark/repos",
+      "events_url": "https://api.github.com/users/dandclark/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/dandclark/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "With the current design, dynamically added scripts won't execute (as if they were added to a dynamic document).\r\n\r\nFor non-dynamically-added scripts: after the HTML Module document is parsed, we basically take a snapshot of it at that time and the `<script>` elements at that point become the HTML module's child modules in the module graph.  Fiddling dynamically with the HTML Module doc's tree after that point won't affect the structure of the module graph, and won't affect which scripts are executed or the order of execution.\r\n\r\nI split the non-normative part of this line into a separate note and modified it to try to clarify what I meant here.\r\n\r\nI'm open to creating an issue on the whatwg/html repo if you think this is contentious or needs to be open to wider discussion.  Our design philosophy so far has generally been to treat the HTML module document as an inert dynamic document except for the special bits needed to enable HTML modules to work as a non-leaf node in the module graph.\r\n\r\nThanks for the feedback!",
+    "created_at": "2019-04-12T22:43:55Z",
+    "updated_at": "2020-10-03T01:25:42Z",
+    "html_url": "https://github.com/whatwg/html/pull/4505#discussion_r275084462",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/4505",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/275084462"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/4505#discussion_r275084462"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/4505"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/275084462/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 58357,
+    "side": "RIGHT",
+    "in_reply_to_id": 273434991,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 57,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

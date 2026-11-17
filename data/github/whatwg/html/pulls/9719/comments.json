@@ -1,0 +1,716 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1320788451",
+    "pull_request_review_id": 1618844296,
+    "id": 1320788451,
+    "node_id": "PRRC_kwDOALaj485OuaHj",
+    "diff_hunk": "@@ -7063,14 +7063,30 @@ a.setAttribute('href', 'https://example.com/'); // change the content attribute\n   <h4 id=\"resolving-urls\">Parsing URLs</h4>\n \n   <p>Parsing a URL is the process of taking a string and obtaining the <span>URL record</span> that\n-  it represents. While this process is defined in <cite>URL</cite>, the HTML standard defines a\n-  wrapper for convenience. <ref>URL</ref></p>\n+  it represents. While this process is defined in <cite>URL</cite>, the HTML standard defines\n+  several wrappers to abstract base URLs and encodings. <ref>URL</ref></p>\n \n-  <p class=\"note\">This wrapper is only useful when the character encoding for the URL parser has to\n-  match that of the document or environment settings object for legacy reasons. When that is not the\n-  case the <span>URL parser</span> can be used directly.</p>\n+  <p class=\"note\">Most new APIs are to use <span>parse a URL</span>. Older APIs and HTML elements\n+  might have reason to use <span>encoding-parse a URL</span>. <span\n+  data-x=\"encoding-parsing-and-serializing a URL\">Encoding-parse-and-serialize a URL</span> is\n+  expected to slowly disappear over time as the HTML standard is refactored. When a custom base URL\n+  is needed or no base URL is desired, the <span>URL parser</span> can of course be used directly as\n+  well.</p>\n \n-  <p id=\"resolve-a-url\">To <dfn>parse a URL</dfn> <var>url</var>, relative to a\n+  <p>To <dfn export>parse a URL</dfn> <var>url</var>, relative to a <code>Document</code> object or\n+  <span>environment settings object</span> <var>environment</var>, run these steps. They return\n+  failure or a <span>URL</span>.</p>\n+\n+  <ol>\n+   <li><p>Let <var>baseURL</var> be <var>environment</var>'s <span data-x=\"document base URL\">base\n+   URL</span>, if <var>environment</var> is a <code>Document</code> object; otherwise\n+   <var>environment</var>'s <span>API base URL</span> otherwise.</p></li>\n+\n+   <li><p>Return the result of applying the <span>URL parser</span> to <var>url</var>, with\n+   <var>baseURL</var> and <var>encoding</var>.</p></li>",
+    "path": "source",
+    "commit_id": "54388fad9faaded7d9e9abe72e18a659b1df1c3e",
+    "original_commit_id": "24c1b0d5d719f67181f890a1225f8161ae2c90ac",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "_encoding_ is undefined.",
+    "created_at": "2023-09-10T15:22:55Z",
+    "updated_at": "2023-09-10T15:26:54Z",
+    "html_url": "https://github.com/whatwg/html/pull/9719#discussion_r1320788451",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9719",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1320788451"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9719#discussion_r1320788451"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9719"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1320788451/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7086,
+    "original_line": 7086,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 30,
+    "position": 30,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1320788482",
+    "pull_request_review_id": 1618844296,
+    "id": 1320788482,
+    "node_id": "PRRC_kwDOALaj485OuaIC",
+    "diff_hunk": "@@ -7063,14 +7063,30 @@ a.setAttribute('href', 'https://example.com/'); // change the content attribute\n   <h4 id=\"resolving-urls\">Parsing URLs</h4>\n \n   <p>Parsing a URL is the process of taking a string and obtaining the <span>URL record</span> that\n-  it represents. While this process is defined in <cite>URL</cite>, the HTML standard defines a\n-  wrapper for convenience. <ref>URL</ref></p>\n+  it represents. While this process is defined in <cite>URL</cite>, the HTML standard defines\n+  several wrappers to abstract base URLs and encodings. <ref>URL</ref></p>\n \n-  <p class=\"note\">This wrapper is only useful when the character encoding for the URL parser has to\n-  match that of the document or environment settings object for legacy reasons. When that is not the\n-  case the <span>URL parser</span> can be used directly.</p>\n+  <p class=\"note\">Most new APIs are to use <span>parse a URL</span>. Older APIs and HTML elements\n+  might have reason to use <span>encoding-parse a URL</span>. <span\n+  data-x=\"encoding-parsing-and-serializing a URL\">Encoding-parse-and-serialize a URL</span> is\n+  expected to slowly disappear over time as the HTML standard is refactored. When a custom base URL\n+  is needed or no base URL is desired, the <span>URL parser</span> can of course be used directly as\n+  well.</p>\n \n-  <p id=\"resolve-a-url\">To <dfn>parse a URL</dfn> <var>url</var>, relative to a\n+  <p>To <dfn export>parse a URL</dfn> <var>url</var>, relative to a <code>Document</code> object or",
+    "path": "source",
+    "commit_id": "54388fad9faaded7d9e9abe72e18a659b1df1c3e",
+    "original_commit_id": "24c1b0d5d719f67181f890a1225f8161ae2c90ac",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Use the argument names _urlString_ here and below?",
+    "created_at": "2023-09-10T15:23:14Z",
+    "updated_at": "2023-09-10T15:26:54Z",
+    "html_url": "https://github.com/whatwg/html/pull/9719#discussion_r1320788482",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9719",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1320788482"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9719#discussion_r1320788482"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9719"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1320788482/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7076,
+    "original_line": 7076,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 20,
+    "position": 20,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1320788645",
+    "pull_request_review_id": 1618844296,
+    "id": 1320788645,
+    "node_id": "PRRC_kwDOALaj485OuaKl",
+    "diff_hunk": "@@ -7063,14 +7063,30 @@ a.setAttribute('href', 'https://example.com/'); // change the content attribute\n   <h4 id=\"resolving-urls\">Parsing URLs</h4>\n \n   <p>Parsing a URL is the process of taking a string and obtaining the <span>URL record</span> that\n-  it represents. While this process is defined in <cite>URL</cite>, the HTML standard defines a\n-  wrapper for convenience. <ref>URL</ref></p>\n+  it represents. While this process is defined in <cite>URL</cite>, the HTML standard defines\n+  several wrappers to abstract base URLs and encodings. <ref>URL</ref></p>\n \n-  <p class=\"note\">This wrapper is only useful when the character encoding for the URL parser has to\n-  match that of the document or environment settings object for legacy reasons. When that is not the\n-  case the <span>URL parser</span> can be used directly.</p>\n+  <p class=\"note\">Most new APIs are to use <span>parse a URL</span>. Older APIs and HTML elements\n+  might have reason to use <span>encoding-parse a URL</span>. <span\n+  data-x=\"encoding-parsing-and-serializing a URL\">Encoding-parse-and-serialize a URL</span> is\n+  expected to slowly disappear over time as the HTML standard is refactored. When a custom base URL",
+    "path": "source",
+    "commit_id": "54388fad9faaded7d9e9abe72e18a659b1df1c3e",
+    "original_commit_id": "24c1b0d5d719f67181f890a1225f8161ae2c90ac",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I don't see it disappearing; it's pretty useful when directly going from, e.g., content attributes to IDL attribute values or on-the-wire values.",
+    "created_at": "2023-09-10T15:24:16Z",
+    "updated_at": "2023-09-10T15:26:54Z",
+    "html_url": "https://github.com/whatwg/html/pull/9719#discussion_r1320788645",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9719",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1320788645"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9719#discussion_r1320788645"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9719"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1320788645/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7072,
+    "original_line": 7072,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 15,
+    "position": 15,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1320788816",
+    "pull_request_review_id": 1618844296,
+    "id": 1320788816,
+    "node_id": "PRRC_kwDOALaj485OuaNQ",
+    "diff_hunk": "@@ -128779,11 +128796,12 @@ html, body { display: block; }</code></pre>\n   <hr>\n \n   <p>When a <code>body</code> element has a <code data-x=\"attr-background\">background</code>\n-  attribute set to a non-empty value, the new value is expected to be <span data-x=\"parsing and\n-  serializing a URL\">parsed and serialized</span> relative to the element's <span>node\n-  document</span>, and if that does not return failure, the user agent is expected to treat the\n-  attribute as a <span data-x=\"presentational hints\">presentational hint</span> setting the\n-  element's <span>'background-image'</span> property to the return value.</p>\n+  attribute set to a non-empty value, the new value is expected to be <span\n+  data-x=\"encoding-parsing-and-serializing a URL\">parsed and serialized</span> relative to the",
+    "path": "source",
+    "commit_id": "54388fad9faaded7d9e9abe72e18a659b1df1c3e",
+    "original_commit_id": "24c1b0d5d719f67181f890a1225f8161ae2c90ac",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Linking text should include encoding here, IMO",
+    "created_at": "2023-09-10T15:25:36Z",
+    "updated_at": "2023-09-10T15:26:54Z",
+    "html_url": "https://github.com/whatwg/html/pull/9719#discussion_r1320788816",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9719",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1320788816"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9719#discussion_r1320788816"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9719"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1320788816/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 128800,
+    "original_line": 128800,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 682,
+    "position": 669,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1320788991",
+    "pull_request_review_id": 1618844296,
+    "id": 1320788991,
+    "node_id": "PRRC_kwDOALaj485OuaP_",
+    "diff_hunk": "@@ -116434,8 +116451,8 @@ dictionary <dfn dictionary>WorkletOptions</dfn> {\n    <li><p>Let <var>outsideSettings</var> be the <span>relevant settings object</span> of\n    <span>this</span>.</p></li>\n \n-   <li><p>Let <var>moduleURLRecord</var> be the result of <span data-x=\"parse a URL\">parsing</span>\n-   <var>moduleURL</var>, relative to <var>outsideSettings</var>.</p></li>\n+   <li><p>Let <var>moduleURLRecord</var> be the result of <span data-x=\"encoding-parse a\n+   URL\">parsing</span> <var>moduleURL</var>, relative to <var>outsideSettings</var>.</p></li>",
+    "path": "source",
+    "commit_id": "54388fad9faaded7d9e9abe72e18a659b1df1c3e",
+    "original_commit_id": "24c1b0d5d719f67181f890a1225f8161ae2c90ac",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Linking text should include encoding here for sure. Same for most other \"parsing\" cases?\r\n\r\nI wonder if this argues for renaming the algorithms \"to encoding URL parse a string _urlString_\"...",
+    "created_at": "2023-09-10T15:26:51Z",
+    "updated_at": "2023-09-10T15:26:54Z",
+    "html_url": "https://github.com/whatwg/html/pull/9719#discussion_r1320788991",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9719",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1320788991"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9719#discussion_r1320788991"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9719"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1320788991/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 116455,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 668,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1321272774",
+    "pull_request_review_id": 1619567259,
+    "id": 1321272774,
+    "node_id": "PRRC_kwDOALaj485OwQXG",
+    "diff_hunk": "@@ -7063,14 +7063,30 @@ a.setAttribute('href', 'https://example.com/'); // change the content attribute\n   <h4 id=\"resolving-urls\">Parsing URLs</h4>\n \n   <p>Parsing a URL is the process of taking a string and obtaining the <span>URL record</span> that\n-  it represents. While this process is defined in <cite>URL</cite>, the HTML standard defines a\n-  wrapper for convenience. <ref>URL</ref></p>\n+  it represents. While this process is defined in <cite>URL</cite>, the HTML standard defines\n+  several wrappers to abstract base URLs and encodings. <ref>URL</ref></p>\n \n-  <p class=\"note\">This wrapper is only useful when the character encoding for the URL parser has to\n-  match that of the document or environment settings object for legacy reasons. When that is not the\n-  case the <span>URL parser</span> can be used directly.</p>\n+  <p class=\"note\">Most new APIs are to use <span>parse a URL</span>. Older APIs and HTML elements\n+  might have reason to use <span>encoding-parse a URL</span>. <span\n+  data-x=\"encoding-parsing-and-serializing a URL\">Encoding-parse-and-serialize a URL</span> is\n+  expected to slowly disappear over time as the HTML standard is refactored. When a custom base URL",
+    "path": "source",
+    "commit_id": "54388fad9faaded7d9e9abe72e18a659b1df1c3e",
+    "original_commit_id": "24c1b0d5d719f67181f890a1225f8161ae2c90ac",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Are you okay with not exporting it for now? I feel like in most cases we probably want to do something with the actual URL first, which would hold a `blob:` URL's blob for instance.",
+    "created_at": "2023-09-11T09:39:05Z",
+    "updated_at": "2023-09-11T09:39:05Z",
+    "html_url": "https://github.com/whatwg/html/pull/9719#discussion_r1321272774",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9719",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1321272774"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9719#discussion_r1321272774"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9719"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1321272774/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7072,
+    "original_line": 7072,
+    "side": "RIGHT",
+    "in_reply_to_id": 1320788645,
+    "author_association": "MEMBER",
+    "original_position": 15,
+    "position": 15,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1321275267",
+    "pull_request_review_id": 1619570350,
+    "id": 1321275267,
+    "node_id": "PRRC_kwDOALaj485OwQ-D",
+    "diff_hunk": "@@ -7063,14 +7063,30 @@ a.setAttribute('href', 'https://example.com/'); // change the content attribute\n   <h4 id=\"resolving-urls\">Parsing URLs</h4>\n \n   <p>Parsing a URL is the process of taking a string and obtaining the <span>URL record</span> that\n-  it represents. While this process is defined in <cite>URL</cite>, the HTML standard defines a\n-  wrapper for convenience. <ref>URL</ref></p>\n+  it represents. While this process is defined in <cite>URL</cite>, the HTML standard defines\n+  several wrappers to abstract base URLs and encodings. <ref>URL</ref></p>\n \n-  <p class=\"note\">This wrapper is only useful when the character encoding for the URL parser has to\n-  match that of the document or environment settings object for legacy reasons. When that is not the\n-  case the <span>URL parser</span> can be used directly.</p>\n+  <p class=\"note\">Most new APIs are to use <span>parse a URL</span>. Older APIs and HTML elements\n+  might have reason to use <span>encoding-parse a URL</span>. <span\n+  data-x=\"encoding-parsing-and-serializing a URL\">Encoding-parse-and-serialize a URL</span> is\n+  expected to slowly disappear over time as the HTML standard is refactored. When a custom base URL",
+    "path": "source",
+    "commit_id": "54388fad9faaded7d9e9abe72e18a659b1df1c3e",
+    "original_commit_id": "24c1b0d5d719f67181f890a1225f8161ae2c90ac",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "For sure not exporting it unless it's needed, and even then only if it's needed often.",
+    "created_at": "2023-09-11T09:40:46Z",
+    "updated_at": "2023-09-11T09:40:46Z",
+    "html_url": "https://github.com/whatwg/html/pull/9719#discussion_r1321275267",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9719",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1321275267"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9719#discussion_r1321275267"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9719"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1321275267/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7072,
+    "original_line": 7072,
+    "side": "RIGHT",
+    "in_reply_to_id": 1320788645,
+    "author_association": "MEMBER",
+    "original_position": 15,
+    "position": 15,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1321344954",
+    "pull_request_review_id": 1619675863,
+    "id": 1321344954,
+    "node_id": "PRRC_kwDOALaj485Owh-6",
+    "diff_hunk": "@@ -116434,8 +116451,8 @@ dictionary <dfn dictionary>WorkletOptions</dfn> {\n    <li><p>Let <var>outsideSettings</var> be the <span>relevant settings object</span> of\n    <span>this</span>.</p></li>\n \n-   <li><p>Let <var>moduleURLRecord</var> be the result of <span data-x=\"parse a URL\">parsing</span>\n-   <var>moduleURL</var>, relative to <var>outsideSettings</var>.</p></li>\n+   <li><p>Let <var>moduleURLRecord</var> be the result of <span data-x=\"encoding-parse a\n+   URL\">parsing</span> <var>moduleURL</var>, relative to <var>outsideSettings</var>.</p></li>",
+    "path": "source",
+    "commit_id": "54388fad9faaded7d9e9abe72e18a659b1df1c3e",
+    "original_commit_id": "24c1b0d5d719f67181f890a1225f8161ae2c90ac",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Hmm, that would be a lot of work, again. I guess I could try to align them on\r\n\r\n> encoding-parsing a URL\r\n\r\nas the link text.",
+    "created_at": "2023-09-11T10:39:16Z",
+    "updated_at": "2023-09-11T10:39:16Z",
+    "html_url": "https://github.com/whatwg/html/pull/9719#discussion_r1321344954",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9719",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1321344954"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9719#discussion_r1321344954"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9719"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1321344954/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 116455,
+    "side": "RIGHT",
+    "in_reply_to_id": 1320788991,
+    "author_association": "MEMBER",
+    "original_position": 668,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1324275158",
+    "pull_request_review_id": 1624162006,
+    "id": 1324275158,
+    "node_id": "PRRC_kwDOALaj485O7tXW",
+    "diff_hunk": "@@ -7063,14 +7063,30 @@ a.setAttribute('href', 'https://example.com/'); // change the content attribute\n   <h4 id=\"resolving-urls\">Parsing URLs</h4>\n \n   <p>Parsing a URL is the process of taking a string and obtaining the <span>URL record</span> that\n-  it represents. While this process is defined in <cite>URL</cite>, the HTML standard defines a\n-  wrapper for convenience. <ref>URL</ref></p>\n+  it represents. While this process is defined in <cite>URL</cite>, the HTML standard defines\n+  several wrappers to abstract base URLs and encodings. <ref>URL</ref></p>\n \n-  <p class=\"note\">This wrapper is only useful when the character encoding for the URL parser has to\n-  match that of the document or environment settings object for legacy reasons. When that is not the\n-  case the <span>URL parser</span> can be used directly.</p>\n+  <p class=\"note\">Most new APIs are to use <span>parse a URL</span>. Older APIs and HTML elements\n+  might have reason to use <span>encoding-parse a URL</span>. <span\n+  data-x=\"encoding-parsing-and-serializing a URL\">Encoding-parse-and-serialize a URL</span> is\n+  expected to slowly disappear over time as the HTML standard is refactored. When a custom base URL\n+  is needed or no base URL is desired, the <span>URL parser</span> can of course be used directly as\n+  well.</p>\n \n-  <p id=\"resolve-a-url\">To <dfn>parse a URL</dfn> <var>url</var>, relative to a\n+  <p>To <dfn export>parse a URL</dfn> <var>url</var>, relative to a <code>Document</code> object or",
+    "path": "source",
+    "commit_id": "54388fad9faaded7d9e9abe72e18a659b1df1c3e",
+    "original_commit_id": "24c1b0d5d719f67181f890a1225f8161ae2c90ac",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I still think naming our variables _urlString_ when possible, and reserving _url_ for URL records, is nice.",
+    "created_at": "2023-09-13T09:56:29Z",
+    "updated_at": "2023-09-13T09:56:29Z",
+    "html_url": "https://github.com/whatwg/html/pull/9719#discussion_r1324275158",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9719",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1324275158"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9719#discussion_r1324275158"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9719"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1324275158/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7076,
+    "original_line": 7076,
+    "side": "RIGHT",
+    "in_reply_to_id": 1320788482,
+    "author_association": "MEMBER",
+    "original_position": 20,
+    "position": 20,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1329981601",
+    "pull_request_review_id": 1633046845,
+    "id": 1329981601,
+    "node_id": "PRRC_kwDOALaj485PReih",
+    "diff_hunk": "@@ -7063,17 +7063,32 @@ a.setAttribute('href', 'https://example.com/'); // change the content attribute\n   <h4 id=\"resolving-urls\">Parsing URLs</h4>\n \n   <p>Parsing a URL is the process of taking a string and obtaining the <span>URL record</span> that\n-  it represents. While this process is defined in <cite>URL</cite>, the HTML standard defines a\n-  wrapper for convenience. <ref>URL</ref></p>\n+  it represents. While this process is defined in <cite>URL</cite>, the HTML standard defines\n+  several wrappers to abstract base URLs and encodings. <ref>URL</ref></p>\n \n-  <p class=\"note\">This wrapper is only useful when the character encoding for the URL parser has to\n-  match that of the document or environment settings object for legacy reasons. When that is not the\n-  case the <span>URL parser</span> can be used directly.</p>\n+  <p class=\"note\">Most new APIs are to use <span>parse a URL</span>. Older APIs and HTML elements\n+  might have reason to use <span data-x=\"encoding-parsing a URL\">encoding-parse a URL</span>. When a\n+  custom base URL is needed or no base URL is desired, the <span>URL parser</span> can of course be\n+  used directly as well.</p>\n \n-  <p id=\"resolve-a-url\">To <dfn>parse a URL</dfn> <var>url</var>, relative to a\n+  <p>To <dfn export>parse a URL</dfn>, given a string <var>url</var>, relative to a\n   <code>Document</code> object or <span>environment settings object</span> <var>environment</var>,\n   run these steps. They return failure or a <span>URL</span>.</p>\n \n+  <ol>\n+   <li><p>Let <var>baseURL</var> be <var>environment</var>'s <span data-x=\"document base URL\">base\n+   URL</span>, if <var>environment</var> is a <code>Document</code> object; otherwise\n+   <var>environment</var>'s <span>API base URL</span> otherwise.</p></li>",
+    "path": "source",
+    "commit_id": "54388fad9faaded7d9e9abe72e18a659b1df1c3e",
+    "original_commit_id": "752b2fa8014a8e0b7aec4de060d68b21491db68f",
+    "user": {
+      "login": "foolip",
+      "id": 498917,
+      "node_id": "MDQ6VXNlcjQ5ODkxNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/498917?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/foolip",
+      "html_url": "https://github.com/foolip",
+      "followers_url": "https://api.github.com/users/foolip/followers",
+      "following_url": "https://api.github.com/users/foolip/following{/other_user}",
+      "gists_url": "https://api.github.com/users/foolip/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/foolip/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/foolip/subscriptions",
+      "organizations_url": "https://api.github.com/users/foolip/orgs",
+      "repos_url": "https://api.github.com/users/foolip/repos",
+      "events_url": "https://api.github.com/users/foolip/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/foolip/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "There's already an \"otherwise\" in this clause:\r\n\r\n```suggestion\r\n   <var>environment</var>'s <span>API base URL</span>.</p></li>\r\n```\r\n\r\nThe same issue is preexisting on line 7099 but it's too far outside a diff chunk to comment on.",
+    "created_at": "2023-09-19T11:41:37Z",
+    "updated_at": "2023-09-19T11:46:43Z",
+    "html_url": "https://github.com/whatwg/html/pull/9719#discussion_r1329981601",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9719",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1329981601"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9719#discussion_r1329981601"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9719"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1329981601/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7081,
+    "original_line": 7081,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 25,
+    "position": 25,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

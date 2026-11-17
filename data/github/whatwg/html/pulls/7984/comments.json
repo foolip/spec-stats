@@ -1,0 +1,572 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/888987865",
+    "pull_request_review_id": 994976423,
+    "id": 888987865,
+    "node_id": "PRRC_kwDOALaj4840_ODZ",
+    "diff_hunk": "@@ -14330,34 +14330,57 @@ interface <dfn interface>HTMLLinkElement</dfn> : <span>HTMLElement</span> {\n   (default the empty string):</p>\n \n   <ol>\n-   <li><p>If <var>el</var>'s <code data-x=\"attr-link-href\">href</code> attribute's value is the\n+   <li><p>Let <var>options</var> be the result of <span\n+   data-x=\"create link options from element\">creating link options</span> from\n+   <var>el</var>.</p></li>\n+\n+   <li><p>If <var>destination</var> is not null, set <var>options</var>'s <span\n+   data-x=\"link options destination\">destination</span>.</p></li>",
+    "path": "source",
+    "commit_id": "275f39bb91bd3dd173a981d7af2b0cada42ac3a1",
+    "original_commit_id": "e3fde42b668f81f31098822eb5e42f65e7213cf9",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "set it to destination, presumably?\r\n\r\nBigger issue: destination will never be null, since it's declared to be a string, and defaults to the empty string.",
+    "created_at": "2022-06-03T14:16:45Z",
+    "updated_at": "2022-06-03T14:21:04Z",
+    "html_url": "https://github.com/whatwg/html/pull/7984#discussion_r888987865",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7984",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/888987865"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7984#discussion_r888987865"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7984"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/888987865/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 14338,
+    "original_line": 14338,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 10,
+    "position": 48,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/888988491",
+    "pull_request_review_id": 994976423,
+    "id": 888988491,
+    "node_id": "PRRC_kwDOALaj4840_ONL",
+    "diff_hunk": "@@ -14330,34 +14330,57 @@ interface <dfn interface>HTMLLinkElement</dfn> : <span>HTMLElement</span> {\n   (default the empty string):</p>\n \n   <ol>\n-   <li><p>If <var>el</var>'s <code data-x=\"attr-link-href\">href</code> attribute's value is the\n+   <li><p>Let <var>options</var> be the result of <span\n+   data-x=\"create link options from element\">creating link options</span> from\n+   <var>el</var>.</p></li>\n+\n+   <li><p>If <var>destination</var> is not null, set <var>options</var>'s <span\n+   data-x=\"link options destination\">destination</span>.</p></li>\n+\n+   <li><p>Return the result of <span data-x=\"create a link request\">creating a link request</span>\n+   given <var>options</var>.</p></li>\n+  </ol>\n+\n+  <p>To <dfn>create a link request</dfn> given a <span>link processing options</span>\n+  <var>options</var>:\n+\n+  <ol>\n+   <li><p>If <var>options</var>'s <code data-x=\"link options href\">href</code> attribute's value is the\n    empty string, then return null.</p></li>",
+    "path": "source",
+    "commit_id": "275f39bb91bd3dd173a981d7af2b0cada42ac3a1",
+    "original_commit_id": "e3fde42b668f81f31098822eb5e42f65e7213cf9",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "\"attribute's value\" seems incorrect now. Also span not code.",
+    "created_at": "2022-06-03T14:17:25Z",
+    "updated_at": "2022-06-03T14:21:04Z",
+    "html_url": "https://github.com/whatwg/html/pull/7984#discussion_r888988491",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7984",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/888988491"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7984#discussion_r888988491"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7984"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/888988491/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 14349,
+    "original_line": 14349,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 21,
+    "position": 66,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/888989187",
+    "pull_request_review_id": 994976423,
+    "id": 888989187,
+    "node_id": "PRRC_kwDOALaj4840_OYD",
+    "diff_hunk": "@@ -14330,34 +14330,57 @@ interface <dfn interface>HTMLLinkElement</dfn> : <span>HTMLElement</span> {\n   (default the empty string):</p>\n \n   <ol>\n-   <li><p>If <var>el</var>'s <code data-x=\"attr-link-href\">href</code> attribute's value is the\n+   <li><p>Let <var>options</var> be the result of <span\n+   data-x=\"create link options from element\">creating link options</span> from\n+   <var>el</var>.</p></li>\n+\n+   <li><p>If <var>destination</var> is not null, set <var>options</var>'s <span\n+   data-x=\"link options destination\">destination</span>.</p></li>\n+\n+   <li><p>Return the result of <span data-x=\"create a link request\">creating a link request</span>\n+   given <var>options</var>.</p></li>\n+  </ol>\n+\n+  <p>To <dfn>create a link request</dfn> given a <span>link processing options</span>\n+  <var>options</var>:\n+\n+  <ol>\n+   <li><p>If <var>options</var>'s <code data-x=\"link options href\">href</code> attribute's value is the\n    empty string, then return null.</p></li>\n \n-   <li><p><span>Parse a URL</span> given <var>el</var>'s <code data-x=\"attr-link-href\">href</code>\n-   attribute, relative to <var>el</var>'s <span>node document</span>. If that fails, then return\n-   null. Otherwise, let <var>url</var> be the <span>resulting URL record</span>.</p></li>\n+   <li><p>If <var>options</var>'s <span data-x=\"link options destination\">destination</span> is not\n+   a <span data-x=\"concept-request-destination\">destination</span>, then return null.</p></li>\n \n-   <li><p>Let <var>corsAttributeState</var> be the current state of <var>el</var>'s <code\n-   data-x=\"attr-link-crossorigin\">crossorigin</code> content attribute.</p></li>\n+   <li><p><span>Parse a URL</span> given <var>options</var>'s <span\n+   data-x=\"link options href\">href</span>, relative to <var>options</var>'s <span\n+   data-x=\"link options base url\">base url</span>. If that fails, then return",
+    "path": "source",
+    "commit_id": "275f39bb91bd3dd173a981d7af2b0cada42ac3a1",
+    "original_commit_id": "e3fde42b668f81f31098822eb5e42f65e7213cf9",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n   data-x=\"link options base url\">base URL</span>. If that fails, then return\r\n```",
+    "created_at": "2022-06-03T14:18:08Z",
+    "updated_at": "2022-06-03T14:21:04Z",
+    "html_url": "https://github.com/whatwg/html/pull/7984#discussion_r888989187",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7984",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/888989187"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7984#discussion_r888989187"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7984"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/888989187/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 14356,
+    "original_line": 14356,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 33,
+    "position": 78,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/888989387",
+    "pull_request_review_id": 994976423,
+    "id": 888989387,
+    "node_id": "PRRC_kwDOALaj4840_ObL",
+    "diff_hunk": "@@ -14330,34 +14330,57 @@ interface <dfn interface>HTMLLinkElement</dfn> : <span>HTMLElement</span> {\n   (default the empty string):</p>\n \n   <ol>\n-   <li><p>If <var>el</var>'s <code data-x=\"attr-link-href\">href</code> attribute's value is the\n+   <li><p>Let <var>options</var> be the result of <span\n+   data-x=\"create link options from element\">creating link options</span> from\n+   <var>el</var>.</p></li>\n+\n+   <li><p>If <var>destination</var> is not null, set <var>options</var>'s <span\n+   data-x=\"link options destination\">destination</span>.</p></li>\n+\n+   <li><p>Return the result of <span data-x=\"create a link request\">creating a link request</span>\n+   given <var>options</var>.</p></li>\n+  </ol>\n+\n+  <p>To <dfn>create a link request</dfn> given a <span>link processing options</span>\n+  <var>options</var>:\n+\n+  <ol>\n+   <li><p>If <var>options</var>'s <code data-x=\"link options href\">href</code> attribute's value is the\n    empty string, then return null.</p></li>\n \n-   <li><p><span>Parse a URL</span> given <var>el</var>'s <code data-x=\"attr-link-href\">href</code>\n-   attribute, relative to <var>el</var>'s <span>node document</span>. If that fails, then return\n-   null. Otherwise, let <var>url</var> be the <span>resulting URL record</span>.</p></li>\n+   <li><p>If <var>options</var>'s <span data-x=\"link options destination\">destination</span> is not\n+   a <span data-x=\"concept-request-destination\">destination</span>, then return null.</p></li>\n \n-   <li><p>Let <var>corsAttributeState</var> be the current state of <var>el</var>'s <code\n-   data-x=\"attr-link-crossorigin\">crossorigin</code> content attribute.</p></li>\n+   <li><p><span>Parse a URL</span> given <var>options</var>'s <span\n+   data-x=\"link options href\">href</span>, relative to <var>options</var>'s <span\n+   data-x=\"link options base url\">base url</span>. If that fails, then return\n+   null. Otherwise, let <var>url</var> be the <span>resulting URL record</span>.</p></li>\n \n    <li><p>Let <var>request</var> be the result of <span data-x=\"create a potential-CORS\n-   request\">creating a potential-CORS request</span> given <var>url</var>, <var>destination</var>,\n-   and <var>corsAttributeState</var>.</p></li>\n+   request\">creating a potential-CORS request</span> given <var>url</var>, <var>options</var>'s\n+   <span data-x=\"link options destination\"></span>, and <var>options</var>'s <span",
+    "path": "source",
+    "commit_id": "275f39bb91bd3dd173a981d7af2b0cada42ac3a1",
+    "original_commit_id": "e3fde42b668f81f31098822eb5e42f65e7213cf9",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "missing word",
+    "created_at": "2022-06-03T14:18:22Z",
+    "updated_at": "2022-06-03T14:21:04Z",
+    "html_url": "https://github.com/whatwg/html/pull/7984#discussion_r888989387",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7984",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/888989387"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7984#discussion_r888989387"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7984"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/888989387/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 14361,
+    "original_line": 14361,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 40,
+    "position": 83,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/888991822",
+    "pull_request_review_id": 994976423,
+    "id": 888991822,
+    "node_id": "PRRC_kwDOALaj4840_PBO",
+    "diff_hunk": "@@ -14330,34 +14330,57 @@ interface <dfn interface>HTMLLinkElement</dfn> : <span>HTMLElement</span> {\n   (default the empty string):</p>\n \n   <ol>\n-   <li><p>If <var>el</var>'s <code data-x=\"attr-link-href\">href</code> attribute's value is the\n+   <li><p>Let <var>options</var> be the result of <span\n+   data-x=\"create link options from element\">creating link options</span> from\n+   <var>el</var>.</p></li>\n+\n+   <li><p>If <var>destination</var> is not null, set <var>options</var>'s <span\n+   data-x=\"link options destination\">destination</span>.</p></li>\n+\n+   <li><p>Return the result of <span data-x=\"create a link request\">creating a link request</span>\n+   given <var>options</var>.</p></li>\n+  </ol>\n+\n+  <p>To <dfn>create a link request</dfn> given a <span>link processing options</span>\n+  <var>options</var>:\n+\n+  <ol>\n+   <li><p>If <var>options</var>'s <code data-x=\"link options href\">href</code> attribute's value is the\n    empty string, then return null.</p></li>",
+    "path": "source",
+    "commit_id": "275f39bb91bd3dd173a981d7af2b0cada42ac3a1",
+    "original_commit_id": "e3fde42b668f81f31098822eb5e42f65e7213cf9",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "We might be able to assert by now that href is not the empty string, actually? Since the callers normalize any srcset into a href?",
+    "created_at": "2022-06-03T14:20:52Z",
+    "updated_at": "2022-06-03T14:21:04Z",
+    "html_url": "https://github.com/whatwg/html/pull/7984#discussion_r888991822",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7984",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/888991822"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7984#discussion_r888991822"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7984"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/888991822/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 14349,
+    "original_line": 14349,
+    "side": "RIGHT",
+    "in_reply_to_id": 888988491,
+    "author_association": "MEMBER",
+    "original_position": 21,
+    "position": 66,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/889114352",
+    "pull_request_review_id": 995153522,
+    "id": 889114352,
+    "node_id": "PRRC_kwDOALaj4840_s7w",
+    "diff_hunk": "@@ -14326,38 +14326,60 @@ interface <dfn interface>HTMLLinkElement</dfn> : <span>HTMLElement</span> {\n   </ol>\n \n   <p>To <dfn data-x=\"create a link element request\">create a <code>link</code> element request</dfn>\n-  given a <code>link</code> element <var>el</var> and an optional string <var>destination</var>\n-  (default the empty string):</p>\n+  given a <code>link</code> element <var>el</var> and an optional string <var>destination</var>:</p>",
+    "path": "source",
+    "commit_id": "275f39bb91bd3dd173a981d7af2b0cada42ac3a1",
+    "original_commit_id": "dc83cd089215cf567ebfa0c622a24a50df485fb3",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Actually, can we just inline this whole algorithm into its single call site, in \"default fetch and process the linked resource\"?",
+    "created_at": "2022-06-03T16:06:33Z",
+    "updated_at": "2022-06-03T16:10:48Z",
+    "html_url": "https://github.com/whatwg/html/pull/7984#discussion_r889114352",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7984",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/889114352"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7984#discussion_r889114352"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7984"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/889114352/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 14329,
+    "original_line": 14329,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 6,
+    "position": 31,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/889117018",
+    "pull_request_review_id": 995153522,
+    "id": 889117018,
+    "node_id": "PRRC_kwDOALaj4840_tla",
+    "diff_hunk": "@@ -26517,54 +26539,26 @@ document.body.appendChild(wbr);</code></pre>\n   data-x=\"concept-response\">response</span>:</p>\n \n   <ol>\n-   <li><p>If <var>options</var>'s <span data-x=\"link options destination\">destination</span> is not\n-   a <span data-x=\"concept-request-destination\">destination</span>, then return.</p></li>\n-\n    <li><p>If <var>options</var>'s <span data-x=\"link options type\">type</span> doesn't <span\n    data-x=\"match preload type\">match</span> <var>options</var>'s <span\n    data-x=\"link options destination\">destination</span>, then return.</p></li>\n \n-   <li><p>Let <var>href</var> be <var>options</var>'s <span\n-   data-x=\"link options href\">href</span>.</p></li>\n-\n    <li><p>If <var>options</var>'s <span data-x=\"link options destination\">destination</span> is\n    \"<code data-x=\"\">image</code>\" and <var>options</var>'s <span\n-   data-x=\"link options source set\">source set</span> is not null, then set <var>href</var>\n-   to the result of <span\n+   data-x=\"link options source set\">source set</span> is not null, then set <var>options</var>'s\n+   <span data-x=\"link options href\">href</span> to the result of <span\n    data-x=\"select an image source from a source set\">selecting an image source</span> from\n    <var>options</var>'s <span data-x=\"link options source set\">source set</span>.</p></li>\n \n-   <li><p>If <var>href</var> is an empty string, return.</p></li>\n+   <li><p>Let <var>request</var> be the result of <span\n+   data-x=\"create a link request\">creating a link request</span> given <var>options</var>.</p></li>\n \n-   <li><p><span data-x=\"parse a url\">Parse</span> <var>href</var> relative to\n-   <var>options</var>'s <span data-x=\"link options base URL\">base URL</span>. If that fails, then\n-   return. Otherwise let <var>url</var> be the <span>resulting URL record</span>.</p></li>\n+   <li><p>If <var>requeat</var> is null, return.</p></li>",
+    "path": "source",
+    "commit_id": "275f39bb91bd3dd173a981d7af2b0cada42ac3a1",
+    "original_commit_id": "dc83cd089215cf567ebfa0c622a24a50df485fb3",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n   <li><p>If <var>request</var> is null, then return.</p></li>\r\n```",
+    "created_at": "2022-06-03T16:08:28Z",
+    "updated_at": "2022-06-03T16:10:48Z",
+    "html_url": "https://github.com/whatwg/html/pull/7984#discussion_r889117018",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7984",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/889117018"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7984#discussion_r889117018"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7984"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/889117018/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 26556,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 113,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/889125979",
+    "pull_request_review_id": 995169300,
+    "id": 889125979,
+    "node_id": "PRRC_kwDOALaj4840_vxb",
+    "diff_hunk": "@@ -14326,38 +14326,60 @@ interface <dfn interface>HTMLLinkElement</dfn> : <span>HTMLElement</span> {\n   </ol>\n \n   <p>To <dfn data-x=\"create a link element request\">create a <code>link</code> element request</dfn>\n-  given a <code>link</code> element <var>el</var> and an optional string <var>destination</var>\n-  (default the empty string):</p>\n+  given a <code>link</code> element <var>el</var> and an optional string <var>destination</var>:</p>",
+    "path": "source",
+    "commit_id": "275f39bb91bd3dd173a981d7af2b0cada42ac3a1",
+    "original_commit_id": "dc83cd089215cf567ebfa0c622a24a50df485fb3",
+    "user": {
+      "login": "noamr",
+      "id": 88566,
+      "node_id": "MDQ6VXNlcjg4NTY2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88566?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/noamr",
+      "html_url": "https://github.com/noamr",
+      "followers_url": "https://api.github.com/users/noamr/followers",
+      "following_url": "https://api.github.com/users/noamr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/noamr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/noamr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/noamr/subscriptions",
+      "organizations_url": "https://api.github.com/users/noamr/orgs",
+      "repos_url": "https://api.github.com/users/noamr/repos",
+      "events_url": "https://api.github.com/users/noamr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/noamr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done",
+    "created_at": "2022-06-03T16:20:47Z",
+    "updated_at": "2022-06-03T16:20:47Z",
+    "html_url": "https://github.com/whatwg/html/pull/7984#discussion_r889125979",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7984",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/889125979"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7984#discussion_r889125979"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7984"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/889125979/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 14329,
+    "original_line": 14329,
+    "side": "RIGHT",
+    "in_reply_to_id": 889114352,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 6,
+    "position": 31,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

@@ -1,0 +1,644 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1320616239",
+    "pull_request_review_id": 1618676339,
+    "id": 1320616239,
+    "node_id": "PRRC_kwDOALaj485OtwEv",
+    "diff_hunk": "@@ -24695,13 +24692,17 @@ document.body.appendChild(wbr);</code></pre>\n   data-x=\"concept-hyperlink-url-set\">set the url</dfn> algorithm, which runs these steps:</p>\n \n   <ol>\n-    <li><p>If this element's <code data-x=\"attr-hyperlink-href\">href</code> content attribute is\n-    absent, set this element's <span data-x=\"concept-hyperlink-url\">url</span> to null.</p></li>\n-    <li><p>Otherwise, parse this element's <code data-x=\"attr-hyperlink-href\">href</code> content\n-    attribute value relative to this element's <span>node document</span>. If <span data-x=\"parse a\n-    url\">parsing</span> is successful, set this element's <span\n-    data-x=\"concept-hyperlink-url\">url</span> to the result; otherwise, set this element's\n-    <span data-x=\"concept-hyperlink-url\">url</span> to null.</li>\n+   <li><p>Set this element's <span data-x=\"concept-hyperlink-url\">url</span> to null.</p></li>\n+\n+   <li><p>If this element's <code data-x=\"attr-hyperlink-href\">href</code> content attribute is\n+   absent, then return.</p></li>\n+\n+   <li><p>Let <var>url</var> be the result of <span data-x=\"parse a URL\">parsing</span> this\n+   element's <code data-x=\"attr-hyperlink-href\">href</code> content attribute value, relative to",
+    "path": "source",
+    "commit_id": "54400e5db72ac7fd87d9a8c279dad6ef8b11dfc5",
+    "original_commit_id": "d6239270aa60a7340dc30319f7bff0a6c9cab06b",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n   element's <code data-x=\"attr-hyperlink-href\">href</code> content attribute's value, relative to\r\n```\r\n\r\nseems more common",
+    "created_at": "2023-09-09T17:41:55Z",
+    "updated_at": "2023-09-09T17:57:49Z",
+    "html_url": "https://github.com/whatwg/html/pull/9709#discussion_r1320616239",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9709",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1320616239"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9709#discussion_r1320616239"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9709"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1320616239/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 24701,
+    "original_line": 24701,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 156,
+    "position": 156,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1320616546",
+    "pull_request_review_id": 1618676339,
+    "id": 1320616546,
+    "node_id": "PRRC_kwDOALaj485OtwJi",
+    "diff_hunk": "@@ -26824,10 +26828,11 @@ document.body.appendChild(wbr);</code></pre>\n    <li><p>If <var>options</var>'s\n    <span data-x=\"link options href\">href</span> is an empty string, returns.</p></li>\n \n-   <li><span data-x=\"parse a URL\">Parse</span> <var>options</var>'s\n-   <span data-x=\"link options href\">href</span> relative to <var>options</var>'s\n-   <span data-x=\"link options base URL\">base URL</span> and let <var>url</var> be the\n-   <span>resulting URL record</span>. If this fails, return.\n+   <li><p>Let <var>url</var> be the result of <span data-x=\"parse a URL\">parsing</span>\n+   <var>options</var>'s <span data-x=\"link options href\">href</span>, relative to\n+   <var>options</var>'s <span data-x=\"link options base URL\">base URL</span>.</p></li>",
+    "path": "source",
+    "commit_id": "54400e5db72ac7fd87d9a8c279dad6ef8b11dfc5",
+    "original_commit_id": "d6239270aa60a7340dc30319f7bff0a6c9cab06b",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "\"parse a URL\" does not accept a base URL. I think we need to use the actual URL parser here. (Which, hmm, will have identical text, and just link somewhere differently? A bit unfortunate.)",
+    "created_at": "2023-09-09T17:44:19Z",
+    "updated_at": "2023-09-09T17:57:49Z",
+    "html_url": "https://github.com/whatwg/html/pull/9709#discussion_r1320616546",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9709",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1320616546"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9709#discussion_r1320616546"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9709"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1320616546/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 26833,
+    "original_line": 26833,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 221,
+    "position": 218,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1320617276",
+    "pull_request_review_id": 1618676339,
+    "id": 1320617276,
+    "node_id": "PRRC_kwDOALaj485OtwU8",
+    "diff_hunk": "@@ -50507,14 +50524,17 @@ ldh-str       = &lt; as defined in <a href=\"https://www.rfc-editor.org/rfc/rfc10\n \n   <p>then unless the user agent cannot support images, or its support for images has been disabled,\n   or the user agent only fetches images on demand, or the <code data-x=\"attr-input-src\">src</code>\n-  attribute's value is the empty string, the user agent must <span\n-  data-x=\"parse a url\">parse</span> the value of the <code data-x=\"attr-input-src\">src</code>\n-  attribute value, relative to the element's <span>node document</span>, and if that is successful,\n-  then:</p>\n+  attribute's value is the empty string, run these steps:\n \n   <ol>\n+   <li><p>Let <var>url</var> be the result of <span data-x=\"parse a URL\">parse</span> the value of",
+    "path": "source",
+    "commit_id": "54400e5db72ac7fd87d9a8c279dad6ef8b11dfc5",
+    "original_commit_id": "d6239270aa60a7340dc30319f7bff0a6c9cab06b",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n   <li><p>Let <var>url</var> be the result of <span data-x=\"parse a URL\">parsing</span> the value of\r\n```",
+    "created_at": "2023-09-09T17:48:32Z",
+    "updated_at": "2023-09-09T17:57:49Z",
+    "html_url": "https://github.com/whatwg/html/pull/9709#discussion_r1320617276",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9709",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1320617276"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9709#discussion_r1320617276"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9709"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1320617276/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 50530,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 423,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1320617941",
+    "pull_request_review_id": 1618676339,
+    "id": 1320617941,
+    "node_id": "PRRC_kwDOALaj485OtwfV",
+    "diff_hunk": "@@ -82029,18 +82049,16 @@ dictionary <dfn dictionary>DragEventInit</dfn> : <span>MouseEventInit</span> {\n        <dt>If the node is an <code>a</code> element with an <code\n        data-x=\"attr-hyperlink-href\">href</code> attribute</dt>\n \n-       <dd>Add to <var>urls</var> the result of <span data-x=\"parse a url\">parsing</span> the\n-       element's <code data-x=\"attr-hyperlink-href\">href</code> content attribute relative to the\n+       <dd>Add to <var>urls</var> the result of <span>parsing and serializing a URL</span> given\n+       element's <code data-x=\"attr-hyperlink-href\">href</code> content attribute, relative to the",
+    "path": "source",
+    "commit_id": "54400e5db72ac7fd87d9a8c279dad6ef8b11dfc5",
+    "original_commit_id": "d6239270aa60a7340dc30319f7bff0a6c9cab06b",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n       element's <code data-x=\"attr-hyperlink-href\">href</code> content attribute's value, relative to the\r\n```",
+    "created_at": "2023-09-09T17:52:46Z",
+    "updated_at": "2023-09-09T17:57:49Z",
+    "html_url": "https://github.com/whatwg/html/pull/9709#discussion_r1320617941",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9709",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1320617941"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9709#discussion_r1320617941"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9709"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1320617941/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 82053,
+    "original_line": 82053,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 498,
+    "position": 498,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1320618035",
+    "pull_request_review_id": 1618676339,
+    "id": 1320618035,
+    "node_id": "PRRC_kwDOALaj485Otwgz",
+    "diff_hunk": "@@ -82029,18 +82049,16 @@ dictionary <dfn dictionary>DragEventInit</dfn> : <span>MouseEventInit</span> {\n        <dt>If the node is an <code>a</code> element with an <code\n        data-x=\"attr-hyperlink-href\">href</code> attribute</dt>\n \n-       <dd>Add to <var>urls</var> the result of <span data-x=\"parse a url\">parsing</span> the\n-       element's <code data-x=\"attr-hyperlink-href\">href</code> content attribute relative to the\n+       <dd>Add to <var>urls</var> the result of <span>parsing and serializing a URL</span> given\n+       element's <code data-x=\"attr-hyperlink-href\">href</code> content attribute, relative to the\n        element's <span>node document</span>.</dd>\n \n        <dt>If the node is an <code>img</code> element with a <code data-x=\"attr-img-src\">src</code>\n        attribute</dt>\n \n-       <dd>Add to <var>urls</var> the result of <span data-x=\"parse a url\">parsing</span> the\n-       element's <code data-x=\"attr-img-src\">src</code> content attribute relative to the\n+       <dd>Add to <var>urls</var> the result of <span>parsing and serializing a URL</span> given\n+       element's <code data-x=\"attr-img-src\">src</code> content attribute, relative to the",
+    "path": "source",
+    "commit_id": "54400e5db72ac7fd87d9a8c279dad6ef8b11dfc5",
+    "original_commit_id": "d6239270aa60a7340dc30319f7bff0a6c9cab06b",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n       element's <code data-x=\"attr-img-src\">src</code> content attribute's value, relative to the\r\n```",
+    "created_at": "2023-09-09T17:52:56Z",
+    "updated_at": "2023-09-09T17:57:49Z",
+    "html_url": "https://github.com/whatwg/html/pull/9709#discussion_r1320618035",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9709",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1320618035"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9709#discussion_r1320618035"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9709"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1320618035/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 82060,
+    "original_line": 82060,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 507,
+    "position": 504,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1320618462",
+    "pull_request_review_id": 1618676339,
+    "id": 1320618462,
+    "node_id": "PRRC_kwDOALaj485Otwne",
+    "diff_hunk": "@@ -110556,38 +110579,37 @@ interface <dfn interface>Navigator</dfn> {\n    <li><p>If <var>url</var> does not contain \"<code data-x=\"\">%s</code>\", then throw a\n    <span>\"<code>SyntaxError</code>\"</span> <code>DOMException</code>.</p></li>\n \n-   <li><p><span data-x=\"parse a url\">Parse</span> <var>url</var> relative to\n-   <var>environment</var>.</p></li>\n+   <li><p>Let <var>urlRecord</var> be the result of <span data-x=\"parse a URL\">parsing</span>\n+   <var>url</var>, relative to <var>environment</var>.</p></li>\n \n    <li>\n-    <p>If that fails, then throw a <span>\"<code>SyntaxError</code>\"</span>\n+    <p>If <var>urlRecord</var> is failure, then throw a <span>\"<code>SyntaxError</code>\"</span>\n     <code>DOMException</code>.</p>\n \n     <p class=\"note\">This is forcibly the case if the <code data-x=\"\">%s</code> placeholder is in the\n     host or port of the URL.</p>\n    </li>\n \n-   <li><p>If the <span>resulting URL record</span>'s <span data-x=\"concept-url-scheme\">scheme</span>\n-   is not an <span>HTTP(S) scheme</span> or the <span>resulting URL record</span>'s <span\n+   <li><p>If <var>urlRecord</var>'s <span data-x=\"concept-url-scheme\">scheme</span> is not an\n+   <span>HTTP(S) scheme</span> or <var>urlRecord</var>'s <span\n    data-x=\"concept-url-origin\">origin</span> is not <span>same origin</span> with\n    <var>environment</var>'s <span data-x=\"concept-settings-object-origin\">origin</span>, then throw\n    a <span>\"<code>SecurityError</code>\"</span> <code>DOMException</code>.</p></li>\n \n    <li>\n     <p><span>Assert</span>: the result of <span>Is url potentially trustworthy?</span> given\n-    the <span>resulting URL record</span> is \"<code data-x=\"\">Potentially\n-    Trustworthy</code>\".</p>\n+    <var>urlRecord</var> is \"<code data-x=\"\">Potentially Trustworthy</code>\".</p>\n \n     <p class=\"note\">Because <span>normalize protocol handler parameters</span> is run within a\n     <span>secure context</span>, this is implied by the <span>same origin</span> condition.</p>\n    </li>\n \n    <li>\n-    <p>Return (<var>scheme</var>, <span>resulting URL string</span>).</p>\n+    <p>Return (<var>scheme</var>, <var>urlRecord</var>).</p>\n \n-    <p class=\"note\">The <span>resulting URL string</span> will by definition not be a <span>valid\n-    URL string</span> as it includes the string \"<code data-x=\"\">%s</code>\" which is not a valid\n-    component in a URL.</p>\n+    <p class=\"note\">The serialization of <var>urlRecord</var> will by definition not be a",
+    "path": "source",
+    "commit_id": "54400e5db72ac7fd87d9a8c279dad6ef8b11dfc5",
+    "original_commit_id": "d6239270aa60a7340dc30319f7bff0a6c9cab06b",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Cross-link serializer here maybe?",
+    "created_at": "2023-09-09T17:55:06Z",
+    "updated_at": "2023-09-09T17:57:49Z",
+    "html_url": "https://github.com/whatwg/html/pull/9709#discussion_r1320618462",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9709",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1320618462"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9709#discussion_r1320618462"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9709"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1320618462/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 110610,
+    "original_line": 110610,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 700,
+    "position": 696,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1320646645",
+    "pull_request_review_id": 1618689932,
+    "id": 1320646645,
+    "node_id": "PRRC_kwDOALaj485Ot3f1",
+    "diff_hunk": "@@ -26824,10 +26828,11 @@ document.body.appendChild(wbr);</code></pre>\n    <li><p>If <var>options</var>'s\n    <span data-x=\"link options href\">href</span> is an empty string, returns.</p></li>\n \n-   <li><span data-x=\"parse a URL\">Parse</span> <var>options</var>'s\n-   <span data-x=\"link options href\">href</span> relative to <var>options</var>'s\n-   <span data-x=\"link options base URL\">base URL</span> and let <var>url</var> be the\n-   <span>resulting URL record</span>. If this fails, return.\n+   <li><p>Let <var>url</var> be the result of <span data-x=\"parse a URL\">parsing</span>\n+   <var>options</var>'s <span data-x=\"link options href\">href</span>, relative to\n+   <var>options</var>'s <span data-x=\"link options base URL\">base URL</span>.</p></li>",
+    "path": "source",
+    "commit_id": "54400e5db72ac7fd87d9a8c279dad6ef8b11dfc5",
+    "original_commit_id": "d6239270aa60a7340dc30319f7bff0a6c9cab06b",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This seems like an existing bug. Maybe this happened when the link element was refactored? If we invoke the URL parser directly we'd also have to copy the document encoding over somehow. Maybe passing _environment_ always does the right thing?\r\n\r\n@noamr can you help here. Or did you not refactor this?\r\n\r\nEither way, if we fix this here this PR would no longer be editorial.",
+    "created_at": "2023-09-09T20:21:39Z",
+    "updated_at": "2023-09-09T20:21:39Z",
+    "html_url": "https://github.com/whatwg/html/pull/9709#discussion_r1320646645",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9709",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1320646645"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9709#discussion_r1320646645"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9709"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1320646645/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 26833,
+    "original_line": 26833,
+    "side": "RIGHT",
+    "in_reply_to_id": 1320616546,
+    "author_association": "MEMBER",
+    "original_position": 221,
+    "position": 218,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1320653782",
+    "pull_request_review_id": 1618692732,
+    "id": 1320653782,
+    "node_id": "PRRC_kwDOALaj485Ot5PW",
+    "diff_hunk": "@@ -26824,10 +26828,11 @@ document.body.appendChild(wbr);</code></pre>\n    <li><p>If <var>options</var>'s\n    <span data-x=\"link options href\">href</span> is an empty string, returns.</p></li>\n \n-   <li><span data-x=\"parse a URL\">Parse</span> <var>options</var>'s\n-   <span data-x=\"link options href\">href</span> relative to <var>options</var>'s\n-   <span data-x=\"link options base URL\">base URL</span> and let <var>url</var> be the\n-   <span>resulting URL record</span>. If this fails, return.\n+   <li><p>Let <var>url</var> be the result of <span data-x=\"parse a URL\">parsing</span>\n+   <var>options</var>'s <span data-x=\"link options href\">href</span>, relative to\n+   <var>options</var>'s <span data-x=\"link options base URL\">base URL</span>.</p></li>",
+    "path": "source",
+    "commit_id": "54400e5db72ac7fd87d9a8c279dad6ef8b11dfc5",
+    "original_commit_id": "d6239270aa60a7340dc30319f7bff0a6c9cab06b",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This was probably introduced by the link element updates, but they were not a refactor either really, because they introduced the processing model for `Link`. That's why this doesn't use the usual path, is because it sometimes runs during early hints, where there is no `Document`.\r\n\r\nI agree this reveals that something slipped through when speccing early hints. In particular, which of { early hints , non-early `Link` headers, `<link>` elements } respect a document's encoding during URL resolution? (Does it depend on whether the encoding is delivered via `Content-Type` vs. `<meta charset>`???)\r\n\r\n@noamr is probably the best person to assign to this, indeed. I guess we could avoid blocking this PR, by adding an XXX box of some sort pointing to a tracking issue. I suspect the end result will be that the document's encoding only matters for `<link>` elements, and we'll spec that by adding a new member to link processing options. But having that backed up by tests would be very helpful.",
+    "created_at": "2023-09-09T21:03:41Z",
+    "updated_at": "2023-09-09T21:03:42Z",
+    "html_url": "https://github.com/whatwg/html/pull/9709#discussion_r1320653782",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9709",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1320653782"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9709#discussion_r1320653782"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9709"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1320653782/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 26833,
+    "original_line": 26833,
+    "side": "RIGHT",
+    "in_reply_to_id": 1320616546,
+    "author_association": "MEMBER",
+    "original_position": 221,
+    "position": 218,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1320684713",
+    "pull_request_review_id": 1618715373,
+    "id": 1320684713,
+    "node_id": "PRRC_kwDOALaj485OuAyp",
+    "diff_hunk": "@@ -26824,10 +26828,11 @@ document.body.appendChild(wbr);</code></pre>\n    <li><p>If <var>options</var>'s\n    <span data-x=\"link options href\">href</span> is an empty string, returns.</p></li>\n \n-   <li><span data-x=\"parse a URL\">Parse</span> <var>options</var>'s\n-   <span data-x=\"link options href\">href</span> relative to <var>options</var>'s\n-   <span data-x=\"link options base URL\">base URL</span> and let <var>url</var> be the\n-   <span>resulting URL record</span>. If this fails, return.\n+   <li><p>Let <var>url</var> be the result of <span data-x=\"parse a URL\">parsing</span>\n+   <var>options</var>'s <span data-x=\"link options href\">href</span>, relative to\n+   <var>options</var>'s <span data-x=\"link options base URL\">base URL</span>.</p></li>",
+    "path": "source",
+    "commit_id": "54400e5db72ac7fd87d9a8c279dad6ef8b11dfc5",
+    "original_commit_id": "d6239270aa60a7340dc30319f7bff0a6c9cab06b",
+    "user": {
+      "login": "noamr",
+      "id": 88566,
+      "node_id": "MDQ6VXNlcjg4NTY2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88566?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/noamr",
+      "html_url": "https://github.com/noamr",
+      "followers_url": "https://api.github.com/users/noamr/followers",
+      "following_url": "https://api.github.com/users/noamr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/noamr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/noamr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/noamr/subscriptions",
+      "organizations_url": "https://api.github.com/users/noamr/orgs",
+      "repos_url": "https://api.github.com/users/noamr/repos",
+      "events_url": "https://api.github.com/users/noamr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/noamr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "SG, opened #9715",
+    "created_at": "2023-09-10T03:52:05Z",
+    "updated_at": "2023-09-10T03:52:06Z",
+    "html_url": "https://github.com/whatwg/html/pull/9709#discussion_r1320684713",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9709",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1320684713"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9709#discussion_r1320684713"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9709"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1320684713/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 26833,
+    "original_line": 26833,
+    "side": "RIGHT",
+    "in_reply_to_id": 1320616546,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 221,
+    "position": 218,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

@@ -1,0 +1,358 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/676304765",
+    "pull_request_review_id": 714458791,
+    "id": 676304765,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY3NjMwNDc2NQ==",
+    "diff_hunk": "@@ -99086,9 +99086,15 @@ data:&nbsp;test\n   <h4>The <code>WebSocket</code> interface</h4>\n \n   <pre><code class=\"idl\">enum <dfn enum>BinaryType</dfn> { \"<span data-x=\"dom-BinaryType-blob\">blob</span>\", \"<span data-x=\"dom-BinaryType-arraybuffer\">arraybuffer</span>\" };\n+\n+dictionary <dfn dictionary>WebSocketOptions</dfn> {\n+  <span>RequestCredentials</span> <dfn dict-member for=\"WebSocketOptions\" data-x=\"dom-WebSocketOptions-credentials\">credentials</dfn> = \"include\";\n+  sequence&lt;DOMString&gt; <dfn dict-member for=\"WebSocketOptions\" data-x=\"dom-WebSocketOptions-protocols\">protocols</dfn> = [];\n+};\n+\n [Exposed=(Window,Worker)]\n interface <dfn interface>WebSocket</dfn> : <span>EventTarget</span> {\n-  <span data-x=\"dom-WebSocket\">constructor</span>(USVString url, optional (DOMString or sequence&lt;DOMString&gt;) protocols = []);\n+  <span data-x=\"dom-WebSocket\">constructor</span>(USVString url, optional (DOMString or sequence&lt;DOMString&gt; or <span>WebSocketOptions</span>) optionsOrProtocols = []);",
+    "path": "source",
+    "commit_id": "b9f7929d4fa434b0bb7e3fa5a5d466d0b425a8f6",
+    "original_commit_id": "00f30195fac5c520d2fc9ace05655a86cce9073f",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n  <span data-x=\"dom-WebSocket\">constructor</span>(USVString url, optional (DOMString or sequence&lt;DOMString&gt; or <span>WebSocketOptions</span>) optionsOrProtocols = {});\r\n```",
+    "created_at": "2021-07-26T05:39:43Z",
+    "updated_at": "2021-07-26T05:44:56Z",
+    "html_url": "https://github.com/whatwg/html/pull/6896#discussion_r676304765",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/6896",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/676304765"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/6896#discussion_r676304765"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/6896"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/676304765/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 99097,
+    "original_line": 99097,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 13,
+    "position": 13,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/676305457",
+    "pull_request_review_id": 714458791,
+    "id": 676305457,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY3NjMwNTQ1Nw==",
+    "diff_hunk": "@@ -99133,13 +99139,16 @@ interface <dfn interface>WebSocket</dfn> : <span>EventTarget</span> {\n     <code>DOMException</code>. URLs with <span data-x=\"concept-url-fragment\">fragments</span>\n     will also cause such an exception.</p>\n \n-    <p><var>protocols</var> is either a string or an array of strings. If it is a string, it\n-    is equivalent to an array consisting of just that string; if it is omitted, it is equivalent to\n-    the empty array. Each string in the array is a subprotocol name. The connection will only be\n-    established if the server reports that it has selected one of these subprotocols. The subprotocol\n-    names have to match the requirements for elements that comprise the value of <code\n-    data-x=\"http-sec-websocket-protocol\">Sec-WebSocket-Protocol</code> fields as defined by\n-    <cite>The WebSocket protocol</cite>. <ref spec=WSP></p>\n+    <p><var>optionsOrProtocols</var> is either a string, an array of strings, or an options bag. If\n+    it is a string, it is equivalent to an array consisting of just that string; if it is omitted, it\n+    is equivalent to the empty array; if it is an array it is equivalent to an options bag with\n+    protocols set to that array. Each string in the <var>protocols</var> array is a subprotocol name.",
+    "path": "source",
+    "commit_id": "b9f7929d4fa434b0bb7e3fa5a5d466d0b425a8f6",
+    "original_commit_id": "00f30195fac5c520d2fc9ace05655a86cce9073f",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "`<var>` does not make sense for a dictionary member. Same below. See `addEventListener()` in https://dom.spec.whatwg.org/#interface-eventtarget for a way to do this.",
+    "created_at": "2021-07-26T05:41:41Z",
+    "updated_at": "2021-07-26T05:44:56Z",
+    "html_url": "https://github.com/whatwg/html/pull/6896#discussion_r676305457",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/6896",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/676305457"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/6896#discussion_r676305457"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/6896"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/676305457/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 99145,
+    "original_line": 99145,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 40,
+    "position": 40,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/676305995",
+    "pull_request_review_id": 714458791,
+    "id": 676305995,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY3NjMwNTk5NQ==",
+    "diff_hunk": "@@ -99239,10 +99248,18 @@ interface <dfn interface>WebSocket</dfn> : <span>EventTarget</span> {\n \n    <li><p>If <var>urlRecord</var>'s <span data-x=\"concept-url-fragment\">fragment</span> is non-null,\n    then throw a <span>\"<code>SyntaxError</code>\"</span> <code>DOMException</code>.</p></li>\n-\n-   <li><p>If <var>protocols</var> is a string, set <var>protocols</var> to a sequence consisting of\n-   just that string.</p></li>\n-\n+  \n+   <li><p>If <var>optionsOrProtocols</var> is a string, set <var>optionsOrProtocols</var> to a\n+    sequence consisting of just that string.</p></li>",
+    "path": "source",
+    "commit_id": "b9f7929d4fa434b0bb7e3fa5a5d466d0b425a8f6",
+    "original_commit_id": "00f30195fac5c520d2fc9ace05655a86cce9073f",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Nit: indentation is wrong here and below.",
+    "created_at": "2021-07-26T05:43:05Z",
+    "updated_at": "2021-07-26T05:44:56Z",
+    "html_url": "https://github.com/whatwg/html/pull/6896#discussion_r676305995",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/6896",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/676305995"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/6896#discussion_r676305995"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/6896"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/676305995/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 99253,
+    "original_line": 99253,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 71,
+    "position": 68,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/676306221",
+    "pull_request_review_id": 714458791,
+    "id": 676306221,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY3NjMwNjIyMQ==",
+    "diff_hunk": "@@ -99239,10 +99248,18 @@ interface <dfn interface>WebSocket</dfn> : <span>EventTarget</span> {\n \n    <li><p>If <var>urlRecord</var>'s <span data-x=\"concept-url-fragment\">fragment</span> is non-null,\n    then throw a <span>\"<code>SyntaxError</code>\"</span> <code>DOMException</code>.</p></li>\n-\n-   <li><p>If <var>protocols</var> is a string, set <var>protocols</var> to a sequence consisting of\n-   just that string.</p></li>\n-\n+  \n+   <li><p>If <var>optionsOrProtocols</var> is a string, set <var>optionsOrProtocols</var> to a\n+    sequence consisting of just that string.</p></li>\n+\n+   <li><p>If <var>optionsOrProtocols</var> is a sequence, set <var>optionsOrProtocols</var> to a \n+    <span>WebSocketOptions</span> dictionary with <var>protocols</var> set to\n+    <var>optionsOrProtocols</var> and <var>credentials</var> set to \"<code>include</code>\".</p></li>",
+    "path": "source",
+    "commit_id": "b9f7929d4fa434b0bb7e3fa5a5d466d0b425a8f6",
+    "original_commit_id": "00f30195fac5c520d2fc9ace05655a86cce9073f",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "No need to set credentials as it has a default value.",
+    "created_at": "2021-07-26T05:43:47Z",
+    "updated_at": "2021-07-26T05:44:56Z",
+    "html_url": "https://github.com/whatwg/html/pull/6896#discussion_r676306221",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/6896",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/676306221"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/6896#discussion_r676306221"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/6896"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/676306221/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 99257,
+    "original_line": 99257,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 75,
+    "position": 72,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/676555544",
+    "pull_request_review_id": 714780926,
+    "id": 676555544,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY3NjU1NTU0NA==",
+    "diff_hunk": "@@ -99133,13 +99139,16 @@ interface <dfn interface>WebSocket</dfn> : <span>EventTarget</span> {\n     <code>DOMException</code>. URLs with <span data-x=\"concept-url-fragment\">fragments</span>\n     will also cause such an exception.</p>\n \n-    <p><var>protocols</var> is either a string or an array of strings. If it is a string, it\n-    is equivalent to an array consisting of just that string; if it is omitted, it is equivalent to\n-    the empty array. Each string in the array is a subprotocol name. The connection will only be\n-    established if the server reports that it has selected one of these subprotocols. The subprotocol\n-    names have to match the requirements for elements that comprise the value of <code\n-    data-x=\"http-sec-websocket-protocol\">Sec-WebSocket-Protocol</code> fields as defined by\n-    <cite>The WebSocket protocol</cite>. <ref spec=WSP></p>\n+    <p><var>optionsOrProtocols</var> is either a string, an array of strings, or an options bag. If\n+    it is a string, it is equivalent to an array consisting of just that string; if it is omitted, it\n+    is equivalent to the empty array; if it is an array it is equivalent to an options bag with\n+    protocols set to that array. Each string in the <var>protocols</var> array is a subprotocol name.",
+    "path": "source",
+    "commit_id": "b9f7929d4fa434b0bb7e3fa5a5d466d0b425a8f6",
+    "original_commit_id": "00f30195fac5c520d2fc9ace05655a86cce9073f",
+    "user": {
+      "login": "lucacasonato",
+      "id": 7829205,
+      "node_id": "MDQ6VXNlcjc4MjkyMDU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7829205?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lucacasonato",
+      "html_url": "https://github.com/lucacasonato",
+      "followers_url": "https://api.github.com/users/lucacasonato/followers",
+      "following_url": "https://api.github.com/users/lucacasonato/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lucacasonato/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lucacasonato/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lucacasonato/subscriptions",
+      "organizations_url": "https://api.github.com/users/lucacasonato/orgs",
+      "repos_url": "https://api.github.com/users/lucacasonato/repos",
+      "events_url": "https://api.github.com/users/lucacasonato/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lucacasonato/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Changed to `<code data-x=\"dom-WebSocketOptions-protocols\">protocols</code>`",
+    "created_at": "2021-07-26T12:25:33Z",
+    "updated_at": "2021-07-26T12:25:33Z",
+    "html_url": "https://github.com/whatwg/html/pull/6896#discussion_r676555544",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/6896",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/676555544"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/6896#discussion_r676555544"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/6896"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/676555544/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 99145,
+    "original_line": 99145,
+    "side": "RIGHT",
+    "in_reply_to_id": 676305457,
+    "author_association": "MEMBER",
+    "original_position": 40,
+    "position": 40,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

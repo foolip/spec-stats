@@ -1,0 +1,856 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1266935829",
+    "pull_request_review_id": 1535293498,
+    "id": 1266935829,
+    "node_id": "PRRC_kwDOALaj485Lg-gV",
+    "diff_hunk": "@@ -103069,65 +103071,67 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n     <p>then throw a <span>\"<code>NetworkError</code>\"</span> <code>DOMException</code>.</p>\n    </li>\n \n-   <li><p>Let <var>source text</var> be the result of <span data-x=\"UTF-8 decode\">UTF-8\n+   <li><p>Let <var>sourceText</var> be the result of <span data-x=\"UTF-8 decode\">UTF-8\n    decoding</span> <var>bodyBytes</var>.</p></li>\n \n-   <li><p>Let <var>muted errors</var> be true if <var>response</var> was\n+   <li><p>Let <var>mutedErrors</var> be true if <var>response</var> was\n    <span>CORS-cross-origin</span>, and false otherwise.</p></li>\n \n    <li><p>Let <var>script</var> be the result of <span>creating a classic script</span> given\n-   <var>source text</var>, <var>settings object</var>, <var>response</var>'s <span\n+   <var>sourceText</var>, <var>settingsObject</var>, <var>response</var>'s <span\n    data-x=\"concept-response-url\">URL</span>, the <span>default classic script fetch options</span>,\n-   and <var>muted errors</var>.</p></li>\n+   and <var>mutedErrors</var>.</p></li>\n \n    <li><p>Return <var>script</var>.</p></li>\n   </ol>\n \n   <p>To <dfn export id=\"fetch-a-module-script-tree\">fetch an external module script graph</dfn>\n-  given a <var>url</var>, a <var>settings object</var>, some <var>options</var>, and an\n+  given a <var>URL</var> <var>url</var>, an <span>environment settings object</span>\n+  <var>settingsObject</var>, some <span>script fetch options</span> <var>options</var>, and an\n   <var>onComplete</var> algorithm, run these steps. <var>onComplete</var> must be an algorithm\n   accepting null (on failure) or a <span>module script</span> (on success).</p>\n \n   <ol>\n-   <li><p><span>Disallow further import maps</span> given <var>settings object</var>.</p></li>\n+   <li><p><span>Disallow further import maps</span> given <var>settingsObject</var>.</p></li>\n \n    <li>\n-    <p><span>Fetch a single module script</span> given <var>url</var>, <var>settings object</var>,\n-    \"<code data-x=\"\">script</code>\", <var>options</var>, <var>settings object</var>, \"<code\n+    <p><span>Fetch a single module script</span> given <var>url</var>, <var>settingsObject</var>,\n+    \"<code data-x=\"\">script</code>\", <var>options</var>, <var>settingsObject</var>, \"<code\n     data-x=\"\">client</code>\", true, and with the following steps given <var>result</var>:</p>\n \n     <ol>\n      <li><p>If <var>result</var> is null, run <var>onComplete</var> given null, and abort these\n      steps.</p></li>\n \n      <li><p><span data-x=\"fetch the descendants of and link a module script\">Fetch the descendants of\n-     and link</span> <var>result</var> given <var>settings object</var>, \"<code\n-     data-x=\"\">script</code>\", and <var>onComplete</var>.</p></li>\n+     and link</span> <var>result</var> given \"<code data-x=\"\">script</code>\" and\n+     <var>onComplete</var>.</p></li>\n     </ol>\n    </li>\n   </ol>\n \n-  <p>To <dfn>fetch a modulepreload module script graph</dfn> given a <var>url</var>, a\n-  <var>destination</var>, a <var>settings object</var>, some <var>options</var>, and an\n-  <var>onComplete</var> algorithm, run these steps. <var>onComplete</var> must be an algorithm\n-  accepting null (on failure) or a <span>module script</span> (on success).</p>\n+  <p>To <dfn>fetch a modulepreload module script graph</dfn> given a <var>URL</var> <var>url</var>,\n+  a <span data-x=\"concept-request-destination\">destination</span> <var>destination</var>, an\n+  <span>environment settings object</span> <var>settingsObject</var>, some <span>script fetch\n+  options</span> <var>options</var>, and an <var>onComplete</var> algorithm, run these steps.\n+  <var>onComplete</var> must be an algorithm accepting null (on failure) or a <span>module\n+  script</span> (on success).</p>\n \n   <ol>\n-   <li><p><span>Disallow further import maps</span> given <var>settings object</var>.</p></li>\n+   <li><p><span>Disallow further import maps</span> given <var>settingsObject</var>.</p></li>\n \n    <li>\n-    <p><span>Fetch a single module script</span> given <var>url</var>, <var>settings\n-    object</var>, <var>destination</var>, <var>options</var>, <var>settings object</var>, \"<code\n-    data-x=\"\">client</code>\", true, and with the\n-    following steps given <var>result</var>:</p>\n+    <p><span>Fetch a single module script</span> given <var>url</var>, <var>settingsObject</var>,\n+    <var>destination</var>, <var>options</var>, <var>settingsObject</var>, \"<code\n+    data-x=\"\">client</code>\", true, and with the following steps given <var>result</var>:</p>\n \n     <ol>\n      <li><p>Run <var>onComplete</var> given <var>result</var>.</p></li>\n \n      <li>\n       <p>If <var>result</var> is not null, optionally <span data-x=\"fetch the descendants of and\n       link a module script\">fetch the descendants of and link</span> <var>result</var> given\n-      <var>settings object</var>, <var>destination</var>, and an empty algorithm.</p>\n+      <var>destination</var> and an empty algorithm.</p>",
+    "path": "source",
+    "commit_id": "aa892fa3d9734b1eb409048a38a79d148b93b2f1",
+    "original_commit_id": "d1c452c342404f893c702b0c285fb5834460fd3c",
+    "user": {
+      "login": "nicolo-ribaudo",
+      "id": 7000710,
+      "node_id": "MDQ6VXNlcjcwMDA3MTA=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7000710?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nicolo-ribaudo",
+      "html_url": "https://github.com/nicolo-ribaudo",
+      "followers_url": "https://api.github.com/users/nicolo-ribaudo/followers",
+      "following_url": "https://api.github.com/users/nicolo-ribaudo/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nicolo-ribaudo/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nicolo-ribaudo/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nicolo-ribaudo/subscriptions",
+      "organizations_url": "https://api.github.com/users/nicolo-ribaudo/orgs",
+      "repos_url": "https://api.github.com/users/nicolo-ribaudo/repos",
+      "events_url": "https://api.github.com/users/nicolo-ribaudo/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nicolo-ribaudo/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I'm not sure about what happened, but I accidentally deleted a bunch of parameters here and there.",
+    "created_at": "2023-07-18T15:20:03Z",
+    "updated_at": "2023-07-18T15:20:04Z",
+    "html_url": "https://github.com/whatwg/html/pull/9530#discussion_r1266935829",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9530",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1266935829"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9530#discussion_r1266935829"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9530"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1266935829/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 103134,
+    "original_line": 103134,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 217,
+    "position": 217,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1266991526",
+    "pull_request_review_id": 1535390881,
+    "id": 1266991526,
+    "node_id": "PRRC_kwDOALaj485LhMGm",
+    "diff_hunk": "@@ -103444,17 +103465,16 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n    data-x=\"concept-request-destination\">destination</span> is <var>destination</var>, <span\n    data-x=\"concept-request-mode\">mode</span> is \"<code data-x=\"\">cors</code>\", <span\n    data-x=\"concept-request-referrer\">referrer</span> is <var>referrer</var>, and <span\n-   data-x=\"concept-request-client\">client</span> is <var>fetch client settings\n-   object</var>.</p></li>\n+   data-x=\"concept-request-client\">client</span> is <var>fetchClientSettings</var>.</p></li>\n \n    <!--\n     \"serviceworker\" being included here is not redundant with the Service Worker spec's own\n     same-origin check, because the request's mode also affects the Origin and Sec-Fetch-Mode\n     headers.\n    -->\n    <li><p>If <var>destination</var> is \"<code data-x=\"\">worker</code>\", \"<code\n-   data-x=\"\">sharedworker</code>\", or \"<code data-x=\"\">serviceworker</code>\", and the <var>top-level\n-   module fetch</var> flag is set, then set <var>request</var>'s <span\n+   data-x=\"\">sharedworker</code>\", or \"<code data-x=\"\">serviceworker</code>\", and\n+   <var>isTopLevel</var> is true, then set <var>request</var>'s <span",
+    "path": "source",
+    "commit_id": "aa892fa3d9734b1eb409048a38a79d148b93b2f1",
+    "original_commit_id": "010758d56c35a29bebfd592bd827488b46c3d791",
+    "user": {
+      "login": "nicolo-ribaudo",
+      "id": 7000710,
+      "node_id": "MDQ6VXNlcjcwMDA3MTA=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7000710?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nicolo-ribaudo",
+      "html_url": "https://github.com/nicolo-ribaudo",
+      "followers_url": "https://api.github.com/users/nicolo-ribaudo/followers",
+      "following_url": "https://api.github.com/users/nicolo-ribaudo/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nicolo-ribaudo/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nicolo-ribaudo/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nicolo-ribaudo/subscriptions",
+      "organizations_url": "https://api.github.com/users/nicolo-ribaudo/orgs",
+      "repos_url": "https://api.github.com/users/nicolo-ribaudo/repos",
+      "events_url": "https://api.github.com/users/nicolo-ribaudo/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nicolo-ribaudo/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This was referring to a flag that didn't actually exist anymore.",
+    "created_at": "2023-07-18T15:58:43Z",
+    "updated_at": "2023-07-18T15:58:43Z",
+    "html_url": "https://github.com/whatwg/html/pull/9530#discussion_r1266991526",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9530",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1266991526"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9530#discussion_r1266991526"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9530"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1266991526/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 103477,
+    "original_line": 103477,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 459,
+    "position": 471,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1267620584",
+    "pull_request_review_id": 1536378499,
+    "id": 1267620584,
+    "node_id": "PRRC_kwDOALaj485Ljlro",
+    "diff_hunk": "@@ -102842,19 +102842,20 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n \n   <p>Now for the algorithms themselves.</p>\n \n-  <p>To <dfn export>fetch a classic script</dfn> given a <var>url</var>, a <var>settings\n-  object</var>, some <var>options</var>, a <var>CORS setting</var>, a <var>character\n-  encoding</var>, and an <var>onComplete</var> algorithm, run these steps. <var>onComplete</var>\n-  must be an algorithm accepting null (on failure) or a <span>classic script</span> (on\n-  success).</p>\n+  <p>To <dfn export>fetch a classic script</dfn> given a <span>URL</span> <var>url</var>, an\n+  <span>environment settings object</span> <var>settingsObject</var>, some <span>script fetch\n+  options</span> <var>options</var>, a <span data-x=\"CORS settings attribute\">CORS settings\n+  attribute state</span> <var>CORSSetting</var>, an <span>encoding</span> <var>encoding</var>, and",
+    "path": "source",
+    "commit_id": "aa892fa3d9734b1eb409048a38a79d148b93b2f1",
+    "original_commit_id": "010758d56c35a29bebfd592bd827488b46c3d791",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Should be _corsSetting_",
+    "created_at": "2023-07-19T06:57:32Z",
+    "updated_at": "2023-07-19T07:13:20Z",
+    "html_url": "https://github.com/whatwg/html/pull/9530#discussion_r1267620584",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9530",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1267620584"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9530#discussion_r1267620584"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9530"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1267620584/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 102848,
+    "original_line": 102848,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 12,
+    "position": 12,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1267620825",
+    "pull_request_review_id": 1536378499,
+    "id": 1267620825,
+    "node_id": "PRRC_kwDOALaj485LjlvZ",
+    "diff_hunk": "@@ -102842,19 +102842,20 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n \n   <p>Now for the algorithms themselves.</p>\n \n-  <p>To <dfn export>fetch a classic script</dfn> given a <var>url</var>, a <var>settings\n-  object</var>, some <var>options</var>, a <var>CORS setting</var>, a <var>character\n-  encoding</var>, and an <var>onComplete</var> algorithm, run these steps. <var>onComplete</var>\n-  must be an algorithm accepting null (on failure) or a <span>classic script</span> (on\n-  success).</p>\n+  <p>To <dfn export>fetch a classic script</dfn> given a <span>URL</span> <var>url</var>, an\n+  <span>environment settings object</span> <var>settingsObject</var>, some <span>script fetch\n+  options</span> <var>options</var>, a <span data-x=\"CORS settings attribute\">CORS settings\n+  attribute state</span> <var>CORSSetting</var>, an <span>encoding</span> <var>encoding</var>, and\n+  an <var>onComplete</var> algorithm, run these steps. <var>onComplete</var> must be an algorithm",
+    "path": "source",
+    "commit_id": "aa892fa3d9734b1eb409048a38a79d148b93b2f1",
+    "original_commit_id": "010758d56c35a29bebfd592bd827488b46c3d791",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Probably better as \"an algorithm _onComplete_\"? (Here and below)",
+    "created_at": "2023-07-19T06:57:50Z",
+    "updated_at": "2023-07-19T07:13:20Z",
+    "html_url": "https://github.com/whatwg/html/pull/9530#discussion_r1267620825",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9530",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1267620825"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9530#discussion_r1267620825"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9530"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1267620825/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 102849,
+    "original_line": 102849,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 13,
+    "position": 13,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1267623215",
+    "pull_request_review_id": 1536378499,
+    "id": 1267623215,
+    "node_id": "PRRC_kwDOALaj485LjmUv",
+    "diff_hunk": "@@ -102896,46 +102897,46 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n      data-x=\"concept-response-header-list\">header list</span>.</p></li>\n \n      <li>\n-      <p>Set <var>character encoding</var> to the result of <span data-x=\"legacy extract an\n-      encoding\">legacy extracting an encoding</span> given <var>potentialMIMETypeForEncoding</var>\n-      and <var>character encoding</var>.</p>\n+      <p>Set <var>encoding</var> to the result of <span data-x=\"legacy extract an encoding\">legacy\n+      extracting an encoding</span> given <var>potentialMIMETypeForEncoding</var> and\n+      <var>encoding</var>.</p>\n \n       <p class=\"note\">This intentionally ignores the <span>MIME type essence</span>.</p>\n      </li>\n \n      <li>\n-      <p>Let <var>source text</var> be the result of <span data-x=\"decode\">decoding</span>\n-      <var>bodyBytes</var> to Unicode, using <var>character encoding</var> as the fallback\n-      encoding.</p>\n+      <p>Let <var>sourceText</var> be the result of <span data-x=\"decode\">decoding</span>\n+      <var>bodyBytes</var> to Unicode, using <var>encoding</var> as the fallback encoding.</p>\n \n-      <p class=\"note\">The <span>decode</span> algorithm overrides <var>character encoding</var> if\n-      the file contains a BOM.</p>\n+      <p class=\"note\">The <span>decode</span> algorithm overrides <var>encoding</var> if the file\n+      contains a BOM.</p>\n      </li>\n \n-     <li><p>Let <var>muted errors</var> be true if <var>response</var> was\n+     <li><p>Let <var>mutedErrors</var> be true if <var>response</var> was\n      <span>CORS-cross-origin</span>, and false otherwise.</p></li>\n \n      <li><p>Let <var>script</var> be the result of <span>creating a classic script</span> given\n-     <var>source text</var>, <var>settings object</var>, <var>response</var>'s <span\n-     data-x=\"concept-response-url\">URL</span>, <var>options</var>, and <var>muted\n-     errors</var>.</p></li>\n+     <var>sourceText</var>, <var>settingsObject</var>, <var>response</var>'s <span\n+     data-x=\"concept-response-url\">URL</span>, <var>options</var>, and\n+     <var>mutedErrors</var>.</p></li>\n \n      <li>Run <var>onComplete</var> given <var>script</var>.</li>\n     </ol>\n    </li>\n   </ol>\n \n-  <p>To <dfn export>fetch a classic worker script</dfn> given a <var>url</var>, a <var>fetch client\n-  settings object</var>, a <var>destination</var>, a <var>script settings object</var>, an\n-  <var>onComplete</var> algorithm, and an optional <span\n-  data-x=\"fetching-scripts-perform-fetch\">perform the fetch hook</span> <var>performFetch</var>, run\n-  these steps. <var>onComplete</var> must be an algorithm accepting null (on failure) or a\n-  <span>classic script</span> (on success).</p>\n+  <p>To <dfn export>fetch a classic worker script</dfn> given a <span>URL</span> <var>url</var>, an\n+  <span>environment settings object</span> <var>fetchClientSettings</var>, a <span\n+  data-x=\"concept-request-destination\">destination</span> <var>destination</var>, an\n+  <span>environment settings object</span> <var>scriptSettings</var>, an <var>onComplete</var>\n+  algorithm, and an optional <span data-x=\"fetching-scripts-perform-fetch\">perform the fetch\n+  hook</span> <var>performFetch</var>, run these steps. <var>onComplete</var> must be an algorithm\n+  accepting null (on failure) or a <span>classic script</span> (on success).</p>",
+    "path": "source",
+    "commit_id": "aa892fa3d9734b1eb409048a38a79d148b93b2f1",
+    "original_commit_id": "010758d56c35a29bebfd592bd827488b46c3d791",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "What do you think of renaming the ESO arguments to _fetchClient_ and _settingsObject_? I'm not sure myself.",
+    "created_at": "2023-07-19T07:00:23Z",
+    "updated_at": "2023-07-19T07:13:20Z",
+    "html_url": "https://github.com/whatwg/html/pull/9530#discussion_r1267623215",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9530",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1267623215"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9530#discussion_r1267623215"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9530"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1267623215/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 102934,
+    "original_line": 102934,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 84,
+    "position": 84,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1267623434",
+    "pull_request_review_id": 1536378499,
+    "id": 1267623434,
+    "node_id": "PRRC_kwDOALaj485LjmYK",
+    "diff_hunk": "@@ -103005,10 +103006,11 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n    </li>\n   </ol>\n \n-  <p>To <dfn export>fetch a classic worker-imported script</dfn> given a <var>url</var>, a\n-  <var>settings object</var>, and an optional <span data-x=\"fetching-scripts-perform-fetch\">perform\n-  the fetch hook</span> <var>performFetch</var>, run these steps. The algorithm will synchronously\n-  complete with a <span>classic script</span> on success, or throw an exception on failure.</p>\n+  <p>To <dfn export>fetch a classic worker-imported script</dfn> given a <span>URL</span>\n+  <var>url</var>, an <span>environment settings object</span> <var>settingsObject</var>, and an\n+  optional <span data-x=\"fetching-scripts-perform-fetch\">perform the fetch hook</span>\n+  <var>performFetch</var>, run these steps. The algorithm will synchronously complete with a",
+    "path": "source",
+    "commit_id": "aa892fa3d9734b1eb409048a38a79d148b93b2f1",
+    "original_commit_id": "010758d56c35a29bebfd592bd827488b46c3d791",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "While here, let's do \"synchronously complete with\" -> return",
+    "created_at": "2023-07-19T07:00:39Z",
+    "updated_at": "2023-07-19T07:13:20Z",
+    "html_url": "https://github.com/whatwg/html/pull/9530#discussion_r1267623434",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9530",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1267623434"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9530#discussion_r1267623434"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9530"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1267623434/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 103012,
+    "original_line": 103012,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 119,
+    "position": 119,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1267624536",
+    "pull_request_review_id": 1536378499,
+    "id": 1267624536,
+    "node_id": "PRRC_kwDOALaj485LjmpY",
+    "diff_hunk": "@@ -102842,19 +102842,20 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n \n   <p>Now for the algorithms themselves.</p>\n \n-  <p>To <dfn export>fetch a classic script</dfn> given a <var>url</var>, a <var>settings\n-  object</var>, some <var>options</var>, a <var>CORS setting</var>, a <var>character\n-  encoding</var>, and an <var>onComplete</var> algorithm, run these steps. <var>onComplete</var>\n-  must be an algorithm accepting null (on failure) or a <span>classic script</span> (on\n-  success).</p>\n+  <p>To <dfn export>fetch a classic script</dfn> given a <span>URL</span> <var>url</var>, an\n+  <span>environment settings object</span> <var>settingsObject</var>, some <span>script fetch",
+    "path": "source",
+    "commit_id": "aa892fa3d9734b1eb409048a38a79d148b93b2f1",
+    "original_commit_id": "010758d56c35a29bebfd592bd827488b46c3d791",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Let's just do \"a script fetch options _options_\". The use of \"some\" that I introduced in the past is cute, but I don't think we kept up that tradition for other options-ish types.\r\n\r\n(Here and below.)",
+    "created_at": "2023-07-19T07:01:52Z",
+    "updated_at": "2023-07-19T07:13:20Z",
+    "html_url": "https://github.com/whatwg/html/pull/9530#discussion_r1267624536",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9530",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1267624536"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9530#discussion_r1267624536"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9530"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1267624536/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 102846,
+    "original_line": 102846,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 10,
+    "position": 10,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1267626965",
+    "pull_request_review_id": 1536378499,
+    "id": 1267626965,
+    "node_id": "PRRC_kwDOALaj485LjnPV",
+    "diff_hunk": "@@ -103494,14 +103514,14 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n       steps.</p>\n      </li>\n \n-     <li><p>Let <var>source text</var> be the result of <span data-x=\"UTF-8 decode\">UTF-8\n+     <li><p>Let <var>sourceText</var> be the result of <span data-x=\"UTF-8 decode\">UTF-8\n      decoding</span> <var>bodyBytes</var>.</p></li>\n \n-     <li><p>Let <var>MIME type</var> be the result of <span data-x=\"extract a MIME type\">extracting\n+     <li><p>Let <var>MIMEType</var> be the result of <span data-x=\"extract a MIME type\">extracting",
+    "path": "source",
+    "commit_id": "aa892fa3d9734b1eb409048a38a79d148b93b2f1",
+    "original_commit_id": "010758d56c35a29bebfd592bd827488b46c3d791",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "_mimeType_",
+    "created_at": "2023-07-19T07:04:38Z",
+    "updated_at": "2023-07-19T07:13:20Z",
+    "html_url": "https://github.com/whatwg/html/pull/9530#discussion_r1267626965",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9530",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1267626965"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9530#discussion_r1267626965"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9530"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1267626965/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 103520,
+    "original_line": 103520,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 472,
+    "position": 484,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1267630738",
+    "pull_request_review_id": 1536378499,
+    "id": 1267630738,
+    "node_id": "PRRC_kwDOALaj485LjoKS",
+    "diff_hunk": "@@ -103388,7 +103406,7 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n     following steps:</p>\n \n     <ol>\n-     <li><p>If <var>state</var>.[[ParseError]] is not null, set <var>module script</var>'s <span\n+     <li><p>If <var>state</var>.[[ParseError]] is not null, set <var>moduleScript</var>'s <span\n      data-x=\"concept-script-error-to-rethrow\">error to rethrow</span> to\n      <var>state</var>.[[ParseError]] and run <var>onComplete</var> given <var>module\n      script</var>.</p></li>",
+    "path": "source",
+    "commit_id": "aa892fa3d9734b1eb409048a38a79d148b93b2f1",
+    "original_commit_id": "010758d56c35a29bebfd592bd827488b46c3d791",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Found a missed variable!",
+    "created_at": "2023-07-19T07:08:50Z",
+    "updated_at": "2023-07-19T07:13:20Z",
+    "html_url": "https://github.com/whatwg/html/pull/9530#discussion_r1267630738",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9530",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1267630738"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9530#discussion_r1267630738"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9530"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1267630738/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 103412,
+    "original_line": 103412,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 401,
+    "position": 408,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1267640121",
+    "pull_request_review_id": 1536378499,
+    "id": 1267640121,
+    "node_id": "PRRC_kwDOALaj485Ljqc5",
+    "diff_hunk": "@@ -103562,10 +103585,10 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n    <var>moduleType</var> and <var>settings object</var> is false, then run <var>onComplete</var>",
+    "path": "source",
+    "commit_id": "aa892fa3d9734b1eb409048a38a79d148b93b2f1",
+    "original_commit_id": "010758d56c35a29bebfd592bd827488b46c3d791",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Another missed variable!",
+    "created_at": "2023-07-19T07:13:12Z",
+    "updated_at": "2023-07-19T07:13:20Z",
+    "html_url": "https://github.com/whatwg/html/pull/9530#discussion_r1267640121",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9530",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1267640121"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9530#discussion_r1267640121"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9530"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1267640121/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 103585,
+    "original_line": 103585,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 540,
+    "position": 556,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1267891684",
+    "pull_request_review_id": 1536807280,
+    "id": 1267891684,
+    "node_id": "PRRC_kwDOALaj485Lkn3k",
+    "diff_hunk": "@@ -102896,46 +102897,46 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n      data-x=\"concept-response-header-list\">header list</span>.</p></li>\n \n      <li>\n-      <p>Set <var>character encoding</var> to the result of <span data-x=\"legacy extract an\n-      encoding\">legacy extracting an encoding</span> given <var>potentialMIMETypeForEncoding</var>\n-      and <var>character encoding</var>.</p>\n+      <p>Set <var>encoding</var> to the result of <span data-x=\"legacy extract an encoding\">legacy\n+      extracting an encoding</span> given <var>potentialMIMETypeForEncoding</var> and\n+      <var>encoding</var>.</p>\n \n       <p class=\"note\">This intentionally ignores the <span>MIME type essence</span>.</p>\n      </li>\n \n      <li>\n-      <p>Let <var>source text</var> be the result of <span data-x=\"decode\">decoding</span>\n-      <var>bodyBytes</var> to Unicode, using <var>character encoding</var> as the fallback\n-      encoding.</p>\n+      <p>Let <var>sourceText</var> be the result of <span data-x=\"decode\">decoding</span>\n+      <var>bodyBytes</var> to Unicode, using <var>encoding</var> as the fallback encoding.</p>\n \n-      <p class=\"note\">The <span>decode</span> algorithm overrides <var>character encoding</var> if\n-      the file contains a BOM.</p>\n+      <p class=\"note\">The <span>decode</span> algorithm overrides <var>encoding</var> if the file\n+      contains a BOM.</p>\n      </li>\n \n-     <li><p>Let <var>muted errors</var> be true if <var>response</var> was\n+     <li><p>Let <var>mutedErrors</var> be true if <var>response</var> was\n      <span>CORS-cross-origin</span>, and false otherwise.</p></li>\n \n      <li><p>Let <var>script</var> be the result of <span>creating a classic script</span> given\n-     <var>source text</var>, <var>settings object</var>, <var>response</var>'s <span\n-     data-x=\"concept-response-url\">URL</span>, <var>options</var>, and <var>muted\n-     errors</var>.</p></li>\n+     <var>sourceText</var>, <var>settingsObject</var>, <var>response</var>'s <span\n+     data-x=\"concept-response-url\">URL</span>, <var>options</var>, and\n+     <var>mutedErrors</var>.</p></li>\n \n      <li>Run <var>onComplete</var> given <var>script</var>.</li>\n     </ol>\n    </li>\n   </ol>\n \n-  <p>To <dfn export>fetch a classic worker script</dfn> given a <var>url</var>, a <var>fetch client\n-  settings object</var>, a <var>destination</var>, a <var>script settings object</var>, an\n-  <var>onComplete</var> algorithm, and an optional <span\n-  data-x=\"fetching-scripts-perform-fetch\">perform the fetch hook</span> <var>performFetch</var>, run\n-  these steps. <var>onComplete</var> must be an algorithm accepting null (on failure) or a\n-  <span>classic script</span> (on success).</p>\n+  <p>To <dfn export>fetch a classic worker script</dfn> given a <span>URL</span> <var>url</var>, an\n+  <span>environment settings object</span> <var>fetchClientSettings</var>, a <span\n+  data-x=\"concept-request-destination\">destination</span> <var>destination</var>, an\n+  <span>environment settings object</span> <var>scriptSettings</var>, an <var>onComplete</var>\n+  algorithm, and an optional <span data-x=\"fetching-scripts-perform-fetch\">perform the fetch\n+  hook</span> <var>performFetch</var>, run these steps. <var>onComplete</var> must be an algorithm\n+  accepting null (on failure) or a <span>classic script</span> (on success).</p>",
+    "path": "source",
+    "commit_id": "aa892fa3d9734b1eb409048a38a79d148b93b2f1",
+    "original_commit_id": "010758d56c35a29bebfd592bd827488b46c3d791",
+    "user": {
+      "login": "nicolo-ribaudo",
+      "id": 7000710,
+      "node_id": "MDQ6VXNlcjcwMDA3MTA=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7000710?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nicolo-ribaudo",
+      "html_url": "https://github.com/nicolo-ribaudo",
+      "followers_url": "https://api.github.com/users/nicolo-ribaudo/followers",
+      "following_url": "https://api.github.com/users/nicolo-ribaudo/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nicolo-ribaudo/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nicolo-ribaudo/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nicolo-ribaudo/subscriptions",
+      "organizations_url": "https://api.github.com/users/nicolo-ribaudo/orgs",
+      "repos_url": "https://api.github.com/users/nicolo-ribaudo/repos",
+      "events_url": "https://api.github.com/users/nicolo-ribaudo/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nicolo-ribaudo/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The ESO in the various algorithms are used in different ways, so it would make sense to name them based on usage:\r\n- as a request client -> _fetchClient_\r\n- as a script's settings object -> _settingsObject_\r\n\r\nHowever, in many algorithms (such as **fetch a classic script** and **fetch a classic worker-imported script**) it's used as both.\r\n\r\nAdditionally, some algorithms have a _moduleMapSettings_ which also ends up being used passed as a _settingsObject_ to algorithms that have nothing to do with the module map.\r\n\r\nI'll push a commit given precedence to _settingsObject_, let me know what you think about it",
+    "created_at": "2023-07-19T10:37:27Z",
+    "updated_at": "2023-07-19T10:38:17Z",
+    "html_url": "https://github.com/whatwg/html/pull/9530#discussion_r1267891684",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9530",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1267891684"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9530#discussion_r1267891684"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9530"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1267891684/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 102934,
+    "original_line": 102934,
+    "side": "RIGHT",
+    "in_reply_to_id": 1267623215,
+    "author_association": "MEMBER",
+    "original_position": 84,
+    "position": 84,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1267905906",
+    "pull_request_review_id": 1536829434,
+    "id": 1267905906,
+    "node_id": "PRRC_kwDOALaj485LkrVy",
+    "diff_hunk": "@@ -102896,46 +102897,46 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n      data-x=\"concept-response-header-list\">header list</span>.</p></li>\n \n      <li>\n-      <p>Set <var>character encoding</var> to the result of <span data-x=\"legacy extract an\n-      encoding\">legacy extracting an encoding</span> given <var>potentialMIMETypeForEncoding</var>\n-      and <var>character encoding</var>.</p>\n+      <p>Set <var>encoding</var> to the result of <span data-x=\"legacy extract an encoding\">legacy\n+      extracting an encoding</span> given <var>potentialMIMETypeForEncoding</var> and\n+      <var>encoding</var>.</p>\n \n       <p class=\"note\">This intentionally ignores the <span>MIME type essence</span>.</p>\n      </li>\n \n      <li>\n-      <p>Let <var>source text</var> be the result of <span data-x=\"decode\">decoding</span>\n-      <var>bodyBytes</var> to Unicode, using <var>character encoding</var> as the fallback\n-      encoding.</p>\n+      <p>Let <var>sourceText</var> be the result of <span data-x=\"decode\">decoding</span>\n+      <var>bodyBytes</var> to Unicode, using <var>encoding</var> as the fallback encoding.</p>\n \n-      <p class=\"note\">The <span>decode</span> algorithm overrides <var>character encoding</var> if\n-      the file contains a BOM.</p>\n+      <p class=\"note\">The <span>decode</span> algorithm overrides <var>encoding</var> if the file\n+      contains a BOM.</p>\n      </li>\n \n-     <li><p>Let <var>muted errors</var> be true if <var>response</var> was\n+     <li><p>Let <var>mutedErrors</var> be true if <var>response</var> was\n      <span>CORS-cross-origin</span>, and false otherwise.</p></li>\n \n      <li><p>Let <var>script</var> be the result of <span>creating a classic script</span> given\n-     <var>source text</var>, <var>settings object</var>, <var>response</var>'s <span\n-     data-x=\"concept-response-url\">URL</span>, <var>options</var>, and <var>muted\n-     errors</var>.</p></li>\n+     <var>sourceText</var>, <var>settingsObject</var>, <var>response</var>'s <span\n+     data-x=\"concept-response-url\">URL</span>, <var>options</var>, and\n+     <var>mutedErrors</var>.</p></li>\n \n      <li>Run <var>onComplete</var> given <var>script</var>.</li>\n     </ol>\n    </li>\n   </ol>\n \n-  <p>To <dfn export>fetch a classic worker script</dfn> given a <var>url</var>, a <var>fetch client\n-  settings object</var>, a <var>destination</var>, a <var>script settings object</var>, an\n-  <var>onComplete</var> algorithm, and an optional <span\n-  data-x=\"fetching-scripts-perform-fetch\">perform the fetch hook</span> <var>performFetch</var>, run\n-  these steps. <var>onComplete</var> must be an algorithm accepting null (on failure) or a\n-  <span>classic script</span> (on success).</p>\n+  <p>To <dfn export>fetch a classic worker script</dfn> given a <span>URL</span> <var>url</var>, an\n+  <span>environment settings object</span> <var>fetchClientSettings</var>, a <span\n+  data-x=\"concept-request-destination\">destination</span> <var>destination</var>, an\n+  <span>environment settings object</span> <var>scriptSettings</var>, an <var>onComplete</var>\n+  algorithm, and an optional <span data-x=\"fetching-scripts-perform-fetch\">perform the fetch\n+  hook</span> <var>performFetch</var>, run these steps. <var>onComplete</var> must be an algorithm\n+  accepting null (on failure) or a <span>classic script</span> (on success).</p>",
+    "path": "source",
+    "commit_id": "aa892fa3d9734b1eb409048a38a79d148b93b2f1",
+    "original_commit_id": "010758d56c35a29bebfd592bd827488b46c3d791",
+    "user": {
+      "login": "nicolo-ribaudo",
+      "id": 7000710,
+      "node_id": "MDQ6VXNlcjcwMDA3MTA=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7000710?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nicolo-ribaudo",
+      "html_url": "https://github.com/nicolo-ribaudo",
+      "followers_url": "https://api.github.com/users/nicolo-ribaudo/followers",
+      "following_url": "https://api.github.com/users/nicolo-ribaudo/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nicolo-ribaudo/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nicolo-ribaudo/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nicolo-ribaudo/subscriptions",
+      "organizations_url": "https://api.github.com/users/nicolo-ribaudo/orgs",
+      "repos_url": "https://api.github.com/users/nicolo-ribaudo/repos",
+      "events_url": "https://api.github.com/users/nicolo-ribaudo/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nicolo-ribaudo/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "An alternative is to call it `settingsObject` when there is one, and `outsideSettingsObject`/`insideSettingsObject` when there is two (similar to https://html.spec.whatwg.org/#worker-processing-model).",
+    "created_at": "2023-07-19T10:52:25Z",
+    "updated_at": "2023-07-19T10:52:26Z",
+    "html_url": "https://github.com/whatwg/html/pull/9530#discussion_r1267905906",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9530",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1267905906"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9530#discussion_r1267905906"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9530"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1267905906/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 102934,
+    "original_line": 102934,
+    "side": "RIGHT",
+    "in_reply_to_id": 1267623215,
+    "author_association": "MEMBER",
+    "original_position": 84,
+    "position": 84,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

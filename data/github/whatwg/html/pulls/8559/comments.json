@@ -1,0 +1,933 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1034270835",
+    "pull_request_review_id": 1196847922,
+    "id": 1034270835,
+    "node_id": "PRRC_kwDOALaj4849pbhz",
+    "diff_hunk": "@@ -8965,15 +8985,18 @@ interface <dfn interface>DOMStringList</dfn> {\n     <p>Otherwise, if <var>value</var> has a [[ViewedArrayBuffer]] internal slot, then:</p>\n \n     <ol>\n+     <li><p>If <span>IsArrayBufferViewOutOfBounds</span>(<var>value</var>) is true, then throw a\n+     <span>\"<code>DataCloneError</code>\"</span> <code>DOMException</code>.</p></li>",
+    "path": "source",
+    "commit_id": "adf0943e63c29fcd9f8d9b28461a1aa8360243ec",
+    "original_commit_id": "9a61c9496232b2c8f2c30b618d76e64bb95a0ca8",
+    "user": {
+      "login": "Constellation",
+      "id": 9023,
+      "node_id": "MDQ6VXNlcjkwMjM=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9023?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Constellation",
+      "html_url": "https://github.com/Constellation",
+      "followers_url": "https://api.github.com/users/Constellation/followers",
+      "following_url": "https://api.github.com/users/Constellation/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Constellation/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Constellation/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Constellation/subscriptions",
+      "organizations_url": "https://api.github.com/users/Constellation/orgs",
+      "repos_url": "https://api.github.com/users/Constellation/repos",
+      "events_url": "https://api.github.com/users/Constellation/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Constellation/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Should we throw DataCloneError when we encounter OOB case?\r\nWhile detached buffer cannot be recovered again, OOB case can be recovered later.\r\n\r\nFor example,\r\n```javascript\r\nvar arrayBuffer = new ArrayBuffer(1024, { maxByteLength: 4096 });\r\nvar view = new Int8Array(arrayBuffer, 0, 1024);\r\narrayBuffer.resize(0);\r\n\r\n// Even though view is right now OOB status, it can be recovered compared to the detached case.\r\nvar clonedView = structuredClone(view);\r\nclonedView.buffer.resize(1024);\r\n```",
+    "created_at": "2022-11-29T03:44:57Z",
+    "updated_at": "2022-11-29T03:44:57Z",
+    "html_url": "https://github.com/whatwg/html/pull/8559#discussion_r1034270835",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8559",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1034270835"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8559#discussion_r1034270835"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8559"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1034270835/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 8988,
+    "original_start_line": 8988,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 8989,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 74,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1034397247",
+    "pull_request_review_id": 1197026323,
+    "id": 1034397247,
+    "node_id": "PRRC_kwDOALaj4849p6Y_",
+    "diff_hunk": "@@ -2998,6 +2998,13 @@ a.setAttribute('href', 'https://example.com/'); // change the content attribute\n      <li>The <dfn data-x-href=\"https://tc39.es/proposal-json-modules/#sec-synthetic-module-records\">Synthetic Module Record</dfn> specification type</li>\n      <li>The <dfn data-x-href=\"https://tc39.es/proposal-json-modules/#sec-parse-json-module\">ParseJSONModule</dfn> abstract operation</li>\n     </ul>\n+\n+    <p>User agents that support JavaScript must also implement the <cite>resizable buffers</cite> proposal. The following terms are defined there, and used in this specification: <ref spec=JSRESIZABLEBUFFERS></p>",
+    "path": "source",
+    "commit_id": "adf0943e63c29fcd9f8d9b28461a1aa8360243ec",
+    "original_commit_id": "9a61c9496232b2c8f2c30b618d76e64bb95a0ca8",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Resizable ArrayBuffer and growable SharedArrayBuffer*",
+    "created_at": "2022-11-29T07:45:23Z",
+    "updated_at": "2022-11-29T08:00:39Z",
+    "html_url": "https://github.com/whatwg/html/pull/8559#discussion_r1034397247",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8559",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1034397247"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8559#discussion_r1034397247"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8559"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1034397247/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 3002,
+    "original_line": 3002,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 5,
+    "position": 5,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1034402230",
+    "pull_request_review_id": 1197026323,
+    "id": 1034402230,
+    "node_id": "PRRC_kwDOALaj4849p7m2",
+    "diff_hunk": "@@ -8954,8 +8969,13 @@ interface <dfn interface>DOMStringList</dfn> {\n        <li><p>Perform <span>CopyDataBlockBytes</span>(<var>dataCopy</var>, 0,\n        <var>value</var>.[[ArrayBufferData]], 0, <var>size</var>).</p></li>\n \n-       <li><p>Set <var>serialized</var> to { [[Type]]: \"ArrayBuffer\", [[ArrayBufferData]]:\n-       <var>dataCopy</var>, [[ArrayBufferByteLength]]: <var>size</var> }.</p></li>\n+       <li><p>If <var>value</var> has an [[ArrayBufferMaxByteLength]] internal slot, then set\n+       <var>serialized</var> to { [[Type]]: \"ResizableArrayBuffer\", [[ArrayBufferData]]:\n+       <var>dataCopy</var>, [[ArrayBufferByteLength]]: <var>size</var>,\n+       [[ArrayBufferMaxByteLength]]: <var>value</var>.[[ArrayBufferMaxByteLength]] }.</p></li>\n+\n+       <li><p>Otherwise, set <var>serialized</var> to { [[Type]]: \"ArrayBuffer\", [[ArrayBufferData]]:\n+         <var>dataCopy</var>, [[ArrayBufferByteLength]]: <var>size</var> }.</p></li>",
+    "path": "source",
+    "commit_id": "adf0943e63c29fcd9f8d9b28461a1aa8360243ec",
+    "original_commit_id": "9a61c9496232b2c8f2c30b618d76e64bb95a0ca8",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Nit: indentation.",
+    "created_at": "2022-11-29T07:51:33Z",
+    "updated_at": "2022-11-29T08:00:39Z",
+    "html_url": "https://github.com/whatwg/html/pull/8559#discussion_r1034402230",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8559",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1034402230"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8559#discussion_r1034402230"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8559"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1034402230/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 8978,
+    "original_line": 8978,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 65,
+    "position": 65,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1034654059",
+    "pull_request_review_id": 1197407273,
+    "id": 1034654059,
+    "node_id": "PRRC_kwDOALaj4849q5Fr",
+    "diff_hunk": "@@ -8965,15 +8985,18 @@ interface <dfn interface>DOMStringList</dfn> {\n     <p>Otherwise, if <var>value</var> has a [[ViewedArrayBuffer]] internal slot, then:</p>\n \n     <ol>\n+     <li><p>If <span>IsArrayBufferViewOutOfBounds</span>(<var>value</var>) is true, then throw a\n+     <span>\"<code>DataCloneError</code>\"</span> <code>DOMException</code>.</p></li>",
+    "path": "source",
+    "commit_id": "adf0943e63c29fcd9f8d9b28461a1aa8360243ec",
+    "original_commit_id": "9a61c9496232b2c8f2c30b618d76e64bb95a0ca8",
+    "user": {
+      "login": "syg",
+      "id": 95697,
+      "node_id": "MDQ6VXNlcjk1Njk3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/95697?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/syg",
+      "html_url": "https://github.com/syg",
+      "followers_url": "https://api.github.com/users/syg/followers",
+      "following_url": "https://api.github.com/users/syg/following{/other_user}",
+      "gists_url": "https://api.github.com/users/syg/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/syg/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/syg/subscriptions",
+      "organizations_url": "https://api.github.com/users/syg/orgs",
+      "repos_url": "https://api.github.com/users/syg/repos",
+      "events_url": "https://api.github.com/users/syg/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/syg/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This is a good question. Since serialization isn't actually going through indexed access on the TAs, we could serialize OOB ArrayBuffer views as is. The mental model I'm trying to perpetuate is \"being out of bounds behaves like being detached\", but as you point out it's a thing that can change over time, unlike being detached.\r\n\r\nI don't have too strong an opinion here. Outside of breaking consistency with my preferred mental model, I don't see any downsides to allowing them to be serialized. Do other folks have a preference?",
+    "created_at": "2022-11-29T11:52:48Z",
+    "updated_at": "2022-11-29T11:52:49Z",
+    "html_url": "https://github.com/whatwg/html/pull/8559#discussion_r1034654059",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8559",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1034654059"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8559#discussion_r1034654059"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8559"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1034654059/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 8988,
+    "original_start_line": 8988,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 8989,
+    "side": "RIGHT",
+    "in_reply_to_id": 1034270835,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 74,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1034797957",
+    "pull_request_review_id": 1197622865,
+    "id": 1034797957,
+    "node_id": "PRRC_kwDOALaj4849rcOF",
+    "diff_hunk": "@@ -8965,15 +8985,18 @@ interface <dfn interface>DOMStringList</dfn> {\n     <p>Otherwise, if <var>value</var> has a [[ViewedArrayBuffer]] internal slot, then:</p>\n \n     <ol>\n+     <li><p>If <span>IsArrayBufferViewOutOfBounds</span>(<var>value</var>) is true, then throw a\n+     <span>\"<code>DataCloneError</code>\"</span> <code>DOMException</code>.</p></li>",
+    "path": "source",
+    "commit_id": "adf0943e63c29fcd9f8d9b28461a1aa8360243ec",
+    "original_commit_id": "9a61c9496232b2c8f2c30b618d76e64bb95a0ca8",
+    "user": {
+      "login": "syg",
+      "id": 95697,
+      "node_id": "MDQ6VXNlcjk1Njk3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/95697?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/syg",
+      "html_url": "https://github.com/syg",
+      "followers_url": "https://api.github.com/users/syg/followers",
+      "following_url": "https://api.github.com/users/syg/following{/other_user}",
+      "gists_url": "https://api.github.com/users/syg/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/syg/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/syg/subscriptions",
+      "organizations_url": "https://api.github.com/users/syg/orgs",
+      "repos_url": "https://api.github.com/users/syg/repos",
+      "events_url": "https://api.github.com/users/syg/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/syg/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Discussed this internally with @marjakh. We're in favor keeping the OOB check here, because in normal JS code you cannot have OOB TypedArrays at creation time. So if we allow serialization of OOB TAs here, deserialization code will need to support being able to create OOB TypedArrays. This is extra complexity that doesn't seem worth it: in the limit you can imagine it being a security problem. The \"might go back into bounds later\" use case doesn't seem that compelling and seems more like a corner case.\r\n\r\nIf no strong feelings in allowing these, V8 would like to keep this PR as-is.",
+    "created_at": "2022-11-29T14:06:47Z",
+    "updated_at": "2022-11-29T14:06:47Z",
+    "html_url": "https://github.com/whatwg/html/pull/8559#discussion_r1034797957",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8559",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1034797957"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8559#discussion_r1034797957"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8559"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1034797957/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 8988,
+    "original_start_line": 8988,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 8989,
+    "side": "RIGHT",
+    "in_reply_to_id": 1034270835,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 74,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1035413841",
+    "pull_request_review_id": 1198532047,
+    "id": 1035413841,
+    "node_id": "PRRC_kwDOALaj4849tylR",
+    "diff_hunk": "@@ -8965,15 +8985,18 @@ interface <dfn interface>DOMStringList</dfn> {\n     <p>Otherwise, if <var>value</var> has a [[ViewedArrayBuffer]] internal slot, then:</p>\n \n     <ol>\n+     <li><p>If <span>IsArrayBufferViewOutOfBounds</span>(<var>value</var>) is true, then throw a\n+     <span>\"<code>DataCloneError</code>\"</span> <code>DOMException</code>.</p></li>",
+    "path": "source",
+    "commit_id": "adf0943e63c29fcd9f8d9b28461a1aa8360243ec",
+    "original_commit_id": "9a61c9496232b2c8f2c30b618d76e64bb95a0ca8",
+    "user": {
+      "login": "Constellation",
+      "id": 9023,
+      "node_id": "MDQ6VXNlcjkwMjM=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9023?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Constellation",
+      "html_url": "https://github.com/Constellation",
+      "followers_url": "https://api.github.com/users/Constellation/followers",
+      "following_url": "https://api.github.com/users/Constellation/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Constellation/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Constellation/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Constellation/subscriptions",
+      "organizations_url": "https://api.github.com/users/Constellation/orgs",
+      "repos_url": "https://api.github.com/users/Constellation/repos",
+      "events_url": "https://api.github.com/users/Constellation/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Constellation/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Yeah, I don't have strong feelings too. Just I would like to have a rationale behind this decision.\r\nAnd probably,\r\n> because in normal JS code you cannot have OOB TypedArrays at creation time.\r\n\r\nis good. And if this model does not fit in the real world usage, then we can extend it later.",
+    "created_at": "2022-11-30T00:29:47Z",
+    "updated_at": "2022-11-30T00:29:53Z",
+    "html_url": "https://github.com/whatwg/html/pull/8559#discussion_r1035413841",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8559",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1035413841"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8559#discussion_r1035413841"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8559"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1035413841/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 8988,
+    "original_start_line": 8988,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 8989,
+    "side": "RIGHT",
+    "in_reply_to_id": 1034270835,
+    "author_association": "MEMBER",
+    "original_position": 74,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1038474706",
+    "pull_request_review_id": 1202994307,
+    "id": 1038474706,
+    "node_id": "PRRC_kwDOALaj48495d3S",
+    "diff_hunk": "@@ -8965,15 +8985,18 @@ interface <dfn interface>DOMStringList</dfn> {\n     <p>Otherwise, if <var>value</var> has a [[ViewedArrayBuffer]] internal slot, then:</p>\n \n     <ol>\n+     <li><p>If <span>IsArrayBufferViewOutOfBounds</span>(<var>value</var>) is true, then throw a\n+     <span>\"<code>DataCloneError</code>\"</span> <code>DOMException</code>.</p></li>",
+    "path": "source",
+    "commit_id": "adf0943e63c29fcd9f8d9b28461a1aa8360243ec",
+    "original_commit_id": "9a61c9496232b2c8f2c30b618d76e64bb95a0ca8",
+    "user": {
+      "login": "syg",
+      "id": 95697,
+      "node_id": "MDQ6VXNlcjk1Njk3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/95697?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/syg",
+      "html_url": "https://github.com/syg",
+      "followers_url": "https://api.github.com/users/syg/followers",
+      "following_url": "https://api.github.com/users/syg/following{/other_user}",
+      "gists_url": "https://api.github.com/users/syg/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/syg/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/syg/subscriptions",
+      "organizations_url": "https://api.github.com/users/syg/orgs",
+      "repos_url": "https://api.github.com/users/syg/repos",
+      "events_url": "https://api.github.com/users/syg/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/syg/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Resolving this in favor of keeping the OOB check-and-throw behavior.",
+    "created_at": "2022-12-02T19:47:33Z",
+    "updated_at": "2022-12-02T19:47:33Z",
+    "html_url": "https://github.com/whatwg/html/pull/8559#discussion_r1038474706",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8559",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1038474706"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8559#discussion_r1038474706"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8559"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1038474706/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 8988,
+    "original_start_line": 8988,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 8989,
+    "side": "RIGHT",
+    "in_reply_to_id": 1034270835,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 74,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1038476196",
+    "pull_request_review_id": 1202996463,
+    "id": 1038476196,
+    "node_id": "PRRC_kwDOALaj48495eOk",
+    "diff_hunk": "@@ -2998,6 +2998,13 @@ a.setAttribute('href', 'https://example.com/'); // change the content attribute\n      <li>The <dfn data-x-href=\"https://tc39.es/proposal-json-modules/#sec-synthetic-module-records\">Synthetic Module Record</dfn> specification type</li>\n      <li>The <dfn data-x-href=\"https://tc39.es/proposal-json-modules/#sec-parse-json-module\">ParseJSONModule</dfn> abstract operation</li>\n     </ul>\n+\n+    <p>User agents that support JavaScript must also implement the <cite>resizable buffers</cite> proposal. The following terms are defined there, and used in this specification: <ref spec=JSRESIZABLEBUFFERS></p>",
+    "path": "source",
+    "commit_id": "adf0943e63c29fcd9f8d9b28461a1aa8360243ec",
+    "original_commit_id": "9a61c9496232b2c8f2c30b618d76e64bb95a0ca8",
+    "user": {
+      "login": "syg",
+      "id": 95697,
+      "node_id": "MDQ6VXNlcjk1Njk3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/95697?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/syg",
+      "html_url": "https://github.com/syg",
+      "followers_url": "https://api.github.com/users/syg/followers",
+      "following_url": "https://api.github.com/users/syg/following{/other_user}",
+      "gists_url": "https://api.github.com/users/syg/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/syg/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/syg/subscriptions",
+      "organizations_url": "https://api.github.com/users/syg/orgs",
+      "repos_url": "https://api.github.com/users/syg/repos",
+      "events_url": "https://api.github.com/users/syg/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/syg/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2022-12-02T19:49:59Z",
+    "updated_at": "2022-12-02T19:50:00Z",
+    "html_url": "https://github.com/whatwg/html/pull/8559#discussion_r1038476196",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8559",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1038476196"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8559#discussion_r1038476196"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8559"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1038476196/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 3002,
+    "original_line": 3002,
+    "side": "RIGHT",
+    "in_reply_to_id": 1034397247,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 5,
+    "position": 5,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1038476252",
+    "pull_request_review_id": 1202996560,
+    "id": 1038476252,
+    "node_id": "PRRC_kwDOALaj48495ePc",
+    "diff_hunk": "@@ -8954,8 +8969,13 @@ interface <dfn interface>DOMStringList</dfn> {\n        <li><p>Perform <span>CopyDataBlockBytes</span>(<var>dataCopy</var>, 0,\n        <var>value</var>.[[ArrayBufferData]], 0, <var>size</var>).</p></li>\n \n-       <li><p>Set <var>serialized</var> to { [[Type]]: \"ArrayBuffer\", [[ArrayBufferData]]:\n-       <var>dataCopy</var>, [[ArrayBufferByteLength]]: <var>size</var> }.</p></li>\n+       <li><p>If <var>value</var> has an [[ArrayBufferMaxByteLength]] internal slot, then set\n+       <var>serialized</var> to { [[Type]]: \"ResizableArrayBuffer\", [[ArrayBufferData]]:\n+       <var>dataCopy</var>, [[ArrayBufferByteLength]]: <var>size</var>,\n+       [[ArrayBufferMaxByteLength]]: <var>value</var>.[[ArrayBufferMaxByteLength]] }.</p></li>\n+\n+       <li><p>Otherwise, set <var>serialized</var> to { [[Type]]: \"ArrayBuffer\", [[ArrayBufferData]]:\n+         <var>dataCopy</var>, [[ArrayBufferByteLength]]: <var>size</var> }.</p></li>",
+    "path": "source",
+    "commit_id": "adf0943e63c29fcd9f8d9b28461a1aa8360243ec",
+    "original_commit_id": "9a61c9496232b2c8f2c30b618d76e64bb95a0ca8",
+    "user": {
+      "login": "syg",
+      "id": 95697,
+      "node_id": "MDQ6VXNlcjk1Njk3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/95697?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/syg",
+      "html_url": "https://github.com/syg",
+      "followers_url": "https://api.github.com/users/syg/followers",
+      "following_url": "https://api.github.com/users/syg/following{/other_user}",
+      "gists_url": "https://api.github.com/users/syg/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/syg/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/syg/subscriptions",
+      "organizations_url": "https://api.github.com/users/syg/orgs",
+      "repos_url": "https://api.github.com/users/syg/repos",
+      "events_url": "https://api.github.com/users/syg/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/syg/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2022-12-02T19:50:06Z",
+    "updated_at": "2022-12-02T19:50:06Z",
+    "html_url": "https://github.com/whatwg/html/pull/8559#discussion_r1038476252",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8559",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1038476252"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8559#discussion_r1038476252"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8559"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1038476252/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 8978,
+    "original_line": 8978,
+    "side": "RIGHT",
+    "in_reply_to_id": 1034402230,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 65,
+    "position": 65,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1039170591",
+    "pull_request_review_id": 1203898133,
+    "id": 1039170591,
+    "node_id": "PRRC_kwDOALaj48498Hwf",
+    "diff_hunk": "@@ -2998,6 +2998,15 @@ a.setAttribute('href', 'https://example.com/'); // change the content attribute\n      <li>The <dfn data-x-href=\"https://tc39.es/proposal-json-modules/#sec-synthetic-module-records\">Synthetic Module Record</dfn> specification type</li>\n      <li>The <dfn data-x-href=\"https://tc39.es/proposal-json-modules/#sec-parse-json-module\">ParseJSONModule</dfn> abstract operation</li>\n     </ul>\n+\n+    <p>User agents that support JavaScript must also implement the <cite>Resizable ArrayBuffer and\n+    growable SharedArrayBuffer</cite> proposal. The following terms are defined there, and used in\n+    this specification: <ref spec=JSRESIZABLEBUFFERS></p>\n+\n+    <ul class=\"brief\">\n+     <li>The <dfn data-x-href=\"https://tc39.es/proposal-resizablearraybuffer/#sec-arraybufferlength\">ArrayBufferByteLength</dfn> abstract operation</li>",
+    "path": "source",
+    "commit_id": "adf0943e63c29fcd9f8d9b28461a1aa8360243ec",
+    "original_commit_id": "cfe467dcc25fedc5347d29fd837d535da7c92230",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I don't see this used anywhere? Should it be?",
+    "created_at": "2022-12-05T06:04:24Z",
+    "updated_at": "2022-12-05T06:09:14Z",
+    "html_url": "https://github.com/whatwg/html/pull/8559#discussion_r1039170591",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8559",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1039170591"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8559#discussion_r1039170591"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8559"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1039170591/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 3007,
+    "original_line": 3007,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 10,
+    "position": 10,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1039172519",
+    "pull_request_review_id": 1203898133,
+    "id": 1039172519,
+    "node_id": "PRRC_kwDOALaj48498IOn",
+    "diff_hunk": "@@ -9738,6 +9820,22 @@ o.myself = o;</code></pre>\n       source and target realms are in the same process.</p>\n      </li>\n \n+     <li>\n+      <p>Otherwise, if <var>transferDataHolder</var>.[[Type]] is \"ResizableArrayBuffer\", then set\n+      <var>value</var> to a new ArrayBuffer object in <var>targetRealm</var> whose\n+      [[ArrayBufferData]] internal slot value is <var>transferDataHolder</var>.[[ArrayBufferData]],\n+      whose [[ArrayBufferByteLength]] internal slot value is\n+      <var>transferDataHolder</var>.[[ArrayBufferByteLength]], and whose\n+      [[ArrayBufferMaxByteLength]] internal slot value is\n+      <var>transferDataHolder</var>.[[ArrayBufferMaxByteLength]].</p>\n+\n+      <p class=\"note\">In cases where the original memory occupied by [[ArrayBufferData]] is\n+      accessible during the deserialization, this step is unlikely to throw an exception, as no new\n+      memory needs to be allocated: the memory occupied by [[ArrayBufferData]] is instead just\n+      getting transferred into the new ArrayBuffer. This could be true, for example, when both the\n+      source and target realms are in the same process.</p>",
+    "path": "source",
+    "commit_id": "adf0943e63c29fcd9f8d9b28461a1aa8360243ec",
+    "original_commit_id": "cfe467dcc25fedc5347d29fd837d535da7c92230",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The duplication of this note feels a bit worse than the others, since it's longer. I'd rather this one say something like\r\n\r\n> For the same reasons as for the previous step, this step is unlikely to throw an exception.",
+    "created_at": "2022-12-05T06:08:46Z",
+    "updated_at": "2022-12-05T06:09:14Z",
+    "html_url": "https://github.com/whatwg/html/pull/8559#discussion_r1039172519",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8559",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1039172519"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8559#discussion_r1039172519"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8559"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1039172519/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 9836,
+    "original_line": 9836,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 199,
+    "position": 199,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1040207747",
+    "pull_request_review_id": 1205451390,
+    "id": 1040207747,
+    "node_id": "PRRC_kwDOALaj484-AE-D",
+    "diff_hunk": "@@ -2998,6 +2998,15 @@ a.setAttribute('href', 'https://example.com/'); // change the content attribute\n      <li>The <dfn data-x-href=\"https://tc39.es/proposal-json-modules/#sec-synthetic-module-records\">Synthetic Module Record</dfn> specification type</li>\n      <li>The <dfn data-x-href=\"https://tc39.es/proposal-json-modules/#sec-parse-json-module\">ParseJSONModule</dfn> abstract operation</li>\n     </ul>\n+\n+    <p>User agents that support JavaScript must also implement the <cite>Resizable ArrayBuffer and\n+    growable SharedArrayBuffer</cite> proposal. The following terms are defined there, and used in\n+    this specification: <ref spec=JSRESIZABLEBUFFERS></p>\n+\n+    <ul class=\"brief\">\n+     <li>The <dfn data-x-href=\"https://tc39.es/proposal-resizablearraybuffer/#sec-arraybufferlength\">ArrayBufferByteLength</dfn> abstract operation</li>",
+    "path": "source",
+    "commit_id": "adf0943e63c29fcd9f8d9b28461a1aa8360243ec",
+    "original_commit_id": "cfe467dcc25fedc5347d29fd837d535da7c92230",
+    "user": {
+      "login": "syg",
+      "id": 95697,
+      "node_id": "MDQ6VXNlcjk1Njk3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/95697?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/syg",
+      "html_url": "https://github.com/syg",
+      "followers_url": "https://api.github.com/users/syg/followers",
+      "following_url": "https://api.github.com/users/syg/following{/other_user}",
+      "gists_url": "https://api.github.com/users/syg/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/syg/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/syg/subscriptions",
+      "organizations_url": "https://api.github.com/users/syg/orgs",
+      "repos_url": "https://api.github.com/users/syg/repos",
+      "events_url": "https://api.github.com/users/syg/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/syg/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Removed.\r\n\r\nGood catch, the reference to this was removed when I fixed a bug in the original PR.",
+    "created_at": "2022-12-05T23:20:35Z",
+    "updated_at": "2022-12-05T23:20:35Z",
+    "html_url": "https://github.com/whatwg/html/pull/8559#discussion_r1040207747",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8559",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1040207747"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8559#discussion_r1040207747"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8559"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1040207747/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 3007,
+    "original_line": 3007,
+    "side": "RIGHT",
+    "in_reply_to_id": 1039170591,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 10,
+    "position": 10,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1040218172",
+    "pull_request_review_id": 1205469255,
+    "id": 1040218172,
+    "node_id": "PRRC_kwDOALaj484-AHg8",
+    "diff_hunk": "@@ -9738,6 +9820,22 @@ o.myself = o;</code></pre>\n       source and target realms are in the same process.</p>\n      </li>\n \n+     <li>\n+      <p>Otherwise, if <var>transferDataHolder</var>.[[Type]] is \"ResizableArrayBuffer\", then set\n+      <var>value</var> to a new ArrayBuffer object in <var>targetRealm</var> whose\n+      [[ArrayBufferData]] internal slot value is <var>transferDataHolder</var>.[[ArrayBufferData]],\n+      whose [[ArrayBufferByteLength]] internal slot value is\n+      <var>transferDataHolder</var>.[[ArrayBufferByteLength]], and whose\n+      [[ArrayBufferMaxByteLength]] internal slot value is\n+      <var>transferDataHolder</var>.[[ArrayBufferMaxByteLength]].</p>\n+\n+      <p class=\"note\">In cases where the original memory occupied by [[ArrayBufferData]] is\n+      accessible during the deserialization, this step is unlikely to throw an exception, as no new\n+      memory needs to be allocated: the memory occupied by [[ArrayBufferData]] is instead just\n+      getting transferred into the new ArrayBuffer. This could be true, for example, when both the\n+      source and target realms are in the same process.</p>",
+    "path": "source",
+    "commit_id": "adf0943e63c29fcd9f8d9b28461a1aa8360243ec",
+    "original_commit_id": "cfe467dcc25fedc5347d29fd837d535da7c92230",
+    "user": {
+      "login": "syg",
+      "id": 95697,
+      "node_id": "MDQ6VXNlcjk1Njk3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/95697?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/syg",
+      "html_url": "https://github.com/syg",
+      "followers_url": "https://api.github.com/users/syg/followers",
+      "following_url": "https://api.github.com/users/syg/following{/other_user}",
+      "gists_url": "https://api.github.com/users/syg/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/syg/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/syg/subscriptions",
+      "organizations_url": "https://api.github.com/users/syg/orgs",
+      "repos_url": "https://api.github.com/users/syg/repos",
+      "events_url": "https://api.github.com/users/syg/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/syg/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2022-12-05T23:31:15Z",
+    "updated_at": "2022-12-05T23:31:15Z",
+    "html_url": "https://github.com/whatwg/html/pull/8559#discussion_r1040218172",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8559",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1040218172"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8559#discussion_r1040218172"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8559"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1040218172/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 9836,
+    "original_line": 9836,
+    "side": "RIGHT",
+    "in_reply_to_id": 1039172519,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 199,
+    "position": 199,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

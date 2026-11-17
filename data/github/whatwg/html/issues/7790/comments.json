@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/1089066710",
+    "html_url": "https://github.com/whatwg/html/issues/7790#issuecomment-1089066710",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/7790",
+    "id": 1089066710,
+    "node_id": "IC_kwDOALaj485A6dbW",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2022-04-05T17:13:15Z",
+    "updated_at": "2022-04-05T17:13:15Z",
+    "body": "This was discussed in the TAG review; see https://github.com/w3ctag/design-reviews/issues/688#issuecomment-993788883 , which I will quote here:\r\n\r\n> I think this is a tradeoff. By changing the behavior to make whether a picker was shown or not detectable, we introduce compat issues that constrain browsers from changing their UI in the future. I.e., adding or removing pickers from controls could now become a breaking change for websites. This is an area browsers have been hesitant to be constrained on, in the past.\r\n> \r\n> It also introduces potential interop issues. Right now, if you call showPicker(), it will never throw. But with that proposal, it might work fine in some browsers, and throw in others. This could lead to scenarios where, in the browsers you test with, there's no need for a `catch` block, and so the developer doesn't add one. But then other browsers can't access your site. The same is true for other APIs that expose support, e.g. a boolean return value or a separate canShowPicker() function.\r\n> \r\n> So adding any sort of feature-detection which exposes whether a browser supports a given picker, or not, creates new interop and compat risks that the current proposal doesn't have. But, it makes the proposal more useful for the specific case where a developer definitely wants to show a picker, even if a browser doesn't support it, and thus plans to perform good feature testing and add good fallbacks for such non-supporting browsers.\r\n> \r\n> My instinct is to wait to gather more data on in-the-wild usage to see whether the majority of use cases are:\r\n> \r\n> - It'd be nice to show a picker here, if the browser supports it; otherwise the user can just type; vs.\r\n> - I definitely need to show a picker here, and need to know if that won't work, so that I can display my own fallback.\r\n> \r\n> The current API is designed more for the former. If we find out that in the wild people are actually more interested in the latter, then we can consider adding feature detection abilities to serve that use case, and having a cross-browser discussion about whether that's worth the compat and interop risks.",
+    "author_association": "MEMBER",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/1089066710/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

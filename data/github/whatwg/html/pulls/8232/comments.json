@@ -1,0 +1,860 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/962445566",
+    "pull_request_review_id": 1095805547,
+    "id": 962445566,
+    "node_id": "PRRC_kwDOALaj4845XcD-",
+    "diff_hunk": "@@ -55645,62 +55645,12 @@ MIT Room 32-G524\n \n   <h6 id=\"autofill-processing-model\"><span id=\"processing-model-3\"></span>Processing model</h6>\n \n-  <p>Each <code>input</code> element to which the <code data-x=\"attr-fe-autocomplete\">autocomplete</code> attribute <span data-x=\"concept-input-apply\">applies</span>, each <code>select</code> element, and each <code>textarea</code> element, has an\n-  <dfn>autofill hint set</dfn>, an <dfn>autofill scope</dfn>, an <dfn>autofill field name</dfn>, a\n-  <dfn>non-autofill credential type</dfn>, and an <dfn>IDL-exposed autofill value</dfn>.</p>\n-\n-  <p>The <span>autofill field name</span> specifies the specific kind of data expected in the field,\n-  e.g. \"<code data-x=\"attr-fe-autocomplete-street-address\">street-address</code>\" or \"<code\n-  data-x=\"attr-fe-autocomplete-cc-exp\">cc-exp</code>\".</p>\n-\n-  <p>The <span>autofill hint set</span> identifies what address or contact information type the user\n-  agent is to look at, e.g. \"<code data-x=\"attr-fe-autocomplete-shipping\">shipping</code> <code\n-  data-x=\"attr-fe-autocomplete-fax\">fax</code>\" or \"<code\n-  data-x=\"attr-fe-autocomplete-billing\">billing</code>\".</p>\n-\n-  <p>The <span>non-autofill credential type</span> identifies a type of\n-  <span data-x=\"credman-credential\">credential</span> that may be offered by the user agent when the\n-  user interacts with the field alongside other <span>autofill field</span> values. If this value is\n-  \"<code data-x=\"\">webauthn</code>\" instead of null, selecting a credential of that type will resolve\n-  a pending <code data-x=\"conditional mediation\">conditional</code> mediation\n-  <code>navigator.credentials.get()</code> request, instead of autofilling the field.</p>\n-\n-  <div class=\"example\">\n-   <p>For example, a sign-in page could instruct the user agent to either autofill a saved password,\n-   or show a <span>public key credential</span> that will resolve a pending\n-   <code>navigator.credentials.get()</code> request. A user can select either to sign-in.</p>\n-\n-   <pre><code class=\"html\">&lt;input name=password type=password autocomplete=\"current-password webauthn\"></code></pre>\n-  </div>\n-\n-  <p>The <span>autofill scope</span> identifies the group of fields whose information concerns the\n-  same subject, and consists of the <span>autofill hint set</span> with, if\n-  applicable, the \"<code data-x=\"\">section-*</code>\" prefix, e.g. \"<code data-x=\"\">billing</code>\",\n-  \"<code data-x=\"\">section-parent shipping</code>\", or \"<code data-x=\"\">section-child shipping\n-  home</code>\".</p>\n-\n-  <p>These values are defined as the result of running the following algorithm:</p>\n-\n+  <p>The <dfn noexport>algorithm to determine a field's category</dfn> takes a <var>field</var>\n+  parameter and is as follows:</p>",
+    "path": "source",
+    "commit_id": "5bac62e8d013b695e0a10d71fa80a18e1af10ae3",
+    "original_commit_id": "a7af3b9369543641264d410557457368687b5075",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The most modern way to declare algorithms like this would be as follows:\r\n\r\n```\r\n<p>To <dfn>determine a field's category</dfn>, given <var>field</var>:</p>\r\n```\r\n\r\nand then call sites would look like `<span data-x=\"determine a field's category\">determining a field's category</span> given <var>x</var>`.",
+    "created_at": "2022-09-05T03:17:26Z",
+    "updated_at": "2022-09-05T03:24:19Z",
+    "html_url": "https://github.com/whatwg/html/pull/8232#discussion_r962445566",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8232",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/962445566"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8232#discussion_r962445566"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8232"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/962445566/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 55648,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 55649,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 41,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/962446560",
+    "pull_request_review_id": 1095805547,
+    "id": 962446560,
+    "node_id": "PRRC_kwDOALaj4845XcTg",
+    "diff_hunk": "@@ -55645,62 +55645,12 @@ MIT Room 32-G524\n \n   <h6 id=\"autofill-processing-model\"><span id=\"processing-model-3\"></span>Processing model</h6>\n \n-  <p>Each <code>input</code> element to which the <code data-x=\"attr-fe-autocomplete\">autocomplete</code> attribute <span data-x=\"concept-input-apply\">applies</span>, each <code>select</code> element, and each <code>textarea</code> element, has an\n-  <dfn>autofill hint set</dfn>, an <dfn>autofill scope</dfn>, an <dfn>autofill field name</dfn>, a\n-  <dfn>non-autofill credential type</dfn>, and an <dfn>IDL-exposed autofill value</dfn>.</p>\n-\n-  <p>The <span>autofill field name</span> specifies the specific kind of data expected in the field,\n-  e.g. \"<code data-x=\"attr-fe-autocomplete-street-address\">street-address</code>\" or \"<code\n-  data-x=\"attr-fe-autocomplete-cc-exp\">cc-exp</code>\".</p>\n-\n-  <p>The <span>autofill hint set</span> identifies what address or contact information type the user\n-  agent is to look at, e.g. \"<code data-x=\"attr-fe-autocomplete-shipping\">shipping</code> <code\n-  data-x=\"attr-fe-autocomplete-fax\">fax</code>\" or \"<code\n-  data-x=\"attr-fe-autocomplete-billing\">billing</code>\".</p>\n-\n-  <p>The <span>non-autofill credential type</span> identifies a type of\n-  <span data-x=\"credman-credential\">credential</span> that may be offered by the user agent when the\n-  user interacts with the field alongside other <span>autofill field</span> values. If this value is\n-  \"<code data-x=\"\">webauthn</code>\" instead of null, selecting a credential of that type will resolve\n-  a pending <code data-x=\"conditional mediation\">conditional</code> mediation\n-  <code>navigator.credentials.get()</code> request, instead of autofilling the field.</p>\n-\n-  <div class=\"example\">\n-   <p>For example, a sign-in page could instruct the user agent to either autofill a saved password,\n-   or show a <span>public key credential</span> that will resolve a pending\n-   <code>navigator.credentials.get()</code> request. A user can select either to sign-in.</p>\n-\n-   <pre><code class=\"html\">&lt;input name=password type=password autocomplete=\"current-password webauthn\"></code></pre>\n-  </div>\n-\n-  <p>The <span>autofill scope</span> identifies the group of fields whose information concerns the\n-  same subject, and consists of the <span>autofill hint set</span> with, if\n-  applicable, the \"<code data-x=\"\">section-*</code>\" prefix, e.g. \"<code data-x=\"\">billing</code>\",\n-  \"<code data-x=\"\">section-parent shipping</code>\", or \"<code data-x=\"\">section-child shipping\n-  home</code>\".</p>\n-\n-  <p>These values are defined as the result of running the following algorithm:</p>\n-\n+  <p>The <dfn noexport>algorithm to determine a field's category</dfn> takes a <var>field</var>\n+  parameter and is as follows:</p>\n   <ol>\n-   <li><p>If the element has no <code data-x=\"attr-fe-autocomplete\">autocomplete</code> attribute,\n-   then jump to the step labeled <i>default</i>.</p></li>\n-\n-   <li><p>Let <var>tokens</var> be the result of <span data-x=\"split a string on ASCII\n-   whitespace\">splitting the attribute's value on ASCII whitespace</span>.</p></li>\n-\n-   <li><p>If <var>tokens</var> is empty, then jump to the step labeled\n-   <i>default</i>.</p></li>\n-\n-   <li><p>Let <var>index</var> be the index of the last token in <var>tokens</var>.</p></li>\n-\n    <li>\n-    <p>If the <var>index</var>th token in <var>tokens</var> is not an <span>ASCII\n-    case-insensitive</span> match for one of the tokens given in the first column of the following\n-    table, or if the number of tokens in <var>tokens</var> is greater than the maximum\n-    number given in the cell in the second column of that token's row, then jump to the step labeled\n-    <i>default</i>. Otherwise, let <var>field</var> be the string given in the cell of the\n-    first column of the matching row, and let <var>category</var> be the value of the cell\n-    in the third column of that same row.</p>\n+    <p>If the <var>field</var> is not an <span>ASCII case-insensitive</span> match for one of the\n+    tokens given in the first column of the following table, return empty.</p>",
+    "path": "source",
+    "commit_id": "5bac62e8d013b695e0a10d71fa80a18e1af10ae3",
+    "original_commit_id": "a7af3b9369543641264d410557457368687b5075",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I noticed that your call site assumes the result is always a pair; it doesn't deal with a return value of \"empty\".\r\n\r\nAlso, in modern spec text we tend to prefer \"null\" for this sort of thing, rather than \"empty\".\r\n\r\nSo I think my overall suggestion is to do something like \"return (null, null)\".",
+    "created_at": "2022-09-05T03:21:02Z",
+    "updated_at": "2022-09-05T03:24:19Z",
+    "html_url": "https://github.com/whatwg/html/pull/8232#discussion_r962446560",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8232",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/962446560"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8232#discussion_r962446560"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8232"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/962446560/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 55653,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 63,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/962446972",
+    "pull_request_review_id": 1095805547,
+    "id": 962446972,
+    "node_id": "PRRC_kwDOALaj4845XcZ8",
+    "diff_hunk": "@@ -55971,9 +55985,25 @@ MIT Room 32-G524\n     data-x=\"attr-fe-autocomplete-webauthn\">webauthn</code>\", then run the substeps that follow:</p>\n     <ol>\n      <li><p>Set <var>credential type</var> to \"<code data-x=\"\">webauthn</code>\".</p></li>\n+\n      <li><p>If the <var>index</var>th token in <var>tokens</var> is the first entry,\n      then skip to the step labeled <i>done</i>.</p></li>\n+\n      <li><p>Decrement <var>index</var> by one.</p></li>\n+\n+     <li><p>Let the <var>category</var>, <var>maximum tokens</var> pair be the result of executing\n+     the <code data-x=\"dom-window-postMessage\">algorithm to determine a field's category</code> with",
+    "path": "source",
+    "commit_id": "5bac62e8d013b695e0a10d71fa80a18e1af10ae3",
+    "original_commit_id": "a7af3b9369543641264d410557457368687b5075",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This cross-reference is using code font and is to the wrong destination.",
+    "created_at": "2022-09-05T03:22:36Z",
+    "updated_at": "2022-09-05T03:24:19Z",
+    "html_url": "https://github.com/whatwg/html/pull/8232#discussion_r962446972",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8232",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/962446972"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8232#discussion_r962446972"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8232"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/962446972/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 55995,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 149,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/962447208",
+    "pull_request_review_id": 1095805547,
+    "id": 962447208,
+    "node_id": "PRRC_kwDOALaj4845Xcdo",
+    "diff_hunk": "@@ -55971,9 +55985,25 @@ MIT Room 32-G524\n     data-x=\"attr-fe-autocomplete-webauthn\">webauthn</code>\", then run the substeps that follow:</p>\n     <ol>\n      <li><p>Set <var>credential type</var> to \"<code data-x=\"\">webauthn</code>\".</p></li>\n+\n      <li><p>If the <var>index</var>th token in <var>tokens</var> is the first entry,\n      then skip to the step labeled <i>done</i>.</p></li>\n+\n      <li><p>Decrement <var>index</var> by one.</p></li>\n+\n+     <li><p>Let the <var>category</var>, <var>maximum tokens</var> pair be the result of executing\n+     the <code data-x=\"dom-window-postMessage\">algorithm to determine a field's category</code> with\n+     the <var>index</var>th token in <var>tokens</var>.</p></li>\n+\n+     <li><p>If <var>category</var> is not Normal and <var>category</var> is not Contact, then jump to\n+     the step labeled <i>default</i>.</p></li>\n+\n+     <li><p>If <var>index</var> is greater than <var>maximum tokens</var> minus one (i.e. if the\n+     number of remaining tokens is greater than <var>maximum tokens</var>), then jump to the step\n+     labeled <i>default</i>.</p></li>\n+\n+     <li><p>Let <var>IDL value</var> be the concatenation of the <var>index</var>th token in",
+    "path": "source",
+    "commit_id": "5bac62e8d013b695e0a10d71fa80a18e1af10ae3",
+    "original_commit_id": "a7af3b9369543641264d410557457368687b5075",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "In modern spec text we prefer to update variables with \"Set\" instead of \"Let\", so: \"Set IDL value to the concatenation of...\".",
+    "created_at": "2022-09-05T03:23:33Z",
+    "updated_at": "2022-09-05T03:24:19Z",
+    "html_url": "https://github.com/whatwg/html/pull/8232#discussion_r962447208",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8232",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/962447208"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8232#discussion_r962447208"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8232"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/962447208/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 56005,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 159,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/962447241",
+    "pull_request_review_id": 1095805547,
+    "id": 962447241,
+    "node_id": "PRRC_kwDOALaj4845XceJ",
+    "diff_hunk": "@@ -55971,9 +55985,25 @@ MIT Room 32-G524\n     data-x=\"attr-fe-autocomplete-webauthn\">webauthn</code>\", then run the substeps that follow:</p>\n     <ol>\n      <li><p>Set <var>credential type</var> to \"<code data-x=\"\">webauthn</code>\".</p></li>\n+\n      <li><p>If the <var>index</var>th token in <var>tokens</var> is the first entry,\n      then skip to the step labeled <i>done</i>.</p></li>\n+\n      <li><p>Decrement <var>index</var> by one.</p></li>\n+\n+     <li><p>Let the <var>category</var>, <var>maximum tokens</var> pair be the result of executing\n+     the <code data-x=\"dom-window-postMessage\">algorithm to determine a field's category</code> with\n+     the <var>index</var>th token in <var>tokens</var>.</p></li>\n+\n+     <li><p>If <var>category</var> is not Normal and <var>category</var> is not Contact, then jump to\n+     the step labeled <i>default</i>.</p></li>\n+\n+     <li><p>If <var>index</var> is greater than <var>maximum tokens</var> minus one (i.e. if the\n+     number of remaining tokens is greater than <var>maximum tokens</var>), then jump to the step\n+     labeled <i>default</i>.</p></li>\n+\n+     <li><p>Let <var>IDL value</var> be the concatenation of the <var>index</var>th token in\n+     <var>tokens</var>, a U+0020 SPACE character, and the previous value of <var>IDL value</var>.",
+    "path": "source",
+    "commit_id": "5bac62e8d013b695e0a10d71fa80a18e1af10ae3",
+    "original_commit_id": "a7af3b9369543641264d410557457368687b5075",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Missing `</p></li>`",
+    "created_at": "2022-09-05T03:23:44Z",
+    "updated_at": "2022-09-05T03:24:19Z",
+    "html_url": "https://github.com/whatwg/html/pull/8232#discussion_r962447241",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8232",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/962447241"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8232#discussion_r962447241"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8232"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/962447241/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 56006,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 160,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/962447380",
+    "pull_request_review_id": 1095805547,
+    "id": 962447380,
+    "node_id": "PRRC_kwDOALaj4845XcgU",
+    "diff_hunk": "@@ -55943,6 +55893,70 @@ MIT Room 32-G524\n     </table>\n    </li>\n \n+   <li><p>Otherwise, let <var>maximum tokens</var> and <var>category</var> be the values of the\n+   cells in the second and third columns of that row respectively.</p></li>\n+\n+   <li><p>Return the pair <var>category</var>, <var>maximum tokens</var>.</p></li>\n+  </ol>\n+\n+\n+  <p>Each <code>input</code> element to which the <code data-x=\"attr-fe-autocomplete\">autocomplete</code> attribute <span data-x=\"concept-input-apply\">applies</span>, each <code>select</code> element, and each <code>textarea</code> element, has an",
+    "path": "source",
+    "commit_id": "5bac62e8d013b695e0a10d71fa80a18e1af10ae3",
+    "original_commit_id": "a7af3b9369543641264d410557457368687b5075",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I wonder why GitHub's diff algorithm thinks these have all changed...",
+    "created_at": "2022-09-05T03:24:08Z",
+    "updated_at": "2022-09-05T03:24:19Z",
+    "html_url": "https://github.com/whatwg/html/pull/8232#discussion_r962447380",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8232",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/962447380"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8232#discussion_r962447380"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8232"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/962447380/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 55903,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 78,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/963827938",
+    "pull_request_review_id": 1097769900,
+    "id": 963827938,
+    "node_id": "PRRC_kwDOALaj4845ctji",
+    "diff_hunk": "@@ -55645,62 +55645,12 @@ MIT Room 32-G524\n \n   <h6 id=\"autofill-processing-model\"><span id=\"processing-model-3\"></span>Processing model</h6>\n \n-  <p>Each <code>input</code> element to which the <code data-x=\"attr-fe-autocomplete\">autocomplete</code> attribute <span data-x=\"concept-input-apply\">applies</span>, each <code>select</code> element, and each <code>textarea</code> element, has an\n-  <dfn>autofill hint set</dfn>, an <dfn>autofill scope</dfn>, an <dfn>autofill field name</dfn>, a\n-  <dfn>non-autofill credential type</dfn>, and an <dfn>IDL-exposed autofill value</dfn>.</p>\n-\n-  <p>The <span>autofill field name</span> specifies the specific kind of data expected in the field,\n-  e.g. \"<code data-x=\"attr-fe-autocomplete-street-address\">street-address</code>\" or \"<code\n-  data-x=\"attr-fe-autocomplete-cc-exp\">cc-exp</code>\".</p>\n-\n-  <p>The <span>autofill hint set</span> identifies what address or contact information type the user\n-  agent is to look at, e.g. \"<code data-x=\"attr-fe-autocomplete-shipping\">shipping</code> <code\n-  data-x=\"attr-fe-autocomplete-fax\">fax</code>\" or \"<code\n-  data-x=\"attr-fe-autocomplete-billing\">billing</code>\".</p>\n-\n-  <p>The <span>non-autofill credential type</span> identifies a type of\n-  <span data-x=\"credman-credential\">credential</span> that may be offered by the user agent when the\n-  user interacts with the field alongside other <span>autofill field</span> values. If this value is\n-  \"<code data-x=\"\">webauthn</code>\" instead of null, selecting a credential of that type will resolve\n-  a pending <code data-x=\"conditional mediation\">conditional</code> mediation\n-  <code>navigator.credentials.get()</code> request, instead of autofilling the field.</p>\n-\n-  <div class=\"example\">\n-   <p>For example, a sign-in page could instruct the user agent to either autofill a saved password,\n-   or show a <span>public key credential</span> that will resolve a pending\n-   <code>navigator.credentials.get()</code> request. A user can select either to sign-in.</p>\n-\n-   <pre><code class=\"html\">&lt;input name=password type=password autocomplete=\"current-password webauthn\"></code></pre>\n-  </div>\n-\n-  <p>The <span>autofill scope</span> identifies the group of fields whose information concerns the\n-  same subject, and consists of the <span>autofill hint set</span> with, if\n-  applicable, the \"<code data-x=\"\">section-*</code>\" prefix, e.g. \"<code data-x=\"\">billing</code>\",\n-  \"<code data-x=\"\">section-parent shipping</code>\", or \"<code data-x=\"\">section-child shipping\n-  home</code>\".</p>\n-\n-  <p>These values are defined as the result of running the following algorithm:</p>\n-\n+  <p>The <dfn noexport>algorithm to determine a field's category</dfn> takes a <var>field</var>\n+  parameter and is as follows:</p>",
+    "path": "source",
+    "commit_id": "5bac62e8d013b695e0a10d71fa80a18e1af10ae3",
+    "original_commit_id": "a7af3b9369543641264d410557457368687b5075",
+    "user": {
+      "login": "nsatragno",
+      "id": 2953655,
+      "node_id": "MDQ6VXNlcjI5NTM2NTU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2953655?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nsatragno",
+      "html_url": "https://github.com/nsatragno",
+      "followers_url": "https://api.github.com/users/nsatragno/followers",
+      "following_url": "https://api.github.com/users/nsatragno/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nsatragno/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nsatragno/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nsatragno/subscriptions",
+      "organizations_url": "https://api.github.com/users/nsatragno/orgs",
+      "repos_url": "https://api.github.com/users/nsatragno/repos",
+      "events_url": "https://api.github.com/users/nsatragno/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nsatragno/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Oh this does look cleaner. Done.",
+    "created_at": "2022-09-06T15:07:23Z",
+    "updated_at": "2022-09-06T15:07:23Z",
+    "html_url": "https://github.com/whatwg/html/pull/8232#discussion_r963827938",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8232",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/963827938"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8232#discussion_r963827938"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8232"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/963827938/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 55648,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 55649,
+    "side": "RIGHT",
+    "in_reply_to_id": 962445566,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 41,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/963829555",
+    "pull_request_review_id": 1097772268,
+    "id": 963829555,
+    "node_id": "PRRC_kwDOALaj4845ct8z",
+    "diff_hunk": "@@ -55645,62 +55645,12 @@ MIT Room 32-G524\n \n   <h6 id=\"autofill-processing-model\"><span id=\"processing-model-3\"></span>Processing model</h6>\n \n-  <p>Each <code>input</code> element to which the <code data-x=\"attr-fe-autocomplete\">autocomplete</code> attribute <span data-x=\"concept-input-apply\">applies</span>, each <code>select</code> element, and each <code>textarea</code> element, has an\n-  <dfn>autofill hint set</dfn>, an <dfn>autofill scope</dfn>, an <dfn>autofill field name</dfn>, a\n-  <dfn>non-autofill credential type</dfn>, and an <dfn>IDL-exposed autofill value</dfn>.</p>\n-\n-  <p>The <span>autofill field name</span> specifies the specific kind of data expected in the field,\n-  e.g. \"<code data-x=\"attr-fe-autocomplete-street-address\">street-address</code>\" or \"<code\n-  data-x=\"attr-fe-autocomplete-cc-exp\">cc-exp</code>\".</p>\n-\n-  <p>The <span>autofill hint set</span> identifies what address or contact information type the user\n-  agent is to look at, e.g. \"<code data-x=\"attr-fe-autocomplete-shipping\">shipping</code> <code\n-  data-x=\"attr-fe-autocomplete-fax\">fax</code>\" or \"<code\n-  data-x=\"attr-fe-autocomplete-billing\">billing</code>\".</p>\n-\n-  <p>The <span>non-autofill credential type</span> identifies a type of\n-  <span data-x=\"credman-credential\">credential</span> that may be offered by the user agent when the\n-  user interacts with the field alongside other <span>autofill field</span> values. If this value is\n-  \"<code data-x=\"\">webauthn</code>\" instead of null, selecting a credential of that type will resolve\n-  a pending <code data-x=\"conditional mediation\">conditional</code> mediation\n-  <code>navigator.credentials.get()</code> request, instead of autofilling the field.</p>\n-\n-  <div class=\"example\">\n-   <p>For example, a sign-in page could instruct the user agent to either autofill a saved password,\n-   or show a <span>public key credential</span> that will resolve a pending\n-   <code>navigator.credentials.get()</code> request. A user can select either to sign-in.</p>\n-\n-   <pre><code class=\"html\">&lt;input name=password type=password autocomplete=\"current-password webauthn\"></code></pre>\n-  </div>\n-\n-  <p>The <span>autofill scope</span> identifies the group of fields whose information concerns the\n-  same subject, and consists of the <span>autofill hint set</span> with, if\n-  applicable, the \"<code data-x=\"\">section-*</code>\" prefix, e.g. \"<code data-x=\"\">billing</code>\",\n-  \"<code data-x=\"\">section-parent shipping</code>\", or \"<code data-x=\"\">section-child shipping\n-  home</code>\".</p>\n-\n-  <p>These values are defined as the result of running the following algorithm:</p>\n-\n+  <p>The <dfn noexport>algorithm to determine a field's category</dfn> takes a <var>field</var>\n+  parameter and is as follows:</p>\n   <ol>\n-   <li><p>If the element has no <code data-x=\"attr-fe-autocomplete\">autocomplete</code> attribute,\n-   then jump to the step labeled <i>default</i>.</p></li>\n-\n-   <li><p>Let <var>tokens</var> be the result of <span data-x=\"split a string on ASCII\n-   whitespace\">splitting the attribute's value on ASCII whitespace</span>.</p></li>\n-\n-   <li><p>If <var>tokens</var> is empty, then jump to the step labeled\n-   <i>default</i>.</p></li>\n-\n-   <li><p>Let <var>index</var> be the index of the last token in <var>tokens</var>.</p></li>\n-\n    <li>\n-    <p>If the <var>index</var>th token in <var>tokens</var> is not an <span>ASCII\n-    case-insensitive</span> match for one of the tokens given in the first column of the following\n-    table, or if the number of tokens in <var>tokens</var> is greater than the maximum\n-    number given in the cell in the second column of that token's row, then jump to the step labeled\n-    <i>default</i>. Otherwise, let <var>field</var> be the string given in the cell of the\n-    first column of the matching row, and let <var>category</var> be the value of the cell\n-    in the third column of that same row.</p>\n+    <p>If the <var>field</var> is not an <span>ASCII case-insensitive</span> match for one of the\n+    tokens given in the first column of the following table, return empty.</p>",
+    "path": "source",
+    "commit_id": "5bac62e8d013b695e0a10d71fa80a18e1af10ae3",
+    "original_commit_id": "a7af3b9369543641264d410557457368687b5075",
+    "user": {
+      "login": "nsatragno",
+      "id": 2953655,
+      "node_id": "MDQ6VXNlcjI5NTM2NTU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2953655?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nsatragno",
+      "html_url": "https://github.com/nsatragno",
+      "followers_url": "https://api.github.com/users/nsatragno/followers",
+      "following_url": "https://api.github.com/users/nsatragno/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nsatragno/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nsatragno/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nsatragno/subscriptions",
+      "organizations_url": "https://api.github.com/users/nsatragno/orgs",
+      "repos_url": "https://api.github.com/users/nsatragno/repos",
+      "events_url": "https://api.github.com/users/nsatragno/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nsatragno/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2022-09-06T15:08:46Z",
+    "updated_at": "2022-09-06T15:08:47Z",
+    "html_url": "https://github.com/whatwg/html/pull/8232#discussion_r963829555",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8232",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/963829555"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8232#discussion_r963829555"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8232"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/963829555/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 55653,
+    "side": "RIGHT",
+    "in_reply_to_id": 962446560,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 63,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/963831708",
+    "pull_request_review_id": 1097775270,
+    "id": 963831708,
+    "node_id": "PRRC_kwDOALaj4845cuec",
+    "diff_hunk": "@@ -55971,9 +55985,25 @@ MIT Room 32-G524\n     data-x=\"attr-fe-autocomplete-webauthn\">webauthn</code>\", then run the substeps that follow:</p>\n     <ol>\n      <li><p>Set <var>credential type</var> to \"<code data-x=\"\">webauthn</code>\".</p></li>\n+\n      <li><p>If the <var>index</var>th token in <var>tokens</var> is the first entry,\n      then skip to the step labeled <i>done</i>.</p></li>\n+\n      <li><p>Decrement <var>index</var> by one.</p></li>\n+\n+     <li><p>Let the <var>category</var>, <var>maximum tokens</var> pair be the result of executing\n+     the <code data-x=\"dom-window-postMessage\">algorithm to determine a field's category</code> with",
+    "path": "source",
+    "commit_id": "5bac62e8d013b695e0a10d71fa80a18e1af10ae3",
+    "original_commit_id": "a7af3b9369543641264d410557457368687b5075",
+    "user": {
+      "login": "nsatragno",
+      "id": 2953655,
+      "node_id": "MDQ6VXNlcjI5NTM2NTU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2953655?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nsatragno",
+      "html_url": "https://github.com/nsatragno",
+      "followers_url": "https://api.github.com/users/nsatragno/followers",
+      "following_url": "https://api.github.com/users/nsatragno/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nsatragno/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nsatragno/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nsatragno/subscriptions",
+      "organizations_url": "https://api.github.com/users/nsatragno/orgs",
+      "repos_url": "https://api.github.com/users/nsatragno/repos",
+      "events_url": "https://api.github.com/users/nsatragno/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nsatragno/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I didn't totally copy paste this from somewhere else, no sir!\r\n\r\nDone.",
+    "created_at": "2022-09-06T15:10:35Z",
+    "updated_at": "2022-09-06T15:10:35Z",
+    "html_url": "https://github.com/whatwg/html/pull/8232#discussion_r963831708",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8232",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/963831708"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8232#discussion_r963831708"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8232"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/963831708/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 55995,
+    "side": "RIGHT",
+    "in_reply_to_id": 962446972,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 149,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/963832362",
+    "pull_request_review_id": 1097776221,
+    "id": 963832362,
+    "node_id": "PRRC_kwDOALaj4845cuoq",
+    "diff_hunk": "@@ -55971,9 +55985,25 @@ MIT Room 32-G524\n     data-x=\"attr-fe-autocomplete-webauthn\">webauthn</code>\", then run the substeps that follow:</p>\n     <ol>\n      <li><p>Set <var>credential type</var> to \"<code data-x=\"\">webauthn</code>\".</p></li>\n+\n      <li><p>If the <var>index</var>th token in <var>tokens</var> is the first entry,\n      then skip to the step labeled <i>done</i>.</p></li>\n+\n      <li><p>Decrement <var>index</var> by one.</p></li>\n+\n+     <li><p>Let the <var>category</var>, <var>maximum tokens</var> pair be the result of executing\n+     the <code data-x=\"dom-window-postMessage\">algorithm to determine a field's category</code> with\n+     the <var>index</var>th token in <var>tokens</var>.</p></li>\n+\n+     <li><p>If <var>category</var> is not Normal and <var>category</var> is not Contact, then jump to\n+     the step labeled <i>default</i>.</p></li>\n+\n+     <li><p>If <var>index</var> is greater than <var>maximum tokens</var> minus one (i.e. if the\n+     number of remaining tokens is greater than <var>maximum tokens</var>), then jump to the step\n+     labeled <i>default</i>.</p></li>\n+\n+     <li><p>Let <var>IDL value</var> be the concatenation of the <var>index</var>th token in",
+    "path": "source",
+    "commit_id": "5bac62e8d013b695e0a10d71fa80a18e1af10ae3",
+    "original_commit_id": "a7af3b9369543641264d410557457368687b5075",
+    "user": {
+      "login": "nsatragno",
+      "id": 2953655,
+      "node_id": "MDQ6VXNlcjI5NTM2NTU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2953655?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nsatragno",
+      "html_url": "https://github.com/nsatragno",
+      "followers_url": "https://api.github.com/users/nsatragno/followers",
+      "following_url": "https://api.github.com/users/nsatragno/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nsatragno/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nsatragno/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nsatragno/subscriptions",
+      "organizations_url": "https://api.github.com/users/nsatragno/orgs",
+      "repos_url": "https://api.github.com/users/nsatragno/repos",
+      "events_url": "https://api.github.com/users/nsatragno/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nsatragno/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2022-09-06T15:11:11Z",
+    "updated_at": "2022-09-06T15:11:11Z",
+    "html_url": "https://github.com/whatwg/html/pull/8232#discussion_r963832362",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8232",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/963832362"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8232#discussion_r963832362"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8232"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/963832362/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 56005,
+    "side": "RIGHT",
+    "in_reply_to_id": 962447208,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 159,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/963833097",
+    "pull_request_review_id": 1097777310,
+    "id": 963833097,
+    "node_id": "PRRC_kwDOALaj4845cu0J",
+    "diff_hunk": "@@ -55971,9 +55985,25 @@ MIT Room 32-G524\n     data-x=\"attr-fe-autocomplete-webauthn\">webauthn</code>\", then run the substeps that follow:</p>\n     <ol>\n      <li><p>Set <var>credential type</var> to \"<code data-x=\"\">webauthn</code>\".</p></li>\n+\n      <li><p>If the <var>index</var>th token in <var>tokens</var> is the first entry,\n      then skip to the step labeled <i>done</i>.</p></li>\n+\n      <li><p>Decrement <var>index</var> by one.</p></li>\n+\n+     <li><p>Let the <var>category</var>, <var>maximum tokens</var> pair be the result of executing\n+     the <code data-x=\"dom-window-postMessage\">algorithm to determine a field's category</code> with\n+     the <var>index</var>th token in <var>tokens</var>.</p></li>\n+\n+     <li><p>If <var>category</var> is not Normal and <var>category</var> is not Contact, then jump to\n+     the step labeled <i>default</i>.</p></li>\n+\n+     <li><p>If <var>index</var> is greater than <var>maximum tokens</var> minus one (i.e. if the\n+     number of remaining tokens is greater than <var>maximum tokens</var>), then jump to the step\n+     labeled <i>default</i>.</p></li>\n+\n+     <li><p>Let <var>IDL value</var> be the concatenation of the <var>index</var>th token in\n+     <var>tokens</var>, a U+0020 SPACE character, and the previous value of <var>IDL value</var>.",
+    "path": "source",
+    "commit_id": "5bac62e8d013b695e0a10d71fa80a18e1af10ae3",
+    "original_commit_id": "a7af3b9369543641264d410557457368687b5075",
+    "user": {
+      "login": "nsatragno",
+      "id": 2953655,
+      "node_id": "MDQ6VXNlcjI5NTM2NTU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2953655?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nsatragno",
+      "html_url": "https://github.com/nsatragno",
+      "followers_url": "https://api.github.com/users/nsatragno/followers",
+      "following_url": "https://api.github.com/users/nsatragno/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nsatragno/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nsatragno/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nsatragno/subscriptions",
+      "organizations_url": "https://api.github.com/users/nsatragno/orgs",
+      "repos_url": "https://api.github.com/users/nsatragno/repos",
+      "events_url": "https://api.github.com/users/nsatragno/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nsatragno/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2022-09-06T15:11:49Z",
+    "updated_at": "2022-09-06T15:11:49Z",
+    "html_url": "https://github.com/whatwg/html/pull/8232#discussion_r963833097",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8232",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/963833097"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8232#discussion_r963833097"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8232"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/963833097/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 56006,
+    "side": "RIGHT",
+    "in_reply_to_id": 962447241,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 160,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/963834289",
+    "pull_request_review_id": 1097779057,
+    "id": 963834289,
+    "node_id": "PRRC_kwDOALaj4845cvGx",
+    "diff_hunk": "@@ -55943,6 +55893,70 @@ MIT Room 32-G524\n     </table>\n    </li>\n \n+   <li><p>Otherwise, let <var>maximum tokens</var> and <var>category</var> be the values of the\n+   cells in the second and third columns of that row respectively.</p></li>\n+\n+   <li><p>Return the pair <var>category</var>, <var>maximum tokens</var>.</p></li>\n+  </ol>\n+\n+\n+  <p>Each <code>input</code> element to which the <code data-x=\"attr-fe-autocomplete\">autocomplete</code> attribute <span data-x=\"concept-input-apply\">applies</span>, each <code>select</code> element, and each <code>textarea</code> element, has an",
+    "path": "source",
+    "commit_id": "5bac62e8d013b695e0a10d71fa80a18e1af10ae3",
+    "original_commit_id": "a7af3b9369543641264d410557457368687b5075",
+    "user": {
+      "login": "nsatragno",
+      "id": 2953655,
+      "node_id": "MDQ6VXNlcjI5NTM2NTU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2953655?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nsatragno",
+      "html_url": "https://github.com/nsatragno",
+      "followers_url": "https://api.github.com/users/nsatragno/followers",
+      "following_url": "https://api.github.com/users/nsatragno/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nsatragno/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nsatragno/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nsatragno/subscriptions",
+      "organizations_url": "https://api.github.com/users/nsatragno/orgs",
+      "repos_url": "https://api.github.com/users/nsatragno/repos",
+      "events_url": "https://api.github.com/users/nsatragno/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nsatragno/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I moved the table with respect to this text, so it was either showing this on the diff, or the large table I guess.",
+    "created_at": "2022-09-06T15:12:52Z",
+    "updated_at": "2022-09-06T15:12:52Z",
+    "html_url": "https://github.com/whatwg/html/pull/8232#discussion_r963834289",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8232",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/963834289"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8232#discussion_r963834289"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8232"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/963834289/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 55903,
+    "side": "RIGHT",
+    "in_reply_to_id": 962447380,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 78,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

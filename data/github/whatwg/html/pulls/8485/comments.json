@@ -1,0 +1,287 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1017326156",
+    "pull_request_review_id": 1173142312,
+    "id": 1017326156,
+    "node_id": "PRRC_kwDOALaj4848oypM",
+    "diff_hunk": "@@ -90337,12 +90337,34 @@ location.href = '#foo';</code></pre>\n \n   <h6>Non-fetch schemes and external software</h6>\n \n-  <p>One input to <span>attempt to create a non-fetch scheme document</span> is the <dfn>non-fetch\n+  <p>The input to <span>attempt to create a non-fetch scheme document</span> is the <dfn>non-fetch\n   scheme navigation params</dfn> <span>struct</span>. It is a light weight version of\n   <span>navigation params</span> which only carries parameters relevant to the non-<span>fetch\n   scheme</span> navigation case. It has the following <span data-x=\"struct item\">items</span>:</p>\n \n   <dl>\n+   <dt><dfn data-x=\"non-fetch-scheme-params-url\">url</dfn></dt>\n+   <dd>a <span>URL</span></dd>\n+\n+   <dt><dfn data-x=\"non-fetch-scheme-params-navigable\">navigable</dfn></dt>\n+   <dd>the <span>navigable</span> experiencing the navigation</dd>\n+\n+   <dt><dfn data-x=\"non-fetch-scheme-params-target-sandbox\">target snapshot sandboxing flags</dfn></dt>",
+    "path": "source",
+    "commit_id": "9bd462d4de874257fa4133e265133ce172fec4d9",
+    "original_commit_id": "5eaeb1a7993e50af3dcbbceaf4037a9436225978",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Let me know if you want more concise names for this and the \"source snapshot has transient activation\" boolean below. I decided to make these more verbose to capture (in the name) that these are really just copies of the ones in the existing structs, but bundled here for this navigation sub-case.",
+    "created_at": "2022-11-09T02:02:48Z",
+    "updated_at": "2022-11-09T02:04:02Z",
+    "html_url": "https://github.com/whatwg/html/pull/8485#discussion_r1017326156",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8485",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1017326156"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8485#discussion_r1017326156"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8485"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1017326156/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 90352,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 17,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1017326603",
+    "pull_request_review_id": 1173142312,
+    "id": 1017326603,
+    "node_id": "PRRC_kwDOALaj4848oywL",
+    "diff_hunk": "@@ -90358,21 +90380,27 @@ location.href = '#foo';</code></pre>\n   </dl>\n \n   <p id=\"process-a-navigate-url-scheme\">To <dfn>attempt to create a non-fetch scheme document</dfn>,\n-  given a <span>URL</span> <var>url</var>, a <span>navigable</span> <var>navigable</var>, a\n-  <span>sandboxing flag set</span> <var>sandboxFlags</var>, a <span>navigation ID</span>\n-  <var>navigationId</var>, a <code>NavigationTimingType</code> <var>navTimingType</var>, a boolean\n-  <var>hasTransientActivation</var>, and an <span>origin</span> <var>initiatorOrigin</var>:</p>\n+  given a <span>non-fetch scheme navigation params</span> <var>navigationParams</var>:</p>\n \n   <ol>\n+   <li>Let <var>url</var> be <var>navigationParams</var>'s <span\n+   data-x=\"non-fetch-scheme-params-url\">url</span>.</li>\n+\n+   <li>Let <var>navigable</var> be <var>navigationParams</var>'s <span\n+   data-x=\"non-fetch-scheme-params-navigable\">navigable</span>.</li>",
+    "path": "source",
+    "commit_id": "9bd462d4de874257fa4133e265133ce172fec4d9",
+    "original_commit_id": "5eaeb1a7993e50af3dcbbceaf4037a9436225978",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "\"url\" and \"navigable\" seemed to be used the most in this algorithm so I decided to pull these two out in separate variables, but leave the others alone, manually referencing them by `<var>navigationParams</var>'s [...]`. Happy to adjust if you want.",
+    "created_at": "2022-11-09T02:03:40Z",
+    "updated_at": "2022-11-09T02:04:02Z",
+    "html_url": "https://github.com/whatwg/html/pull/8485#discussion_r1017326603",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8485",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1017326603"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8485#discussion_r1017326603"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8485"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1017326603/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 90390,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 51,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1018676734",
+    "pull_request_review_id": 1175110081,
+    "id": 1018676734,
+    "node_id": "PRRC_kwDOALaj4848t8X-",
+    "diff_hunk": "@@ -90337,12 +90337,34 @@ location.href = '#foo';</code></pre>\n \n   <h6>Non-fetch schemes and external software</h6>\n \n-  <p>One input to <span>attempt to create a non-fetch scheme document</span> is the <dfn>non-fetch\n+  <p>The input to <span>attempt to create a non-fetch scheme document</span> is the <dfn>non-fetch\n   scheme navigation params</dfn> <span>struct</span>. It is a light weight version of\n   <span>navigation params</span> which only carries parameters relevant to the non-<span>fetch\n   scheme</span> navigation case. It has the following <span data-x=\"struct item\">items</span>:</p>\n \n   <dl>\n+   <dt><dfn data-x=\"non-fetch-scheme-params-url\">url</dfn></dt>",
+    "path": "source",
+    "commit_id": "9bd462d4de874257fa4133e265133ce172fec4d9",
+    "original_commit_id": "5eaeb1a7993e50af3dcbbceaf4037a9436225978",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n   <dt><dfn data-x=\"non-fetch-scheme-params-url\">URL</dfn></dt>\r\n```\r\n\r\n(and at call sites)",
+    "created_at": "2022-11-10T05:48:00Z",
+    "updated_at": "2022-11-10T06:09:27Z",
+    "html_url": "https://github.com/whatwg/html/pull/8485#discussion_r1018676734",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8485",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1018676734"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8485#discussion_r1018676734"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8485"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1018676734/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 90346,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 11,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1018679048",
+    "pull_request_review_id": 1175110081,
+    "id": 1018679048,
+    "node_id": "PRRC_kwDOALaj4848t88I",
+    "diff_hunk": "@@ -90337,12 +90337,34 @@ location.href = '#foo';</code></pre>\n \n   <h6>Non-fetch schemes and external software</h6>\n \n-  <p>One input to <span>attempt to create a non-fetch scheme document</span> is the <dfn>non-fetch\n+  <p>The input to <span>attempt to create a non-fetch scheme document</span> is the <dfn>non-fetch\n   scheme navigation params</dfn> <span>struct</span>. It is a light weight version of\n   <span>navigation params</span> which only carries parameters relevant to the non-<span>fetch\n   scheme</span> navigation case. It has the following <span data-x=\"struct item\">items</span>:</p>\n \n   <dl>\n+   <dt><dfn data-x=\"non-fetch-scheme-params-url\">url</dfn></dt>\n+   <dd>a <span>URL</span></dd>\n+\n+   <dt><dfn data-x=\"non-fetch-scheme-params-navigable\">navigable</dfn></dt>\n+   <dd>the <span>navigable</span> experiencing the navigation</dd>\n+\n+   <dt><dfn data-x=\"non-fetch-scheme-params-target-sandbox\">target snapshot sandboxing flags</dfn></dt>",
+    "path": "source",
+    "commit_id": "9bd462d4de874257fa4133e265133ce172fec4d9",
+    "original_commit_id": "5eaeb1a7993e50af3dcbbceaf4037a9436225978",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I don't think they're copies; they're references, at least in theory. That is, if someone modified the snapshot params sandboxing flags, that would update the ones in the non-fetch scheme navigation params.\r\n\r\nI think that's fine; we can just remove the \"a copy of\" prefix in their descriptions.",
+    "created_at": "2022-11-10T05:52:50Z",
+    "updated_at": "2022-11-10T06:09:27Z",
+    "html_url": "https://github.com/whatwg/html/pull/8485#discussion_r1018679048",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8485",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1018679048"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8485#discussion_r1018679048"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8485"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1018679048/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 90352,
+    "side": "RIGHT",
+    "in_reply_to_id": 1017326156,
+    "author_association": "MEMBER",
+    "original_position": 17,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

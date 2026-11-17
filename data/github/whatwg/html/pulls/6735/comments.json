@@ -1,0 +1,503 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/653358662",
+    "pull_request_review_id": 686034610,
+    "id": 653358662,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY1MzM1ODY2Mg==",
+    "diff_hunk": "@@ -47830,15 +47830,30 @@ ldh-str       = &lt; as defined in <a href=\"https://tools.ietf.org/html/rfc1034#\n      <li><p>Optionally, wait until any prior execution of this algorithm has terminated.</p></li>\n \n      <li><p>Display a prompt to the user requesting that the user specify some files. If the <code\n-     data-x=\"attr-input-multiple\">multiple</code> attribute is not set, there must be no more than\n-     one file selected; otherwise, any number may be selected. Files can be from the filesystem or\n-     created on the fly, e.g., a picture taken from a camera connected to the user's\n-     device.</p></li>\n+     data-x=\"attr-input-multiple\">multiple</code> attribute is not set on <var>element</var>, there\n+     must be no more than one file selected; otherwise, any number may be selected. Files can be\n+     from the filesystem or created on the fly, e.g., a picture taken from a camera connected to the\n+     user's device.</p></li>\n \n      <li><p>Wait for the user to have made their selection.</p></li>\n \n-     <li><p><span>Update the file selection</span> for the <code>input</code> element.</p></li>\n+     <li><p>If the user dismissed the prompt without changing their selection, then <span>queue an\n+     element task</span> on the <span>user interaction task source</span> given <var>element</var>\n+     to <span data-x=\"concept-event-fire\">fire an event</span> named <code\n+     data-x=\"event-cancel\">cancel</code> at <var>element</var>.</p></li>\n+\n+     <li><p>Otherwise, <span>update the file selection</span> for <var>element</var>.</p></li>\n     </ol>\n+\n+    <p class=\"note\">As with all user interface specifications, user agents have a good deal of\n+    freedom in how they interpret these requirements. The above text implies that a user either\n+    dismisses the prompt (in which case <code data-x=\"event-cancel\">cancel</code> fires) or changes\n+    their selection (in which case <code data-x=\"event-input\">input</code> and <code\n+    data-x=\"event-change\">change</code> fire); exactly one of these will be true. But the mapping of\n+    these possibilities to specific user interface elements is not mandated by the standard. For\n+    example, a user agent might interpret clicking the \"Cancel\" button when files were previously\n+    selected as a change of selection to select zero files. Or it might interpret such a click as a\n+    dismissal that leaves the selection unchanged.</p>",
+    "path": "source",
+    "commit_id": "5b15293a81f41012a2da7f83b4160eca0aed1c58",
+    "original_commit_id": "3c37dfbe0b08b8c2038061b2074b1c9ea87c7970",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This is a great note, but I think it would be even better if it explicitly stated what events end up being fired in these last two sentences, to remove any doubt the reader might have.",
+    "created_at": "2021-06-17T08:46:08Z",
+    "updated_at": "2021-06-17T08:49:56Z",
+    "html_url": "https://github.com/whatwg/html/pull/6735#discussion_r653358662",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/6735",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/653358662"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/6735#discussion_r653358662"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/6735"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/653358662/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 47856,
+    "original_line": 47856,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 47,
+    "position": 47,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/653358896",
+    "pull_request_review_id": 686034610,
+    "id": 653358896,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY1MzM1ODg5Ng==",
+    "diff_hunk": "@@ -123468,8 +123483,8 @@ INSERT INTERFACES HERE\n     <tr> <!-- cancel -->\n      <td> <dfn event for=\"HTMLElement\"><code data-x=\"event-cancel\">cancel</code></dfn>\n      <td> <code>Event</code>\n-     <td> <code>dialog</code> elements\n-     <td> Fired at <code>dialog</code> elements when they are canceled by the user (e.g. by pressing the Escape key)\n+     <td> <code>dialog</code> elements, <code>input</code> elements\n+     <td> Fired at <code>dialog</code> elements when they are canceled by the user (e.g. by pressing the Escape key), or at <code>input</code> elements in the <span data-x=\"attr-input-type-file\">File</span> state when the user does not change their selection",
+    "path": "source",
+    "commit_id": "5b15293a81f41012a2da7f83b4160eca0aed1c58",
+    "original_commit_id": "3c37dfbe0b08b8c2038061b2074b1c9ea87c7970",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n     <td> Fired at <code>dialog</code> elements when they are canceled by the user (e.g., by pressing the Escape key), or at <code>input</code> elements in the <span data-x=\"attr-input-type-file\">File</span> state when the user does not change their selection\r\n```",
+    "created_at": "2021-06-17T08:46:25Z",
+    "updated_at": "2021-06-17T08:49:56Z",
+    "html_url": "https://github.com/whatwg/html/pull/6735#discussion_r653358896",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/6735",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/653358896"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/6735#discussion_r653358896"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/6735"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/653358896/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 123487,
+    "original_line": 123487,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 58,
+    "position": 56,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/665780374",
+    "pull_request_review_id": 701536716,
+    "id": 665780374,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2NTc4MDM3NA==",
+    "diff_hunk": "@@ -47830,15 +47830,30 @@ ldh-str       = &lt; as defined in <a href=\"https://tools.ietf.org/html/rfc1034#\n      <li><p>Optionally, wait until any prior execution of this algorithm has terminated.</p></li>\n \n      <li><p>Display a prompt to the user requesting that the user specify some files. If the <code\n-     data-x=\"attr-input-multiple\">multiple</code> attribute is not set, there must be no more than\n-     one file selected; otherwise, any number may be selected. Files can be from the filesystem or\n-     created on the fly, e.g., a picture taken from a camera connected to the user's\n-     device.</p></li>\n+     data-x=\"attr-input-multiple\">multiple</code> attribute is not set on <var>element</var>, there\n+     must be no more than one file selected; otherwise, any number may be selected. Files can be\n+     from the filesystem or created on the fly, e.g., a picture taken from a camera connected to the\n+     user's device.</p></li>\n \n      <li><p>Wait for the user to have made their selection.</p></li>\n \n-     <li><p><span>Update the file selection</span> for the <code>input</code> element.</p></li>\n+     <li><p>If the user dismissed the prompt without changing their selection, then <span>queue an",
+    "path": "source",
+    "commit_id": "5b15293a81f41012a2da7f83b4160eca0aed1c58",
+    "original_commit_id": "6989420e6f95ffe70c21fb36e75dd471807a5b3a",
+    "user": {
+      "login": "mfreed7",
+      "id": 29559695,
+      "node_id": "MDQ6VXNlcjI5NTU5Njk1",
+      "avatar_url": "https://avatars.githubusercontent.com/u/29559695?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mfreed7",
+      "html_url": "https://github.com/mfreed7",
+      "followers_url": "https://api.github.com/users/mfreed7/followers",
+      "following_url": "https://api.github.com/users/mfreed7/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mfreed7/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mfreed7/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mfreed7/subscriptions",
+      "organizations_url": "https://api.github.com/users/mfreed7/orgs",
+      "repos_url": "https://api.github.com/users/mfreed7/repos",
+      "events_url": "https://api.github.com/users/mfreed7/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mfreed7/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Do we need to be more specific here? As written, this would fire \"cancel\" if a user selected a file, clicked OK, re-opened the file picker, selected the same file again, and clicked OK. In that case, the selection \"would not be changed\". Is that intentional? If so, perhaps this case could be explicitly folded into the new note below.",
+    "created_at": "2021-07-08T00:02:48Z",
+    "updated_at": "2021-07-08T00:02:49Z",
+    "html_url": "https://github.com/whatwg/html/pull/6735#discussion_r665780374",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/6735",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/665780374"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/6735#discussion_r665780374"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/6735"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/665780374/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 47840,
+    "original_line": 47840,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 31,
+    "position": 31,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/666350522",
+    "pull_request_review_id": 702277673,
+    "id": 666350522,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2NjM1MDUyMg==",
+    "diff_hunk": "@@ -47830,15 +47830,30 @@ ldh-str       = &lt; as defined in <a href=\"https://tools.ietf.org/html/rfc1034#\n      <li><p>Optionally, wait until any prior execution of this algorithm has terminated.</p></li>\n \n      <li><p>Display a prompt to the user requesting that the user specify some files. If the <code\n-     data-x=\"attr-input-multiple\">multiple</code> attribute is not set, there must be no more than\n-     one file selected; otherwise, any number may be selected. Files can be from the filesystem or\n-     created on the fly, e.g., a picture taken from a camera connected to the user's\n-     device.</p></li>\n+     data-x=\"attr-input-multiple\">multiple</code> attribute is not set on <var>element</var>, there\n+     must be no more than one file selected; otherwise, any number may be selected. Files can be\n+     from the filesystem or created on the fly, e.g., a picture taken from a camera connected to the\n+     user's device.</p></li>\n \n      <li><p>Wait for the user to have made their selection.</p></li>\n \n-     <li><p><span>Update the file selection</span> for the <code>input</code> element.</p></li>\n+     <li><p>If the user dismissed the prompt without changing their selection, then <span>queue an",
+    "path": "source",
+    "commit_id": "5b15293a81f41012a2da7f83b4160eca0aed1c58",
+    "original_commit_id": "6989420e6f95ffe70c21fb36e75dd471807a5b3a",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Yeah, I think that's right. Such a case would fire \"cancel\" and not \"change\", since nothing changed. I'll add it to the example.",
+    "created_at": "2021-07-08T16:32:50Z",
+    "updated_at": "2021-07-08T16:32:50Z",
+    "html_url": "https://github.com/whatwg/html/pull/6735#discussion_r666350522",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/6735",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/666350522"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/6735#discussion_r666350522"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/6735"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/666350522/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 47840,
+    "original_line": 47840,
+    "side": "RIGHT",
+    "in_reply_to_id": 665780374,
+    "author_association": "MEMBER",
+    "original_position": 31,
+    "position": 31,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/666354088",
+    "pull_request_review_id": 702282489,
+    "id": 666354088,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2NjM1NDA4OA==",
+    "diff_hunk": "@@ -47830,15 +47830,30 @@ ldh-str       = &lt; as defined in <a href=\"https://tools.ietf.org/html/rfc1034#\n      <li><p>Optionally, wait until any prior execution of this algorithm has terminated.</p></li>\n \n      <li><p>Display a prompt to the user requesting that the user specify some files. If the <code\n-     data-x=\"attr-input-multiple\">multiple</code> attribute is not set, there must be no more than\n-     one file selected; otherwise, any number may be selected. Files can be from the filesystem or\n-     created on the fly, e.g., a picture taken from a camera connected to the user's\n-     device.</p></li>\n+     data-x=\"attr-input-multiple\">multiple</code> attribute is not set on <var>element</var>, there\n+     must be no more than one file selected; otherwise, any number may be selected. Files can be\n+     from the filesystem or created on the fly, e.g., a picture taken from a camera connected to the\n+     user's device.</p></li>\n \n      <li><p>Wait for the user to have made their selection.</p></li>\n \n-     <li><p><span>Update the file selection</span> for the <code>input</code> element.</p></li>\n+     <li><p>If the user dismissed the prompt without changing their selection, then <span>queue an",
+    "path": "source",
+    "commit_id": "5b15293a81f41012a2da7f83b4160eca0aed1c58",
+    "original_commit_id": "6989420e6f95ffe70c21fb36e75dd471807a5b3a",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Hmm, well, it kind of depends; something might have changed, since maybe the files changed on disk? But I don't think the event should need to branch on that.\r\n\r\nSo I guess now I'm thinking it's up to the UA. As long as it picks one of the two events it's OK. I'll try to come up with some phrasing...",
+    "created_at": "2021-07-08T16:37:57Z",
+    "updated_at": "2021-07-08T16:37:57Z",
+    "html_url": "https://github.com/whatwg/html/pull/6735#discussion_r666354088",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/6735",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/666354088"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/6735#discussion_r666354088"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/6735"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/666354088/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 47840,
+    "original_line": 47840,
+    "side": "RIGHT",
+    "in_reply_to_id": 665780374,
+    "author_association": "MEMBER",
+    "original_position": 31,
+    "position": 31,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/666406631",
+    "pull_request_review_id": 702351438,
+    "id": 666406631,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2NjQwNjYzMQ==",
+    "diff_hunk": "@@ -47830,15 +47830,30 @@ ldh-str       = &lt; as defined in <a href=\"https://tools.ietf.org/html/rfc1034#\n      <li><p>Optionally, wait until any prior execution of this algorithm has terminated.</p></li>\n \n      <li><p>Display a prompt to the user requesting that the user specify some files. If the <code\n-     data-x=\"attr-input-multiple\">multiple</code> attribute is not set, there must be no more than\n-     one file selected; otherwise, any number may be selected. Files can be from the filesystem or\n-     created on the fly, e.g., a picture taken from a camera connected to the user's\n-     device.</p></li>\n+     data-x=\"attr-input-multiple\">multiple</code> attribute is not set on <var>element</var>, there\n+     must be no more than one file selected; otherwise, any number may be selected. Files can be\n+     from the filesystem or created on the fly, e.g., a picture taken from a camera connected to the\n+     user's device.</p></li>\n \n      <li><p>Wait for the user to have made their selection.</p></li>\n \n-     <li><p><span>Update the file selection</span> for the <code>input</code> element.</p></li>\n+     <li><p>If the user dismissed the prompt without changing their selection, then <span>queue an",
+    "path": "source",
+    "commit_id": "5b15293a81f41012a2da7f83b4160eca0aed1c58",
+    "original_commit_id": "6989420e6f95ffe70c21fb36e75dd471807a5b3a",
+    "user": {
+      "login": "mfreed7",
+      "id": 29559695,
+      "node_id": "MDQ6VXNlcjI5NTU5Njk1",
+      "avatar_url": "https://avatars.githubusercontent.com/u/29559695?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mfreed7",
+      "html_url": "https://github.com/mfreed7",
+      "followers_url": "https://api.github.com/users/mfreed7/followers",
+      "following_url": "https://api.github.com/users/mfreed7/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mfreed7/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mfreed7/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mfreed7/subscriptions",
+      "organizations_url": "https://api.github.com/users/mfreed7/orgs",
+      "repos_url": "https://api.github.com/users/mfreed7/repos",
+      "events_url": "https://api.github.com/users/mfreed7/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mfreed7/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Thinking about this a bit more, I'm thinking the more correct thing would be to fire `change` in this case (re-selecting the same file). The issue is that otherwise, a developer would have no way to detect this situation. There are two possibilities:\r\n\r\n1. Re-selection triggers `cancel`: There is no way to disambiguate re-selection from hitting cancel.\r\n2. Re-selection triggers `change`: The developer can, if they like, store the previously-selected file, and compare them upon receipt of `change`. \r\n\r\nIt seems plausible that a developer might want to do something different when the user clicks \"ok\" vs \"cancel\".",
+    "created_at": "2021-07-08T17:55:51Z",
+    "updated_at": "2021-07-08T17:55:52Z",
+    "html_url": "https://github.com/whatwg/html/pull/6735#discussion_r666406631",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/6735",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/666406631"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/6735#discussion_r666406631"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/6735"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/666406631/reactions",
+      "total_count": 2,
+      "+1": 2,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 47840,
+    "original_line": 47840,
+    "side": "RIGHT",
+    "in_reply_to_id": 665780374,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 31,
+    "position": 31,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/666407462",
+    "pull_request_review_id": 702352582,
+    "id": 666407462,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDY2NjQwNzQ2Mg==",
+    "diff_hunk": "@@ -47830,15 +47830,30 @@ ldh-str       = &lt; as defined in <a href=\"https://tools.ietf.org/html/rfc1034#\n      <li><p>Optionally, wait until any prior execution of this algorithm has terminated.</p></li>\n \n      <li><p>Display a prompt to the user requesting that the user specify some files. If the <code\n-     data-x=\"attr-input-multiple\">multiple</code> attribute is not set, there must be no more than\n-     one file selected; otherwise, any number may be selected. Files can be from the filesystem or\n-     created on the fly, e.g., a picture taken from a camera connected to the user's\n-     device.</p></li>\n+     data-x=\"attr-input-multiple\">multiple</code> attribute is not set on <var>element</var>, there\n+     must be no more than one file selected; otherwise, any number may be selected. Files can be\n+     from the filesystem or created on the fly, e.g., a picture taken from a camera connected to the\n+     user's device.</p></li>\n \n      <li><p>Wait for the user to have made their selection.</p></li>\n \n-     <li><p><span>Update the file selection</span> for the <code>input</code> element.</p></li>\n+     <li><p>If the user dismissed the prompt without changing their selection, then <span>queue an",
+    "path": "source",
+    "commit_id": "5b15293a81f41012a2da7f83b4160eca0aed1c58",
+    "original_commit_id": "6989420e6f95ffe70c21fb36e75dd471807a5b3a",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Yeah, I think that's up to the UA. It seems like a valid user interface to say that if the user didn't change anything (i.e. re-selected the same files), then that *shouldn't* be distinguishable from hitting cancel.",
+    "created_at": "2021-07-08T17:57:09Z",
+    "updated_at": "2021-07-08T17:57:10Z",
+    "html_url": "https://github.com/whatwg/html/pull/6735#discussion_r666407462",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/6735",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/666407462"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/6735#discussion_r666407462"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/6735"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/666407462/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 47840,
+    "original_line": 47840,
+    "side": "RIGHT",
+    "in_reply_to_id": 665780374,
+    "author_association": "MEMBER",
+    "original_position": 31,
+    "position": 31,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

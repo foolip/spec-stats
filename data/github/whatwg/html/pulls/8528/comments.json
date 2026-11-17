@@ -1,0 +1,789 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1027935460",
+    "pull_request_review_id": 1188093425,
+    "id": 1027935460,
+    "node_id": "PRRC_kwDOALaj4849RQzk",
+    "diff_hunk": "@@ -92950,10 +92950,8 @@ location.href = '#foo';</code></pre>\n   <ol>\n    <li>\n     <p>If <var>entry</var>'s <span data-x=\"she-scroll-restoration-mode\">scroll restoration\n-    mode</span> is \"<code data-x=\"dom-ScrollRestoration-auto\">auto</code>\", then the user agent may\n-    use <var>entry</var>'s <span data-x=\"she-scroll-position\">scroll position data</span> to restore\n-    the scroll positions of <var>entry</var>'s <span data-x=\"she-document\">document</span>'s\n-    <span>restorable scrollable regions</span>.</p>\n+    mode</span> is \"<code data-x=\"dom-ScrollRestoration-auto\">auto</code>\", then <span>restore\n+    scroll position data</span> given <var>entry</var>.</p>",
+    "path": "source",
+    "commit_id": "1d4a4a01d08269a3ffbfd5c02d06de130fd9390e",
+    "original_commit_id": "5c446ba705047d910acdc008ebff02ee567ae7dc",
+    "user": {
+      "login": "jakearchibald",
+      "id": 93594,
+      "node_id": "MDQ6VXNlcjkzNTk0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/93594?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jakearchibald",
+      "html_url": "https://github.com/jakearchibald",
+      "followers_url": "https://api.github.com/users/jakearchibald/followers",
+      "following_url": "https://api.github.com/users/jakearchibald/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jakearchibald/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jakearchibald/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jakearchibald/subscriptions",
+      "organizations_url": "https://api.github.com/users/jakearchibald/orgs",
+      "repos_url": "https://api.github.com/users/jakearchibald/repos",
+      "events_url": "https://api.github.com/users/jakearchibald/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jakearchibald/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Any idea why this was a \"may\" before? Did some browsers not want to do it?",
+    "created_at": "2022-11-21T12:10:53Z",
+    "updated_at": "2022-11-21T12:20:21Z",
+    "html_url": "https://github.com/whatwg/html/pull/8528#discussion_r1027935460",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8528",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1027935460"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8528#discussion_r1027935460"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8528"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1027935460/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 92954,
+    "original_line": 92954,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 9,
+    "position": 9,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1027937696",
+    "pull_request_review_id": 1188093425,
+    "id": 1027937696,
+    "node_id": "PRRC_kwDOALaj4849RRWg",
+    "diff_hunk": "@@ -92984,14 +92982,45 @@ location.href = '#foo';</code></pre>\n \n   <hr>\n \n-  <p>The <dfn>restorable scrollable regions</dfn> of a <code>Document</code> <var>document</var> are\n-  <var>document</var>'s <span>viewport</span>, and all of <var>document</var>'s scrollable regions\n-  excepting any <span data-x=\"navigable container\">navigable containers</span>.</p>\n+  <p>Each <code>Document</code> has a boolean <dfn>has been scrolled by the user</dfn>, initially\n+  false. If the user scrolls the document, the user agent must set that document's <span>has been\n+  scrolled by the user</span> to true.</p>\n+\n+  <p>The <dfn>restorable scrollable regions</dfn> of a <code>Document</code> <var>document</var>\n+  are <var>document</var>'s <span>viewport</span>, and all of <var>document</var>'s scrollable\n+  regions excepting any <span data-x=\"navigable container\">navigable containers</span>.</p>\n \n   <p class=\"note\"><span>Child navigable</span> scroll restoration is handled as part of state\n   restoration for the <span>session history entry</span> for those <span\n   data-x=\"navigable\">navigables</span>' <code>Document</code>s.</p>\n \n+  <p>To <dfn>restore scroll position data</dfn> given a <span>session history entry</span>\n+  <var>entry</var>:</p>\n+\n+  <ol>\n+   <li><p>Let <var>document</var> be <var>entry</var>'s <span\n+   data-x=\"she-document\">document</span>.</p></li>\n+\n+   <li><p>If <var>document</var>'s <span>has been scrolled by the user</span> is true, then the\n+   user agent should return.</p></li>",
+    "path": "source",
+    "commit_id": "1d4a4a01d08269a3ffbfd5c02d06de130fd9390e",
+    "original_commit_id": "5c446ba705047d910acdc008ebff02ee567ae7dc",
+    "user": {
+      "login": "jakearchibald",
+      "id": 93594,
+      "node_id": "MDQ6VXNlcjkzNTk0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/93594?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jakearchibald",
+      "html_url": "https://github.com/jakearchibald",
+      "followers_url": "https://api.github.com/users/jakearchibald/followers",
+      "following_url": "https://api.github.com/users/jakearchibald/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jakearchibald/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jakearchibald/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jakearchibald/subscriptions",
+      "organizations_url": "https://api.github.com/users/jakearchibald/orgs",
+      "repos_url": "https://api.github.com/users/jakearchibald/repos",
+      "events_url": "https://api.github.com/users/jakearchibald/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jakearchibald/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "What's the reason for \"the user agent should return\" vs just \"return\"?",
+    "created_at": "2022-11-21T12:13:16Z",
+    "updated_at": "2022-11-21T12:20:21Z",
+    "html_url": "https://github.com/whatwg/html/pull/8528#discussion_r1027937696",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8528",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1027937696"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8528#discussion_r1027937696"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8528"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1027937696/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 93005,
+    "original_line": 93005,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 40,
+    "position": 40,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1027937964",
+    "pull_request_review_id": 1188093425,
+    "id": 1027937964,
+    "node_id": "PRRC_kwDOALaj4849RRas",
+    "diff_hunk": "@@ -92984,14 +92982,45 @@ location.href = '#foo';</code></pre>\n \n   <hr>\n \n-  <p>The <dfn>restorable scrollable regions</dfn> of a <code>Document</code> <var>document</var> are\n-  <var>document</var>'s <span>viewport</span>, and all of <var>document</var>'s scrollable regions\n-  excepting any <span data-x=\"navigable container\">navigable containers</span>.</p>\n+  <p>Each <code>Document</code> has a boolean <dfn>has been scrolled by the user</dfn>, initially\n+  false. If the user scrolls the document, the user agent must set that document's <span>has been\n+  scrolled by the user</span> to true.</p>\n+\n+  <p>The <dfn>restorable scrollable regions</dfn> of a <code>Document</code> <var>document</var>\n+  are <var>document</var>'s <span>viewport</span>, and all of <var>document</var>'s scrollable\n+  regions excepting any <span data-x=\"navigable container\">navigable containers</span>.</p>\n \n   <p class=\"note\"><span>Child navigable</span> scroll restoration is handled as part of state\n   restoration for the <span>session history entry</span> for those <span\n   data-x=\"navigable\">navigables</span>' <code>Document</code>s.</p>\n \n+  <p>To <dfn>restore scroll position data</dfn> given a <span>session history entry</span>\n+  <var>entry</var>:</p>\n+\n+  <ol>\n+   <li><p>Let <var>document</var> be <var>entry</var>'s <span\n+   data-x=\"she-document\">document</span>.</p></li>\n+\n+   <li><p>If <var>document</var>'s <span>has been scrolled by the user</span> is true, then the\n+   user agent should return.</p></li>\n+\n+   <li>\n+    <p>The user agent should attempt to use <var>entry</var>'s <span\n+    data-x=\"she-scroll-position\">scroll position data</span> to restore the scroll positions of\n+    <var>entry</var>'s <span data-x=\"she-document\">document</span>'s <span>restorable scrollable\n+    regions</span>. The user agnet may continue to attempt to do so periodically, until",
+    "path": "source",
+    "commit_id": "1d4a4a01d08269a3ffbfd5c02d06de130fd9390e",
+    "original_commit_id": "5c446ba705047d910acdc008ebff02ee567ae7dc",
+    "user": {
+      "login": "jakearchibald",
+      "id": 93594,
+      "node_id": "MDQ6VXNlcjkzNTk0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/93594?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jakearchibald",
+      "html_url": "https://github.com/jakearchibald",
+      "followers_url": "https://api.github.com/users/jakearchibald/followers",
+      "following_url": "https://api.github.com/users/jakearchibald/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jakearchibald/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jakearchibald/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jakearchibald/subscriptions",
+      "organizations_url": "https://api.github.com/users/jakearchibald/orgs",
+      "repos_url": "https://api.github.com/users/jakearchibald/repos",
+      "events_url": "https://api.github.com/users/jakearchibald/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jakearchibald/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n    regions</span>. The user agent may continue to attempt to do so periodically, until\r\n```",
+    "created_at": "2022-11-21T12:13:34Z",
+    "updated_at": "2022-11-21T12:20:21Z",
+    "html_url": "https://github.com/whatwg/html/pull/8528#discussion_r1027937964",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8528",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1027937964"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8528#discussion_r1027937964"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8528"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1027937964/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 93011,
+    "original_line": 93011,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 46,
+    "position": 46,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1027945964",
+    "pull_request_review_id": 1188093425,
+    "id": 1027945964,
+    "node_id": "PRRC_kwDOALaj4849RTXs",
+    "diff_hunk": "@@ -93874,6 +93903,8 @@ new PaymentRequest(&hellip;); // Allowed to use\n    <span data-x=\"map get the keys\">getting the keys</span> for the\n    <span>map of active timers</span>.</p></li>\n \n+   <li><p>Set <var>oldDocument</var>'s <span>has been scrolled by the user</span> to false.</p></li>",
+    "path": "source",
+    "commit_id": "1d4a4a01d08269a3ffbfd5c02d06de130fd9390e",
+    "original_commit_id": "5c446ba705047d910acdc008ebff02ee567ae7dc",
+    "user": {
+      "login": "jakearchibald",
+      "id": 93594,
+      "node_id": "MDQ6VXNlcjkzNTk0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/93594?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jakearchibald",
+      "html_url": "https://github.com/jakearchibald",
+      "followers_url": "https://api.github.com/users/jakearchibald/followers",
+      "following_url": "https://api.github.com/users/jakearchibald/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jakearchibald/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jakearchibald/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jakearchibald/subscriptions",
+      "organizations_url": "https://api.github.com/users/jakearchibald/orgs",
+      "repos_url": "https://api.github.com/users/jakearchibald/repos",
+      "events_url": "https://api.github.com/users/jakearchibald/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jakearchibald/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Would it be better to name \"has been scrolled by the user\" to something like \"has been scrolled by the user since last becoming the active document\", to reflect this behaviour?",
+    "created_at": "2022-11-21T12:20:18Z",
+    "updated_at": "2022-11-21T12:21:05Z",
+    "html_url": "https://github.com/whatwg/html/pull/8528#discussion_r1027945964",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8528",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1027945964"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8528#discussion_r1027945964"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8528"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1027945964/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 93906,
+    "original_line": 93906,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 66,
+    "position": 66,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1028790844",
+    "pull_request_review_id": 1189276210,
+    "id": 1028790844,
+    "node_id": "PRRC_kwDOALaj4849Uho8",
+    "diff_hunk": "@@ -92950,10 +92950,8 @@ location.href = '#foo';</code></pre>\n   <ol>\n    <li>\n     <p>If <var>entry</var>'s <span data-x=\"she-scroll-restoration-mode\">scroll restoration\n-    mode</span> is \"<code data-x=\"dom-ScrollRestoration-auto\">auto</code>\", then the user agent may\n-    use <var>entry</var>'s <span data-x=\"she-scroll-position\">scroll position data</span> to restore\n-    the scroll positions of <var>entry</var>'s <span data-x=\"she-document\">document</span>'s\n-    <span>restorable scrollable regions</span>.</p>\n+    mode</span> is \"<code data-x=\"dom-ScrollRestoration-auto\">auto</code>\", then <span>restore\n+    scroll position data</span> given <var>entry</var>.</p>",
+    "path": "source",
+    "commit_id": "1d4a4a01d08269a3ffbfd5c02d06de130fd9390e",
+    "original_commit_id": "5c446ba705047d910acdc008ebff02ee567ae7dc",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think so. You can imagine scenarios where that makes sense for a very general class of user agent, beyond just browsers, perhaps? I guess in general we're hesitant to have too many \"must\" requirements around user experience stuff.\r\n\r\nIn this change, I moved the \"may\" into the body of the algorithm.",
+    "created_at": "2022-11-22T03:23:48Z",
+    "updated_at": "2022-11-22T03:23:48Z",
+    "html_url": "https://github.com/whatwg/html/pull/8528#discussion_r1028790844",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8528",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1028790844"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8528#discussion_r1028790844"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8528"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1028790844/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 92954,
+    "original_line": 92954,
+    "side": "RIGHT",
+    "in_reply_to_id": 1027935460,
+    "author_association": "MEMBER",
+    "original_position": 9,
+    "position": 9,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1028791090",
+    "pull_request_review_id": 1189276555,
+    "id": 1028791090,
+    "node_id": "PRRC_kwDOALaj4849Uhsy",
+    "diff_hunk": "@@ -92984,14 +92982,45 @@ location.href = '#foo';</code></pre>\n \n   <hr>\n \n-  <p>The <dfn>restorable scrollable regions</dfn> of a <code>Document</code> <var>document</var> are\n-  <var>document</var>'s <span>viewport</span>, and all of <var>document</var>'s scrollable regions\n-  excepting any <span data-x=\"navigable container\">navigable containers</span>.</p>\n+  <p>Each <code>Document</code> has a boolean <dfn>has been scrolled by the user</dfn>, initially\n+  false. If the user scrolls the document, the user agent must set that document's <span>has been\n+  scrolled by the user</span> to true.</p>\n+\n+  <p>The <dfn>restorable scrollable regions</dfn> of a <code>Document</code> <var>document</var>\n+  are <var>document</var>'s <span>viewport</span>, and all of <var>document</var>'s scrollable\n+  regions excepting any <span data-x=\"navigable container\">navigable containers</span>.</p>\n \n   <p class=\"note\"><span>Child navigable</span> scroll restoration is handled as part of state\n   restoration for the <span>session history entry</span> for those <span\n   data-x=\"navigable\">navigables</span>' <code>Document</code>s.</p>\n \n+  <p>To <dfn>restore scroll position data</dfn> given a <span>session history entry</span>\n+  <var>entry</var>:</p>\n+\n+  <ol>\n+   <li><p>Let <var>document</var> be <var>entry</var>'s <span\n+   data-x=\"she-document\">document</span>.</p></li>\n+\n+   <li><p>If <var>document</var>'s <span>has been scrolled by the user</span> is true, then the\n+   user agent should return.</p></li>",
+    "path": "source",
+    "commit_id": "1d4a4a01d08269a3ffbfd5c02d06de130fd9390e",
+    "original_commit_id": "5c446ba705047d910acdc008ebff02ee567ae7dc",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "By default it's a \"must\". I'm hesitant to make user experience things a \"must\", in general, so I went with \"should\" here.",
+    "created_at": "2022-11-22T03:24:27Z",
+    "updated_at": "2022-11-22T03:24:27Z",
+    "html_url": "https://github.com/whatwg/html/pull/8528#discussion_r1028791090",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8528",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1028791090"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8528#discussion_r1028791090"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8528"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1028791090/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 93005,
+    "original_line": 93005,
+    "side": "RIGHT",
+    "in_reply_to_id": 1027937696,
+    "author_association": "MEMBER",
+    "original_position": 40,
+    "position": 40,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1028791484",
+    "pull_request_review_id": 1189277069,
+    "id": 1028791484,
+    "node_id": "PRRC_kwDOALaj4849Uhy8",
+    "diff_hunk": "@@ -93874,6 +93903,8 @@ new PaymentRequest(&hellip;); // Allowed to use\n    <span data-x=\"map get the keys\">getting the keys</span> for the\n    <span>map of active timers</span>.</p></li>\n \n+   <li><p>Set <var>oldDocument</var>'s <span>has been scrolled by the user</span> to false.</p></li>",
+    "path": "source",
+    "commit_id": "1d4a4a01d08269a3ffbfd5c02d06de130fd9390e",
+    "original_commit_id": "5c446ba705047d910acdc008ebff02ee567ae7dc",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "That would be more accurate. But it's also quite long. I think there's a decent amount of of state that's reset when going into bfcache, and we generally don't name them as such... Still, I'm not really opposed, so if you think it'd be better let me know!",
+    "created_at": "2022-11-22T03:25:28Z",
+    "updated_at": "2022-11-22T03:25:28Z",
+    "html_url": "https://github.com/whatwg/html/pull/8528#discussion_r1028791484",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8528",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1028791484"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8528#discussion_r1028791484"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8528"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1028791484/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 93906,
+    "original_line": 93906,
+    "side": "RIGHT",
+    "in_reply_to_id": 1027945964,
+    "author_association": "MEMBER",
+    "original_position": 66,
+    "position": 66,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1029035296",
+    "pull_request_review_id": 1189618658,
+    "id": 1029035296,
+    "node_id": "PRRC_kwDOALaj4849VdUg",
+    "diff_hunk": "@@ -92984,14 +92982,45 @@ location.href = '#foo';</code></pre>\n \n   <hr>\n \n-  <p>The <dfn>restorable scrollable regions</dfn> of a <code>Document</code> <var>document</var> are\n-  <var>document</var>'s <span>viewport</span>, and all of <var>document</var>'s scrollable regions\n-  excepting any <span data-x=\"navigable container\">navigable containers</span>.</p>\n+  <p>Each <code>Document</code> has a boolean <dfn>has been scrolled by the user</dfn>, initially\n+  false. If the user scrolls the document, the user agent must set that document's <span>has been\n+  scrolled by the user</span> to true.</p>",
+    "path": "source",
+    "commit_id": "1d4a4a01d08269a3ffbfd5c02d06de130fd9390e",
+    "original_commit_id": "1d4a4a01d08269a3ffbfd5c02d06de130fd9390e",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Does this need integration with @zcorpan's CSSOM View stuff? It seems this state change ought to be coordinated with events and the event loop in general. At a minimum I'd expect some kind of TODO comment here.",
+    "created_at": "2022-11-22T08:53:00Z",
+    "updated_at": "2022-11-22T08:56:52Z",
+    "html_url": "https://github.com/whatwg/html/pull/8528#discussion_r1029035296",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8528",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1029035296"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8528#discussion_r1029035296"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8528"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1029035296/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 92987,
+    "original_line": 92987,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 22,
+    "position": 22,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1031277428",
+    "pull_request_review_id": 1192823607,
+    "id": 1031277428,
+    "node_id": "PRRC_kwDOALaj4849eAt0",
+    "diff_hunk": "@@ -93874,6 +93903,8 @@ new PaymentRequest(&hellip;); // Allowed to use\n    <span data-x=\"map get the keys\">getting the keys</span> for the\n    <span>map of active timers</span>.</p></li>\n \n+   <li><p>Set <var>oldDocument</var>'s <span>has been scrolled by the user</span> to false.</p></li>",
+    "path": "source",
+    "commit_id": "1d4a4a01d08269a3ffbfd5c02d06de130fd9390e",
+    "original_commit_id": "5c446ba705047d910acdc008ebff02ee567ae7dc",
+    "user": {
+      "login": "jakearchibald",
+      "id": 93594,
+      "node_id": "MDQ6VXNlcjkzNTk0",
+      "avatar_url": "https://avatars.githubusercontent.com/u/93594?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jakearchibald",
+      "html_url": "https://github.com/jakearchibald",
+      "followers_url": "https://api.github.com/users/jakearchibald/followers",
+      "following_url": "https://api.github.com/users/jakearchibald/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jakearchibald/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jakearchibald/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jakearchibald/subscriptions",
+      "organizations_url": "https://api.github.com/users/jakearchibald/orgs",
+      "repos_url": "https://api.github.com/users/jakearchibald/repos",
+      "events_url": "https://api.github.com/users/jakearchibald/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jakearchibald/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "If it generally isn't covered in the naming… why start now? 😄 ",
+    "created_at": "2022-11-24T09:31:24Z",
+    "updated_at": "2022-11-24T09:31:24Z",
+    "html_url": "https://github.com/whatwg/html/pull/8528#discussion_r1031277428",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8528",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1031277428"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8528#discussion_r1031277428"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8528"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1031277428/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 93906,
+    "original_line": 93906,
+    "side": "RIGHT",
+    "in_reply_to_id": 1027945964,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 66,
+    "position": 66,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1040150261",
+    "pull_request_review_id": 1205365807,
+    "id": 1040150261,
+    "node_id": "PRRC_kwDOALaj4849_271",
+    "diff_hunk": "@@ -92984,14 +92982,45 @@ location.href = '#foo';</code></pre>\n \n   <hr>\n \n-  <p>The <dfn>restorable scrollable regions</dfn> of a <code>Document</code> <var>document</var> are\n-  <var>document</var>'s <span>viewport</span>, and all of <var>document</var>'s scrollable regions\n-  excepting any <span data-x=\"navigable container\">navigable containers</span>.</p>\n+  <p>Each <code>Document</code> has a boolean <dfn>has been scrolled by the user</dfn>, initially\n+  false. If the user scrolls the document, the user agent must set that document's <span>has been\n+  scrolled by the user</span> to true.</p>",
+    "path": "source",
+    "commit_id": "1d4a4a01d08269a3ffbfd5c02d06de130fd9390e",
+    "original_commit_id": "1d4a4a01d08269a3ffbfd5c02d06de130fd9390e",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "https://w3c.github.io/csswg-drafts/cssom-view/#document-run-the-scroll-steps is called by https://html.spec.whatwg.org/multipage/webappapis.html#event-loop-processing-model step 7.8.\r\n\r\nMaybe file an issue about this?",
+    "created_at": "2022-12-05T22:06:38Z",
+    "updated_at": "2022-12-05T22:06:38Z",
+    "html_url": "https://github.com/whatwg/html/pull/8528#discussion_r1040150261",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8528",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1040150261"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8528#discussion_r1040150261"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8528"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1040150261/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 92987,
+    "original_line": 92987,
+    "side": "RIGHT",
+    "in_reply_to_id": 1029035296,
+    "author_association": "MEMBER",
+    "original_position": 22,
+    "position": 22,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1057176939",
+    "pull_request_review_id": 1230008561,
+    "id": 1057176939,
+    "node_id": "PRRC_kwDOALaj484_Az1r",
+    "diff_hunk": "@@ -92984,14 +92982,45 @@ location.href = '#foo';</code></pre>\n \n   <hr>\n \n-  <p>The <dfn>restorable scrollable regions</dfn> of a <code>Document</code> <var>document</var> are\n-  <var>document</var>'s <span>viewport</span>, and all of <var>document</var>'s scrollable regions\n-  excepting any <span data-x=\"navigable container\">navigable containers</span>.</p>\n+  <p>Each <code>Document</code> has a boolean <dfn>has been scrolled by the user</dfn>, initially\n+  false. If the user scrolls the document, the user agent must set that document's <span>has been\n+  scrolled by the user</span> to true.</p>",
+    "path": "source",
+    "commit_id": "1d4a4a01d08269a3ffbfd5c02d06de130fd9390e",
+    "original_commit_id": "1d4a4a01d08269a3ffbfd5c02d06de130fd9390e",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done: https://github.com/whatwg/html/issues/8649",
+    "created_at": "2022-12-26T10:15:57Z",
+    "updated_at": "2022-12-26T10:15:58Z",
+    "html_url": "https://github.com/whatwg/html/pull/8528#discussion_r1057176939",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8528",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1057176939"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8528#discussion_r1057176939"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8528"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1057176939/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 92987,
+    "original_line": 92987,
+    "side": "RIGHT",
+    "in_reply_to_id": 1029035296,
+    "author_association": "MEMBER",
+    "original_position": 22,
+    "position": 22,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

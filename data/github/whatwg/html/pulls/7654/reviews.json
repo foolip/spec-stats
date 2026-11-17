@@ -1,0 +1,548 @@
+[
+  {
+    "id": 891327927,
+    "node_id": "PRR_kwDOALaj4841IJW3",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think you need to update the underlying model, at https://html.spec.whatwg.org/#sandboxing . How this section of the spec works is that the keywords get parsed and mapped to a flag set, with some translation, in https://html.spec.whatwg.org/#parse-a-sandboxing-directive:\r\n\r\n- Flags prevent things, whereas keywords allow things. So the flags get set, *unless* the keywords are present.\r\n\r\n- Some keywords are redundant or combine to create the underlying flags. E.g. both `allow-top-navigation` and `allow-top-navigation-by-user-activation` cause the [sandboxed top-level navigation with user activation browsing context flag](https://html.spec.whatwg.org/#sandboxed-top-level-navigation-with-user-activation-browsing-context-flag) to be removed.\r\n\r\nSo I think you'll want some sort of \"sandboxed custom protocol handlers\" flag, which gets removed if any of `allow-top-navigation` or `allow-popups` or `allow-custom-protocols-navigation` are set.\r\n\r\nThe fact that \"hand-off to external software\" uses token keywords, instead of flag names, seems like a preexisting spec bug. The token keywords do not exist at this point, and are not the type of thing which a sandboxing flag set contains.\r\n\r\nI would offer to fix this so that you could build on a better foundation, but since you are going to change the logic here somewhat dramatically, I think it's best if you fix it as part of the same PR.",
+    "state": "CHANGES_REQUESTED",
+    "html_url": "https://github.com/whatwg/html/pull/7654#pullrequestreview-891327927",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7654",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7654#pullrequestreview-891327927"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7654"
+      }
+    },
+    "submitted_at": "2022-02-23T16:27:34Z",
+    "commit_id": "987f48132bf6e930f7f3d103d3f956f021e3e057"
+  },
+  {
+    "id": 892249418,
+    "node_id": "PRR_kwDOALaj4841LqVK",
+    "user": {
+      "login": "ArthurSonzogni",
+      "id": 4759106,
+      "node_id": "MDQ6VXNlcjQ3NTkxMDY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4759106?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ArthurSonzogni",
+      "html_url": "https://github.com/ArthurSonzogni",
+      "followers_url": "https://api.github.com/users/ArthurSonzogni/followers",
+      "following_url": "https://api.github.com/users/ArthurSonzogni/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ArthurSonzogni/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ArthurSonzogni/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ArthurSonzogni/subscriptions",
+      "organizations_url": "https://api.github.com/users/ArthurSonzogni/orgs",
+      "repos_url": "https://api.github.com/users/ArthurSonzogni/repos",
+      "events_url": "https://api.github.com/users/ArthurSonzogni/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ArthurSonzogni/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/7654#pullrequestreview-892249418",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7654",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7654#pullrequestreview-892249418"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7654"
+      }
+    },
+    "submitted_at": "2022-02-24T10:26:49Z",
+    "commit_id": "ceae01d2c07ed2787cc7dc4baf97d2d845a31cbd"
+  },
+  {
+    "id": 894548701,
+    "node_id": "PRR_kwDOALaj4841Ubrd",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Looks great, just nits and grammar suggestions!",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/7654#pullrequestreview-894548701",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7654",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7654#pullrequestreview-894548701"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7654"
+      }
+    },
+    "submitted_at": "2022-02-27T21:41:56Z",
+    "commit_id": "ceae01d2c07ed2787cc7dc4baf97d2d845a31cbd"
+  },
+  {
+    "id": 895012532,
+    "node_id": "PRR_kwDOALaj4841WM60",
+    "user": {
+      "login": "ArthurSonzogni",
+      "id": 4759106,
+      "node_id": "MDQ6VXNlcjQ3NTkxMDY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4759106?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ArthurSonzogni",
+      "html_url": "https://github.com/ArthurSonzogni",
+      "followers_url": "https://api.github.com/users/ArthurSonzogni/followers",
+      "following_url": "https://api.github.com/users/ArthurSonzogni/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ArthurSonzogni/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ArthurSonzogni/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ArthurSonzogni/subscriptions",
+      "organizations_url": "https://api.github.com/users/ArthurSonzogni/orgs",
+      "repos_url": "https://api.github.com/users/ArthurSonzogni/repos",
+      "events_url": "https://api.github.com/users/ArthurSonzogni/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ArthurSonzogni/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/7654#pullrequestreview-895012532",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7654",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7654#pullrequestreview-895012532"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7654"
+      }
+    },
+    "submitted_at": "2022-02-28T12:17:10Z",
+    "commit_id": "ceae01d2c07ed2787cc7dc4baf97d2d845a31cbd"
+  },
+  {
+    "id": 895013555,
+    "node_id": "PRR_kwDOALaj4841WNKz",
+    "user": {
+      "login": "ArthurSonzogni",
+      "id": 4759106,
+      "node_id": "MDQ6VXNlcjQ3NTkxMDY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4759106?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ArthurSonzogni",
+      "html_url": "https://github.com/ArthurSonzogni",
+      "followers_url": "https://api.github.com/users/ArthurSonzogni/followers",
+      "following_url": "https://api.github.com/users/ArthurSonzogni/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ArthurSonzogni/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ArthurSonzogni/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ArthurSonzogni/subscriptions",
+      "organizations_url": "https://api.github.com/users/ArthurSonzogni/orgs",
+      "repos_url": "https://api.github.com/users/ArthurSonzogni/repos",
+      "events_url": "https://api.github.com/users/ArthurSonzogni/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ArthurSonzogni/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/7654#pullrequestreview-895013555",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7654",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7654#pullrequestreview-895013555"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7654"
+      }
+    },
+    "submitted_at": "2022-02-28T12:18:21Z",
+    "commit_id": "ceae01d2c07ed2787cc7dc4baf97d2d845a31cbd"
+  },
+  {
+    "id": 895014451,
+    "node_id": "PRR_kwDOALaj4841WNYz",
+    "user": {
+      "login": "ArthurSonzogni",
+      "id": 4759106,
+      "node_id": "MDQ6VXNlcjQ3NTkxMDY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4759106?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ArthurSonzogni",
+      "html_url": "https://github.com/ArthurSonzogni",
+      "followers_url": "https://api.github.com/users/ArthurSonzogni/followers",
+      "following_url": "https://api.github.com/users/ArthurSonzogni/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ArthurSonzogni/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ArthurSonzogni/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ArthurSonzogni/subscriptions",
+      "organizations_url": "https://api.github.com/users/ArthurSonzogni/orgs",
+      "repos_url": "https://api.github.com/users/ArthurSonzogni/repos",
+      "events_url": "https://api.github.com/users/ArthurSonzogni/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ArthurSonzogni/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/7654#pullrequestreview-895014451",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7654",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7654#pullrequestreview-895014451"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7654"
+      }
+    },
+    "submitted_at": "2022-02-28T12:19:22Z",
+    "commit_id": "ceae01d2c07ed2787cc7dc4baf97d2d845a31cbd"
+  },
+  {
+    "id": 895014910,
+    "node_id": "PRR_kwDOALaj4841WNf-",
+    "user": {
+      "login": "ArthurSonzogni",
+      "id": 4759106,
+      "node_id": "MDQ6VXNlcjQ3NTkxMDY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4759106?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ArthurSonzogni",
+      "html_url": "https://github.com/ArthurSonzogni",
+      "followers_url": "https://api.github.com/users/ArthurSonzogni/followers",
+      "following_url": "https://api.github.com/users/ArthurSonzogni/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ArthurSonzogni/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ArthurSonzogni/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ArthurSonzogni/subscriptions",
+      "organizations_url": "https://api.github.com/users/ArthurSonzogni/orgs",
+      "repos_url": "https://api.github.com/users/ArthurSonzogni/repos",
+      "events_url": "https://api.github.com/users/ArthurSonzogni/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ArthurSonzogni/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/7654#pullrequestreview-895014910",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7654",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7654#pullrequestreview-895014910"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7654"
+      }
+    },
+    "submitted_at": "2022-02-28T12:19:52Z",
+    "commit_id": "ceae01d2c07ed2787cc7dc4baf97d2d845a31cbd"
+  },
+  {
+    "id": 895017109,
+    "node_id": "PRR_kwDOALaj4841WOCV",
+    "user": {
+      "login": "ArthurSonzogni",
+      "id": 4759106,
+      "node_id": "MDQ6VXNlcjQ3NTkxMDY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4759106?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ArthurSonzogni",
+      "html_url": "https://github.com/ArthurSonzogni",
+      "followers_url": "https://api.github.com/users/ArthurSonzogni/followers",
+      "following_url": "https://api.github.com/users/ArthurSonzogni/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ArthurSonzogni/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ArthurSonzogni/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ArthurSonzogni/subscriptions",
+      "organizations_url": "https://api.github.com/users/ArthurSonzogni/orgs",
+      "repos_url": "https://api.github.com/users/ArthurSonzogni/repos",
+      "events_url": "https://api.github.com/users/ArthurSonzogni/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ArthurSonzogni/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/7654#pullrequestreview-895017109",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7654",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7654#pullrequestreview-895017109"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7654"
+      }
+    },
+    "submitted_at": "2022-02-28T12:22:13Z",
+    "commit_id": "ceae01d2c07ed2787cc7dc4baf97d2d845a31cbd"
+  },
+  {
+    "id": 895597020,
+    "node_id": "PRR_kwDOALaj4841Ybnc",
+    "user": {
+      "login": "mtrootyy",
+      "id": 38576708,
+      "node_id": "MDQ6VXNlcjM4NTc2NzA4",
+      "avatar_url": "https://avatars.githubusercontent.com/u/38576708?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mtrootyy",
+      "html_url": "https://github.com/mtrootyy",
+      "followers_url": "https://api.github.com/users/mtrootyy/followers",
+      "following_url": "https://api.github.com/users/mtrootyy/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mtrootyy/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mtrootyy/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mtrootyy/subscriptions",
+      "organizations_url": "https://api.github.com/users/mtrootyy/orgs",
+      "repos_url": "https://api.github.com/users/mtrootyy/repos",
+      "events_url": "https://api.github.com/users/mtrootyy/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mtrootyy/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/7654#pullrequestreview-895597020",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7654",
+    "author_association": "NONE",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7654#pullrequestreview-895597020"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7654"
+      }
+    },
+    "submitted_at": "2022-02-28T21:10:17Z",
+    "commit_id": "6aff83f6df903c64fd8df9a672db2c93856e6181"
+  },
+  {
+    "id": 896044787,
+    "node_id": "PRR_kwDOALaj4841aI7z",
+    "user": {
+      "login": "ArthurSonzogni",
+      "id": 4759106,
+      "node_id": "MDQ6VXNlcjQ3NTkxMDY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4759106?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ArthurSonzogni",
+      "html_url": "https://github.com/ArthurSonzogni",
+      "followers_url": "https://api.github.com/users/ArthurSonzogni/followers",
+      "following_url": "https://api.github.com/users/ArthurSonzogni/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ArthurSonzogni/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ArthurSonzogni/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ArthurSonzogni/subscriptions",
+      "organizations_url": "https://api.github.com/users/ArthurSonzogni/orgs",
+      "repos_url": "https://api.github.com/users/ArthurSonzogni/repos",
+      "events_url": "https://api.github.com/users/ArthurSonzogni/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ArthurSonzogni/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/7654#pullrequestreview-896044787",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7654",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7654#pullrequestreview-896044787"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7654"
+      }
+    },
+    "submitted_at": "2022-03-01T09:18:58Z",
+    "commit_id": "6aff83f6df903c64fd8df9a672db2c93856e6181"
+  },
+  {
+    "id": 898678831,
+    "node_id": "PRR_kwDOALaj4841kMAv",
+    "user": {
+      "login": "ArthurSonzogni",
+      "id": 4759106,
+      "node_id": "MDQ6VXNlcjQ3NTkxMDY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4759106?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ArthurSonzogni",
+      "html_url": "https://github.com/ArthurSonzogni",
+      "followers_url": "https://api.github.com/users/ArthurSonzogni/followers",
+      "following_url": "https://api.github.com/users/ArthurSonzogni/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ArthurSonzogni/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ArthurSonzogni/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ArthurSonzogni/subscriptions",
+      "organizations_url": "https://api.github.com/users/ArthurSonzogni/orgs",
+      "repos_url": "https://api.github.com/users/ArthurSonzogni/repos",
+      "events_url": "https://api.github.com/users/ArthurSonzogni/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ArthurSonzogni/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I will implement the proposed spec in Chrome, assuming you don't have any comments.",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/7654#pullrequestreview-898678831",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7654",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7654#pullrequestreview-898678831"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7654"
+      }
+    },
+    "submitted_at": "2022-03-03T09:48:11Z",
+    "commit_id": "43f65d695f38d8d14334232d1957b90843448fd2"
+  },
+  {
+    "id": 900098361,
+    "node_id": "PRR_kwDOALaj4841pmk5",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?u=5d39bb7a31325e2905672ce29876c4c00e2a152e&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I had a look through the actual proposed text and found a number of small things to address. Overall this seems good though and we might pick this up soonish in Firefox.",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/7654#pullrequestreview-900098361",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7654",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7654#pullrequestreview-900098361"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7654"
+      }
+    },
+    "submitted_at": "2022-03-04T11:21:45Z",
+    "commit_id": "43f65d695f38d8d14334232d1957b90843448fd2"
+  },
+  {
+    "id": 901875010,
+    "node_id": "PRR_kwDOALaj4841wYVC",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "APPROVED",
+    "html_url": "https://github.com/whatwg/html/pull/7654#pullrequestreview-901875010",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7654",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7654#pullrequestreview-901875010"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7654"
+      }
+    },
+    "submitted_at": "2022-03-07T15:44:47Z",
+    "commit_id": "db1e4e9c01ebf85a5be3496f26603e2fcd8b7aa5"
+  }
+]

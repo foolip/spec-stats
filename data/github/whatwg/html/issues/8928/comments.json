@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/1439562247",
+    "html_url": "https://github.com/whatwg/html/issues/8928#issuecomment-1439562247",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/8928",
+    "id": 1439562247,
+    "node_id": "IC_kwDOALaj485VzfoH",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2023-02-22T07:42:18Z",
+    "updated_at": "2023-02-22T07:42:18Z",
+    "body": "I don't think we should ask JS to change here. So it's a question of whether HTML can change to JS's semantics.\r\n\r\nI think this might be a normative change, but probably one we could get away with.\r\n\r\nFor integers, the algorithms to compare are:\r\n\r\n- https://html.spec.whatwg.org/#rules-for-parsing-integers\r\n- https://tc39.es/ecma262/#sec-parseint-string-radix (with radix = 10)\r\n\r\nThese definitely seem different, including e.g.:\r\n\r\n- the definition of white space that is used\r\n- how much leading/trailing garbage is allowed\r\n- ES's algorithm allows implementation-defined results after 20 digits (!)\r\n- ES's algorithm converts the results to floating point using [𝔽](https://tc39.es/ecma262/#%F0%9D%94%BD).\r\n\r\nFor floats:\r\n\r\n- https://html.spec.whatwg.org/#rules-for-parsing-floating-point-number-values\r\n- https://tc39.es/ecma262/#sec-parsefloat-string which quickly delegates to https://tc39.es/ecma262/#sec-runtime-semantics-stringnumericvalue\r\n- https://tc39.es/ecma262/#sec-stringtonumber which does the same\r\n\r\nI haven't investigated the differences there.",
+    "author_association": "MEMBER",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/1439562247/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

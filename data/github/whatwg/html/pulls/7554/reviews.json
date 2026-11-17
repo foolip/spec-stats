@@ -1,0 +1,212 @@
+[
+  {
+    "id": 880786996,
+    "node_id": "PRR_kwDOALaj4840f740",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The object spec looks hopeless and I'm happy with leaving what you've done as the best we can do.\r\n\r\nThe embed spec looks like it would benefit from updating \"To [process response](https://fetch.spec.whatwg.org/#process-response) for the [response](https://fetch.spec.whatwg.org/#concept-response) response:\" to use the actual _processResponse_ argument? I think that'd be a small tweak that would avoid mixing old and new styles and is worth the trouble.",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/7554#pullrequestreview-880786996",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7554",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7554#pullrequestreview-880786996"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7554"
+      }
+    },
+    "submitted_at": "2022-02-12T00:23:46Z",
+    "commit_id": "c2eeec963dd973e4f6f38a99c81c6220ee6a7069"
+  },
+  {
+    "id": 886435344,
+    "node_id": "PRR_kwDOALaj48401e4Q",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "OK let's think about about this plus https://github.com/whatwg/html/pull/7531 . Both in terms of what to do near-term and what's the best long-term architecture.\r\n\r\nBest long-term: object, embed, iframe, and frame all share as much infrastructure as possible. So probably the navigate algorithm, eventually bottoming out in the various \"page load processing model for X document\" sections, does the resource timing entries, for basically all cases. Ideally they are always nested browsing contexts of some sort, although it's unclear whether we'll be able to get away with that. Even more ideally, they would stop going down the special \"navigate to a response\" mode, and instead end up in \"navigate to a URL\".\r\n\r\nShorter-term: embed only uses \"navigate\" and nested browsing context for image/svg+xml. (That's https://github.com/whatwg/html/issues/513.) object uses navigate/nested browsing contexts more often, but still uses something else for `image/` responses, unsupported resource types, and plugins. (Plugins are getting removed in https://github.com/whatwg/html/pull/6315, mostly.) Both of them use \"navigate to a response\" when they do use navigate, i.e., they do their own separate fetching that is not part of navigate.\r\n\r\nWhere does that leave us? I guess I see two paths:\r\n\r\n- What you've done across the two CLs, which is basically, only iframe/frame report resource timing as part of navigate; object/embed have separate reporting paths, even when they invoke the navigate algorithm.\r\n- Try to have resource timing reported as part of navigate, whenever navigate is invoked. Report it separately in other cases. (E.g. `image/` in object.)\r\n\r\nThe second path might set us up for more success long term. But is probably messier in the short term. So I guess I am OK with your current approach.\r\n\r\nLet me know if that sounds good to you, and then I can merge this after you fix the couple of typos.",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/7554#pullrequestreview-886435344",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7554",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7554#pullrequestreview-886435344"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7554"
+      }
+    },
+    "submitted_at": "2022-02-17T19:27:42Z",
+    "commit_id": "aa5dbd0a8e499d12146fbbe39e05cb6552e3c66c"
+  },
+  {
+    "id": 888373004,
+    "node_id": "PRR_kwDOALaj4840838M",
+    "user": {
+      "login": "noamr",
+      "id": 88566,
+      "node_id": "MDQ6VXNlcjg4NTY2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88566?u=046a5e84d9d9f0c92c1d358b010a7f2617678b74&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/noamr",
+      "html_url": "https://github.com/noamr",
+      "followers_url": "https://api.github.com/users/noamr/followers",
+      "following_url": "https://api.github.com/users/noamr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/noamr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/noamr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/noamr/subscriptions",
+      "organizations_url": "https://api.github.com/users/noamr/orgs",
+      "repos_url": "https://api.github.com/users/noamr/repos",
+      "events_url": "https://api.github.com/users/noamr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/noamr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/7554#pullrequestreview-888373004",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7554",
+    "author_association": "CONTRIBUTOR",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7554#pullrequestreview-888373004"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7554"
+      }
+    },
+    "submitted_at": "2022-02-21T08:59:43Z",
+    "commit_id": "25572f283fb373d4c67ee72cca53360d99b8d2bb"
+  },
+  {
+    "id": 888373080,
+    "node_id": "PRR_kwDOALaj4840839Y",
+    "user": {
+      "login": "noamr",
+      "id": 88566,
+      "node_id": "MDQ6VXNlcjg4NTY2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88566?u=046a5e84d9d9f0c92c1d358b010a7f2617678b74&v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/noamr",
+      "html_url": "https://github.com/noamr",
+      "followers_url": "https://api.github.com/users/noamr/followers",
+      "following_url": "https://api.github.com/users/noamr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/noamr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/noamr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/noamr/subscriptions",
+      "organizations_url": "https://api.github.com/users/noamr/orgs",
+      "repos_url": "https://api.github.com/users/noamr/repos",
+      "events_url": "https://api.github.com/users/noamr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/noamr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/7554#pullrequestreview-888373080",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7554",
+    "author_association": "CONTRIBUTOR",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7554#pullrequestreview-888373080"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7554"
+      }
+    },
+    "submitted_at": "2022-02-21T08:59:46Z",
+    "commit_id": "25572f283fb373d4c67ee72cca53360d99b8d2bb"
+  },
+  {
+    "id": 890077053,
+    "node_id": "PRR_kwDOALaj4841DX99",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "LGTM, will merge once the template is filled out (including tests).",
+    "state": "APPROVED",
+    "html_url": "https://github.com/whatwg/html/pull/7554#pullrequestreview-890077053",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/7554",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/7554#pullrequestreview-890077053"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/7554"
+      }
+    },
+    "submitted_at": "2022-02-22T16:48:04Z",
+    "commit_id": "17aabd89d90ecf28c9c536a668023d10bafbcd44"
+  }
+]

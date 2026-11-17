@@ -1,0 +1,501 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1032727308",
+    "pull_request_review_id": 1194815278,
+    "id": 1032727308,
+    "node_id": "PRRC_kwDOALaj4849jisM",
+    "diff_hunk": "@@ -26470,10 +26470,21 @@ document.body.appendChild(wbr);</code></pre>\n    <li><p>If the resource's <span data-x=\"Content-Type\">Content-Type metadata</span> is not\n    <code>text/css</code>, then set <var>success</var> to false.</p></li>\n \n-   <li><p>If <var>el</var> no longer creates an <span>external resource link</span> that contributes\n-   to the styling processing model, or if, since the resource in question was <span\n-   data-x=\"fetch and process the linked resource\">fetched</span>, it has become appropriate to <span\n-   data-x=\"fetch and process the linked resource\">fetch</span> it again, then return.</p></li>\n+   <li>\n+    <p>If <var>el</var> no longer creates an <span>external resource link</span> that contributes to\n+    the styling processing model, or if, since the resource in question was <span data-x=\"fetch and\n+    process the linked resource\">fetched</span>, it has become appropriate to <span data-x=\"fetch\n+    and process the linked resource\">fetch</span> it again, then:</p>\n+\n+    <ol>\n+     <li><p>If <var>el</var> <span data-x=\"contributes a script-blocking style sheet\">contributed a\n+     script-blocking style sheet</span> at the time <var>response</var> was <span data-x=\"fetch and\n+     process the linked resource\">fetched</span>, decrement <var>el</var>'s <span>node",
+    "path": "source",
+    "commit_id": "e92b38784136bc3f353889fcd099a4d58d18e4cf",
+    "original_commit_id": "73ebe436202bb7b456834ec3ab49854a737d117e",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "There seems to be two options here:\r\n  1. Check _contributes a script-blocking style sheet_ \"at the time response was fetched\"\r\n  2. Check _contributes a script-blocking style sheet_ \"the last time that the _linked resource fetch setup steps_ were run for _el_\"\r\n\r\nI don't think (2) is appropriate, because that algorithm could have run a second time for an entirely different resource by the time the process response steps end up running. Instead, what we want is to capture state from the last time those steps were run \"for _response_\" in particular, which I've tried to do in a hopefully-not-too-action-at-a-distance way here (see the thread's OP).",
+    "created_at": "2022-11-26T02:33:14Z",
+    "updated_at": "2022-11-26T02:33:26Z",
+    "html_url": "https://github.com/whatwg/html/pull/8552#discussion_r1032727308",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8552",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1032727308"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8552#discussion_r1032727308"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8552"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1032727308/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 26482,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 17,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1084604158",
+    "pull_request_review_id": 1266413052,
+    "id": 1084604158,
+    "node_id": "PRRC_kwDOALaj485Apb7-",
+    "diff_hunk": "@@ -16879,9 +16879,9 @@ console.log(style.disabled); // false</code></pre>\n     base URL don't affect the CSS -->\n    </li>\n \n-   <li><p>If <var>element</var> <span>contributes a script-blocking style sheet</span>, increment\n-   <var>element</var>'s <span>node document</span>'s <span>script-blocking style sheet\n-   counter</span> by 1.</p></li>\n+   <li><p>If <var>element</var> <span>contributes a script-blocking style sheet</span>, <span\n+   data-x=\"list append\">append</span> <var>element</var> to its <span>node document</span>'s",
+    "path": "source",
+    "commit_id": "e92b38784136bc3f353889fcd099a4d58d18e4cf",
+    "original_commit_id": "6edafe66eb6c8b625d8703fb780095239359c07b",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Several times in this PR I tell `<var>element</var>` to do something to \"its\" node document's [...]list, instead of repeating `<var>element</var>` where \"its\" is. Don't know if one is preferred over the other (but this is nice for brevity).",
+    "created_at": "2023-01-23T21:52:44Z",
+    "updated_at": "2023-01-23T21:52:52Z",
+    "html_url": "https://github.com/whatwg/html/pull/8552#discussion_r1084604158",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8552",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1084604158"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8552#discussion_r1084604158"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8552"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1084604158/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 16883,
+    "original_line": 16883,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 8,
+    "position": 8,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1084886948",
+    "pull_request_review_id": 1266928502,
+    "id": 1084886948,
+    "node_id": "PRRC_kwDOALaj485Aqg-k",
+    "diff_hunk": "@@ -17038,23 +17039,24 @@ console.log(style.disabled); // false</code></pre>\n   <code>&lt;?xml-stylesheet?></code> PIs. However, this has not yet been thoroughly\n   investigated.</p>\n \n-  <p>A <code>Document</code> has a <dfn>script-blocking style sheet counter</dfn>, which is a\n-  number, initially 0.</p>\n+  <p>A <code>Document</code> has a <dfn>script-blocking style sheet list</dfn>, which is an",
+    "path": "source",
+    "commit_id": "e92b38784136bc3f353889fcd099a4d58d18e4cf",
+    "original_commit_id": "6edafe66eb6c8b625d8703fb780095239359c07b",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "list -> set?",
+    "created_at": "2023-01-24T07:24:38Z",
+    "updated_at": "2023-01-24T07:34:03Z",
+    "html_url": "https://github.com/whatwg/html/pull/8552#discussion_r1084886948",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8552",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1084886948"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8552#discussion_r1084886948"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8552"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1084886948/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 17042,
+    "original_line": 17042,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 34,
+    "position": 34,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1084887806",
+    "pull_request_review_id": 1266928502,
+    "id": 1084887806,
+    "node_id": "PRRC_kwDOALaj485AqhL-",
+    "diff_hunk": "@@ -16879,9 +16879,9 @@ console.log(style.disabled); // false</code></pre>\n     base URL don't affect the CSS -->\n    </li>\n \n-   <li><p>If <var>element</var> <span>contributes a script-blocking style sheet</span>, increment\n-   <var>element</var>'s <span>node document</span>'s <span>script-blocking style sheet\n-   counter</span> by 1.</p></li>\n+   <li><p>If <var>element</var> <span>contributes a script-blocking style sheet</span>, <span\n+   data-x=\"list append\">append</span> <var>element</var> to its <span>node document</span>'s",
+    "path": "source",
+    "commit_id": "e92b38784136bc3f353889fcd099a4d58d18e4cf",
+    "original_commit_id": "6edafe66eb6c8b625d8703fb780095239359c07b",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This seems fine to me!",
+    "created_at": "2023-01-24T07:25:55Z",
+    "updated_at": "2023-01-24T07:34:03Z",
+    "html_url": "https://github.com/whatwg/html/pull/8552#discussion_r1084887806",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8552",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1084887806"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8552#discussion_r1084887806"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8552"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1084887806/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 16883,
+    "original_line": 16883,
+    "side": "RIGHT",
+    "in_reply_to_id": 1084604158,
+    "author_association": "MEMBER",
+    "original_position": 8,
+    "position": 8,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1084888176",
+    "pull_request_review_id": 1266928502,
+    "id": 1084888176,
+    "node_id": "PRRC_kwDOALaj485AqhRw",
+    "diff_hunk": "@@ -16879,9 +16879,9 @@ console.log(style.disabled); // false</code></pre>\n     base URL don't affect the CSS -->\n    </li>\n \n-   <li><p>If <var>element</var> <span>contributes a script-blocking style sheet</span>, increment\n-   <var>element</var>'s <span>node document</span>'s <span>script-blocking style sheet\n-   counter</span> by 1.</p></li>\n+   <li><p>If <var>element</var> <span>contributes a script-blocking style sheet</span>, <span\n+   data-x=\"list append\">append</span> <var>element</var> to its <span>node document</span>'s",
+    "path": "source",
+    "commit_id": "e92b38784136bc3f353889fcd099a4d58d18e4cf",
+    "original_commit_id": "6edafe66eb6c8b625d8703fb780095239359c07b",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This should be \"set append\" instead of \"list append\", here and elsewhere.",
+    "created_at": "2023-01-24T07:26:23Z",
+    "updated_at": "2023-01-24T07:34:03Z",
+    "html_url": "https://github.com/whatwg/html/pull/8552#discussion_r1084888176",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8552",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1084888176"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8552#discussion_r1084888176"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8552"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1084888176/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 16883,
+    "original_line": 16883,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 8,
+    "position": 8,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1084890369",
+    "pull_request_review_id": 1266928502,
+    "id": 1084890369,
+    "node_id": "PRRC_kwDOALaj485Aqh0B",
+    "diff_hunk": "@@ -26629,10 +26631,20 @@ document.body.appendChild(wbr);</code></pre>\n    <li><p>If the resource's <span data-x=\"Content-Type\">Content-Type metadata</span> is not\n    <code>text/css</code>, then set <var>success</var> to false.</p></li>\n \n-   <li><p>If <var>el</var> no longer creates an <span>external resource link</span> that contributes\n-   to the styling processing model, or if, since the resource in question was <span\n-   data-x=\"fetch and process the linked resource\">fetched</span>, it has become appropriate to <span\n-   data-x=\"fetch and process the linked resource\">fetch</span> it again, then return.</p></li>\n+   <li>\n+    <p>If <var>el</var> no longer creates an <span>external resource link</span> that contributes to\n+    the styling processing model, or if, since the resource in question was <span data-x=\"fetch and\n+    process the linked resource\">fetched</span>, it has become appropriate to <span data-x=\"fetch\n+    and process the linked resource\">fetch</span> it again, then:</p>\n+\n+    <ol>\n+     <li><p>If <var>el</var>'s <span>node document</span>'s <span>script-blocking style sheet\n+     list</span> <span data-x=\"list contains\">contains</span> <var>el</var>, <span data-x=\"list\n+     remove\">remove</span> <var>el</var> from the list.</p></li>",
+    "path": "source",
+    "commit_id": "e92b38784136bc3f353889fcd099a4d58d18e4cf",
+    "original_commit_id": "6edafe66eb6c8b625d8703fb780095239359c07b",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The \"if\" predicate is not necessary; you can remove even if it's not in the set and it'll do the right thing.",
+    "created_at": "2023-01-24T07:29:37Z",
+    "updated_at": "2023-01-24T07:34:03Z",
+    "html_url": "https://github.com/whatwg/html/pull/8552#discussion_r1084890369",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8552",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1084890369"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8552#discussion_r1084890369"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8552"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1084890369/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 26643,
+    "original_line": 26643,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 88,
+    "position": 88,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1088410381",
+    "pull_request_review_id": 1271880427,
+    "id": 1088410381,
+    "node_id": "PRRC_kwDOALaj485A39MN",
+    "diff_hunk": "@@ -26629,10 +26631,20 @@ document.body.appendChild(wbr);</code></pre>\n    <li><p>If the resource's <span data-x=\"Content-Type\">Content-Type metadata</span> is not\n    <code>text/css</code>, then set <var>success</var> to false.</p></li>\n \n-   <li><p>If <var>el</var> no longer creates an <span>external resource link</span> that contributes\n-   to the styling processing model, or if, since the resource in question was <span\n-   data-x=\"fetch and process the linked resource\">fetched</span>, it has become appropriate to <span\n-   data-x=\"fetch and process the linked resource\">fetch</span> it again, then return.</p></li>\n+   <li>\n+    <p>If <var>el</var> no longer creates an <span>external resource link</span> that contributes to\n+    the styling processing model, or if, since the resource in question was <span data-x=\"fetch and\n+    process the linked resource\">fetched</span>, it has become appropriate to <span data-x=\"fetch\n+    and process the linked resource\">fetch</span> it again, then:</p>\n+\n+    <ol>\n+     <li><p>If <var>el</var>'s <span>node document</span>'s <span>script-blocking style sheet\n+     list</span> <span data-x=\"list contains\">contains</span> <var>el</var>, <span data-x=\"list\n+     remove\">remove</span> <var>el</var> from the list.</p></li>",
+    "path": "source",
+    "commit_id": "e92b38784136bc3f353889fcd099a4d58d18e4cf",
+    "original_commit_id": "6edafe66eb6c8b625d8703fb780095239359c07b",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Ah I see, removing X is the same as removing all elements that match X (i.e., the condition is implicit). Got it.",
+    "created_at": "2023-01-26T22:36:38Z",
+    "updated_at": "2023-01-26T22:36:39Z",
+    "html_url": "https://github.com/whatwg/html/pull/8552#discussion_r1088410381",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8552",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1088410381"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8552#discussion_r1088410381"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8552"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1088410381/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 26643,
+    "original_line": 26643,
+    "side": "RIGHT",
+    "in_reply_to_id": 1084890369,
+    "author_association": "MEMBER",
+    "original_position": 88,
+    "position": 88,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

@@ -1,0 +1,144 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/804443576",
+    "pull_request_review_id": 879890197,
+    "id": 804443576,
+    "node_id": "PRRC_kwDOALaj484v8tW4",
+    "diff_hunk": "@@ -88336,7 +88352,35 @@ import \"https://example.com/foo/../module2.mjs\";</code></pre>\n    data-x=\"concept-script-base-url\">base URL</span>, <span\n    data-x=\"concept-url-serializer\">serialized</span>.</p></li>\n \n-   <li><p>Return « Record { [[Key]]: \"url\", [[Value]]: <var>urlString</var> } ».</p></li>\n+   <li>\n+    <p>Let <var>steps</var> be the following steps, given the argument <var>specifier</var>:</p>\n+\n+    <ol>\n+     <li><p>Set <var>specifier</var> to ? <span>ToString</span>(<var>specifier</var>).</p></li>\n+\n+     <li><p>Let <var>url</var> be the result of <span data-x=\"resolve a module specifier\">resolving\n+     a module specifier</span> given <var>module script</var>'s <span\n+     data-x=\"concept-script-base-url\">base URL</span> and <var>specifier</var>.</p></li>\n+\n+     <li><p>If <var>url</var> is failure, then throw a <code>TypeError</code> exception.</p></li>\n+\n+     <li><p>Return the <span data-x=\"concept-url-serializer\">serialization</span> of\n+     <var>url</var>.</p></li>\n+    </ol>\n+   </li>\n+\n+   <li><p>Let <var>resolveFunction</var> be ! <span>CreateBuiltinFunction</span>(<var>steps</var>,\n+   « », the <span>current Realm Record</span>).</p></li>\n+\n+   <li><p>Perform ! <span>SetFunctionName</span>(<var>resolveFunction</var>, \"<code\n+   data-x=\"\">resolve</code>\").</p></li>\n+\n+   <li><p>Perform ! <span>SetFunctionLength</span>(<var>resolveFunction</var>, 1).</p></li>",
+    "path": "source",
+    "commit_id": "6cc21d36506057bfa8f7c424278072c879e7c946",
+    "original_commit_id": "fa07fc65667b0a9def318d1282a9514059bce46c",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This is now a single function call it seems per https://tc39.es/ecma262/#sec-createbuiltinfunction.",
+    "created_at": "2022-02-11T08:36:24Z",
+    "updated_at": "2022-02-11T08:36:32Z",
+    "html_url": "https://github.com/whatwg/html/pull/5572#discussion_r804443576",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/5572",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/804443576"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/5572#discussion_r804443576"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/5572"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/804443576/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 88372,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 88378,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 74,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/883060546",
+    "pull_request_review_id": 986766528,
+    "id": 883060546,
+    "node_id": "PRRC_kwDOALaj4840om9C",
+    "diff_hunk": "@@ -93995,14 +93996,27 @@ dictionary <dfn dictionary>PromiseRejectionEventInit</dfn> : <span>EventInit</sp\n     world, from the classic-script world.</p>\n    </dd>\n \n-   <dt><code data-x=\"\"><var>url</var> = <span data-x=\"import.meta\">import.meta </span><span data-x=\"\">.url</span></code></dt>\n+   <dt><code data-x=\"\"><var>url</var> = <span data-x=\"import.meta\">import.meta</span>.<span data-x=\"import-meta-url\">url</span></code></dt>\n \n    <dd>\n     <p>Returns the <span data-x=\"active script\">active module script</span>'s <span\n     data-x=\"concept-script-base-url\">base URL</span>.</p>\n \n     <p>This syntax can only be used inside <span data-x=\"module script\">module scripts</span>.</p>\n    </dd>\n+\n+   <dt><code data-x=\"\"><var>url</var> = <span data-x=\"import.meta\">import.meta</span>.<span data-x=\"import-meta-resolve\">resolve</span>(<var>specifier</var>)</code></dt>\n+\n+   <dd>\n+    <p>Returns <var>specifier</var>, <span data-x=\"resolve a module specifier\">resolved</span>\n+    relative to the <span>active script</span>'s <span data-x=\"concept-script-base-url\">base",
+    "path": "source",
+    "commit_id": "6cc21d36506057bfa8f7c424278072c879e7c946",
+    "original_commit_id": "6cc21d36506057bfa8f7c424278072c879e7c946",
+    "user": {
+      "login": "hiroshige-g",
+      "id": 11661256,
+      "node_id": "MDQ6VXNlcjExNjYxMjU2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/11661256?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/hiroshige-g",
+      "html_url": "https://github.com/hiroshige-g",
+      "followers_url": "https://api.github.com/users/hiroshige-g/followers",
+      "following_url": "https://api.github.com/users/hiroshige-g/following{/other_user}",
+      "gists_url": "https://api.github.com/users/hiroshige-g/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/hiroshige-g/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/hiroshige-g/subscriptions",
+      "organizations_url": "https://api.github.com/users/hiroshige-g/orgs",
+      "repos_url": "https://api.github.com/users/hiroshige-g/repos",
+      "events_url": "https://api.github.com/users/hiroshige-g/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/hiroshige-g/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Could you clarify that the active script here is the active script at the time of obtaining `import.meta` and not the active script at the time of `resolve()` call? e.g. \r\n\r\n```\r\nwindow.resolve = import.meta.resolve; // A.js\r\n// ... in another calling context ...\r\nurl = window.resolve(specifier); // B.js\r\n```\r\n\r\nThen the specifier is resolved relative to  A.js  (= active script at the time of  import.meta ), not  B.js  (that of  resolve()  call).",
+    "created_at": "2022-05-26T20:33:44Z",
+    "updated_at": "2022-05-26T20:33:44Z",
+    "html_url": "https://github.com/whatwg/html/pull/5572#discussion_r883060546",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/5572",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/883060546"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/5572#discussion_r883060546"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/5572"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/883060546/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 94012,
+    "original_line": 94012,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 26,
+    "position": 26,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

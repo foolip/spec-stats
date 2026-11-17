@@ -1,0 +1,717 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1196526886",
+    "pull_request_review_id": 1430709231,
+    "id": 1196526886,
+    "node_id": "PRRC_kwDOALaj485HUY0m",
+    "diff_hunk": "@@ -62866,12 +62866,15 @@ callback <dfn callback>BlobCallback</dfn> = undefined (<span>Blob</span>? blob);\n       <tr>\n        <th>\"<dfn><code data-x=\"canvas-context-2d\">2d</code></dfn>\"\n        <td>\n-        Follow the <span>2D context creation algorithm</span> defined in the section below, passing\n-        it this <code>canvas</code> element and <var>options</var>, to obtain a\n-        <code>CanvasRenderingContext2D</code> object; if this does not throw an exception, then set\n-        this <code>canvas</code> element's <span data-x=\"concept-canvas-context-mode\">context\n-        mode</span> to <span data-x=\"concept-canvas-2d\">2d</span>, and return the\n-        <code>CanvasRenderingContext2D</code> object.\n+        <ol>\n+          <li><p>Follow the <span>2D context creation algorithm</span> defined\n+           in the section below, passing it this <code>canvas</code> element and <var>options</var>, to obtain a <code>CanvasRenderingContext2D</code> object.</p></li>",
+    "path": "source",
+    "commit_id": "7634288e9db4746fd11c9630b89548c083c7bad5",
+    "original_commit_id": "1e9432f51bcb7798c4f3917cadc42c7045565c9c",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "It would be good to also turn this into more of an algorithm, e.g.:\r\n\r\n> `Let <var>context</var> be the result of running the <span>...</span> given <span>this</span> and <var>options</var>.`\r\n\r\nReplacing \"this canvas element\" with \"this\" at the same time seems worthwhile.\r\n\r\nThen the third step would just return `<var>context</var>`.\r\n\r\nThis comment applies analogously to the other changes.",
+    "created_at": "2023-05-17T13:29:34Z",
+    "updated_at": "2023-05-17T13:33:04Z",
+    "html_url": "https://github.com/whatwg/html/pull/9305#discussion_r1196526886",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9305",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1196526886"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9305#discussion_r1196526886"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9305"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1196526886/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 62871,
+    "original_line": 62871,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 12,
+    "position": 12,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1196531477",
+    "pull_request_review_id": 1430709231,
+    "id": 1196531477,
+    "node_id": "PRRC_kwDOALaj485HUZ8V",
+    "diff_hunk": "@@ -62908,14 +62915,19 @@ callback <dfn callback>BlobCallback</dfn> = undefined (<span>Blob</span>? blob);\n        data-x=\"canvas-context-webgl2\">webgl2</code></dfn>\", if the user agent supports the WebGL\n        feature in its current configuration\n        <td>\n-        Follow the instructions given in the WebGL specifications' <i>Context Creation</i> sections\n-        to obtain a <code>WebGLRenderingContext</code>, <code>WebGL2RenderingContext</code>, or\n-        null; if the returned value is null, then return null; otherwise, set this\n-        <code>canvas</code> element's <span data-x=\"concept-canvas-context-mode\">context mode</span>\n-        to <span data-x=\"concept-canvas-webgl\">webgl</span> or <span\n-        data-x=\"concept-canvas-webgl2\">webgl2</span>, and return the\n-        <code>WebGLRenderingContext</code> or <code>WebGL2RenderingContext</code> object. <ref\n-        spec=WEBGL>\n+        <ol>\n+          <li><p>Follow the instructions given in the WebGL specifications' <i>Context Creation</i> sections\n+          to obtain a <code>WebGLRenderingContext</code>, <code>WebGL2RenderingContext</code>, or\n+          null.</p></li>\n+\n+          <li><p>If the returned value is null, then return null; otherwise, set this\n+          <code>canvas</code> element's <span data-x=\"concept-canvas-context-mode\">context mode</span>\n+          to <span data-x=\"concept-canvas-webgl\">webgl</span> or <span\n+          data-x=\"concept-canvas-webgl2\">webgl2</span>.</p></li>\n+\n+          <li><p>Return the\n+          <code>WebGLRenderingContext</code> or <code>WebGL2RenderingContext</code> object. <ref spec=WEBGL></p></li>",
+    "path": "source",
+    "commit_id": "7634288e9db4746fd11c9630b89548c083c7bad5",
+    "original_commit_id": "1e9432f51bcb7798c4f3917cadc42c7045565c9c",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The reference `<ref ...>` was at the end because there was only a single paragraph. Given that we mention WebGL early on we should move the reference up to the first mention. (This applies elsewhere too.)",
+    "created_at": "2023-05-17T13:32:45Z",
+    "updated_at": "2023-05-17T13:33:04Z",
+    "html_url": "https://github.com/whatwg/html/pull/9305#discussion_r1196531477",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9305",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1196531477"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9305#discussion_r1196531477"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9305"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1196531477/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 62929,
+    "original_line": 62929,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 68,
+    "position": 68,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1199378041",
+    "pull_request_review_id": 1435102537,
+    "id": 1199378041,
+    "node_id": "PRRC_kwDOALaj485HfQ55",
+    "diff_hunk": "@@ -62908,14 +62915,19 @@ callback <dfn callback>BlobCallback</dfn> = undefined (<span>Blob</span>? blob);\n        data-x=\"canvas-context-webgl2\">webgl2</code></dfn>\", if the user agent supports the WebGL\n        feature in its current configuration\n        <td>\n-        Follow the instructions given in the WebGL specifications' <i>Context Creation</i> sections\n-        to obtain a <code>WebGLRenderingContext</code>, <code>WebGL2RenderingContext</code>, or\n-        null; if the returned value is null, then return null; otherwise, set this\n-        <code>canvas</code> element's <span data-x=\"concept-canvas-context-mode\">context mode</span>\n-        to <span data-x=\"concept-canvas-webgl\">webgl</span> or <span\n-        data-x=\"concept-canvas-webgl2\">webgl2</span>, and return the\n-        <code>WebGLRenderingContext</code> or <code>WebGL2RenderingContext</code> object. <ref\n-        spec=WEBGL>\n+        <ol>\n+          <li><p>Follow the instructions given in the WebGL specifications' <i>Context Creation</i> sections\n+          to obtain a <code>WebGLRenderingContext</code>, <code>WebGL2RenderingContext</code>, or\n+          null.</p></li>\n+\n+          <li><p>If the returned value is null, then return null; otherwise, set this\n+          <code>canvas</code> element's <span data-x=\"concept-canvas-context-mode\">context mode</span>\n+          to <span data-x=\"concept-canvas-webgl\">webgl</span> or <span\n+          data-x=\"concept-canvas-webgl2\">webgl2</span>.</p></li>\n+\n+          <li><p>Return the\n+          <code>WebGLRenderingContext</code> or <code>WebGL2RenderingContext</code> object. <ref spec=WEBGL></p></li>",
+    "path": "source",
+    "commit_id": "7634288e9db4746fd11c9630b89548c083c7bad5",
+    "original_commit_id": "1e9432f51bcb7798c4f3917cadc42c7045565c9c",
+    "user": {
+      "login": "trevorspin",
+      "id": 71231568,
+      "node_id": "MDQ6VXNlcjcxMjMxNTY4",
+      "avatar_url": "https://avatars.githubusercontent.com/u/71231568?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/trevorspin",
+      "html_url": "https://github.com/trevorspin",
+      "followers_url": "https://api.github.com/users/trevorspin/followers",
+      "following_url": "https://api.github.com/users/trevorspin/following{/other_user}",
+      "gists_url": "https://api.github.com/users/trevorspin/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/trevorspin/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/trevorspin/subscriptions",
+      "organizations_url": "https://api.github.com/users/trevorspin/orgs",
+      "repos_url": "https://api.github.com/users/trevorspin/repos",
+      "events_url": "https://api.github.com/users/trevorspin/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/trevorspin/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Makes sense! Fixed in https://github.com/whatwg/html/pull/9305/commits/0e0099d8810b70e446c6b43dd182f0ff0679d45b",
+    "created_at": "2023-05-19T20:43:09Z",
+    "updated_at": "2023-05-19T20:43:09Z",
+    "html_url": "https://github.com/whatwg/html/pull/9305#discussion_r1199378041",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9305",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1199378041"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9305#discussion_r1199378041"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9305"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1199378041/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 62929,
+    "original_line": 62929,
+    "side": "RIGHT",
+    "in_reply_to_id": 1196531477,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 68,
+    "position": 68,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1199518203",
+    "pull_request_review_id": 1435291197,
+    "id": 1199518203,
+    "node_id": "PRRC_kwDOALaj485HfzH7",
+    "diff_hunk": "@@ -62866,12 +62866,15 @@ callback <dfn callback>BlobCallback</dfn> = undefined (<span>Blob</span>? blob);\n       <tr>\n        <th>\"<dfn><code data-x=\"canvas-context-2d\">2d</code></dfn>\"\n        <td>\n-        Follow the <span>2D context creation algorithm</span> defined in the section below, passing\n-        it this <code>canvas</code> element and <var>options</var>, to obtain a\n-        <code>CanvasRenderingContext2D</code> object; if this does not throw an exception, then set\n-        this <code>canvas</code> element's <span data-x=\"concept-canvas-context-mode\">context\n-        mode</span> to <span data-x=\"concept-canvas-2d\">2d</span>, and return the\n-        <code>CanvasRenderingContext2D</code> object.\n+        <ol>\n+          <li><p>Follow the <span>2D context creation algorithm</span> defined\n+           in the section below, passing it this <code>canvas</code> element and <var>options</var>, to obtain a <code>CanvasRenderingContext2D</code> object.</p></li>",
+    "path": "source",
+    "commit_id": "7634288e9db4746fd11c9630b89548c083c7bad5",
+    "original_commit_id": "1e9432f51bcb7798c4f3917cadc42c7045565c9c",
+    "user": {
+      "login": "trevorspin",
+      "id": 71231568,
+      "node_id": "MDQ6VXNlcjcxMjMxNTY4",
+      "avatar_url": "https://avatars.githubusercontent.com/u/71231568?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/trevorspin",
+      "html_url": "https://github.com/trevorspin",
+      "followers_url": "https://api.github.com/users/trevorspin/followers",
+      "following_url": "https://api.github.com/users/trevorspin/following{/other_user}",
+      "gists_url": "https://api.github.com/users/trevorspin/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/trevorspin/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/trevorspin/subscriptions",
+      "organizations_url": "https://api.github.com/users/trevorspin/orgs",
+      "repos_url": "https://api.github.com/users/trevorspin/repos",
+      "events_url": "https://api.github.com/users/trevorspin/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/trevorspin/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Good idea! I updated the wording in the latest commit https://github.com/whatwg/html/pull/9305/commits/76c6df16c1ba62128ad74e37c93a7cc30123c143",
+    "created_at": "2023-05-20T01:32:39Z",
+    "updated_at": "2023-05-20T01:32:39Z",
+    "html_url": "https://github.com/whatwg/html/pull/9305#discussion_r1199518203",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9305",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1199518203"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9305#discussion_r1199518203"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9305"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1199518203/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 62871,
+    "original_line": 62871,
+    "side": "RIGHT",
+    "in_reply_to_id": 1196526886,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 12,
+    "position": 12,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1200202574",
+    "pull_request_review_id": 1436138421,
+    "id": 1200202574,
+    "node_id": "PRRC_kwDOALaj485HiaNO",
+    "diff_hunk": "@@ -62866,12 +62866,15 @@ callback <dfn callback>BlobCallback</dfn> = undefined (<span>Blob</span>? blob);\n       <tr>\n        <th>\"<dfn><code data-x=\"canvas-context-2d\">2d</code></dfn>\"\n        <td>\n-        Follow the <span>2D context creation algorithm</span> defined in the section below, passing\n-        it this <code>canvas</code> element and <var>options</var>, to obtain a\n-        <code>CanvasRenderingContext2D</code> object; if this does not throw an exception, then set\n-        this <code>canvas</code> element's <span data-x=\"concept-canvas-context-mode\">context\n-        mode</span> to <span data-x=\"concept-canvas-2d\">2d</span>, and return the\n-        <code>CanvasRenderingContext2D</code> object.\n+        <ol>\n+          <li><p>Let <var>context</var> be the result of running the <span>2D context",
+    "path": "source",
+    "commit_id": "7634288e9db4746fd11c9630b89548c083c7bad5",
+    "original_commit_id": "76c6df16c1ba62128ad74e37c93a7cc30123c143",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Nit: we use single-space indentation.",
+    "created_at": "2023-05-22T08:55:51Z",
+    "updated_at": "2023-05-22T09:01:08Z",
+    "html_url": "https://github.com/whatwg/html/pull/9305#discussion_r1200202574",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9305",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1200202574"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9305#discussion_r1200202574"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9305"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1200202574/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 62870,
+    "original_line": 62870,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 11,
+    "position": 11,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1200204928",
+    "pull_request_review_id": 1436138421,
+    "id": 1200204928,
+    "node_id": "PRRC_kwDOALaj485HiayA",
+    "diff_hunk": "@@ -62866,12 +62866,15 @@ callback <dfn callback>BlobCallback</dfn> = undefined (<span>Blob</span>? blob);\n       <tr>\n        <th>\"<dfn><code data-x=\"canvas-context-2d\">2d</code></dfn>\"\n        <td>\n-        Follow the <span>2D context creation algorithm</span> defined in the section below, passing\n-        it this <code>canvas</code> element and <var>options</var>, to obtain a\n-        <code>CanvasRenderingContext2D</code> object; if this does not throw an exception, then set\n-        this <code>canvas</code> element's <span data-x=\"concept-canvas-context-mode\">context\n-        mode</span> to <span data-x=\"concept-canvas-2d\">2d</span>, and return the\n-        <code>CanvasRenderingContext2D</code> object.\n+        <ol>\n+          <li><p>Let <var>context</var> be the result of running the <span>2D context\n+          creation algorithm</span> given <span>this</span> and <var>options</var>.</p></li>\n+\n+          <li><p>Set the <span data-x=\"concept-canvas-context-mode\">context\n+          mode</span> of <span>this</span> to <span data-x=\"concept-canvas-2d\">2d</span>.</p></li>",
+    "path": "source",
+    "commit_id": "7634288e9db4746fd11c9630b89548c083c7bad5",
+    "original_commit_id": "76c6df16c1ba62128ad74e37c93a7cc30123c143",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I slightly prefer\r\n\r\n> Set this's context mode to ...\r\n\r\nas it's shorter, but this also works.",
+    "created_at": "2023-05-22T08:56:54Z",
+    "updated_at": "2023-05-22T09:02:09Z",
+    "html_url": "https://github.com/whatwg/html/pull/9305#discussion_r1200204928",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9305",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1200204928"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9305#discussion_r1200204928"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9305"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1200204928/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 62873,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 62874,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 15,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1200207356",
+    "pull_request_review_id": 1436138421,
+    "id": 1200207356,
+    "node_id": "PRRC_kwDOALaj485HibX8",
+    "diff_hunk": "@@ -62886,12 +62889,15 @@ callback <dfn callback>BlobCallback</dfn> = undefined (<span>Blob</span>? blob);\n       <tr>\n        <th>\"<dfn><code data-x=\"canvas-context-bitmaprenderer\">bitmaprenderer</code></dfn>\"\n        <td>\n-        Follow the <span><code>ImageBitmapRenderingContext</code> creation algorithm</span> defined\n-        in the section below, passing it this <code>canvas</code> element and <var>options</var>, to\n-        obtain an <code>ImageBitmapRenderingContext</code> object; then set this <code>canvas</code>\n-        element's <span data-x=\"concept-canvas-context-mode\">context mode</span> to <span\n-        data-x=\"concept-canvas-bitmaprenderer\">bitmaprenderer</span>, and return the\n-        <code>ImageBitmapRenderingContext</code> object.\n+        <ol>\n+          <li><p>Let <var>context</var> be the result of running the <span><code>ImageBitmapRenderingContext</code>",
+    "path": "source",
+    "commit_id": "7634288e9db4746fd11c9630b89548c083c7bad5",
+    "original_commit_id": "76c6df16c1ba62128ad74e37c93a7cc30123c143",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Nit: this looks like it goes over a 100 columns. See https://github.com/whatwg/html/blob/main/CONTRIBUTING.md#source-formatting for wrapping requirements.",
+    "created_at": "2023-05-22T08:58:03Z",
+    "updated_at": "2023-05-22T09:01:08Z",
+    "html_url": "https://github.com/whatwg/html/pull/9305#discussion_r1200207356",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9305",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1200207356"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9305#discussion_r1200207356"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9305"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1200207356/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 62893,
+    "original_line": 62893,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 33,
+    "position": 33,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1200974249",
+    "pull_request_review_id": 1437350189,
+    "id": 1200974249,
+    "node_id": "PRRC_kwDOALaj485HlWmp",
+    "diff_hunk": "@@ -62886,12 +62889,15 @@ callback <dfn callback>BlobCallback</dfn> = undefined (<span>Blob</span>? blob);\n       <tr>\n        <th>\"<dfn><code data-x=\"canvas-context-bitmaprenderer\">bitmaprenderer</code></dfn>\"\n        <td>\n-        Follow the <span><code>ImageBitmapRenderingContext</code> creation algorithm</span> defined\n-        in the section below, passing it this <code>canvas</code> element and <var>options</var>, to\n-        obtain an <code>ImageBitmapRenderingContext</code> object; then set this <code>canvas</code>\n-        element's <span data-x=\"concept-canvas-context-mode\">context mode</span> to <span\n-        data-x=\"concept-canvas-bitmaprenderer\">bitmaprenderer</span>, and return the\n-        <code>ImageBitmapRenderingContext</code> object.\n+        <ol>\n+          <li><p>Let <var>context</var> be the result of running the <span><code>ImageBitmapRenderingContext</code>",
+    "path": "source",
+    "commit_id": "7634288e9db4746fd11c9630b89548c083c7bad5",
+    "original_commit_id": "76c6df16c1ba62128ad74e37c93a7cc30123c143",
+    "user": {
+      "login": "trevorspin",
+      "id": 71231568,
+      "node_id": "MDQ6VXNlcjcxMjMxNTY4",
+      "avatar_url": "https://avatars.githubusercontent.com/u/71231568?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/trevorspin",
+      "html_url": "https://github.com/trevorspin",
+      "followers_url": "https://api.github.com/users/trevorspin/followers",
+      "following_url": "https://api.github.com/users/trevorspin/following{/other_user}",
+      "gists_url": "https://api.github.com/users/trevorspin/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/trevorspin/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/trevorspin/subscriptions",
+      "organizations_url": "https://api.github.com/users/trevorspin/orgs",
+      "repos_url": "https://api.github.com/users/trevorspin/repos",
+      "events_url": "https://api.github.com/users/trevorspin/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/trevorspin/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Fixed here: https://github.com/whatwg/html/pull/9305/commits/7634288e9db4746fd11c9630b89548c083c7bad5",
+    "created_at": "2023-05-22T19:46:37Z",
+    "updated_at": "2023-05-22T19:46:38Z",
+    "html_url": "https://github.com/whatwg/html/pull/9305#discussion_r1200974249",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9305",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1200974249"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9305#discussion_r1200974249"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9305"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1200974249/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 62893,
+    "original_line": 62893,
+    "side": "RIGHT",
+    "in_reply_to_id": 1200207356,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 33,
+    "position": 33,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1200974408",
+    "pull_request_review_id": 1437350479,
+    "id": 1200974408,
+    "node_id": "PRRC_kwDOALaj485HlWpI",
+    "diff_hunk": "@@ -62866,12 +62866,15 @@ callback <dfn callback>BlobCallback</dfn> = undefined (<span>Blob</span>? blob);\n       <tr>\n        <th>\"<dfn><code data-x=\"canvas-context-2d\">2d</code></dfn>\"\n        <td>\n-        Follow the <span>2D context creation algorithm</span> defined in the section below, passing\n-        it this <code>canvas</code> element and <var>options</var>, to obtain a\n-        <code>CanvasRenderingContext2D</code> object; if this does not throw an exception, then set\n-        this <code>canvas</code> element's <span data-x=\"concept-canvas-context-mode\">context\n-        mode</span> to <span data-x=\"concept-canvas-2d\">2d</span>, and return the\n-        <code>CanvasRenderingContext2D</code> object.\n+        <ol>\n+          <li><p>Let <var>context</var> be the result of running the <span>2D context\n+          creation algorithm</span> given <span>this</span> and <var>options</var>.</p></li>\n+\n+          <li><p>Set the <span data-x=\"concept-canvas-context-mode\">context\n+          mode</span> of <span>this</span> to <span data-x=\"concept-canvas-2d\">2d</span>.</p></li>",
+    "path": "source",
+    "commit_id": "7634288e9db4746fd11c9630b89548c083c7bad5",
+    "original_commit_id": "76c6df16c1ba62128ad74e37c93a7cc30123c143",
+    "user": {
+      "login": "trevorspin",
+      "id": 71231568,
+      "node_id": "MDQ6VXNlcjcxMjMxNTY4",
+      "avatar_url": "https://avatars.githubusercontent.com/u/71231568?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/trevorspin",
+      "html_url": "https://github.com/trevorspin",
+      "followers_url": "https://api.github.com/users/trevorspin/followers",
+      "following_url": "https://api.github.com/users/trevorspin/following{/other_user}",
+      "gists_url": "https://api.github.com/users/trevorspin/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/trevorspin/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/trevorspin/subscriptions",
+      "organizations_url": "https://api.github.com/users/trevorspin/orgs",
+      "repos_url": "https://api.github.com/users/trevorspin/repos",
+      "events_url": "https://api.github.com/users/trevorspin/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/trevorspin/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Fixed here: https://github.com/whatwg/html/pull/9305/commits/7634288e9db4746fd11c9630b89548c083c7bad5",
+    "created_at": "2023-05-22T19:46:52Z",
+    "updated_at": "2023-05-22T19:46:52Z",
+    "html_url": "https://github.com/whatwg/html/pull/9305#discussion_r1200974408",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9305",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1200974408"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9305#discussion_r1200974408"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9305"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1200974408/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 62873,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 62874,
+    "side": "RIGHT",
+    "in_reply_to_id": 1200204928,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 15,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1200974517",
+    "pull_request_review_id": 1437350640,
+    "id": 1200974517,
+    "node_id": "PRRC_kwDOALaj485HlWq1",
+    "diff_hunk": "@@ -62866,12 +62866,15 @@ callback <dfn callback>BlobCallback</dfn> = undefined (<span>Blob</span>? blob);\n       <tr>\n        <th>\"<dfn><code data-x=\"canvas-context-2d\">2d</code></dfn>\"\n        <td>\n-        Follow the <span>2D context creation algorithm</span> defined in the section below, passing\n-        it this <code>canvas</code> element and <var>options</var>, to obtain a\n-        <code>CanvasRenderingContext2D</code> object; if this does not throw an exception, then set\n-        this <code>canvas</code> element's <span data-x=\"concept-canvas-context-mode\">context\n-        mode</span> to <span data-x=\"concept-canvas-2d\">2d</span>, and return the\n-        <code>CanvasRenderingContext2D</code> object.\n+        <ol>\n+          <li><p>Let <var>context</var> be the result of running the <span>2D context",
+    "path": "source",
+    "commit_id": "7634288e9db4746fd11c9630b89548c083c7bad5",
+    "original_commit_id": "76c6df16c1ba62128ad74e37c93a7cc30123c143",
+    "user": {
+      "login": "trevorspin",
+      "id": 71231568,
+      "node_id": "MDQ6VXNlcjcxMjMxNTY4",
+      "avatar_url": "https://avatars.githubusercontent.com/u/71231568?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/trevorspin",
+      "html_url": "https://github.com/trevorspin",
+      "followers_url": "https://api.github.com/users/trevorspin/followers",
+      "following_url": "https://api.github.com/users/trevorspin/following{/other_user}",
+      "gists_url": "https://api.github.com/users/trevorspin/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/trevorspin/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/trevorspin/subscriptions",
+      "organizations_url": "https://api.github.com/users/trevorspin/orgs",
+      "repos_url": "https://api.github.com/users/trevorspin/repos",
+      "events_url": "https://api.github.com/users/trevorspin/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/trevorspin/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Fixed here: https://github.com/whatwg/html/pull/9305/commits/7634288e9db4746fd11c9630b89548c083c7bad5",
+    "created_at": "2023-05-22T19:47:01Z",
+    "updated_at": "2023-05-22T19:47:01Z",
+    "html_url": "https://github.com/whatwg/html/pull/9305#discussion_r1200974517",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/9305",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/1200974517"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/9305#discussion_r1200974517"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/9305"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/1200974517/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 62870,
+    "original_line": 62870,
+    "side": "RIGHT",
+    "in_reply_to_id": 1200202574,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 11,
+    "position": 11,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

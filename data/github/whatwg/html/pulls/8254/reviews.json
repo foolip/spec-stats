@@ -1,0 +1,128 @@
+[
+  {
+    "id": 1095840731,
+    "node_id": "PRR_kwDOALaj485BUTPb",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Thanks for this! I pushed a few minor fixes for style things; please pull them before doing any work.\r\n\r\nUnfortunately it turns out the normative prose for the getters here is not great and needs some work. The biggest problem is that this class is exposed to Worker and AudioWorklet, but I have no idea how it could work there.\r\n\r\nIf we restrict this only to Window (maybe that is OK, since it's only accessible in this PR via `window.navigator`?) then we can improve the getter definitions as follows. You need to define that each `Navigator` object (or, perhaps simpler, each `Window` object) has a corresponding `UserActivation` object; then, the `userActivation` getter steps can be defined to return that. For an example, see https://html.spec.whatwg.org/#associated-navigator .\r\n\r\nThen, we need to define the `hasBeenActive` and `isActive` getter steps in a way that connects up to the actual normative prose for sticky and transient activation. I believe this would be done using something like:\r\n\r\n> The `hasBeenActive` getter steps are to return true if this's relevant global object has sticky activation; otherwise false.\r\n\r\nwith the understanding that this only ever works for the `Window` context, and would need to be redone in a Worker or AudioWorklet context.",
+    "state": "CHANGES_REQUESTED",
+    "html_url": "https://github.com/whatwg/html/pull/8254#pullrequestreview-1095840731",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8254",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8254#pullrequestreview-1095840731"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8254"
+      }
+    },
+    "submitted_at": "2022-09-05T04:44:31Z",
+    "commit_id": "1502c104007a5ca814c74ab53d1dde4e2752fd24"
+  },
+  {
+    "id": 1101767468,
+    "node_id": "PRR_kwDOALaj485Bq6Ms",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/whatwg/html/pull/8254#pullrequestreview-1101767468",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8254",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8254#pullrequestreview-1101767468"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8254"
+      }
+    },
+    "submitted_at": "2022-09-09T06:38:23Z",
+    "commit_id": "b4912a83b5b532f8108d14cda03e64393b707844"
+  },
+  {
+    "id": 1108264733,
+    "node_id": "PRR_kwDOALaj485CDscd",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "LGTM, thanks! Can you file bugs on Gecko and WebKit and update the original post with them?",
+    "state": "APPROVED",
+    "html_url": "https://github.com/whatwg/html/pull/8254#pullrequestreview-1108264733",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8254",
+    "author_association": "MEMBER",
+    "is_copilot_code_review": false,
+    "copilot_code_review_effort": null,
+    "_links": {
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8254#pullrequestreview-1108264733"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8254"
+      }
+    },
+    "submitted_at": "2022-09-14T22:02:14Z",
+    "commit_id": "f17a88a7f4e54d7f47c8c731443aa3eab1b88b82"
+  }
+]

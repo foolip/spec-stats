@@ -1,0 +1,145 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/947395996",
+    "pull_request_review_id": 1074968574,
+    "id": 947395996,
+    "node_id": "PRRC_kwDOALaj4844eB2c",
+    "diff_hunk": "@@ -94762,6 +94763,20 @@ dictionary <dfn dictionary>PromiseRejectionEventInit</dfn> : <span>EventInit</sp\n   operations, that vary depending on the host environment. This section defines them for user\n   agent hosts.</p>\n \n+  <h5 id=\"the-hostensurecanaddprivateelement-implementation\"><dfn>HostEnsureCanAddPrivateElement</dfn>(<var>O</var>)</h5>\n+\n+  <p>JavaScript contains an <span>implementation-defined</span> <span\n+  data-x=\"js-HostEnsureCanAddPrivateElement\">HostEnsureCanAddPrivateElement</span>(<var>O</var>)\n+  abstract operation. User agents must use the following implementation: <ref spec=JAVASCRIPT>\n+\n+  <ol>\n+   <li><p>If <var>O</var> is a <code>WindowProxy</code> object, or <span>implements</span>",
+    "path": "source",
+    "commit_id": "ceed06e6dbd0f4a5e0378e8420dbf27353bfc32c",
+    "original_commit_id": "9154e045793d89c9e0b86f740f085413dad2255b",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I'm a little unsure on the most rigorous way to phrase this for WindowProxy. \"implements\" doesn't work since it generally applies to platform objects; Window is a platform object, but WindowProxy is not. Maybe we should say \"has a [\\[\\[Window\\]\\]](html.spec.whatwg.org/#concept-windowproxy-window) internal slot\"?\r\n\r\nI also was thinking maybe we should check Window objects, but upon consideraiton WindowProxy seems right. This algorithm will only ever get called with WindowProxy, right? Nobody is going to be able to get ahold of a Window except spec text, and the spec text in html.spec.whatwg.org/#the-windowproxy-exotic-object will never hand the WindowProxy to someone who might trigger this, I believe.",
+    "created_at": "2022-08-17T02:34:37Z",
+    "updated_at": "2022-08-17T02:34:37Z",
+    "html_url": "https://github.com/whatwg/html/pull/8198#discussion_r947395996",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8198",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/947395996"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8198#discussion_r947395996"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8198"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/947395996/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 94773,
+    "original_line": 94773,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 19,
+    "position": 19,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/947397281",
+    "pull_request_review_id": 1074970270,
+    "id": 947397281,
+    "node_id": "PRRC_kwDOALaj4844eCKh",
+    "diff_hunk": "@@ -94762,6 +94763,20 @@ dictionary <dfn dictionary>PromiseRejectionEventInit</dfn> : <span>EventInit</sp\n   operations, that vary depending on the host environment. This section defines them for user\n   agent hosts.</p>\n \n+  <h5 id=\"the-hostensurecanaddprivateelement-implementation\"><dfn>HostEnsureCanAddPrivateElement</dfn>(<var>O</var>)</h5>\n+\n+  <p>JavaScript contains an <span>implementation-defined</span> <span\n+  data-x=\"js-HostEnsureCanAddPrivateElement\">HostEnsureCanAddPrivateElement</span>(<var>O</var>)\n+  abstract operation. User agents must use the following implementation: <ref spec=JAVASCRIPT>\n+\n+  <ol>\n+   <li><p>If <var>O</var> is a <code>WindowProxy</code> object, or <span>implements</span>",
+    "path": "source",
+    "commit_id": "ceed06e6dbd0f4a5e0378e8420dbf27353bfc32c",
+    "original_commit_id": "9154e045793d89c9e0b86f740f085413dad2255b",
+    "user": {
+      "login": "mgaudet",
+      "id": 2906003,
+      "node_id": "MDQ6VXNlcjI5MDYwMDM=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2906003?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mgaudet",
+      "html_url": "https://github.com/mgaudet",
+      "followers_url": "https://api.github.com/users/mgaudet/followers",
+      "following_url": "https://api.github.com/users/mgaudet/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mgaudet/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mgaudet/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mgaudet/subscriptions",
+      "organizations_url": "https://api.github.com/users/mgaudet/orgs",
+      "repos_url": "https://api.github.com/users/mgaudet/repos",
+      "events_url": "https://api.github.com/users/mgaudet/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mgaudet/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I waffled a bit on that front myself; I came to a similar conclusion. My understanding is that no user code should ever see a `Window` object, and so specifying this hook in terms of the `WindowProxy` made sense to me. Editorially I wasn't sure of the best way to write it; thanks for your review. ",
+    "created_at": "2022-08-17T02:38:08Z",
+    "updated_at": "2022-08-17T02:38:08Z",
+    "html_url": "https://github.com/whatwg/html/pull/8198#discussion_r947397281",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/8198",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/947397281"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/8198#discussion_r947397281"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/8198"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/947397281/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 94773,
+    "original_line": 94773,
+    "side": "RIGHT",
+    "in_reply_to_id": 947395996,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 19,
+    "position": 19,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]
