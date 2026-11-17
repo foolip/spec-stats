@@ -1,5 +1,5 @@
-# Fetch GitHub data for the repos in config/repos.txt: every hour, and on
-# demand.
+# Fetch GitHub data for the repos in config/repos.txt: every hour, with
+# the reconcile (--reconcile) once a week, and on demand.
 #
 # Everything fetched is committed to this repo, in data/github/
 # (docs/extraction.md), at the end of every run, even one that failed or
@@ -30,6 +30,12 @@ on:
     # runs most. A run still going when the next is due makes it wait
     # (concurrency below), not run alongside.
     - cron: "48 * * * *"
+    # Weekly, Mondays at 03:18 UTC, with --reconcile (the step below tells
+    # the two schedules apart by this exact string). Half an hour from the
+    # hourly run, which is usually done in a minute once caught up: a run
+    # queued while another waits replaces the waiting one, so the two
+    # shouldn't be due at once.
+    - cron: "18 3 * * 1"
   workflow_dispatch:
     inputs:
       reconcile:
@@ -63,7 +69,9 @@ jobs:
       # a backstop; a timed-out step still lets the commit step run.
       - name: Fetch
         timeout-minutes: 320
-        run: python3 -m specstats extract --max-minutes 300 ${{ inputs.reconcile && '--reconcile' || '' }}
+        run: >-
+          python3 -m specstats extract --max-minutes 300
+          ${{ (inputs.reconcile || github.event.schedule == '18 3 * * 1') && '--reconcile' || '' }}
 
       - name: Commit the fetched data
         if: always()
