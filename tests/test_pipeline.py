@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-from specstats import check, extract, github, listing_check, timeline_check
+from specstats import check, extract, github, listing_check, sgdb, timeline_check
 from tests.fakegithub import REPO, FakeGitHub
 
 QUIET = dict(log=lambda *a: None)
@@ -545,6 +545,13 @@ class ExtractTest(TempDirs):
         self.assertEqual(self.store().counts(), dict(FULL, events=7))
         self.assertFalse(list(self.files.rglob("*.tmp")))
 
+    def test_missing_repo_is_skipped_and_leaves_no_files(self):
+        gh = FakeGitHub()
+        gh.missing = True
+        with self.assertRaises(extract.RepoGone):
+            self.sync(gh)
+        self.assertFalse((self.files / REPO).exists())
+
     def test_stored_repos(self):
         self.assertEqual(extract.stored_repos(), [])
         self.sync(populated())
@@ -689,3 +696,34 @@ class ClientTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+
+class SgDbTest(unittest.TestCase):
+    DB = {"workstreams": [
+        {"id": "html", "standards": [{"name": "HTML", "href": "https://html.spec.whatwg.org/multipage/"},
+                                     {"name": "WebSockets", "href": "https://websockets.spec.whatwg.org/"}]},
+        {"id": "dom", "standards": [{"name": "DOM", "href": "https://dom.spec.whatwg.org/"}]},
+    ], "ideas": [{"name": "CSS Books", "href": "https://books.idea.whatwg.org/"}]}
+
+    def test_repos(self):
+        self.assertEqual(sgdb.repos(self.DB), ["whatwg/dom", "whatwg/html", "whatwg/websockets"])
+        with self.assertRaises(ValueError):
+            sgdb.repos({"workstreams": [{"standards": [{"name": "X", "href": "https://example.com/"}]}]})
+
+    def test_sync_copies_byte_for_byte(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "db.json"
+            raw = json.dumps(self.DB, indent=3).encode() + b"\n"
+            log = []
+            self.assertTrue(sgdb.sync(raw, path, log=log.append))
+            self.assertEqual(path.read_bytes(), raw)
+            self.assertIn("new: whatwg/websockets", log)
+            self.assertFalse(sgdb.sync(raw, path, log=log.append))
+            with self.assertRaises(ValueError):
+                sgdb.sync(b'{"workstreams": []}', path, log=log.append)
+            self.assertEqual(path.read_bytes(), raw)
+
+    def test_config_db_lists_the_fetched_repos(self):
+        repos = sgdb.repos()
+        self.assertTrue({"whatwg/dom", "whatwg/fullscreen", "whatwg/html"} <= set(repos))

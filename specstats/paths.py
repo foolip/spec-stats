@@ -18,12 +18,3 @@ def private_dir():
     d.mkdir(parents=True, exist_ok=True)
     return d
 
-
-def repos():
-    """The WHATWG repos to track, from config/repos.txt."""
-    out = []
-    for line in (CONFIG / "repos.txt").read_text().splitlines():
-        line = line.split("#", 1)[0].strip()
-        if line:
-            out.append(line)
-    return out

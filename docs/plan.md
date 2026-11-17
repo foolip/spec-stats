@@ -25,10 +25,13 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 ## Ground rules
 
 1. **Fetch only what has been approved.** Approved on 2026-11-13: the GitHub
-   REST API for the WHATWG repos in `config/repos.txt`: all activity on
+   REST API for the WHATWG repos in `config/repos.txt` (since 2026-11-17,
+   the repos of the standards in `config/db.json`): all activity on
    their issues and PRs (comments, inline review comments, timeline events,
    reviews, commits, changed files) and the public profiles of accounts
-   seen in them. Not approved: git clones (deferred on 2026-11-13: API data
+   seen in them. Approved on 2026-11-17: whatwg/sg's `db.json` from
+   raw.githubusercontent.com, copied into `config/db.json` by
+   `python3 -m specstats sync-db`. Not approved: git clones (deferred on 2026-11-13: API data
    first), browser bug trackers, wpt.fyi, GH Archive, and any repo outside
    `whatwg/`.
    - `extract --dry-run` prints what a run would fetch without fetching.
@@ -123,6 +126,8 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-17 | **Only items updated since `updated_since` are kept**: each run removes stored items last updated before it (and their 422 records), and `from` equals `updated_since` except while a listing back to an earlier date is under way; moving `updated_since` forward moves `from` and removes what's now before it. The by-number state converts to `from` = `updated_since` for every repo (no longer whatwg/dom's and whatwg/fullscreen's earliest items) | Maintainer's choice: the data should match the rule exactly, instead of carrying an arbitrary slice of older items (whatwg/html's #1–#3,752 from the stopped backfill). Removes 837 of whatwg/dom's items, 180 of whatwg/fullscreen's and 3,322 of whatwg/html's (as of 2026-11-17); all stay in git history, and moving `updated_since` back fetches them again |
 | 2026-11-17 | **The updates' listing goes on from each page's last row, not its newest; the reconcile lists every item by creation time** (`sort=created`, offset pages) and keeps those updated since `from` on the client, a second listing independent of the first | whatwg/html #127, #2973, #1518 and #7617 came in the listing among rows updated by 2026-10-02, with `updated_at` from 2026-10-08 to 2026-10-19: GitHub sorts by a timestamp that's sometimes older than the one it returns. Going on from the page's newest skipped the 98 items updated in between (found by comparing with GitHub search; a `--reconcile` run, which went on from the last row, fetched them). The last row skips only when such a row ends a page; no rule on the returned timestamps guarantees anything if the order is off, so the reconcile doesn't rely on them. Creation order doesn't change as items are updated. Maintainer's choice (a median was considered: safer, at twice the listing requests, but still no guarantee). The reconcile costs about 130 requests for whatwg/html |
 | 2026-11-17 | The fetch workflow runs `--reconcile` weekly on a schedule (cron `18 3 * * 1`, Mondays 03:18 UTC), alongside the hourly fetch | Maintainer's instruction. The reconcile is the check that caught whatwg/html's 98 skipped items (run 22) and confirmed the data after the fix (run 23: nothing missing, about 150 requests for the three repos). Half an hour from the hourly run, because a run queued in the same concurrency group while another is waiting replaces the waiting one |
+| 2026-11-17 | ~~**`config/repos.txt` is derived from whatwg/sg's `db.json`**, keeping which repos are fetched~~ (replaced the same day, below). The first run found six standards missing from the list taken from spec.whatwg.org: whatwg/compression and the Peripheral APIs workstream's whatwg/bluetooth, hid, nfc, serial and usb | Maintainer's instruction |
+| 2026-11-17 | **The repos fetched are those of every standard in `config/db.json`**, a byte-for-byte copy of whatwg/sg's `db.json` made by `python3 -m specstats sync-db` (run by hand; one request to raw.githubusercontent.com, no token or API quota). Each standard's `https://{shortname}.spec.whatwg.org/` is `whatwg/{shortname}`; repos are fetched in name order. `config/repos.txt` is gone, and with it a subset: all 27 are fetched from the next run. A repo GitHub answers 404 for is skipped (the run reports it and doesn't fail; nothing is written for it) | Maintainer's instruction and choice (all of db.json rather than a subset kept in `config/fetch.json`). Starts the backfill of the other 24 repos, fewer than the 7 hourly runs the 2022-01-01 search count for all of `org:whatwg` comes to, as whatwg/html and whatwg/dom are done. whatwg/nfc isn't a public repo (`git ls-remote` asks for credentials: private or not created yet), so it's skipped until it is |
 
 ## Status
 
@@ -143,8 +148,8 @@ removed on 2026-11-14 (decisions log); its last version is at commit
   confirmed that `/issues/events` paged back to dom's first issue (150
   pages) and includes PR-only events (`review_requested`,
   `ready_for_review`). It's being refetched by the current design
-  (2026-11-16); `config/repos.txt` lists whatwg/fullscreen, whatwg/dom and
-  whatwg/html.
+  (2026-11-16); `config/repos.txt` listed whatwg/fullscreen, whatwg/dom and
+  whatwg/html; since 2026-11-17 every standard in `config/db.json` is fetched.
 - Run 5 (2026-11-15) fetched whatwg/fullscreen whole in one run: 1,017
   requests in about 6 minutes; numbers 1–265, 259 stored (122 issues and
   137 PRs, as GitHub's search counts) and 6 gone. The only
@@ -173,7 +178,9 @@ removed on 2026-11-14 (decisions log); its last version is at commit
    since 2022-01-01 (at about 3.2 requests each), look at what "Check
    data" finds, and cross-check against the earlier prototype's figures
    (1,171 PRs and 2,167 issues in 2024–2026).
-2. Check `config/repos.txt` against the list of Living Standards (whatwg/sg `db.json`), then all repos.
+2. Watch the backfill of all 27 repos (every standard in `config/db.json`;
+   whatwg/nfc is skipped until it's public). Rerun `python3 -m specstats
+   sync-db` when whatwg/sg's db.json changes.
 3. Watch whether the scheduled runs fire: on 2026-11-17 the hourly one
    ran at 04:49 and 14:55 and missed every other hour.
 4. Then dashboards: bring back Maintenance load (commit `10edb66`),

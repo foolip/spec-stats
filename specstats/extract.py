@@ -138,6 +138,12 @@ def write_json(path, data):
     tmp.replace(path)
 
 
+class RepoGone(Exception):
+    """GitHub answers 404 for the repo itself (not public yet, renamed or
+    deleted). The run skips it; with nothing stored for it, no files are
+    written."""
+
+
 class RepoStore:
     """One repo's files, data/github/{owner}/{repo}/."""
 
@@ -594,6 +600,7 @@ def sync_repo(client, store, reconcile_=False, log=print):
         raise CheckFailed(f"{store.repo}: config/fetch.json pr_resources is {resources}, but stored PRs "
                           f"have {fixed}; fetching a changed set for every PR isn't implemented")
     since = load_updated_since()
+    gone = False
     try:
         migrate_state(store, since)
         set_start(store, since, log=log)
@@ -605,5 +612,10 @@ def sync_repo(client, store, reconcile_=False, log=print):
             reconcile(client, store, resources, log=log)
         # After items: the events cursor is set when the first listing finishes.
         sync_events(client, store, log=log)
+    except Gone as e:
+        # An item's 404 is handled where it's fetched, so this is the repo's.
+        gone = True
+        raise RepoGone(f"{store.repo}: {e}") from e
     finally:
-        store.save_state()
+        if not gone or store.dir.exists():
+            store.save_state()
