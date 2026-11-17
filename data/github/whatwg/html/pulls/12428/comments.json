@@ -1,0 +1,144 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3208909549",
+    "pull_request_review_id": 4252512109,
+    "id": 3208909549,
+    "node_id": "PRRC_kwDOALaj486_RBLt",
+    "diff_hunk": "@@ -43366,14 +43366,40 @@ red:89\n   Initially, the volume should be 1.0, but user agents may remember the last set value across\n   sessions, on a per-site basis or otherwise, so the volume may start at other values.</p>\n \n+  <div algorithm>\n+  <p>To <dfn export>set the playback volume</dfn> of a <span>media element</span>\n+  <var>element</var> to a number <var>value</var>:</p>\n+\n+  <ol>\n+   <li><p>If <var>element</var>'s <span data-x=\"concept-media-volume\">playback volume</span> equals\n+   <var>value</var>, then return.</p></li>\n+\n+   <li><p>Set <var>element</var>'s <span data-x=\"concept-media-volume\">playback volume</span> to\n+   <var>value</var>.</p></li>\n+\n+   <li><p>If <var>element</var> is not <span>allowed to play</span>, then run the <span>internal\n+   pause steps</span> for <var>element</var>.</p></li>\n+\n+   <li><p><span>Queue a media element task</span> given <var>element</var> to <span\n+   data-x=\"concept-event-fire\">fire an event</span> named <code\n+   data-x=\"event-media-volumechange\">volumechange</code> at <var>element</var>.</p></li>\n+  </ol>\n+  </div>\n+\n   <div algorithm>\n   <p>The <dfn attribute for=\"HTMLMediaElement\"><code data-x=\"dom-media-volume\">volume</code></dfn>\n-  IDL attribute must return the <span data-x=\"concept-media-volume\">playback volume</span> of any\n-  audio portions of the <span>media element</span>. On setting, if the new value is in the range 0.0\n-  to 1.0 inclusive, the <span>media element</span>'s <span data-x=\"concept-media-volume\">playback\n-  volume</span> must be set to the new value. If the new value is outside the range 0.0 to 1.0\n-  inclusive, then, on setting, an <span>\"<code>IndexSizeError</code>\"</span>\n-  <code>DOMException</code> must be thrown instead.</p>\n+  getter steps are to return this's <span data-x=\"concept-media-volume\">playback volume</span>.</p>",
+    "path": "source",
+    "commit_id": "3750d242a4280ea832b776852e563b98c3b8fda6",
+    "original_commit_id": "3750d242a4280ea832b776852e563b98c3b8fda6",
+    "user": {
+      "login": "foolip",
+      "id": 498917,
+      "node_id": "MDQ6VXNlcjQ5ODkxNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/498917?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/foolip",
+      "html_url": "https://github.com/foolip",
+      "followers_url": "https://api.github.com/users/foolip/followers",
+      "following_url": "https://api.github.com/users/foolip/following{/other_user}",
+      "gists_url": "https://api.github.com/users/foolip/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/foolip/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/foolip/subscriptions",
+      "organizations_url": "https://api.github.com/users/foolip/orgs",
+      "repos_url": "https://api.github.com/users/foolip/repos",
+      "events_url": "https://api.github.com/users/foolip/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/foolip/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\n  getter steps are to return <span>this</span>'s <span data-x=\"concept-media-volume\">playback\n  volume</span>.</p>\n```",
+    "created_at": "2026-05-08T13:19:37Z",
+    "updated_at": "2026-05-08T13:23:54Z",
+    "html_url": "https://github.com/whatwg/html/pull/12428#discussion_r3208909549",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12428",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3208909549"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12428#discussion_r3208909549"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12428"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3208909549/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 43391,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 32,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3208927929",
+    "pull_request_review_id": 4252512109,
+    "id": 3208927929,
+    "node_id": "PRRC_kwDOALaj486_RFq5",
+    "diff_hunk": "@@ -43394,29 +43420,39 @@ red:89\n \n   <p>Each <span>media element</span> has a <dfn data-x=\"concept-media-muted-state\">muted\n   state</dfn>, which is either true, false, or \"<code data-x=\"\">default</code>\"; it is initially \"<code\n-  data-x=\"\">default</code>\". User agents may set a <span>media element</span>'s <span\n-  data-x=\"concept-media-muted-state\">muted state</span> to true or false (e.g., remembering the last\n-  set value across sessions, on a per-site basis or otherwise).</p>\n+  data-x=\"\">default</code>\". User agents may <span>set the muted state</span> of a <span>media\n+  element</span> to true or false (e.g., remembering the last set value across sessions, on a\n+  per-site basis or otherwise).</p>\n \n   <div algorithm>\n-  <p>The <dfn attribute for=\"HTMLMediaElement\"><code data-x=\"dom-media-muted\">muted</code></dfn>\n-  getter steps are to return true if this is <span\n-  data-x=\"concept-media-muted\">muted</span>; otherwise false.</p>\n+  <p>To <dfn export>set the muted state</dfn> of a <span>media element</span> <var>element</var> to\n+  a boolean <var>value</var>:</p>",
+    "path": "source",
+    "commit_id": "9bd141a48728f0f85e1d5e5588be06e5f2a0134d",
+    "original_commit_id": "3750d242a4280ea832b776852e563b98c3b8fda6",
+    "user": {
+      "login": "foolip",
+      "id": 498917,
+      "node_id": "MDQ6VXNlcjQ5ODkxNw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/498917?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/foolip",
+      "html_url": "https://github.com/foolip",
+      "followers_url": "https://api.github.com/users/foolip/followers",
+      "following_url": "https://api.github.com/users/foolip/following{/other_user}",
+      "gists_url": "https://api.github.com/users/foolip/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/foolip/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/foolip/subscriptions",
+      "organizations_url": "https://api.github.com/users/foolip/orgs",
+      "repos_url": "https://api.github.com/users/foolip/repos",
+      "events_url": "https://api.github.com/users/foolip/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/foolip/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Ah, nice solution, this algorithm only takes a boolean so the boolean &rarr; \"default\" cases cannot happen.",
+    "created_at": "2026-05-08T13:22:48Z",
+    "updated_at": "2026-05-08T13:23:54Z",
+    "html_url": "https://github.com/whatwg/html/pull/12428#discussion_r3208927929",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12428",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3208927929"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12428#discussion_r3208927929"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12428"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3208927929/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 43430,
+    "original_line": 43429,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 63,
+    "position": 64,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

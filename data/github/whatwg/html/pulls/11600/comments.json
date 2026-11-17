@@ -1,0 +1,931 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2311156831",
+    "pull_request_review_id": 3170098966,
+    "id": 2311156831,
+    "node_id": "PRRC_kwDOALaj486JwXRf",
+    "diff_hunk": "@@ -123421,12 +123423,58 @@ interface <dfn interface>SharedWorkerGlobalScope</dfn> : <span>WorkerGlobalScope\n   <p class=\"note\">A typical value for the <span>between-loads shared worker timeout</span> might be\n   5 seconds.</p>\n \n+  <p>A user agent has an <span>implementation-defined</span> value, the <dfn>extended lifetime\n+  shared worker timeout</dfn>, which is some amount of time. This represents how long the user agent\n+  allows shared workers which the web developer has requested be given an extended lifetime, to\n+  survive and perform work after all of their <span data-x=\"owner set\">owners</span> have disappeared. User agents should choose a value that is equal to the longest lifetime that a service worker can stay alive without any <span data-x=\"service worker client\">clients</span>, and must not choose a value that is longer than that amount of time.</p>\n+\n+  <p class=\"note\">A typical value for the <span>extended lifetime shared worker timeout</span> could be anywhere from 10 seconds to 5 minutes, depending on the implementation's individual policies regarding background work being performed by an origin without a user-visible representation.</p>\n+\n   <hr>\n \n+  <p>A <code>WorkerGlobalScope</code> <var>global</var> is <dfn data-x=\"in extended lifetime worker\">in extended lifetime</dfn> if the following algorithm returns true:</p>\n+\n+  <ol>\n+   <li><p>If <var>global</var> is not a <code>SharedWorkerGlobalScope</code>, then return false.</p></li>\n+\n+   <li><p>If <var>global</var>'s <span data-x=\"concept-SharedWorkerGlobalScope-extended-lifetime\">extended lifetime</span> is false, then return false.</p></li>\n+\n+   <li><p>If <var>global</var>'s <span>owner set</span> <span data-x=\"list is\n+   empty\">eis mpty</span>, but has been empty for less than the user agent's <span>extended lifetime shared worker",
+    "path": "source",
+    "commit_id": "cb9905b94bc7f76c551713b5f80fef48cc42395b",
+    "original_commit_id": "b97f311e4965f1df8dac18f5d9ca09edddbe0c17",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\n   empty\">is empty</span>, but has been empty for less than the user agent's <span>extended lifetime shared worker\n```",
+    "created_at": "2025-08-29T20:32:04Z",
+    "updated_at": "2025-08-29T20:46:48Z",
+    "html_url": "https://github.com/whatwg/html/pull/11600#discussion_r2311156831",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11600",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2311156831"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11600#discussion_r2311156831"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11600"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2311156831/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 123443,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 43,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2311219743",
+    "pull_request_review_id": 3170098966,
+    "id": 2311219743,
+    "node_id": "PRRC_kwDOALaj486Jwmof",
+    "diff_hunk": "@@ -123421,12 +123423,58 @@ interface <dfn interface>SharedWorkerGlobalScope</dfn> : <span>WorkerGlobalScope\n   <p class=\"note\">A typical value for the <span>between-loads shared worker timeout</span> might be\n   5 seconds.</p>\n \n+  <p>A user agent has an <span>implementation-defined</span> value, the <dfn>extended lifetime\n+  shared worker timeout</dfn>, which is some amount of time. This represents how long the user agent\n+  allows shared workers which the web developer has requested be given an extended lifetime, to\n+  survive and perform work after all of their <span data-x=\"owner set\">owners</span> have disappeared. User agents should choose a value that is equal to the longest lifetime that a service worker can stay alive without any <span data-x=\"service worker client\">clients</span>, and must not choose a value that is longer than that amount of time.</p>\n+\n+  <p class=\"note\">A typical value for the <span>extended lifetime shared worker timeout</span> could be anywhere from 10 seconds to 5 minutes, depending on the implementation's individual policies regarding background work being performed by an origin without a user-visible representation.</p>\n+\n   <hr>\n \n+  <p>A <code>WorkerGlobalScope</code> <var>global</var> is <dfn data-x=\"in extended lifetime worker\">in extended lifetime</dfn> if the following algorithm returns true:</p>\n+\n+  <ol>\n+   <li><p>If <var>global</var> is not a <code>SharedWorkerGlobalScope</code>, then return false.</p></li>\n+\n+   <li><p>If <var>global</var>'s <span data-x=\"concept-SharedWorkerGlobalScope-extended-lifetime\">extended lifetime</span> is false, then return false.</p></li>\n+\n+   <li><p>If <var>global</var>'s <span>owner set</span> <span data-x=\"list is\n+   empty\">eis mpty</span>, but has been empty for less than the user agent's <span>extended lifetime shared worker",
+    "path": "source",
+    "commit_id": "cb9905b94bc7f76c551713b5f80fef48cc42395b",
+    "original_commit_id": "b97f311e4965f1df8dac18f5d9ca09edddbe0c17",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This is interesting, it means that the extended lifetime countdown doesn't \"start\" until the owner set is empty, and the owner set doesn't become empty until the shared worker's event loop stops processing its last task ([here, right](https://whatpr.org/html/11600/56a15bf...b97f311/workers.html#worker-processing-model:concept-WorkerGlobalScope-owner-set-2)?).\n\nThis, I think, puts the lifetime countdown starting time in the shared worker's hands to some extent, so I think we might be susceptible to what @asutherland was trying to avoid in https://github.com/whatwg/html/issues/10997#issuecomment-2877998342:\n\n> a lifetime deadline/grant based on when its last owning window goes away (and not based on when the SharedWorker is told about it to avoid attempts to extend lifetime by clogging up the task queue that might delay such a notification)\n\nI could be totally wrong on this though, since I haven't read the entire PR yet? Thoughs?",
+    "created_at": "2025-08-29T20:46:21Z",
+    "updated_at": "2025-08-29T20:46:48Z",
+    "html_url": "https://github.com/whatwg/html/pull/11600#discussion_r2311219743",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11600",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2311219743"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11600#discussion_r2311219743"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11600"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2311219743/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 123443,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 43,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2312856093",
+    "pull_request_review_id": 3172056177,
+    "id": 2312856093,
+    "node_id": "PRRC_kwDOALaj486J22Id",
+    "diff_hunk": "@@ -123421,12 +123423,58 @@ interface <dfn interface>SharedWorkerGlobalScope</dfn> : <span>WorkerGlobalScope\n   <p class=\"note\">A typical value for the <span>between-loads shared worker timeout</span> might be\n   5 seconds.</p>\n \n+  <p>A user agent has an <span>implementation-defined</span> value, the <dfn>extended lifetime\n+  shared worker timeout</dfn>, which is some amount of time. This represents how long the user agent\n+  allows shared workers which the web developer has requested be given an extended lifetime, to\n+  survive and perform work after all of their <span data-x=\"owner set\">owners</span> have disappeared. User agents should choose a value that is equal to the longest lifetime that a service worker can stay alive without any <span data-x=\"service worker client\">clients</span>, and must not choose a value that is longer than that amount of time.</p>\n+\n+  <p class=\"note\">A typical value for the <span>extended lifetime shared worker timeout</span> could be anywhere from 10 seconds to 5 minutes, depending on the implementation's individual policies regarding background work being performed by an origin without a user-visible representation.</p>\n+\n   <hr>\n \n+  <p>A <code>WorkerGlobalScope</code> <var>global</var> is <dfn data-x=\"in extended lifetime worker\">in extended lifetime</dfn> if the following algorithm returns true:</p>\n+\n+  <ol>\n+   <li><p>If <var>global</var> is not a <code>SharedWorkerGlobalScope</code>, then return false.</p></li>\n+\n+   <li><p>If <var>global</var>'s <span data-x=\"concept-SharedWorkerGlobalScope-extended-lifetime\">extended lifetime</span> is false, then return false.</p></li>\n+\n+   <li><p>If <var>global</var>'s <span>owner set</span> <span data-x=\"list is\n+   empty\">eis mpty</span>, but has been empty for less than the user agent's <span>extended lifetime shared worker",
+    "path": "source",
+    "commit_id": "cb9905b94bc7f76c551713b5f80fef48cc42395b",
+    "original_commit_id": "b97f311e4965f1df8dac18f5d9ca09edddbe0c17",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "You're right to be cautious about this. However, I think we're OK:\r\n\r\n- If a document is destroyed, then it gets taken out of the owner set immediately. So if all owners are destroyed, it doesn't matter if any tasks are ongoing in the worker, the timer will start.\r\n- Similarly, if a document moves to bfcache (not fully active), it will hit step 4.1.2, again regardless of any tasks in the ongoing worker.\r\n\r\nLet me know if there's something missing though.",
+    "created_at": "2025-09-01T04:23:32Z",
+    "updated_at": "2025-09-01T04:23:33Z",
+    "html_url": "https://github.com/whatwg/html/pull/11600#discussion_r2312856093",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11600",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2312856093"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11600#discussion_r2312856093"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11600"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2312856093/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 123443,
+    "side": "RIGHT",
+    "in_reply_to_id": 2311219743,
+    "author_association": "MEMBER",
+    "original_position": 43,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2314370093",
+    "pull_request_review_id": 3174246998,
+    "id": 2314370093,
+    "node_id": "PRRC_kwDOALaj486J8nwt",
+    "diff_hunk": "@@ -123421,12 +123423,58 @@ interface <dfn interface>SharedWorkerGlobalScope</dfn> : <span>WorkerGlobalScope\n   <p class=\"note\">A typical value for the <span>between-loads shared worker timeout</span> might be\n   5 seconds.</p>\n \n+  <p>A user agent has an <span>implementation-defined</span> value, the <dfn>extended lifetime\n+  shared worker timeout</dfn>, which is some amount of time. This represents how long the user agent\n+  allows shared workers which the web developer has requested be given an extended lifetime, to\n+  survive and perform work after all of their <span data-x=\"owner set\">owners</span> have disappeared. User agents should choose a value that is equal to the longest lifetime that a service worker can stay alive without any <span data-x=\"service worker client\">clients</span>, and must not choose a value that is longer than that amount of time.</p>\n+\n+  <p class=\"note\">A typical value for the <span>extended lifetime shared worker timeout</span> could be anywhere from 10 seconds to 5 minutes, depending on the implementation's individual policies regarding background work being performed by an origin without a user-visible representation.</p>\n+\n   <hr>\n \n+  <p>A <code>WorkerGlobalScope</code> <var>global</var> is <dfn data-x=\"in extended lifetime worker\">in extended lifetime</dfn> if the following algorithm returns true:</p>\n+\n+  <ol>\n+   <li><p>If <var>global</var> is not a <code>SharedWorkerGlobalScope</code>, then return false.</p></li>\n+\n+   <li><p>If <var>global</var>'s <span data-x=\"concept-SharedWorkerGlobalScope-extended-lifetime\">extended lifetime</span> is false, then return false.</p></li>\n+\n+   <li><p>If <var>global</var>'s <span>owner set</span> <span data-x=\"list is\n+   empty\">eis mpty</span>, but has been empty for less than the user agent's <span>extended lifetime shared worker",
+    "path": "source",
+    "commit_id": "cb9905b94bc7f76c551713b5f80fef48cc42395b",
+    "original_commit_id": "b97f311e4965f1df8dac18f5d9ca09edddbe0c17",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Ah yeah that makes sense, I was not thinking of those other removal opportunities. Thanks",
+    "created_at": "2025-09-01T17:10:55Z",
+    "updated_at": "2025-09-01T17:10:55Z",
+    "html_url": "https://github.com/whatwg/html/pull/11600#discussion_r2314370093",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11600",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2314370093"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11600#discussion_r2314370093"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11600"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2314370093/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 123443,
+    "side": "RIGHT",
+    "in_reply_to_id": 2311219743,
+    "author_association": "MEMBER",
+    "original_position": 43,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2373847773",
+    "pull_request_review_id": 3260333661,
+    "id": 2373847773,
+    "node_id": "PRRC_kwDOALaj486Nfgrd",
+    "diff_hunk": "@@ -4374,6 +4374,7 @@ a.setAttribute('href', 'https://example.com/'); // change the content attribute\n      <li><dfn data-x=\"on-fetch-request-algorithm\" data-x-href=\"https://w3c.github.io/ServiceWorker/#on-fetch-request-algorithm\">handle fetch</dfn></li>\n      <li><dfn data-x=\"scope-match-algorithm\" data-x-href=\"https://w3c.github.io/ServiceWorker/#scope-match-algorithm\">match service worker registration</dfn></li>\n      <li><dfn data-x=\"dfn-service-worker\" data-x-href=\"https://w3c.github.io/ServiceWorker/#dfn-service-worker\">service worker</dfn></li>\n+     <li><dfn data-x-href=\"https://w3c.github.io/ServiceWorker/#dfn-service-worker-client\">service worker client</dfn></li>",
+    "path": "source",
+    "commit_id": "de1d32055fb89a5bdf3b6d2771987d5c5c4e857e",
+    "original_commit_id": "cb9905b94bc7f76c551713b5f80fef48cc42395b",
+    "user": {
+      "login": "yoshisatoyanagisawa",
+      "id": 11488631,
+      "node_id": "MDQ6VXNlcjExNDg4NjMx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/11488631?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yoshisatoyanagisawa",
+      "html_url": "https://github.com/yoshisatoyanagisawa",
+      "followers_url": "https://api.github.com/users/yoshisatoyanagisawa/followers",
+      "following_url": "https://api.github.com/users/yoshisatoyanagisawa/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yoshisatoyanagisawa/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yoshisatoyanagisawa/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yoshisatoyanagisawa/subscriptions",
+      "organizations_url": "https://api.github.com/users/yoshisatoyanagisawa/orgs",
+      "repos_url": "https://api.github.com/users/yoshisatoyanagisawa/repos",
+      "events_url": "https://api.github.com/users/yoshisatoyanagisawa/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yoshisatoyanagisawa/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Why do we need another \"service worker client\" here?",
+    "created_at": "2025-09-24T01:50:57Z",
+    "updated_at": "2025-09-24T01:50:57Z",
+    "html_url": "https://github.com/whatwg/html/pull/11600#discussion_r2373847773",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11600",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2373847773"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11600#discussion_r2373847773"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11600"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2373847773/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 4454,
+    "original_line": 4377,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 4,
+    "position": 4,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2374057940",
+    "pull_request_review_id": 3260727660,
+    "id": 2374057940,
+    "node_id": "PRRC_kwDOALaj486NgT_U",
+    "diff_hunk": "@@ -4374,6 +4374,7 @@ a.setAttribute('href', 'https://example.com/'); // change the content attribute\n      <li><dfn data-x=\"on-fetch-request-algorithm\" data-x-href=\"https://w3c.github.io/ServiceWorker/#on-fetch-request-algorithm\">handle fetch</dfn></li>\n      <li><dfn data-x=\"scope-match-algorithm\" data-x-href=\"https://w3c.github.io/ServiceWorker/#scope-match-algorithm\">match service worker registration</dfn></li>\n      <li><dfn data-x=\"dfn-service-worker\" data-x-href=\"https://w3c.github.io/ServiceWorker/#dfn-service-worker\">service worker</dfn></li>\n+     <li><dfn data-x-href=\"https://w3c.github.io/ServiceWorker/#dfn-service-worker-client\">service worker client</dfn></li>",
+    "path": "source",
+    "commit_id": "de1d32055fb89a5bdf3b6d2771987d5c5c4e857e",
+    "original_commit_id": "cb9905b94bc7f76c551713b5f80fef48cc42395b",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The other one is a property of ServiceWorkerContainer",
+    "created_at": "2025-09-24T03:52:11Z",
+    "updated_at": "2025-09-24T03:52:11Z",
+    "html_url": "https://github.com/whatwg/html/pull/11600#discussion_r2374057940",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11600",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2374057940"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11600#discussion_r2374057940"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11600"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2374057940/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 4454,
+    "original_line": 4377,
+    "side": "RIGHT",
+    "in_reply_to_id": 2373847773,
+    "author_association": "MEMBER",
+    "original_position": 4,
+    "position": 4,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2488851483",
+    "pull_request_review_id": 3414222045,
+    "id": 2488851483,
+    "node_id": "PRRC_kwDOALaj486UWNwb",
+    "diff_hunk": "@@ -123421,12 +123423,71 @@ interface <dfn interface>SharedWorkerGlobalScope</dfn> : <span>WorkerGlobalScope\n   <p class=\"note\">A typical value for the <span>between-loads shared worker timeout</span> might be\n   5 seconds.</p>\n \n+  <p>A user agent has an <span>implementation-defined</span> value, the <dfn>extended lifetime\n+  shared worker timeout</dfn>, which is some amount of time. This represents how long the user agent\n+  allows shared workers which the web developer has requested be given an extended lifetime, to\n+  survive and perform work after all of their <span data-x=\"owner set\">owners</span> have\n+  disappeared. User agents should choose a value that is equal to the longest lifetime that a\n+  service worker can stay alive without any <span data-x=\"service worker client\">clients</span>, and\n+  must not choose a value that is longer than that amount of time.</p>\n+\n+  <p class=\"note\">A typical value for the <span>extended lifetime shared worker timeout</span> could\n+  be anywhere from 10 seconds to 5 minutes, depending on the implementation's individual policies",
+    "path": "source",
+    "commit_id": "de1d32055fb89a5bdf3b6d2771987d5c5c4e857e",
+    "original_commit_id": "cb9905b94bc7f76c551713b5f80fef48cc42395b",
+    "user": {
+      "login": "watilde",
+      "id": 1716463,
+      "node_id": "MDQ6VXNlcjE3MTY0NjM=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1716463?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/watilde",
+      "html_url": "https://github.com/watilde",
+      "followers_url": "https://api.github.com/users/watilde/followers",
+      "following_url": "https://api.github.com/users/watilde/following{/other_user}",
+      "gists_url": "https://api.github.com/users/watilde/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/watilde/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/watilde/subscriptions",
+      "organizations_url": "https://api.github.com/users/watilde/orgs",
+      "repos_url": "https://api.github.com/users/watilde/repos",
+      "events_url": "https://api.github.com/users/watilde/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/watilde/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The \"10 seconds to 5 minutes\" range creates a 30× variance that prevents developers from writing reliable code. Given this feature's goal of simplifying async work during unload (per explainer: easier than service workers), developers need predictable behavior to estimate task completion times and handle edge cases.\n\n```javascript\ndocument.addEventListener('pagehide', () => {\n  const worker = new SharedWorker('compress-upload.js', { extendedLifetime: true });\n  worker.port.postMessage({ data: largeDataset });\n  \n  // Developer cannot reliably:\n  // - Show accurate UI (\"saving... may take 10s? or 5min?\")\n  // - Design tasks to fit within timeout\n  // - Debug timeout-related failures across browsers\n});\n```\n\nCould we narrow the recommended range and align with service worker precedent:\n> A typical value for the extended lifetime shared worker timeout\n> should be consistent with the user agent's service worker lifetime policy when idle, \n> typically in the range of 20-60 seconds. Values significantly outside this range may \n> cause interoperability issues and unpredictable developer experience.\n\nTo aid cross-browser development, it'd be great if we could consider exposing the timeout value via JavaScript which is similar to how developers can detect other implementation-defined limits.",
+    "created_at": "2025-11-04T06:17:05Z",
+    "updated_at": "2025-11-04T06:39:38Z",
+    "html_url": "https://github.com/whatwg/html/pull/11600#discussion_r2488851483",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11600",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2488851483"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11600#discussion_r2488851483"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11600"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2488851483/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 130902,
+    "original_line": 123435,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 35,
+    "position": 35,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2488858268",
+    "pull_request_review_id": 3414222045,
+    "id": 2488858268,
+    "node_id": "PRRC_kwDOALaj486UWPac",
+    "diff_hunk": "@@ -124195,11 +124300,17 @@ interface <dfn interface>SharedWorker</dfn> : <span>EventTarget</span> {\n      <li><p><code data-x=\"dom-WorkerOptions-credentials\">credentials</code> can be used to specify\n      how <var>scriptURL</var> is fetched, but only if <code\n      data-x=\"dom-WorkerOptions-type\">type</code> is set to \"<code data-x=\"\">module</code>\".</p></li>\n+\n+     <li><p><code data-x=\"dom-SharedWorkerOptions-extendedLifetime\">extendedLifetime</code> can be\n+     set to request that the newly-created global environment be given extra time to perform its\n+     operations even after all of its <span data-x=\"owner set\">owners</span> have disappeared. This\n+     can be useful, for example, for performing asynchronous work after page unload.</p></li>\n     </ul>\n \n     <p>Note that attempting to construct a shared worker with <var>options</var> whose <code",
+    "path": "source",
+    "commit_id": "bbb4efc1a4f1391f633bccad4b4895cac34beb27",
+    "original_commit_id": "cb9905b94bc7f76c551713b5f80fef48cc42395b",
+    "user": {
+      "login": "watilde",
+      "id": 1716463,
+      "node_id": "MDQ6VXNlcjE3MTY0NjM=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1716463?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/watilde",
+      "html_url": "https://github.com/watilde",
+      "followers_url": "https://api.github.com/users/watilde/followers",
+      "following_url": "https://api.github.com/users/watilde/following{/other_user}",
+      "gists_url": "https://api.github.com/users/watilde/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/watilde/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/watilde/subscriptions",
+      "organizations_url": "https://api.github.com/users/watilde/orgs",
+      "repos_url": "https://api.github.com/users/watilde/repos",
+      "events_url": "https://api.github.com/users/watilde/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/watilde/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "How about making this stand out? `<div class=\"warning\"></div>`",
+    "created_at": "2025-11-04T06:20:57Z",
+    "updated_at": "2025-11-04T06:39:38Z",
+    "html_url": "https://github.com/whatwg/html/pull/11600#discussion_r2488858268",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11600",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2488858268"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11600#discussion_r2488858268"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11600"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2488858268/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 124310,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 246,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2488876130",
+    "pull_request_review_id": 3414222045,
+    "id": 2488876130,
+    "node_id": "PRRC_kwDOALaj486UWTxi",
+    "diff_hunk": "@@ -124347,12 +124458,17 @@ interface <dfn interface>SharedWorker</dfn> : <span>EventTarget</span> {\n       <ul>\n        <li><p><var>workerGlobalScope</var>'s <span\n        data-x=\"concept-WorkerGlobalScope-type\">type</span> is not equal to <var>options</var>[\"<code\n-       data-x=\"dom-WorkerOptions-type\">type</code>\"]; or</p></li>\n+       data-x=\"dom-WorkerOptions-type\">type</code>\"];</p></li>\n ",
+    "path": "source",
+    "commit_id": "de1d32055fb89a5bdf3b6d2771987d5c5c4e857e",
+    "original_commit_id": "cb9905b94bc7f76c551713b5f80fef48cc42395b",
+    "user": {
+      "login": "watilde",
+      "id": 1716463,
+      "node_id": "MDQ6VXNlcjE3MTY0NjM=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1716463?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/watilde",
+      "html_url": "https://github.com/watilde",
+      "followers_url": "https://api.github.com/users/watilde/followers",
+      "following_url": "https://api.github.com/users/watilde/following{/other_user}",
+      "gists_url": "https://api.github.com/users/watilde/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/watilde/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/watilde/subscriptions",
+      "organizations_url": "https://api.github.com/users/watilde/orgs",
+      "repos_url": "https://api.github.com/users/watilde/repos",
+      "events_url": "https://api.github.com/users/watilde/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/watilde/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Given this feature aims to improve DX over service workers (per explainer: simpler registration, blob: URL support), option mismatch errors should provide clear diagnostics to maintain that DX advantage.\n\n```javascript\n// library-a.js\nnew SharedWorker('analytics.js', { extendedLifetime: true });\n\n// library-b.js (different file, no knowledge of library-a)\nnew SharedWorker('analytics.js', { extendedLifetime: false });\n// → onerror fires, but developer doesn't know:\n//    - Which option failed\n//    - What the existing value is\n//    - How to fix it\n```\n\nIt'd be great if we can populate the error message with the conflicting option name, existing value, and requested value:\n> \"Failed to construct 'SharedWorker': option 'extendedLifetime' mismatch (existing: true, requested: false)\"",
+    "created_at": "2025-11-04T06:31:27Z",
+    "updated_at": "2025-11-04T06:39:38Z",
+    "html_url": "https://github.com/whatwg/html/pull/11600#discussion_r2488876130",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11600",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2488876130"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11600#discussion_r2488876130"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11600"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2488876130/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 131963,
+    "original_line": 124462,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 261,
+    "position": 212,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2893818222",
+    "pull_request_review_id": 3901278768,
+    "id": 2893818222,
+    "node_id": "PRRC_kwDOALaj486sfClu",
+    "diff_hunk": "@@ -130888,13 +130890,74 @@ interface <dfn interface>SharedWorkerGlobalScope</dfn> : <span>WorkerGlobalScope\n   <p class=\"note\">A typical value for the <span>between-loads shared worker timeout</span> might be\n   5 seconds.</p>\n \n+  <p>A user agent has an <span>implementation-defined</span> value, the <dfn>extended lifetime\n+  shared worker timeout</dfn>, which is some amount of time. This represents how long the user agent\n+  allows shared workers which the web developer has requested be given an extended lifetime, to\n+  survive and perform work after all of their <span data-x=\"owner set\">owners</span> have\n+  disappeared. User agents should choose a value that is equal to the longest lifetime that a\n+  service worker can stay alive without any <span data-x=\"service worker client\">clients</span>, and\n+  must not choose a value that is longer than that amount of time.</p>\n+\n+  <p class=\"note\">A typical value for the <span>extended lifetime shared worker timeout</span> could\n+  be anywhere from 10 seconds to 5 minutes, depending on the implementation's individual policies\n+  regarding background work being performed by an origin without a user-visible representation.</p>\n+\n   <hr>\n \n+  <div algorithm>\n+  <p>A <code>WorkerGlobalScope</code> <var>global</var> is <dfn data-x=\"in extended lifetime\n+  worker\">in extended lifetime</dfn> if the following algorithm returns true:</p>\n+\n+  <ol>\n+   <li><p>If <var>global</var> is not a <code>SharedWorkerGlobalScope</code>, then return\n+   false.</p></li>\n+\n+   <li><p>If <var>global</var>'s <span\n+   data-x=\"concept-SharedWorkerGlobalScope-extended-lifetime\">extended lifetime</span> is false,\n+   then return false.</p></li>\n+\n+   <li><p>If <var>global</var>'s <span>owner set</span> <span data-x=\"list is empty\">is\n+   empty</span>, but has been empty for less than the user agent's <span>extended lifetime shared\n+   worker timeout</span>, then return true.</p></li>\n+\n+   <li>\n+    <p><span data-x=\"list iterate\">For each</span> <var>owner</var> of <var>global</var>'s\n+    <span>owner set</span>:</p>\n+\n+    <ol>\n+     <li>\n+      <p>If <var>owner</var> is a <code>Document</code>, then:</p>\n+\n+      <ol>\n+       <li>\n+        <p>If <var>owner</var> is <span>fully active</span>, then return false.</p>\n+\n+        <p class=\"note\">In this case <var>global</var> will be <span data-x=\"active needed\n+        worker\">actively needed</span>, but it's not in extended lifetime.</p>\n+       </li>\n+\n+       <li><p>If the amount of time that <var>owner</var> has not been <span>fully active</span> is",
+    "path": "source",
+    "commit_id": "b845273b7c8cd523d09f243901589e671617c1d6",
+    "original_commit_id": "b845273b7c8cd523d09f243901589e671617c1d6",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This is a bug that I'll fix in the next 24h (it's currently late where I am). If a shared worker has an owner set: [bf-cached-doc, fully-active-doc] and we iterate over this list in order, we will evaluate bf-cached-doc first, and return true/false depending on how long it's been non-fully-active. But because the shared worker has at least one fully active doc, it is thus independently \"actively needed\" and should never be \"in extended lifetime\".",
+    "created_at": "2026-03-06T04:55:54Z",
+    "updated_at": "2026-03-06T04:58:05Z",
+    "html_url": "https://github.com/whatwg/html/pull/11600#discussion_r2893818222",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11600",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2893818222"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11600#discussion_r2893818222"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11600"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2893818222/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 130939,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 72,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2896685580",
+    "pull_request_review_id": 3904712297,
+    "id": 2896685580,
+    "node_id": "PRRC_kwDOALaj486sp-oM",
+    "diff_hunk": "@@ -123421,12 +123423,71 @@ interface <dfn interface>SharedWorkerGlobalScope</dfn> : <span>WorkerGlobalScope\n   <p class=\"note\">A typical value for the <span>between-loads shared worker timeout</span> might be\n   5 seconds.</p>\n \n+  <p>A user agent has an <span>implementation-defined</span> value, the <dfn>extended lifetime\n+  shared worker timeout</dfn>, which is some amount of time. This represents how long the user agent\n+  allows shared workers which the web developer has requested be given an extended lifetime, to\n+  survive and perform work after all of their <span data-x=\"owner set\">owners</span> have\n+  disappeared. User agents should choose a value that is equal to the longest lifetime that a\n+  service worker can stay alive without any <span data-x=\"service worker client\">clients</span>, and\n+  must not choose a value that is longer than that amount of time.</p>\n+\n+  <p class=\"note\">A typical value for the <span>extended lifetime shared worker timeout</span> could\n+  be anywhere from 10 seconds to 5 minutes, depending on the implementation's individual policies",
+    "path": "source",
+    "commit_id": "de1d32055fb89a5bdf3b6d2771987d5c5c4e857e",
+    "original_commit_id": "cb9905b94bc7f76c551713b5f80fef48cc42395b",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This is not the recommended range for implementers. The normative requirement for implementers is outlined elsewhere to be no longer than the amount of time a service worker with no clients is allowed to stay alive. This is just an example for developers, basically. I guess we could supply a _lower bound_ so that it can't be significantly less than the time here, but since implementers agree on the current spec, I'd ask you to file a follow-up bug to discuss with people, if there's an appetite for changing this.",
+    "created_at": "2026-03-06T16:26:51Z",
+    "updated_at": "2026-03-06T16:26:52Z",
+    "html_url": "https://github.com/whatwg/html/pull/11600#discussion_r2896685580",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11600",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2896685580"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11600#discussion_r2896685580"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11600"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2896685580/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 130902,
+    "original_line": 123435,
+    "side": "RIGHT",
+    "in_reply_to_id": 2488851483,
+    "author_association": "MEMBER",
+    "original_position": 35,
+    "position": 35,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2896700859",
+    "pull_request_review_id": 3904727702,
+    "id": 2896700859,
+    "node_id": "PRRC_kwDOALaj486sqCW7",
+    "diff_hunk": "@@ -124347,12 +124458,17 @@ interface <dfn interface>SharedWorker</dfn> : <span>EventTarget</span> {\n       <ul>\n        <li><p><var>workerGlobalScope</var>'s <span\n        data-x=\"concept-WorkerGlobalScope-type\">type</span> is not equal to <var>options</var>[\"<code\n-       data-x=\"dom-WorkerOptions-type\">type</code>\"]; or</p></li>\n+       data-x=\"dom-WorkerOptions-type\">type</code>\"];</p></li>\n ",
+    "path": "source",
+    "commit_id": "de1d32055fb89a5bdf3b6d2771987d5c5c4e857e",
+    "original_commit_id": "cb9905b94bc7f76c551713b5f80fef48cc42395b",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Specs generally do not specify exact error text. I expect implementations to set the error text to the most specific thing possible to help developers, but I don't think this is something we'd really codify in the spec. @yoshisatoyanagisawa can you confirm whether Chrome plans to outline the specific mismatch in the error message her? @asutherland, same for Firefox?",
+    "created_at": "2026-03-06T16:30:07Z",
+    "updated_at": "2026-03-06T16:30:08Z",
+    "html_url": "https://github.com/whatwg/html/pull/11600#discussion_r2896700859",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11600",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2896700859"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11600#discussion_r2896700859"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11600"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2896700859/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 131963,
+    "original_line": 124462,
+    "side": "RIGHT",
+    "in_reply_to_id": 2488876130,
+    "author_association": "MEMBER",
+    "original_position": 261,
+    "position": 212,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2896778313",
+    "pull_request_review_id": 3904820012,
+    "id": 2896778313,
+    "node_id": "PRRC_kwDOALaj486sqVRJ",
+    "diff_hunk": "@@ -124195,11 +124300,17 @@ interface <dfn interface>SharedWorker</dfn> : <span>EventTarget</span> {\n      <li><p><code data-x=\"dom-WorkerOptions-credentials\">credentials</code> can be used to specify\n      how <var>scriptURL</var> is fetched, but only if <code\n      data-x=\"dom-WorkerOptions-type\">type</code> is set to \"<code data-x=\"\">module</code>\".</p></li>\n+\n+     <li><p><code data-x=\"dom-SharedWorkerOptions-extendedLifetime\">extendedLifetime</code> can be\n+     set to request that the newly-created global environment be given extra time to perform its\n+     operations even after all of its <span data-x=\"owner set\">owners</span> have disappeared. This\n+     can be useful, for example, for performing asynchronous work after page unload.</p></li>\n     </ul>\n \n     <p>Note that attempting to construct a shared worker with <var>options</var> whose <code",
+    "path": "source",
+    "commit_id": "bbb4efc1a4f1391f633bccad4b4895cac34beb27",
+    "original_commit_id": "cb9905b94bc7f76c551713b5f80fef48cc42395b",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This seems reasonable. I made this specific paragraph class=\"warning\", and ensured it shows up in the developer version of the standard too.",
+    "created_at": "2026-03-06T16:43:53Z",
+    "updated_at": "2026-03-06T16:43:54Z",
+    "html_url": "https://github.com/whatwg/html/pull/11600#discussion_r2896778313",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11600",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2896778313"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11600#discussion_r2896778313"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11600"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2896778313/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 124310,
+    "side": "RIGHT",
+    "in_reply_to_id": 2488858268,
+    "author_association": "MEMBER",
+    "original_position": 246,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

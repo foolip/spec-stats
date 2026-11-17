@@ -1,0 +1,357 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2563744832",
+    "pull_request_review_id": 3509430055,
+    "id": 2563744832,
+    "node_id": "PRRC_kwDOALaj486Yz6RA",
+    "diff_hunk": "@@ -104473,15 +104473,21 @@ interface <dfn interface>NotRestoredReasons</dfn> {\n    <var>origin</var>, <var>group</var>, and false.</p></li>\n \n    <li>\n-    <p>Let <var>realm execution context</var> be the result of <span>creating a new realm</span>\n-    given <var>agent</var> and the following customizations:</p>\n+    <p>Let <var>customizations</var> be the following algorithm given a realm <var>realm</var>:</p>\n \n-    <ul>\n-     <li><p>For the global object, create a new <code>Window</code> object.</p></li>\n+    <ol>\n+     <li>Let <var>global</var> be a new <code>Window</code> object.</li>\n \n-     <li><p>For the global <b>this</b> binding, use <var>browsingContext</var>'s\n-     <code>WindowProxy</code> object.</li>\n-    </ul>\n+     <li>Let <var>globalThisBinding</var> be <var>browsingContext</var>'s <code>WindowProxy</code>\n+     object.</li>\n+\n+     <li>Return « <var>global</var>, <var>globalThisBinding</var> ».</li>\n+    </ol>\n+   </li>\n+\n+   <li>\n+    <p>Let <var>realm execution context</var> be the result of <span>creating a new realm</span>\n+    given <var>agent</var> and <var>customizations</var>.</p>\n    </li>",
+    "path": "source",
+    "commit_id": "6fca7d2285d6abc20ec1edada3fed50d1e50e2df",
+    "original_commit_id": "6fca7d2285d6abc20ec1edada3fed50d1e50e2df",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n   <li><p>Let <var>realm execution context</var> be the result of <span>creating a new realm</span>\r\n   given <var>agent</var> and <var>customizations</var>.</p></li>\r\n```",
+    "created_at": "2025-11-26T07:41:04Z",
+    "updated_at": "2025-11-26T07:44:39Z",
+    "html_url": "https://github.com/whatwg/html/pull/11962#discussion_r2563744832",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11962",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2563744832"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11962#discussion_r2563744832"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11962"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2563744832/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 104488,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 104491,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 35,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2563745991",
+    "pull_request_review_id": 3509430055,
+    "id": 2563745991,
+    "node_id": "PRRC_kwDOALaj486Yz6jH",
+    "diff_hunk": "@@ -111268,15 +111274,21 @@ location.href = '#foo';</code></pre>\n      <var>requestsOAC</var>.</p></li>\n \n      <li>\n-      <p>Let <var>realmExecutionContext</var> be the result of <span>creating a new realm</span>\n-      given <var>agent</var> and the following customizations:</p>\n+      <p>Let <var>customizations</var> be the following algorithm given a realm <var>realm</var>:</p>\n \n-      <ul>\n-       <li><p>For the global object, create a new <code>Window</code> object.</p></li>\n+      <ol>\n+       <li>Let <var>global</var> be a new <code>Window</code> object.</li>\n \n-       <li><p>For the global <b>this</b> binding, use <var>browsingContext</var>'s\n-       <code>WindowProxy</code> object.</p></li>\n-      </ul>\n+       <li>Let <var>globalThisBinding</var> be <var>browsingContext</var>'s <code>WindowProxy</code>\n+       object.</li>\n+\n+       <li>Return « <var>global</var>, <var>globalThisBinding</var> ».</li>\n+      </ol>\n+     </li>\n+\n+     <li>\n+      <p>Let <var>realmExecutionContext</var> be the result of <span>creating a new realm</span>\n+      given <var>agent</var> and <var>customizations</var>.</p>\n      </li>",
+    "path": "source",
+    "commit_id": "6fca7d2285d6abc20ec1edada3fed50d1e50e2df",
+    "original_commit_id": "6fca7d2285d6abc20ec1edada3fed50d1e50e2df",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Ditto.",
+    "created_at": "2025-11-26T07:41:20Z",
+    "updated_at": "2025-11-26T07:44:39Z",
+    "html_url": "https://github.com/whatwg/html/pull/11962#discussion_r2563745991",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11962",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2563745991"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11962#discussion_r2563745991"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11962"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2563745991/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 111292,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 64,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2563752558",
+    "pull_request_review_id": 3509430055,
+    "id": 2563752558,
+    "node_id": "PRRC_kwDOALaj486Yz8Ju",
+    "diff_hunk": "@@ -115430,24 +115442,12 @@ new PaymentRequest(&hellip;); // Allowed to use\n \n   <div algorithm>\n   <p>To <dfn data-x=\"creating a new realm\" export id=\"creating-a-new-javascript-realm\">create a new\n-  realm</dfn> in an <span>agent</span> <var>agent</var>, optionally with instructions to create a\n-  global object or a global <b>this</b> binding (or both), the following steps are taken:</p>\n+  realm</dfn> in an <span>agent</span> <var>agent</var>, with a customizations algorithm\n+  <var>customizations</var>, the following steps are taken:</p>",
+    "path": "source",
+    "commit_id": "6fca7d2285d6abc20ec1edada3fed50d1e50e2df",
+    "original_commit_id": "6fca7d2285d6abc20ec1edada3fed50d1e50e2df",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n  <var>customizations</var>:</p>\r\n```",
+    "created_at": "2025-11-26T07:42:49Z",
+    "updated_at": "2025-11-26T07:44:39Z",
+    "html_url": "https://github.com/whatwg/html/pull/11962#discussion_r2563752558",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11962",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2563752558"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11962#discussion_r2563752558"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11962"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2563752558/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 115446,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 74,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2563754151",
+    "pull_request_review_id": 3509430055,
+    "id": 2563754151,
+    "node_id": "PRRC_kwDOALaj486Yz8in",
+    "diff_hunk": "@@ -130657,14 +130657,18 @@ interface <dfn interface>SharedWorkerGlobalScope</dfn> : <span>WorkerGlobalScope\n    <var>is shared</var>. Run the rest of these steps in that agent.</p></li>\n \n    <li>\n-    <p>Let <var>realm execution context</var> be the result of <span>creating a new realm</span>\n-    given <var>agent</var> and the following customizations:</p>\n+    <p>Let <var>customizations</var> be the following algorithm given a realm <var>realm</var>:</p>\n \n-    <ul>\n-     <li><p>For the global object, if <var>is shared</var> is true, create a new\n-     <code>SharedWorkerGlobalScope</code> object. Otherwise, create a new\n-     <code>DedicatedWorkerGlobalScope</code> object.</p></li>\n-    </ul>\n+    <ol>\n+     <li>Let <var>global</var> be a new <code>SharedWorkerGlobalScope</code> object if <var>is shared</var> is true; otherwise a new <code>DedicatedWorkerGlobalScope</code> object.</li>\n+\n+     <li>Return « <var>global</var>, undefined ».</li>\n+    </ol>\n+   </li>\n+\n+   <li>\n+    <p>Let <var>realm execution context</var> be the result of <span>creating a new realm</span>\n+    given <var>agent</var> and <var>customizations</var>.</p>\n    </li>",
+    "path": "source",
+    "commit_id": "6fca7d2285d6abc20ec1edada3fed50d1e50e2df",
+    "original_commit_id": "6fca7d2285d6abc20ec1edada3fed50d1e50e2df",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Ditto.",
+    "created_at": "2025-11-26T07:43:11Z",
+    "updated_at": "2025-11-26T07:44:39Z",
+    "html_url": "https://github.com/whatwg/html/pull/11962#discussion_r2563754151",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11962",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2563754151"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11962#discussion_r2563754151"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11962"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2563754151/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 130672,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 119,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2563754630",
+    "pull_request_review_id": 3509430055,
+    "id": 2563754630,
+    "node_id": "PRRC_kwDOALaj486Yz8qG",
+    "diff_hunk": "@@ -132229,13 +132233,19 @@ interface <dfn interface>WorkletGlobalScope</dfn> {};</code></pre>\n    agent.</p></li>\n \n    <li>\n-    <p>Let <var>realmExecutionContext</var> be the result of <span>creating a new realm</span> given\n-    <var>agent</var> and the following customizations:</p>\n+    <p>Let <var>customizations</var> be the following algorithm given a realm <var>realm</var>:</p>\n \n-    <ul>\n-     <li><p>For the global object, create a new object of the type given by <var>worklet</var>'s\n-     <span>worklet global scope type</span>.</p></li>\n-    </ul>\n+    <ol>\n+     <li>Let <var>global</var> be a new object of the type given by <var>worklet</var>'s\n+     <span>worklet global scope type</span>.</li>\n+\n+     <li>Return « <var>global</var>, undefined ».</li>\n+    </ol>\n+   </li>\n+\n+   <li>\n+    <p>Let <var>realmExecutionContext</var> be the result of <span>creating a new realm</span> given\n+    <var>agent</var> and <var>customizations</var>.</p>\n    </li>",
+    "path": "source",
+    "commit_id": "6fca7d2285d6abc20ec1edada3fed50d1e50e2df",
+    "original_commit_id": "6fca7d2285d6abc20ec1edada3fed50d1e50e2df",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Ditto.",
+    "created_at": "2025-11-26T07:43:19Z",
+    "updated_at": "2025-11-26T07:44:39Z",
+    "html_url": "https://github.com/whatwg/html/pull/11962#discussion_r2563754630",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11962",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2563754630"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11962#discussion_r2563754630"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11962"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2563754630/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 132249,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 145,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

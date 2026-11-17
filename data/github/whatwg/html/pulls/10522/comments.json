@@ -1,0 +1,73 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2440659212",
+    "pull_request_review_id": 3351210020,
+    "id": 2440659212,
+    "node_id": "PRRC_kwDOALaj486ReYEM",
+    "diff_hunk": "@@ -48795,17 +48795,30 @@ interface <dfn interface>HTMLInputElement</dfn> : <span>HTMLElement</span> {\n \n   <p>A <dfn id=\"valid-e-mail-address\">valid email address</dfn> is a string that matches the <code\n   data-x=\"\">email</code> production of the following ABNF, the character set for which is Unicode.\n-  This ABNF implements the extensions described in RFC 1123. <ref>ABNF</ref> <ref>RFC5322</ref>\n-  <ref>RFC1034</ref> <ref>RFC1123</ref></p>\n-\n-  <pre><code data-x=\"\" class=\"abnf\">email         = 1*( atext / \".\" ) \"@\" label *( \".\" label )\n-label         = let-dig [ [ ldh-str ] let-dig ]  ; limited to a length of 63 characters by <a href=\"https://www.rfc-editor.org/rfc/rfc1034#section-3.5\">RFC 1034 section 3.5</a>\n-atext         = &lt; as defined in <a href=\"https://www.rfc-editor.org/rfc/rfc5322#section-3.2.3\">RFC 5322 section 3.2.3</a> >\n-let-dig       = &lt; as defined in <a href=\"https://www.rfc-editor.org/rfc/rfc1034#section-3.5\">RFC 1034 section 3.5</a> >\n-ldh-str       = &lt; as defined in <a href=\"https://www.rfc-editor.org/rfc/rfc1034#section-3.5\">RFC 1034 section 3.5</a> ></code></pre>\n+  This ABNF implements the extensions described in RFC 1123 and includes support for internationalized\n+  email addresses as described in RFC 6531. <ref>ABNF</ref> <ref>RFC5322</ref>\n+  <ref>RFC1034</ref> <ref>RFC1123</ref> <ref>RFC6531</ref></p>\n+\n+  <pre><code data-x=\"\" class=\"abnf\">email         = localpart \"@\" domain\n+localpart     = 1*( utext / \".\" )\n+utext         = ALPHA / DIGIT / \"!\" /               ; unreserved printable ASCII\n+                \"#\" / \"$\" / \"%\" / \"&\" / \"'\" / \"*\" / ; as defined in RFC5322 section 3.2.3\n+                \"+\" / \"-\" / \"/\" / \"=\" / \"?\" / \"^\" /\n+                \"_\" / \"`\" / \"{\" / \"|\" / \"}\" / \"~\" /\n+                %80-D7FF / %E000-10FFFF             ; or any other non-ASCII Unicode\n+domain        = &lt; a \"valid domain string\", see URL section 3.4 &gt;</code></pre>\n \n   <!-- Domain syntax based on section 3.5 of [RFC1034] and section 2.1 of [RFC1123] -->\n \n+  <p class=\"note\">This definition supports internationalized email addresses (\"SMTPUTF8\"), including\n+  non-ASCII values in both the localpart (the mailbox name or \"left hand side\") and the domain\n+  portions of the address. The domain is required to be a\n+  <a href=\"https://url.spec.whatwg.org/#valid-domain-string\">valid domain string</a>. Because of the details\n+  for encoding non-ASCII domain names, it is not possible to describe the domain portation of an\n+  address in a simple regular expression. The number and range of Unicode characters permited are",
+    "path": "source",
+    "commit_id": "1abc9b3741d48df04878b85a676eb23338d37c0c",
+    "original_commit_id": "1abc9b3741d48df04878b85a676eb23338d37c0c",
+    "user": {
+      "login": "sayrer",
+      "id": 253473,
+      "node_id": "MDQ6VXNlcjI1MzQ3Mw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/253473?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/sayrer",
+      "html_url": "https://github.com/sayrer",
+      "followers_url": "https://api.github.com/users/sayrer/followers",
+      "following_url": "https://api.github.com/users/sayrer/following{/other_user}",
+      "gists_url": "https://api.github.com/users/sayrer/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/sayrer/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/sayrer/subscriptions",
+      "organizations_url": "https://api.github.com/users/sayrer/orgs",
+      "repos_url": "https://api.github.com/users/sayrer/repos",
+      "events_url": "https://api.github.com/users/sayrer/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/sayrer/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Should you delete the regular expression below, then? I think so, but this feature is pretty confusing.",
+    "created_at": "2025-10-17T17:18:40Z",
+    "updated_at": "2025-10-17T17:18:41Z",
+    "html_url": "https://github.com/whatwg/html/pull/10522#discussion_r2440659212",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/10522",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2440659212"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/10522#discussion_r2440659212"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/10522"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2440659212/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 48818,
+    "original_line": 48818,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 32,
+    "position": 32,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

@@ -1,0 +1,48 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/6697123177",
+    "html_url": "https://github.com/whatwg/html/pull/13053#issuecomment-6697123177",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/13053",
+    "id": 6697123177,
+    "node_id": "IC_kwDOALaj488AAAABjy39aQ",
+    "user": {
+      "login": "noamr",
+      "id": 88566,
+      "node_id": "MDQ6VXNlcjg4NTY2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88566?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/noamr",
+      "html_url": "https://github.com/noamr",
+      "followers_url": "https://api.github.com/users/noamr/followers",
+      "following_url": "https://api.github.com/users/noamr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/noamr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/noamr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/noamr/subscriptions",
+      "organizations_url": "https://api.github.com/users/noamr/orgs",
+      "repos_url": "https://api.github.com/users/noamr/repos",
+      "events_url": "https://api.github.com/users/noamr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/noamr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-06T22:11:14Z",
+    "updated_at": "2026-11-06T22:11:14Z",
+    "body": "### Open questions\n\nTwo pre-existing `main` behaviors surfaced while auditing the surrounding `sizes` and `update the image data` algorithms; neither is introduced by this PR, so I left them untouched, flagging in case follow-up issues are warranted:\n\n1. **Non-first bare `auto` in `parse a sizes attribute`**: Although the authoring grammar (`<auto-source-size-list> = auto, <source-size-list>?`) requires `auto` to be the *first* item and step 4.5 reports a parse error when `unparsed size` is not the first entry in `sizes`, step 4.6 (`If img is not null and img allows auto-sizes`) still runs for `<img loading=\"lazy\" sizes=\"(max-width: 0px) 10px, auto, 500px\">` on `main`. Blink matches `main`'s algorithm (treating non-first bare `auto` as `auto` after skipping a false media condition), whereas WebKit rejects non-first `auto`.\n2. **Same-URL microtask fast path in `update the image data`**: On `main`, when `selected source` equals `last selected source` and `current request`'s state is `completely available`, step 15 queues an image-loading microtask and aborts without updating `current pixel density` to `selected pixel density`, so changing `sizes` without changing the winning URL leaves `naturalWidth`/`naturalHeight` density-corrected by the previous density until a different URL is selected.\n\n### Findings and fixes\n\n#### Specification (`whatwg/html#13053`)\n\n- **Media-conditioned `auto` in `parse a sizes attribute`** ([`5bccf680e`](https://github.com/whatwg/html/pull/13053/commits/5bccf680e8bb8806baef7676423cb1a51d591f34)): In the refactor of `parse a sizes attribute`, `<media-condition>` was parsed before checking whether the remaining `<source-size-value>` was `auto`, which allowed `<media-condition> auto` (e.g. `sizes=\"(min-width: 0px) auto\"`) to enter the `img allows auto-sizes` branch instead of failing to parse and falling through to the next `<source-size>` item (diverging from `<source-size-list>` and Blink's `SizesAttributeParser`). Guarded the `auto` branch on `<media-condition>` not being present, and moved the invalid-`auto` parse error ahead of the final-item `return null` check so trailing invalid `auto` (e.g. `<source sizes=\"auto\">`, `<link imagesizes=\"auto\">`, or eager `<img sizes=\"auto\">`) still reports a parse error before returning `null`.\n- **Editorial & cross-reference cleanup** ([`63bb0984c`](https://github.com/whatwg/html/pull/13053/commits/63bb0984ceb84f562306b2944d4f0ee5e57831d7)): Added `for=\"img\"` / `export` definitions where appropriate, linked `'object-fit'` values (`contain`, `cover`, `scale-down`, `fill`, `none`) to CSS Images, and tightened tuple/variable scoping across `parse a sizes attribute`, `compute concrete object size`, `resolve a source size`, and `normalize the source densities`.\n\n#### Web Platform Tests ([`web-platform-tests/wpt#64025`](https://github.com/web-platform-tests/wpt/pull/64025))\n\n- **Eliminated 1D / non-implementing-engine false passes across all test suites** ([`f21a26268b`](https://github.com/web-platform-tests/wpt/pull/64025/commits/f21a26268b92f8dd8763d7858ff092fa08829815), [`997e912965`](https://github.com/web-platform-tests/wpt/pull/64025/commits/997e9129654cca0651330237f94036cc33418d0f), [`e1d11d8b8f`](https://github.com/web-platform-tests/wpt/pull/64025/commits/e1d11d8b8f78f5b8df42c1e1fc161f6b664707bd), [`504c28142b`](https://github.com/web-platform-tests/wpt/pull/64025/commits/504c28142bd285a13c0c09a46671e3053b194fb0), [`8207c8373e`](https://github.com/web-platform-tests/wpt/pull/64025/commits/8207c8373ed4cad28a96d3ce390b30b4e3530e9f), [`227a5cfd21`](https://github.com/web-platform-tests/wpt/pull/64025/commits/227a5cfd21bc195e922e17ac7ad0a0e013fa0533)):\n  - Replaced bare implicit-`100vw` fallbacks and tautological candidate orderings where a browser ignoring 2D `sizes` or `h` descriptors selected the same candidate as a 2D implementation (verified by running the suite with `--no-enable-experimental`).\n  - Fixed invalid `h` descriptor subtests (`0h`, `50.5h`, `50h 50h`, `50h 5x`, `5x 50h `) and `height=\"0\"` / `height=\"100%\"` dimension-attribute subtests in `sizes-2d.html` so un-dropped invalid candidates or unrejected percentage heights select a different reference image than conforming behavior.\n  - Updated `link-header-preload-imagesrcset-2d.html` (`.headers`) to support DPR up to `4` with explicit `4000px` / `3200px` 1D fallbacks and reversed duplicate `(w, h)` candidate ordering so 1D fallback cannot collide with the first candidate.\n- **Cross-engine precision & `naturalWidth` rounding** ([`997e912965`](https://github.com/web-platform-tests/wpt/pull/64025/commits/997e9129654cca0651330237f94036cc33418d0f), [`cd13873840`](https://github.com/web-platform-tests/wpt/pull/64025/commits/cd1387384042d207ec9f43bde9be22c9fe8f6023), [`d2d40011f5`](https://github.com/web-platform-tests/wpt/pull/64025/commits/d2d40011f5ff53460a1e87955a507444f4968f6e), [`16609d2cd8`](https://github.com/web-platform-tests/wpt/pull/64025/commits/16609d2cd851d05d6d6c8b5d7068d82fd7a1e5b5)):\n  - Replaced non-dyadic `100px` / `300px` CSS lengths and `1x1` test images with powers of two (`128px`, `256px`, `512px`) and `green-256x256.png` to avoid float32 `LayoutUnit` boundary drift and `floor(1 / density) === 0` collapse, while allowing both `Math.floor` (Blink) and `Math.round` (Gecko) for density-corrected `naturalWidth` / `naturalHeight`.\n  - Shared exact integer `w` descriptors across candidates at fractional DPRs and fixed `expectedDensity` on the 2:1 `cover` subtests in `select-an-image-source-2d.html`.\n- **Event-driven synchronization, viewport placement, & mandatory vs `.optional` split** ([`3729c87006`](https://github.com/web-platform-tests/wpt/pull/64025/commits/3729c87006e7d052ca813f21be1c72e6853980da), [`dc5cbb6cf3`](https://github.com/web-platform-tests/wpt/pull/64025/commits/dc5cbb6cf3320360a8d8cf4ea14c3281286fe40e), [`13f66e0522`](https://github.com/web-platform-tests/wpt/pull/64025/commits/13f66e0522c4fede750d179192fde168886b0415), [`e315dd5e9a`](https://github.com/web-platform-tests/wpt/pull/64025/commits/e315dd5e9a0806d6b14ea1313026c078716e3cc7)):\n  - Replaced `step_timeout` sleeps with `requestAnimationFrame` / pre-attached `onload` promises, mounted `loading=\"lazy\"` images inside the viewport so lazy-load intersection is guaranteed on small mobile/CI viewports, and flushed `<iframe>` layout before asserting `vw` / `vh` resolution.\n  - Added coverage for `<media-condition> auto` rejection (`(min-width: 0px) auto, contain 10px 1000px`), `display: none` -> rendered `sizes=\"auto\"` upgrades, `Element.prototype.moveBefore` preservation of `last-auto-sizes-size`, `<picture>` sibling `<source>` fallback, and CSS math functions (`calc()`, `min()`, `max()`, `clamp()`).\n  - Kept static `<iframe>` `vw`/`vh` resolution in mandatory `sizes-2d.html` while moving dynamic `iframe.style.height` resize re-selection (`#reacting-to-environment-changes` without a media query) to `select-an-image-source-2d-cached.optional.html`.\n",
+    "author_association": "CONTRIBUTOR",
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/6697123177/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

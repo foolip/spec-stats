@@ -1,0 +1,648 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3419333899",
+    "pull_request_review_id": 4504696223,
+    "id": 3419333899,
+    "node_id": "PRRC_kwDOALaj487LzuUL",
+    "diff_hunk": "@@ -97797,51 +97798,48 @@ interface <dfn interface>BarProp</dfn> {\n \n   <div algorithm>\n   <p>To <dfn>set up a window environment settings object</dfn>, given a <span>URL</span>\n-  <var>creationURL</var>, a <span>JavaScript execution context</span> <var>execution context</var>,\n-  null or an <span>environment</span> <var>reservedEnvironment</var>, a <span>URL</span>\n+  <var>creationURL</var>, a <span>realm</span> <var>realm</var>, null or an\n+  <span>environment</span> <var>reservedEnvironment</var>, a <span>URL</span>\n   <var>topLevelCreationURL</var>, and an <span>origin</span> <var>topLevelOrigin</var>, run these\n   steps:</p>\n \n-  <ol>\n-   <li><p>Let <var>realm</var> be the value of <var>execution context</var>'s Realm\n-   component.</p></li>\n-\n-   <li><p>Let <var>window</var> be <var>realm</var>'s <span data-x=\"concept-realm-global\">global\n-   object</span>.</p></li>\n+  <p class=\"note\">This algorithm is invoked before <var>realm</var>'s <span\n+  data-x=\"concept-realm-global\">global object</span> is allocated. The closures defined below read\n+  the global object lazily when they are invoked, by which time <var>realm</var> has been fully\n+  wired.</p>\n \n+  <ol>\n    <li>\n     <p>Let <var>settings object</var> be a new <span>environment settings object</span> whose\n     algorithms are defined as follows:</p>\n \n     <dl>\n      <dt>The <span>realm execution context</span></dt>\n-     <dd>\n-      <p>Return <var>execution context</var>.</p>\n-     </dd>\n+     <dd><p>Return the <span>JavaScript execution context</span> whose Realm component is",
+    "path": "source",
+    "commit_id": "08f4fd7195a09385765ce70d7c1b2ce5819f0c4f",
+    "original_commit_id": "08f4fd7195a09385765ce70d7c1b2ce5819f0c4f",
+    "user": {
+      "login": "shannonbooth",
+      "id": 35911232,
+      "node_id": "MDQ6VXNlcjM1OTExMjMy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/35911232?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/shannonbooth",
+      "html_url": "https://github.com/shannonbooth",
+      "followers_url": "https://api.github.com/users/shannonbooth/followers",
+      "following_url": "https://api.github.com/users/shannonbooth/following{/other_user}",
+      "gists_url": "https://api.github.com/users/shannonbooth/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/shannonbooth/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/shannonbooth/subscriptions",
+      "organizations_url": "https://api.github.com/users/shannonbooth/orgs",
+      "repos_url": "https://api.github.com/users/shannonbooth/repos",
+      "events_url": "https://api.github.com/users/shannonbooth/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/shannonbooth/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Getting the execution context in this way does make MakeRealm nicer, but I find it unfortunate that \"realm execution context\" is now less defined since there can be javascript execution contexts with the same realm components (and entry realm being defined relative to this). I was wondering here whether this algorithm should take an execution context as an argument (and extract the realm from there). Unfortunately this does go against the layering desired in https://github.com/tc39/ecma262/pull/3728 though by instead doing EC into realm creation",
+    "created_at": "2026-06-16T08:48:47Z",
+    "updated_at": "2026-06-16T10:36:05Z",
+    "html_url": "https://github.com/whatwg/html/pull/12580#discussion_r3419333899",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12580",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3419333899"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12580#discussion_r3419333899"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12580"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3419333899/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 97818,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 60,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3419923574",
+    "pull_request_review_id": 4505409520,
+    "id": 3419923574,
+    "node_id": "PRRC_kwDOALaj487L1-R2",
+    "diff_hunk": "@@ -97797,51 +97798,48 @@ interface <dfn interface>BarProp</dfn> {\n \n   <div algorithm>\n   <p>To <dfn>set up a window environment settings object</dfn>, given a <span>URL</span>\n-  <var>creationURL</var>, a <span>JavaScript execution context</span> <var>execution context</var>,\n-  null or an <span>environment</span> <var>reservedEnvironment</var>, a <span>URL</span>\n+  <var>creationURL</var>, a <span>realm</span> <var>realm</var>, null or an\n+  <span>environment</span> <var>reservedEnvironment</var>, a <span>URL</span>\n   <var>topLevelCreationURL</var>, and an <span>origin</span> <var>topLevelOrigin</var>, run these\n   steps:</p>\n \n-  <ol>\n-   <li><p>Let <var>realm</var> be the value of <var>execution context</var>'s Realm\n-   component.</p></li>\n-\n-   <li><p>Let <var>window</var> be <var>realm</var>'s <span data-x=\"concept-realm-global\">global\n-   object</span>.</p></li>\n+  <p class=\"note\">This algorithm is invoked before <var>realm</var>'s <span\n+  data-x=\"concept-realm-global\">global object</span> is allocated. The closures defined below read\n+  the global object lazily when they are invoked, by which time <var>realm</var> has been fully\n+  wired.</p>\n \n+  <ol>\n    <li>\n     <p>Let <var>settings object</var> be a new <span>environment settings object</span> whose\n     algorithms are defined as follows:</p>\n \n     <dl>\n      <dt>The <span>realm execution context</span></dt>\n-     <dd>\n-      <p>Return <var>execution context</var>.</p>\n-     </dd>\n+     <dd><p>Return the <span>JavaScript execution context</span> whose Realm component is",
+    "path": "source",
+    "commit_id": "08f4fd7195a09385765ce70d7c1b2ce5819f0c4f",
+    "original_commit_id": "08f4fd7195a09385765ce70d7c1b2ce5819f0c4f",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Probably need input from @jmdyck and @nicolo-ribaudo on this. I don't have strong opinions.",
+    "created_at": "2026-06-16T10:20:27Z",
+    "updated_at": "2026-06-16T10:20:47Z",
+    "html_url": "https://github.com/whatwg/html/pull/12580#discussion_r3419923574",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12580",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3419923574"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12580#discussion_r3419923574"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12580"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3419923574/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 97818,
+    "side": "RIGHT",
+    "in_reply_to_id": 3419333899,
+    "author_association": "MEMBER",
+    "original_position": 60,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3424241459",
+    "pull_request_review_id": 4510584857,
+    "id": 3424241459,
+    "node_id": "PRRC_kwDOALaj487MGccz",
+    "diff_hunk": "@@ -97797,51 +97798,48 @@ interface <dfn interface>BarProp</dfn> {\n \n   <div algorithm>\n   <p>To <dfn>set up a window environment settings object</dfn>, given a <span>URL</span>\n-  <var>creationURL</var>, a <span>JavaScript execution context</span> <var>execution context</var>,\n-  null or an <span>environment</span> <var>reservedEnvironment</var>, a <span>URL</span>\n+  <var>creationURL</var>, a <span>realm</span> <var>realm</var>, null or an\n+  <span>environment</span> <var>reservedEnvironment</var>, a <span>URL</span>\n   <var>topLevelCreationURL</var>, and an <span>origin</span> <var>topLevelOrigin</var>, run these\n   steps:</p>\n \n-  <ol>\n-   <li><p>Let <var>realm</var> be the value of <var>execution context</var>'s Realm\n-   component.</p></li>\n-\n-   <li><p>Let <var>window</var> be <var>realm</var>'s <span data-x=\"concept-realm-global\">global\n-   object</span>.</p></li>\n+  <p class=\"note\">This algorithm is invoked before <var>realm</var>'s <span\n+  data-x=\"concept-realm-global\">global object</span> is allocated. The closures defined below read\n+  the global object lazily when they are invoked, by which time <var>realm</var> has been fully\n+  wired.</p>\n \n+  <ol>\n    <li>\n     <p>Let <var>settings object</var> be a new <span>environment settings object</span> whose\n     algorithms are defined as follows:</p>\n \n     <dl>\n      <dt>The <span>realm execution context</span></dt>\n-     <dd>\n-      <p>Return <var>execution context</var>.</p>\n-     </dd>\n+     <dd><p>Return the <span>JavaScript execution context</span> whose Realm component is",
+    "path": "source",
+    "commit_id": "08f4fd7195a09385765ce70d7c1b2ce5819f0c4f",
+    "original_commit_id": "08f4fd7195a09385765ce70d7c1b2ce5819f0c4f",
+    "user": {
+      "login": "jmdyck",
+      "id": 4344001,
+      "node_id": "MDQ6VXNlcjQzNDQwMDE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4344001?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jmdyck",
+      "html_url": "https://github.com/jmdyck",
+      "followers_url": "https://api.github.com/users/jmdyck/followers",
+      "following_url": "https://api.github.com/users/jmdyck/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jmdyck/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jmdyck/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jmdyck/subscriptions",
+      "organizations_url": "https://api.github.com/users/jmdyck/orgs",
+      "repos_url": "https://api.github.com/users/jmdyck/repos",
+      "events_url": "https://api.github.com/users/jmdyck/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jmdyck/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "> Unfortunately this does go against the layering desired in [tc39/ecma262#3728](https://github.com/tc39/ecma262/pull/3728) though\r\n\r\nYou can probably downgrade \"desired\" to \"suggested\". If HTML would like IHDR to pass the realm execution context (rather than the realm) to the 'customizations' callback, I don't think that's a problem.",
+    "created_at": "2026-06-16T21:49:22Z",
+    "updated_at": "2026-06-16T21:49:23Z",
+    "html_url": "https://github.com/whatwg/html/pull/12580#discussion_r3424241459",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12580",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3424241459"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12580#discussion_r3424241459"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12580"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3424241459/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 97818,
+    "side": "RIGHT",
+    "in_reply_to_id": 3419333899,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 60,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3427065320",
+    "pull_request_review_id": 4514231723,
+    "id": 3427065320,
+    "node_id": "PRRC_kwDOALaj487MRN3o",
+    "diff_hunk": "@@ -97797,51 +97798,48 @@ interface <dfn interface>BarProp</dfn> {\n \n   <div algorithm>\n   <p>To <dfn>set up a window environment settings object</dfn>, given a <span>URL</span>\n-  <var>creationURL</var>, a <span>JavaScript execution context</span> <var>execution context</var>,\n-  null or an <span>environment</span> <var>reservedEnvironment</var>, a <span>URL</span>\n+  <var>creationURL</var>, a <span>realm</span> <var>realm</var>, null or an\n+  <span>environment</span> <var>reservedEnvironment</var>, a <span>URL</span>\n   <var>topLevelCreationURL</var>, and an <span>origin</span> <var>topLevelOrigin</var>, run these\n   steps:</p>\n \n-  <ol>\n-   <li><p>Let <var>realm</var> be the value of <var>execution context</var>'s Realm\n-   component.</p></li>\n-\n-   <li><p>Let <var>window</var> be <var>realm</var>'s <span data-x=\"concept-realm-global\">global\n-   object</span>.</p></li>\n+  <p class=\"note\">This algorithm is invoked before <var>realm</var>'s <span\n+  data-x=\"concept-realm-global\">global object</span> is allocated. The closures defined below read\n+  the global object lazily when they are invoked, by which time <var>realm</var> has been fully\n+  wired.</p>\n \n+  <ol>\n    <li>\n     <p>Let <var>settings object</var> be a new <span>environment settings object</span> whose\n     algorithms are defined as follows:</p>\n \n     <dl>\n      <dt>The <span>realm execution context</span></dt>\n-     <dd>\n-      <p>Return <var>execution context</var>.</p>\n-     </dd>\n+     <dd><p>Return the <span>JavaScript execution context</span> whose Realm component is",
+    "path": "source",
+    "commit_id": "08f4fd7195a09385765ce70d7c1b2ce5819f0c4f",
+    "original_commit_id": "08f4fd7195a09385765ce70d7c1b2ce5819f0c4f",
+    "user": {
+      "login": "nicolo-ribaudo",
+      "id": 7000710,
+      "node_id": "MDQ6VXNlcjcwMDA3MTA=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7000710?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nicolo-ribaudo",
+      "html_url": "https://github.com/nicolo-ribaudo",
+      "followers_url": "https://api.github.com/users/nicolo-ribaudo/followers",
+      "following_url": "https://api.github.com/users/nicolo-ribaudo/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nicolo-ribaudo/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nicolo-ribaudo/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nicolo-ribaudo/subscriptions",
+      "organizations_url": "https://api.github.com/users/nicolo-ribaudo/orgs",
+      "repos_url": "https://api.github.com/users/nicolo-ribaudo/repos",
+      "events_url": "https://api.github.com/users/nicolo-ribaudo/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nicolo-ribaudo/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Yeah we're happy to do whatever HTML needs, we just want to make the customizations more explicit.",
+    "created_at": "2026-06-17T09:34:36Z",
+    "updated_at": "2026-06-17T09:34:36Z",
+    "html_url": "https://github.com/whatwg/html/pull/12580#discussion_r3427065320",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12580",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3427065320"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12580#discussion_r3427065320"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12580"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3427065320/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 97818,
+    "side": "RIGHT",
+    "in_reply_to_id": 3419333899,
+    "author_association": "MEMBER",
+    "original_position": 60,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3428780383",
+    "pull_request_review_id": 4516370915,
+    "id": 3428780383,
+    "node_id": "PRRC_kwDOALaj487MXwlf",
+    "diff_hunk": "@@ -97797,51 +97798,48 @@ interface <dfn interface>BarProp</dfn> {\n \n   <div algorithm>\n   <p>To <dfn>set up a window environment settings object</dfn>, given a <span>URL</span>\n-  <var>creationURL</var>, a <span>JavaScript execution context</span> <var>execution context</var>,\n-  null or an <span>environment</span> <var>reservedEnvironment</var>, a <span>URL</span>\n+  <var>creationURL</var>, a <span>realm</span> <var>realm</var>, null or an\n+  <span>environment</span> <var>reservedEnvironment</var>, a <span>URL</span>\n   <var>topLevelCreationURL</var>, and an <span>origin</span> <var>topLevelOrigin</var>, run these\n   steps:</p>\n \n-  <ol>\n-   <li><p>Let <var>realm</var> be the value of <var>execution context</var>'s Realm\n-   component.</p></li>\n-\n-   <li><p>Let <var>window</var> be <var>realm</var>'s <span data-x=\"concept-realm-global\">global\n-   object</span>.</p></li>\n+  <p class=\"note\">This algorithm is invoked before <var>realm</var>'s <span\n+  data-x=\"concept-realm-global\">global object</span> is allocated. The closures defined below read\n+  the global object lazily when they are invoked, by which time <var>realm</var> has been fully\n+  wired.</p>\n \n+  <ol>\n    <li>\n     <p>Let <var>settings object</var> be a new <span>environment settings object</span> whose\n     algorithms are defined as follows:</p>\n \n     <dl>\n      <dt>The <span>realm execution context</span></dt>\n-     <dd>\n-      <p>Return <var>execution context</var>.</p>\n-     </dd>\n+     <dd><p>Return the <span>JavaScript execution context</span> whose Realm component is",
+    "path": "source",
+    "commit_id": "08f4fd7195a09385765ce70d7c1b2ce5819f0c4f",
+    "original_commit_id": "08f4fd7195a09385765ce70d7c1b2ce5819f0c4f",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Okay, I think @shannonbooth is correct that it would be less awkward if the execution context is passed in because otherwise you'd assume an accessor existing on Realm that gives you the execution context, which I don't think is what we want. I can update this PR (maybe next week) assuming that change is made on the JS side.",
+    "created_at": "2026-06-17T14:04:53Z",
+    "updated_at": "2026-06-17T14:04:54Z",
+    "html_url": "https://github.com/whatwg/html/pull/12580#discussion_r3428780383",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12580",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3428780383"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12580#discussion_r3428780383"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12580"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3428780383/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 97818,
+    "side": "RIGHT",
+    "in_reply_to_id": 3419333899,
+    "author_association": "MEMBER",
+    "original_position": 60,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3455129943",
+    "pull_request_review_id": 4547739352,
+    "id": 3455129943,
+    "node_id": "PRRC_kwDOALaj487N8RlX",
+    "diff_hunk": "@@ -117129,26 +117147,29 @@ new PaymentRequest(&hellip;); // Allowed to use\n \n   <div algorithm>\n   <p>To <dfn data-x=\"creating a new realm\" export id=\"creating-a-new-javascript-realm\">create a new\n-  realm</dfn> in an <span>agent</span> <var>agent</var>, optionally with instructions to create a\n-  global object or a global <b>this</b> binding (or both), the following steps are taken:</p>\n+  realm</dfn> in an <span>agent</span> <var>agent</var>, given an <span>abstract closure</span>\n+  <var>customizations</var> taking a <span>JavaScript execution context</span> and returning a\n+  tuple of an object (the global object) and an object or null (the global <b>this</b> binding):</p>",
+    "path": "source",
+    "commit_id": "3cfe93af61d191bcaa92166709a1dcad2b5ebf0b",
+    "original_commit_id": "3cfe93af61d191bcaa92166709a1dcad2b5ebf0b",
+    "user": {
+      "login": "jmdyck",
+      "id": 4344001,
+      "node_id": "MDQ6VXNlcjQzNDQwMDE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4344001?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jmdyck",
+      "html_url": "https://github.com/jmdyck",
+      "followers_url": "https://api.github.com/users/jmdyck/followers",
+      "following_url": "https://api.github.com/users/jmdyck/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jmdyck/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jmdyck/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jmdyck/subscriptions",
+      "organizations_url": "https://api.github.com/users/jmdyck/orgs",
+      "repos_url": "https://api.github.com/users/jmdyck/repos",
+      "events_url": "https://api.github.com/users/jmdyck/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jmdyck/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The EcmaScript spec doesn't have the concept of a tuple; it's expecting _customizations_ to return a List of two elements. So we could make that change here.\n\nAlternatively, maybe it would simplify things to say that, because _customizations_ now explicitly has access to the realm being created, it can simply assign the two objects to the realm's `[[GlobalObject]]` and `[[GlobalEnv]]` fields, and not return anything. MakeRealm, after calling _customizations_, can detect whether those fields have been set, and if not, set them to their defaults. (First suggested here: https://github.com/tc39/ecma262/pull/3728#issuecomment-3590752901, in the first bullet.)\n\n(Note that the HTML and Web IDL specs already refer to `[[GlobalObject]]` and `[[GlobalEnv]]`, so it's not like this would be breaking some encapsulation.)",
+    "created_at": "2026-06-22T20:08:46Z",
+    "updated_at": "2026-06-22T20:08:46Z",
+    "html_url": "https://github.com/whatwg/html/pull/12580#discussion_r3455129943",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12580",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3455129943"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12580#discussion_r3455129943"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12580"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3455129943/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 117151,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 117152,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 328,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3457261907",
+    "pull_request_review_id": 4550295636,
+    "id": 3457261907,
+    "node_id": "PRRC_kwDOALaj487OEaFT",
+    "diff_hunk": "@@ -117129,26 +117147,29 @@ new PaymentRequest(&hellip;); // Allowed to use\n \n   <div algorithm>\n   <p>To <dfn data-x=\"creating a new realm\" export id=\"creating-a-new-javascript-realm\">create a new\n-  realm</dfn> in an <span>agent</span> <var>agent</var>, optionally with instructions to create a\n-  global object or a global <b>this</b> binding (or both), the following steps are taken:</p>\n+  realm</dfn> in an <span>agent</span> <var>agent</var>, given an <span>abstract closure</span>\n+  <var>customizations</var> taking a <span>JavaScript execution context</span> and returning a\n+  tuple of an object (the global object) and an object or null (the global <b>this</b> binding):</p>",
+    "path": "source",
+    "commit_id": "3cfe93af61d191bcaa92166709a1dcad2b5ebf0b",
+    "original_commit_id": "3cfe93af61d191bcaa92166709a1dcad2b5ebf0b",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I can make the change to set those fields instead. That seems nice.",
+    "created_at": "2026-06-23T05:35:10Z",
+    "updated_at": "2026-06-23T05:35:10Z",
+    "html_url": "https://github.com/whatwg/html/pull/12580#discussion_r3457261907",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12580",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3457261907"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12580#discussion_r3457261907"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12580"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3457261907/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 117151,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 117152,
+    "side": "RIGHT",
+    "in_reply_to_id": 3455129943,
+    "author_association": "MEMBER",
+    "original_position": 328,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3457614627",
+    "pull_request_review_id": 4550706140,
+    "id": 3457614627,
+    "node_id": "PRRC_kwDOALaj487OFwMj",
+    "diff_hunk": "@@ -117129,26 +117147,29 @@ new PaymentRequest(&hellip;); // Allowed to use\n \n   <div algorithm>\n   <p>To <dfn data-x=\"creating a new realm\" export id=\"creating-a-new-javascript-realm\">create a new\n-  realm</dfn> in an <span>agent</span> <var>agent</var>, optionally with instructions to create a\n-  global object or a global <b>this</b> binding (or both), the following steps are taken:</p>\n+  realm</dfn> in an <span>agent</span> <var>agent</var>, given an <span>abstract closure</span>\n+  <var>customizations</var> taking a <span>JavaScript execution context</span> and returning a\n+  tuple of an object (the global object) and an object or null (the global <b>this</b> binding):</p>",
+    "path": "source",
+    "commit_id": "3cfe93af61d191bcaa92166709a1dcad2b5ebf0b",
+    "original_commit_id": "3cfe93af61d191bcaa92166709a1dcad2b5ebf0b",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I tried this, but I think it's actually less nice as it would require HTML to also take a dependency on `NewGlobalEnvironment` to set `[[GlobalEnv]]` correctly. So for now I'll just update to return a list instead. Let me know if you disagree.",
+    "created_at": "2026-06-23T06:50:33Z",
+    "updated_at": "2026-06-23T06:50:33Z",
+    "html_url": "https://github.com/whatwg/html/pull/12580#discussion_r3457614627",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12580",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3457614627"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12580#discussion_r3457614627"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12580"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3457614627/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 117151,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 117152,
+    "side": "RIGHT",
+    "in_reply_to_id": 3455129943,
+    "author_association": "MEMBER",
+    "original_position": 328,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3460294022",
+    "pull_request_review_id": 4553937809,
+    "id": 3460294022,
+    "node_id": "PRRC_kwDOALaj487OP-WG",
+    "diff_hunk": "@@ -117129,26 +117147,29 @@ new PaymentRequest(&hellip;); // Allowed to use\n \n   <div algorithm>\n   <p>To <dfn data-x=\"creating a new realm\" export id=\"creating-a-new-javascript-realm\">create a new\n-  realm</dfn> in an <span>agent</span> <var>agent</var>, optionally with instructions to create a\n-  global object or a global <b>this</b> binding (or both), the following steps are taken:</p>\n+  realm</dfn> in an <span>agent</span> <var>agent</var>, given an <span>abstract closure</span>\n+  <var>customizations</var> taking a <span>JavaScript execution context</span> and returning a\n+  tuple of an object (the global object) and an object or null (the global <b>this</b> binding):</p>",
+    "path": "source",
+    "commit_id": "3cfe93af61d191bcaa92166709a1dcad2b5ebf0b",
+    "original_commit_id": "3cfe93af61d191bcaa92166709a1dcad2b5ebf0b",
+    "user": {
+      "login": "jmdyck",
+      "id": 4344001,
+      "node_id": "MDQ6VXNlcjQzNDQwMDE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4344001?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jmdyck",
+      "html_url": "https://github.com/jmdyck",
+      "followers_url": "https://api.github.com/users/jmdyck/followers",
+      "following_url": "https://api.github.com/users/jmdyck/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jmdyck/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jmdyck/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jmdyck/subscriptions",
+      "organizations_url": "https://api.github.com/users/jmdyck/orgs",
+      "repos_url": "https://api.github.com/users/jmdyck/repos",
+      "events_url": "https://api.github.com/users/jmdyck/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jmdyck/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "> it would require HTML to also take a dependency on `NewGlobalEnvironment` to set `[[GlobalEnv]]` correctly.\r\n\r\nHm, yeah. Oh well.",
+    "created_at": "2026-06-23T13:52:54Z",
+    "updated_at": "2026-06-23T13:52:55Z",
+    "html_url": "https://github.com/whatwg/html/pull/12580#discussion_r3460294022",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12580",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3460294022"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12580#discussion_r3460294022"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12580"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3460294022/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 117151,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 117152,
+    "side": "RIGHT",
+    "in_reply_to_id": 3455129943,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 328,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

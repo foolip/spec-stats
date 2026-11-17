@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/3326168053",
+    "html_url": "https://github.com/whatwg/html/issues/11686#issuecomment-3326168053",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/11686",
+    "id": 3326168053,
+    "node_id": "IC_kwDOALaj487GQUv1",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2025-09-24T01:58:01Z",
+    "updated_at": "2025-09-24T04:07:24Z",
+    "body": "It has long been known that Firefox has the only really spec-compliant incumbent handling.\n\nFor many years, myself and bzbarsky (intentionally not @-mentioning) believed that Firefox's approach was best and we should try to use it across the web platform. Others like @syg, when he worked on Chromium, were willing to agree it was good, although admitted that fixing Chromium to match Firefox was very low priority and realistically might never happen.\n\nIn particular, the approach we took highly prized consistency:\n\n- Consistency across different async mechanisms, e.g. promises, finalization registry, callbacks, and even stringy callbacks like `setTimeout(\"func()\", 100)`.\n- Consistency between sync and async, i.e., as shown by the example series starting at https://html.spec.whatwg.org/multipage/webappapis.html#example-incumbent-1 .\n\nI think it would be kind of sad to lose this consistency. But perhaps admitting defeat here is the best path forward, if even Firefox's maintainers (i.e., you) no longer value this consistency.\n\n(A similar, and related, discussion is at https://github.com/whatwg/webidl/pull/902.)\n\nI've also had discussions with, IIRC, @verwaest, about specifying something that's closer to Chromium/WebKit's incumbent handling. (Or maybe we were discussing an even simpler model, since his hope was to gain some performance by simplifying what Chromium/WebKit already do? It was several years.) I believe (but am not certain) Chromium/WebKit's incumbent handling loses sync/async consistency, but keeps consistency across the different async mechanisms.\n\nI've summed up some of this in [Incumbent Notes](https://docs.google.com/document/d/1Z_eX32V2VX4DLoeiATiHCOtmwnxVfgmE8KVm_bCkIXk/edit?tab=t.0#heading=h.tokkcgpd9gxe), with a particular eye toward what's important to keep working for web compat. https://github.com/tc39/ecma262/issues/3160#issuecomment-2230026751 is also a good summary. /cc @nicolo-ribaudo\n\nIf you want to go down this route, I think the best path would to be investigate the minimal/most-performant version of incumbent tracking that's necessary for web-compat, and rip out everything else, across the entire web platform. I think an approach that narrowly targets promises and/or finalization registry would not be the best, as it feels like \"shipping our org chart\".",
+    "author_association": "MEMBER",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/3326168053/reactions",
+      "total_count": 2,
+      "+1": 2,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

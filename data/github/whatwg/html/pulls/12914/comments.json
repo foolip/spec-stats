@@ -1,0 +1,288 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3966334564",
+    "pull_request_review_id": 5151822636,
+    "id": 3966334564,
+    "node_id": "PRRC_kwDOALaj487saXZk",
+    "diff_hunk": "@@ -39275,86 +39278,119 @@ interface <dfn interface>MediaError</dfn> {\n         </ol>\n        </li>\n \n-       <li><p>Let <var>destination</var> be \"<code data-x=\"\">audio</code>\" if the <span>media\n-       element</span> is an <code>audio</code> element, or \"<code data-x=\"\">video</code>\"\n-       otherwise.</p>\n+       <li>\n+        <p>Let <var>fetchByteRange</var>, given \"<code data-x=\"\">entire resource</code>\" or a\n+        (number, number or \"<code data-x=\"\">until end</code>\") tuple <var>byteRange</var> and a\n+        <span data-x=\"concept-request-no-cors-media-request-state\">no-cors media request\n+        state</span> <var>mediaRequestState</var>, be the following steps:</p>\n \n-       <li><p>Let <var>request</var> be the result of <span\n-       data-x=\"create a potential-CORS request\">creating a potential-CORS request</span> given\n-       <var>current media resource</var>'s <span>URL record</span>, <var>destination</var>, and the\n-       current state of the <span>media element</span>'s\n-       <code data-x=\"attr-script-crossorigin\">crossorigin</code> content attribute.</p></li>\n+        <ol>\n+         <li><p>Let <var>destination</var> be \"<code data-x=\"\">audio</code>\" if the <span>media\n+         element</span> is an <code>audio</code> element, or \"<code data-x=\"\">video</code>\"\n+         otherwise.</p>\n \n-       <li><p>Set <var>request</var>'s <span data-x=\"concept-request-client\">client</span> to the\n-       <span>media element</span>'s <span>node document</span>'s <span>relevant settings\n-       object</span>.</p></li>\n+         <li><p>Let <var>request</var> be the result of <span data-x=\"create a potential-CORS\n+         request\">creating a potential-CORS request</span> given <var>current media resource</var>'s\n+         <span>URL record</span>, <var>destination</var>, and the current state of the <span>media\n+         element</span>'s <code data-x=\"attr-script-crossorigin\">crossorigin</code> content\n+         attribute.</p></li>\n \n-       <li><p>Set <var>request</var>'s <span data-x=\"concept-request-initiator-type\">initiator\n-       type</span> to <var>destination</var>.</p></li>\n+         <li><p>Set <var>request</var>'s <span data-x=\"concept-request-client\">client</span> to the\n+         <span>media element</span>'s <span>node document</span>'s <span>relevant settings\n+         object</span>.</p></li>\n \n-       <li><p>Let <var>byteRange</var>, which is \"<code data-x=\"\">entire resource</code>\" or a\n-       (number, number or \"<code data-x=\"\">until end</code>\") tuple, be the byte range required to satisfy\n-       missing data in <span>media data</span>. This value is <span>implementation-defined</span>\n-       and may rely on codec, network conditions or other heuristics. The user-agent may determine\n-       to fetch the resource in full, in which case <var>byteRange</var> would be\n-       \"<code data-x=\"\">entire resource</code>\", to fetch from a byte offset until the end,\n-       in which case <var>byteRange</var> would be\n-       (number, \"<code data-x=\"\">until end</code>\"), or to fetch a range between two byte offsets,\n-       in which case <var>byteRange</var> would be a (number, number) tuple representing the two\n-       offsets.</p></li>\n+         <li><p>Set <var>request</var>'s <span data-x=\"concept-request-initiator-type\">initiator\n+         type</span> to <var>destination</var>.</p></li>\n \n-       <li>\n-        <p>If <var>byteRange</var> is not \"<code data-x=\"\">entire resource</code>\":</p>\n-        <ol>\n-         <li><p>If <var>byteRange</var>[1] is \"<code data-x=\"\">until end</code>\", then\n-         <span>add a range header</span> to <var>request</var> given\n-         <var>byteRange</var>[0].</p></li>\n+         <li>\n+          <p>Set <var>request</var>'s <span\n+          data-x=\"concept-request-no-cors-media-request-state\">no-cors media request state</span> to\n+          <var>mediaRequestState</var>.</p>\n+\n+          <p class=\"note\">This is used by the <span>opaque-response-safelist check</span>, which\n+          allows subsequent ranges of a <span>media resource</span> whose initial range was sniffed\n+          as audio or video. <ref>FETCH</ref></p>\n+         </li>\n+\n+         <li>\n+          <p>If <var>byteRange</var> is not \"<code data-x=\"\">entire resource</code>\":</p>\n+\n+          <ol>\n+           <li><p>If <var>byteRange</var>[1] is \"<code data-x=\"\">until end</code>\", then <span>add a\n+           range header</span> to <var>request</var> given <var>byteRange</var>[0].</p></li>\n+\n+           <li><p>Otherwise, <span>add a range header</span> to <var>request</var> given\n+           <var>byteRange</var>[0] and <var>byteRange</var>[1].</p></li>\n+          </ol>\n+         </li>\n \n-         <li><p>Otherwise, <span>add a range header</span> to <var>request</var> given\n-         <var>byteRange</var>[0] and <var>byteRange</var>[1].</p></li>\n+         <li>\n+          <!--FETCH--><p><span data-x=\"concept-fetch\">Fetch</span> <var>request</var>, with <i\n+          data-x=\"processResponse\">processResponse</i> set to the following steps given <span\n+          data-x=\"concept-response\">response</span> <var>response</var>:</p>\n+\n+          <ol>\n+           <li><p>Let <var>global</var> be the <span>media element</span>'s <span>node\n+           document</span>'s <span>relevant global object</span>.</p></li>\n+\n+           <li><p>Let <var>updateMedia</var> be to <span>queue a media element task</span> given the\n+           <span>media element</span> to run the first appropriate steps from the <span>media data\n+           processing steps list</span> below. (A new task is used for this so that the work",
+    "path": "source",
+    "commit_id": "2bb473b3710fb950be1ce4104510c74f8c682b82",
+    "original_commit_id": "8473217c2b96454422c08f7dcf99b30cf14bf9ee",
+    "user": {
+      "login": "farre",
+      "id": 776258,
+      "node_id": "MDQ6VXNlcjc3NjI1OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/776258?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/farre",
+      "html_url": "https://github.com/farre",
+      "followers_url": "https://api.github.com/users/farre/followers",
+      "following_url": "https://api.github.com/users/farre/following{/other_user}",
+      "gists_url": "https://api.github.com/users/farre/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/farre/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/farre/subscriptions",
+      "organizations_url": "https://api.github.com/users/farre/orgs",
+      "repos_url": "https://api.github.com/users/farre/repos",
+      "events_url": "https://api.github.com/users/farre/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/farre/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Should the parenthesis be a note?",
+    "created_at": "2026-09-09T08:37:55Z",
+    "updated_at": "2026-09-09T08:49:27Z",
+    "html_url": "https://github.com/whatwg/html/pull/12914#discussion_r3966334564",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12914",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3966334564"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12914#discussion_r3966334564"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12914"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3966334564/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 39335,
+    "original_line": 39338,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 109,
+    "position": 121,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3966417159",
+    "pull_request_review_id": 5151822636,
+    "id": 3966417159,
+    "node_id": "PRRC_kwDOALaj487sarkH",
+    "diff_hunk": "@@ -39275,86 +39278,119 @@ interface <dfn interface>MediaError</dfn> {\n         </ol>\n        </li>\n \n-       <li><p>Let <var>destination</var> be \"<code data-x=\"\">audio</code>\" if the <span>media\n-       element</span> is an <code>audio</code> element, or \"<code data-x=\"\">video</code>\"\n-       otherwise.</p>\n+       <li>\n+        <p>Let <var>fetchByteRange</var>, given \"<code data-x=\"\">entire resource</code>\" or a\n+        (number, number or \"<code data-x=\"\">until end</code>\") tuple <var>byteRange</var> and a\n+        <span data-x=\"concept-request-no-cors-media-request-state\">no-cors media request\n+        state</span> <var>mediaRequestState</var>, be the following steps:</p>\n \n-       <li><p>Let <var>request</var> be the result of <span\n-       data-x=\"create a potential-CORS request\">creating a potential-CORS request</span> given\n-       <var>current media resource</var>'s <span>URL record</span>, <var>destination</var>, and the\n-       current state of the <span>media element</span>'s\n-       <code data-x=\"attr-script-crossorigin\">crossorigin</code> content attribute.</p></li>\n+        <ol>\n+         <li><p>Let <var>destination</var> be \"<code data-x=\"\">audio</code>\" if the <span>media\n+         element</span> is an <code>audio</code> element, or \"<code data-x=\"\">video</code>\"\n+         otherwise.</p>\n \n-       <li><p>Set <var>request</var>'s <span data-x=\"concept-request-client\">client</span> to the\n-       <span>media element</span>'s <span>node document</span>'s <span>relevant settings\n-       object</span>.</p></li>\n+         <li><p>Let <var>request</var> be the result of <span data-x=\"create a potential-CORS\n+         request\">creating a potential-CORS request</span> given <var>current media resource</var>'s\n+         <span>URL record</span>, <var>destination</var>, and the current state of the <span>media\n+         element</span>'s <code data-x=\"attr-script-crossorigin\">crossorigin</code> content\n+         attribute.</p></li>\n \n-       <li><p>Set <var>request</var>'s <span data-x=\"concept-request-initiator-type\">initiator\n-       type</span> to <var>destination</var>.</p></li>\n+         <li><p>Set <var>request</var>'s <span data-x=\"concept-request-client\">client</span> to the\n+         <span>media element</span>'s <span>node document</span>'s <span>relevant settings\n+         object</span>.</p></li>\n \n-       <li><p>Let <var>byteRange</var>, which is \"<code data-x=\"\">entire resource</code>\" or a\n-       (number, number or \"<code data-x=\"\">until end</code>\") tuple, be the byte range required to satisfy\n-       missing data in <span>media data</span>. This value is <span>implementation-defined</span>\n-       and may rely on codec, network conditions or other heuristics. The user-agent may determine\n-       to fetch the resource in full, in which case <var>byteRange</var> would be\n-       \"<code data-x=\"\">entire resource</code>\", to fetch from a byte offset until the end,\n-       in which case <var>byteRange</var> would be\n-       (number, \"<code data-x=\"\">until end</code>\"), or to fetch a range between two byte offsets,\n-       in which case <var>byteRange</var> would be a (number, number) tuple representing the two\n-       offsets.</p></li>\n+         <li><p>Set <var>request</var>'s <span data-x=\"concept-request-initiator-type\">initiator\n+         type</span> to <var>destination</var>.</p></li>\n \n-       <li>\n-        <p>If <var>byteRange</var> is not \"<code data-x=\"\">entire resource</code>\":</p>\n-        <ol>\n-         <li><p>If <var>byteRange</var>[1] is \"<code data-x=\"\">until end</code>\", then\n-         <span>add a range header</span> to <var>request</var> given\n-         <var>byteRange</var>[0].</p></li>\n+         <li>\n+          <p>Set <var>request</var>'s <span\n+          data-x=\"concept-request-no-cors-media-request-state\">no-cors media request state</span> to\n+          <var>mediaRequestState</var>.</p>\n+\n+          <p class=\"note\">This is used by the <span>opaque-response-safelist check</span>, which\n+          allows subsequent ranges of a <span>media resource</span> whose initial range was sniffed\n+          as audio or video. <ref>FETCH</ref></p>\n+         </li>\n+\n+         <li>\n+          <p>If <var>byteRange</var> is not \"<code data-x=\"\">entire resource</code>\":</p>\n+\n+          <ol>\n+           <li><p>If <var>byteRange</var>[1] is \"<code data-x=\"\">until end</code>\", then <span>add a\n+           range header</span> to <var>request</var> given <var>byteRange</var>[0].</p></li>\n+\n+           <li><p>Otherwise, <span>add a range header</span> to <var>request</var> given\n+           <var>byteRange</var>[0] and <var>byteRange</var>[1].</p></li>\n+          </ol>\n+         </li>\n \n-         <li><p>Otherwise, <span>add a range header</span> to <var>request</var> given\n-         <var>byteRange</var>[0] and <var>byteRange</var>[1].</p></li>\n+         <li>\n+          <!--FETCH--><p><span data-x=\"concept-fetch\">Fetch</span> <var>request</var>, with <i\n+          data-x=\"processResponse\">processResponse</i> set to the following steps given <span\n+          data-x=\"concept-response\">response</span> <var>response</var>:</p>\n+\n+          <ol>\n+           <li><p>Let <var>global</var> be the <span>media element</span>'s <span>node\n+           document</span>'s <span>relevant global object</span>.</p></li>\n+\n+           <li><p>Let <var>updateMedia</var> be to <span>queue a media element task</span> given the\n+           <span>media element</span> to run the first appropriate steps from the <span>media data\n+           processing steps list</span> below. (A new task is used for this so that the work\n+           described below occurs relative to the appropriate <span>media element event task\n+           source</span> rather than using the <span>networking task source</span>.)</p>\n+\n+           <li><p>Let <var>processEndOfMedia</var> be the following step: If the fetching process\n+           has completed without errors, including decoding the media data, and if all of the data\n+           is available to the user agent without network access, then, the user agent must move on\n+           to the <i>final step</i> below. This might never happen, e.g. when streaming an infinite\n+           resource such as web radio, or if the resource is longer than the user agent's ability to\n+           cache data.</p></li>\n+\n+           <li><p>If the result of <span data-x=\"verify a media response\">verifying</span>\n+           <var>response</var> given the <var>current media resource</var> and <var>byteRange</var>\n+           is false, then abort these steps.</p></li>\n+\n+           <li><p>Otherwise, <span data-x=\"body-incrementally-read\">incrementally read</span>\n+           <var>response</var>'s <span data-x=\"concept-response-body\">body</span> given\n+           <var>updateMedia</var>, <var>processEndOfMedia</var>, an empty algorithm, and\n+           <var>global</var>.</p></li>\n+\n+           <li><p>Update the <span>media data</span> with the contents of <var>response</var>'s\n+           <span>unsafe response</span> obtained in this fashion. <var>response</var> can be\n+           <span>CORS-same-origin</span> or <span>CORS-cross-origin</span>; this affects whether\n+           subtitles referenced in the <span>media data</span> are exposed in the API and, for\n+           <code>video</code> elements, whether a <code>canvas</code> gets tainted when the video is\n+           drawn on it.</p></li>\n+          </ol>\n+         </li>\n         </ol>\n        </li>\n \n        <li>\n-        <!--FETCH--><p><span data-x=\"concept-fetch\">Fetch</span> <var>request</var>, with\n-        <i data-x=\"processResponse\">processResponse</i> set to the following steps given\n-        <span data-x=\"concept-response\">response</span> <var>response</var>:</p>\n+        <p>Let <var>initialByteRange</var>, which is \"<code data-x=\"\">entire resource</code>\" or a\n+        (0, number or \"<code data-x=\"\">until end</code>\") tuple, be the byte range to fetch first.\n+        This value is <span>implementation-defined</span> and may rely on codec, network conditions\n+        or other heuristics. The user agent may determine to fetch the resource in full, in which\n+        case <var>initialByteRange</var> would be \"<code data-x=\"\">entire resource</code>\", to fetch\n+        from the start of the resource until the end, in which case <var>initialByteRange</var>\n+        would be (0, \"<code data-x=\"\">until end</code>\"), or to fetch from the start of the resource\n+        until a byte offset, in which case <var>initialByteRange</var> would be a (0, number)\n+        tuple.</p>\n+\n+        <p class=\"note\">The initial fetch has to start at the beginning of the resource, as the\n+        <span>opaque-response-safelist check</span> otherwise cannot determine whether the resource\n+        is audio or video. <ref>FETCH</ref></p>\n+       </li>\n \n-        <ol>\n-         <li><p>Let <var>global</var> be the <span>media element</span>'s\n-         <span>node document</span>'s <span>relevant global object</span>.</p></li>\n-\n-         <li><p>Let <var>updateMedia</var> be to <span>queue a media element task</span> given\n-         the <span>media element</span> to run the first appropriate steps from the\n-         <span>media data processing steps list</span> below. (A new task is used for\n-         this so that the work described below occurs relative to the appropriate\n-         <span>media element event task source</span> rather than using the\n-         <span>networking task source</span>.)</p>\n-\n-         <li><p>Let <var>processEndOfMedia</var> be the following step: If the fetching process has\n-         completed without errors, including decoding the media data, and if all of the data is\n-         available to the user agent without network access, then, the user agent must move on to\n-         the <i>final step</i> below. This might never happen, e.g. when streaming an infinite\n-         resource such as web radio, or if the resource is longer than the user agent's ability to\n-         cache data.</p></li>\n-\n-         <li><p>If the result of <span data-x=\"verify a media response\">verifying</span>\n-         <var>response</var> given the <var>current media resource</var> and <var>byteRange</var>\n-         is false, then abort these steps.</p></li>\n-\n-         <li><p>Otherwise, <span data-x=\"body-incrementally-read\">incrementally read</span>\n-         <var>response</var>'s <span data-x=\"concept-response-body\">body</span> given\n-         <var>updateMedia</var>, <var>processEndOfMedia</var>, an empty algorithm, and\n-         <var>global</var>.</p></li>\n-\n-         <li><p>Update the <span>media data</span> with the contents of <var>response</var>'s\n-         <span>unsafe response</span> obtained in this fashion. <var>response</var> can be\n-         <span>CORS-same-origin</span> or <span>CORS-cross-origin</span>; this affects whether\n-         subtitles referenced in the <span>media data</span> are exposed in the API and, for\n-         <code>video</code> elements, whether a <code>canvas</code> gets tainted when the video is\n-         drawn on it.</p></li>\n-        </ol>\n+       <li><p>Run <var>fetchByteRange</var> given <var>initialByteRange</var> and \"<code\n+       data-x=\"\">initial</code>\".</p></li>\n+\n+       <li><p>Whenever the user agent needs <span>media data</span> from the <var>current media\n+       resource</var> that it does not have, e.g. as playback progresses or as a result of a <span\n+       data-x=\"dom-media-seek\">seek</span>, it must run <var>fetchByteRange</var> given the byte\n+       range required to satisfy the missing data and \"<code data-x=\"\">subsequent</code>\".</p></li>",
+    "path": "source",
+    "commit_id": "2bb473b3710fb950be1ce4104510c74f8c682b82",
+    "original_commit_id": "8473217c2b96454422c08f7dcf99b30cf14bf9ee",
+    "user": {
+      "login": "farre",
+      "id": 776258,
+      "node_id": "MDQ6VXNlcjc3NjI1OA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/776258?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/farre",
+      "html_url": "https://github.com/farre",
+      "followers_url": "https://api.github.com/users/farre/followers",
+      "following_url": "https://api.github.com/users/farre/following{/other_user}",
+      "gists_url": "https://api.github.com/users/farre/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/farre/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/farre/subscriptions",
+      "organizations_url": "https://api.github.com/users/farre/orgs",
+      "repos_url": "https://api.github.com/users/farre/repos",
+      "events_url": "https://api.github.com/users/farre/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/farre/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This doesn't look like something that can be implemented. Don't we need a way to switch on if we're at the start or trying to request at an offset? The way it reads now is that we do both, no?",
+    "created_at": "2026-09-09T08:46:29Z",
+    "updated_at": "2026-09-09T08:49:27Z",
+    "html_url": "https://github.com/whatwg/html/pull/12914#discussion_r3966417159",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12914",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3966417159"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12914#discussion_r3966417159"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12914"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3966417159/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 39385,
+    "original_start_line": 39388,
+    "start_side": "RIGHT",
+    "line": 39388,
+    "original_line": 39391,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 199,
+    "position": 211,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3966788376",
+    "pull_request_review_id": 5152377975,
+    "id": 3966788376,
+    "node_id": "PRRC_kwDOALaj487scGMY",
+    "diff_hunk": "@@ -39275,86 +39278,119 @@ interface <dfn interface>MediaError</dfn> {\n         </ol>\n        </li>\n \n-       <li><p>Let <var>destination</var> be \"<code data-x=\"\">audio</code>\" if the <span>media\n-       element</span> is an <code>audio</code> element, or \"<code data-x=\"\">video</code>\"\n-       otherwise.</p>\n+       <li>\n+        <p>Let <var>fetchByteRange</var>, given \"<code data-x=\"\">entire resource</code>\" or a\n+        (number, number or \"<code data-x=\"\">until end</code>\") tuple <var>byteRange</var> and a\n+        <span data-x=\"concept-request-no-cors-media-request-state\">no-cors media request\n+        state</span> <var>mediaRequestState</var>, be the following steps:</p>\n \n-       <li><p>Let <var>request</var> be the result of <span\n-       data-x=\"create a potential-CORS request\">creating a potential-CORS request</span> given\n-       <var>current media resource</var>'s <span>URL record</span>, <var>destination</var>, and the\n-       current state of the <span>media element</span>'s\n-       <code data-x=\"attr-script-crossorigin\">crossorigin</code> content attribute.</p></li>\n+        <ol>\n+         <li><p>Let <var>destination</var> be \"<code data-x=\"\">audio</code>\" if the <span>media\n+         element</span> is an <code>audio</code> element, or \"<code data-x=\"\">video</code>\"\n+         otherwise.</p>\n \n-       <li><p>Set <var>request</var>'s <span data-x=\"concept-request-client\">client</span> to the\n-       <span>media element</span>'s <span>node document</span>'s <span>relevant settings\n-       object</span>.</p></li>\n+         <li><p>Let <var>request</var> be the result of <span data-x=\"create a potential-CORS\n+         request\">creating a potential-CORS request</span> given <var>current media resource</var>'s\n+         <span>URL record</span>, <var>destination</var>, and the current state of the <span>media\n+         element</span>'s <code data-x=\"attr-script-crossorigin\">crossorigin</code> content\n+         attribute.</p></li>\n \n-       <li><p>Set <var>request</var>'s <span data-x=\"concept-request-initiator-type\">initiator\n-       type</span> to <var>destination</var>.</p></li>\n+         <li><p>Set <var>request</var>'s <span data-x=\"concept-request-client\">client</span> to the\n+         <span>media element</span>'s <span>node document</span>'s <span>relevant settings\n+         object</span>.</p></li>\n \n-       <li><p>Let <var>byteRange</var>, which is \"<code data-x=\"\">entire resource</code>\" or a\n-       (number, number or \"<code data-x=\"\">until end</code>\") tuple, be the byte range required to satisfy\n-       missing data in <span>media data</span>. This value is <span>implementation-defined</span>\n-       and may rely on codec, network conditions or other heuristics. The user-agent may determine\n-       to fetch the resource in full, in which case <var>byteRange</var> would be\n-       \"<code data-x=\"\">entire resource</code>\", to fetch from a byte offset until the end,\n-       in which case <var>byteRange</var> would be\n-       (number, \"<code data-x=\"\">until end</code>\"), or to fetch a range between two byte offsets,\n-       in which case <var>byteRange</var> would be a (number, number) tuple representing the two\n-       offsets.</p></li>\n+         <li><p>Set <var>request</var>'s <span data-x=\"concept-request-initiator-type\">initiator\n+         type</span> to <var>destination</var>.</p></li>\n \n-       <li>\n-        <p>If <var>byteRange</var> is not \"<code data-x=\"\">entire resource</code>\":</p>\n-        <ol>\n-         <li><p>If <var>byteRange</var>[1] is \"<code data-x=\"\">until end</code>\", then\n-         <span>add a range header</span> to <var>request</var> given\n-         <var>byteRange</var>[0].</p></li>\n+         <li>\n+          <p>Set <var>request</var>'s <span\n+          data-x=\"concept-request-no-cors-media-request-state\">no-cors media request state</span> to\n+          <var>mediaRequestState</var>.</p>\n+\n+          <p class=\"note\">This is used by the <span>opaque-response-safelist check</span>, which\n+          allows subsequent ranges of a <span>media resource</span> whose initial range was sniffed\n+          as audio or video. <ref>FETCH</ref></p>\n+         </li>\n+\n+         <li>\n+          <p>If <var>byteRange</var> is not \"<code data-x=\"\">entire resource</code>\":</p>\n+\n+          <ol>\n+           <li><p>If <var>byteRange</var>[1] is \"<code data-x=\"\">until end</code>\", then <span>add a\n+           range header</span> to <var>request</var> given <var>byteRange</var>[0].</p></li>\n+\n+           <li><p>Otherwise, <span>add a range header</span> to <var>request</var> given\n+           <var>byteRange</var>[0] and <var>byteRange</var>[1].</p></li>\n+          </ol>\n+         </li>\n \n-         <li><p>Otherwise, <span>add a range header</span> to <var>request</var> given\n-         <var>byteRange</var>[0] and <var>byteRange</var>[1].</p></li>\n+         <li>\n+          <!--FETCH--><p><span data-x=\"concept-fetch\">Fetch</span> <var>request</var>, with <i\n+          data-x=\"processResponse\">processResponse</i> set to the following steps given <span\n+          data-x=\"concept-response\">response</span> <var>response</var>:</p>\n+\n+          <ol>\n+           <li><p>Let <var>global</var> be the <span>media element</span>'s <span>node\n+           document</span>'s <span>relevant global object</span>.</p></li>\n+\n+           <li><p>Let <var>updateMedia</var> be to <span>queue a media element task</span> given the\n+           <span>media element</span> to run the first appropriate steps from the <span>media data\n+           processing steps list</span> below. (A new task is used for this so that the work\n+           described below occurs relative to the appropriate <span>media element event task\n+           source</span> rather than using the <span>networking task source</span>.)</p>\n+\n+           <li><p>Let <var>processEndOfMedia</var> be the following step: If the fetching process\n+           has completed without errors, including decoding the media data, and if all of the data\n+           is available to the user agent without network access, then, the user agent must move on\n+           to the <i>final step</i> below. This might never happen, e.g. when streaming an infinite\n+           resource such as web radio, or if the resource is longer than the user agent's ability to\n+           cache data.</p></li>\n+\n+           <li><p>If the result of <span data-x=\"verify a media response\">verifying</span>\n+           <var>response</var> given the <var>current media resource</var> and <var>byteRange</var>\n+           is false, then abort these steps.</p></li>\n+\n+           <li><p>Otherwise, <span data-x=\"body-incrementally-read\">incrementally read</span>\n+           <var>response</var>'s <span data-x=\"concept-response-body\">body</span> given\n+           <var>updateMedia</var>, <var>processEndOfMedia</var>, an empty algorithm, and\n+           <var>global</var>.</p></li>\n+\n+           <li><p>Update the <span>media data</span> with the contents of <var>response</var>'s\n+           <span>unsafe response</span> obtained in this fashion. <var>response</var> can be\n+           <span>CORS-same-origin</span> or <span>CORS-cross-origin</span>; this affects whether\n+           subtitles referenced in the <span>media data</span> are exposed in the API and, for\n+           <code>video</code> elements, whether a <code>canvas</code> gets tainted when the video is\n+           drawn on it.</p></li>\n+          </ol>\n+         </li>\n         </ol>\n        </li>\n \n        <li>\n-        <!--FETCH--><p><span data-x=\"concept-fetch\">Fetch</span> <var>request</var>, with\n-        <i data-x=\"processResponse\">processResponse</i> set to the following steps given\n-        <span data-x=\"concept-response\">response</span> <var>response</var>:</p>\n+        <p>Let <var>initialByteRange</var>, which is \"<code data-x=\"\">entire resource</code>\" or a\n+        (0, number or \"<code data-x=\"\">until end</code>\") tuple, be the byte range to fetch first.\n+        This value is <span>implementation-defined</span> and may rely on codec, network conditions\n+        or other heuristics. The user agent may determine to fetch the resource in full, in which\n+        case <var>initialByteRange</var> would be \"<code data-x=\"\">entire resource</code>\", to fetch\n+        from the start of the resource until the end, in which case <var>initialByteRange</var>\n+        would be (0, \"<code data-x=\"\">until end</code>\"), or to fetch from the start of the resource\n+        until a byte offset, in which case <var>initialByteRange</var> would be a (0, number)\n+        tuple.</p>\n+\n+        <p class=\"note\">The initial fetch has to start at the beginning of the resource, as the\n+        <span>opaque-response-safelist check</span> otherwise cannot determine whether the resource\n+        is audio or video. <ref>FETCH</ref></p>\n+       </li>\n \n-        <ol>\n-         <li><p>Let <var>global</var> be the <span>media element</span>'s\n-         <span>node document</span>'s <span>relevant global object</span>.</p></li>\n-\n-         <li><p>Let <var>updateMedia</var> be to <span>queue a media element task</span> given\n-         the <span>media element</span> to run the first appropriate steps from the\n-         <span>media data processing steps list</span> below. (A new task is used for\n-         this so that the work described below occurs relative to the appropriate\n-         <span>media element event task source</span> rather than using the\n-         <span>networking task source</span>.)</p>\n-\n-         <li><p>Let <var>processEndOfMedia</var> be the following step: If the fetching process has\n-         completed without errors, including decoding the media data, and if all of the data is\n-         available to the user agent without network access, then, the user agent must move on to\n-         the <i>final step</i> below. This might never happen, e.g. when streaming an infinite\n-         resource such as web radio, or if the resource is longer than the user agent's ability to\n-         cache data.</p></li>\n-\n-         <li><p>If the result of <span data-x=\"verify a media response\">verifying</span>\n-         <var>response</var> given the <var>current media resource</var> and <var>byteRange</var>\n-         is false, then abort these steps.</p></li>\n-\n-         <li><p>Otherwise, <span data-x=\"body-incrementally-read\">incrementally read</span>\n-         <var>response</var>'s <span data-x=\"concept-response-body\">body</span> given\n-         <var>updateMedia</var>, <var>processEndOfMedia</var>, an empty algorithm, and\n-         <var>global</var>.</p></li>\n-\n-         <li><p>Update the <span>media data</span> with the contents of <var>response</var>'s\n-         <span>unsafe response</span> obtained in this fashion. <var>response</var> can be\n-         <span>CORS-same-origin</span> or <span>CORS-cross-origin</span>; this affects whether\n-         subtitles referenced in the <span>media data</span> are exposed in the API and, for\n-         <code>video</code> elements, whether a <code>canvas</code> gets tainted when the video is\n-         drawn on it.</p></li>\n-        </ol>\n+       <li><p>Run <var>fetchByteRange</var> given <var>initialByteRange</var> and \"<code\n+       data-x=\"\">initial</code>\".</p></li>\n+\n+       <li><p>Whenever the user agent needs <span>media data</span> from the <var>current media\n+       resource</var> that it does not have, e.g. as playback progresses or as a result of a <span\n+       data-x=\"dom-media-seek\">seek</span>, it must run <var>fetchByteRange</var> given the byte\n+       range required to satisfy the missing data and \"<code data-x=\"\">subsequent</code>\".</p></li>",
+    "path": "source",
+    "commit_id": "2bb473b3710fb950be1ce4104510c74f8c682b82",
+    "original_commit_id": "8473217c2b96454422c08f7dcf99b30cf14bf9ee",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The request at the start is the previous step, which is allowed to be an arbitrary range request. Trying to request an offset seems applicable for this step.",
+    "created_at": "2026-09-09T09:30:42Z",
+    "updated_at": "2026-09-09T09:30:42Z",
+    "html_url": "https://github.com/whatwg/html/pull/12914#discussion_r3966788376",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12914",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3966788376"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12914#discussion_r3966788376"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12914"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3966788376/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 39385,
+    "original_start_line": 39388,
+    "start_side": "RIGHT",
+    "line": 39388,
+    "original_line": 39391,
+    "side": "RIGHT",
+    "in_reply_to_id": 3966417159,
+    "author_association": "MEMBER",
+    "original_position": 199,
+    "position": 211,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3966797935",
+    "pull_request_review_id": 5152388850,
+    "id": 3966797935,
+    "node_id": "PRRC_kwDOALaj487scIhv",
+    "diff_hunk": "@@ -39275,86 +39278,119 @@ interface <dfn interface>MediaError</dfn> {\n         </ol>\n        </li>\n \n-       <li><p>Let <var>destination</var> be \"<code data-x=\"\">audio</code>\" if the <span>media\n-       element</span> is an <code>audio</code> element, or \"<code data-x=\"\">video</code>\"\n-       otherwise.</p>\n+       <li>\n+        <p>Let <var>fetchByteRange</var>, given \"<code data-x=\"\">entire resource</code>\" or a\n+        (number, number or \"<code data-x=\"\">until end</code>\") tuple <var>byteRange</var> and a\n+        <span data-x=\"concept-request-no-cors-media-request-state\">no-cors media request\n+        state</span> <var>mediaRequestState</var>, be the following steps:</p>\n \n-       <li><p>Let <var>request</var> be the result of <span\n-       data-x=\"create a potential-CORS request\">creating a potential-CORS request</span> given\n-       <var>current media resource</var>'s <span>URL record</span>, <var>destination</var>, and the\n-       current state of the <span>media element</span>'s\n-       <code data-x=\"attr-script-crossorigin\">crossorigin</code> content attribute.</p></li>\n+        <ol>\n+         <li><p>Let <var>destination</var> be \"<code data-x=\"\">audio</code>\" if the <span>media\n+         element</span> is an <code>audio</code> element, or \"<code data-x=\"\">video</code>\"\n+         otherwise.</p>\n \n-       <li><p>Set <var>request</var>'s <span data-x=\"concept-request-client\">client</span> to the\n-       <span>media element</span>'s <span>node document</span>'s <span>relevant settings\n-       object</span>.</p></li>\n+         <li><p>Let <var>request</var> be the result of <span data-x=\"create a potential-CORS\n+         request\">creating a potential-CORS request</span> given <var>current media resource</var>'s\n+         <span>URL record</span>, <var>destination</var>, and the current state of the <span>media\n+         element</span>'s <code data-x=\"attr-script-crossorigin\">crossorigin</code> content\n+         attribute.</p></li>\n \n-       <li><p>Set <var>request</var>'s <span data-x=\"concept-request-initiator-type\">initiator\n-       type</span> to <var>destination</var>.</p></li>\n+         <li><p>Set <var>request</var>'s <span data-x=\"concept-request-client\">client</span> to the\n+         <span>media element</span>'s <span>node document</span>'s <span>relevant settings\n+         object</span>.</p></li>\n \n-       <li><p>Let <var>byteRange</var>, which is \"<code data-x=\"\">entire resource</code>\" or a\n-       (number, number or \"<code data-x=\"\">until end</code>\") tuple, be the byte range required to satisfy\n-       missing data in <span>media data</span>. This value is <span>implementation-defined</span>\n-       and may rely on codec, network conditions or other heuristics. The user-agent may determine\n-       to fetch the resource in full, in which case <var>byteRange</var> would be\n-       \"<code data-x=\"\">entire resource</code>\", to fetch from a byte offset until the end,\n-       in which case <var>byteRange</var> would be\n-       (number, \"<code data-x=\"\">until end</code>\"), or to fetch a range between two byte offsets,\n-       in which case <var>byteRange</var> would be a (number, number) tuple representing the two\n-       offsets.</p></li>\n+         <li><p>Set <var>request</var>'s <span data-x=\"concept-request-initiator-type\">initiator\n+         type</span> to <var>destination</var>.</p></li>\n \n-       <li>\n-        <p>If <var>byteRange</var> is not \"<code data-x=\"\">entire resource</code>\":</p>\n-        <ol>\n-         <li><p>If <var>byteRange</var>[1] is \"<code data-x=\"\">until end</code>\", then\n-         <span>add a range header</span> to <var>request</var> given\n-         <var>byteRange</var>[0].</p></li>\n+         <li>\n+          <p>Set <var>request</var>'s <span\n+          data-x=\"concept-request-no-cors-media-request-state\">no-cors media request state</span> to\n+          <var>mediaRequestState</var>.</p>\n+\n+          <p class=\"note\">This is used by the <span>opaque-response-safelist check</span>, which\n+          allows subsequent ranges of a <span>media resource</span> whose initial range was sniffed\n+          as audio or video. <ref>FETCH</ref></p>\n+         </li>\n+\n+         <li>\n+          <p>If <var>byteRange</var> is not \"<code data-x=\"\">entire resource</code>\":</p>\n+\n+          <ol>\n+           <li><p>If <var>byteRange</var>[1] is \"<code data-x=\"\">until end</code>\", then <span>add a\n+           range header</span> to <var>request</var> given <var>byteRange</var>[0].</p></li>\n+\n+           <li><p>Otherwise, <span>add a range header</span> to <var>request</var> given\n+           <var>byteRange</var>[0] and <var>byteRange</var>[1].</p></li>\n+          </ol>\n+         </li>\n \n-         <li><p>Otherwise, <span>add a range header</span> to <var>request</var> given\n-         <var>byteRange</var>[0] and <var>byteRange</var>[1].</p></li>\n+         <li>\n+          <!--FETCH--><p><span data-x=\"concept-fetch\">Fetch</span> <var>request</var>, with <i\n+          data-x=\"processResponse\">processResponse</i> set to the following steps given <span\n+          data-x=\"concept-response\">response</span> <var>response</var>:</p>\n+\n+          <ol>\n+           <li><p>Let <var>global</var> be the <span>media element</span>'s <span>node\n+           document</span>'s <span>relevant global object</span>.</p></li>\n+\n+           <li><p>Let <var>updateMedia</var> be to <span>queue a media element task</span> given the\n+           <span>media element</span> to run the first appropriate steps from the <span>media data\n+           processing steps list</span> below. (A new task is used for this so that the work",
+    "path": "source",
+    "commit_id": "2bb473b3710fb950be1ce4104510c74f8c682b82",
+    "original_commit_id": "8473217c2b96454422c08f7dcf99b30cf14bf9ee",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This was pre-existing, but making it a note seems reasonable.",
+    "created_at": "2026-09-09T09:31:52Z",
+    "updated_at": "2026-09-09T09:31:53Z",
+    "html_url": "https://github.com/whatwg/html/pull/12914#discussion_r3966797935",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12914",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3966797935"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12914#discussion_r3966797935"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12914"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3966797935/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 39335,
+    "original_line": 39338,
+    "side": "RIGHT",
+    "in_reply_to_id": 3966334564,
+    "author_association": "MEMBER",
+    "original_position": 109,
+    "position": 121,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

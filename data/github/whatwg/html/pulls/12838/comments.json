@@ -1,0 +1,145 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3856373266",
+    "pull_request_review_id": 5022937412,
+    "id": 3856373266,
+    "node_id": "PRRC_kwDOALaj487l25YS",
+    "diff_hunk": "",
+    "path": "source",
+    "commit_id": "4bb60d19015fea2eeea1fd908e14c291f85356b3",
+    "original_commit_id": "4bb60d19015fea2eeea1fd908e14c291f85356b3",
+    "user": {
+      "login": "shannonbooth",
+      "id": 35911232,
+      "node_id": "MDQ6VXNlcjM1OTExMjMy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/35911232?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/shannonbooth",
+      "html_url": "https://github.com/shannonbooth",
+      "followers_url": "https://api.github.com/users/shannonbooth/followers",
+      "following_url": "https://api.github.com/users/shannonbooth/following{/other_user}",
+      "gists_url": "https://api.github.com/users/shannonbooth/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/shannonbooth/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/shannonbooth/subscriptions",
+      "organizations_url": "https://api.github.com/users/shannonbooth/orgs",
+      "repos_url": "https://api.github.com/users/shannonbooth/repos",
+      "events_url": "https://api.github.com/users/shannonbooth/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/shannonbooth/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Unfortunately I think this exposes this step now causing another issue (for the same test) where this step aborts, causing promises to reject with AbortError and navigateerror to fire.\r\n\r\nSequence here being:\r\n\r\n- Step 5 event taskInstalls the event and tracker (awaited)\r\n- Step 8.3 clearing task no longer queued due to it being same-document\r\n- Step 8.4 abort task sees the still live event and aborts it\r\n\r\nSpeaking in terms of my original report, I think we're hitting this case now:\r\n\r\n> 8.4: Ongoing navigation for navigable set to traversal.\r\n> \"Inform the navigation API about aborting navigation\" entered.\r\n> \"TASK B\" queued with the abort loop. **_Does nothing as \"TASK A\" runs first nulling navigate event_**\r\n\r\nAs \"TASK A\" is no longer doing the nulling.\r\n\r\nAnd the cases we need to be careful about in terms of hitting this are:\r\n\r\n- step 8.4: null -> \"traversal\"\r\n- step 14.10.1: \"traversal\" -> null",
+    "created_at": "2026-08-25T19:12:15Z",
+    "updated_at": "2026-08-25T19:46:09Z",
+    "html_url": "https://github.com/whatwg/html/pull/12838#discussion_r3856373266",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12838",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3856373266"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12838#discussion_r3856373266"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12838"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3856373266/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 111351,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 1,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3857694957",
+    "pull_request_review_id": 5024515559,
+    "id": 3857694957,
+    "node_id": "PRRC_kwDOALaj487l78Dt",
+    "diff_hunk": "",
+    "path": "source",
+    "commit_id": "4bb60d19015fea2eeea1fd908e14c291f85356b3",
+    "original_commit_id": "4bb60d19015fea2eeea1fd908e14c291f85356b3",
+    "user": {
+      "login": "shannonbooth",
+      "id": 35911232,
+      "node_id": "MDQ6VXNlcjM1OTExMjMy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/35911232?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/shannonbooth",
+      "html_url": "https://github.com/shannonbooth",
+      "followers_url": "https://api.github.com/users/shannonbooth/followers",
+      "following_url": "https://api.github.com/users/shannonbooth/following{/other_user}",
+      "gists_url": "https://api.github.com/users/shannonbooth/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/shannonbooth/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/shannonbooth/subscriptions",
+      "organizations_url": "https://api.github.com/users/shannonbooth/orgs",
+      "repos_url": "https://api.github.com/users/shannonbooth/repos",
+      "events_url": "https://api.github.com/users/shannonbooth/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/shannonbooth/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This is quite confusing wording wise, but perhaps:\r\n\r\n\"Set the ongoing navigation for navigable to \"traversal\"\" could become \"Set navigable's ongoing navigation to \"traversal\"\" (and null for 14.10.1)\r\n\r\ni.e we don't go through the informing the navigation API parts? It works for this narrow case, but I'm not sure if there are other situations where it matters (if we could get away with that it would be really nice to have less tasks to order)",
+    "created_at": "2026-08-25T21:43:23Z",
+    "updated_at": "2026-08-25T23:22:03Z",
+    "html_url": "https://github.com/whatwg/html/pull/12838#discussion_r3857694957",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12838",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3857694957"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12838#discussion_r3857694957"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12838"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3857694957/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 111351,
+    "side": "RIGHT",
+    "in_reply_to_id": 3856373266,
+    "author_association": "MEMBER",
+    "original_position": 1,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

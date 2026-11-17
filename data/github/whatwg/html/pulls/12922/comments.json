@@ -1,0 +1,1000 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3977523546",
+    "pull_request_review_id": 5165227911,
+    "id": 3977523546,
+    "node_id": "PRRC_kwDOALaj487tFDFa",
+    "diff_hunk": "@@ -119190,16 +119195,72 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n    <li><p>Let <var>moduleMap</var> be <var>settingsObject</var>'s <span\n    data-x=\"concept-settings-object-module-map\">module map</span>.</p></li>\n \n-   <li><p>If <var>moduleMap</var>[(<var>url</var>, <var>moduleType</var>)] is a <span>module\n-   script</span>, run <var>onComplete</var> given <var>moduleMap</var>[(<var>url</var>,\n-   <var>moduleType</var>)], and return.</p></li>\n+   <li>\n+    <p>If <var>moduleMap</var>[(<var>url</var>, <var>moduleType</var>)] is a <span>module\n+    script</span> <var>moduleScript</var>:</p>",
+    "path": "source",
+    "commit_id": "3b3beadc37549f54db641ad7e4c6d8928579ec3c",
+    "original_commit_id": "3b3beadc37549f54db641ad7e4c6d8928579ec3c",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This should be two steps, first setting *moduleScript*, then checking it.",
+    "created_at": "2026-09-10T09:20:48Z",
+    "updated_at": "2026-09-10T10:04:38Z",
+    "html_url": "https://github.com/whatwg/html/pull/12922#discussion_r3977523546",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12922",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3977523546"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12922#discussion_r3977523546"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12922"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3977523546/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 119199,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 119200,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 98,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3977529887",
+    "pull_request_review_id": 5165227911,
+    "id": 3977529887,
+    "node_id": "PRRC_kwDOALaj487tFEof",
+    "diff_hunk": "@@ -119190,16 +119195,72 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n    <li><p>Let <var>moduleMap</var> be <var>settingsObject</var>'s <span\n    data-x=\"concept-settings-object-module-map\">module map</span>.</p></li>\n \n-   <li><p>If <var>moduleMap</var>[(<var>url</var>, <var>moduleType</var>)] is a <span>module\n-   script</span>, run <var>onComplete</var> given <var>moduleMap</var>[(<var>url</var>,\n-   <var>moduleType</var>)], and return.</p></li>\n+   <li>\n+    <p>If <var>moduleMap</var>[(<var>url</var>, <var>moduleType</var>)] is a <span>module\n+    script</span> <var>moduleScript</var>:</p>\n+\n+    <ol>\n+     <li><p>Let <var>existingIntegrityMetadata</var> be <var>moduleScript</var>'s <span\n+     data-x=\"concept-script-script-fetch-options\">fetch options</span>'s <span\n+     data-x=\"concept-script-fetch-options-integrity\">integrity metadata</span>.</p></li>\n+\n+     <li><p>If the result of running <span>match integrity metadata</span> given\n+     <var>options</var>'s <span data-x=\"concept-script-fetch-options-integrity\">integrity\n+     metadata</span> and <var>existingIntegrityMetadata</var> is false, then run <var>onComplete</var>\n+     given null, and return.</p></li>\n+\n+     <li><p>Run <var>onComplete</var> given <var>moduleScript</var>, and return.</p></li>\n+    </ol>\n+\n+    <p class=\"note\">Unlike <span data-x=\"consume a preloaded resource\"><code>&lt;link rel=\"preload\"></code> cache hits</span>,\n+    which ignore preloaded results and trigger a network request on an integrity mismatch,\n+    a mismatch in a <span>module map</span> results in a load failure (even when <var>options</var>'s <span data-x=\"concept-script-fetch-options-integrity\">integrity metadata</span>\n+    would result in a successful fetch).\n+    This is because successfully loaded module scripts cannot be refetched or evicted in the same settings object.\n+    Also, a module script with the same URL shouldn't be evaluated multiple times,\n+    to avoid unintentional double evaluation just because of different integrity values specified by accident,\n+    so the module map isn't keyed by integrity metadata.</p>\n+\n+  <div class=\"example\">\n \n-   <li><p>If <var>moduleMap</var>[(<var>url</var>, <var>moduleType</var>)] is a <span>list</span>,\n-   <span data-x=\"list append\">append</span> <var>onComplete</var> to\n-   <var>moduleMap</var>[(<var>url</var>, <var>moduleType</var>)], and return.</p></li>\n+   <p>The following examples illustrates how integrity mismatches make module scripts loading to fail:</p>\n+\n+   <pre><code class=\"html\">&lt;script type=\"module\" src=\"foo.js\" integrity=\"sha256-(correct hash)\">&lt;/script>  &lt;!-- success --></code></pre>\n+\n+   <pre><code class=\"html\">&lt;link rel=\"modulepreload\" href=\"foo.js\"> &lt;!-- success -->\n+&lt;script type=\"module\" src=\"foo.js\" integrity=\"sha256-(correct hash)\">&lt;/script>  &lt;!-- fail --></code></pre>\n+\n+   <pre><code class=\"html\">&lt;script type=\"module\" src=\"foo.js\">&lt;/script> &lt;!-- success -->\n+&lt;script type=\"module\" src=\"foo.js\" integrity=\"sha256-(correct hash)\">&lt;/script> &lt;!-- fail --></code></pre>\n+\n+  </div>\n+   </li>\n+\n+   <li>\n+    <p>If <var>moduleMap</var>[(<var>url</var>, <var>moduleType</var>)] is an <span>in-progress module\n+    fetch record</span> <var>inFlightRecord</var>:</p>",
+    "path": "source",
+    "commit_id": "3b3beadc37549f54db641ad7e4c6d8928579ec3c",
+    "original_commit_id": "3b3beadc37549f54db641ad7e4c6d8928579ec3c",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This should also be two steps.",
+    "created_at": "2026-09-10T09:21:31Z",
+    "updated_at": "2026-09-10T10:04:38Z",
+    "html_url": "https://github.com/whatwg/html/pull/12922#discussion_r3977529887",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12922",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3977529887"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12922#discussion_r3977529887"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12922"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3977529887/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 119240,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 119241,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 142,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3977546549",
+    "pull_request_review_id": 5165227911,
+    "id": 3977546549,
+    "node_id": "PRRC_kwDOALaj487tFIs1",
+    "diff_hunk": "@@ -119190,16 +119195,72 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n    <li><p>Let <var>moduleMap</var> be <var>settingsObject</var>'s <span\n    data-x=\"concept-settings-object-module-map\">module map</span>.</p></li>\n \n-   <li><p>If <var>moduleMap</var>[(<var>url</var>, <var>moduleType</var>)] is a <span>module\n-   script</span>, run <var>onComplete</var> given <var>moduleMap</var>[(<var>url</var>,\n-   <var>moduleType</var>)], and return.</p></li>\n+   <li>\n+    <p>If <var>moduleMap</var>[(<var>url</var>, <var>moduleType</var>)] is a <span>module\n+    script</span> <var>moduleScript</var>:</p>\n+\n+    <ol>\n+     <li><p>Let <var>existingIntegrityMetadata</var> be <var>moduleScript</var>'s <span\n+     data-x=\"concept-script-script-fetch-options\">fetch options</span>'s <span\n+     data-x=\"concept-script-fetch-options-integrity\">integrity metadata</span>.</p></li>",
+    "path": "source",
+    "commit_id": "3b3beadc37549f54db641ad7e4c6d8928579ec3c",
+    "original_commit_id": "3b3beadc37549f54db641ad7e4c6d8928579ec3c",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This can be inlined into the next step.",
+    "created_at": "2026-09-10T09:23:21Z",
+    "updated_at": "2026-09-10T10:04:38Z",
+    "html_url": "https://github.com/whatwg/html/pull/12922#discussion_r3977546549",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12922",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3977546549"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12922#discussion_r3977546549"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12922"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3977546549/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 119203,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 119205,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 103,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3977693934",
+    "pull_request_review_id": 5165227911,
+    "id": 3977693934,
+    "node_id": "PRRC_kwDOALaj487tFsru",
+    "diff_hunk": "@@ -118346,10 +118352,9 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n   </ul>\n \n   <p class=\"note\">As CSS style sheets, JSON documents, and text do not import dependent modules, and do not\n-  throw exceptions on evaluation, the <span data-x=\"concept-script-script-fetch-options\">fetch\n-  options</span> and <span data-x=\"concept-script-base-url\">base URL</span> of <span data-x=\"CSS\n+  throw exceptions on evaluation, the <span data-x=\"concept-script-base-url\">base URL</span> of <span data-x=\"CSS\n   module script\">CSS module scripts</span>, <span data-x=\"JSON module script\">JSON module\n-  scripts</span>, and <span data-x=\"text module script\">text module scripts</span> are always null.</p>\n+  scripts</span>, and <span data-x=\"text module script\">text module scripts</span> is always null.</p>",
+    "path": "source",
+    "commit_id": "3b3beadc37549f54db641ad7e4c6d8928579ec3c",
+    "original_commit_id": "3b3beadc37549f54db641ad7e4c6d8928579ec3c",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The part about do not throw exceptions I think is no longer relevant, and the note can explain why these have fetch options.\n\n```suggestion\n  <p class=\"note\">As CSS style sheets, JSON documents, and text do not import dependent modules, the\n  <span data-x=\"concept-script-base-url\">base URL</span> of <span data-x=\"CSS module script\">CSS\n  module scripts</span>, <span data-x=\"JSON module script\">JSON module scripts</span>, and <span\n  data-x=\"text module script\">text module scripts</span> is always null. Their <span\n  data-x=\"concept-script-script-fetch-options\">fetch options</span> are still recorded, as the <span\n  data-x=\"concept-script-fetch-options-integrity\">integrity metadata</span> is compared against when\n  a later fetch finds the script in the <span>module map</span>.</p>\n```",
+    "created_at": "2026-09-10T09:40:57Z",
+    "updated_at": "2026-09-10T10:04:38Z",
+    "html_url": "https://github.com/whatwg/html/pull/12922#discussion_r3977693934",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12922",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3977693934"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12922#discussion_r3977693934"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12922"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3977693934/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 118354,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 118357,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 85,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3977703455",
+    "pull_request_review_id": 5165227911,
+    "id": 3977703455,
+    "node_id": "PRRC_kwDOALaj487tFvAf",
+    "diff_hunk": "@@ -122294,10 +122366,20 @@ dictionary <dfn dictionary>PromiseRejectionEventInit</dfn> : <span>EventInit</sp\n   The <span>URL record</span> is the <span data-x=\"concept-request-url\">request URL</span> at which\n   the module was fetched, and the <span>string</span> indicates the type of the module (e.g. \"<code\n   data-x=\"\">javascript-or-wasm</code>\"). The <span>module map</span>'s values are either a\n-  <span>module script</span> or a <span>list</span> of algorithms (that are waiting for the fetch to\n-  complete).</span> <span data-x=\"module map\">Module maps</span> are used to ensure that imported\n-  module scripts are only fetched, parsed, and evaluated once per <code>Document</code> or <a\n-  href=\"#workers\">worker</a>.</p>\n+  <span>module script</span> or an <span>in-progress module fetch record</span>.</span> <span\n+  data-x=\"module map\">Module maps</span> are used to ensure that imported module scripts are only\n+  fetched, parsed, and evaluated once per <code>Document</code> or <a href=\"#workers\">worker</a>.</p>\n+\n+  <p>An <dfn>in-progress module fetch record</dfn> is a <span>struct</span>. It has the following\n+  <span data-x=\"struct item\">items</span>:</p>\n+\n+  <dl>\n+   <dt><dfn data-x=\"in-progress module fetch record wait list\">wait list</dfn>\n+   <dd>A <span>list</span> of algorithms (that are waiting for the fetch to complete)\n+\n+   <dt><dfn data-x=\"in-progress module fetch record integrity metadata\">integrity metadata</dfn>\n+   <dd>A string\n+  </dl>",
+    "path": "source",
+    "commit_id": "ec71fe893efa2975dd91a0d84e5c72de2708a71b",
+    "original_commit_id": "3b3beadc37549f54db641ad7e4c6d8928579ec3c",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This should be in a `<div w-nodev>`.",
+    "created_at": "2026-09-10T09:42:08Z",
+    "updated_at": "2026-09-10T10:04:38Z",
+    "html_url": "https://github.com/whatwg/html/pull/12922#discussion_r3977703455",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12922",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3977703455"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12922#discussion_r3977703455"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12922"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3977703455/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 122373,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 122382,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 303,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3977840020",
+    "pull_request_review_id": 5165227911,
+    "id": 3977840020,
+    "node_id": "PRRC_kwDOALaj487tGQWU",
+    "diff_hunk": "@@ -119190,16 +119195,72 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n    <li><p>Let <var>moduleMap</var> be <var>settingsObject</var>'s <span\n    data-x=\"concept-settings-object-module-map\">module map</span>.</p></li>\n \n-   <li><p>If <var>moduleMap</var>[(<var>url</var>, <var>moduleType</var>)] is a <span>module\n-   script</span>, run <var>onComplete</var> given <var>moduleMap</var>[(<var>url</var>,\n-   <var>moduleType</var>)], and return.</p></li>\n+   <li>\n+    <p>If <var>moduleMap</var>[(<var>url</var>, <var>moduleType</var>)] is a <span>module\n+    script</span> <var>moduleScript</var>:</p>\n+\n+    <ol>\n+     <li><p>Let <var>existingIntegrityMetadata</var> be <var>moduleScript</var>'s <span\n+     data-x=\"concept-script-script-fetch-options\">fetch options</span>'s <span\n+     data-x=\"concept-script-fetch-options-integrity\">integrity metadata</span>.</p></li>\n+\n+     <li><p>If the result of running <span>match integrity metadata</span> given\n+     <var>options</var>'s <span data-x=\"concept-script-fetch-options-integrity\">integrity\n+     metadata</span> and <var>existingIntegrityMetadata</var> is false, then run <var>onComplete</var>\n+     given null, and return.</p></li>\n+\n+     <li><p>Run <var>onComplete</var> given <var>moduleScript</var>, and return.</p></li>\n+    </ol>\n+\n+    <p class=\"note\">Unlike <span data-x=\"consume a preloaded resource\"><code>&lt;link rel=\"preload\"></code> cache hits</span>,\n+    which ignore preloaded results and trigger a network request on an integrity mismatch,\n+    a mismatch in a <span>module map</span> results in a load failure (even when <var>options</var>'s <span data-x=\"concept-script-fetch-options-integrity\">integrity metadata</span>\n+    would result in a successful fetch).\n+    This is because successfully loaded module scripts cannot be refetched or evicted in the same settings object.\n+    Also, a module script with the same URL shouldn't be evaluated multiple times,\n+    to avoid unintentional double evaluation just because of different integrity values specified by accident,\n+    so the module map isn't keyed by integrity metadata.</p>\n+\n+  <div class=\"example\">",
+    "path": "source",
+    "commit_id": "3b3beadc37549f54db641ad7e4c6d8928579ec3c",
+    "original_commit_id": "3b3beadc37549f54db641ad7e4c6d8928579ec3c",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This example could be good to include in the developer edition along with other examples at `source:122384`. It should first show the \"bad\" example (and use `<pre class=\"bad\">`) followed by what to do instead. See https://html.spec.whatwg.org/#the-ins-element:~:text=boundaries%2E-,The,form for an example.",
+    "created_at": "2026-09-10T09:56:44Z",
+    "updated_at": "2026-09-10T10:04:38Z",
+    "html_url": "https://github.com/whatwg/html/pull/12922#discussion_r3977840020",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12922",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3977840020"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12922#discussion_r3977840020"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12922"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3977840020/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 119224,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 122,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3977854324",
+    "pull_request_review_id": 5165227911,
+    "id": 3977854324,
+    "node_id": "PRRC_kwDOALaj487tGT10",
+    "diff_hunk": "@@ -7937,6 +7937,31 @@ a.setAttribute('href', 'https://example.com/'); // change the content attribute\n   </ol>\n   </div>\n \n+  <div algorithm>\n+  <p>To <dfn export>match integrity metadata</dfn>, given a string\n+  <var>consumerIntegrityMetadata</var> and a string <var>existingIntegrityMetadata</var>:</p>\n+\n+  <ol>\n+   <li><p>Let <var>parsedConsumerIntegrityMetadata</var> be the result of\n+   <span data-x=\"parse integrity metadata\">parsing</span>\n+   <var>consumerIntegrityMetadata</var>.</p></li>\n+\n+   <li><p>Let <var>parsedExistingIntegrityMetadata</var> be the result of\n+   <span data-x=\"parse integrity metadata\">parsing</span>\n+   <var>existingIntegrityMetadata</var>.</p></li>\n+\n+   <li><p>If <var>parsedConsumerIntegrityMetadata</var> is <code data-x=\"\">no metadata</code>, then return true.</p></li>\n+\n+   <li><p>If <var>parsedConsumerIntegrityMetadata</var> is equal to\n+     <var>parsedExistingIntegrityMetadata</var>, then return true.</p></li>\n+\n+   <p class=\"XXX\">This comparison would ignore unknown integrity options. See <a\n+   href=\"https://github.com/w3c/webappsec-subresource-integrity/issues/116\">issue #116.</a></p>",
+    "path": "source",
+    "commit_id": "3b3beadc37549f54db641ad7e4c6d8928579ec3c",
+    "original_commit_id": "3b3beadc37549f54db641ad7e4c6d8928579ec3c",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This breaks the build, the `p` should be in the previous `li`.",
+    "created_at": "2026-09-10T09:58:32Z",
+    "updated_at": "2026-09-10T10:04:38Z",
+    "html_url": "https://github.com/whatwg/html/pull/12922#discussion_r3977854324",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12922",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3977854324"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12922#discussion_r3977854324"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12922"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3977854324/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 7958,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 7959,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 23,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4465186084",
+    "pull_request_review_id": 5765302909,
+    "id": 4465186084,
+    "node_id": "PRRC_kwDOALaj488AAAABCiVVJA",
+    "diff_hunk": "@@ -7937,6 +7937,33 @@ a.setAttribute('href', 'https://example.com/'); // change the content attribute\n   </ol>\n   </div>\n \n+  <div algorithm>\n+  <p>To <dfn export>match integrity metadata</dfn>, given a string\n+  <var>consumerIntegrityMetadata</var> and a string <var>existingIntegrityMetadata</var>:</p>\n+\n+  <ol>\n+   <li><p>Let <var>parsedConsumerIntegrityMetadata</var> be the result of\n+   <span data-x=\"parse integrity metadata\">parsing</span>\n+   <var>consumerIntegrityMetadata</var>.</p></li>\n+\n+   <li><p>Let <var>parsedExistingIntegrityMetadata</var> be the result of\n+   <span data-x=\"parse integrity metadata\">parsing</span>\n+   <var>existingIntegrityMetadata</var>.</p></li>\n+\n+   <li><p>If <var>parsedConsumerIntegrityMetadata</var> is <code data-x=\"\">no metadata</code>, then return true.</p></li>\n+\n+   <li>\n+    <p>If <var>parsedConsumerIntegrityMetadata</var> is equal to",
+    "path": "source",
+    "commit_id": "518a3a39f05f98452ea5ab7e906f89b7c1a2475b",
+    "original_commit_id": "ec71fe893efa2975dd91a0d84e5c72de2708a71b",
+    "user": {
+      "login": "yoavweiss",
+      "id": 786187,
+      "node_id": "MDQ6VXNlcjc4NjE4Nw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/786187?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yoavweiss",
+      "html_url": "https://github.com/yoavweiss",
+      "followers_url": "https://api.github.com/users/yoavweiss/followers",
+      "following_url": "https://api.github.com/users/yoavweiss/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yoavweiss/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yoavweiss/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yoavweiss/subscriptions",
+      "organizations_url": "https://api.github.com/users/yoavweiss/orgs",
+      "repos_url": "https://api.github.com/users/yoavweiss/repos",
+      "events_url": "https://api.github.com/users/yoavweiss/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yoavweiss/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Should this be equality of the full set, or of the [strongest metadata](https://w3c.github.io/webappsec-subresource-integrity/#get-the-strongest-metadata)? Or is that a question for https://github.com/w3c/webappsec-subresource-integrity/issues/116 ?",
+    "created_at": "2026-11-04T08:13:06Z",
+    "updated_at": "2026-11-04T08:23:12Z",
+    "html_url": "https://github.com/whatwg/html/pull/12922#discussion_r4465186084",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12922",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/4465186084"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12922#discussion_r4465186084"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12922"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4465186084/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7957,
+    "original_line": 7956,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 20,
+    "position": 526,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4465245972",
+    "pull_request_review_id": 5765302909,
+    "id": 4465245972,
+    "node_id": "PRRC_kwDOALaj488AAAABCiY_FA",
+    "diff_hunk": "@@ -118258,8 +118266,8 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n    <dt><dfn for=\"script\" export\n    data-x=\"concept-script-script-fetch-options\">Fetch options</dfn></dt>\n \n-   <dd>Null or a <span>script fetch options</span>, containing various options related to fetching\n-   this script or <span data-x=\"module script\">module scripts</span> that it imports.</dd>\n+   <dd>A <span>script fetch options</span>, containing various options related to fetching this",
+    "path": "source",
+    "commit_id": "ec71fe893efa2975dd91a0d84e5c72de2708a71b",
+    "original_commit_id": "ec71fe893efa2975dd91a0d84e5c72de2708a71b",
+    "user": {
+      "login": "yoavweiss",
+      "id": 786187,
+      "node_id": "MDQ6VXNlcjc4NjE4Nw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/786187?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yoavweiss",
+      "html_url": "https://github.com/yoavweiss",
+      "followers_url": "https://api.github.com/users/yoavweiss/followers",
+      "following_url": "https://api.github.com/users/yoavweiss/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yoavweiss/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yoavweiss/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yoavweiss/subscriptions",
+      "organizations_url": "https://api.github.com/users/yoavweiss/orgs",
+      "repos_url": "https://api.github.com/users/yoavweiss/repos",
+      "events_url": "https://api.github.com/users/yoavweiss/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yoavweiss/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "It's not immediately obvious to me why we're modifying this, instead of dealing with null script fetch options at the sites that call \"match integrity metadata\" (or in the match algorithm itself)",
+    "created_at": "2026-11-04T08:20:19Z",
+    "updated_at": "2026-11-04T08:23:12Z",
+    "html_url": "https://github.com/whatwg/html/pull/12922#discussion_r4465245972",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12922",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/4465245972"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12922#discussion_r4465245972"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12922"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4465245972/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 118269,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 73,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4465257719",
+    "pull_request_review_id": 5765302909,
+    "id": 4465257719,
+    "node_id": "PRRC_kwDOALaj488AAAABCiZs9w",
+    "diff_hunk": "@@ -119190,16 +119200,62 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n    <li><p>Let <var>moduleMap</var> be <var>settingsObject</var>'s <span\n    data-x=\"concept-settings-object-module-map\">module map</span>.</p></li>\n \n-   <li><p>If <var>moduleMap</var>[(<var>url</var>, <var>moduleType</var>)] is a <span>module\n-   script</span>, run <var>onComplete</var> given <var>moduleMap</var>[(<var>url</var>,\n-   <var>moduleType</var>)], and return.</p></li>\n+   <li>\n+    <p>If <var>moduleMap</var>[(<var>url</var>, <var>moduleType</var>)] is a <span>module\n+    script</span>:</p>\n+\n+    <ol>\n+     <li><p>Let <var>moduleScript</var> be\n+     <var>moduleMap</var>[(<var>url</var>, <var>moduleType</var>)].</p></li>\n+\n+     <li><p>If the result of running <span>match integrity metadata</span> given\n+     <var>options</var>'s <span data-x=\"concept-script-fetch-options-integrity\">integrity\n+     metadata</span> and <var>moduleScript</var>'s <span\n+     data-x=\"concept-script-script-fetch-options\">fetch options</span>'s <span\n+     data-x=\"concept-script-fetch-options-integrity\">integrity metadata</span> is false, then run\n+     <var>onComplete</var> given null, and return.</p></li>",
+    "path": "source",
+    "commit_id": "ec71fe893efa2975dd91a0d84e5c72de2708a71b",
+    "original_commit_id": "ec71fe893efa2975dd91a0d84e5c72de2708a71b",
+    "user": {
+      "login": "yoavweiss",
+      "id": 786187,
+      "node_id": "MDQ6VXNlcjc4NjE4Nw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/786187?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yoavweiss",
+      "html_url": "https://github.com/yoavweiss",
+      "followers_url": "https://api.github.com/users/yoavweiss/followers",
+      "following_url": "https://api.github.com/users/yoavweiss/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yoavweiss/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yoavweiss/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yoavweiss/subscriptions",
+      "organizations_url": "https://api.github.com/users/yoavweiss/orgs",
+      "repos_url": "https://api.github.com/users/yoavweiss/repos",
+      "events_url": "https://api.github.com/users/yoavweiss/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yoavweiss/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "why not set moduleScript to null, instead of returning here?",
+    "created_at": "2026-11-04T08:21:33Z",
+    "updated_at": "2026-11-04T08:23:12Z",
+    "html_url": "https://github.com/whatwg/html/pull/12922#discussion_r4465257719",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12922",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/4465257719"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12922#discussion_r4465257719"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12922"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4465257719/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 119216,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 117,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4511156230",
+    "pull_request_review_id": 5823838395,
+    "id": 4511156230,
+    "node_id": "PRRC_kwDOALaj488AAAABDOLIBg",
+    "diff_hunk": "@@ -7937,6 +7937,33 @@ a.setAttribute('href', 'https://example.com/'); // change the content attribute\n   </ol>\n   </div>\n \n+  <div algorithm>\n+  <p>To <dfn export>match integrity metadata</dfn>, given a string\n+  <var>consumerIntegrityMetadata</var> and a string <var>existingIntegrityMetadata</var>:</p>\n+\n+  <ol>\n+   <li><p>Let <var>parsedConsumerIntegrityMetadata</var> be the result of\n+   <span data-x=\"parse integrity metadata\">parsing</span>\n+   <var>consumerIntegrityMetadata</var>.</p></li>\n+\n+   <li><p>Let <var>parsedExistingIntegrityMetadata</var> be the result of\n+   <span data-x=\"parse integrity metadata\">parsing</span>\n+   <var>existingIntegrityMetadata</var>.</p></li>\n+\n+   <li><p>If <var>parsedConsumerIntegrityMetadata</var> is <code data-x=\"\">no metadata</code>, then return true.</p></li>\n+\n+   <li>\n+    <p>If <var>parsedConsumerIntegrityMetadata</var> is equal to",
+    "path": "source",
+    "commit_id": "518a3a39f05f98452ea5ab7e906f89b7c1a2475b",
+    "original_commit_id": "ec71fe893efa2975dd91a0d84e5c72de2708a71b",
+    "user": {
+      "login": "hiroshige-g",
+      "id": 11661256,
+      "node_id": "MDQ6VXNlcjExNjYxMjU2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/11661256?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/hiroshige-g",
+      "html_url": "https://github.com/hiroshige-g",
+      "followers_url": "https://api.github.com/users/hiroshige-g/followers",
+      "following_url": "https://api.github.com/users/hiroshige-g/following{/other_user}",
+      "gists_url": "https://api.github.com/users/hiroshige-g/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/hiroshige-g/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/hiroshige-g/subscriptions",
+      "organizations_url": "https://api.github.com/users/hiroshige-g/orgs",
+      "repos_url": "https://api.github.com/users/hiroshige-g/repos",
+      "events_url": "https://api.github.com/users/hiroshige-g/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/hiroshige-g/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I prefer defering this question to https://github.com/w3c/webappsec-subresource-integrity/issues/116.\r\n\r\nAs far as briefly skimmed, I feel both of full set or strongest metadata comarison would work (if the non-strongest part of the integrity metadata is virtually ignored and is no-op -- I'm not sure if I'm understanding correctly though), but not yet sure if strongest metadata comparison is sufficient.\r\n\r\nAnyway the equality is used for the same purpose in multiple locations (here for module map, the other for link rel=preload), so https://github.com/w3c/webappsec-subresource-integrity/issues/116 is a better place to resolve this issue altogether.\r\n\r\nIn terms of implementation, Chromium uses full set equality for now (existing code for link rel=preload and https://crrev.com/c/8380928 for module map).",
+    "created_at": "2026-11-09T09:20:33Z",
+    "updated_at": "2026-11-09T09:20:33Z",
+    "html_url": "https://github.com/whatwg/html/pull/12922#discussion_r4511156230",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12922",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/4511156230"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12922#discussion_r4511156230"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12922"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4511156230/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7957,
+    "original_line": 7956,
+    "side": "RIGHT",
+    "in_reply_to_id": 4465186084,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 20,
+    "position": 526,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4562561755",
+    "pull_request_review_id": 5889914803,
+    "id": 4562561755,
+    "node_id": "PRRC_kwDOALaj488AAAABD_Mq2w",
+    "diff_hunk": "@@ -118258,8 +118266,8 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n    <dt><dfn for=\"script\" export\n    data-x=\"concept-script-script-fetch-options\">Fetch options</dfn></dt>\n \n-   <dd>Null or a <span>script fetch options</span>, containing various options related to fetching\n-   this script or <span data-x=\"module script\">module scripts</span> that it imports.</dd>\n+   <dd>A <span>script fetch options</span>, containing various options related to fetching this",
+    "path": "source",
+    "commit_id": "ec71fe893efa2975dd91a0d84e5c72de2708a71b",
+    "original_commit_id": "ec71fe893efa2975dd91a0d84e5c72de2708a71b",
+    "user": {
+      "login": "hiroshige-g",
+      "id": 11661256,
+      "node_id": "MDQ6VXNlcjExNjYxMjU2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/11661256?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/hiroshige-g",
+      "html_url": "https://github.com/hiroshige-g",
+      "followers_url": "https://api.github.com/users/hiroshige-g/followers",
+      "following_url": "https://api.github.com/users/hiroshige-g/following{/other_user}",
+      "gists_url": "https://api.github.com/users/hiroshige-g/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/hiroshige-g/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/hiroshige-g/subscriptions",
+      "organizations_url": "https://api.github.com/users/hiroshige-g/orgs",
+      "repos_url": "https://api.github.com/users/hiroshige-g/repos",
+      "events_url": "https://api.github.com/users/hiroshige-g/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/hiroshige-g/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "We need to store the integrity metadata used for loading CSS/JSON/text modules (which has null fetch options currently), so just \"dealing with null script fetch options\" wouldn't work.\n\nThe candidate storage would be:\n\n- module's script fetch options or in-progress module fetch record, depending on whether the module loadnig is done or still in progress (the current PR), or\n- module map's value i.e. change the value type to the pair of (module script or list of algorithms, integrity), regardless of module loading state.\n\nEither is fine with me (anyway the behavior is the same).",
+    "created_at": "2026-11-13T11:09:56Z",
+    "updated_at": "2026-11-13T11:09:56Z",
+    "html_url": "https://github.com/whatwg/html/pull/12922#discussion_r4562561755",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12922",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/4562561755"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12922#discussion_r4562561755"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12922"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4562561755/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 118269,
+    "side": "RIGHT",
+    "in_reply_to_id": 4465245972,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 73,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4562873140",
+    "pull_request_review_id": 5890387576,
+    "id": 4562873140,
+    "node_id": "PRRC_kwDOALaj488AAAABD_frNA",
+    "diff_hunk": "@@ -118258,8 +118266,8 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n    <dt><dfn for=\"script\" export\n    data-x=\"concept-script-script-fetch-options\">Fetch options</dfn></dt>\n \n-   <dd>Null or a <span>script fetch options</span>, containing various options related to fetching\n-   this script or <span data-x=\"module script\">module scripts</span> that it imports.</dd>\n+   <dd>A <span>script fetch options</span>, containing various options related to fetching this",
+    "path": "source",
+    "commit_id": "ec71fe893efa2975dd91a0d84e5c72de2708a71b",
+    "original_commit_id": "ec71fe893efa2975dd91a0d84e5c72de2708a71b",
+    "user": {
+      "login": "hiroshige-g",
+      "id": 11661256,
+      "node_id": "MDQ6VXNlcjExNjYxMjU2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/11661256?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/hiroshige-g",
+      "html_url": "https://github.com/hiroshige-g",
+      "followers_url": "https://api.github.com/users/hiroshige-g/followers",
+      "following_url": "https://api.github.com/users/hiroshige-g/following{/other_user}",
+      "gists_url": "https://api.github.com/users/hiroshige-g/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/hiroshige-g/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/hiroshige-g/subscriptions",
+      "organizations_url": "https://api.github.com/users/hiroshige-g/orgs",
+      "repos_url": "https://api.github.com/users/hiroshige-g/repos",
+      "events_url": "https://api.github.com/users/hiroshige-g/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/hiroshige-g/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Hmm, it seems the latter option simplifies the PR as well as addressing your another question.",
+    "created_at": "2026-11-13T11:46:04Z",
+    "updated_at": "2026-11-13T11:46:04Z",
+    "html_url": "https://github.com/whatwg/html/pull/12922#discussion_r4562873140",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12922",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/4562873140"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12922#discussion_r4562873140"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12922"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4562873140/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 118269,
+    "side": "RIGHT",
+    "in_reply_to_id": 4465245972,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 73,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4582207939",
+    "pull_request_review_id": 5915337198,
+    "id": 4582207939,
+    "node_id": "PRRC_kwDOALaj488AAAABER7xww",
+    "diff_hunk": "@@ -7937,6 +7937,33 @@ a.setAttribute('href', 'https://example.com/'); // change the content attribute\n   </ol>\n   </div>\n \n+  <div algorithm>\n+  <p>To <dfn export>match integrity metadata</dfn>, given a string\n+  <var>consumerIntegrityMetadata</var> and a string <var>existingIntegrityMetadata</var>:</p>\n+\n+  <ol>\n+   <li><p>Let <var>parsedConsumerIntegrityMetadata</var> be the result of\n+   <span data-x=\"parse integrity metadata\">parsing</span>\n+   <var>consumerIntegrityMetadata</var>.</p></li>\n+\n+   <li><p>Let <var>parsedExistingIntegrityMetadata</var> be the result of\n+   <span data-x=\"parse integrity metadata\">parsing</span>\n+   <var>existingIntegrityMetadata</var>.</p></li>\n+\n+   <li><p>If <var>parsedConsumerIntegrityMetadata</var> is <code data-x=\"\">no metadata</code>, then return true.</p></li>\n+\n+   <li>\n+    <p>If <var>parsedConsumerIntegrityMetadata</var> is equal to",
+    "path": "source",
+    "commit_id": "518a3a39f05f98452ea5ab7e906f89b7c1a2475b",
+    "original_commit_id": "ec71fe893efa2975dd91a0d84e5c72de2708a71b",
+    "user": {
+      "login": "yoavweiss",
+      "id": 786187,
+      "node_id": "MDQ6VXNlcjc4NjE4Nw==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/786187?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/yoavweiss",
+      "html_url": "https://github.com/yoavweiss",
+      "followers_url": "https://api.github.com/users/yoavweiss/followers",
+      "following_url": "https://api.github.com/users/yoavweiss/following{/other_user}",
+      "gists_url": "https://api.github.com/users/yoavweiss/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/yoavweiss/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/yoavweiss/subscriptions",
+      "organizations_url": "https://api.github.com/users/yoavweiss/orgs",
+      "repos_url": "https://api.github.com/users/yoavweiss/repos",
+      "events_url": "https://api.github.com/users/yoavweiss/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/yoavweiss/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "OK",
+    "created_at": "2026-11-16T05:15:22Z",
+    "updated_at": "2026-11-16T05:15:22Z",
+    "html_url": "https://github.com/whatwg/html/pull/12922#discussion_r4582207939",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12922",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/4582207939"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12922#discussion_r4582207939"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12922"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4582207939/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 7957,
+    "original_line": 7956,
+    "side": "RIGHT",
+    "in_reply_to_id": 4465186084,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 20,
+    "position": 526,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

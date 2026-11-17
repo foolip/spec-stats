@@ -1,0 +1,645 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3528497366",
+    "pull_request_review_id": 4635418569,
+    "id": 3528497366,
+    "node_id": "PRRC_kwDOALaj487SUJjW",
+    "diff_hunk": "@@ -43208,97 +43222,82 @@ interface <dfn interface>TextTrack</dfn> : <span>EventTarget</span> {\n   <hr>\n \n   <div algorithm>\n-  <p>The <dfn attribute for=\"TextTrack\"><code data-x=\"dom-TextTrack-kind\">kind</code></dfn>\n-  attribute must return the <span>text track kind</span> of the <span>text track</span> that the\n-  <code>TextTrack</code> object represents.</p>\n+  <p>The <dfn attribute for=\"TextTrack\"><code data-x=\"dom-TextTrack-kind\">kind</code></dfn> getter\n+  steps are to return <span>this</span>'s <span>text track</span>'s <span data-x=\"text track\n+  kind\">kind</span>.</p>\n   </div>\n \n   <div algorithm>\n-  <p>The <dfn attribute for=\"TextTrack\"><code data-x=\"dom-TextTrack-label\">label</code></dfn>\n-  attribute must return the <span>text track label</span> of the <span>text track</span> that the\n-  <code>TextTrack</code> object represents.</p>\n+  <p>The <dfn attribute for=\"TextTrack\"><code data-x=\"dom-TextTrack-label\">label</code></dfn> getter\n+  steps are to return <span>this</span>'s <span>text track</span>'s <span data-x=\"text track\n+  label\">label</span>.</p>\n   </div>\n \n   <div algorithm>\n   <p>The <dfn attribute for=\"TextTrack\"><code data-x=\"dom-TextTrack-language\">language</code></dfn>\n-  attribute must return the <span>text track language</span> of the <span>text track</span> that the\n-  <code>TextTrack</code> object represents.</p>\n+  getter steps are to return <span>this</span>'s <span>text track</span>'s <span data-x=\"text track\n+  language\">language</span>.</p>\n   </div>\n \n   <div algorithm>\n-  <p>The <dfn attribute for=\"TextTrack\"><code data-x=\"dom-TextTrack-id\">id</code></dfn> attribute\n-  returns the track's identifier, if it has one, or the empty string otherwise. For tracks that\n-  correspond to <code>track</code> elements, the track's identifier is the value of the element's\n-  <code data-x=\"attr-id\">id</code> attribute, if any. For in-band tracks, the track's identifier is\n-  specified by the <span>media resource</span>. If the <span>media resource</span> is in a format\n-  that supports <span>media fragment syntax</span>, the identifier returned for a particular track\n-  must be the same identifier that would enable the track if used as the name of a track in the\n-  track dimension of such a <span data-x=\"concept-url-fragment\">fragment</span>.</p>\n+  <p>The <dfn attribute for=\"TextTrack\"><code data-x=\"dom-TextTrack-id\">id</code></dfn> getter steps\n+  are to return <span>this</span>'s <span>text track</span>'s <span data-x=\"text track\n+  identifier\">identifier</span>.</p>\n   </div>\n \n   <div algorithm>\n   <p>The <dfn attribute for=\"TextTrack\"><code\n   data-x=\"dom-TextTrack-inBandMetadataTrackDispatchType\">inBandMetadataTrackDispatchType</code></dfn>\n-  attribute must return the <span>text track in-band metadata track dispatch type</span> of the\n-  <span>text track</span> that the <code>TextTrack</code> object represents.</p>\n+  getter steps are to return <span>this</span>'s <span>text track</span>'s <span data-x=\"text track\n+  in-band metadata track dispatch type\">in-band metadata track dispatch type</span>.</p>\n   </div>\n \n   <div algorithm>\n-  <p>The <dfn attribute for=\"TextTrack\"><code data-x=\"dom-TextTrack-mode\">mode</code></dfn>\n-  attribute, on getting, must return the string corresponding to the <span>text track mode</span> of\n-  the <span>text track</span> that the <code>TextTrack</code> object represents, as defined by the\n-  following list:</p>\n+  <p>The <dfn attribute for=\"TextTrack\"><code data-x=\"dom-TextTrack-mode\">mode</code></dfn> getter\n+  steps are to return the string switching on <span>this</span>'s <span>text track</span>'s <span\n+  data-x=\"text track mode\">mode</span>:</p>\n \n-  <dl>\n-   <dt>\"<dfn enum-value for=\"TextTrackMode\" data-x=\"dom-TextTrack-disabled\"><code>disabled</code></dfn>\"</dt>\n-   <dd>The <span>text track disabled</span> mode.</dd>\n-   <dt>\"<dfn enum-value for=\"TextTrackMode\" data-x=\"dom-TextTrack-hidden\"><code>hidden</code></dfn>\"</dt>\n-   <dd>The <span>text track hidden</span> mode.</dd>\n-   <dt>\"<dfn enum-value for=\"TextTrackMode\" data-x=\"dom-TextTrack-showing\"><code>showing</code></dfn>\"</dt>\n-   <dd>The <span>text track showing</span> mode.</dd>\n+  <dl class=\"switch\">\n+   <dt>The <span>text track disabled</span> mode</dt>\n+   <dd>\"<dfn enum-value for=\"TextTrackMode\" data-x=\"dom-TextTrack-disabled\"><code>disabled</code></dfn>\"</dd>\n+   <dt>The <span>text track hidden</span> mode</dt>\n+   <dd>\"<dfn enum-value for=\"TextTrackMode\" data-x=\"dom-TextTrack-hidden\"><code>hidden</code></dfn>\"</dd>\n+   <dt>The <span>text track showing</span> mode</dt>\n+   <dd>\"<dfn enum-value for=\"TextTrackMode\" data-x=\"dom-TextTrack-showing\"><code>showing</code></dfn>\"</dd>\n   </dl>\n   </div>\n \n   <div algorithm>\n-  <p>On setting, if the new value isn't equal to what the attribute would currently return, the new\n-  value must be processed as follows:</p>\n+  <p>The <code data-x=\"dom-TextTrack-mode\">mode</code> setter steps are to set <span>this</span>'s\n+  <span>text track</span>'s <span data-x=\"text track mode\">mode</span> to the mode switching on the\n+  given value:</p>\n \n   <dl class=\"switch\">\n-\n-   <dt>If the new value is \"<code data-x=\"dom-TextTrack-disabled\">disabled</code>\"</dt>\n-\n-   <dd>\n-    <p>Set the <span>text track mode</span> of the <span>text track</span> that the\n-    <code>TextTrack</code> object represents to the <span>text track disabled</span> mode.</p>\n-   </dd>\n-\n-   <dt>If the new value is \"<code data-x=\"dom-TextTrack-hidden\">hidden</code>\"</dt>\n-\n-   <dd>\n-    <p>Set the <span>text track mode</span> of the <span>text track</span> that the\n-    <code>TextTrack</code> object represents to the <span>text track hidden</span> mode.</p>\n-   </dd>\n-\n-   <dt>If the new value is \"<code data-x=\"dom-TextTrack-showing\">showing</code>\"</dt>\n-\n-   <dd>\n-    <p>Set the <span>text track mode</span> of the <span>text track</span> that the\n-    <code>TextTrack</code> object represents to the <span>text track showing</span> mode.</p>\n-   </dd>\n+   <dt>\"<code data-x=\"dom-TextTrack-disabled\">disabled</code>\"</dt>\n+   <dd>The <span>text track disabled</span> mode.</dd>\n+   <dt>\"<code data-x=\"dom-TextTrack-hidden\">hidden</code>\"</dt>\n+   <dd>The <span>text track hidden</span> mode.</dd>\n+   <dt>\"<code data-x=\"dom-TextTrack-showing\">showing</code>\"</dt>\n+   <dd>The <span>text track showing</span> mode.</dd>\n   </dl>\n   </div>\n \n   <div algorithm>\n-  <p>If the <span>text track mode</span> of the <span>text track</span> that the\n-  <code>TextTrack</code> object represents is not the <span>text track disabled</span> mode, then\n-  the <dfn attribute for=\"TextTrack\"><code data-x=\"dom-TextTrack-cues\">cues</code></dfn> attribute\n-  must return a <span>live</span> <code>TextTrackCueList</code> object that represents the subset of\n-  the <span>text track list of cues</span> of the <span>text track</span> that the\n-  <code>TextTrack</code> object represents whose <span data-x=\"text track cue end time\">end\n-  times</span> occur at or after the <span>earliest possible position when the script\n-  started</span>, in <span>text track cue order</span>. Otherwise, it must return null. For each\n-  <code>TextTrack</code> object, when an object is returned, the same <code>TextTrackCueList</code>\n-  object must be returned each time.</p>\n+  <p>The <dfn attribute for=\"TextTrack\"><code data-x=\"dom-TextTrack-cues\">cues</code></dfn> getter\n+  steps are:</p>\n+\n+  <ol>\n+   <li><p>If <span>this</span>'s <span>text track</span>'s <span data-x=\"text track mode\">mode</span>\n+   is the <span>text track disabled</span> mode, then return null.</p></li>\n+\n+   <li><p>Return a <span>live</span> <code>TextTrackCueList</code> object that represents the subset of",
+    "path": "source",
+    "commit_id": "d14c6f80fb29f9a68a3c3e54651b28e80a344d0f",
+    "original_commit_id": "d14c6f80fb29f9a68a3c3e54651b28e80a344d0f",
+    "user": {
+      "login": "noamr",
+      "id": 88566,
+      "node_id": "MDQ6VXNlcjg4NTY2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88566?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/noamr",
+      "html_url": "https://github.com/noamr",
+      "followers_url": "https://api.github.com/users/noamr/followers",
+      "following_url": "https://api.github.com/users/noamr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/noamr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/noamr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/noamr/subscriptions",
+      "organizations_url": "https://api.github.com/users/noamr/orgs",
+      "repos_url": "https://api.github.com/users/noamr/repos",
+      "events_url": "https://api.github.com/users/noamr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/noamr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Should this maybe be more normative? e.g. create this somewhere and keep the instance?",
+    "created_at": "2026-07-06T11:33:47Z",
+    "updated_at": "2026-07-06T11:36:41Z",
+    "html_url": "https://github.com/whatwg/html/pull/12648#discussion_r3528497366",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12648",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3528497366"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12648#discussion_r3528497366"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12648"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3528497366/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 43293,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 155,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3528505123",
+    "pull_request_review_id": 4635418569,
+    "id": 3528505123,
+    "node_id": "PRRC_kwDOALaj487SULcj",
+    "diff_hunk": "@@ -42159,6 +42159,20 @@ interface <dfn interface>VideoTrack</dfn> {\n     in the case of a <span>text track</span> corresponding to a <code>track</code> element.</p>\n    </dd>\n \n+   <dt><dfn data-x=\"text track identifier\">An identifier</dfn>\n+   <dd>\n+    <p>This is a string, or the empty string if the track has no identifier.</p>",
+    "path": "source",
+    "commit_id": "d14c6f80fb29f9a68a3c3e54651b28e80a344d0f",
+    "original_commit_id": "d14c6f80fb29f9a68a3c3e54651b28e80a344d0f",
+    "user": {
+      "login": "noamr",
+      "id": 88566,
+      "node_id": "MDQ6VXNlcjg4NTY2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88566?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/noamr",
+      "html_url": "https://github.com/noamr",
+      "followers_url": "https://api.github.com/users/noamr/followers",
+      "following_url": "https://api.github.com/users/noamr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/noamr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/noamr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/noamr/subscriptions",
+      "organizations_url": "https://api.github.com/users/noamr/orgs",
+      "repos_url": "https://api.github.com/users/noamr/repos",
+      "events_url": "https://api.github.com/users/noamr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/noamr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "An empty string is also a string... Maybe \n\n\"This is a string. An empty string represents a track with no identifier\" \n\nor some such?",
+    "created_at": "2026-07-06T11:35:09Z",
+    "updated_at": "2026-07-06T11:36:41Z",
+    "html_url": "https://github.com/whatwg/html/pull/12648#discussion_r3528505123",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12648",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3528505123"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12648#discussion_r3528505123"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12648"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3528505123/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 42164,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 6,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3528514905",
+    "pull_request_review_id": 4635418569,
+    "id": 3528514905,
+    "node_id": "PRRC_kwDOALaj487SUN1Z",
+    "diff_hunk": "@@ -42159,6 +42159,20 @@ interface <dfn interface>VideoTrack</dfn> {\n     in the case of a <span>text track</span> corresponding to a <code>track</code> element.</p>\n    </dd>\n \n+   <dt><dfn data-x=\"text track identifier\">An identifier</dfn>\n+   <dd>\n+    <p>This is a string, or the empty string if the track has no identifier.</p>\n+\n+    <p>For a <span>text track</span> corresponding to a <code>track</code> element, the <span\n+    data-x=\"text track identifier\">identifier</span> is the value of the element's <code\n+    data-x=\"attr-id\">id</code> attribute, if any. For an in-band track, the <span data-x=\"text track\n+    identifier\">identifier</span> is specified by the <span>media resource</span>. If the <span>media\n+    resource</span> is in a format that supports <span>media fragment syntax</span>, the <span\n+    data-x=\"text track identifier\">identifier</span> is the same identifier that would enable the\n+    track if used as the name of a track in the track dimension of such a <span\n+    data-x=\"concept-url-fragment\">fragment</span>.</p>",
+    "path": "source",
+    "commit_id": "d14c6f80fb29f9a68a3c3e54651b28e80a344d0f",
+    "original_commit_id": "d14c6f80fb29f9a68a3c3e54651b28e80a344d0f",
+    "user": {
+      "login": "noamr",
+      "id": 88566,
+      "node_id": "MDQ6VXNlcjg4NTY2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88566?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/noamr",
+      "html_url": "https://github.com/noamr",
+      "followers_url": "https://api.github.com/users/noamr/followers",
+      "following_url": "https://api.github.com/users/noamr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/noamr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/noamr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/noamr/subscriptions",
+      "organizations_url": "https://api.github.com/users/noamr/orgs",
+      "repos_url": "https://api.github.com/users/noamr/repos",
+      "events_url": "https://api.github.com/users/noamr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/noamr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This is really awkward wording... I get that this is copy pasted here, perhaps it should be a set of steps?",
+    "created_at": "2026-07-06T11:36:37Z",
+    "updated_at": "2026-07-06T11:36:41Z",
+    "html_url": "https://github.com/whatwg/html/pull/12648#discussion_r3528514905",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12648",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3528514905"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12648#discussion_r3528514905"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12648"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3528514905/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 42166,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 42173,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 15,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3535536013",
+    "pull_request_review_id": 4644008876,
+    "id": 3535536013,
+    "node_id": "PRRC_kwDOALaj487Su_-N",
+    "diff_hunk": "@@ -43208,97 +43222,82 @@ interface <dfn interface>TextTrack</dfn> : <span>EventTarget</span> {\n   <hr>\n \n   <div algorithm>\n-  <p>The <dfn attribute for=\"TextTrack\"><code data-x=\"dom-TextTrack-kind\">kind</code></dfn>\n-  attribute must return the <span>text track kind</span> of the <span>text track</span> that the\n-  <code>TextTrack</code> object represents.</p>\n+  <p>The <dfn attribute for=\"TextTrack\"><code data-x=\"dom-TextTrack-kind\">kind</code></dfn> getter\n+  steps are to return <span>this</span>'s <span>text track</span>'s <span data-x=\"text track",
+    "path": "source",
+    "commit_id": "d14c6f80fb29f9a68a3c3e54651b28e80a344d0f",
+    "original_commit_id": "d14c6f80fb29f9a68a3c3e54651b28e80a344d0f",
+    "user": {
+      "login": "nigelmegitt",
+      "id": 4988915,
+      "node_id": "MDQ6VXNlcjQ5ODg5MTU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4988915?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nigelmegitt",
+      "html_url": "https://github.com/nigelmegitt",
+      "followers_url": "https://api.github.com/users/nigelmegitt/followers",
+      "following_url": "https://api.github.com/users/nigelmegitt/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nigelmegitt/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nigelmegitt/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nigelmegitt/subscriptions",
+      "organizations_url": "https://api.github.com/users/nigelmegitt/orgs",
+      "repos_url": "https://api.github.com/users/nigelmegitt/repos",
+      "events_url": "https://api.github.com/users/nigelmegitt/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nigelmegitt/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Comment applies to this line and also to the other getters and setters modified in this PR:\n\nIt's unclear what \"this's text track's kind\" means in this context. Should it be \"this text track's kind\"? Or more likely \"this's kind\", given that `this` is effectively the text track instance, i.e. it's a text track IDL value, and that this would match the other uses of \"this's\" elsewhere in the spec?",
+    "created_at": "2026-07-07T10:17:15Z",
+    "updated_at": "2026-07-07T10:17:15Z",
+    "html_url": "https://github.com/whatwg/html/pull/12648#discussion_r3535536013",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12648",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3535536013"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12648#discussion_r3535536013"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12648"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3535536013/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 43226,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 29,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3537542696",
+    "pull_request_review_id": 4646431321,
+    "id": 3537542696,
+    "node_id": "PRRC_kwDOALaj487S2p4o",
+    "diff_hunk": "@@ -43208,97 +43222,82 @@ interface <dfn interface>TextTrack</dfn> : <span>EventTarget</span> {\n   <hr>\n \n   <div algorithm>\n-  <p>The <dfn attribute for=\"TextTrack\"><code data-x=\"dom-TextTrack-kind\">kind</code></dfn>\n-  attribute must return the <span>text track kind</span> of the <span>text track</span> that the\n-  <code>TextTrack</code> object represents.</p>\n+  <p>The <dfn attribute for=\"TextTrack\"><code data-x=\"dom-TextTrack-kind\">kind</code></dfn> getter\n+  steps are to return <span>this</span>'s <span>text track</span>'s <span data-x=\"text track\n+  kind\">kind</span>.</p>\n   </div>\n \n   <div algorithm>\n-  <p>The <dfn attribute for=\"TextTrack\"><code data-x=\"dom-TextTrack-label\">label</code></dfn>\n-  attribute must return the <span>text track label</span> of the <span>text track</span> that the\n-  <code>TextTrack</code> object represents.</p>\n+  <p>The <dfn attribute for=\"TextTrack\"><code data-x=\"dom-TextTrack-label\">label</code></dfn> getter\n+  steps are to return <span>this</span>'s <span>text track</span>'s <span data-x=\"text track\n+  label\">label</span>.</p>\n   </div>\n \n   <div algorithm>\n   <p>The <dfn attribute for=\"TextTrack\"><code data-x=\"dom-TextTrack-language\">language</code></dfn>\n-  attribute must return the <span>text track language</span> of the <span>text track</span> that the\n-  <code>TextTrack</code> object represents.</p>\n+  getter steps are to return <span>this</span>'s <span>text track</span>'s <span data-x=\"text track\n+  language\">language</span>.</p>\n   </div>\n \n   <div algorithm>\n-  <p>The <dfn attribute for=\"TextTrack\"><code data-x=\"dom-TextTrack-id\">id</code></dfn> attribute\n-  returns the track's identifier, if it has one, or the empty string otherwise. For tracks that\n-  correspond to <code>track</code> elements, the track's identifier is the value of the element's\n-  <code data-x=\"attr-id\">id</code> attribute, if any. For in-band tracks, the track's identifier is\n-  specified by the <span>media resource</span>. If the <span>media resource</span> is in a format\n-  that supports <span>media fragment syntax</span>, the identifier returned for a particular track\n-  must be the same identifier that would enable the track if used as the name of a track in the\n-  track dimension of such a <span data-x=\"concept-url-fragment\">fragment</span>.</p>\n+  <p>The <dfn attribute for=\"TextTrack\"><code data-x=\"dom-TextTrack-id\">id</code></dfn> getter steps\n+  are to return <span>this</span>'s <span>text track</span>'s <span data-x=\"text track\n+  identifier\">identifier</span>.</p>\n   </div>\n \n   <div algorithm>\n   <p>The <dfn attribute for=\"TextTrack\"><code\n   data-x=\"dom-TextTrack-inBandMetadataTrackDispatchType\">inBandMetadataTrackDispatchType</code></dfn>\n-  attribute must return the <span>text track in-band metadata track dispatch type</span> of the\n-  <span>text track</span> that the <code>TextTrack</code> object represents.</p>\n+  getter steps are to return <span>this</span>'s <span>text track</span>'s <span data-x=\"text track\n+  in-band metadata track dispatch type\">in-band metadata track dispatch type</span>.</p>\n   </div>\n \n   <div algorithm>\n-  <p>The <dfn attribute for=\"TextTrack\"><code data-x=\"dom-TextTrack-mode\">mode</code></dfn>\n-  attribute, on getting, must return the string corresponding to the <span>text track mode</span> of\n-  the <span>text track</span> that the <code>TextTrack</code> object represents, as defined by the\n-  following list:</p>\n+  <p>The <dfn attribute for=\"TextTrack\"><code data-x=\"dom-TextTrack-mode\">mode</code></dfn> getter\n+  steps are to return the string switching on <span>this</span>'s <span>text track</span>'s <span\n+  data-x=\"text track mode\">mode</span>:</p>\n \n-  <dl>\n-   <dt>\"<dfn enum-value for=\"TextTrackMode\" data-x=\"dom-TextTrack-disabled\"><code>disabled</code></dfn>\"</dt>\n-   <dd>The <span>text track disabled</span> mode.</dd>\n-   <dt>\"<dfn enum-value for=\"TextTrackMode\" data-x=\"dom-TextTrack-hidden\"><code>hidden</code></dfn>\"</dt>\n-   <dd>The <span>text track hidden</span> mode.</dd>\n-   <dt>\"<dfn enum-value for=\"TextTrackMode\" data-x=\"dom-TextTrack-showing\"><code>showing</code></dfn>\"</dt>\n-   <dd>The <span>text track showing</span> mode.</dd>\n+  <dl class=\"switch\">\n+   <dt>The <span>text track disabled</span> mode</dt>\n+   <dd>\"<dfn enum-value for=\"TextTrackMode\" data-x=\"dom-TextTrack-disabled\"><code>disabled</code></dfn>\"</dd>\n+   <dt>The <span>text track hidden</span> mode</dt>\n+   <dd>\"<dfn enum-value for=\"TextTrackMode\" data-x=\"dom-TextTrack-hidden\"><code>hidden</code></dfn>\"</dd>\n+   <dt>The <span>text track showing</span> mode</dt>\n+   <dd>\"<dfn enum-value for=\"TextTrackMode\" data-x=\"dom-TextTrack-showing\"><code>showing</code></dfn>\"</dd>\n   </dl>\n   </div>\n \n   <div algorithm>\n-  <p>On setting, if the new value isn't equal to what the attribute would currently return, the new\n-  value must be processed as follows:</p>\n+  <p>The <code data-x=\"dom-TextTrack-mode\">mode</code> setter steps are to set <span>this</span>'s\n+  <span>text track</span>'s <span data-x=\"text track mode\">mode</span> to the mode switching on the\n+  given value:</p>\n \n   <dl class=\"switch\">\n-\n-   <dt>If the new value is \"<code data-x=\"dom-TextTrack-disabled\">disabled</code>\"</dt>\n-\n-   <dd>\n-    <p>Set the <span>text track mode</span> of the <span>text track</span> that the\n-    <code>TextTrack</code> object represents to the <span>text track disabled</span> mode.</p>\n-   </dd>\n-\n-   <dt>If the new value is \"<code data-x=\"dom-TextTrack-hidden\">hidden</code>\"</dt>\n-\n-   <dd>\n-    <p>Set the <span>text track mode</span> of the <span>text track</span> that the\n-    <code>TextTrack</code> object represents to the <span>text track hidden</span> mode.</p>\n-   </dd>\n-\n-   <dt>If the new value is \"<code data-x=\"dom-TextTrack-showing\">showing</code>\"</dt>\n-\n-   <dd>\n-    <p>Set the <span>text track mode</span> of the <span>text track</span> that the\n-    <code>TextTrack</code> object represents to the <span>text track showing</span> mode.</p>\n-   </dd>\n+   <dt>\"<code data-x=\"dom-TextTrack-disabled\">disabled</code>\"</dt>\n+   <dd>The <span>text track disabled</span> mode.</dd>\n+   <dt>\"<code data-x=\"dom-TextTrack-hidden\">hidden</code>\"</dt>\n+   <dd>The <span>text track hidden</span> mode.</dd>\n+   <dt>\"<code data-x=\"dom-TextTrack-showing\">showing</code>\"</dt>\n+   <dd>The <span>text track showing</span> mode.</dd>\n   </dl>\n   </div>\n \n   <div algorithm>\n-  <p>If the <span>text track mode</span> of the <span>text track</span> that the\n-  <code>TextTrack</code> object represents is not the <span>text track disabled</span> mode, then\n-  the <dfn attribute for=\"TextTrack\"><code data-x=\"dom-TextTrack-cues\">cues</code></dfn> attribute\n-  must return a <span>live</span> <code>TextTrackCueList</code> object that represents the subset of\n-  the <span>text track list of cues</span> of the <span>text track</span> that the\n-  <code>TextTrack</code> object represents whose <span data-x=\"text track cue end time\">end\n-  times</span> occur at or after the <span>earliest possible position when the script\n-  started</span>, in <span>text track cue order</span>. Otherwise, it must return null. For each\n-  <code>TextTrack</code> object, when an object is returned, the same <code>TextTrackCueList</code>\n-  object must be returned each time.</p>\n+  <p>The <dfn attribute for=\"TextTrack\"><code data-x=\"dom-TextTrack-cues\">cues</code></dfn> getter\n+  steps are:</p>\n+\n+  <ol>\n+   <li><p>If <span>this</span>'s <span>text track</span>'s <span data-x=\"text track mode\">mode</span>\n+   is the <span>text track disabled</span> mode, then return null.</p></li>\n+\n+   <li><p>Return a <span>live</span> <code>TextTrackCueList</code> object that represents the subset of",
+    "path": "source",
+    "commit_id": "d14c6f80fb29f9a68a3c3e54651b28e80a344d0f",
+    "original_commit_id": "d14c6f80fb29f9a68a3c3e54651b28e80a344d0f",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "We have this pattern elsewhere. And although I don't think we should accept it for something new I think it's good enough for something old. Perhaps once we refactor lists and in particular live lists we can improve this more.",
+    "created_at": "2026-07-07T15:06:44Z",
+    "updated_at": "2026-07-07T15:06:44Z",
+    "html_url": "https://github.com/whatwg/html/pull/12648#discussion_r3537542696",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12648",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3537542696"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12648#discussion_r3537542696"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12648"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3537542696/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 43293,
+    "side": "RIGHT",
+    "in_reply_to_id": 3528497366,
+    "author_association": "MEMBER",
+    "original_position": 155,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3537546603",
+    "pull_request_review_id": 4646435898,
+    "id": 3537546603,
+    "node_id": "PRRC_kwDOALaj487S2q1r",
+    "diff_hunk": "@@ -43208,97 +43222,82 @@ interface <dfn interface>TextTrack</dfn> : <span>EventTarget</span> {\n   <hr>\n \n   <div algorithm>\n-  <p>The <dfn attribute for=\"TextTrack\"><code data-x=\"dom-TextTrack-kind\">kind</code></dfn>\n-  attribute must return the <span>text track kind</span> of the <span>text track</span> that the\n-  <code>TextTrack</code> object represents.</p>\n+  <p>The <dfn attribute for=\"TextTrack\"><code data-x=\"dom-TextTrack-kind\">kind</code></dfn> getter\n+  steps are to return <span>this</span>'s <span>text track</span>'s <span data-x=\"text track",
+    "path": "source",
+    "commit_id": "d14c6f80fb29f9a68a3c3e54651b28e80a344d0f",
+    "original_commit_id": "d14c6f80fb29f9a68a3c3e54651b28e80a344d0f",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "`this` is the object which holds a text track. Made it more explicit now.",
+    "created_at": "2026-07-07T15:07:20Z",
+    "updated_at": "2026-07-07T15:07:20Z",
+    "html_url": "https://github.com/whatwg/html/pull/12648#discussion_r3537546603",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12648",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3537546603"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12648#discussion_r3537546603"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12648"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3537546603/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 43226,
+    "side": "RIGHT",
+    "in_reply_to_id": 3535536013,
+    "author_association": "MEMBER",
+    "original_position": 29,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3538383861",
+    "pull_request_review_id": 4647419794,
+    "id": 3538383861,
+    "node_id": "PRRC_kwDOALaj487S53P1",
+    "diff_hunk": "@@ -43162,6 +43178,9 @@ interface <dfn interface>TextTrack</dfn> : <span>EventTarget</span> {\n \n   <div w-nodev>\n \n+  <p>A <code>TextTrack</code> object has an associated <dfn data-x=\"TextTrack text track\"\n+  for=\"TextTrack\">text track</dfn> (a <span>text track</span>).</p>\n+",
+    "path": "source",
+    "commit_id": "22ff55a735dbdf0790dde7c1178aeee638c48431",
+    "original_commit_id": "22ff55a735dbdf0790dde7c1178aeee638c48431",
+    "user": {
+      "login": "nigelmegitt",
+      "id": 4988915,
+      "node_id": "MDQ6VXNlcjQ5ODg5MTU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4988915?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nigelmegitt",
+      "html_url": "https://github.com/nigelmegitt",
+      "followers_url": "https://api.github.com/users/nigelmegitt/followers",
+      "following_url": "https://api.github.com/users/nigelmegitt/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nigelmegitt/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nigelmegitt/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nigelmegitt/subscriptions",
+      "organizations_url": "https://api.github.com/users/nigelmegitt/orgs",
+      "repos_url": "https://api.github.com/users/nigelmegitt/repos",
+      "events_url": "https://api.github.com/users/nigelmegitt/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nigelmegitt/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This is super confusing. Surely the `TextTrack` object _is_ the representation of a text track?\n\nI read this as saying:\n\n```mermaid\n---\n  config:\n    class:\n      hideEmptyMembersBox: true\n---\nclassDiagram\nMedia Element \"1\" --> \"*\" TextTrack\nTextTrack \"1\" --> \"1\" text track\n```\n\nHowever step 2 of the algorithm that immediately follows, for `addTextTrack`, says that the text track _corresponds_ to the new `TextTrack` object constructed in step 1. That's the only place where that `TextTrack` object is assigned some relationship to the text track being added.\n\n\n```suggestion\n  <p>A <code>TextTrack</code> object has a corresponding <dfn data-x=\"TextTrack text track\"\n  for=\"TextTrack\">text track</dfn> (a <span>text track</span>).</p>\n```\n\nI get the formal correctness here when there's a \"A _has_ B\" relationship, but that doesn't seem right here.\n\n(aside: plus it's horrible to read the following sections that have the \"this's text track's XYZ\" construct when \"this\" _is_ a TextTrack)\n\nSomehow this situation is avoided with other interfaces, e.g. `media`, where instead we have the more readable (e.g.) \"this's current playback position\" and not \"This's media resource's current playback position\". Similarly the getter for `media.volume` is simply \"this's playback volume\".\n\nIt's a different scenario for `TimeRanges` that clearly has a _list_ of time ranges called \"ranges\", so \"this's ranges's size\" makes sense.\n\nI'm making the distinction between a direct one to one correspondence, for `TextTrack`, and an \"ownership\" relationship (for `TimeRanges`) and thinking that when there's a direct correspondence, as here, we should be able to make the text more readable without loss of correctness.",
+    "created_at": "2026-07-07T17:17:31Z",
+    "updated_at": "2026-07-07T17:17:31Z",
+    "html_url": "https://github.com/whatwg/html/pull/12648#discussion_r3538383861",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12648",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3538383861"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12648#discussion_r3538383861"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12648"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3538383861/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 43181,
+    "original_start_line": 43181,
+    "start_side": "RIGHT",
+    "line": 43183,
+    "original_line": 43183,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 64,
+    "position": 64,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3538538966",
+    "pull_request_review_id": 4647608466,
+    "id": 3538538966,
+    "node_id": "PRRC_kwDOALaj487S6dHW",
+    "diff_hunk": "@@ -43162,6 +43178,9 @@ interface <dfn interface>TextTrack</dfn> : <span>EventTarget</span> {\n \n   <div w-nodev>\n \n+  <p>A <code>TextTrack</code> object has an associated <dfn data-x=\"TextTrack text track\"\n+  for=\"TextTrack\">text track</dfn> (a <span>text track</span>).</p>\n+",
+    "path": "source",
+    "commit_id": "22ff55a735dbdf0790dde7c1178aeee638c48431",
+    "original_commit_id": "22ff55a735dbdf0790dde7c1178aeee638c48431",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This is not changing anything though. This is just making the existing text more explicit. It does seem like we could maybe flatten this as the specification claims they are 1:1.",
+    "created_at": "2026-07-07T17:45:16Z",
+    "updated_at": "2026-07-07T17:45:16Z",
+    "html_url": "https://github.com/whatwg/html/pull/12648#discussion_r3538538966",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12648",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3538538966"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12648#discussion_r3538538966"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12648"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3538538966/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 43181,
+    "original_start_line": 43181,
+    "start_side": "RIGHT",
+    "line": 43183,
+    "original_line": 43183,
+    "side": "RIGHT",
+    "in_reply_to_id": 3538383861,
+    "author_association": "MEMBER",
+    "original_position": 64,
+    "position": 64,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3542168387",
+    "pull_request_review_id": 4652001985,
+    "id": 3542168387,
+    "node_id": "PRRC_kwDOALaj487TITND",
+    "diff_hunk": "@@ -43162,6 +43178,9 @@ interface <dfn interface>TextTrack</dfn> : <span>EventTarget</span> {\n \n   <div w-nodev>\n \n+  <p>A <code>TextTrack</code> object has an associated <dfn data-x=\"TextTrack text track\"\n+  for=\"TextTrack\">text track</dfn> (a <span>text track</span>).</p>\n+",
+    "path": "source",
+    "commit_id": "22ff55a735dbdf0790dde7c1178aeee638c48431",
+    "original_commit_id": "22ff55a735dbdf0790dde7c1178aeee638c48431",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This would have to be a follow-up change as WebVTT references text track as well.",
+    "created_at": "2026-07-08T07:49:46Z",
+    "updated_at": "2026-07-08T07:49:46Z",
+    "html_url": "https://github.com/whatwg/html/pull/12648#discussion_r3542168387",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12648",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3542168387"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12648#discussion_r3542168387"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12648"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3542168387/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 43181,
+    "original_start_line": 43181,
+    "start_side": "RIGHT",
+    "line": 43183,
+    "original_line": 43183,
+    "side": "RIGHT",
+    "in_reply_to_id": 3538383861,
+    "author_association": "MEMBER",
+    "original_position": 64,
+    "position": 64,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

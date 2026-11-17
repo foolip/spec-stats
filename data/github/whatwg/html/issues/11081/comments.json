@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/2707075404",
+    "html_url": "https://github.com/whatwg/html/issues/11081#issuecomment-2707075404",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/11081",
+    "id": 2707075404,
+    "node_id": "IC_kwDOALaj486hWrFM",
+    "user": {
+      "login": "past",
+      "id": 49118,
+      "node_id": "MDQ6VXNlcjQ5MTE4",
+      "avatar_url": "https://avatars.githubusercontent.com/u/49118?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/past",
+      "html_url": "https://github.com/past",
+      "followers_url": "https://api.github.com/users/past/followers",
+      "following_url": "https://api.github.com/users/past/following{/other_user}",
+      "gists_url": "https://api.github.com/users/past/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/past/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/past/subscriptions",
+      "organizations_url": "https://api.github.com/users/past/orgs",
+      "repos_url": "https://api.github.com/users/past/repos",
+      "events_url": "https://api.github.com/users/past/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/past/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2025-03-07T18:01:41Z",
+    "updated_at": "2025-03-07T18:01:41Z",
+    "body": "Thank you all for attending the meeting yesterday. Here are the notes from this meeting (the next one is at https://github.com/whatwg/html/issues/11115):\n\n### Agenda  \nAttendees: Mason Freed, Chris Harrelson, Sanket Joshi, Olli Pettay, Chris Wilson, Di Zhang, Domenic Denicola  \nScribe: \n\n1. Review past action items\n    1.  Luke will file standards positions and Ben will ping Olli on [add request-close command for dialogs](https://github.com/whatwg/html/pull/11045).\n        1. [smaug] Ben did ping me\n1. Carryovers from last time\n    1. [Domenic] [CanvasRenderingContext2D: Add getImageDataAsync method](https://github.com/whatwg/html/issues/10855)\n        1. Mainly focus on [https://github.com/whatwg/html/issues/10855#issuecomment-2686924006](https://github.com/whatwg/html/issues/10855#issuecomment-2686924006)\n        1. Asked and answered, preference for option 2\n    1. [Anne] [Web Compatibility of Scoped Custom Element Registries](https://github.com/whatwg/html/issues/11076)\n        1. Not present, carry over\n        1. Domenic: polyfills cause problems when not ensuring compat with at least one active implementation.  Should we write up a recommendation for polyfill people?\n1. New topics\n    1. [Dan] [ARIA notify iframe restrictions](https://github.com/whatwg/html/issues/11004)\n        1. Not present, carry over\n    1. [Sanket] Review of [Feature Policy: focus-without-user-activation](https://github.com/whatwg/html/pull/10672)\n        1. Olli will take a look, Domenic will try to take a look in a few days if no one else gets to it.\n\n### Action Items\n\n1.  @smaug---- will take a look at [Feature Policy: focus-without-user-activation](https://github.com/whatwg/html/pull/10672), @domenic will try to take a look in a few days if no one else gets to it.\n\n### Minutes  \nChris W: So the request-close thing can be considered complete?  \nOlli: sounds like yes.  \nDomenic: There's a link to the main comment. Trying to get a decision on this - adding an async version of getImageData. Better for perf. Two shapes, option one is to treat the image data object as a wrapper, like typed arrays. You pass in the old one, you get a new wrapper. Anne proposed an alternative option two: swap out the buffer, so the data getter starts returning a new array buffer, but we keep the image data the same.  \nDomenic: We slightly prefer option 1. This is more similar to other things on the platform. We don't insist, just want some movement. There has been some back and forth. Opinions both ways. Then someone else created a new third proposal, perhaps lacking some context. General confusion at this point.  \nOlli: I was tweaking our GC behavior around image behavior, and found that people do weird things at this point. E.g. creating tons of very small image data and painting them, generating tons of garbage. Based on that, I'd prefer to reuse everything whenever possible.  \nDomenic: ok sounds like a preference for the reuse-the-object version (option 2). Sounds like a direction to go.  \nChris W: skipping web compat of scoped registries.  \nChris W: skipping ARIA notify thing.  \nSanket: focus without user activation. This likely needs Anne to review also. Simon also needs to review.  \nOlli: I'll ping Simon. Also I'll take a look at the standards position.  \nDomenic: I'll try to help also, as a backstop for Anne. Looks fairly small and ready to go.  \nSanket: sounds good, thanks.  \nChris H: in general, feel free to reach out to Philip Jagenstat also, he has some capacity for reviews.  \nDomenic: we can talk about web compatibility of scoped registry. That's the polymer team.  \nMason: polyfills can help though - any advice to keep this from happening?  \nDomenic: use a special name like NotCustomizedFoo(). Before shipped in at least a browser. But don't ship it before there are standards or an implementation, because it blocks the actual feature.  \nSanket: What is broken by this?  \nDomenic: all are the result of the polymer polyfill.  \nDomenic: would like to get WebKit's perspective on this. Perhaps it's not as bad as it seems?  \nMason: I agree - it's possible that the original name is still shippable.  \nChris H: Domenic: random question: are you a spec editor for DOM?  \nDomenic: Just HTML. Anne is the only primary editor.  \nChris H: Dom Farolino is going to ask if he can be added as an editor.  \n{general}: seems like a good idea  \nDomenic: abort, range, shadow dom - these are the primary DOM things that are active.  \nChris H: Olli: the interactivity thing from this morning. Did you have a chance to look?  \nOlli: not yet. I want to check on the focus handling. If focus is within the tree that gets marked inert.  \nChris W: Anything else?",
+    "author_association": "NONE",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/2707075404/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

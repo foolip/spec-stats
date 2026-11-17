@@ -1,0 +1,359 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3888679556",
+    "pull_request_review_id": 5060144002,
+    "id": 3888679556,
+    "node_id": "PRRC_kwDOALaj487nyIqE",
+    "diff_hunk": "@@ -135709,12 +135736,129 @@ interface <dfn interface>SharedWorkerGlobalScope</dfn> : <span>WorkerGlobalScope\n    <li><p>Let <var>is shared</var> be true if <var>worker</var> is a <code>SharedWorker</code>\n    object, and false otherwise.</p></li>\n \n-   <li><p>Let <var>owner</var> be the <span>relevant owner to add</span> given <var>outside\n-   settings</var>.</p></li>\n-\n    <li><p>Let <var>unsafeWorkerCreationTime</var> be the <span>unsafe shared current\n    time</span>.</p></li>\n \n+   <li>\n+    <p>Let <var>topLevelOrigin</var> be <var>outside settings</var>'s <span>top-level\n+    origin</span> if <var>is shared</var> is false; otherwise an\n+    <span>implementation-defined</span> value.</p>\n+\n+    <p class=\"XXX\">See <a href=\"https://privacycg.github.io/storage-partitioning/\">Client-Side\n+    Storage Partitioning</a> for the latest on properly defining this.</p>\n+   </li>\n+\n+   <li>\n+    <p>Let <var>reservedEnvironment</var> be a new <span>environment</span> with the following\n+    fields:</p>\n+\n+    <dl class=\"props\">\n+     <dt><span data-x=\"concept-environment-id\">id</span></dt>\n+     <dd>a unique opaque string</dd>\n+\n+     <dt><span data-x=\"concept-environment-creation-url\">creation URL</span></dt>\n+     <dd><var>url</var></dd>\n+\n+     <dt><span>top-level creation URL</span></dt>\n+     <dd>null</dd>\n+\n+     <dt><span>top-level origin</span></dt>\n+     <dd><var>topLevelOrigin</var></dd>\n+\n+     <dt><span data-x=\"concept-environment-target-browsing-context\">target browsing\n+     context</span></dt>\n+     <dd>null</dd>\n+\n+     <dt><span data-x=\"concept-environment-active-service-worker\">active service worker</span></dt>\n+     <dd>null</dd>\n+    </dl>\n+   </li>\n+\n+   <li><p>Let <var>destination</var> be \"<code data-x=\"\">sharedworker</code>\" if <var>is\n+   shared</var> is true, and \"<code data-x=\"\">worker</code>\" otherwise.</p></li>\n+\n+   <li><p>Let <var>request</var> be null.</p></li>\n+\n+   <li><p>If <var>options</var>[\"<code data-x=\"dom-WorkerOptions-type\">type</code>\"] is \"<code\n+   data-x=\"\">classic</code>\", then set <var>request</var> to the result of <span\n+   data-x=\"create a classic worker script request\">creating a classic worker script request</span>\n+   given <var>url</var>, <var>outside settings</var>, and <var>destination</var>.</p></li>\n+\n+   <li>\n+    <p>Otherwise:</p>\n+\n+    <ol>\n+     <li><p>Let <var>moduleFetchOptions</var> be a <span>script fetch options</span> whose <span\n+     data-x=\"concept-script-fetch-options-nonce\">cryptographic nonce</span> is the empty string,\n+     <span data-x=\"concept-script-fetch-options-integrity\">integrity metadata</span> is the empty\n+     string, <span data-x=\"concept-script-fetch-options-parser\">parser metadata</span> is \"<code\n+     data-x=\"\">not-parser-inserted</code>\", <span\n+     data-x=\"concept-script-fetch-options-credentials\">credentials mode</span> is\n+     <var>options</var>[\"<code data-x=\"dom-WorkerOptions-credentials\">credentials</code>\"], <span\n+     data-x=\"concept-script-fetch-options-referrer-policy\">referrer policy</span> is the empty\n+     string, and <span data-x=\"concept-script-fetch-options-fetch-priority\">fetch priority</span>\n+     is \"<code data-x=\"\">auto</code>\".</p></li>\n+\n+     <li><p>Set <var>request</var> to the result of <span\n+     data-x=\"create a module script request\">creating a module script request</span> given\n+     <var>url</var>, <var>outside settings</var>, <var>destination</var>,\n+     <var>moduleFetchOptions</var>, \"<code data-x=\"\">client</code>\", \"<code\n+     data-x=\"\">javascript-or-wasm</code>\", and true.</p></li>\n+    </ol>\n+   </li>\n+\n+   <li><p>Set <var>request</var>'s <span data-x=\"concept-request-reserved-client\">reserved\n+   client</span> to <var>reservedEnvironment</var>.</p></li>\n+\n+   <li>\n+    <p><span data-x=\"concept-fetch\">Fetch</span> <var>request</var> with <i\n+    data-x=\"processResponseConsumeBody\">processResponseConsumeBody</i> set to the following steps\n+    given <span data-x=\"concept-response\">response</span> <var>response</var> and null, failure, or\n+    a <span>byte sequence</span> <var>bodyBytes</var>:</p>\n+\n+    <ol>\n+     <li>\n+      <p>If <var>bodyBytes</var> is null or failure, or <var>response</var>'s <span\n+      data-x=\"concept-response-status\">status</span> is not an <span>ok status</span>, then:</p>\n+\n+      <ol>\n+       <li><p><span>Queue a global task</span> on the <span>DOM manipulation task source</span>\n+       given <var>worker</var>'s <span>relevant global object</span> to <span\n+       data-x=\"concept-event-fire\">fire an event</span> named <code\n+       data-x=\"event-error\">error</code> at <var>worker</var>.</p></li>\n+\n+       <li><p>Run the <span data-x=\"environment discarding steps\">environment discarding\n+       steps</span> for <var>reservedEnvironment</var>.</p></li>\n+\n+       <li><p>Abort these steps.</p></li>\n+      </ol>\n+     </li>\n+\n+     <li><p><span>Run a worker from a main script response</span> given <var>worker</var>,\n+     <var>url</var>, <var>outside settings</var>, <var>outside port</var>, <var>options</var>,\n+     <var>reservedEnvironment</var>, <var>response</var>, <var>bodyBytes</var>, and\n+     <var>unsafeWorkerCreationTime</var>.</p></li>\n+    </ol>\n+   </li>\n+  </ol>\n+  </div>\n+\n+  <div algorithm>\n+  <p>To <dfn>run a worker from a main script response</dfn> given a <code>Worker</code> or\n+  <code>SharedWorker</code> object <var>worker</var>, a <span>URL</span> <var>url</var>, an\n+  <span>environment settings object</span> <var>outside settings</var>, a <code>MessagePort</code>\n+  <var>outside port</var>, a <code>WorkerOptions</code> dictionary <var>options</var>, an\n+  <span>environment</span> <var>reservedEnvironment</var>, a <span\n+  data-x=\"concept-response\">response</span> <var>response</var>, a <span>byte sequence</span>\n+  <var>bodyBytes</var>, and a number <var>unsafeWorkerCreationTime</var>:</p>\n+\n+  <ol>\n+   <li><p>Let <var>is shared</var> be true if <var>worker</var> is a <code>SharedWorker</code>\n+   object, and false otherwise.</p></li>\n+\n+   <li><p>Let <var>owner</var> be the <span>relevant owner to add</span> given <var>outside\n+   settings</var>.</p></li>",
+    "path": "source",
+    "commit_id": "7d2db871cd48766e6b6466186bf499bca5c1c4a1",
+    "original_commit_id": "7d2db871cd48766e6b6466186bf499bca5c1c4a1",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Since we do this after fetching, can this capture a different document due to navigation? Perhaps when the `Window` object is reused as with initial about:blank?",
+    "created_at": "2026-08-30T06:43:48Z",
+    "updated_at": "2026-08-30T06:50:35Z",
+    "html_url": "https://github.com/whatwg/html/pull/12837#discussion_r3888679556",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12837",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3888679556"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12837#discussion_r3888679556"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12837"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3888679556/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 135860,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 253,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3888684261",
+    "pull_request_review_id": 5060144002,
+    "id": 3888684261,
+    "node_id": "PRRC_kwDOALaj487nyJzl",
+    "diff_hunk": "@@ -135709,12 +135736,129 @@ interface <dfn interface>SharedWorkerGlobalScope</dfn> : <span>WorkerGlobalScope\n    <li><p>Let <var>is shared</var> be true if <var>worker</var> is a <code>SharedWorker</code>\n    object, and false otherwise.</p></li>\n \n-   <li><p>Let <var>owner</var> be the <span>relevant owner to add</span> given <var>outside\n-   settings</var>.</p></li>\n-\n    <li><p>Let <var>unsafeWorkerCreationTime</var> be the <span>unsafe shared current\n    time</span>.</p></li>\n \n+   <li>\n+    <p>Let <var>topLevelOrigin</var> be <var>outside settings</var>'s <span>top-level\n+    origin</span> if <var>is shared</var> is false; otherwise an\n+    <span>implementation-defined</span> value.</p>\n+\n+    <p class=\"XXX\">See <a href=\"https://privacycg.github.io/storage-partitioning/\">Client-Side\n+    Storage Partitioning</a> for the latest on properly defining this.</p>\n+   </li>\n+\n+   <li>\n+    <p>Let <var>reservedEnvironment</var> be a new <span>environment</span> with the following\n+    fields:</p>\n+\n+    <dl class=\"props\">\n+     <dt><span data-x=\"concept-environment-id\">id</span></dt>\n+     <dd>a unique opaque string</dd>\n+\n+     <dt><span data-x=\"concept-environment-creation-url\">creation URL</span></dt>\n+     <dd><var>url</var></dd>\n+\n+     <dt><span>top-level creation URL</span></dt>\n+     <dd>null</dd>\n+\n+     <dt><span>top-level origin</span></dt>\n+     <dd><var>topLevelOrigin</var></dd>\n+\n+     <dt><span data-x=\"concept-environment-target-browsing-context\">target browsing\n+     context</span></dt>\n+     <dd>null</dd>\n+\n+     <dt><span data-x=\"concept-environment-active-service-worker\">active service worker</span></dt>\n+     <dd>null</dd>\n+    </dl>\n+   </li>\n+\n+   <li><p>Let <var>destination</var> be \"<code data-x=\"\">sharedworker</code>\" if <var>is\n+   shared</var> is true, and \"<code data-x=\"\">worker</code>\" otherwise.</p></li>\n+\n+   <li><p>Let <var>request</var> be null.</p></li>\n+\n+   <li><p>If <var>options</var>[\"<code data-x=\"dom-WorkerOptions-type\">type</code>\"] is \"<code\n+   data-x=\"\">classic</code>\", then set <var>request</var> to the result of <span\n+   data-x=\"create a classic worker script request\">creating a classic worker script request</span>\n+   given <var>url</var>, <var>outside settings</var>, and <var>destination</var>.</p></li>\n+\n+   <li>\n+    <p>Otherwise:</p>\n+\n+    <ol>\n+     <li><p>Let <var>moduleFetchOptions</var> be a <span>script fetch options</span> whose <span\n+     data-x=\"concept-script-fetch-options-nonce\">cryptographic nonce</span> is the empty string,\n+     <span data-x=\"concept-script-fetch-options-integrity\">integrity metadata</span> is the empty\n+     string, <span data-x=\"concept-script-fetch-options-parser\">parser metadata</span> is \"<code\n+     data-x=\"\">not-parser-inserted</code>\", <span\n+     data-x=\"concept-script-fetch-options-credentials\">credentials mode</span> is\n+     <var>options</var>[\"<code data-x=\"dom-WorkerOptions-credentials\">credentials</code>\"], <span\n+     data-x=\"concept-script-fetch-options-referrer-policy\">referrer policy</span> is the empty\n+     string, and <span data-x=\"concept-script-fetch-options-fetch-priority\">fetch priority</span>\n+     is \"<code data-x=\"\">auto</code>\".</p></li>\n+\n+     <li><p>Set <var>request</var> to the result of <span\n+     data-x=\"create a module script request\">creating a module script request</span> given\n+     <var>url</var>, <var>outside settings</var>, <var>destination</var>,\n+     <var>moduleFetchOptions</var>, \"<code data-x=\"\">client</code>\", \"<code\n+     data-x=\"\">javascript-or-wasm</code>\", and true.</p></li>\n+    </ol>\n+   </li>\n+\n+   <li><p>Set <var>request</var>'s <span data-x=\"concept-request-reserved-client\">reserved\n+   client</span> to <var>reservedEnvironment</var>.</p></li>",
+    "path": "source",
+    "commit_id": "937d45ed131a40d31332c86f25841b8f948c3db4",
+    "original_commit_id": "7d2db871cd48766e6b6466186bf499bca5c1c4a1",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "If we're changing this to be an environment, we'll need corresponding changes to https://fetch.spec.whatwg.org/#concept-request-reserved-client and probably also File API and Service Workers.",
+    "created_at": "2026-08-30T06:46:38Z",
+    "updated_at": "2026-08-30T06:50:35Z",
+    "html_url": "https://github.com/whatwg/html/pull/12837#discussion_r3888684261",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12837",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3888684261"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12837#discussion_r3888684261"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12837"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3888684261/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 135826,
+    "original_line": 135811,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 204,
+    "position": 252,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3888690910",
+    "pull_request_review_id": 5060144002,
+    "id": 3888690910,
+    "node_id": "PRRC_kwDOALaj487nyLbe",
+    "diff_hunk": "@@ -135709,12 +135736,129 @@ interface <dfn interface>SharedWorkerGlobalScope</dfn> : <span>WorkerGlobalScope\n    <li><p>Let <var>is shared</var> be true if <var>worker</var> is a <code>SharedWorker</code>\n    object, and false otherwise.</p></li>\n \n-   <li><p>Let <var>owner</var> be the <span>relevant owner to add</span> given <var>outside\n-   settings</var>.</p></li>\n-\n    <li><p>Let <var>unsafeWorkerCreationTime</var> be the <span>unsafe shared current\n    time</span>.</p></li>\n \n+   <li>\n+    <p>Let <var>topLevelOrigin</var> be <var>outside settings</var>'s <span>top-level\n+    origin</span> if <var>is shared</var> is false; otherwise an\n+    <span>implementation-defined</span> value.</p>\n+\n+    <p class=\"XXX\">See <a href=\"https://privacycg.github.io/storage-partitioning/\">Client-Side\n+    Storage Partitioning</a> for the latest on properly defining this.</p>\n+   </li>\n+\n+   <li>\n+    <p>Let <var>reservedEnvironment</var> be a new <span>environment</span> with the following\n+    fields:</p>\n+\n+    <dl class=\"props\">\n+     <dt><span data-x=\"concept-environment-id\">id</span></dt>\n+     <dd>a unique opaque string</dd>\n+\n+     <dt><span data-x=\"concept-environment-creation-url\">creation URL</span></dt>\n+     <dd><var>url</var></dd>\n+\n+     <dt><span>top-level creation URL</span></dt>\n+     <dd>null</dd>\n+\n+     <dt><span>top-level origin</span></dt>\n+     <dd><var>topLevelOrigin</var></dd>\n+\n+     <dt><span data-x=\"concept-environment-target-browsing-context\">target browsing\n+     context</span></dt>\n+     <dd>null</dd>\n+\n+     <dt><span data-x=\"concept-environment-active-service-worker\">active service worker</span></dt>\n+     <dd>null</dd>\n+    </dl>\n+   </li>\n+\n+   <li><p>Let <var>destination</var> be \"<code data-x=\"\">sharedworker</code>\" if <var>is\n+   shared</var> is true, and \"<code data-x=\"\">worker</code>\" otherwise.</p></li>\n+\n+   <li><p>Let <var>request</var> be null.</p></li>\n+\n+   <li><p>If <var>options</var>[\"<code data-x=\"dom-WorkerOptions-type\">type</code>\"] is \"<code\n+   data-x=\"\">classic</code>\", then set <var>request</var> to the result of <span\n+   data-x=\"create a classic worker script request\">creating a classic worker script request</span>\n+   given <var>url</var>, <var>outside settings</var>, and <var>destination</var>.</p></li>\n+\n+   <li>\n+    <p>Otherwise:</p>\n+\n+    <ol>\n+     <li><p>Let <var>moduleFetchOptions</var> be a <span>script fetch options</span> whose <span",
+    "path": "source",
+    "commit_id": "7d2db871cd48766e6b6466186bf499bca5c1c4a1",
+    "original_commit_id": "7d2db871cd48766e6b6466186bf499bca5c1c4a1",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Should this not repurpose fetch a worklet/module worker script graph somehow?",
+    "created_at": "2026-08-30T06:50:25Z",
+    "updated_at": "2026-08-30T06:50:35Z",
+    "html_url": "https://github.com/whatwg/html/pull/12837#discussion_r3888690910",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12837",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3888690910"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12837#discussion_r3888690910"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12837"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3888690910/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 135791,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 184,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3888935739",
+    "pull_request_review_id": 5060389888,
+    "id": 3888935739,
+    "node_id": "PRRC_kwDOALaj487nzHM7",
+    "diff_hunk": "@@ -135709,12 +135736,129 @@ interface <dfn interface>SharedWorkerGlobalScope</dfn> : <span>WorkerGlobalScope\n    <li><p>Let <var>is shared</var> be true if <var>worker</var> is a <code>SharedWorker</code>\n    object, and false otherwise.</p></li>\n \n-   <li><p>Let <var>owner</var> be the <span>relevant owner to add</span> given <var>outside\n-   settings</var>.</p></li>\n-\n    <li><p>Let <var>unsafeWorkerCreationTime</var> be the <span>unsafe shared current\n    time</span>.</p></li>\n \n+   <li>\n+    <p>Let <var>topLevelOrigin</var> be <var>outside settings</var>'s <span>top-level\n+    origin</span> if <var>is shared</var> is false; otherwise an\n+    <span>implementation-defined</span> value.</p>\n+\n+    <p class=\"XXX\">See <a href=\"https://privacycg.github.io/storage-partitioning/\">Client-Side\n+    Storage Partitioning</a> for the latest on properly defining this.</p>\n+   </li>\n+\n+   <li>\n+    <p>Let <var>reservedEnvironment</var> be a new <span>environment</span> with the following\n+    fields:</p>\n+\n+    <dl class=\"props\">\n+     <dt><span data-x=\"concept-environment-id\">id</span></dt>\n+     <dd>a unique opaque string</dd>\n+\n+     <dt><span data-x=\"concept-environment-creation-url\">creation URL</span></dt>\n+     <dd><var>url</var></dd>\n+\n+     <dt><span>top-level creation URL</span></dt>\n+     <dd>null</dd>\n+\n+     <dt><span>top-level origin</span></dt>\n+     <dd><var>topLevelOrigin</var></dd>\n+\n+     <dt><span data-x=\"concept-environment-target-browsing-context\">target browsing\n+     context</span></dt>\n+     <dd>null</dd>\n+\n+     <dt><span data-x=\"concept-environment-active-service-worker\">active service worker</span></dt>\n+     <dd>null</dd>\n+    </dl>\n+   </li>\n+\n+   <li><p>Let <var>destination</var> be \"<code data-x=\"\">sharedworker</code>\" if <var>is\n+   shared</var> is true, and \"<code data-x=\"\">worker</code>\" otherwise.</p></li>\n+\n+   <li><p>Let <var>request</var> be null.</p></li>\n+\n+   <li><p>If <var>options</var>[\"<code data-x=\"dom-WorkerOptions-type\">type</code>\"] is \"<code\n+   data-x=\"\">classic</code>\", then set <var>request</var> to the result of <span\n+   data-x=\"create a classic worker script request\">creating a classic worker script request</span>\n+   given <var>url</var>, <var>outside settings</var>, and <var>destination</var>.</p></li>\n+\n+   <li>\n+    <p>Otherwise:</p>\n+\n+    <ol>\n+     <li><p>Let <var>moduleFetchOptions</var> be a <span>script fetch options</span> whose <span",
+    "path": "source",
+    "commit_id": "7d2db871cd48766e6b6466186bf499bca5c1c4a1",
+    "original_commit_id": "7d2db871cd48766e6b6466186bf499bca5c1c4a1",
+    "user": {
+      "login": "shannonbooth",
+      "id": 35911232,
+      "node_id": "MDQ6VXNlcjM1OTExMjMy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/35911232?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/shannonbooth",
+      "html_url": "https://github.com/shannonbooth",
+      "followers_url": "https://api.github.com/users/shannonbooth/followers",
+      "following_url": "https://api.github.com/users/shannonbooth/following{/other_user}",
+      "gists_url": "https://api.github.com/users/shannonbooth/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/shannonbooth/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/shannonbooth/subscriptions",
+      "organizations_url": "https://api.github.com/users/shannonbooth/orgs",
+      "repos_url": "https://api.github.com/users/shannonbooth/repos",
+      "events_url": "https://api.github.com/users/shannonbooth/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/shannonbooth/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think it would be good. The problem which makes this tricky is that fetch a worklet/module worker script graph takes an ESO. To fix this, we'll need to restructure those algorithms to not take an ESO which I think is possible but from what I gather does have a lot more fallout",
+    "created_at": "2026-08-30T08:59:36Z",
+    "updated_at": "2026-08-30T08:59:36Z",
+    "html_url": "https://github.com/whatwg/html/pull/12837#discussion_r3888935739",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12837",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3888935739"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12837#discussion_r3888935739"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12837"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3888935739/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 135791,
+    "side": "RIGHT",
+    "in_reply_to_id": 3888690910,
+    "author_association": "MEMBER",
+    "original_position": 184,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3889397367",
+    "pull_request_review_id": 5060850067,
+    "id": 3889397367,
+    "node_id": "PRRC_kwDOALaj487n0353",
+    "diff_hunk": "@@ -135709,12 +135736,129 @@ interface <dfn interface>SharedWorkerGlobalScope</dfn> : <span>WorkerGlobalScope\n    <li><p>Let <var>is shared</var> be true if <var>worker</var> is a <code>SharedWorker</code>\n    object, and false otherwise.</p></li>\n \n-   <li><p>Let <var>owner</var> be the <span>relevant owner to add</span> given <var>outside\n-   settings</var>.</p></li>\n-\n    <li><p>Let <var>unsafeWorkerCreationTime</var> be the <span>unsafe shared current\n    time</span>.</p></li>\n \n+   <li>\n+    <p>Let <var>topLevelOrigin</var> be <var>outside settings</var>'s <span>top-level\n+    origin</span> if <var>is shared</var> is false; otherwise an\n+    <span>implementation-defined</span> value.</p>\n+\n+    <p class=\"XXX\">See <a href=\"https://privacycg.github.io/storage-partitioning/\">Client-Side\n+    Storage Partitioning</a> for the latest on properly defining this.</p>\n+   </li>\n+\n+   <li>\n+    <p>Let <var>reservedEnvironment</var> be a new <span>environment</span> with the following\n+    fields:</p>\n+\n+    <dl class=\"props\">\n+     <dt><span data-x=\"concept-environment-id\">id</span></dt>\n+     <dd>a unique opaque string</dd>\n+\n+     <dt><span data-x=\"concept-environment-creation-url\">creation URL</span></dt>\n+     <dd><var>url</var></dd>\n+\n+     <dt><span>top-level creation URL</span></dt>\n+     <dd>null</dd>\n+\n+     <dt><span>top-level origin</span></dt>\n+     <dd><var>topLevelOrigin</var></dd>\n+\n+     <dt><span data-x=\"concept-environment-target-browsing-context\">target browsing\n+     context</span></dt>\n+     <dd>null</dd>\n+\n+     <dt><span data-x=\"concept-environment-active-service-worker\">active service worker</span></dt>\n+     <dd>null</dd>\n+    </dl>\n+   </li>\n+\n+   <li><p>Let <var>destination</var> be \"<code data-x=\"\">sharedworker</code>\" if <var>is\n+   shared</var> is true, and \"<code data-x=\"\">worker</code>\" otherwise.</p></li>\n+\n+   <li><p>Let <var>request</var> be null.</p></li>\n+\n+   <li><p>If <var>options</var>[\"<code data-x=\"dom-WorkerOptions-type\">type</code>\"] is \"<code\n+   data-x=\"\">classic</code>\", then set <var>request</var> to the result of <span\n+   data-x=\"create a classic worker script request\">creating a classic worker script request</span>\n+   given <var>url</var>, <var>outside settings</var>, and <var>destination</var>.</p></li>\n+\n+   <li>\n+    <p>Otherwise:</p>\n+\n+    <ol>\n+     <li><p>Let <var>moduleFetchOptions</var> be a <span>script fetch options</span> whose <span\n+     data-x=\"concept-script-fetch-options-nonce\">cryptographic nonce</span> is the empty string,\n+     <span data-x=\"concept-script-fetch-options-integrity\">integrity metadata</span> is the empty\n+     string, <span data-x=\"concept-script-fetch-options-parser\">parser metadata</span> is \"<code\n+     data-x=\"\">not-parser-inserted</code>\", <span\n+     data-x=\"concept-script-fetch-options-credentials\">credentials mode</span> is\n+     <var>options</var>[\"<code data-x=\"dom-WorkerOptions-credentials\">credentials</code>\"], <span\n+     data-x=\"concept-script-fetch-options-referrer-policy\">referrer policy</span> is the empty\n+     string, and <span data-x=\"concept-script-fetch-options-fetch-priority\">fetch priority</span>\n+     is \"<code data-x=\"\">auto</code>\".</p></li>\n+\n+     <li><p>Set <var>request</var> to the result of <span\n+     data-x=\"create a module script request\">creating a module script request</span> given\n+     <var>url</var>, <var>outside settings</var>, <var>destination</var>,\n+     <var>moduleFetchOptions</var>, \"<code data-x=\"\">client</code>\", \"<code\n+     data-x=\"\">javascript-or-wasm</code>\", and true.</p></li>\n+    </ol>\n+   </li>\n+\n+   <li><p>Set <var>request</var>'s <span data-x=\"concept-request-reserved-client\">reserved\n+   client</span> to <var>reservedEnvironment</var>.</p></li>",
+    "path": "source",
+    "commit_id": "937d45ed131a40d31332c86f25841b8f948c3db4",
+    "original_commit_id": "7d2db871cd48766e6b6466186bf499bca5c1c4a1",
+    "user": {
+      "login": "shannonbooth",
+      "id": 35911232,
+      "node_id": "MDQ6VXNlcjM1OTExMjMy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/35911232?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/shannonbooth",
+      "html_url": "https://github.com/shannonbooth",
+      "followers_url": "https://api.github.com/users/shannonbooth/followers",
+      "following_url": "https://api.github.com/users/shannonbooth/following{/other_user}",
+      "gists_url": "https://api.github.com/users/shannonbooth/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/shannonbooth/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/shannonbooth/subscriptions",
+      "organizations_url": "https://api.github.com/users/shannonbooth/orgs",
+      "repos_url": "https://api.github.com/users/shannonbooth/repos",
+      "events_url": "https://api.github.com/users/shannonbooth/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/shannonbooth/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Thanks, I had missed this, firstly because LB doesn't implement service workers, and second reason seemingly as Fetch/FileAPI integration seems to have a type issue currently as [obtain a blob object](https://w3c.github.io/FileAPI/#blob-url-obtain-object) only accepts an ESO but fetch can pass through a plain environment. Just changing fileapi types over to environment seems correct as blob partitioning should apply to navigations too based on https://github.com/web-platform-tests/wpt/blob/master/FileAPI/BlobURL/cross-partition-navigation.https.html. I had wrongly originally implemented that AO to accept a plain environment, presumably other implementations do that also (though this is a somewhat recent change).",
+    "created_at": "2026-08-30T12:43:40Z",
+    "updated_at": "2026-08-30T12:43:41Z",
+    "html_url": "https://github.com/whatwg/html/pull/12837#discussion_r3889397367",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12837",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3889397367"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12837#discussion_r3889397367"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12837"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3889397367/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 135826,
+    "original_line": 135811,
+    "side": "RIGHT",
+    "in_reply_to_id": 3888684261,
+    "author_association": "MEMBER",
+    "original_position": 204,
+    "position": 252,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

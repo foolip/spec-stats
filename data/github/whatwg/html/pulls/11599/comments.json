@@ -1,0 +1,432 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2311042051",
+    "pull_request_review_id": 3169955409,
+    "id": 2311042051,
+    "node_id": "PRRC_kwDOALaj486Jv7QD",
+    "diff_hunk": "@@ -123489,6 +123489,42 @@ interface <dfn interface>SharedWorkerGlobalScope</dfn> : <span>WorkerGlobalScope\n    <li><p>Return false.</p></li>\n   </ol>\n \n+  <div class=\"note\" id=\"note-worker-lifetime-terminology-relationships\">\n+   <p>The following relationships hold between these terms:</p>\n+\n+   <ul>\n+    <li><p>Every <code>WorkerGlobalScope</code> that is <span data-x=\"active needed worker\">actively\n+    needed</span> or <span data-x=\"protected worker\">protected</span> is <span data-x=\"permissible\n+    worker\">permissible</span>.</p></li>\n+\n+    <li><p>Every <code>WorkerGlobalScope</code> that is <span data-x=\"protected\n+    worker\">protected</span> is <span data-x=\"active needed worker\">actively needed</span>.</p></li>\n+   </ul>\n+\n+   <p>The following relationships do <em>not</em> hold:</p>\n+\n+   <ul>\n+    <li><p>A <code>WorkerGlobalScope</code> can be <span data-x=\"active needed worker\">actively\n+    needed</span> but not <span data-x=\"protected worker\">protected</span>, if it's a dedicated\n+    worker with no outstanding async work that is still performing computation on behalf of a fully\n+    active owner, but whose corresponding <code>Worker</code> object has been garbage collected (and",
+    "path": "source",
+    "commit_id": "85b6e3eeecdf2ea5c1c07cd7be6ccf5ed8d94012",
+    "original_commit_id": "e9dd839793b8041817521c99a22dfd2c91024463",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "What does it mean for its Worker object to be garbage collected at this point, but its owner set is still a fully active Document? Is this the case where a fully active Document owner [`.close()`s](https://html.spec.whatwg.org/#close-a-worker) a dedicated worker and loses a reference to the associated `Worker` object, yet there is still one single long-running single task running on the worker's event loop? At that point, we just haven't made it to https://html.spec.whatwg.org/#worker-processing-model:concept-WorkerGlobalScope-owner-set-2 yet, so the WorkerGlobalScope is considered actively needed (from its perspective)?",
+    "created_at": "2025-08-29T19:53:22Z",
+    "updated_at": "2025-08-29T20:27:34Z",
+    "html_url": "https://github.com/whatwg/html/pull/11599#discussion_r2311042051",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11599",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2311042051"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11599#discussion_r2311042051"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11599"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2311042051/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 123510,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 22,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2311139850",
+    "pull_request_review_id": 3169955409,
+    "id": 2311139850,
+    "node_id": "PRRC_kwDOALaj486JwTIK",
+    "diff_hunk": "@@ -123489,6 +123489,42 @@ interface <dfn interface>SharedWorkerGlobalScope</dfn> : <span>WorkerGlobalScope\n    <li><p>Return false.</p></li>\n   </ol>\n \n+  <div class=\"note\" id=\"note-worker-lifetime-terminology-relationships\">\n+   <p>The following relationships hold between these terms:</p>\n+\n+   <ul>\n+    <li><p>Every <code>WorkerGlobalScope</code> that is <span data-x=\"active needed worker\">actively\n+    needed</span> or <span data-x=\"protected worker\">protected</span> is <span data-x=\"permissible\n+    worker\">permissible</span>.</p></li>\n+\n+    <li><p>Every <code>WorkerGlobalScope</code> that is <span data-x=\"protected\n+    worker\">protected</span> is <span data-x=\"active needed worker\">actively needed</span>.</p></li>\n+   </ul>\n+\n+   <p>The following relationships do <em>not</em> hold:</p>",
+    "path": "source",
+    "commit_id": "85b6e3eeecdf2ea5c1c07cd7be6ccf5ed8d94012",
+    "original_commit_id": "e9dd839793b8041817521c99a22dfd2c91024463",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I'm confused by this wording. Below you're saying workers can be actively needed but not protected, you supply a specific example that proves this is true, and then right here on this line, you say \"this relationship does not hold\". Should we just change this paragraph to say something like \"The following are also true:\"",
+    "created_at": "2025-08-29T20:27:31Z",
+    "updated_at": "2025-08-29T20:27:34Z",
+    "html_url": "https://github.com/whatwg/html/pull/11599#discussion_r2311139850",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11599",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2311139850"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11599#discussion_r2311139850"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11599"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2311139850/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 123504,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 16,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2312849220",
+    "pull_request_review_id": 3172048490,
+    "id": 2312849220,
+    "node_id": "PRRC_kwDOALaj486J20dE",
+    "diff_hunk": "@@ -123489,6 +123489,42 @@ interface <dfn interface>SharedWorkerGlobalScope</dfn> : <span>WorkerGlobalScope\n    <li><p>Return false.</p></li>\n   </ol>\n \n+  <div class=\"note\" id=\"note-worker-lifetime-terminology-relationships\">\n+   <p>The following relationships hold between these terms:</p>\n+\n+   <ul>\n+    <li><p>Every <code>WorkerGlobalScope</code> that is <span data-x=\"active needed worker\">actively\n+    needed</span> or <span data-x=\"protected worker\">protected</span> is <span data-x=\"permissible\n+    worker\">permissible</span>.</p></li>\n+\n+    <li><p>Every <code>WorkerGlobalScope</code> that is <span data-x=\"protected\n+    worker\">protected</span> is <span data-x=\"active needed worker\">actively needed</span>.</p></li>\n+   </ul>\n+\n+   <p>The following relationships do <em>not</em> hold:</p>\n+\n+   <ul>\n+    <li><p>A <code>WorkerGlobalScope</code> can be <span data-x=\"active needed worker\">actively\n+    needed</span> but not <span data-x=\"protected worker\">protected</span>, if it's a dedicated\n+    worker with no outstanding async work that is still performing computation on behalf of a fully\n+    active owner, but whose corresponding <code>Worker</code> object has been garbage collected (and",
+    "path": "source",
+    "commit_id": "85b6e3eeecdf2ea5c1c07cd7be6ccf5ed8d94012",
+    "original_commit_id": "e9dd839793b8041817521c99a22dfd2c91024463",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Basically, yes, although `close()`ing is not needed. In more detail, GCing the (outside) `Worker` object does not have any impact on the (inside) `WorkerGlobalScope`'s owner set. The owner set only gets elements removed when:\r\n\r\n- The document is destroyed, or\r\n- The worker event loop is destroyed\r\n\r\nA simple case would be something like:\r\n\r\n```js\r\n// outside, in the document\r\n{\r\n  let worker = new Worker(\"do-work.js\");\r\n} // `worker` goes out of scope and is eligible for GC\r\n```\r\n\r\n```js\r\n// inside, in the worker\r\nwhile (true) {\r\n  // keep the event loop spinning forever so we never reach\r\n  // https://html.spec.whatwg.org/#worker-processing-model:concept-WorkerGlobalScope-owner-set-2\r\n}\r\n```\r\n",
+    "created_at": "2025-09-01T04:14:49Z",
+    "updated_at": "2025-09-01T04:14:49Z",
+    "html_url": "https://github.com/whatwg/html/pull/11599#discussion_r2312849220",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11599",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2312849220"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11599#discussion_r2312849220"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11599"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2312849220/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 123510,
+    "side": "RIGHT",
+    "in_reply_to_id": 2311042051,
+    "author_association": "MEMBER",
+    "original_position": 22,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2312852930",
+    "pull_request_review_id": 3172052847,
+    "id": 2312852930,
+    "node_id": "PRRC_kwDOALaj486J21XC",
+    "diff_hunk": "@@ -123489,6 +123489,42 @@ interface <dfn interface>SharedWorkerGlobalScope</dfn> : <span>WorkerGlobalScope\n    <li><p>Return false.</p></li>\n   </ol>\n \n+  <div class=\"note\" id=\"note-worker-lifetime-terminology-relationships\">\n+   <p>The following relationships hold between these terms:</p>\n+\n+   <ul>\n+    <li><p>Every <code>WorkerGlobalScope</code> that is <span data-x=\"active needed worker\">actively\n+    needed</span> or <span data-x=\"protected worker\">protected</span> is <span data-x=\"permissible\n+    worker\">permissible</span>.</p></li>\n+\n+    <li><p>Every <code>WorkerGlobalScope</code> that is <span data-x=\"protected\n+    worker\">protected</span> is <span data-x=\"active needed worker\">actively needed</span>.</p></li>\n+   </ul>\n+\n+   <p>The following relationships do <em>not</em> hold:</p>",
+    "path": "source",
+    "commit_id": "85b6e3eeecdf2ea5c1c07cd7be6ccf5ed8d94012",
+    "original_commit_id": "e9dd839793b8041817521c99a22dfd2c91024463",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Good call. I changed to \"However, the converses do not always hold.\" If that's still confusing we can retreat to something like \"However, note the following:\".",
+    "created_at": "2025-09-01T04:19:45Z",
+    "updated_at": "2025-09-01T04:19:46Z",
+    "html_url": "https://github.com/whatwg/html/pull/11599#discussion_r2312852930",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11599",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2312852930"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11599#discussion_r2312852930"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11599"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2312852930/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 123504,
+    "side": "RIGHT",
+    "in_reply_to_id": 2311139850,
+    "author_association": "MEMBER",
+    "original_position": 16,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2314366907",
+    "pull_request_review_id": 3174243233,
+    "id": 2314366907,
+    "node_id": "PRRC_kwDOALaj486J8m-7",
+    "diff_hunk": "@@ -123489,6 +123489,42 @@ interface <dfn interface>SharedWorkerGlobalScope</dfn> : <span>WorkerGlobalScope\n    <li><p>Return false.</p></li>\n   </ol>\n \n+  <div class=\"note\" id=\"note-worker-lifetime-terminology-relationships\">\n+   <p>The following relationships hold between these terms:</p>\n+\n+   <ul>\n+    <li><p>Every <code>WorkerGlobalScope</code> that is <span data-x=\"active needed worker\">actively\n+    needed</span> or <span data-x=\"protected worker\">protected</span> is <span data-x=\"permissible\n+    worker\">permissible</span>.</p></li>\n+\n+    <li><p>Every <code>WorkerGlobalScope</code> that is <span data-x=\"protected\n+    worker\">protected</span> is <span data-x=\"active needed worker\">actively needed</span>.</p></li>\n+   </ul>\n+\n+   <p>The following relationships do <em>not</em> hold:</p>\n+\n+   <ul>\n+    <li><p>A <code>WorkerGlobalScope</code> can be <span data-x=\"active needed worker\">actively\n+    needed</span> but not <span data-x=\"protected worker\">protected</span>, if it's a dedicated\n+    worker with no outstanding async work that is still performing computation on behalf of a fully\n+    active owner, but whose corresponding <code>Worker</code> object has been garbage collected (and",
+    "path": "source",
+    "commit_id": "85b6e3eeecdf2ea5c1c07cd7be6ccf5ed8d94012",
+    "original_commit_id": "e9dd839793b8041817521c99a22dfd2c91024463",
+    "user": {
+      "login": "domfarolino",
+      "id": 9669289,
+      "node_id": "MDQ6VXNlcjk2NjkyODk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9669289?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domfarolino",
+      "html_url": "https://github.com/domfarolino",
+      "followers_url": "https://api.github.com/users/domfarolino/followers",
+      "following_url": "https://api.github.com/users/domfarolino/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domfarolino/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domfarolino/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domfarolino/subscriptions",
+      "organizations_url": "https://api.github.com/users/domfarolino/orgs",
+      "repos_url": "https://api.github.com/users/domfarolino/repos",
+      "events_url": "https://api.github.com/users/domfarolino/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domfarolino/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "OK, so we're just referencing GC'ing the the (outside) `Worker` as a mechanism that runs a teardown things that change the protected status, but goes just shy of changing the actively needed status, right? How does the worker's ports get emptied during GC, is it via https://html.spec.whatwg.org/multipage/web-messaging.html#ports-and-garbage-collection:disentangle?\n\nAnyways, consider this suggestion:\n\n> A WorkerGlobalScope can be actively needed but not protected. Consider a dedicated worker\n    whose event loop's current task is still performing a computation on a behalf of a fully active\n    owner that has either called `close()` on the associated `Worker` object, or garbage collected\n    it altogether. This worker's ports collection is empty, so it is no longer protected, however its\n    event loop has not yet yielded to remove its owner from the owner set, so it is still actively\n    needed.\n\nThoughts?",
+    "created_at": "2025-09-01T17:08:03Z",
+    "updated_at": "2025-09-01T17:09:03Z",
+    "html_url": "https://github.com/whatwg/html/pull/11599#discussion_r2314366907",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11599",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2314366907"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11599#discussion_r2314366907"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11599"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2314366907/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 123510,
+    "side": "RIGHT",
+    "in_reply_to_id": 2311042051,
+    "author_association": "MEMBER",
+    "original_position": 22,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2317606256",
+    "pull_request_review_id": 3178752305,
+    "id": 2317606256,
+    "node_id": "PRRC_kwDOALaj486KI91w",
+    "diff_hunk": "@@ -123489,6 +123489,42 @@ interface <dfn interface>SharedWorkerGlobalScope</dfn> : <span>WorkerGlobalScope\n    <li><p>Return false.</p></li>\n   </ol>\n \n+  <div class=\"note\" id=\"note-worker-lifetime-terminology-relationships\">\n+   <p>The following relationships hold between these terms:</p>\n+\n+   <ul>\n+    <li><p>Every <code>WorkerGlobalScope</code> that is <span data-x=\"active needed worker\">actively\n+    needed</span> or <span data-x=\"protected worker\">protected</span> is <span data-x=\"permissible\n+    worker\">permissible</span>.</p></li>\n+\n+    <li><p>Every <code>WorkerGlobalScope</code> that is <span data-x=\"protected\n+    worker\">protected</span> is <span data-x=\"active needed worker\">actively needed</span>.</p></li>\n+   </ul>\n+\n+   <p>The following relationships do <em>not</em> hold:</p>\n+\n+   <ul>\n+    <li><p>A <code>WorkerGlobalScope</code> can be <span data-x=\"active needed worker\">actively\n+    needed</span> but not <span data-x=\"protected worker\">protected</span>, if it's a dedicated\n+    worker with no outstanding async work that is still performing computation on behalf of a fully\n+    active owner, but whose corresponding <code>Worker</code> object has been garbage collected (and",
+    "path": "source",
+    "commit_id": "85b6e3eeecdf2ea5c1c07cd7be6ccf5ed8d94012",
+    "original_commit_id": "e9dd839793b8041817521c99a22dfd2c91024463",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "> OK, so we're just referencing GC'ing the the (outside) `Worker` as a mechanism that runs a teardown things that change the protected status, but goes just shy of changing the actively needed status, right?\r\n\r\nExactly.\r\n\r\n> How does the worker's ports get emptied during GC, is it via https://html.spec.whatwg.org/multipage/web-messaging.html#ports-and-garbage-collection:disentangle?\r\n\r\nYes, as far as I can tell. https://html.spec.whatwg.org/multipage/workers.html#:~:text=This%20object%20must%20never%20be%20garbage%20collected%20before%20the%20DedicatedWorkerGlobalScope%20object. also kind of implies that their lifetime is tied together (although it's not explicit).\r\n\r\n> Anyways, consider this suggestion:\r\n\r\nI'll incorporate the last part of that. Some notes on the first part:\r\n\r\n- You reference the nonexistent `worker.close()` method. You might mean `worker.terminate()`, but that terminates the worker which is stronger and will kill even actively needed workers by stopping their script.\r\n- You omit the \"no outstanding async work\". That seems important to include because \"If global has outstanding timers, database transactions, or network connections\", it is protected.",
+    "created_at": "2025-09-03T02:32:54Z",
+    "updated_at": "2025-09-03T02:32:55Z",
+    "html_url": "https://github.com/whatwg/html/pull/11599#discussion_r2317606256",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11599",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2317606256"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11599#discussion_r2317606256"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11599"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2317606256/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 123510,
+    "side": "RIGHT",
+    "in_reply_to_id": 2311042051,
+    "author_association": "MEMBER",
+    "original_position": 22,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

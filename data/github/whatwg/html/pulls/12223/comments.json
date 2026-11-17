@@ -1,0 +1,789 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2888702543",
+    "pull_request_review_id": 3895052994,
+    "id": 2888702543,
+    "node_id": "PRRC_kwDOALaj486sLhpP",
+    "diff_hunk": "@@ -117437,18 +117440,15 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n   data-x=\"concept-request-destination\">destination</span> <var>destination</var>, a <span>script\n   fetch options</span> <var>options</var>, an <span>environment settings object</span>\n   <var>settingsObject</var>, a <span data-x=\"concept-request-referrer\">referrer</span>\n-  <var>referrer</var>, an optional <span>ModuleRequest Record</span> <var>moduleRequest</var>, a\n-  boolean <var data-x=\"fetching-scripts-is-top-level\">isTopLevel</var>, an algorithm\n-  <var>onComplete</var>, and an optional <span data-x=\"fetching-scripts-perform-fetch\">perform the\n-  fetch hook</span> <var>performFetch</var>, run these steps. <var>onComplete</var> must be an\n-  algorithm accepting null (on failure) or a <span>module script</span> (on success).</p>\n+  <var>referrer</var>, an optional <span>string</span> <var>moduleType</var>, a boolean <var\n+  data-x=\"fetching-scripts-is-top-level\">isTopLevel</var>, an algorithm <var>onComplete</var>,\n+  and an optional <span data-x=\"fetching-scripts-perform-fetch\">perform the fetch hook</span>\n+  <var>performFetch</var>, run these steps. <var>onComplete</var> must be an algorithm accepting\n+  null (on failure) or a <span>module script</span> (on success).</p>\n \n   <ol>\n-   <li><p>Let <var>moduleType</var> be \"<code data-x=\"\">javascript-or-wasm</code>\".</p></li>\n-\n-   <li><p>If <var>moduleRequest</var> was given, then set <var>moduleType</var> to the result of\n-   running the <span>module type from module request</span> steps given\n-   <var>moduleRequest</var>.</p></li>\n+   <li><p>If <var>moduleType</var> is null, set <var>moduleType</var> to \"<code",
+    "path": "source",
+    "commit_id": "769ae98d19784bccd7adecba77e41bb1f9675109",
+    "original_commit_id": "769ae98d19784bccd7adecba77e41bb1f9675109",
+    "user": {
+      "login": "Gae24",
+      "id": 96017547,
+      "node_id": "U_kgDOBbkciw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/96017547?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Gae24",
+      "html_url": "https://github.com/Gae24",
+      "followers_url": "https://api.github.com/users/Gae24/followers",
+      "following_url": "https://api.github.com/users/Gae24/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Gae24/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Gae24/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Gae24/subscriptions",
+      "organizations_url": "https://api.github.com/users/Gae24/orgs",
+      "repos_url": "https://api.github.com/users/Gae24/repos",
+      "events_url": "https://api.github.com/users/Gae24/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Gae24/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I'm not fully familiar with all the syntax nuances of the spec yet, but I think since _moduleType_ is an optional argument we should keep but rephrase `If moduleType was given, then set moduleType to moduleType`.",
+    "created_at": "2026-03-05T09:15:35Z",
+    "updated_at": "2026-03-05T09:22:44Z",
+    "html_url": "https://github.com/whatwg/html/pull/12223#discussion_r2888702543",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12223",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2888702543"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12223#discussion_r2888702543"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12223"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2888702543/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 117450,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 66,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2888720207",
+    "pull_request_review_id": 3895052994,
+    "id": 2888720207,
+    "node_id": "PRRC_kwDOALaj486sLl9P",
+    "diff_hunk": "@@ -117972,6 +117972,21 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n   </ol>\n   </div>\n \n+  <div algorithm>\n+  <p>The <dfn>module type from fetch destination</dfn> steps, given a <span\n+  data-x=\"concept-request-destination\">destination</span> <var>destination</var>are as follows:</p>\n+\n+  <ol>\n+   <li>If <var>destination</var> is \"<code data-x=\"\">json</code>\", then return \"<code\n+   data-x=\"\">json</code>\".</li>\n+\n+   <li>If <var>destination</var> is \"<code data-x=\"\">style</code>\", then return \"<code\n+   data-x=\"\">css</code>\".</li>\n+\n+   <li>Return null.</li>",
+    "path": "source",
+    "commit_id": "769ae98d19784bccd7adecba77e41bb1f9675109",
+    "original_commit_id": "769ae98d19784bccd7adecba77e41bb1f9675109",
+    "user": {
+      "login": "Gae24",
+      "id": 96017547,
+      "node_id": "U_kgDOBbkciw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/96017547?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Gae24",
+      "html_url": "https://github.com/Gae24",
+      "followers_url": "https://api.github.com/users/Gae24/followers",
+      "following_url": "https://api.github.com/users/Gae24/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Gae24/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Gae24/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Gae24/subscriptions",
+      "organizations_url": "https://api.github.com/users/Gae24/orgs",
+      "repos_url": "https://api.github.com/users/Gae24/repos",
+      "events_url": "https://api.github.com/users/Gae24/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Gae24/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I wonder if by the default we should return `javascript-or-wasm`, inside [fetch a single imported module script](https://html.spec.whatwg.org/multipage/#fetch-a-single-imported-module-script) we make sure to not pass a null value.",
+    "created_at": "2026-03-05T09:19:17Z",
+    "updated_at": "2026-03-05T09:22:44Z",
+    "html_url": "https://github.com/whatwg/html/pull/12223#discussion_r2888720207",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12223",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2888720207"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12223#discussion_r2888720207"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12223"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2888720207/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 117986,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 95,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2888736692",
+    "pull_request_review_id": 3895052994,
+    "id": 2888736692,
+    "node_id": "PRRC_kwDOALaj486sLp-0",
+    "diff_hunk": "@@ -28486,6 +28486,9 @@ document.body.appendChild(wbr);</code></pre>\n    to <span data-x=\"concept-event-fire\">fire an event</span> named <code\n    data-x=\"event-error\">error</code> at <var>el</var>, and return.</p></li>\n \n+   <li><p>Let <var>moduleType</var> be the result of running\n+   <span>module type from fetch destination</span> on <var>destination</var>.</p></li>",
+    "path": "source",
+    "commit_id": "769ae98d19784bccd7adecba77e41bb1f9675109",
+    "original_commit_id": "769ae98d19784bccd7adecba77e41bb1f9675109",
+    "user": {
+      "login": "Gae24",
+      "id": 96017547,
+      "node_id": "U_kgDOBbkciw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/96017547?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Gae24",
+      "html_url": "https://github.com/Gae24",
+      "followers_url": "https://api.github.com/users/Gae24/followers",
+      "following_url": "https://api.github.com/users/Gae24/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Gae24/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Gae24/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Gae24/subscriptions",
+      "organizations_url": "https://api.github.com/users/Gae24/orgs",
+      "repos_url": "https://api.github.com/users/Gae24/repos",
+      "events_url": "https://api.github.com/users/Gae24/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Gae24/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I would move this inside [fetch a modulepreload module script graph](https://html.spec.whatwg.org/multipage/#fetch-a-modulepreload-module-script-graph).",
+    "created_at": "2026-03-05T09:22:13Z",
+    "updated_at": "2026-03-05T09:22:44Z",
+    "html_url": "https://github.com/whatwg/html/pull/12223#discussion_r2888736692",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12223",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2888736692"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12223#discussion_r2888736692"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12223"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2888736692/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 28489,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 28490,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 5,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2889018775",
+    "pull_request_review_id": 3895398037,
+    "id": 2889018775,
+    "node_id": "PRRC_kwDOALaj486sMu2X",
+    "diff_hunk": "@@ -117437,18 +117440,15 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n   data-x=\"concept-request-destination\">destination</span> <var>destination</var>, a <span>script\n   fetch options</span> <var>options</var>, an <span>environment settings object</span>\n   <var>settingsObject</var>, a <span data-x=\"concept-request-referrer\">referrer</span>\n-  <var>referrer</var>, an optional <span>ModuleRequest Record</span> <var>moduleRequest</var>, a\n-  boolean <var data-x=\"fetching-scripts-is-top-level\">isTopLevel</var>, an algorithm\n-  <var>onComplete</var>, and an optional <span data-x=\"fetching-scripts-perform-fetch\">perform the\n-  fetch hook</span> <var>performFetch</var>, run these steps. <var>onComplete</var> must be an\n-  algorithm accepting null (on failure) or a <span>module script</span> (on success).</p>\n+  <var>referrer</var>, an optional <span>string</span> <var>moduleType</var>, a boolean <var\n+  data-x=\"fetching-scripts-is-top-level\">isTopLevel</var>, an algorithm <var>onComplete</var>,\n+  and an optional <span data-x=\"fetching-scripts-perform-fetch\">perform the fetch hook</span>\n+  <var>performFetch</var>, run these steps. <var>onComplete</var> must be an algorithm accepting\n+  null (on failure) or a <span>module script</span> (on success).</p>\n \n   <ol>\n-   <li><p>Let <var>moduleType</var> be \"<code data-x=\"\">javascript-or-wasm</code>\".</p></li>\n-\n-   <li><p>If <var>moduleRequest</var> was given, then set <var>moduleType</var> to the result of\n-   running the <span>module type from module request</span> steps given\n-   <var>moduleRequest</var>.</p></li>\n+   <li><p>If <var>moduleType</var> is null, set <var>moduleType</var> to \"<code",
+    "path": "source",
+    "commit_id": "769ae98d19784bccd7adecba77e41bb1f9675109",
+    "original_commit_id": "769ae98d19784bccd7adecba77e41bb1f9675109",
+    "user": {
+      "login": "noamr",
+      "id": 88566,
+      "node_id": "MDQ6VXNlcjg4NTY2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88566?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/noamr",
+      "html_url": "https://github.com/noamr",
+      "followers_url": "https://api.github.com/users/noamr/followers",
+      "following_url": "https://api.github.com/users/noamr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/noamr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/noamr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/noamr/subscriptions",
+      "organizations_url": "https://api.github.com/users/noamr/orgs",
+      "repos_url": "https://api.github.com/users/noamr/repos",
+      "events_url": "https://api.github.com/users/noamr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/noamr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Can't you get it from the destination parameter you already have rather than pass it as an additional parameter? You have to do that for modulepreload anyway.",
+    "created_at": "2026-03-05T10:12:03Z",
+    "updated_at": "2026-03-05T10:12:21Z",
+    "html_url": "https://github.com/whatwg/html/pull/12223#discussion_r2889018775",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12223",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2889018775"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12223#discussion_r2889018775"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12223"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2889018775/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 117450,
+    "side": "RIGHT",
+    "in_reply_to_id": 2888702543,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 66,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2889019788",
+    "pull_request_review_id": 3895398037,
+    "id": 2889019788,
+    "node_id": "PRRC_kwDOALaj486sMvGM",
+    "diff_hunk": "@@ -117972,6 +117972,21 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n   </ol>\n   </div>\n \n+  <div algorithm>\n+  <p>The <dfn>module type from fetch destination</dfn> steps, given a <span\n+  data-x=\"concept-request-destination\">destination</span> <var>destination</var>are as follows:</p>\n+\n+  <ol>\n+   <li>If <var>destination</var> is \"<code data-x=\"\">json</code>\", then return \"<code",
+    "path": "source",
+    "commit_id": "769ae98d19784bccd7adecba77e41bb1f9675109",
+    "original_commit_id": "769ae98d19784bccd7adecba77e41bb1f9675109",
+    "user": {
+      "login": "noamr",
+      "id": 88566,
+      "node_id": "MDQ6VXNlcjg4NTY2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88566?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/noamr",
+      "html_url": "https://github.com/noamr",
+      "followers_url": "https://api.github.com/users/noamr/followers",
+      "following_url": "https://api.github.com/users/noamr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/noamr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/noamr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/noamr/subscriptions",
+      "organizations_url": "https://api.github.com/users/noamr/orgs",
+      "repos_url": "https://api.github.com/users/noamr/repos",
+      "events_url": "https://api.github.com/users/noamr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/noamr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Maybe use a `switch` here?",
+    "created_at": "2026-03-05T10:12:15Z",
+    "updated_at": "2026-03-05T10:12:21Z",
+    "html_url": "https://github.com/whatwg/html/pull/12223#discussion_r2889019788",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12223",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2889019788"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12223#discussion_r2889019788"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12223"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2889019788/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 117980,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 89,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2898597822",
+    "pull_request_review_id": 3906851159,
+    "id": 2898597822,
+    "node_id": "PRRC_kwDOALaj486sxRe-",
+    "diff_hunk": "@@ -117437,18 +117440,15 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n   data-x=\"concept-request-destination\">destination</span> <var>destination</var>, a <span>script\n   fetch options</span> <var>options</var>, an <span>environment settings object</span>\n   <var>settingsObject</var>, a <span data-x=\"concept-request-referrer\">referrer</span>\n-  <var>referrer</var>, an optional <span>ModuleRequest Record</span> <var>moduleRequest</var>, a\n-  boolean <var data-x=\"fetching-scripts-is-top-level\">isTopLevel</var>, an algorithm\n-  <var>onComplete</var>, and an optional <span data-x=\"fetching-scripts-perform-fetch\">perform the\n-  fetch hook</span> <var>performFetch</var>, run these steps. <var>onComplete</var> must be an\n-  algorithm accepting null (on failure) or a <span>module script</span> (on success).</p>\n+  <var>referrer</var>, an optional <span>string</span> <var>moduleType</var>, a boolean <var\n+  data-x=\"fetching-scripts-is-top-level\">isTopLevel</var>, an algorithm <var>onComplete</var>,\n+  and an optional <span data-x=\"fetching-scripts-perform-fetch\">perform the fetch hook</span>\n+  <var>performFetch</var>, run these steps. <var>onComplete</var> must be an algorithm accepting\n+  null (on failure) or a <span>module script</span> (on success).</p>\n \n   <ol>\n-   <li><p>Let <var>moduleType</var> be \"<code data-x=\"\">javascript-or-wasm</code>\".</p></li>\n-\n-   <li><p>If <var>moduleRequest</var> was given, then set <var>moduleType</var> to the result of\n-   running the <span>module type from module request</span> steps given\n-   <var>moduleRequest</var>.</p></li>\n+   <li><p>If <var>moduleType</var> is null, set <var>moduleType</var> to \"<code",
+    "path": "source",
+    "commit_id": "769ae98d19784bccd7adecba77e41bb1f9675109",
+    "original_commit_id": "769ae98d19784bccd7adecba77e41bb1f9675109",
+    "user": {
+      "login": "KurtCattiSchmidt",
+      "id": 15691393,
+      "node_id": "MDQ6VXNlcjE1NjkxMzkz",
+      "avatar_url": "https://avatars.githubusercontent.com/u/15691393?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/KurtCattiSchmidt",
+      "html_url": "https://github.com/KurtCattiSchmidt",
+      "followers_url": "https://api.github.com/users/KurtCattiSchmidt/followers",
+      "following_url": "https://api.github.com/users/KurtCattiSchmidt/following{/other_user}",
+      "gists_url": "https://api.github.com/users/KurtCattiSchmidt/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/KurtCattiSchmidt/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/KurtCattiSchmidt/subscriptions",
+      "organizations_url": "https://api.github.com/users/KurtCattiSchmidt/orgs",
+      "repos_url": "https://api.github.com/users/KurtCattiSchmidt/repos",
+      "events_url": "https://api.github.com/users/KurtCattiSchmidt/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/KurtCattiSchmidt/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Went with @noamr's suggestion to move this to https://html.spec.whatwg.org/#fetch-a-single-module-script",
+    "created_at": "2026-03-07T01:13:25Z",
+    "updated_at": "2026-03-07T01:13:26Z",
+    "html_url": "https://github.com/whatwg/html/pull/12223#discussion_r2898597822",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12223",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2898597822"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12223#discussion_r2898597822"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12223"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2898597822/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 117450,
+    "side": "RIGHT",
+    "in_reply_to_id": 2888702543,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 66,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2898598281",
+    "pull_request_review_id": 3906851781,
+    "id": 2898598281,
+    "node_id": "PRRC_kwDOALaj486sxRmJ",
+    "diff_hunk": "@@ -117972,6 +117972,21 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n   </ol>\n   </div>\n \n+  <div algorithm>\n+  <p>The <dfn>module type from fetch destination</dfn> steps, given a <span\n+  data-x=\"concept-request-destination\">destination</span> <var>destination</var>are as follows:</p>\n+\n+  <ol>\n+   <li>If <var>destination</var> is \"<code data-x=\"\">json</code>\", then return \"<code\n+   data-x=\"\">json</code>\".</li>\n+\n+   <li>If <var>destination</var> is \"<code data-x=\"\">style</code>\", then return \"<code\n+   data-x=\"\">css</code>\".</li>\n+\n+   <li>Return null.</li>",
+    "path": "source",
+    "commit_id": "769ae98d19784bccd7adecba77e41bb1f9675109",
+    "original_commit_id": "769ae98d19784bccd7adecba77e41bb1f9675109",
+    "user": {
+      "login": "KurtCattiSchmidt",
+      "id": 15691393,
+      "node_id": "MDQ6VXNlcjE1NjkxMzkz",
+      "avatar_url": "https://avatars.githubusercontent.com/u/15691393?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/KurtCattiSchmidt",
+      "html_url": "https://github.com/KurtCattiSchmidt",
+      "followers_url": "https://api.github.com/users/KurtCattiSchmidt/followers",
+      "following_url": "https://api.github.com/users/KurtCattiSchmidt/following{/other_user}",
+      "gists_url": "https://api.github.com/users/KurtCattiSchmidt/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/KurtCattiSchmidt/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/KurtCattiSchmidt/subscriptions",
+      "organizations_url": "https://api.github.com/users/KurtCattiSchmidt/orgs",
+      "repos_url": "https://api.github.com/users/KurtCattiSchmidt/repos",
+      "events_url": "https://api.github.com/users/KurtCattiSchmidt/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/KurtCattiSchmidt/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Good idea. Did this in https://html.spec.whatwg.org/#fetch-a-single-module-script.",
+    "created_at": "2026-03-07T01:13:38Z",
+    "updated_at": "2026-03-07T01:13:38Z",
+    "html_url": "https://github.com/whatwg/html/pull/12223#discussion_r2898598281",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12223",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2898598281"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12223#discussion_r2898598281"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12223"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2898598281/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 117986,
+    "side": "RIGHT",
+    "in_reply_to_id": 2888720207,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 95,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2899426789",
+    "pull_request_review_id": 3908370569,
+    "id": 2899426789,
+    "node_id": "PRRC_kwDOALaj486s0b3l",
+    "diff_hunk": "@@ -117437,18 +117437,15 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n   data-x=\"concept-request-destination\">destination</span> <var>destination</var>, a <span>script\n   fetch options</span> <var>options</var>, an <span>environment settings object</span>\n   <var>settingsObject</var>, a <span data-x=\"concept-request-referrer\">referrer</span>\n-  <var>referrer</var>, an optional <span>ModuleRequest Record</span> <var>moduleRequest</var>, a\n-  boolean <var data-x=\"fetching-scripts-is-top-level\">isTopLevel</var>, an algorithm\n-  <var>onComplete</var>, and an optional <span data-x=\"fetching-scripts-perform-fetch\">perform the\n-  fetch hook</span> <var>performFetch</var>, run these steps. <var>onComplete</var> must be an\n-  algorithm accepting null (on failure) or a <span>module script</span> (on success).</p>\n+  <var>referrer</var>, a boolean <var data-x=\"fetching-scripts-is-top-level\">isTopLevel</var>, an\n+  algorithm <var>onComplete</var>, and an optional <span\n+  data-x=\"fetching-scripts-perform-fetch\">perform the fetch hook</span><var>performFetch</var>, run\n+  these steps. <var>onComplete</var> must be an algorithm accepting null (on failure) or a\n+  <span>module script</span> (on success).</p>\n \n   <ol>\n-   <li><p>Let <var>moduleType</var> be \"<code data-x=\"\">javascript-or-wasm</code>\".</p></li>\n-\n-   <li><p>If <var>moduleRequest</var> was given, then set <var>moduleType</var> to the result of\n-   running the <span>module type from module request</span> steps given\n-   <var>moduleRequest</var>.</p></li>\n+   <li><p>Let <var>moduleType</var> be the result of running\n+   <span>module type from fetch destination</span> on <var>destination</var>.</p></li>",
+    "path": "source",
+    "commit_id": "619fc910eb08059826576f03733b9ac66d6f7c77",
+    "original_commit_id": "619fc910eb08059826576f03733b9ac66d6f7c77",
+    "user": {
+      "login": "Gae24",
+      "id": 96017547,
+      "node_id": "U_kgDOBbkciw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/96017547?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Gae24",
+      "html_url": "https://github.com/Gae24",
+      "followers_url": "https://api.github.com/users/Gae24/followers",
+      "following_url": "https://api.github.com/users/Gae24/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Gae24/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Gae24/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Gae24/subscriptions",
+      "organizations_url": "https://api.github.com/users/Gae24/orgs",
+      "repos_url": "https://api.github.com/users/Gae24/repos",
+      "events_url": "https://api.github.com/users/Gae24/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Gae24/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Unfortunately this wont cover all the cases. When [fetching a single imported module script](https://html.spec.whatwg.org/multipage/#fetch-a-single-imported-module-script), destination will either be `script` or the value stored inside `LoadState` (eg. `worker`, `sharedworker`).\nWe still need to resolve _moduleType_ from _moduleRequest_ record in this case.",
+    "created_at": "2026-03-07T09:46:47Z",
+    "updated_at": "2026-03-07T09:47:03Z",
+    "html_url": "https://github.com/whatwg/html/pull/12223#discussion_r2899426789",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12223",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2899426789"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12223#discussion_r2899426789"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12223"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2899426789/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 117447,
+    "original_start_line": 117447,
+    "start_side": "RIGHT",
+    "line": 117448,
+    "original_line": 117448,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 39,
+    "position": 39,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2927609158",
+    "pull_request_review_id": 3939983169,
+    "id": 2927609158,
+    "node_id": "PRRC_kwDOALaj486uf8VG",
+    "diff_hunk": "@@ -117437,18 +117437,15 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n   data-x=\"concept-request-destination\">destination</span> <var>destination</var>, a <span>script\n   fetch options</span> <var>options</var>, an <span>environment settings object</span>\n   <var>settingsObject</var>, a <span data-x=\"concept-request-referrer\">referrer</span>\n-  <var>referrer</var>, an optional <span>ModuleRequest Record</span> <var>moduleRequest</var>, a\n-  boolean <var data-x=\"fetching-scripts-is-top-level\">isTopLevel</var>, an algorithm\n-  <var>onComplete</var>, and an optional <span data-x=\"fetching-scripts-perform-fetch\">perform the\n-  fetch hook</span> <var>performFetch</var>, run these steps. <var>onComplete</var> must be an\n-  algorithm accepting null (on failure) or a <span>module script</span> (on success).</p>\n+  <var>referrer</var>, a boolean <var data-x=\"fetching-scripts-is-top-level\">isTopLevel</var>, an\n+  algorithm <var>onComplete</var>, and an optional <span\n+  data-x=\"fetching-scripts-perform-fetch\">perform the fetch hook</span><var>performFetch</var>, run\n+  these steps. <var>onComplete</var> must be an algorithm accepting null (on failure) or a\n+  <span>module script</span> (on success).</p>\n \n   <ol>\n-   <li><p>Let <var>moduleType</var> be \"<code data-x=\"\">javascript-or-wasm</code>\".</p></li>\n-\n-   <li><p>If <var>moduleRequest</var> was given, then set <var>moduleType</var> to the result of\n-   running the <span>module type from module request</span> steps given\n-   <var>moduleRequest</var>.</p></li>\n+   <li><p>Let <var>moduleType</var> be the result of running\n+   <span>module type from fetch destination</span> on <var>destination</var>.</p></li>",
+    "path": "source",
+    "commit_id": "619fc910eb08059826576f03733b9ac66d6f7c77",
+    "original_commit_id": "619fc910eb08059826576f03733b9ac66d6f7c77",
+    "user": {
+      "login": "KurtCattiSchmidt",
+      "id": 15691393,
+      "node_id": "MDQ6VXNlcjE1NjkxMzkz",
+      "avatar_url": "https://avatars.githubusercontent.com/u/15691393?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/KurtCattiSchmidt",
+      "html_url": "https://github.com/KurtCattiSchmidt",
+      "followers_url": "https://api.github.com/users/KurtCattiSchmidt/followers",
+      "following_url": "https://api.github.com/users/KurtCattiSchmidt/following{/other_user}",
+      "gists_url": "https://api.github.com/users/KurtCattiSchmidt/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/KurtCattiSchmidt/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/KurtCattiSchmidt/subscriptions",
+      "organizations_url": "https://api.github.com/users/KurtCattiSchmidt/orgs",
+      "repos_url": "https://api.github.com/users/KurtCattiSchmidt/repos",
+      "events_url": "https://api.github.com/users/KurtCattiSchmidt/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/KurtCattiSchmidt/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "`module type from fetch destination` currently covers that, because the default case there is \"javascript-or-wasm\", which all of those request destinations are (`worker`, `sharedworker`), right?",
+    "created_at": "2026-03-12T21:56:01Z",
+    "updated_at": "2026-03-12T21:56:01Z",
+    "html_url": "https://github.com/whatwg/html/pull/12223#discussion_r2927609158",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12223",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2927609158"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12223#discussion_r2927609158"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12223"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2927609158/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 117447,
+    "original_start_line": 117447,
+    "start_side": "RIGHT",
+    "line": 117448,
+    "original_line": 117448,
+    "side": "RIGHT",
+    "in_reply_to_id": 2899426789,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 39,
+    "position": 39,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2927613909",
+    "pull_request_review_id": 3939989018,
+    "id": 2927613909,
+    "node_id": "PRRC_kwDOALaj486uf9fV",
+    "diff_hunk": "@@ -117437,18 +117440,15 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n   data-x=\"concept-request-destination\">destination</span> <var>destination</var>, a <span>script\n   fetch options</span> <var>options</var>, an <span>environment settings object</span>\n   <var>settingsObject</var>, a <span data-x=\"concept-request-referrer\">referrer</span>\n-  <var>referrer</var>, an optional <span>ModuleRequest Record</span> <var>moduleRequest</var>, a\n-  boolean <var data-x=\"fetching-scripts-is-top-level\">isTopLevel</var>, an algorithm\n-  <var>onComplete</var>, and an optional <span data-x=\"fetching-scripts-perform-fetch\">perform the\n-  fetch hook</span> <var>performFetch</var>, run these steps. <var>onComplete</var> must be an\n-  algorithm accepting null (on failure) or a <span>module script</span> (on success).</p>\n+  <var>referrer</var>, an optional <span>string</span> <var>moduleType</var>, a boolean <var\n+  data-x=\"fetching-scripts-is-top-level\">isTopLevel</var>, an algorithm <var>onComplete</var>,\n+  and an optional <span data-x=\"fetching-scripts-perform-fetch\">perform the fetch hook</span>\n+  <var>performFetch</var>, run these steps. <var>onComplete</var> must be an algorithm accepting\n+  null (on failure) or a <span>module script</span> (on success).</p>\n \n   <ol>\n-   <li><p>Let <var>moduleType</var> be \"<code data-x=\"\">javascript-or-wasm</code>\".</p></li>\n-\n-   <li><p>If <var>moduleRequest</var> was given, then set <var>moduleType</var> to the result of\n-   running the <span>module type from module request</span> steps given\n-   <var>moduleRequest</var>.</p></li>\n+   <li><p>If <var>moduleType</var> is null, set <var>moduleType</var> to \"<code",
+    "path": "source",
+    "commit_id": "769ae98d19784bccd7adecba77e41bb1f9675109",
+    "original_commit_id": "769ae98d19784bccd7adecba77e41bb1f9675109",
+    "user": {
+      "login": "KurtCattiSchmidt",
+      "id": 15691393,
+      "node_id": "MDQ6VXNlcjE1NjkxMzkz",
+      "avatar_url": "https://avatars.githubusercontent.com/u/15691393?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/KurtCattiSchmidt",
+      "html_url": "https://github.com/KurtCattiSchmidt",
+      "followers_url": "https://api.github.com/users/KurtCattiSchmidt/followers",
+      "following_url": "https://api.github.com/users/KurtCattiSchmidt/following{/other_user}",
+      "gists_url": "https://api.github.com/users/KurtCattiSchmidt/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/KurtCattiSchmidt/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/KurtCattiSchmidt/subscriptions",
+      "organizations_url": "https://api.github.com/users/KurtCattiSchmidt/orgs",
+      "repos_url": "https://api.github.com/users/KurtCattiSchmidt/repos",
+      "events_url": "https://api.github.com/users/KurtCattiSchmidt/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/KurtCattiSchmidt/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[This comment](https://github.com/whatwg/html/pull/12223/changes#r2899426789) implies that this approach won't work, but I think it covers it. @noamr, what do you think?",
+    "created_at": "2026-03-12T21:57:05Z",
+    "updated_at": "2026-03-12T21:57:05Z",
+    "html_url": "https://github.com/whatwg/html/pull/12223#discussion_r2927613909",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12223",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2927613909"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12223#discussion_r2927613909"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12223"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2927613909/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 117450,
+    "side": "RIGHT",
+    "in_reply_to_id": 2888702543,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 66,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2929908030",
+    "pull_request_review_id": 3942564456,
+    "id": 2929908030,
+    "node_id": "PRRC_kwDOALaj486uotk-",
+    "diff_hunk": "@@ -117437,18 +117437,15 @@ document.querySelector(\"button\").addEventListener(\"click\", bound);\n   data-x=\"concept-request-destination\">destination</span> <var>destination</var>, a <span>script\n   fetch options</span> <var>options</var>, an <span>environment settings object</span>\n   <var>settingsObject</var>, a <span data-x=\"concept-request-referrer\">referrer</span>\n-  <var>referrer</var>, an optional <span>ModuleRequest Record</span> <var>moduleRequest</var>, a\n-  boolean <var data-x=\"fetching-scripts-is-top-level\">isTopLevel</var>, an algorithm\n-  <var>onComplete</var>, and an optional <span data-x=\"fetching-scripts-perform-fetch\">perform the\n-  fetch hook</span> <var>performFetch</var>, run these steps. <var>onComplete</var> must be an\n-  algorithm accepting null (on failure) or a <span>module script</span> (on success).</p>\n+  <var>referrer</var>, a boolean <var data-x=\"fetching-scripts-is-top-level\">isTopLevel</var>, an\n+  algorithm <var>onComplete</var>, and an optional <span\n+  data-x=\"fetching-scripts-perform-fetch\">perform the fetch hook</span><var>performFetch</var>, run\n+  these steps. <var>onComplete</var> must be an algorithm accepting null (on failure) or a\n+  <span>module script</span> (on success).</p>\n \n   <ol>\n-   <li><p>Let <var>moduleType</var> be \"<code data-x=\"\">javascript-or-wasm</code>\".</p></li>\n-\n-   <li><p>If <var>moduleRequest</var> was given, then set <var>moduleType</var> to the result of\n-   running the <span>module type from module request</span> steps given\n-   <var>moduleRequest</var>.</p></li>\n+   <li><p>Let <var>moduleType</var> be the result of running\n+   <span>module type from fetch destination</span> on <var>destination</var>.</p></li>",
+    "path": "source",
+    "commit_id": "619fc910eb08059826576f03733b9ac66d6f7c77",
+    "original_commit_id": "619fc910eb08059826576f03733b9ac66d6f7c77",
+    "user": {
+      "login": "Gae24",
+      "id": 96017547,
+      "node_id": "U_kgDOBbkciw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/96017547?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Gae24",
+      "html_url": "https://github.com/Gae24",
+      "followers_url": "https://api.github.com/users/Gae24/followers",
+      "following_url": "https://api.github.com/users/Gae24/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Gae24/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Gae24/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Gae24/subscriptions",
+      "organizations_url": "https://api.github.com/users/Gae24/orgs",
+      "repos_url": "https://api.github.com/users/Gae24/repos",
+      "events_url": "https://api.github.com/users/Gae24/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Gae24/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Exactly, _moduleType_ will be `javascript-or-wasm` even when fetching json or css modules. That's because _moduleType_ is determined by the _moduleRequest_ record not by the top-level destination.",
+    "created_at": "2026-03-13T08:56:56Z",
+    "updated_at": "2026-03-13T08:56:56Z",
+    "html_url": "https://github.com/whatwg/html/pull/12223#discussion_r2929908030",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12223",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2929908030"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12223#discussion_r2929908030"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12223"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2929908030/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 117447,
+    "original_start_line": 117447,
+    "start_side": "RIGHT",
+    "line": 117448,
+    "original_line": 117448,
+    "side": "RIGHT",
+    "in_reply_to_id": 2899426789,
+    "author_association": "NONE",
+    "original_position": 39,
+    "position": 39,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

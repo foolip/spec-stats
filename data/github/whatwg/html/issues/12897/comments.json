@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/5532182739",
+    "html_url": "https://github.com/whatwg/html/issues/12897#issuecomment-5532182739",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/12897",
+    "id": 5532182739,
+    "node_id": "IC_kwDOALaj488AAAABSb5o0w",
+    "user": {
+      "login": "jstenback",
+      "id": 509034,
+      "node_id": "MDQ6VXNlcjUwOTAzNA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/509034?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jstenback",
+      "html_url": "https://github.com/jstenback",
+      "followers_url": "https://api.github.com/users/jstenback/followers",
+      "following_url": "https://api.github.com/users/jstenback/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jstenback/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jstenback/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jstenback/subscriptions",
+      "organizations_url": "https://api.github.com/users/jstenback/orgs",
+      "repos_url": "https://api.github.com/users/jstenback/repos",
+      "events_url": "https://api.github.com/users/jstenback/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jstenback/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-09-03T21:10:26Z",
+    "updated_at": "2026-09-03T21:10:26Z",
+    "body": "Minutes:\n\n- HTML Canvas Stage Three Proposal: Philip Jägenstedt initiated the discussion regarding the push for stage three of the HTML canvas specification, noting the need to share changes made since the last major discussion and gather feedback. Philip Jägenstedt and Stefan Zager presented the updates intended for developers currently using the origin trial.\n- Introduction of the 'drawable' Attribute: Philip Jägenstedt introduced the new `drawable` attribute, which replaces the previous `layout subtree` attribute. This change allows for more natural HTML structures by enabling independent drawing of descendant elements without requiring them to be direct children of the canvas, thereby improving the accessibility tree.\n- Mechanism of Drawable Elements: Stefan Zager explained that adding a `drawable` attribute to an element creates an isolated stacking context, effectively hoisting the element out of the ancestor's paint order. This is strictly a paint operation, meaning the layout occurs as if the element were in-flow, but the paint output is omitted from the ancestor and rendered independently at the correct position.\n- Canvas Transform and Syncing: Philip Jägenstedt discussed a new `canvas transform` feature that automatically keeps DOM positioning and hit testing in sync with drawing for 2D contexts. Developers can opt out of this behavior using the `preserve elements geometry` option within the `draw element image` API if they need to compute custom transforms.\n- Hit Testing Order: Stefan Zager and Philip Jägenstedt clarified that the hit testing order for drawn descendants has been updated to the reverse of the draw order, meaning the last element drawn is the first one hit-tested. By default, `draw element image` places an element at the top of this stack, though this is customizable.\n- Constraints for 3D Contexts: Stefan Zager explained that automatic hit testing and geometry updating are exclusive to 2D canvas, as the browser cannot predict how textures will be used in WebGL or WebGPU. For these 3D cases, developers must explicitly call `update element geometry` to define the hit testing region and transforms, as no reliable default exists.\n- Challenges with Multiple Draws and Clipping: Jake Archibald raised concerns about drawing elements multiple times or drawing only parts of elements. The participants agreed that there is currently no support for fragmented hit testing or automatic occlusion handling by non-element canvas content, and pixel-perfect hit testing is not included in the first version of the API.\n- Canvas Nesting Support: Philip Jägenstedt and Stefan Zager confirmed that canvas nesting is now fully supported, including across cross-origin iframes, by traversing the frame tree in reverse order and creating snapshots accordingly.\n- Performance and Lifecycle of the 'drawable' Attribute: Jake Archibald and the group discussed how the `drawable` attribute aids performance by allowing developers to skip drawing elements that are not currently in view, such as in the Figma use case. It was clarified that the `drawable` attribute must be set before the paint cycle to take effect.\n- Accessibility Geometry Information: Stefan Zager addressed concerns regarding accessibility, stating that elements are included in the accessibility tree by default regardless of their `drawable` status. However, geometry information is only populated once the element has been drawn, similar to the behavior of `content-visibility`.\n- Privacy-Preserving Paint Specification: Anne van Kesteren and Philip Jägenstedt discussed the priority of the privacy-preserving paint specification, agreeing that it should be prioritized and that Philip Jägenstedt would verify the status of the related pull request .\n- Video Elements in Canvas: The group debated whether video elements should be allowed to be drawn via this API, specifically due to concerns that they cannot properly honor caption preferences or provide accessible controls. Anne van Kesteren and Philip Jägenstedt explored the trade-offs, with some suggesting that video might need to be disallowed or restricted to ensure accessibility standards are met.\n- Sanitizer API Improvements: Noam Rosenthal and Frederik Braun discussed an issue where `remove unsafe` fails to remove JavaScript URL attributes, leading to security confusion. They reached a consensus to introduce a boolean flag for \"JavaScript URLs\" in the configuration, which will default to true, to ensure consistent security guarantees.\n- Focus and Blur Events on Node Removal: Noam Rosenthal raised an issue regarding Blink sending events upon node removal, which causes performance and compatibility issues for libraries using workarounds like mutation observers. The group discussed a proposal to introduce a `focus reset` event on the document, triggered during focus fix-up, as a cleaner alternative to existing library workarounds.",
+    "author_association": "CONTRIBUTOR",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/5532182739/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

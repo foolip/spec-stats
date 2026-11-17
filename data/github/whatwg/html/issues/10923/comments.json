@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/2609752355",
+    "html_url": "https://github.com/whatwg/html/issues/10923#issuecomment-2609752355",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/10923",
+    "id": 2609752355,
+    "node_id": "IC_kwDOALaj486bjakj",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2025-01-23T13:01:10Z",
+    "updated_at": "2025-01-23T13:01:10Z",
+    "body": "## Agenda\n\nAttendees: Keith, Olli, Anne, Philip(!), Domenic, Noam\n\n### Review past action items\n\n1a Olli and Anne will play with the Chromium implementation and review the proposal for [How to spec user interaction for select](https://github.com/whatwg/html/issues/10762) more closely.\n\n### Carryovers from last time\n\n2a [Noam] [Async css](https://github.com/whatwg/html/issues/3983)\n2b [Di]: [Composed live ranges](https://github.com/whatwg/dom/pull/1342)\n2c [Stephen]: [Canvas TextStyles direction getter](https://github.com/whatwg/html/issues/10884)\n\n### New topics\n\n3 [Anne] [Add Last-Event-ID to CORS-safelisted request headers](https://github.com/whatwg/fetch/pull/1788)\n\n## Action Items\n\n- Noam to open an issue for the existing blocking styles interop issue\n- Noam to create a WICG repo for dedicated discussion of the async CSS use cases and anti-use cases\n- Keith to sketch out a design for making child elements into posters\n- Keith to make a big table of loading vs. autoplay vs. preload as the next step for loading=lazy\n\n## Minutes\n\n1a: Olli: Chromium Canary currently crashes. Makes it tricky to play with.\n\n2a: Continue to carryover.\n\n2b: Continue to carryover.\n\n2c: Continue to carryover.\n\n### 3a\n\n3a: Domenic: I think in principle the team responsible for this is willing to do it, but it would be fairly low priority.\n\nAnne: Okay, I guess it’s reasonable to move forward with test and specification changes here and then see if implementations adopt.\n\nDomenic: If rexxars is up for implementing that would certainly move it along more quickly.\n\nOlli: Usage might be too low to notice any impact in non-release browsers.\n\n[discussion of exactly how this works and what the compat risk might be]\n\n[conclusion: the compat risk is that this will sometimes trigger preflights, for when the header contains certain bytes]\n\nNoam joined, back to 2a!\n\nNoam: this is an open-ended topic. <link rel=stylesheet> that doesn't block rendering of things after it.\n\nThe discussion surfaced an existing interop issue around what exactly is blocked by normal <link rel=stylesheet>. It would be a clear win to get interop on that.\n\nIn the thread I was trying hard to get an answer to \"what's the use case?\" Many use cases I found non-legit, which would cause flash of unstyled content. (For example people wanting to use this for below-the-fold content, would experience FOUC when scrolling.)\n\nI found two cases that seemed reasonable: 1) For sheets containing font-display: swap, where you are deliberately causing FOUC. 2) things that are styling themselves into existence, e.g. display: none by default, and then the stylesheet comes in to make it appear.\n\n[side discussion about whether we like font-display: swap. foolip says: https://w3c.github.io/IFT/ might help.]\n\nNoam: should we build a generic async CSS thing? Or should we build something for these two specific use cases? No specific proposals yet but I'm curious about the group's opinions. [Noam proceeds to give specific proposals, verbally.]\n\nYoav: similar to async script, there is confusion here between download and execution. I think there's something here but I'd like to flesh out the use cases further. When do people want this, can we fix the races that it would cause?\n\nKeith: I think this is a good primitive. You can do async CSS today using adoptedStylesheets or critical CSS or the style script hack. This doesn't add new footguns. Async font loading is fine. We had this problem at GitHub and there's no good solution. We'd like to defer CSS for dialogs, for example.\n\nYoav: but this is indeed already possible today with script. I'd still like to hear more about the use cases. E.g. for the dialog case you still don't want the stylesheet to lose the race with the dialog.\n\nKeith: remove the attribute to reactivate render-blocking?\n\nDomenic: Since you can do this with script already, we already have the primitive. So if this is purely about making the use cases easier for people who want a declarative solution, then I think it should be aimed at not footgunning.\n\nNoam/Yoav: discuss use cases and whether we should build something for the two cases.\n\nDomenic: action item for Noam: make an explainer summarizing the thread, both the use cases and the things you believe are not good use cases. See if the community agrees. Maybe a WICG repo so that there can be separate issues instead of one big mega-issue that's too hard to read.\n\nNoam: Will do! And I'll open a separate HTML issue for the current interop issue. \n\nOlli: side note: async scripts do cause interop issues! Although CSS won't necessarily be as bad.\n\nAnne: well, getComputedStyle() could make it just as bad.\n\nYoav: and across different issues. It's compat and interop. I think async scripts were a bit of a mistake and I'd like to not repeat that.\n\nAnne: defer is really good but there's very few use cases for async.\n\n[some discussion about best use cases for async and whether module scripts suffer from the same issue]\n\nNoam: should we have a label for \"please go to a CG?\"\n\nAnne: we have \"needs concrete proposal\"\n\nNoam: would appreciate something more specific, \"this is not ready for WHATWG\".\n\nAnne: \"needs incubation\" seems good. You can add a label in whatwg/meta.\n\n### custom element registry\n\nAnne: Not on the agenda, but do people have more feedback? I tried to respond async.\n\nOlli/Keith: I've been waiting for the web components CG\n\nAnne: very European-unfriendly schedule, not sure I'll be able to make it…\n\nKeith: I'll try to make sure the chair makes it possible for you.\n\nAnne: sounds good. But also if you have async comments please give them!\n\nAnne: https://github.com/whatwg/html/issues/10854 would be a good please to provide feedback. If it’s DOM-specific https://github.com/whatwg/dom/issues/1339 is also fine.\n\n### loading=lazy video\n\nhttps://github.com/whatwg/html/issues/10376\nhttps://github.com/whatwg/html/issues/6636\n\nKeith: Delaying loading / downloading the poster until the video enters the viewport\n\nDomenic: and this is different from preload=none because it's viewport-centric.\n\nDomenic: lots of thumbs-ups!\n\nAnne: there's a general question about whether posters should get more <img> features, e.g. srcset, <picture>, etc. That proposal might be better, but nobody has worked on it…\n\nKeith: if that's the preferred direction we can probably make it work. The thread has some ideas.\n\nAnne: I'm trying to channel the comments from Jer Noble at Apple who commented in the poster thread.\n\nAnne: preload=none plus loading=lazy is strange?\n\nDomenic: https://github.com/whatwg/html/issues/10376#issuecomment-2138097690 shows how it should work\n\nPhilip: but preload=none with autoplay is kind of nonsense…\n\nAnne: maybe some of these combinations need to be made non-conforming, and we need to double-check the spec's processing model to make sure it's reasonable.\n\nKeith: so what do we do?\n\nDomenic: we need to make sure all existing combinations of autoplay and preload have good behavior. And then define exhaustively every combination of autoplay, preload, and loading attributes. Some can be disallowed in the conformance requirements or have one of the attributes ignored, that's OK.\n\nPhilip: yeah there's an \"effective preload\" concept where preload gets ignored sometimes because autoplay. We can do similar things.\n\nPhilip: ideally we only change things to load later than they already would. Loading sooner is a bit iffy.\n\nPhilip: [looks at the spec] the spec is unclear because preload is a hint. And there's a non-normative note saying \"The autoplay attribute can overload the preload attribute\"\n\n[general consensus we all want to see the big matrix of preload x loading x autoplay]",
+    "author_association": "MEMBER",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/2609752355/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

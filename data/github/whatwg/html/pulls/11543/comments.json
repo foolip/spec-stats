@@ -1,0 +1,73 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2276798402",
+    "pull_request_review_id": 3120817576,
+    "id": 2276798402,
+    "node_id": "PRRC_kwDOALaj486HtS_C",
+    "diff_hunk": "@@ -64358,36 +64358,6 @@ o............A....e\n   <var>insertedNode</var>, are:</p>\n \n   <ol>\n-   <li>\n-    <p>If <var>insertedNode</var> is not <span>connected</span>, then return.</p>\n-\n-    <div class=\"example\">\n-     <p>This can happen in the case where an earlier-inserted <code>script</code> removes a\n-     later-inserted <code>script</code>. For instance:</p>\n-\n-     <pre><code class=\"html\">&lt;script>\n-const script1 = document.createElement('script');\n-script1.innerText = `\n-  document.querySelector('#script2').remove();\n-`;\n-\n-const script2 = document.createElement('script');\n-script2.id = 'script2';\n-script2.textContent = `console.log('script#2 running')`;\n-\n-document.body.append(script1, script2);\n-&lt;/script></code></pre>\n-\n-     <p>Nothing is printed to the console in this example. By the time the <span>HTML element\n-     post-connection steps</span> run for the first <code>script</code> that was atomically inserted\n-     by <code data-x=\"dom-Node-append\">append()</code>, it can observe that the second\n-     <code>script</code> is already <span>connected</span> to the DOM. It removes the second\n-     <code>script</code>, so that by the time <em>its</em> <span>HTML element post-connection\n-     steps</span> run, it is no longer <span>connected</span>, and does not get <span\n-     data-x=\"prepare the script element\">prepared</span>.</p>\n-    </div>",
+    "path": "source",
+    "commit_id": "f3b6f60df263d1399a661c411a87ca002e52f3a8",
+    "original_commit_id": "d14cea7eb55dab86be768af1dfd25d20ecd8286d",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Can you move this example to after these steps and redo the introductory paragraph to point out why we don't run the steps in that case? Seems unfortunate to lose this explanation as a result of a bug fix.",
+    "created_at": "2025-08-14T14:27:08Z",
+    "updated_at": "2025-08-14T14:27:11Z",
+    "html_url": "https://github.com/whatwg/html/pull/11543#discussion_r2276798402",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11543",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2276798402"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11543#discussion_r2276798402"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11543"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2276798402/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 64388,
+    "side": "LEFT",
+    "author_association": "MEMBER",
+    "original_position": 31,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

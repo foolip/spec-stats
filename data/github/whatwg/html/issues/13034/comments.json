@@ -1,0 +1,48 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/6807508925",
+    "html_url": "https://github.com/whatwg/html/pull/13034#issuecomment-6807508925",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/13034",
+    "id": 6807508925,
+    "node_id": "IC_kwDOALaj488AAAABlcJXvQ",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-11T21:31:31Z",
+    "updated_at": "2026-11-11T21:31:31Z",
+    "body": "@farre WDYT about Q1 b?\n\nNot applied yet: D1. Open: Q1.\n\nNew in this review:\n\nD1: The new step branches on whether navigationParams's navigable is a top-level traversable, but [obtain a browsing context to use for a navigation response](https://html.spec.whatwg.org/#obtain-browsing-context-navigation) branches on whether the navigable's active browsing context is a top-level browsing context. The two differ only for a traversable with a non-null parent, which doesn't exist today, so this isn't observable. If one existed, browsingContext could be in a new group while the agent comes from the outer page's group. Checking browsingContext itself doesn't work, because after a group switch its active document has no node navigable yet. Not applied: proposed fix is to make the condition \"if navigationParams's navigable's active browsing context is a top-level browsing context\".\n\nQ1: shannonbooth [raised](https://github.com/whatwg/html/pull/13034#discussion_r4198533591) giving every browsing context a group, set at creation and never changing, instead of looking up the top-level one here. Which way?\n\n- a: Keep as is. Smallest change, and it's the same lookup as creating an auxiliary browsing context and, when fully active, as \"create a new child navigable\".\n- b: Every browsing context gets a group at creation. Fixes this structurally and makes D1 moot. shannonbooth found it a bit less spec text overall, but it touches every place that reads a top-level browsing context's group and opens up other complexities. Not prototyped.\n\n<details><summary>Reviewed commits</summary>\n\nReviewed at e3509f8 on a5e1501 using spec-pr-review.\n</details>\n",
+    "author_association": "MEMBER",
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/6807508925/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

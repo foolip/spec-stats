@@ -1,0 +1,48 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/6627473598",
+    "html_url": "https://github.com/whatwg/html/pull/12914#issuecomment-6627473598",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/12914",
+    "id": 6627473598,
+    "node_id": "IC_kwDOALaj488AAAABiwc4vg",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-04T09:31:13Z",
+    "updated_at": "2026-11-04T09:31:13Z",
+    "body": "<details>\n<summary>AI feedback</summary>\n\nReviewed at 8473217, together with whatwg/fetch#1755 at 958e7eb. The Fetch anchors this PR links to (`opaque-response-safelist-check`, `request-no-cors-media-request-state`, `request-no-cors-javascript-fallback-encoding`) exist in that PR, and the fallback encoding for classic scripts is set in the right place.\n\n**Blockers**\n\n- [Every later range request](https://github.com/whatwg/html/blob/8473217c2b96454422c08f7dcf99b30cf14bf9ee/source#L39388-L39391) is marked \"subsequent\" and [fetched from the media resource's URL](https://github.com/whatwg/html/blob/8473217c2b96454422c08f7dcf99b30cf14bf9ee/source#L39292-L39296), with redirects followed. Fetch's opaque-response-safelist check lets \"subsequent\" responses through without sniffing. So a media server can serve a real first range and then redirect a later range request to a cross-origin endpoint that ignores `Range` and returns 200 JSON or HTML, and ORB lets that response through.\n  - The [explainer](https://github.com/annevk/orb#changes-to-requests-and-media-elements) has subsequent range requests use the URL of the initial response and not follow redirects.\n  - [The note here](https://github.com/whatwg/html/blob/8473217c2b96454422c08f7dcf99b30cf14bf9ee/source#L39310-L39312) assumes the initial range was sniffed as audio or video, but nothing checks that.\n  - Consider recording the URL of the initial response once it has been allowed, using that URL for subsequent requests, and only issuing them after that.\n  - Not following redirects needs a change in Fetch, because main fetch rejects no-cors requests whose redirect mode isn't \"follow\". I raised that on whatwg/fetch#1755.\n\n**Suggestions**\n\n- *verify a media response* [links \"extract content-range values\" to Background Fetch](https://github.com/whatwg/html/blob/8473217c2b96454422c08f7dcf99b30cf14bf9ee/source#L2719). whatwg/fetch#1755 defines that term in Fetch, though it isn't exported yet. Once it is, consider pointing this link at Fetch.\n\n</details>\n",
+    "author_association": "MEMBER",
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/6627473598/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

@@ -1,0 +1,288 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4250102432",
+    "pull_request_review_id": 5493378244,
+    "id": 4250102432,
+    "node_id": "PRRC_kwDOALaj4879U2qg",
+    "diff_hunk": "@@ -57667,6 +57651,39 @@ interface <dfn interface>HTMLSelectElement</dfn> : <span>HTMLElement</span> {\n   </ol>\n   </div>\n \n+  <p>Each <code>select</code> element has a boolean <dfn\n+  data-x=\"select-pending-selectedcontent-update\">pending <code>selectedcontent</code>\n+  update</dfn>, initially false.</p>\n+\n+  <div algorithm>\n+  <p>To <dfn>queue an update of a <code>select</code>'s descendant <code>selectedcontent</code>\n+  elements</dfn> given a <code>select</code> element <var>select</var>:</p>\n+\n+  <ol>",
+    "path": "source",
+    "commit_id": "e2a04c268933c3e65d8c38582012b0526a4d50fc",
+    "original_commit_id": "2fcaa59592893eabadc72f3d5c0d127af8db81c7",
+    "user": {
+      "login": "josepharhar",
+      "id": 7681467,
+      "node_id": "MDQ6VXNlcjc2ODE0Njc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7681467?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/josepharhar",
+      "html_url": "https://github.com/josepharhar",
+      "followers_url": "https://api.github.com/users/josepharhar/followers",
+      "following_url": "https://api.github.com/users/josepharhar/following{/other_user}",
+      "gists_url": "https://api.github.com/users/josepharhar/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/josepharhar/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/josepharhar/subscriptions",
+      "organizations_url": "https://api.github.com/users/josepharhar/orgs",
+      "repos_url": "https://api.github.com/users/josepharhar/repos",
+      "events_url": "https://api.github.com/users/josepharhar/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/josepharhar/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I ran into a performance issue when queueing microtasks a lot in the case that there are no selectedcontent elements to update. I fixed this by [avoiding queueing the microtask](https://github.com/whatwg/html/commit/57b0f75a6911706a7755d61254f5a04eccc1e5f2) when there are no descendant selectedcontent elements to update in [this PR](https://github.com/whatwg/html/pull/12263), which was [then removed](https://github.com/whatwg/html/commit/77bf023b8b6d7a2727741d93f0dce16b4e588010) before we merged that PR.\n\nDo you think we could re-add that condition here? It would be hard to observe the difference but I think could be worth including.",
+    "created_at": "2026-10-12T16:12:05Z",
+    "updated_at": "2026-10-12T16:12:05Z",
+    "html_url": "https://github.com/whatwg/html/pull/13005#discussion_r4250102432",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/13005",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/4250102432"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/13005#discussion_r4250102432"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/13005"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4250102432/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 57662,
+    "original_line": 57662,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 35,
+    "position": 771,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4258254768",
+    "pull_request_review_id": 5503060556,
+    "id": 4258254768,
+    "node_id": "PRRC_kwDOALaj4879z8-w",
+    "diff_hunk": "@@ -57667,6 +57651,39 @@ interface <dfn interface>HTMLSelectElement</dfn> : <span>HTMLElement</span> {\n   </ol>\n   </div>\n \n+  <p>Each <code>select</code> element has a boolean <dfn\n+  data-x=\"select-pending-selectedcontent-update\">pending <code>selectedcontent</code>\n+  update</dfn>, initially false.</p>\n+\n+  <div algorithm>\n+  <p>To <dfn>queue an update of a <code>select</code>'s descendant <code>selectedcontent</code>\n+  elements</dfn> given a <code>select</code> element <var>select</var>:</p>\n+\n+  <ol>",
+    "path": "source",
+    "commit_id": "e2a04c268933c3e65d8c38582012b0526a4d50fc",
+    "original_commit_id": "2fcaa59592893eabadc72f3d5c0d127af8db81c7",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Yeah done, see the fixup commit.",
+    "created_at": "2026-10-13T11:51:56Z",
+    "updated_at": "2026-10-13T11:51:57Z",
+    "html_url": "https://github.com/whatwg/html/pull/13005#discussion_r4258254768",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/13005",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/4258254768"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/13005#discussion_r4258254768"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/13005"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4258254768/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 57662,
+    "original_line": 57662,
+    "side": "RIGHT",
+    "in_reply_to_id": 4250102432,
+    "author_association": "MEMBER",
+    "original_position": 35,
+    "position": 771,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4341117392",
+    "pull_request_review_id": 5605183778,
+    "id": 4341117392,
+    "node_id": "PRRC_kwDOALaj488AAAABAsAx0A",
+    "diff_hunk": "@@ -60816,13 +60690,24 @@ interface <dfn interface>HTMLSelectedContentElement</dfn> : <span>HTMLElement</s\n   <code>option</code> element.</p>\n \n   <p>Every <code>selectedcontent</code> element has a boolean <dfn\n-  data-x=\"selectedcontent-disabled\">disabled</dfn>, which is initially false.</p>\n+  data-x=\"selectedcontent-disabled\">disabled</dfn>, which is initially false, and a <dfn\n+  data-x=\"selectedcontent-cached-select\">cached <code>select</code></dfn>, which is a\n+  <code>select</code> element or null, initially null. It also has a boolean <dfn\n+  data-x=\"selectedcontent-pending-update\">pending update</dfn>, which is initially false.</p>",
+    "path": "source",
+    "commit_id": "54803ef741735dac8bade2deb57818575c1e3bf7",
+    "original_commit_id": "54803ef741735dac8bade2deb57818575c1e3bf7",
+    "user": {
+      "login": "josepharhar",
+      "id": 7681467,
+      "node_id": "MDQ6VXNlcjc2ODE0Njc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7681467?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/josepharhar",
+      "html_url": "https://github.com/josepharhar",
+      "followers_url": "https://api.github.com/users/josepharhar/followers",
+      "following_url": "https://api.github.com/users/josepharhar/following{/other_user}",
+      "gists_url": "https://api.github.com/users/josepharhar/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/josepharhar/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/josepharhar/subscriptions",
+      "organizations_url": "https://api.github.com/users/josepharhar/orgs",
+      "repos_url": "https://api.github.com/users/josepharhar/repos",
+      "events_url": "https://api.github.com/users/josepharhar/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/josepharhar/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The new selectedcontent-pending-update flag is not ideal imo since select elements also have a flag to say that they are going to be updated, and the one on select elements is used in the vast majority of cases but this selectedcontent one is only used in an edge case for move steps, if I'm reading this PR correctly. Is that true? If you feel confident that we should still have this flag, should there be a note or something below that explains that this selectedcontent-pending-update flag is only used for an edge case with move steps and that the flag on select elements is used in the vast majority of cases instead?",
+    "created_at": "2026-10-21T19:35:03Z",
+    "updated_at": "2026-10-21T19:35:03Z",
+    "html_url": "https://github.com/whatwg/html/pull/13005#discussion_r4341117392",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/13005",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/4341117392"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/13005#discussion_r4341117392"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/13005"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4341117392/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 60696,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 1020,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4389685292",
+    "pull_request_review_id": 5668403133,
+    "id": 4389685292,
+    "node_id": "PRRC_kwDOALaj488AAAABBaVILA",
+    "diff_hunk": "@@ -60816,13 +60690,24 @@ interface <dfn interface>HTMLSelectedContentElement</dfn> : <span>HTMLElement</s\n   <code>option</code> element.</p>\n \n   <p>Every <code>selectedcontent</code> element has a boolean <dfn\n-  data-x=\"selectedcontent-disabled\">disabled</dfn>, which is initially false.</p>\n+  data-x=\"selectedcontent-disabled\">disabled</dfn>, which is initially false, and a <dfn\n+  data-x=\"selectedcontent-cached-select\">cached <code>select</code></dfn>, which is a\n+  <code>select</code> element or null, initially null. It also has a boolean <dfn\n+  data-x=\"selectedcontent-pending-update\">pending update</dfn>, which is initially false.</p>",
+    "path": "source",
+    "commit_id": "54803ef741735dac8bade2deb57818575c1e3bf7",
+    "original_commit_id": "54803ef741735dac8bade2deb57818575c1e3bf7",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "It prevents some redundant cloning upon a move, but it's not a case worth optimizing for, agreed. ",
+    "created_at": "2026-10-27T14:09:35Z",
+    "updated_at": "2026-10-27T14:09:35Z",
+    "html_url": "https://github.com/whatwg/html/pull/13005#discussion_r4389685292",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/13005",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/4389685292"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/13005#discussion_r4389685292"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/13005"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4389685292/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 60696,
+    "side": "RIGHT",
+    "in_reply_to_id": 4341117392,
+    "author_association": "MEMBER",
+    "original_position": 1020,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

@@ -1,0 +1,48 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/5730474292",
+    "html_url": "https://github.com/whatwg/html/pull/12925#issuecomment-5730474292",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/12925",
+    "id": 5730474292,
+    "node_id": "IC_kwDOALaj488AAAABVZAZNA",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-09-18T13:11:11Z",
+    "updated_at": "2026-09-18T13:11:11Z",
+    "body": "The null BC check is missing from the `iframe` post-connection steps. Can you add that there?\r\n\r\n<details>\r\n<summary>AI review</summary>\r\n\r\nThe `iframe` [post-connection steps](https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element) call [create a new child navigable](https://html.spec.whatwg.org/multipage/document-sequences.html#create-a-new-child-navigable) unconditionally, and its step 2 is:\r\n\r\n> Let *group* be *element*'s node document's browsing context's top-level browsing context's group.\r\n\r\nFor an `iframe` inserted into a document without a browsing context (e.g. from `createHTMLDocument()`), that dereferences null.\r\n\r\nBefore #10840 the steps started with:\r\n\r\n> If *insertedNode*'s shadow-including root's browsing context is null, then return.\r\n\r\nThe second commit there, \"Remove is-connected precondition\", dropped it. Post-connection steps only run for connected nodes, so the connectedness half was redundant, but the browsing context half was also removed. The pre-#10188 text, \"inserted into a document whose browsing context is non-null\", had the check from the start.\r\n\r\nThis is exercised in the third subtest of web-platform-tests/wpt#62622.\r\n\r\n</details>",
+    "author_association": "MEMBER",
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/5730474292/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

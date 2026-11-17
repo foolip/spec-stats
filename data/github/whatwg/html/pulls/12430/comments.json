@@ -1,0 +1,145 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3227983282",
+    "pull_request_review_id": 4274124211,
+    "id": 3227983282,
+    "node_id": "PRRC_kwDOALaj487AZx2y",
+    "diff_hunk": "@@ -59813,45 +59499,52 @@ interface <dfn interface>HTMLSelectedContentElement</dfn> : <span>HTMLElement</s\n   data-x=\"selectedcontent-disabled\">disabled</dfn>, which is initially false.</p>\n \n   <div algorithm>\n-  <p>To <dfn>update a <code>select</code>'s <code>selectedcontent</code></dfn> given a\n-  <code>select</code> element <var>select</var>:</p>\n+  <p>To <dfn>update a <code>select</code>'s descendant <code>selectedcontent</code> elements</dfn>\n+  given a <code>select</code> element <var>select</var>:</p>\n \n   <ol>\n-   <li><p>Let <var>selectedcontent</var> be the result of <span\n-   data-x=\"select-enabled-selectedcontent\">get a <code>select</code>'s enabled\n-   <code>selectedcontent</code></span> given <var>select</var>.</p></li>\n-\n-   <li><p>If <var>selectedcontent</var> is null, then return.</p></li>\n-\n-   <li><p>Let <var>option</var> be the first <code>option</code> in <var>select</var>'s <span\n-   data-x=\"concept-select-option-list\">list of options</span> whose <span\n-   data-x=\"concept-option-selectedness\">selectedness</span> is true, if any such <code>option</code>\n-   exists, otherwise null.</p></li>\n+   <li><p>Let <var>descendantSelectedcontents</var> be <var>select</var>'s descendant\n+   <code>selectedcontent</code> elements which are not <span\n+   data-x=\"selectedcontent-disabled\">disabled</span>, in <span>tree order</span>.</p></li>\n \n-   <li><p>If <var>option</var> is null, then run <span>clear a <code>selectedcontent</code></span>\n-   given <var>selectedcontent</var>.</p></li>\n+   <li>\n+    <p>For each <var>selectedcontent</var> of <var>descendantSelectedcontents</var>:</p>\n \n-   <li><p>Otherwise, run <span>clone an option into a <code>selectedcontent</code></span> given\n-   <var>option</var> and <var>selectedcontent</var>.</p></li>\n+    <ol>\n+     <li><p><span>Update a <code>selectedcontent</code></span> given <var>select</var> and\n+     <var>selectedcontent</var>.</p></li>\n+    </ol>\n+   </li>\n   </ol>\n   </div>\n \n   <div algorithm>\n-  <p>To <dfn data-x=\"select-enabled-selectedcontent\">get a <code>select</code>'s enabled\n-  <code>selectedcontent</code></dfn> given a <code>select</code> element <var>select</var>:</p>\n+  <p>To <dfn>update a <code>selectedcontent</code></dfn> given a <code>select</code> element\n+  <var>select</var> and a <code>selectedcontent</code> element <var>selectedcontent</var>:</p>\n \n   <ol>\n-   <li><p>If <var>select</var> has the <code data-x=\"attr-select-multiple\">multiple</code>\n-   attribute, then return null.</p></li>\n+   <li><p>Let <var>selectedOptions</var> be « ».</p></li>\n \n-   <li><p>Let <var>selectedcontent</var> be the first <code>selectedcontent</code> element\n-   <span>descendant</span> of <var>select</var> in <span>tree order</span> if any such element\n-   exists; otherwise return null.</p></li>\n+   <li>\n+    <p>For each <var>option</var> in <var>select</var>'s <span\n+    data-x=\"concept-select-option-list\">list of options</span>:</p>\n \n-   <li><p>If <var>selectedcontent</var>'s <span data-x=\"selectedcontent-disabled\">disabled</span> is\n-   true, then return null.</p></li>\n+    <ol>\n+     <li><p>If <var>option</var> is <span data-x=\"concept-option-selectedness\">selected</span>, then\n+     <span data-x=\"list append\">append</span> <var>option</var> to\n+     <var>selectedOptions</var>.</p></li>\n+    </ol>\n+   </li>\n+\n+   <li><p>If <var>select</var> has the <code data-x=\"attr-select-multiple\">multiple</code>\n+   attribute, then run <span>clone multiple options into a <code>selectedcontent</code></span> given\n+   <var>selectedOptions</var> and <var>selectedcontent</var>.</p></li>",
+    "path": "source",
+    "commit_id": "39a8ae520187295711a046bdd32c3960e6b62c5d",
+    "original_commit_id": "19a5935bd641bff1532981dcf6f325e22f9aa7b3",
+    "user": {
+      "login": "keithamus",
+      "id": 118266,
+      "node_id": "MDQ6VXNlcjExODI2Ng==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/118266?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/keithamus",
+      "html_url": "https://github.com/keithamus",
+      "followers_url": "https://api.github.com/users/keithamus/followers",
+      "following_url": "https://api.github.com/users/keithamus/following{/other_user}",
+      "gists_url": "https://api.github.com/users/keithamus/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/keithamus/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/keithamus/subscriptions",
+      "organizations_url": "https://api.github.com/users/keithamus/orgs",
+      "repos_url": "https://api.github.com/users/keithamus/repos",
+      "events_url": "https://api.github.com/users/keithamus/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/keithamus/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Would it make more sense here to do something like:\r\n\r\n1. Let isMulitple be true if select has the multiple attribute.\r\n2. For each option in select's list of options.\r\n\t1. If option is not selected then continue.\r\n\t2. If isMultiple is false, run clone an option into a selectedcontent given option and selectedcontent, and return.\r\n\t3. Append option to selectedoptions given selectedOptions and selectedcontent.\r\n3. If selectedoptions is empty, then run clear a selectedcontent given selectedcontent.\r\n4. Otherwise, run clone multiple options into a selectedcontent given selectedOptions and selectedcontent.\r\n\r\n",
+    "created_at": "2026-05-12T16:09:05Z",
+    "updated_at": "2026-05-12T16:10:12Z",
+    "html_url": "https://github.com/whatwg/html/pull/12430#discussion_r3227983282",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12430",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3227983282"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12430#discussion_r3227983282"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12430"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3227983282/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 60671,
+    "original_start_line": 59533,
+    "start_side": "RIGHT",
+    "line": 60679,
+    "original_line": 59541,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 1440,
+    "position": 35,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3260374669",
+    "pull_request_review_id": 4311837607,
+    "id": 3260374669,
+    "node_id": "PRRC_kwDOALaj487CVV6N",
+    "diff_hunk": "@@ -59813,45 +59499,52 @@ interface <dfn interface>HTMLSelectedContentElement</dfn> : <span>HTMLElement</s\n   data-x=\"selectedcontent-disabled\">disabled</dfn>, which is initially false.</p>\n \n   <div algorithm>\n-  <p>To <dfn>update a <code>select</code>'s <code>selectedcontent</code></dfn> given a\n-  <code>select</code> element <var>select</var>:</p>\n+  <p>To <dfn>update a <code>select</code>'s descendant <code>selectedcontent</code> elements</dfn>\n+  given a <code>select</code> element <var>select</var>:</p>\n \n   <ol>\n-   <li><p>Let <var>selectedcontent</var> be the result of <span\n-   data-x=\"select-enabled-selectedcontent\">get a <code>select</code>'s enabled\n-   <code>selectedcontent</code></span> given <var>select</var>.</p></li>\n-\n-   <li><p>If <var>selectedcontent</var> is null, then return.</p></li>\n-\n-   <li><p>Let <var>option</var> be the first <code>option</code> in <var>select</var>'s <span\n-   data-x=\"concept-select-option-list\">list of options</span> whose <span\n-   data-x=\"concept-option-selectedness\">selectedness</span> is true, if any such <code>option</code>\n-   exists, otherwise null.</p></li>\n+   <li><p>Let <var>descendantSelectedcontents</var> be <var>select</var>'s descendant\n+   <code>selectedcontent</code> elements which are not <span\n+   data-x=\"selectedcontent-disabled\">disabled</span>, in <span>tree order</span>.</p></li>\n \n-   <li><p>If <var>option</var> is null, then run <span>clear a <code>selectedcontent</code></span>\n-   given <var>selectedcontent</var>.</p></li>\n+   <li>\n+    <p>For each <var>selectedcontent</var> of <var>descendantSelectedcontents</var>:</p>\n \n-   <li><p>Otherwise, run <span>clone an option into a <code>selectedcontent</code></span> given\n-   <var>option</var> and <var>selectedcontent</var>.</p></li>\n+    <ol>\n+     <li><p><span>Update a <code>selectedcontent</code></span> given <var>select</var> and\n+     <var>selectedcontent</var>.</p></li>\n+    </ol>\n+   </li>\n   </ol>\n   </div>\n \n   <div algorithm>\n-  <p>To <dfn data-x=\"select-enabled-selectedcontent\">get a <code>select</code>'s enabled\n-  <code>selectedcontent</code></dfn> given a <code>select</code> element <var>select</var>:</p>\n+  <p>To <dfn>update a <code>selectedcontent</code></dfn> given a <code>select</code> element\n+  <var>select</var> and a <code>selectedcontent</code> element <var>selectedcontent</var>:</p>\n \n   <ol>\n-   <li><p>If <var>select</var> has the <code data-x=\"attr-select-multiple\">multiple</code>\n-   attribute, then return null.</p></li>\n+   <li><p>Let <var>selectedOptions</var> be « ».</p></li>\n \n-   <li><p>Let <var>selectedcontent</var> be the first <code>selectedcontent</code> element\n-   <span>descendant</span> of <var>select</var> in <span>tree order</span> if any such element\n-   exists; otherwise return null.</p></li>\n+   <li>\n+    <p>For each <var>option</var> in <var>select</var>'s <span\n+    data-x=\"concept-select-option-list\">list of options</span>:</p>\n \n-   <li><p>If <var>selectedcontent</var>'s <span data-x=\"selectedcontent-disabled\">disabled</span> is\n-   true, then return null.</p></li>\n+    <ol>\n+     <li><p>If <var>option</var> is <span data-x=\"concept-option-selectedness\">selected</span>, then\n+     <span data-x=\"list append\">append</span> <var>option</var> to\n+     <var>selectedOptions</var>.</p></li>\n+    </ol>\n+   </li>\n+\n+   <li><p>If <var>select</var> has the <code data-x=\"attr-select-multiple\">multiple</code>\n+   attribute, then run <span>clone multiple options into a <code>selectedcontent</code></span> given\n+   <var>selectedOptions</var> and <var>selectedcontent</var>.</p></li>",
+    "path": "source",
+    "commit_id": "39a8ae520187295711a046bdd32c3960e6b62c5d",
+    "original_commit_id": "19a5935bd641bff1532981dcf6f325e22f9aa7b3",
+    "user": {
+      "login": "josepharhar",
+      "id": 7681467,
+      "node_id": "MDQ6VXNlcjc2ODE0Njc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7681467?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/josepharhar",
+      "html_url": "https://github.com/josepharhar",
+      "followers_url": "https://api.github.com/users/josepharhar/followers",
+      "following_url": "https://api.github.com/users/josepharhar/following{/other_user}",
+      "gists_url": "https://api.github.com/users/josepharhar/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/josepharhar/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/josepharhar/subscriptions",
+      "organizations_url": "https://api.github.com/users/josepharhar/orgs",
+      "repos_url": "https://api.github.com/users/josepharhar/repos",
+      "events_url": "https://api.github.com/users/josepharhar/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/josepharhar/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Thanks for the suggestion! The difference is that this algorithm can return earlier when it sees a selected option for a non-multiple select, right?",
+    "created_at": "2026-05-18T16:10:30Z",
+    "updated_at": "2026-05-18T16:10:30Z",
+    "html_url": "https://github.com/whatwg/html/pull/12430#discussion_r3260374669",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12430",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3260374669"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12430#discussion_r3260374669"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12430"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3260374669/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 60671,
+    "original_start_line": 59533,
+    "start_side": "RIGHT",
+    "line": 60679,
+    "original_line": 59541,
+    "side": "RIGHT",
+    "in_reply_to_id": 3227983282,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 1440,
+    "position": 35,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

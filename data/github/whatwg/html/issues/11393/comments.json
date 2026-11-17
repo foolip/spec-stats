@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/3333542558",
+    "html_url": "https://github.com/whatwg/html/issues/11393#issuecomment-3333542558",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/11393",
+    "id": 3333542558,
+    "node_id": "IC_kwDOALaj487GsdKe",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2025-09-25T11:40:31Z",
+    "updated_at": "2025-09-25T11:42:06Z",
+    "body": "The spinning of the event loop while handling \"script\" end tag says\n\n> If this [parser has been aborted](https://html.spec.whatwg.org/#abort-a-parser) in the meantime, return.\n\nhttps://html.spec.whatwg.org/#parsing-main-incdata:perform-a-microtask-checkpoint:~:text=If%20this%20parser%20has%20been%20aborted%20in%20the%20meantime%2C%20return\n\nI guess we could add that after performing the microtask checkpoint?\n\nAlso see [custom element microtask](https://html.spec.whatwg.org/#parsing-main-incdata:perform-a-microtask-checkpoint:~:text=If%20the%20JavaScript%20execution%20context%20stack%20is%20empty%2C%20then%20perform%20a%20microtask%20checkpoint%2E), [custom element reactions](https://html.spec.whatwg.org/#parsing-main-incdata:perform-a-microtask-checkpoint:~:text=above%2E%29-,Invoke%20custom%20element%20reactions%20in%20queue%2E), [script end tag in XML microtask](https://html.spec.whatwg.org/#parsing-main-incdata:perform-a-microtask-checkpoint:~:text=When%20the%20element%27s%20end%20tag%20is%20subsequently%20parsed%2C%20the%20user%20agent%20must%20perform%20a%20microtask%20checkpoint%2C%20and%20then%20prepare%20the%20script%20element%2E). The spec doesn't say to perform a microtask checkpoint for [SVG `script`](https://html.spec.whatwg.org/#parsing-main-incdata:perform-a-microtask-checkpoint:~:text=An%20end%20tag%20whose%20tag%20name%20is%20%22script%22%2C%20if%20the%20current%20node%20is%20an%20SVG%20script%20element) but maybe browsers do?\n\n@whatwg/html-parser ",
+    "author_association": "MEMBER",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/3333542558/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

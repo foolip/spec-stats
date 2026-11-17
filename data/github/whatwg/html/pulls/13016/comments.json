@@ -1,0 +1,287 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4157421367",
+    "pull_request_review_id": 5381796133,
+    "id": 4157421367,
+    "node_id": "PRRC_kwDOALaj4873zTc3",
+    "diff_hunk": "",
+    "path": "source",
+    "commit_id": "c86a6a20650775660c325f06857299596d2c8ab7",
+    "original_commit_id": "c86a6a20650775660c325f06857299596d2c8ab7",
+    "user": {
+      "login": "nicolo-ribaudo",
+      "id": 7000710,
+      "node_id": "MDQ6VXNlcjcwMDA3MTA=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7000710?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nicolo-ribaudo",
+      "html_url": "https://github.com/nicolo-ribaudo",
+      "followers_url": "https://api.github.com/users/nicolo-ribaudo/followers",
+      "following_url": "https://api.github.com/users/nicolo-ribaudo/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nicolo-ribaudo/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nicolo-ribaudo/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nicolo-ribaudo/subscriptions",
+      "organizations_url": "https://api.github.com/users/nicolo-ribaudo/orgs",
+      "repos_url": "https://api.github.com/users/nicolo-ribaudo/repos",
+      "events_url": "https://api.github.com/users/nicolo-ribaudo/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nicolo-ribaudo/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The _disentangle_ steps were introduced in the original `onclose` PR, but it's nice to have a dfn for the various places that disentangle ports.",
+    "created_at": "2026-10-01T15:45:09Z",
+    "updated_at": "2026-10-01T15:50:00Z",
+    "html_url": "https://github.com/whatwg/html/pull/13016#discussion_r4157421367",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/13016",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/4157421367"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/13016#discussion_r4157421367"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/13016"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4157421367/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 134551,
+    "original_line": 134551,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 1,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4164084835",
+    "pull_request_review_id": 5389742964,
+    "id": 4164084835,
+    "node_id": "PRRC_kwDOALaj4874MuRj",
+    "diff_hunk": "@@ -134812,20 +134754,38 @@ dictionary <dfn dictionary>StructuredSerializeOptions</dfn> {\n   </div>\n \n \n+  <h4>Broadcasting to many ports</h4>\n+\n+  <!-- NON-NORMATIVE SECTION -->\n+\n+  <p>Broadcasting to many ports is in principle relatively simple: keep an array of\n+  <code>MessagePort</code> objects to send messages to, and iterate through the array to send a\n+  message. However, this has one rather unfortunate effect: it prevents the ports from being garbage\n+  collected, even if the other side has gone away. To avoid this problem, implement a simple\n+  protocol whereby the other side acknowledges it still exists. If it doesn't do so after a certain\n+  amount of time, assume it's gone, close the <code>MessagePort</code> object, and let it be garbage\n+  collected.</p>\n+\n+\n   <h4 id=\"ports-and-garbage-collection\">Ports and garbage collection</h4>\n \n   <div w-nodev>\n   <div algorithm>\n-  <p>When a <code>MessagePort</code> object <var>o</var> is garbage collected, if <var>o</var> is\n-  entangled, then the user agent must <span data-x=\"disentangle\">disentangle</span>\n-  <var>o</var>.</p>\n+  <p>When a <code>MessagePort</code> object <var>o</var> is entangled, user agents must either act\n+  as if <var>o</var>'s entangled <code>MessagePort</code> object has a strong reference to\n+  <var>o</var>, or as if <var>o</var>'s <span>relevant global object</span> has a strong reference\n+  to <var>o</var>.</p>\n   </div>\n \n-  <div algorithm>\n-  <p>When a <code>MessagePort</code> object <var>o</var> is entangled and <code\n-  data-x=\"event-message\">message</code> or <code data-x=\"event-messageerror\">messageerror</code>\n-  event listener is registered, user agents must act as if <var>o</var>'s entangled\n-  <code>MessagePort</code> object has a strong reference to <var>o</var>.</p>\n+  <div class=\"note\">\n+",
+    "path": "source",
+    "commit_id": "c86a6a20650775660c325f06857299596d2c8ab7",
+    "original_commit_id": "c86a6a20650775660c325f06857299596d2c8ab7",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "We can drop this newline.",
+    "created_at": "2026-10-02T08:32:03Z",
+    "updated_at": "2026-10-02T08:32:21Z",
+    "html_url": "https://github.com/whatwg/html/pull/13016#discussion_r4164084835",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/13016",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/4164084835"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/13016#discussion_r4164084835"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/13016"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4164084835/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 134781,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 177,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4164085344",
+    "pull_request_review_id": 5389742964,
+    "id": 4164085344,
+    "node_id": "PRRC_kwDOALaj4874MuZg",
+    "diff_hunk": "@@ -134812,20 +134754,38 @@ dictionary <dfn dictionary>StructuredSerializeOptions</dfn> {\n   </div>\n \n \n+  <h4>Broadcasting to many ports</h4>\n+\n+  <!-- NON-NORMATIVE SECTION -->\n+\n+  <p>Broadcasting to many ports is in principle relatively simple: keep an array of\n+  <code>MessagePort</code> objects to send messages to, and iterate through the array to send a\n+  message. However, this has one rather unfortunate effect: it prevents the ports from being garbage\n+  collected, even if the other side has gone away. To avoid this problem, implement a simple\n+  protocol whereby the other side acknowledges it still exists. If it doesn't do so after a certain\n+  amount of time, assume it's gone, close the <code>MessagePort</code> object, and let it be garbage\n+  collected.</p>\n+\n+\n   <h4 id=\"ports-and-garbage-collection\">Ports and garbage collection</h4>\n \n   <div w-nodev>\n   <div algorithm>\n-  <p>When a <code>MessagePort</code> object <var>o</var> is garbage collected, if <var>o</var> is\n-  entangled, then the user agent must <span data-x=\"disentangle\">disentangle</span>\n-  <var>o</var>.</p>\n+  <p>When a <code>MessagePort</code> object <var>o</var> is entangled, user agents must either act\n+  as if <var>o</var>'s entangled <code>MessagePort</code> object has a strong reference to\n+  <var>o</var>, or as if <var>o</var>'s <span>relevant global object</span> has a strong reference\n+  to <var>o</var>.</p>\n   </div>\n \n-  <div algorithm>\n-  <p>When a <code>MessagePort</code> object <var>o</var> is entangled and <code\n-  data-x=\"event-message\">message</code> or <code data-x=\"event-messageerror\">messageerror</code>\n-  event listener is registered, user agents must act as if <var>o</var>'s entangled\n-  <code>MessagePort</code> object has a strong reference to <var>o</var>.</p>\n+  <div class=\"note\">\n+\n+   <p>Thus, a message port can be received, given an event listener, and then forgotten, and so long\n+   as that event listener could receive a message, the channel will be maintained.</p>\n+\n+   <p>Of course, if this was to occur on both sides of the channel, then both ports could be garbage\n+   collected, since they would not be reachable from live code, despite having a strong reference to\n+   each other.</p>\n+",
+    "path": "source",
+    "commit_id": "c86a6a20650775660c325f06857299596d2c8ab7",
+    "original_commit_id": "c86a6a20650775660c325f06857299596d2c8ab7",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Ditto.",
+    "created_at": "2026-10-02T08:32:09Z",
+    "updated_at": "2026-10-02T08:32:21Z",
+    "html_url": "https://github.com/whatwg/html/pull/13016#discussion_r4164085344",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/13016",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/4164085344"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/13016#discussion_r4164085344"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/13016"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4164085344/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 134788,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 184,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4164694353",
+    "pull_request_review_id": 5390514137,
+    "id": 4164694353,
+    "node_id": "PRRC_kwDOALaj4874PDFR",
+    "diff_hunk": "@@ -134812,20 +134754,38 @@ dictionary <dfn dictionary>StructuredSerializeOptions</dfn> {\n   </div>\n \n \n+  <h4>Broadcasting to many ports</h4>\n+\n+  <!-- NON-NORMATIVE SECTION -->\n+\n+  <p>Broadcasting to many ports is in principle relatively simple: keep an array of\n+  <code>MessagePort</code> objects to send messages to, and iterate through the array to send a\n+  message. However, this has one rather unfortunate effect: it prevents the ports from being garbage\n+  collected, even if the other side has gone away. To avoid this problem, implement a simple\n+  protocol whereby the other side acknowledges it still exists. If it doesn't do so after a certain\n+  amount of time, assume it's gone, close the <code>MessagePort</code> object, and let it be garbage\n+  collected.</p>\n+\n+\n   <h4 id=\"ports-and-garbage-collection\">Ports and garbage collection</h4>\n \n   <div w-nodev>\n   <div algorithm>\n-  <p>When a <code>MessagePort</code> object <var>o</var> is garbage collected, if <var>o</var> is\n-  entangled, then the user agent must <span data-x=\"disentangle\">disentangle</span>\n-  <var>o</var>.</p>\n+  <p>When a <code>MessagePort</code> object <var>o</var> is entangled, user agents must either act\n+  as if <var>o</var>'s entangled <code>MessagePort</code> object has a strong reference to\n+  <var>o</var>, or as if <var>o</var>'s <span>relevant global object</span> has a strong reference\n+  to <var>o</var>.</p>\n   </div>\n \n-  <div algorithm>\n-  <p>When a <code>MessagePort</code> object <var>o</var> is entangled and <code\n-  data-x=\"event-message\">message</code> or <code data-x=\"event-messageerror\">messageerror</code>\n-  event listener is registered, user agents must act as if <var>o</var>'s entangled\n-  <code>MessagePort</code> object has a strong reference to <var>o</var>.</p>\n+  <div class=\"note\">\n+",
+    "path": "source",
+    "commit_id": "c86a6a20650775660c325f06857299596d2c8ab7",
+    "original_commit_id": "c86a6a20650775660c325f06857299596d2c8ab7",
+    "user": {
+      "login": "nicolo-ribaudo",
+      "id": 7000710,
+      "node_id": "MDQ6VXNlcjcwMDA3MTA=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7000710?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/nicolo-ribaudo",
+      "html_url": "https://github.com/nicolo-ribaudo",
+      "followers_url": "https://api.github.com/users/nicolo-ribaudo/followers",
+      "following_url": "https://api.github.com/users/nicolo-ribaudo/following{/other_user}",
+      "gists_url": "https://api.github.com/users/nicolo-ribaudo/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/nicolo-ribaudo/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/nicolo-ribaudo/subscriptions",
+      "organizations_url": "https://api.github.com/users/nicolo-ribaudo/orgs",
+      "repos_url": "https://api.github.com/users/nicolo-ribaudo/repos",
+      "events_url": "https://api.github.com/users/nicolo-ribaudo/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/nicolo-ribaudo/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done",
+    "created_at": "2026-10-02T09:57:06Z",
+    "updated_at": "2026-10-02T09:57:06Z",
+    "html_url": "https://github.com/whatwg/html/pull/13016#discussion_r4164694353",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/13016",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/4164694353"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/13016#discussion_r4164694353"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/13016"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/4164694353/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 134781,
+    "side": "RIGHT",
+    "in_reply_to_id": 4164084835,
+    "author_association": "MEMBER",
+    "original_position": 177,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

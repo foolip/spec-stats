@@ -1,0 +1,644 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/502389384",
+    "pull_request_review_id": 505621447,
+    "id": 502389384,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDUwMjM4OTM4NA==",
+    "diff_hunk": "@@ -93734,10 +93749,8 @@ document.body.appendChild(frame)</code></pre>\n    <li><p>Create a new <span>HTML parser</span> and associate it with <var>document</var>. This is a\n    <dfn>script-created parser</dfn> (meaning that it can be closed by the <code\n    data-x=\"dom-document-open\">document.open()</code> and <code\n-   data-x=\"dom-document-close\">document.close()</code> methods, and that the tokenizer will wait for\n-   an explicit call to <code data-x=\"dom-document-close\">document.close()</code> before emitting an\n-   end-of-file token). The encoding <span data-x=\"concept-encoding-confidence\">confidence</span> is\n-   <i>irrelevant</i>.</p></li>",
+    "path": "source",
+    "commit_id": "d81be9ef76d6fc6f36d1f8c5f902d37418ceba37",
+    "original_commit_id": "58b9d4e2845bc76a2ff132323bcb8bc522263990",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Why did you change this? Not sure it's wrong to remove that, but for an editorial change...",
+    "created_at": "2020-10-09T12:22:54Z",
+    "updated_at": "2020-12-02T00:49:31Z",
+    "html_url": "https://github.com/whatwg/html/pull/5874#discussion_r502389384",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/5874",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/502389384"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/5874#discussion_r502389384"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/5874"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/502389384/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 93740,
+    "side": "LEFT",
+    "author_association": "MEMBER",
+    "original_position": 134,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/502389784",
+    "pull_request_review_id": 505621447,
+    "id": 502389784,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDUwMjM4OTc4NA==",
+    "diff_hunk": "@@ -93813,13 +93826,13 @@ document.body.appendChild(frame)</code></pre>\n    <li><p>If there is no <span>script-created parser</span> associated with the document, then\n    return.</p></li>\n \n-   <li><p>Insert an <span>explicit \"EOF\" character</span> at the end of the parser's <span>input\n-   stream</span>.</p></li>\n+   <li><p><span data-x=\"I/O queue push\">Push</span> <span>end-of-queue</span> into the parser's\n+   <span>input stream</span>.</p></li>\n \n    <li><p>If there is a <span>pending parsing-blocking script</span>, then return.</p></li>\n \n    <li><p>Run the tokenizer, processing resulting tokens as they are emitted, and stopping when the\n-   tokenizer reaches the <span>explicit \"EOF\" character</span> or <span data-x=\"spin the event\n+   tokenizer reaches the <span>end-of-queue</span> item or <span data-x=\"spin the event",
+    "path": "source",
+    "commit_id": "d81be9ef76d6fc6f36d1f8c5f902d37418ceba37",
+    "original_commit_id": "58b9d4e2845bc76a2ff132323bcb8bc522263990",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Perhaps s/the// and s/item//.",
+    "created_at": "2020-10-09T12:23:38Z",
+    "updated_at": "2020-12-02T00:49:31Z",
+    "html_url": "https://github.com/whatwg/html/pull/5874#discussion_r502389784",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/5874",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/502389784"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/5874#discussion_r502389784"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/5874"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/502389784/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 93835,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 153,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/502391541",
+    "pull_request_review_id": 505621447,
+    "id": 502391541,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDUwMjM5MTU0MQ==",
+    "diff_hunk": "@@ -103103,10 +103118,15 @@ dictionary <dfn>StorageEventInit</dfn> : <span>EventInit</span> {\n   <span data-x=\"dynamic markup insertion\">it can also come from script</span> running in the user\n   agent, e.g. using the <code data-x=\"dom-document-write\">document.write()</code> API.</p>\n \n-  <p id=\"nestedParsing\">There is only one set of states for the tokenizer stage and the tree\n-  construction stage, but the tree construction stage is reentrant, meaning that while the tree\n-  construction stage is handling one token, the tokenizer might be resumed, causing further tokens\n-  to be emitted and processed before the first token's processing is complete.</p>\n+  <p>The decoding of the <span>input byte stream</span> into scalar values, and the\n+  <span>tokenization</span> and <span>tree construction</span> stages, must happen <span>in\n+  parallel</span> with the <span>event loop</span> and with each other.</p>\n+\n+  <p id=\"nestedParsing\">The tokenizer stage and the tree construction stage must run on the same\n+  thread and share one single set of states, but the tree construction stage is reentrant, meaning",
+    "path": "source",
+    "commit_id": "d81be9ef76d6fc6f36d1f8c5f902d37418ceba37",
+    "original_commit_id": "58b9d4e2845bc76a2ff132323bcb8bc522263990",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I don't think it's appropriate to require this. Implementations should be free to implement an HTML parser however they wish, as long as the end result is equivalent. (The statement this replaces was a statement of fact and didn't contain requirements so this also doesn't seem like an editorial change.)",
+    "created_at": "2020-10-09T12:26:53Z",
+    "updated_at": "2020-12-02T00:49:31Z",
+    "html_url": "https://github.com/whatwg/html/pull/5874#discussion_r502391541",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/5874",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/502391541"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/5874#discussion_r502391541"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/5874"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/502391541/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 103126,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 247,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/502394837",
+    "pull_request_review_id": 505621447,
+    "id": 502394837,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDUwMjM5NDgzNw==",
+    "diff_hunk": "@@ -104627,23 +104669,33 @@ dictionary <dfn>StorageEventInit</dfn> : <span>EventInit</span> {\n   the <span>tokenization</span> stage.</p>\n \n   <p>The <dfn>next input character</dfn> is the first character in the <span>input stream</span>\n-  that has not yet been <dfn data-x=\"\">consumed</dfn> or explicitly ignored by the requirements in\n-  this section. Initially, the <i data-x=\"next input character\">next input character</i> is the\n-  first character in the input. The <dfn>current input character</dfn> is the last character to have\n-  been <i>consumed</i>.</p>\n+  that has not yet been <span data-x=\"consume next input character\">consumed</span> or explicitly\n+  ignored by the requirements in this section. Initially, the <span\n+  data-x=\"next input character\">next input character</span> is the first character in the input.</p>\n+\n+  <p>To <dfn data-x=\"consume next input character\">consume</dfn> the <span>next input\n+  character</span>:</p>\n+\n+  <ol>\n+   <li><p>Let <var>character</var> be the result of <span data-x=\"I/O queue read\">reading</span> one\n+   code point from the <span>input stream</span>.</p></li>\n+\n+   <li><p>If <var>character</var> is to be ignored by the preprocessing rules above, return the\n+   result of <span data-x=\"consume next input character\">consuming</span> the <span>next input\n+   character</span>. Otherwise, if <var>character</var> is to be replaced by the preprocessing rules\n+   above, set <var>character</var> to its replacement.</p></li>\n+\n+   <li><p>Return <var>character</var>. <var>character</var> is now the <dfn>current input\n+   character</dfn>.</p>\n+  </ol>",
+    "path": "source",
+    "commit_id": "d81be9ef76d6fc6f36d1f8c5f902d37418ceba37",
+    "original_commit_id": "58b9d4e2845bc76a2ff132323bcb8bc522263990",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I guess as a follow-up we could inline normalizing newlines, but that's probably best done separately.",
+    "created_at": "2020-10-09T12:33:08Z",
+    "updated_at": "2020-12-02T00:49:31Z",
+    "html_url": "https://github.com/whatwg/html/pull/5874#discussion_r502394837",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/5874",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/502394837"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/5874#discussion_r502394837"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/5874"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/502394837/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 104690,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 500,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/502438477",
+    "pull_request_review_id": 505687676,
+    "id": 502438477,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDUwMjQzODQ3Nw==",
+    "diff_hunk": "@@ -93734,10 +93749,8 @@ document.body.appendChild(frame)</code></pre>\n    <li><p>Create a new <span>HTML parser</span> and associate it with <var>document</var>. This is a\n    <dfn>script-created parser</dfn> (meaning that it can be closed by the <code\n    data-x=\"dom-document-open\">document.open()</code> and <code\n-   data-x=\"dom-document-close\">document.close()</code> methods, and that the tokenizer will wait for\n-   an explicit call to <code data-x=\"dom-document-close\">document.close()</code> before emitting an\n-   end-of-file token). The encoding <span data-x=\"concept-encoding-confidence\">confidence</span> is\n-   <i>irrelevant</i>.</p></li>",
+    "path": "source",
+    "commit_id": "d81be9ef76d6fc6f36d1f8c5f902d37418ceba37",
+    "original_commit_id": "58b9d4e2845bc76a2ff132323bcb8bc522263990",
+    "user": {
+      "login": "andreubotella",
+      "id": 8225977,
+      "node_id": "MDQ6VXNlcjgyMjU5Nzc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8225977?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/andreubotella",
+      "html_url": "https://github.com/andreubotella",
+      "followers_url": "https://api.github.com/users/andreubotella/followers",
+      "following_url": "https://api.github.com/users/andreubotella/following{/other_user}",
+      "gists_url": "https://api.github.com/users/andreubotella/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/andreubotella/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/andreubotella/subscriptions",
+      "organizations_url": "https://api.github.com/users/andreubotella/orgs",
+      "repos_url": "https://api.github.com/users/andreubotella/repos",
+      "events_url": "https://api.github.com/users/andreubotella/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/andreubotella/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I thought that the original text here mentioned the \"explicit EOF\" in the input stream, but it instead mentions the EOF token emitten by the tokenizer. Maybe I misread it back when making the change. I'll change it back then.",
+    "created_at": "2020-10-09T13:46:49Z",
+    "updated_at": "2020-12-02T00:49:31Z",
+    "html_url": "https://github.com/whatwg/html/pull/5874#discussion_r502438477",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/5874",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/502438477"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/5874#discussion_r502438477"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/5874"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/502438477/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 93740,
+    "side": "LEFT",
+    "in_reply_to_id": 502389384,
+    "author_association": "MEMBER",
+    "original_position": 134,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/502456773",
+    "pull_request_review_id": 505711969,
+    "id": 502456773,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDUwMjQ1Njc3Mw==",
+    "diff_hunk": "@@ -103103,10 +103118,15 @@ dictionary <dfn>StorageEventInit</dfn> : <span>EventInit</span> {\n   <span data-x=\"dynamic markup insertion\">it can also come from script</span> running in the user\n   agent, e.g. using the <code data-x=\"dom-document-write\">document.write()</code> API.</p>\n \n-  <p id=\"nestedParsing\">There is only one set of states for the tokenizer stage and the tree\n-  construction stage, but the tree construction stage is reentrant, meaning that while the tree\n-  construction stage is handling one token, the tokenizer might be resumed, causing further tokens\n-  to be emitted and processed before the first token's processing is complete.</p>\n+  <p>The decoding of the <span>input byte stream</span> into scalar values, and the\n+  <span>tokenization</span> and <span>tree construction</span> stages, must happen <span>in\n+  parallel</span> with the <span>event loop</span> and with each other.</p>\n+\n+  <p id=\"nestedParsing\">The tokenizer stage and the tree construction stage must run on the same\n+  thread and share one single set of states, but the tree construction stage is reentrant, meaning",
+    "path": "source",
+    "commit_id": "d81be9ef76d6fc6f36d1f8c5f902d37418ceba37",
+    "original_commit_id": "58b9d4e2845bc76a2ff132323bcb8bc522263990",
+    "user": {
+      "login": "andreubotella",
+      "id": 8225977,
+      "node_id": "MDQ6VXNlcjgyMjU5Nzc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8225977?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/andreubotella",
+      "html_url": "https://github.com/andreubotella",
+      "followers_url": "https://api.github.com/users/andreubotella/followers",
+      "following_url": "https://api.github.com/users/andreubotella/following{/other_user}",
+      "gists_url": "https://api.github.com/users/andreubotella/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/andreubotella/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/andreubotella/subscriptions",
+      "organizations_url": "https://api.github.com/users/andreubotella/orgs",
+      "repos_url": "https://api.github.com/users/andreubotella/repos",
+      "events_url": "https://api.github.com/users/andreubotella/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/andreubotella/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Most algorithms in the web platform, whether they use the word \"must\" or not, have a \"must\" conformance level and are still understood to only apply to anything observable. But sure, this text doesn't make it clear that the difference is not observable (the XXX note below does, but I guess it's best not to depend on it for the correct interpretation).\r\n\r\n> The algorithms below describe the decoding of the input byte stream into scalar values and the tokenization stage as happening in parallel with the event loop and with each other, with the tokenization and tree construction stages running on the same thread. This is, however, not observable to user code, so implementers may run the HTML parser entirely on the event loop.",
+    "created_at": "2020-10-09T14:13:43Z",
+    "updated_at": "2020-12-02T00:49:31Z",
+    "html_url": "https://github.com/whatwg/html/pull/5874#discussion_r502456773",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/5874",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/502456773"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/5874#discussion_r502456773"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/5874"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/502456773/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 103126,
+    "side": "RIGHT",
+    "in_reply_to_id": 502391541,
+    "author_association": "MEMBER",
+    "original_position": 247,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/502482860",
+    "pull_request_review_id": 505745894,
+    "id": 502482860,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDUwMjQ4Mjg2MA==",
+    "diff_hunk": "@@ -104627,23 +104669,33 @@ dictionary <dfn>StorageEventInit</dfn> : <span>EventInit</span> {\n   the <span>tokenization</span> stage.</p>\n \n   <p>The <dfn>next input character</dfn> is the first character in the <span>input stream</span>\n-  that has not yet been <dfn data-x=\"\">consumed</dfn> or explicitly ignored by the requirements in\n-  this section. Initially, the <i data-x=\"next input character\">next input character</i> is the\n-  first character in the input. The <dfn>current input character</dfn> is the last character to have\n-  been <i>consumed</i>.</p>\n+  that has not yet been <span data-x=\"consume next input character\">consumed</span> or explicitly\n+  ignored by the requirements in this section. Initially, the <span\n+  data-x=\"next input character\">next input character</span> is the first character in the input.</p>\n+\n+  <p>To <dfn data-x=\"consume next input character\">consume</dfn> the <span>next input\n+  character</span>:</p>\n+\n+  <ol>\n+   <li><p>Let <var>character</var> be the result of <span data-x=\"I/O queue read\">reading</span> one\n+   code point from the <span>input stream</span>.</p></li>\n+\n+   <li><p>If <var>character</var> is to be ignored by the preprocessing rules above, return the\n+   result of <span data-x=\"consume next input character\">consuming</span> the <span>next input\n+   character</span>. Otherwise, if <var>character</var> is to be replaced by the preprocessing rules\n+   above, set <var>character</var> to its replacement.</p></li>\n+\n+   <li><p>Return <var>character</var>. <var>character</var> is now the <dfn>current input\n+   character</dfn>.</p>\n+  </ol>",
+    "path": "source",
+    "commit_id": "d81be9ef76d6fc6f36d1f8c5f902d37418ceba37",
+    "original_commit_id": "58b9d4e2845bc76a2ff132323bcb8bc522263990",
+    "user": {
+      "login": "andreubotella",
+      "id": 8225977,
+      "node_id": "MDQ6VXNlcjgyMjU5Nzc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8225977?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/andreubotella",
+      "html_url": "https://github.com/andreubotella",
+      "followers_url": "https://api.github.com/users/andreubotella/followers",
+      "following_url": "https://api.github.com/users/andreubotella/following{/other_user}",
+      "gists_url": "https://api.github.com/users/andreubotella/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/andreubotella/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/andreubotella/subscriptions",
+      "organizations_url": "https://api.github.com/users/andreubotella/orgs",
+      "repos_url": "https://api.github.com/users/andreubotella/repos",
+      "events_url": "https://api.github.com/users/andreubotella/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/andreubotella/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Agreed.",
+    "created_at": "2020-10-09T14:49:40Z",
+    "updated_at": "2020-12-02T00:49:31Z",
+    "html_url": "https://github.com/whatwg/html/pull/5874#discussion_r502482860",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/5874",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/502482860"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/5874#discussion_r502482860"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/5874"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/502482860/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 104690,
+    "side": "RIGHT",
+    "in_reply_to_id": 502394837,
+    "author_association": "MEMBER",
+    "original_position": 500,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/503069272",
+    "pull_request_review_id": 506329990,
+    "id": 503069272,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDUwMzA2OTI3Mg==",
+    "diff_hunk": "@@ -103769,13 +103823,14 @@ dictionary <dfn>StorageEventInit</dfn> : <span>EventInit</span> {\n    </li>\n \n    <li>\n-    <p>The user agent may wait for more bytes of the resource to be available, either in this step\n-    or at any later step in this algorithm. For instance, a user agent might wait 500ms or 1024\n-    bytes, whichever came first. In general preparsing the source to find the encoding improves\n-    performance, as it reduces the need to throw away the data structures used when parsing upon\n-    finding the encoding information. However, if the user agent delays too long to obtain data to\n-    determine the encoding, then the cost of the delay could outweigh any performance improvements\n-    from the preparse.</p>\n+    <p>Let <var>prefix</var> be the result of <span data-x=\"I/O queue peek\">peeking</span> an\n+    <span>implementation-defined</span> number of bytes from the document's <span>input byte\n+    stream</span>, converted to a byte sequence. For instance, a user agent might peek however many\n+    bytes come in from the network in 500ms, up to a maximum of 1024 bytes. In general preparsing\n+    the source to find the encoding improves performance, as it reduces the need to throw away the\n+    data structures used when parsing upon finding the encoding information. However, if the user\n+    agent delays too long to obtain data to determine the encoding, then the cost of the delay could\n+    outweigh any performance improvements from the preparse.</p>",
+    "path": "source",
+    "commit_id": "d81be9ef76d6fc6f36d1f8c5f902d37418ceba37",
+    "original_commit_id": "e38950a291f1fc8557ce3a46dcdfcc01e5d2d9cd",
+    "user": {
+      "login": "andreubotella",
+      "id": 8225977,
+      "node_id": "MDQ6VXNlcjgyMjU5Nzc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8225977?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/andreubotella",
+      "html_url": "https://github.com/andreubotella",
+      "followers_url": "https://api.github.com/users/andreubotella/followers",
+      "following_url": "https://api.github.com/users/andreubotella/following{/other_user}",
+      "gists_url": "https://api.github.com/users/andreubotella/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/andreubotella/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/andreubotella/subscriptions",
+      "organizations_url": "https://api.github.com/users/andreubotella/orgs",
+      "repos_url": "https://api.github.com/users/andreubotella/repos",
+      "events_url": "https://api.github.com/users/andreubotella/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/andreubotella/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "As @domenic pointed out to me in #5913, the way the spec is written right now, it's perfectly valid for implementations to use 0 bytes for the prescan and then do anything, up to implementing their own spec-incompatible prescan, in the \"autodetect\" stage. So this change, which prevents that kind of interpretation, is clearly not editorial, though it might be still worth including separately.",
+    "created_at": "2020-10-12T06:41:46Z",
+    "updated_at": "2020-12-02T00:49:31Z",
+    "html_url": "https://github.com/whatwg/html/pull/5874#discussion_r503069272",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/5874",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/503069272"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/5874#discussion_r503069272"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/5874"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/503069272/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 103833,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 354,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/726169648",
+    "pull_request_review_id": 776305122,
+    "id": 726169648,
+    "node_id": "PRRC_kwDOALaj484rSHgw",
+    "diff_hunk": "@@ -102731,6 +102754,33 @@ dictionary <dfn>StorageEventInit</dfn> : <span>EventInit</span> {\n   <p>To handle these cases, parsers have a <dfn>script nesting level</dfn>, which must be initially\n   set to zero, and a <dfn>parser pause flag</dfn>, which must be initially set to false.</p>\n \n+  <div class=\"XXX\">\n+   <p>The tree constructor stage modifies the DOM, which can only be modified from the event loop,\n+   yet that stage must run in parallel. While this is sorted out, implementations may act in one of\n+   two ways:</p>\n+\n+   <ul>\n+    <li><p>Act as if <span data-x=\"I/O queue push\">pushing</span> an item onto the <span>input byte\n+    stream</span> or onto the <span>input stream</span> would instead run the corresponding steps of\n+    the parser immediately. Under this model, the parser's reentrant behavior would work exactly as\n+    expected from the remainder of the spec.</p></li>\n+\n+    <li>\n+     <p>Act as if the tree constructor stage queued tasks on the event loop that cause the\n+     corresponding modifications on the DOM. In order to prevent user code from observing states of\n+     the DOM that couldn't be observed from the single-threaded model, no more than one task can be\n+     queued during the processing of each token. Additionally, if the <span>insertion point</span>\n+     is just before the <span>next input character</span>, consuming it must block until one or more\n+     tokens are inserted before it, so that data coming in from the network is only processed after\n+     script-inserted data (or alternatively, perform speculative parsing).</p>\n+\n+     <p>In this model, most of the processing for the <a href=\"#scriptEndTag\"><code>script</code>\n+     end tag</a> would take place on the event loop and, and so calling <code",
+    "path": "source",
+    "commit_id": "d81be9ef76d6fc6f36d1f8c5f902d37418ceba37",
+    "original_commit_id": "d81be9ef76d6fc6f36d1f8c5f902d37418ceba37",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n     end tag</a> would take place on the event loop, so calling <code\r\n```",
+    "created_at": "2021-10-11T14:28:20Z",
+    "updated_at": "2021-10-11T14:43:40Z",
+    "html_url": "https://github.com/whatwg/html/pull/5874#discussion_r726169648",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/5874",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/726169648"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/5874#discussion_r726169648"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/5874"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/726169648/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 102778,
+    "original_line": 102778,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 261,
+    "position": 261,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

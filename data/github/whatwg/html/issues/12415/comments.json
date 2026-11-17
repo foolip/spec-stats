@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/4392722417",
+    "html_url": "https://github.com/whatwg/html/issues/12415#issuecomment-4392722417",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/12415",
+    "id": 4392722417,
+    "node_id": "IC_kwDOALaj488AAAABBdOf8Q",
+    "user": {
+      "login": "shannonbooth",
+      "id": 35911232,
+      "node_id": "MDQ6VXNlcjM1OTExMjMy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/35911232?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/shannonbooth",
+      "html_url": "https://github.com/shannonbooth",
+      "followers_url": "https://api.github.com/users/shannonbooth/followers",
+      "following_url": "https://api.github.com/users/shannonbooth/following{/other_user}",
+      "gists_url": "https://api.github.com/users/shannonbooth/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/shannonbooth/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/shannonbooth/subscriptions",
+      "organizations_url": "https://api.github.com/users/shannonbooth/orgs",
+      "repos_url": "https://api.github.com/users/shannonbooth/repos",
+      "events_url": "https://api.github.com/users/shannonbooth/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/shannonbooth/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-05-06T22:41:25Z",
+    "updated_at": "2026-05-06T22:42:20Z",
+    "body": "I'm not quite too sure that I didn't consider this very much earlier, but an alternative fix that is much simpler in one regard and I think illustrates the issue more clearly would be to add an explicit \"active document\" member to [browsing context](https://html.spec.whatwg.org/multipage/document-sequences.html#browsing-context) since then a \"browsing context's active document\" can be changed to no longer look at the active window (where the reuse case breaks intended behavior).\n\nThis would just change [\"make active\"](https://html.spec.whatwg.org/multipage/browsing-the-web.html#make-active) with an extra step (paired against the active window `[[Window]]` setting) of \n\n> 2. **Set document's [browsing context](https://html.spec.whatwg.org/multipage/document-sequences.html#concept-document-bc)'s active document internal slot value to document**.\n> 3. Set document's [browsing context](https://html.spec.whatwg.org/multipage/document-sequences.html#concept-document-bc)'s [WindowProxy](https://html.spec.whatwg.org/multipage/nav-history-apis.html#windowproxy)'s [[[Window]]](https://html.spec.whatwg.org/multipage/nav-history-apis.html#concept-windowproxy-window) internal slot value to window.\n\nThough, I am still trying to understand how making this type of split ties into, for example, the event loop, such as in \"[queue a global task](https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-global-task)\". If making the above change, `associated_document = new document` and `active_document = old document` which might be problematic since a [runnable task](https://html.spec.whatwg.org/multipage/webappapis.html#definitions-3:concept-task-document) requires active document. That seems like it would be wrong for something like \"Queue a global task on the navigation and traversal task source given navigable's active window\" since active window's associated document is not active yet...\n\nMaybe deferring setting the associated document is less messy than I first thought. It maintains the invariant that active window's associated document is always an active document...",
+    "author_association": "MEMBER",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/4392722417/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

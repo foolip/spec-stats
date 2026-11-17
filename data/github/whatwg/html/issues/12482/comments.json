@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/4926596042",
+    "html_url": "https://github.com/whatwg/html/issues/12482#issuecomment-4926596042",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/12482",
+    "id": 4926596042,
+    "node_id": "IC_kwDOALaj488AAAABJaXjyg",
+    "user": {
+      "login": "css-meeting-bot",
+      "id": 27466577,
+      "node_id": "MDQ6VXNlcjI3NDY2NTc3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/27466577?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/css-meeting-bot",
+      "html_url": "https://github.com/css-meeting-bot",
+      "followers_url": "https://api.github.com/users/css-meeting-bot/followers",
+      "following_url": "https://api.github.com/users/css-meeting-bot/following{/other_user}",
+      "gists_url": "https://api.github.com/users/css-meeting-bot/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/css-meeting-bot/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/css-meeting-bot/subscriptions",
+      "organizations_url": "https://api.github.com/users/css-meeting-bot/orgs",
+      "repos_url": "https://api.github.com/users/css-meeting-bot/repos",
+      "events_url": "https://api.github.com/users/css-meeting-bot/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/css-meeting-bot/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-07-09T15:10:46Z",
+    "updated_at": "2026-07-09T15:10:46Z",
+    "body": "The CSS Working Group just discussed `Dialog requestClose() getEnabledState behaviour differs between spec and implementations`, and agreed to the following:\n\n* `ACTION: lwarlow to update the spec`\n* `RESOLVED: Make the spec match Chrome / Firefox`\n\n<details><summary>The full IRC log of that discussion</summary>\n&lt;emilio> lwarlow: I've been implementing this in WebKit, and I came by a situation where chrome + firefox behave differently to the spec<br>\n&lt;emilio> ... specific about dialog closeby and closewatcher<br>\n&lt;emilio> ... safari is correct to the extent it doesn't use closewatcher<br>\n&lt;emilio> ... matches the spec kind of by accident<br>\n&lt;emilio> ... main issue with the spec is that's IMO badly written<br>\n&lt;emilio> ... different to how browsers have implemented it<br>\n&lt;emilio> ... the spec uses effectively a callback to switch spec<br>\n&lt;emilio> ... the browsers have an enabled flag that they update at various points<br>\n&lt;emilio> ... this causes that mismatch<br>\n&lt;emilio> ... happy to go with Chrome / FF behavior<br>\n&lt;emilio> ... I think if we update the spec to match that seems fine?<br>\n&lt;emilio> ... curious if keithamus or others have thoughts<br>\n&lt;emilio> keithamus: my thought is we want to add a member variable that's true or false<br>\n&lt;emilio> ... I think I raised an issue a long time ago<br>\n&lt;emilio> ... which is 11267<br>\n&lt;emilio> ... I still maintain that opinion, the spec should be changed<br>\n&lt;emilio> lwarlow: ok, happy to write a PR<br>\n&lt;bradk> present<br>\n&lt;emilio> ... effectively instead of having a \"get enabled state\" the watcher should have a boolean<br>\n&lt;emilio> ... should be easy to write<br>\n&lt;emilio> ... happy with that<br>\n&lt;emilio> keithamus: how's the behavior observably different?<br>\n&lt;emilio> lwarlow: in the example in the spec, the dialog should be closed, but in browsers it isn't<br>\n&lt;emilio> ... relatively weird thing to do<br>\n&lt;emilio> ... because you remove the closedby attr the get enabled state boolean gets reset<br>\n&lt;emilio> ... the fix would be to check whether you're in a requestClose call... I think if requetClose isn't prevented we might want to close? But happy to go with updating the spec to match reality and then figure out changes<br>\n&lt;emilio> PROPOSED RESOLUTION: Make the spec match Chrome / Firefox<br>\n&lt;emilio> ACTION: lwarlow to update the spec<br>\n&lt;lwarlow> +1<br>\n&lt;emilio> RESOLVED: Make the spec match Chrome / Firefox<br>\n</details>\n",
+    "author_association": "NONE",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/4926596042/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

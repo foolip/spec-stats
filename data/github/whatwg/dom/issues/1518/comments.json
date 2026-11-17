@@ -1,0 +1,48 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/dom/issues/comments/6954195296",
+    "html_url": "https://github.com/whatwg/dom/pull/1518#issuecomment-6954195296",
+    "issue_url": "https://api.github.com/repos/whatwg/dom/issues/1518",
+    "id": 6954195296,
+    "node_id": "IC_kwDOAFUqXs8AAAABnoCZYA",
+    "user": {
+      "login": "noamr",
+      "id": 88566,
+      "node_id": "MDQ6VXNlcjg4NTY2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88566?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/noamr",
+      "html_url": "https://github.com/noamr",
+      "followers_url": "https://api.github.com/users/noamr/followers",
+      "following_url": "https://api.github.com/users/noamr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/noamr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/noamr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/noamr/subscriptions",
+      "organizations_url": "https://api.github.com/users/noamr/orgs",
+      "repos_url": "https://api.github.com/users/noamr/repos",
+      "events_url": "https://api.github.com/users/noamr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/noamr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-17T16:31:14Z",
+    "updated_at": "2026-11-17T16:31:14Z",
+    "body": "All items from this review have been resolved and applied:\n\n- D1: `active template`'s `attribute map` had no initial value, leaving an unpopulated struct undefined if read directly. Fixed in 2b0daeb.\n- D2: `insert` and `remove` exported `activeTemplate` and `activeTemplateStatus` without exporting `suppressObservers`, preventing external callers such as HTML's `prepare content patching` from linking `suppressObservers` by name. Fixed in c6e9934.\n- D3: `queue a mutation record` accepted a non-null `activeTemplate` with a null `activeTemplateStatus`, which would return a non-null `activeTemplateAttributes` alongside a null `activeTemplateStatus`. Fixed in 261c9e6.\n- D4: `active template`'s `attributes objects` map held strong references to `MutationObserver` keys across the lifetime of an open `<template for>`. Fixed in 4a9f0af.\n- D5: `MutationObserver-activeTemplateAttributeFilter.html`'s `childList: true` subtest passed even when `activeTemplateAttributeFilter` was unimplemented, and several spec branches lacked WPT coverage. Fixed in [6784583](https://github.com/web-platform-tests/wpt/commit/6784583a28966291f6e3c78b784bb8f45dadff75).\n- Q1: When the same `MutationObserver` matched a mutation through both a target registration and an ancestor `subtree: true` registration (or a transient registration) with different `activeTemplateAttributeFilter` lists, `queue a mutation record` overwrote the filter in arbitrary registration order, and re-calling `observe()` mid-patch ignored the updated filter on subsequent templates unless cached per template. Decided on option b (union matching `activeTemplateAttributeFilter` lists in reverse tree order and cache `activeTemplateAttributes` once per `(activeTemplate, observer)` from the first record queued for that observer); fixed in 8ecc1ae and [80edcfc](https://github.com/web-platform-tests/wpt/commit/80edcfc98ce4a36f07105ee9fbb4bc0d6e9ef22f).\n\n<details><summary>Reviewed commits</summary>\n\nReviewed at b6e28f4 on 3c53f93, together with whatwg/html#13181 at ce9e0be, with web-platform-tests/wpt#64641 at 41c938c, using spec-pr-review.\n</details>\n",
+    "author_association": "CONTRIBUTOR",
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/dom/issues/comments/6954195296/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

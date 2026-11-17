@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/4037067943",
+    "html_url": "https://github.com/whatwg/html/issues/11456#issuecomment-4037067943",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/11456",
+    "id": 4037067943,
+    "node_id": "IC_kwDOALaj487woMSn",
+    "user": {
+      "login": "bountyyfi",
+      "id": 198902004,
+      "node_id": "U_kgDOC9sA9A",
+      "avatar_url": "https://avatars.githubusercontent.com/u/198902004?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bountyyfi",
+      "html_url": "https://github.com/bountyyfi",
+      "followers_url": "https://api.github.com/users/bountyyfi/followers",
+      "following_url": "https://api.github.com/users/bountyyfi/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bountyyfi/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bountyyfi/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bountyyfi/subscriptions",
+      "organizations_url": "https://api.github.com/users/bountyyfi/orgs",
+      "repos_url": "https://api.github.com/users/bountyyfi/repos",
+      "events_url": "https://api.github.com/users/bountyyfi/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bountyyfi/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-03-11T07:27:28Z",
+    "updated_at": "2026-03-11T07:27:28Z",
+    "body": "Confirmed cross-browser reproduction on Chrome 145 and Firefox 148.0.2 (macOS), March 2026.\n\nClean PoC with confirmed code execution:\n```js\nconst d = document.createElement('div');\nd.appendChild(document.createComment('--><img src=x onerror=alert(1)><!--'));\nconst d2 = document.createElement('div');\ndocument.body.appendChild(d2);\nd2.innerHTML = d.innerHTML; // onerror fires\n```\n\nThe `-->` sequence in the comment data is not escaped during serialization. `d.innerHTML` produces:\n```\n<!----><img src=x onerror=alert(1)><!---->\n```\n\nRe-assigning to `d2.innerHTML` breaks the comment boundary and creates a live `<img>` element. The `onerror` handler executes. Confirmed with `alert(1)` popping in both browsers.\n\nThis differs slightly from the PoC in the issue - no `+=` on `document.body.innerHTML` needed. A simple detached div round-trip is sufficient to trigger code execution when the result is inserted into a live document node.\n\nAttack surface: any application that copies DOM via `innerHTML` round-trip where user-controlled data can influence comment node creation - Vue `v-if`/`v-for` anchors, React/Next.js Suspense boundaries (`$`/`/$` comment markers), Angular structural directives. DOMPurify 3.1.6 strips the `onerror` attribute but leaves the `<img>` element, so sanitizer pipelines that don't re-sanitize after deserialization remain at risk.",
+    "author_association": "NONE",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/4037067943/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

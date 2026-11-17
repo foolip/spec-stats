@@ -1,0 +1,73 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3967127042",
+    "pull_request_review_id": 5152787700,
+    "id": 3967127042,
+    "node_id": "PRRC_kwDOALaj487sdY4C",
+    "diff_hunk": "@@ -86428,6 +86310,41 @@ dictionary <dfn dictionary>CommandEventInit</dfn> : <span>EventInit</span> {\n   </ol>\n   </div>\n \n+  <div algorithm>\n+    <p>A focusable area <var>first</var> precedes a focusable area <var>second</var> in\n+    <dfn>focus scope order</dfn> if the following algorithm returns true:</p>\n+    <ol>\n+      <li><p>Let <var>owner</var> be the <span>focus navigation scope owner</span> of\n+      <var>first</var>.</p></li>\n+      <li>\n+        <p><span>Assert</span>: <var>owner</var> is the <span>focus navigation scope\n+        owner</span> of <var>second</var>.</p>\n+        <p class=\"note\">This algorithm is only intended to compare\n+        two elements with the same <span>focus navigation scope owner</span>.</p>\n+      </li>\n+      <li><p>Set <var>firstIsPopover</var> to false.</p></li>\n+      <li><p>If <var>first</var>'s <span>DOM anchor</span> is in the\n+      <span data-x=\"popover-showing-state\">popover showing\n+      state</span> and <var>first</var>'s <span>DOM anchor</span>'s <span>popover trigger</span>\n+      is <var>owner</var>, then set <var>firstIsPopover</var> to true.</p></li>\n+      <li><p>Set <var>secondIsPopover</var> to false.</p></li>\n+      <li><p>If <var>second</var>'s <span>DOM anchor</span> is in the\n+      <span data-x=\"popover-showing-state\">popover showing\n+      state</span> and <var>second</var>'s <span>DOM anchor</span>'s <span>popover trigger</span>\n+      is <var>owner</var>, then set <var>secondIsPopover</var> to true.</p></li>\n+      <li><p>If <var>firstIsPopover</var> is true and <var>secondIsPopover</var> is false,\n+      then return true.</p></li>\n+      <li><p>If <var>firstIsPopover</var> is false and <var>secondIsPopover</var> is true,\n+      then return false.</p></li>",
+    "path": "source",
+    "commit_id": "dffaf407505a3f1c3b83945f5aecc734cebdef60",
+    "original_commit_id": "dffaf407505a3f1c3b83945f5aecc734cebdef60",
+    "user": {
+      "login": "keithamus",
+      "id": 118266,
+      "node_id": "MDQ6VXNlcjExODI2Ng==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/118266?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/keithamus",
+      "html_url": "https://github.com/keithamus",
+      "followers_url": "https://api.github.com/users/keithamus/followers",
+      "following_url": "https://api.github.com/users/keithamus/following{/other_user}",
+      "gists_url": "https://api.github.com/users/keithamus/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/keithamus/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/keithamus/subscriptions",
+      "organizations_url": "https://api.github.com/users/keithamus/orgs",
+      "repos_url": "https://api.github.com/users/keithamus/repos",
+      "events_url": "https://api.github.com/users/keithamus/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/keithamus/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This might be able to be simplified to something like:\n\n- If second's DOM anchor is in the popover showing state and second's DOM anchor's popover trigger is owner, then:\n  - If firstIsPopover is false, return true.\n- Otherwise, if firstIsPopover is true\n  -  Return true.\n\nThis way you don't need the `secondIsPopover`.",
+    "created_at": "2026-09-09T10:07:00Z",
+    "updated_at": "2026-09-09T10:07:15Z",
+    "html_url": "https://github.com/whatwg/html/pull/12916#discussion_r3967127042",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/12916",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/3967127042"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/12916#discussion_r3967127042"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/12916"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/3967127042/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 86330,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 86338,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 1232,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

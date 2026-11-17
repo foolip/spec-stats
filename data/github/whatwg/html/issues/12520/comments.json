@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/4679263117",
+    "html_url": "https://github.com/whatwg/html/issues/12520#issuecomment-4679263117",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/12520",
+    "id": 4679263117,
+    "node_id": "IC_kwDOALaj488AAAABFufjjQ",
+    "user": {
+      "login": "noamr",
+      "id": 88566,
+      "node_id": "MDQ6VXNlcjg4NTY2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88566?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/noamr",
+      "html_url": "https://github.com/noamr",
+      "followers_url": "https://api.github.com/users/noamr/followers",
+      "following_url": "https://api.github.com/users/noamr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/noamr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/noamr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/noamr/subscriptions",
+      "organizations_url": "https://api.github.com/users/noamr/orgs",
+      "repos_url": "https://api.github.com/users/noamr/repos",
+      "events_url": "https://api.github.com/users/noamr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/noamr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-06-11T09:45:19Z",
+    "updated_at": "2026-06-11T09:45:19Z",
+    "body": "Notes from meeting:\n\nHTML Patching and APIs: Noam Rosenthal and Philip Jägenstedt reviewed the status of various Pull Requests, including template processing instructions and new JavaScript methods. Noam Rosenthal stated they are working through the PRs for positional methods, while open issues regarding template PRs and pseudo-attribute parsing remain. They discussed the need to finalize Mozilla's position on streaming methods, which has been pending for at least one month.\nResponsive Iframe Meta Tag Proposal: Noam Rosenthal introduced a proposal (PR 12444) to add a meta tag for responsive embedded sizing, which serves as an opt-in for parents to resize iframes. Luke questioned if domain-specific opt-ins are necessary, but Simon Pieters noted that CSP frame ancestors already provide existing protections. The group discussed whether the meta tag provides sufficient control over cross-origin information access, with Noam Rosenthal comparing the functionality to an explicit post-message opt-in.\n\nResponsive Iframe Data Leakage Concerns: The group discussed potential privacy risks, specifically whether responsive iframes could allow an origin to infer information about a user (e.g., whether they are logged into a site) based on size changes. Emilio Cobos Álvarez noted that the CSS working group previously discussed these risks and deemed them manageable if the parent page manages the sizing. Simon Pieters raised concerns regarding how to handle navigations and potential data leakage between pages.\n\nResponsive Iframe Implementation and Documentation: Luke suggested that browsers should provide console warnings if an iframe opts into this feature without appropriate frame ancestor restrictions. Noam Rosenthal committed to updating the security explainer for the PR and consulting with Koji to ensure privacy concerns are addressed. Philip Jägenstedt clarified that fence frames, while still present in Chromium code, are not currently being actively developed.\n\nConnection Allow List Proposal: Noam Rosenthal presented a proposal for a connection allow list designed to prevent the exfiltration of unwanted information, utilizing a header to specify allowed URLs or patterns. Noam Rosenthal argued that while it overlaps with CSP, CSP has become a \"Swiss Army knife\" that does not address this specific output-control problem, necessitating a simpler, dedicated approach.\n\nConnection Allow List Implementation: The group discussed implementing the allow list at the fetch layer, with Noam Rosenthal noting that it would cover various entry points including link DNS prefetch. They discussed whether to use origin-based or path-based matching, with Simon Pieters and Noam Rosenthal agreeing that path-based security is out of scope and difficult to enforce. Noam Rosenthal expressed a preference against using a meta tag for this feature to avoid complexity, despite some requests for it.\n\nConnection Allow List Workers and Opt-ins: The team discussed the application of the allow list to workers, agreeing that it would need to be explicitly set in the worker. Noam Rosenthal noted that the proposed model is opt-in, which addresses cases where users might not want the restriction. They identified potential complexities regarding how shared and service workers would handle differing levels of restrictions from multiple clients, requiring further design thought.\n\nCanvas Privacy-Preserving Rendering: Philip Jägenstedt updated the group on a new PR for HTML and canvas, which proposes a new \"privacy-preserving rendering\" section in the specification. This proposal dictates that sensitive cross-origin data must not be emitted during rendering, and Philip Jägenstedt clarified that this must occur at paint time.\n\nCanvas Paint-Time Consensus: Philip Jägenstedt sought confirmation on implementing the privacy-preserving rendering at paint time. Emilio Cobos Álvarez and the group agreed that implementing this at computed value time is undesirable because it would create observable changes in computed style. The group reached a consensus that a paint-time implementation is the correct approach, aligning with both Chromium and Gecko internal structures.\n\nMedia Elements and Caption Privacy: The group discussed the privacy implications of WebVTT captions in media elements, as OS-level caption styling (such as padding or color) could leak user preferences. Philip Jägenstedt proposed ignoring user preferences for these elements to prevent leakage. The group concluded that the least harmful option is to ignore user preferences for captions, noting that websites requiring customization can provide it at the site level.\n\nCanvas Element Hierarchy: Luke inquired about the current restriction requiring a canvas to be a direct child for painting to occur. Philip Jägenstedt expressed sympathy for the request to allow non-direct children but maintained that starting with the current structure is easier, and the restriction can be lifted in the future if necessary.\n\nMedia Elements Muted Attribute Timing: Philip Jägenstedt addressed failing tests in Interop regarding the \"muted\" content attribute in media elements. The team discussed that the current specification lacks a specific hook for when an attribute is parsed, making it difficult to trigger behavior correctly, as waiting until the element is popped off the stack is too late.\nMedia Element Load Algorithm Timing: Philip Jägenstedt identifies that the media element load algorithm must initiate before the video tag is closed. To address this, they have defined two specific moments to check the muted attribute: during the post-connection steps—covering both parser insertion and initial script insertion—and within the media element load algorithm itself. Olli Pettay commits to reviewing these proposed changes.\n\nHandling Disconnected Media Elements: Simon Pieters observes that a media element does not require a connection to the document to be playable. Philip Jägenstedt acknowledges this, noting that their original approach failed to handle the muted attribute in disconnected scenarios, as setting the muted content attribute via script was previously non-functional.\nMuted State Logic and Behavioral Changes: Philip Jägenstedt details a new muted state mechanism that transitions from an initial value to true or false based on the content attribute. Philip explains that with these additions to the media element load algorithm, the muted IDL attribute would become true after the source setter, representing a change from current behavior that may be favorable.\n\nAlternative Trigger for Muted Attribute Changes: Simon Pieters suggests hooking the mute logic into the moment when the attribute is set or changed. Philip Jägenstedt explains that this approach would cause the muted attribute to have an effect every time a script adds or removes the attribute, rather than only during the first instance. Philip notes that while this might be web-compatible, it represents a change from current behavior where adding the muted content attribute to a playing element has no effect. The participants conclude the discussion with Olli Pettay agreeing to review the proposal, and Philip Jägenstedt invites further input from Simon Pieters.\n",
+    "author_association": "CONTRIBUTOR",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/4679263117/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

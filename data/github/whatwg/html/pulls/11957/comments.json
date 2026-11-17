@@ -1,0 +1,288 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2567525288",
+    "pull_request_review_id": 3513947668,
+    "id": 2567525288,
+    "node_id": "PRRC_kwDOALaj486ZCVOo",
+    "diff_hunk": "@@ -38204,10 +38204,43 @@ interface <dfn interface>MediaError</dfn> {\n     <p>Otherwise:</p>\n \n     <ol>\n+     <li><p>Let <var>isTopLevelSelfFetch</var> be false.</p></li>\n+\n+     <li><p>Let <var>settingsObject</var> be <span>media element</span>'s\n+     <span>node document</span>'s <span>relevant settings object</span>.</p></li>\n+\n+     <li><p>Let <var>global</var> be the <span>media element</span>'s\n+     <span>node document</span>'s <span>relevant global object</span>.</p></li>\n+\n+     <li>\n+      <p>If all of the following conditions are true:</p>\n+\n+      <ul>\n+       <li><p><var>global</var> is a <code>Window</code> object;</p></li>\n+\n+       <li><p><var>global</var>'s <span data-x=\"window navigable\">navigable</span> is not\n+       null;</p></li>\n+\n+       <li><p><var>global</var>'s <span data-x=\"window navigable\">navigable</span>'s <span\n+       data-x=\"nav-parent\">parent</span> is null; and</p></li>\n+\n+       <li><p><var>settingsObject</var>'s <span\n+       data-x=\"concept-environment-creation-url\">creation URL</span> <span\n+       data-x=\"concept-url-equals\">equals</span> <span>URL record</span>,</p></li>\n+      </ul>\n+\n+      <p>then set <var>isTopLevelSelfFetch</var> to true.</p>\n+     </li>\n+\n+     <li><p>Let <var>stringOrEnvironment</var> be <var>settingsObject</var>.</p></li>\n+\n+     <li><p>If <var>isTopLevelSelfFetch</var> is true, then set <var>stringOrEnvironment</var> to\n+     \"<code data-x=\"\">top-level-self-fetch</code>\".</p></li>",
+    "path": "source",
+    "commit_id": "33e3b857c0086a4ba926790f93011649a0a487f4",
+    "original_commit_id": "33e3b857c0086a4ba926790f93011649a0a487f4",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "```suggestion\r\n     <li><p>Let <var>stringOrEnvironment</var> be \"<code data-x=\"\">top-level-self-fetch</code>\" if\r\n     <var>isTopLevelSelfFetch</var> is true; otherwise <var>settingsObject</var>.</p></li>\r\n```",
+    "created_at": "2025-11-27T08:05:58Z",
+    "updated_at": "2025-11-27T08:10:44Z",
+    "html_url": "https://github.com/whatwg/html/pull/11957#discussion_r2567525288",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11957",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2567525288"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11957#discussion_r2567525288"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11957"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2567525288/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 38235,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 38238,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 35,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2567538690",
+    "pull_request_review_id": 3513947668,
+    "id": 2567538690,
+    "node_id": "PRRC_kwDOALaj486ZCYgC",
+    "diff_hunk": "@@ -38204,10 +38204,43 @@ interface <dfn interface>MediaError</dfn> {\n     <p>Otherwise:</p>\n \n     <ol>\n+     <li><p>Let <var>isTopLevelSelfFetch</var> be false.</p></li>\n+\n+     <li><p>Let <var>settingsObject</var> be <span>media element</span>'s\n+     <span>node document</span>'s <span>relevant settings object</span>.</p></li>",
+    "path": "source",
+    "commit_id": "3522b751651aa7c1aa257442329737137e2228e9",
+    "original_commit_id": "33e3b857c0086a4ba926790f93011649a0a487f4",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "(There's a potentially gnarly edge case here with respect to using the element's relevant settings object or the element's node document's relevant settings object as they can currently be different if an element moves across documents, but I think we generally (maybe even exclusively) want to use the element's node document's relevant settings object.)",
+    "created_at": "2025-11-27T08:10:37Z",
+    "updated_at": "2025-11-27T08:10:44Z",
+    "html_url": "https://github.com/whatwg/html/pull/11957#discussion_r2567538690",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11957",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2567538690"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11957#discussion_r2567538690"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11957"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2567538690/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 38209,
+    "original_start_line": 38209,
+    "start_side": "RIGHT",
+    "line": 38210,
+    "original_line": 38210,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 7,
+    "position": 7,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2578234423",
+    "pull_request_review_id": 3526489718,
+    "id": 2578234423,
+    "node_id": "PRRC_kwDOALaj486ZrLw3",
+    "diff_hunk": "@@ -38204,10 +38204,43 @@ interface <dfn interface>MediaError</dfn> {\n     <p>Otherwise:</p>\n \n     <ol>\n+     <li><p>Let <var>isTopLevelSelfFetch</var> be false.</p></li>\n+\n+     <li><p>Let <var>settingsObject</var> be <span>media element</span>'s\n+     <span>node document</span>'s <span>relevant settings object</span>.</p></li>",
+    "path": "source",
+    "commit_id": "3522b751651aa7c1aa257442329737137e2228e9",
+    "original_commit_id": "33e3b857c0086a4ba926790f93011649a0a487f4",
+    "user": {
+      "login": "recvfrom",
+      "id": 36489577,
+      "node_id": "MDQ6VXNlcjM2NDg5NTc3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/36489577?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/recvfrom",
+      "html_url": "https://github.com/recvfrom",
+      "followers_url": "https://api.github.com/users/recvfrom/followers",
+      "following_url": "https://api.github.com/users/recvfrom/following{/other_user}",
+      "gists_url": "https://api.github.com/users/recvfrom/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/recvfrom/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/recvfrom/subscriptions",
+      "organizations_url": "https://api.github.com/users/recvfrom/orgs",
+      "repos_url": "https://api.github.com/users/recvfrom/repos",
+      "events_url": "https://api.github.com/users/recvfrom/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/recvfrom/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Oh interesting, I was not aware of this 🤯",
+    "created_at": "2025-12-01T18:43:53Z",
+    "updated_at": "2025-12-01T18:43:53Z",
+    "html_url": "https://github.com/whatwg/html/pull/11957#discussion_r2578234423",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11957",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2578234423"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11957#discussion_r2578234423"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11957"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2578234423/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 38209,
+    "original_start_line": 38209,
+    "start_side": "RIGHT",
+    "line": 38210,
+    "original_line": 38210,
+    "side": "RIGHT",
+    "in_reply_to_id": 2567538690,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 7,
+    "position": 7,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2578239922",
+    "pull_request_review_id": 3526496830,
+    "id": 2578239922,
+    "node_id": "PRRC_kwDOALaj486ZrNGy",
+    "diff_hunk": "@@ -38204,10 +38204,43 @@ interface <dfn interface>MediaError</dfn> {\n     <p>Otherwise:</p>\n \n     <ol>\n+     <li><p>Let <var>isTopLevelSelfFetch</var> be false.</p></li>\n+\n+     <li><p>Let <var>settingsObject</var> be <span>media element</span>'s\n+     <span>node document</span>'s <span>relevant settings object</span>.</p></li>\n+\n+     <li><p>Let <var>global</var> be the <span>media element</span>'s\n+     <span>node document</span>'s <span>relevant global object</span>.</p></li>\n+\n+     <li>\n+      <p>If all of the following conditions are true:</p>\n+\n+      <ul>\n+       <li><p><var>global</var> is a <code>Window</code> object;</p></li>\n+\n+       <li><p><var>global</var>'s <span data-x=\"window navigable\">navigable</span> is not\n+       null;</p></li>\n+\n+       <li><p><var>global</var>'s <span data-x=\"window navigable\">navigable</span>'s <span\n+       data-x=\"nav-parent\">parent</span> is null; and</p></li>\n+\n+       <li><p><var>settingsObject</var>'s <span\n+       data-x=\"concept-environment-creation-url\">creation URL</span> <span\n+       data-x=\"concept-url-equals\">equals</span> <span>URL record</span>,</p></li>\n+      </ul>\n+\n+      <p>then set <var>isTopLevelSelfFetch</var> to true.</p>\n+     </li>\n+\n+     <li><p>Let <var>stringOrEnvironment</var> be <var>settingsObject</var>.</p></li>\n+\n+     <li><p>If <var>isTopLevelSelfFetch</var> is true, then set <var>stringOrEnvironment</var> to\n+     \"<code data-x=\"\">top-level-self-fetch</code>\".</p></li>",
+    "path": "source",
+    "commit_id": "33e3b857c0086a4ba926790f93011649a0a487f4",
+    "original_commit_id": "33e3b857c0086a4ba926790f93011649a0a487f4",
+    "user": {
+      "login": "recvfrom",
+      "id": 36489577,
+      "node_id": "MDQ6VXNlcjM2NDg5NTc3",
+      "avatar_url": "https://avatars.githubusercontent.com/u/36489577?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/recvfrom",
+      "html_url": "https://github.com/recvfrom",
+      "followers_url": "https://api.github.com/users/recvfrom/followers",
+      "following_url": "https://api.github.com/users/recvfrom/following{/other_user}",
+      "gists_url": "https://api.github.com/users/recvfrom/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/recvfrom/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/recvfrom/subscriptions",
+      "organizations_url": "https://api.github.com/users/recvfrom/orgs",
+      "repos_url": "https://api.github.com/users/recvfrom/repos",
+      "events_url": "https://api.github.com/users/recvfrom/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/recvfrom/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Thanks! Updated",
+    "created_at": "2025-12-01T18:46:11Z",
+    "updated_at": "2025-12-01T18:46:11Z",
+    "html_url": "https://github.com/whatwg/html/pull/11957#discussion_r2578239922",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/11957",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/2578239922"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/11957#discussion_r2578239922"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/11957"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/2578239922/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 38235,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 38238,
+    "side": "RIGHT",
+    "in_reply_to_id": 2567525288,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 35,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

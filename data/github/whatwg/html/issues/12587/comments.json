@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/4740005505",
+    "html_url": "https://github.com/whatwg/html/issues/12587#issuecomment-4740005505",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/12587",
+    "id": 4740005505,
+    "node_id": "IC_kwDOALaj488AAAABGoa-gQ",
+    "user": {
+      "login": "gterzian",
+      "id": 2792687,
+      "node_id": "MDQ6VXNlcjI3OTI2ODc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2792687?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/gterzian",
+      "html_url": "https://github.com/gterzian",
+      "followers_url": "https://api.github.com/users/gterzian/followers",
+      "following_url": "https://api.github.com/users/gterzian/following{/other_user}",
+      "gists_url": "https://api.github.com/users/gterzian/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/gterzian/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/gterzian/subscriptions",
+      "organizations_url": "https://api.github.com/users/gterzian/orgs",
+      "repos_url": "https://api.github.com/users/gterzian/repos",
+      "events_url": "https://api.github.com/users/gterzian/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/gterzian/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-06-18T09:01:28Z",
+    "updated_at": "2026-06-18T09:57:36Z",
+    "body": "So I gave the proxy approach at try, and the result, using the boa js engine, is https://github.com/gterzian/formal-web/blob/14d811d6651927ea6040edffe0c42c05ccf53021/content/src/html/windowproxy.rs\n\nSo previously, since the HTML spec didn't give guidance on how to actually implement the proxy, I had made some of Boa's internals public (the \"internal methods\" part of objects), but after seeing how https://webidl.spec.whatwg.org/#js-observable-arrays was defined only with public JS api, I tried to re-implement it using that approach, and in my still very limited implementation it seems to work. \n\nSo I think webidl could define how to implement a proxy, which could be done with a generic version of https://webidl.spec.whatwg.org/#creating-an-observable-array-exotic-object taking a number of \"steps\" algorithms (see how the algo already does that but hardcodes the steps for the observable array slots), and then windowproxy and location could be defined by using that algo with steps corresponding to their own internal behavior. \n",
+    "author_association": "MEMBER",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/4740005505/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

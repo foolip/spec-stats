@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/3596173405",
+    "html_url": "https://github.com/whatwg/html/issues/11893#issuecomment-3596173405",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/11893",
+    "id": 3596173405,
+    "node_id": "IC_kwDOALaj487WWUBd",
+    "user": {
+      "login": "Winterhuman",
+      "id": 86165318,
+      "node_id": "MDQ6VXNlcjg2MTY1MzE4",
+      "avatar_url": "https://avatars.githubusercontent.com/u/86165318?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Winterhuman",
+      "html_url": "https://github.com/Winterhuman",
+      "followers_url": "https://api.github.com/users/Winterhuman/followers",
+      "following_url": "https://api.github.com/users/Winterhuman/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Winterhuman/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Winterhuman/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Winterhuman/subscriptions",
+      "organizations_url": "https://api.github.com/users/Winterhuman/orgs",
+      "repos_url": "https://api.github.com/users/Winterhuman/repos",
+      "events_url": "https://api.github.com/users/Winterhuman/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Winterhuman/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2025-12-01T12:06:33Z",
+    "updated_at": "2025-12-01T12:22:22Z",
+    "body": "Further thoughts:\n\n- When `<kbd>` is nested inside `<samp>`, with or without `<pre>`, `<kbd>` represents the user input that *was* typed. Therefore, using `<samp>`-`<kbd>` to represent a command a user *could* type doesn't seem correct.\n- Keyboard shortcuts (aka. `<kbd>`-`<kbd>` or `<kbd>`-`<samp>` nestings) do seem to represent things the user *can* type, but didn't necessarily do at that moment. However, `<kbd>`-`<samp>` is intended for notating the names of clickable GUI buttons; commands don't work here either.\n- So, based on my interpretation, `<samp>` (wrapped outside of `<kbd>`) is what encodes the semantic information that something happened in the past; it's output that *has* been generated. Therefore, `<kbd>command</kbd>` *could* be interpreted as a suggestion just as a keyboard shortcut would be.\n\nMy proposal is this: specify a `<code>`-`<kbd>` nesting (e.g. `<code><kbd>command</kbd></code>`) that semantically describes a piece of user input that is valid for execution.\n\n- `<code><kbd>/path/to/normal/file</kbd></code>`  would be incorrect, because `file` isn't an executable. It is, however, perfectly valid if only `<code>` or `<kbd>` was used; `<code>` can be used for file paths, or the path is user input.\n    - A possible exception to this would be if the shell had special functionality that activated if it tried to \"execute\" a path to a non-executable file (e.g. prompting the user for how they want to proceed); in which case, `<code>`-`<kbd>` would actually be correct.\n- `<code>command</code>` is valid, but ambiguous. It could be describing a command that can be ran by the user, but it could also be describing a command that was previously denoted inside a `<pre>`-`<code>` or `<pre>`-`<samp>` block earlier in the text (e.g. `<p>The <code>command</code> in the script written above...</p>`).\n    - Since this is currently the most common way people notate commands, treating this as invalid would probably be too disruptive.\n- And finally, `<code><kbd>command</kbd></code>`, `<code><kbd>/path/to/command</kbd></code>`, & `<code><kbd>command >/dev/null 2>&1</kbd></code>` would all be valid, as they are all keyboard inputs that a computer program (like a shell) could parse *and* execute as-is.\n    - As an example of invalid usage: `<p>As seen above, the <code><kbd>if [ \"$var\" -gt 4 ]; then</kbd></code> line...</p>` is invalid because trying to execute `if [ \"$var\" -gt 4 ]; then` would be invalid syntax (no `fi` to close it); this string isn't directly executable (an exception is made for `<var>`, where a valid value is implied to be in its place). Using only `<code>` here would be more correct semantically.\n\n> [!NOTE]\n> This is purely informational in purpose to generate discussion; I don't intend to submit this as a proposal myself.",
+    "author_association": "NONE",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/3596173405/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

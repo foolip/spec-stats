@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/5944030984",
+    "html_url": "https://github.com/whatwg/html/issues/13019#issuecomment-5944030984",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/13019",
+    "id": 5944030984,
+    "node_id": "IC_kwDOALaj488AAAABYkq3CA",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-10-02T01:44:10Z",
+    "updated_at": "2026-10-02T01:44:10Z",
+    "body": "Correction to the Chrome navigated-away result: once the frame has navigated, Chrome seems to resolve a missing `this` to the browsing context's current `Window`, not the old realm's global. So the timer was scheduled on (and ran in) the new document, and the test never reached the old `Window`.\n\nI also tested a bfcached document. The test page opens a popup with an opener, captures `popup.setTimeout`, navigates the popup to another page, calls the captured function with a string handler, then goes back:\n\n* Chrome Canary: not bfcached (`non-trivial-browsing-context-group`); the timer runs in the new document, as above.\n* Firefox Nightly: not bfcached; returns -1.\n* Safari TP: bfcached; returns 1, and the timer runs after the page is restored. With `require-trusted-types-for 'script'` and a default policy, it throws a Trusted Types `TypeError` instead, apparently because WebKit doesn't invoke callbacks for a suspended document, so the default policy never runs.\n\nI'd suggest returning 0 early, before the Trusted Types check, when global is a `Window` whose associated `Document` isn't fully active. That matches Firefox (except -1 vs 0) and avoids running the default policy (and reporting violations) for a timer that may never fire.",
+    "author_association": "MEMBER",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/5944030984/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/4034711637",
+    "html_url": "https://github.com/whatwg/html/issues/12206#issuecomment-4034711637",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/12206",
+    "id": 4034711637,
+    "node_id": "IC_kwDOALaj487wfNBV",
+    "user": {
+      "login": "cwilso",
+      "id": 507001,
+      "node_id": "MDQ6VXNlcjUwNzAwMQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/507001?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/cwilso",
+      "html_url": "https://github.com/cwilso",
+      "followers_url": "https://api.github.com/users/cwilso/followers",
+      "following_url": "https://api.github.com/users/cwilso/following{/other_user}",
+      "gists_url": "https://api.github.com/users/cwilso/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/cwilso/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/cwilso/subscriptions",
+      "organizations_url": "https://api.github.com/users/cwilso/orgs",
+      "repos_url": "https://api.github.com/users/cwilso/repos",
+      "events_url": "https://api.github.com/users/cwilso/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/cwilso/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-03-10T21:55:25Z",
+    "updated_at": "2026-03-10T21:55:25Z",
+    "body": "Notes:  (Apologies, the automated scribe could not determine which Google employee in SF was speaking - I know Chris Harrelson was one of them, but not sure who else?)\n\n- **TC39 Async Context Integration Update**: Nicolò Ribaudo provided an update on the TC39 async context integration, noting that key contributors were finally present to discuss the carryover item. They explained that they have been working on drafts using WebIDL attributes to build infrastructure and are also exploring changes to DOM element insertion steps to capture context for events. Anne van Kesteren stated that the general approach looks reasonable and addresses previous concerns, but they are still gathering feedback from people familiar with the event loop and noted the ongoing risks of compatibility fallout for new APIs that may not adopt this standard.\n- **Feedback on TC39 Async Context Consistency:** Olli Pettay and Anne van Kesteren discussed the consistency of integrating async context with various APIs, which Olli described as tricky. Olli requested feedback from Apple and other spec editors on how to integrate their specifications with async context. An SFO Googler suggested that for future APIs, integrating the discussion with a tag design review process could be helpful, citing precedent with the BF cache.\n- **Controls Attribute for Image Element:** Anne van Kesteren filed the topic of the `controls` attribute for the image element.  Chrome had provided neutral support. Simon Pieters indicated they had no internal objections from Mozilla but would file a formal positions issue to record a stance. Chris Wilson suggested that Chrome's feedback seemed focused on details rather than opposition to the specification pull request.\n- **Discussion on Image Controls Detail and Implementation:** Anne van Kesteren stated they provided a reply to Dale, and mentioned that adding more detail to the spec should wait until the related CSS feature is further along to properly integrate features like play/pause buttons. Simon Pieters raised a separate question about whether play and pause controls should use the new CSS feature or if new play and pause APIs should be added to images. The consensus was that those details are somewhat separate from the mere existence of the controls attribute, and Nicolò Ribaudo noted they would continue to track these discussions in the TC39 repository.\n- **Allowing Defer Commit of Same Origin Cross Document:** Chris Wilson brought up the carryover item regarding allowing defer commit of same-origin cross-document, which Noam Rosenthal confirmed had been discussed two weeks prior. Noam Rosenthal indicated that they needed to complete some outstanding requests on their end and would put the item back on the agenda once that work was done.\n- **Introduction to HTML in Canvas:** A Googler in SF introduced the new topic of \"HTML in Canvas,\" clarifying it is a mechanism to integrate HTML rendering into a canvas. This feature is intended to help large canvas applications by providing browser functionality such as internationalization, accessibility, and text selection, without requiring developers to reinvent those features. The approach involves drawing an element underneath the canvas while providing hooks to signal when redraws are needed and synchronizing the drawn position with the DOM position to maintain functionality like hit testing and accessibility.\n- **Privacy Considerations for HTML in Canvas:** A Googler in SF emphasized that only rendering elements in a privacy-preserving way is key, and the API does not expose new information to JavaScript. Simon Pieters raised a concern about anti-aliasing of text and whether that could expose new information to canvas if pixels are read back. The Googler stated their intuition is that it would not be a new exposure, as their current prototype uses grayscale anti-aliasing, and they committed to investigating this detail.\n- **Accessibility and DOM Structure for HTML in Canvas:** Kurt Catti-Schmidt inquired about how accessibility works when content is drawn to the canvas. A Googler explained that the elements are placed as actual children of the canvas in the DOM, and an opt-in called `layout subtree` allows these children to lay out and participate in hit testing. Joey Arhar and Kurt Catti-Schmidt expressed concern that, given the current accessibility mapping for canvas as a graphic element, screen readers might not traverse into the children, and suggested that the canvas element might need to be conditionally mapped as a group element.\n- **Focus and Tooltips in HTML in Canvas:** Kurt Catti-Schmidt asked how focus, form elements, and tooltips are handled. A Googler clarified that elements underneath the canvas are already focusable, and the feature ensures that the focused look and feel are drawn and updated via the `onpaint` callback . Regarding tooltips and autofill previews, A Googler suggested that privacy is maintained by not drawing them into the canvas, but they could be drawn on top of the canvas since the DOM position is synchronized.\n- **Offscreen Canvas and Synchronization:** A Googler addressed the need for web workers in offscreen canvas, which requires API support because the needed two-screen transform is not polyfillable in a worker thread. Anne van Kesteren and Olli Pettay raised questions about how the painting synchronization between the main thread and the worker thread would be specified, since rendering and request animation frame callbacks are not currently well-defined across threads. The Googler acknowledged that this requires careful specification to ensure consistency and committed to investigating the synchronization details.\n- **Spec Status and Form Control Rendering Debate:** A Googler reported that a draft pull request for HTML in Canvas exists but is not yet ready for review and expects it to be ready in about two weeks. A discussion arose regarding whether form controls should be rendered with a \"base appearance\" for privacy. The Googler argued against base appearance, stating it provides a subpar experience, and the current prototype renders them regularly, noting that the exposure of some details is already present in other APIs.\n- **Canvas Tainting and New Information Exposure:** The group discussed the possibility of blocking the readback of canvas when form controls are present. A Googler explained that an earlier design involving tainting was rejected due to the strong connection between painting and invalidation, concluding that the current approach is to only draw things that are fully expected to be read back. Philip Jägenstedt noted that supporting WebGL and WebGPU made the non-tainting approach necessary.\n- **Final Items and Next Meeting:** Kurt Catti-Schmidt requested Anne van Kesteren to review a small pull request that Noam Rosenthal had approved . Chris Wilson confirmed the next meeting would use the same invites, noting that Noam Rosenthal had been made a co-host . Olli Pettay correctly pointed out that the next meeting would be one hour earlier for European participants due to the US time shift .",
+    "author_association": "CONTRIBUTOR",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/4034711637/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]
