@@ -17,7 +17,7 @@ dashboards are in [`docs/plan.md`](docs/plan.md).
 
 | Source | What it gives | Status |
 |---|---|---|
-| GitHub REST API, the repos in `config/repos.txt` | Every issue and PR updated since 2024-01-01 (`config/fetch.json`) with their comments, inline review comments, timeline events and reviews (commits and changed files optional); public profiles (approved, not fetched for now) | Approved 2026-11-13. whatwg/dom fetched 2026-11-14; whatwg/html next. Stored in `data/github/` |
+| GitHub REST API, the repos in `config/repos.txt` | Every issue and PR updated since 2022-01-01 (`config/fetch.json`) with their comments, inline review comments, timeline events and reviews (commits and changed files optional); public profiles (approved, not fetched for now) | Approved 2026-11-13. whatwg/dom fetched 2026-11-14; whatwg/html next. Stored in `data/github/` |
 | git history of the spec repos | Diffs of spec text (how much prose is written) | Deferred: API data first (2026-11-13) |
 | Browser bug trackers (crbug, Bugzilla, WebKit) | Status of implementation bugs linked from PRs | Not approved |
 | wpt.fyi | Test results for tests linked from PRs | Not approved |
@@ -49,7 +49,7 @@ python3 -m unittest discover tests
 ```
 
 The first `extract` fetches each repo's issues and PRs updated since
-`updated_since` in `config/fetch.json` (2024-01-01), one at a time, each
+`updated_since` in `config/fetch.json` (2022-01-01), one at a time, each
 with its whole history; later runs fetch only what changed, and an unchanged repo costs two
 requests. It stores what GitHub returns, consistent or not; `python3 -m specstats
 check` (offline) then looks for inconsistencies in the stored data, which

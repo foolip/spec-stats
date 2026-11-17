@@ -91,7 +91,7 @@ def _config():
 
 def load_updated_since():
     """The start date: items updated at or after it are fetched."""
-    ts = _config().get("updated_since", "2024-01-01T00:00:00Z")
+    ts = _config().get("updated_since", "2022-01-01T00:00:00Z")
     _parse(ts)  # the format the listings use
     return ts
 

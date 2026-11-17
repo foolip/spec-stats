@@ -9,7 +9,7 @@ The design goal (2026-11-15) is the simplest approach that's complete as
 it goes: fetch one issue or PR number at a time, and check assumptions
 about GitHub's data by failing loudly rather than working around them.
 Since 2026-11-17, "complete" means every item *updated since a start
-date* (`updated_since` in `config/fetch.json`, 2024-01-01), not every
+date* (`updated_since` in `config/fetch.json`, 2022-01-01), not every
 item ever: the backfill by number was too slow for its value.
 
 ## Where it's stored

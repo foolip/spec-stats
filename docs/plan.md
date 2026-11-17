@@ -116,13 +116,14 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-15 | **Events are fetched per item** (`GET /issues/{n}/events` with everything else for the number, every item); the repo-wide `/issues/events` listing is read only after the items backfill, from a day before the backfill started, then back to the last run's newest event | Maintainer's choice. GitHub ends the repo-wide listing after 300 pages, so it can't be the backfill for whatwg/html; per item, a backfilled number is complete with its events. Costs one request per item more (about 11,000 for whatwg/html). The listing still catches the events that don't move an item's `updated_at` |
 | 2026-11-15 | A run never waits for rate-limit quota: at the hourly reserve, or on a 429, secondary or primary rate limit, it stops cleanly as at its deadline (`RateLimited`), and the next run continues | Maintainer's instruction: the runner mustn't idle. Run 4 spent about 3¼ of its 4⅓ hours paused for the reset |
 | 2026-11-15 | If main moved during a fetch run, the run fails without committing its data (it was rebased onto the new main) | Maintainer's choice: the collection code may have changed under the run. Run 4's rebase failed anyway, for want of a git identity |
-| 2026-11-17 | **Only items updated since a start date are fetched** (`updated_since` in `config/fetch.json`: 2024-01-01), found by the ascending `updated_at` listing by keyset. The first listing is the backfill; updates are the same listing from the cursor. Each item is still fetched whole by number, with its history. `items.from` in `state.json` records the date covered; moving `updated_since` back lists just the items updated in between (`items.extend`, resumable), then moves `from`; moving it forward does nothing. `highest`, `next` and the "every number from 1 to the highest is stored or gone" check go; the reconcile covers items updated since `from`. The first run converts the by-number state: whatwg/fullscreen and whatwg/dom were complete, so `from` is their earliest `updated_at`; whatwg/html's unfinished backfill (#3,753 of 13,270) becomes a listing from 2024-01-01 that skips the 3,633 items it stored unchanged, which are kept. Repo-wide events are stored only for stored items | Maintainer's choice: backfilling every issue and PR of every repo takes too long for its value. A start date keeps it extendable: moving it back costs only the items in between, and the "items updated since `from`" rule holds either way. Gives up: items last updated before the start (and their numbers' fate), and an offline completeness check |
+| 2026-11-17 | **Only items updated since a start date are fetched** (`updated_since` in `config/fetch.json`: 2024-01-01, ~~then~~ 2022-01-01 the same day, below), found by the ascending `updated_at` listing by keyset. The first listing is the backfill; updates are the same listing from the cursor. Each item is still fetched whole by number, with its history. `items.from` in `state.json` records the date covered; moving `updated_since` back lists just the items updated in between (`items.extend`, resumable), then moves `from`; moving it forward does nothing. `highest`, `next` and the "every number from 1 to the highest is stored or gone" check go; the reconcile covers items updated since `from`. The first run converts the by-number state: whatwg/fullscreen and whatwg/dom were complete, so `from` is their earliest `updated_at`; whatwg/html's unfinished backfill (#3,753 of 13,270) becomes a listing from 2024-01-01 that skips the 3,633 items it stored unchanged, which are kept. Repo-wide events are stored only for stored items | Maintainer's choice: backfilling every issue and PR of every repo takes too long for its value. A start date keeps it extendable: moving it back costs only the items in between, and the "items updated since `from`" rule holds either way. Gives up: items last updated before the start (and their numbers' fate), and an offline completeness check |
 | 2026-11-17 | Test whether the items listing's rows could be stored instead of `GET /issues/{n}`, saving a request per changed item: `listing-check` (manual "Listing check" workflow) compares them field by field for the 50 most and 50 least recently updated items of a repo | Maintainer's question, now that the listing drives which items are fetched. Whether the two have the same fields was an untested gap (`docs/extraction.md`). Same approved endpoints; about 100 requests, nothing stored |
 | 2026-11-17 | **A listed item's row is stored as its `index.json`**; `GET /issues/{n}` only for items that weren't listed (retrying a 422, the reconcile's unlisted ones) | `listing-check` on whatwg/dom (run 44065964670): the 50 most and 50 least recently updated items (44 issues, 56 PRs) were identical in the listing and from `GET /issues/{n}`, field for field. Saves one request per changed item, about a quarter of an item's requests. A deletion after listing is still caught by the item's other requests |
+| 2026-11-17 | `updated_since` is 2022-01-01, not 2024-01-01 | Maintainer's choice, from GitHub search counts across all of `org:whatwg` (every repo): 10,261 issues and PRs updated since 2022-01-01 (roughly 33,000 requests, about 7 hourly runs), against 6,350 since 2024-01-01 and 25,511 in all |
 
 ## Status
 
-- Extractor (REST only, the items updated since 2024-01-01, each fetched
+- Extractor (REST only, the items updated since 2022-01-01, each fetched
   by number with its events, then the repo-wide events listing for
   updates, all committed as JSON files,
   failing loudly when an assumption doesn't hold) and its tests are
@@ -156,15 +157,15 @@ removed on 2026-11-14 (decisions log); its last version is at commit
   full. 48 items exist that the old design's repo-wide listing never
   returned (e.g. #63, #95), so it took them for deleted. `check` flags
   only #831, closed with no `closed` event in its per-item list.
-- 2026-11-17: switched to fetching only items updated since 2024-01-01
+- 2026-11-17: switched to fetching only items updated since 2022-01-01
   (decisions log). whatwg/html's by-number backfill had reached #3,753 of
   13,270 in the hourly runs; the next run carries on as a listing from
-  2024-01-01.
+  2022-01-01.
 
 ## Next steps
 
 1. Let the hourly runs finish whatwg/html's listing of items updated
-   since 2024-01-01 (at about 4.2 requests each), look at what "Check
+   since 2022-01-01 (at about 3.2 requests each), look at what "Check
    data" finds, and cross-check against the earlier prototype's figures
    (1,171 PRs and 2,167 issues in 2024–2026).
 2. Run `--reconcile` once on whatwg/fullscreen and whatwg/dom, to see it
