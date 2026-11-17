@@ -102,7 +102,10 @@ listed item whose `updated_at` differs from the stored one (or that isn't
 stored) is synced. `state.json` keeps two dates under `items`:
 
 - `from`: every item updated at or after it is stored, once the first
-  listing is done. It starts as `updated_since`.
+  listing is done, and nothing else is. It's `updated_since`, except
+  while a listing back to an earlier `updated_since` is under way
+  (below). Each run first removes stored items last updated before
+  `updated_since` (git keeps them), with any 422 record for them.
 - `cursor`: the newest `updated_at` seen, saved after every page.
 
 **Backfill.** The first listing, from `S` = `from`. It's an update with
@@ -136,16 +139,18 @@ updates' business). It has its own resume point (`items.extend`: its
 `from` and `cursor`), runs after each run's update until done, and then
 `from` becomes the new date. Items updated while it runs move past `from`
 and are picked up by the next update. Moving `updated_since` forward
-does nothing: nothing new to fetch, and nothing stored is dropped.
+fetches nothing: `from` follows it (any listing back to an earlier date
+is dropped), and stored items last updated before it are removed.
 
 **Before 2026-11-17** items were backfilled by number, 1 to the highest
 (`items.highest` and `items.next`). The first run of the new code
-converts that state: a finished backfill (whatwg/fullscreen,
-whatwg/dom) stored every item, so `from` becomes its earliest
-`updated_at`; an unfinished one (whatwg/html, at #3,753 of 13,270)
-starts the listing from `updated_since`, keeps what it stored, and skips
-those items it has unchanged. Items stored that were last updated before
-`from` stay, and are kept up to date like any other.
+converts that state to `from` = `updated_since`: a finished backfill
+(whatwg/fullscreen, whatwg/dom) keeps its cursor, and an unfinished one
+(whatwg/html, at #3,753 of 13,270) starts the listing from
+`updated_since`, skipping the items it has unchanged. The items each
+stored that were last updated before 2022-01-01 are removed: 837 of
+whatwg/dom's 1,356, 180 of whatwg/fullscreen's 259 and 3,322 of
+whatwg/html's 3,633 (as of 2026-11-17). They stay in git history.
 
 This relies on every change to an item's comments, reviews or inline
 comments also moving the item's `updated_at`. In whatwg/dom's data that
@@ -303,8 +308,6 @@ keyset), and:
 2. any stored item updated since `from` that's no longer listed is
    synced, which records it as gone if it is.
 
-Stored items last updated before `from` aren't checked: their deletion
-goes unnoticed.
 
 ## Known gaps
 

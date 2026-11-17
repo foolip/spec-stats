@@ -24,7 +24,8 @@ in order of updated_at. The first listing is the backfill; after it, each
 run lists the items updated since the last run (one request if nothing
 changed) and syncs those whose updated_at differs from the stored one.
 Moving the start date back later lists just the stretch before the old
-one (extend_items).
+one (extend_items). Stored items last updated before it are removed
+(set_start).
 
 Events are part of an item (GET /issues/{n}/events, fetched with it).
 After the first listing, each run also reads the repo-wide /issues/events
@@ -423,27 +424,45 @@ def extend_items(client, store, resources, since, log=print):
 
 def migrate_state(store, since):
     """state.json from the by-number backfill (items.highest, until
-    2026-11-17) to the by-updated_at one (items.from). A finished backfill
-    stored every item, so it covers any start: `from` is the earliest
-    updated_at stored, or `since` if that's earlier. An unfinished one
-    starts listing from `since`; what it stored is kept, and the listing
-    skips the items it has unchanged."""
+    2026-11-17) to the by-updated_at one (items.from = `since`). A
+    finished backfill keeps its cursor: it's caught up. An unfinished one
+    starts listing from `since`, and skips the items it has unchanged."""
     s = store.section("items")
     if "highest" not in s:
         return
     if "next" in s:
         s.clear()
-        s["from"] = since
     else:
         del s["highest"]
-        s["from"] = min([i["updated_at"] for i in store.index().values()] + [since])
+    s["from"] = since
     store.save_state()
+
+
+def set_start(store, since, log=print):
+    """Apply `updated_since`: stored items last updated before it are
+    removed (git keeps them), and so are their 422 records. Moved forward,
+    `from` follows it (and a listing back to an earlier date is dropped);
+    moved back, extend_items lists the stretch before `from`."""
+    s = store.section("items")
+    s.setdefault("from", since)
+    if since > s["from"]:
+        s["from"] = since
+        s.pop("extend", None)
+    old = sorted(n for n, i in store.index().items() if i["updated_at"] < since)
+    for n in old:
+        store.remove_item(n)
+        store.set_refused(n, None)
+    if old:
+        store.save_state()
+        log(f"{store.repo} items: removed {len(old)} last updated before {since}")
 
 
 def reconcile(client, store, resources, log=print):
     """Weekly: list every item updated since `from`, and sync any whose
     updated_at differs (missed updates) or that's stored with an updated_at
-    since `from` but no longer listed (deleted or transferred)."""
+    since `from` but no longer listed (deleted or transferred). (While a
+    listing back to an earlier date is under way, its items aren't
+    checked yet.)"""
     s = store.section("items")
     listed = {}
 
@@ -552,7 +571,7 @@ def sync_repo(client, store, reconcile_=False, log=print):
     since = load_updated_since()
     try:
         migrate_state(store, since)
-        store.section("items").setdefault("from", since)
+        set_start(store, since, log=log)
         retry_refused(client, store, resources, log=log)
         update_items(client, store, resources, log=log)
         if since < store.section("items")["from"]:

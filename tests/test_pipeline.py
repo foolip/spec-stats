@@ -410,10 +410,14 @@ class ExtractTest(TempDirs):
         items = self.store().section("items")
         self.assertEqual(items["from"], "2023-03-01T00:00:00Z")
         self.assertNotIn("extend", items)
-        self.since.start()  # moving it forward again changes nothing
+        # Moving it forward again removes what's last updated before it,
+        # and fetches nothing.
+        self.since.start()
         c = client(gh)
         self.sync(gh, c)
-        self.assertEqual((c.requests, self.store().section("items")["from"]), (2, "2023-03-01T00:00:00Z"))
+        self.assertEqual((c.requests, self.store().section("items")["from"]), (2, START))
+        self.assertEqual(sorted(self.store().index()), [1, 2, 3])
+        self.assertFalse((self.issue_dir() / "4").exists())
 
     def test_moving_the_start_back_resumes_where_it_stopped(self):
         gh = populated()
@@ -437,16 +441,26 @@ class ExtractTest(TempDirs):
 
     def test_by_number_state_is_converted(self):
         gh = populated()
-        self.sync(gh)
+        gh.add_issue(4, "2024-01-01T00:00:00Z")  # last updated before the start
+        gh.unprocessable["/pulls/2"] = "too many files changed"
+        self.since.stop()
+        with mock.patch.object(extract, "load_updated_since", return_value="2023-01-01T00:00:00Z"):
+            self.sync(gh)
+        self.since.start()
+        del gh.unprocessable["/pulls/2"]
         store = self.store()
         del store.state["items"]["from"]
-        # A finished by-number backfill: everything is stored, so it covers
-        # any start.
-        store.state["items"]["highest"] = 3
+        # A finished by-number backfill: it keeps its cursor, starts at
+        # `since`, and what's last updated before that is removed.
+        store.state["items"]["highest"] = 4
+        store.state["refused"]["4"] = {"pull": "as if", "checked_at": "2025-04-01T00:00:00Z"}
         store.save_state()
         c = client(gh)
         self.sync(gh, c)
-        self.assertEqual(c.requests, 2)
+        self.assertEqual(self.calls(gh, c)[0], "/issues/2")  # the 422 retried; #4's record went with it
+        self.assertEqual(self.store().refused(), {})
+        self.assertEqual(sorted(self.store().index()), [1, 2, 3])
+        self.assertFalse((self.issue_dir() / "4").exists())
         self.assertEqual(self.store().section("items"),
                          {"cursor": "2025-03-02T00:00:00Z", "from": START})
         # An unfinished one: the listing starts from the start date, and
