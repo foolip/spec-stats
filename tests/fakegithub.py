@@ -136,10 +136,9 @@ class FakeGitHub:
         m = re.fullmatch(r"/pulls/(\d+)", path)
         if m:
             return 200, {}, json.dumps(self.pulls[int(m.group(1))]).encode()
-        m = re.fullmatch(r"/pulls/(\d+)/(reviews|commits|files)", path)
+        m = re.fullmatch(r"/pulls/(\d+)/reviews", path)
         if m:
-            n, what = int(m.group(1)), m.group(2)
-            return self._list(url, q, headers, self.reviews[n] if what == "reviews" else [])
+            return self._list(url, q, headers, self.reviews[int(m.group(1))])
         m = re.fullmatch(r"/issues/(\d+)/timeline", path)
         if m:  # roughly GitHub's shape; `timeline_drop` leaves out ids, to test the check
             n = int(m.group(1))

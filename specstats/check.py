@@ -23,7 +23,6 @@ def check_repo(store):
     if not state.get("items"):
         return None
     idx, gone, refused = store.index(), store.gone(), store.refused()
-    pull_fetched = "pull" in state.get("pr_resources", [])
     found = []
 
     def add(name, numbers):
@@ -38,7 +37,7 @@ def check_repo(store):
             no_closed.append(n)
         if info["merged"] and "merged" not in kinds:
             no_merged.append(n)
-        if (pull_fetched and info["is_pr"] and store.get("pulls", n) is None
+        if (info["is_pr"] and store.get("pulls", n) is None
                 and "pull" not in refused.get(n, {})):
             no_pull.append(n)
     add("closed with no `closed` event", no_closed)

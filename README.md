@@ -17,7 +17,7 @@ dashboards are in [`docs/plan.md`](docs/plan.md).
 
 | Source | What it gives | Status |
 |---|---|---|
-| GitHub REST API, the repos of the standards in `config/db.json` | Every issue and PR updated since 2022-01-01 (`config/fetch.json`) with their comments, inline review comments, timeline events and reviews (commits and changed files optional); public profiles (approved, not fetched for now) | Approved 2026-11-13. whatwg/dom fetched 2026-11-14; whatwg/html next. Stored in `data/github/` |
+| GitHub REST API, the repos of the standards in `config/db.json` | Every issue and PR updated since 2022-01-01 (`config/fetch.json`) with their comments, inline review comments, timeline events and reviews; public profiles (approved, not fetched for now) | Approved 2026-11-13. whatwg/dom fetched 2026-11-14; whatwg/html next. Stored in `data/github/` |
 | whatwg/sg's `db.json` (raw.githubusercontent.com) | The Living Standards, whose repos are fetched; copied as is into `config/db.json` | Approved 2026-11-17. One request, by `python3 -m specstats sync-db` when run by hand |
 | git history of the spec repos | Diffs of spec text (how much prose is written) | Deferred: API data first (2026-11-13) |
 | Browser bug trackers (crbug, Bugzilla, WebKit) | Status of implementation bugs linked from PRs | Not approved |
