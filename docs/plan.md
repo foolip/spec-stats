@@ -121,6 +121,7 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-17 | **A listed item's row is stored as its `index.json`**; `GET /issues/{n}` only for items that weren't listed (retrying a 422, the reconcile's unlisted ones) | `listing-check` on whatwg/dom (run 44065964670): the 50 most and 50 least recently updated items (44 issues, 56 PRs) were identical in the listing and from `GET /issues/{n}`, field for field. Saves one request per changed item, about a quarter of an item's requests. A deletion after listing is still caught by the item's other requests |
 | 2026-11-17 | `updated_since` is 2022-01-01, not 2024-01-01 | Maintainer's choice, from GitHub search counts across all of `org:whatwg` (every repo): 10,261 issues and PRs updated since 2022-01-01 (roughly 33,000 requests, about 7 hourly runs), against 6,350 since 2024-01-01 and 25,511 in all |
 | 2026-11-17 | **Only items updated since `updated_since` are kept**: each run removes stored items last updated before it (and their 422 records), and `from` equals `updated_since` except while a listing back to an earlier date is under way; moving `updated_since` forward moves `from` and removes what's now before it. The by-number state converts to `from` = `updated_since` for every repo (no longer whatwg/dom's and whatwg/fullscreen's earliest items) | Maintainer's choice: the data should match the rule exactly, instead of carrying an arbitrary slice of older items (whatwg/html's #1–#3,752 from the stopped backfill). Removes 837 of whatwg/dom's items, 180 of whatwg/fullscreen's and 3,322 of whatwg/html's (as of 2026-11-17); all stay in git history, and moving `updated_since` back fetches them again |
+| 2026-11-17 | **The updates' listing goes on from each page's last row, not its newest; the reconcile lists every item by creation time** (`sort=created`, offset pages) and keeps those updated since `from` on the client, a second listing independent of the first | whatwg/html #127, #2973, #1518 and #7617 came in the listing among rows updated by 2026-10-02, with `updated_at` from 2026-10-08 to 2026-10-19: GitHub sorts by a timestamp that's sometimes older than the one it returns. Going on from the page's newest skipped the 98 items updated in between (found by comparing with GitHub search; a `--reconcile` run, which went on from the last row, fetched them). The last row skips only when such a row ends a page; no rule on the returned timestamps guarantees anything if the order is off, so the reconcile doesn't rely on them. Creation order doesn't change as items are updated. Maintainer's choice (a median was considered: safer, at twice the listing requests, but still no guarantee). The reconcile costs about 130 requests for whatwg/html |
 
 ## Status
 
@@ -160,8 +161,10 @@ removed on 2026-11-14 (decisions log); its last version is at commit
   only #831, closed with no `closed` event in its per-item list.
 - 2026-11-17: switched to fetching only items updated since 2022-01-01
   (decisions log). whatwg/html's by-number backfill had reached #3,753 of
-  13,270 in the hourly runs; the next run carries on as a listing from
-  2022-01-01.
+  13,270 in the hourly runs; runs 16–21 listed from 2022-01-01 and
+  finished at 18:42. Compared with GitHub search, 98 whatwg/html items
+  updated 2026-10-02 to 2026-10-19 were missing: the keyset paging
+  skipped them (decisions log). dom and fullscreen matched.
 
 ## Next steps
 

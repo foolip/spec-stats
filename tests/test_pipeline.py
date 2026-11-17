@@ -252,6 +252,49 @@ class ExtractTest(TempDirs):
         self.assertEqual(sorted(self.store().index()), list(range(1, 10)))
         self.assertEqual(self.store().get("issues", 4)["updated_at"], "2025-07-01T00:00:00Z")
 
+    def out_of_place(self, numbers):
+        """12 items, a day apart; `numbers` sorted where they were, but
+        returned as updated later (as whatwg/html #127, #2973, #1518 and
+        #7617 came among rows updated by 2026-10-02, with updated_at from
+        2026-10-08 to 2026-10-19)."""
+        gh = FakeGitHub()
+        for n in range(1, 13):
+            gh.add_issue(n, f"2025-01-{n:02d}T00:00:00Z")
+        for n in numbers:
+            gh.sort_keys[n] = gh.issues[n]["updated_at"]
+            gh.touch(n, f"2025-01-2{n}T00:00:00Z")
+        return gh
+
+    def test_rows_out_of_place_mid_page_skip_nothing(self):
+        # Going on from the page's newest, not its last row, skipped the 98
+        # whatwg/html items between 2026-10-02 and 2026-10-19.
+        gh = self.out_of_place([2, 3])
+        with mock.patch.object(extract, "PER_PAGE", 4):
+            self.sync(gh)
+        self.assertEqual(sorted(self.store().index()), list(range(1, 13)))
+
+    def test_reconcile_catches_a_row_out_of_place_at_the_end_of_a_page(self):
+        # The last row of the first page: the update listing goes on from
+        # its updated_at, past all the others.
+        gh = self.out_of_place([4])
+        with mock.patch.object(extract, "PER_PAGE", 4):
+            self.sync(gh)
+            self.assertEqual(sorted(self.store().index()), [1, 2, 3, 4])
+            lines = []
+            extract.sync_repo(client(gh), self.store(), reconcile_=True, log=lines.append)
+        self.assertEqual(sorted(self.store().index()), list(range(1, 13)))
+        self.assertIn(f"{REPO} reconcile: 12 items listed by creation time, 12 updated since {START}; "
+                      "synced 8 changed or missing (8 weren't stored: #5, #6, #7, #8, #9, #10, #11, #12) "
+                      "and 0 unlisted; "
+                      "12 stored, 0 gone", lines)
+
+    def test_reconcile_listing_cut_off_fails(self):
+        gh = populated(page_cap=1)  # a full first page, with no next link, as GitHub cuts listings off
+        self.sync(gh)
+        with self.assertRaisesRegex(extract.CheckFailed, "won't page the reconcile's listing past 2 items"):
+            gh.page_limit = 1
+            self.sync(gh, reconcile_=True)
+
     def test_events_without_an_item_update_are_picked_up(self):
         gh = populated()
         self.sync(gh)
@@ -404,7 +447,7 @@ class ExtractTest(TempDirs):
             self.sync(gh, c)
         self.assertEqual(self.calls(gh, c), [
             "/issues",  # updates: nothing changed
-            "/issues", "/issues/4/events",  # since the new start, stopping at the old one
+            "/issues", "/issues/4/events",  # since the new start: #4, and #1, after the old start
             "/issues/events"])
         self.assertEqual(sorted(self.store().index()), [1, 2, 3, 4])
         items = self.store().section("items")

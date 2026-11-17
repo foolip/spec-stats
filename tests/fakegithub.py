@@ -26,6 +26,8 @@ class FakeGitHub:
         self.timeline_drop = set()    # ids left out of timelines
         self.unprocessable = {}       # path (after the repo) -> message, answered with HTTP 422
         self.transferred = set()      # issue numbers moved to another repo (served as a redirect)
+        self.sort_keys = {}           # number -> the updated_at /issues sorts and filters it by, if not
+                                      # its own (GitHub's is sometimes older: whatwg/html #127)
         self.calls = []
         self.before_request = None    # called with the request count, to change state mid-run
         self._id = 1000
@@ -106,10 +108,13 @@ class FakeGitHub:
         if path in self.unprocessable:
             return 422, {}, json.dumps({"message": self.unprocessable[path], "status": "422"}).encode()
         if path == "/issues":
-            key = "created_at" if q.get("sort") == "created" else "updated_at"
-            rows = sorted(self.issues.values(), key=lambda o: (o[key], o["number"]),
+            def key(o):
+                if q.get("sort") == "created":
+                    return o["created_at"]
+                return self.sort_keys.get(o["number"], o["updated_at"])
+            rows = sorted(self.issues.values(), key=lambda o: (key(o), o["number"]),
                           reverse=q.get("direction") == "desc")
-            return self._list(url, q, headers, self._since(rows, q))
+            return self._list(url, q, headers, [o for o in rows if "since" not in q or key(o) >= q["since"]])
         if path == "/issues/comments":
             return self._list(url, q, headers, self._since(sorted(self.issue_comments, key=lambda o: o["updated_at"]), q))
         if path == "/pulls/comments":
