@@ -82,7 +82,7 @@ def main(argv=None):
 
     repos = args.repo or sgdb.repos()
     print(f"Plan: extract {len(repos)} repos{', reconciling each' if args.reconcile else ''}, "
-          f"one request at a time: items updated since {extract.load_updated_since()}, and open ones.")
+          f"items updated since {extract.load_updated_since()}, and open ones.")
     for repo in repos:
         print(f"  {repo}: {progress(extract.RepoStore(repo).state)}")
     if args.dry_run:
