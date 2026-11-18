@@ -232,8 +232,7 @@ a decisions-log entry when the definition changes.
   the Vite dev server serves `build/data.json` as `data.json`.
 - **Few dependencies:** Svelte, Vite, and `d3-scale` and `d3-shape` for
   the charts. Anything else needs a reason in the decisions log.
-- Whether the code is TypeScript or JavaScript is decided with the first
-  code.
+- **TypeScript**, checked with `svelte-check` and `tsc`.
 
 ### Views
 
@@ -298,6 +297,29 @@ one accent, a calm, mostly monochrome page, and typography that puts the
 text first, nothing decorative. On top of that, careful type at a
 comfortable reading width, generous whitespace, thin chart lines with few
 gridlines, a real dark mode, and a sticky bar for the range and repo
-filters. The exact colours and fonts are to be taken from whatwg.org and
-the specs' stylesheet; reading those is a fetch outside ground rule 1's
-list, so it waits for the maintainer's approval.
+filters.
+
+What the WHATWG's own styles use (read on 2026-11-18 from the
+whatwg/whatwg.org repo, which holds both sites: `whatwg.org/style/shared.css`,
+`resources.whatwg.org/standard.css`, `spec.css` and `logo.svg`):
+
+- **Green** `#3c790a` (the logo, and the specs' header links); the site's
+  `--whatwggreen` is `#3a7908`, with buttons graded to `#00981b`.
+- **Type:** the system sans-serif stack (`-apple-system,
+  BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif`);
+  no web fonts.
+- **Page:** black text; whatwg.org on a light grey (`rgb(235, 235, 235)`)
+  with a 900px column; the specs on white, up to 80em wide; plain
+  underlined links, blue `#00f` and visited `#0e388c` on whatwg.org.
+- **The specs' header links** each have a colour: comms blue `#165fcc`,
+  feedback red `#ff3e3a`, changes teal `#54b29a`, misc orange `#ffa32d`.
+- **Dark mode:** the specs follow `prefers-color-scheme` (through
+  Bikeshed's variables); whatwg.org doesn't.
+
+So spec-stats uses the green `#3c790a` as its one accent (with a lighter
+step of the same hue for dark mode, checked for contrast), the same
+system font stack, a white page, and a reading column near whatwg.org's.
+Chart series colours are a validated categorical palette, not the header
+links' colours, which aren't chosen to be told apart in charts. The
+WHATWG logo isn't used: spec-stats isn't a WHATWG site, and shouldn't
+look like one.

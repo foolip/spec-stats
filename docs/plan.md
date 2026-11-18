@@ -33,7 +33,9 @@ removed on 2026-11-14 (decisions log); its last version is at commit
    reviews, commits, changed files) and the public profiles of accounts
    seen in them. Approved on 2026-11-17: whatwg/sg's `db.json` from
    raw.githubusercontent.com, copied into `config/db.json` by
-   `python3 -m specstats sync-db`. Not approved: git clones (deferred on 2026-11-13: API data
+   `python3 -m specstats sync-db`. Approved on 2026-11-18: reading the
+   WHATWG's site and spec stylesheets and logo, for the frontend's look
+   (read once, from the whatwg/whatwg.org repo). Not approved: git clones (deferred on 2026-11-13: API data
    first), browser bug trackers, wpt.fyi, GH Archive, and any repo outside
    `whatwg/`.
    - `extract --dry-run` prints what a run would fetch without fetching.
@@ -151,6 +153,8 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-18 | **The frontend is one Svelte 5 app built with Vite** into a static single-page app (not SvelteKit), in `web/`; deploying runs `build` and then the Vite build. Replaces "no build step" (2026-11-13) | Maintainer's choice. Every view, filter and range must round-trip through the URL; deriving the UI from state that's read from the URL is less error-prone with a framework than with hand-written DOM updates, and that grows with each view. Deploying already needs a build step for `data.json`, so Vite adds little. Instant switching between views comes from one app holding the data in memory, which this keeps. SvelteKit adds server rendering and file-based routing that a query-string app doesn't need |
 | 2026-11-18 | **The URL is the view**: every view, filter and date range is in the query string, defaults left out; controls `replaceState`, view changes `pushState`; presets are relative (`range=12m`), "link to this view" fixes `from` and `to`; unknown parameters are dropped quietly | Maintainer's requirement that the exact view can be linked to |
 | 2026-11-18 | **Hand-written SVG charts** (`d3-scale`, `d3-shape`), no chart library | Maintainer's choice, for full control of the WHATWG-like look. The tooltips, crosshair, keyboard access and table views are ours to build and test |
+| 2026-11-18 | **The frontend is TypeScript**, checked with `svelte-check` and `tsc` | Maintainer's choice |
+| 2026-11-18 | **The look takes the WHATWG's green, `#3c790a`, as the one accent, and its system font stack**, on a white page; chart series use a validated categorical palette; the WHATWG logo isn't used | The maintainer approved reading the WHATWG's stylesheets and logo. The sandbox's network blocks whatwg.org and resources.whatwg.org, and adding them was declined, so the files were read once from the whatwg/whatwg.org repo on raw.githubusercontent.com, which holds both sites. The specs' header-link colours aren't chosen to be told apart in charts. The logo would make the site look like the WHATWG's own |
 
 ## Status
 
