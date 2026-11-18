@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/issues/comments/343395863",
+    "html_url": "https://github.com/whatwg/bluetooth/issues/380#issuecomment-343395863",
+    "issue_url": "https://api.github.com/repos/whatwg/bluetooth/issues/380",
+    "id": 343395863,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDM0MzM5NTg2Mw==",
+    "user": {
+      "login": "KOLANICH",
+      "id": 240344,
+      "node_id": "MDQ6VXNlcjI0MDM0NA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/240344?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/KOLANICH",
+      "html_url": "https://github.com/KOLANICH",
+      "followers_url": "https://api.github.com/users/KOLANICH/followers",
+      "following_url": "https://api.github.com/users/KOLANICH/following{/other_user}",
+      "gists_url": "https://api.github.com/users/KOLANICH/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/KOLANICH/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/KOLANICH/subscriptions",
+      "organizations_url": "https://api.github.com/users/KOLANICH/orgs",
+      "repos_url": "https://api.github.com/users/KOLANICH/repos",
+      "events_url": "https://api.github.com/users/KOLANICH/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/KOLANICH/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2017-11-10T07:31:05Z",
+    "updated_at": "2017-11-10T07:38:23Z",
+    "body": "It's a bad use case. I guess from the business point of view it's better to make every bike to have an own internet connection using a IoT tariff plans bought wholesale rather than use user's internet connection and to have all the security issues possible because of allowing anyone to messing with a bike.\n\nSince we already have and use internet, from the security point of view it's better to send the unlock request through internet from the company to a bike.\n\nHere is the better use case\n\n1 A user opens wa webpage\n2 the webpage downloads the coordinates of all the bikes and their bluetooth mac addresses.\n3 the list of macs is passed to WebBluetooth . WebBluetooth is asked to generate an event when any device with such mac goes in/out of range.\n4 When an event fired, the bikes on the map is highlighted, eventListeners on `click` event are added.\n5 When a user taps on a bike, it starts flashing and making sound, allowing the user to locate it.\n Ble is used here to reduce internet traffic, make the function free and deter abuse by requiring the one doing that to be close to the bike.\nThe further steps are irrelevant to WebBluetooth:\n6 A user activates in the UI a renting period.\n7 The service sends the command to unlock to the bike via Internet, and starts to count money.  The command to unlock a bike must contain the maximum time it to be unlocked calculated from the balance.\n8 An unlocked bike sends heartbeats to the server periodically. If there is no heartbeats for an unlocked bike the server marks a bike as `probably stolen`. This state is lifted on a heartbeat or an unlock request.\n9 When a balance updates the server sends a bike a message updating the maximum time it may be in an unlocked state.\n10 When a user stopped to use a bike, he locks it stopping the money counter.",
+    "author_association": "NONE",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/issues/comments/343395863/reactions",
+      "total_count": 3,
+      "+1": 0,
+      "-1": 3,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

@@ -1,0 +1,574 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/encoding/pulls/comments/516196511",
+    "pull_request_review_id": 521920184,
+    "id": 516196511,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDUxNjE5NjUxMQ==",
+    "diff_hunk": "@@ -1915,7 +1916,7 @@ constructor steps are:\n  <p class=note>{{DOMString}}, as well as an <a for=/>I/O queue</a> of code units rather than scalar\n  values, are used here so that a surrogate pair that is split between chunks can be reassembled into\n  the appropriate scalar value. The behavior is otherwise identical to {{USVString}}. In particular,\n- lone surrogates will be replaced with U+FFFD.\n+ lone surrogates will be replaced with U+FFFD (�).",
+    "path": "encoding.bs",
+    "commit_id": "a92bda8faaf5362a94452208c714a38c60b16d58",
+    "original_commit_id": "a92bda8faaf5362a94452208c714a38c60b16d58",
+    "user": {
+      "login": "aphillips",
+      "id": 69082,
+      "node_id": "MDQ6VXNlcjY5MDgy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/69082?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/aphillips",
+      "html_url": "https://github.com/aphillips",
+      "followers_url": "https://api.github.com/users/aphillips/followers",
+      "following_url": "https://api.github.com/users/aphillips/following{/other_user}",
+      "gists_url": "https://api.github.com/users/aphillips/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/aphillips/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/aphillips/subscriptions",
+      "organizations_url": "https://api.github.com/users/aphillips/orgs",
+      "repos_url": "https://api.github.com/users/aphillips/repos",
+      "events_url": "https://api.github.com/users/aphillips/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/aphillips/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "In [Charmod ](http://aphillips.github.io/charmod-norm/#charmod_n11n_combining_marks) we often followed the convention:\r\n\r\n> � [U+FFFD REPLACEMENT CHARACTER]\r\n\r\n(with the `[U+xxxx character name]` part styled distinctly). I say \"often\" because I willfully ignored the convention whenever it reduced clarity, particularly with long sequences used in this or that example. For examples this like, you might consider something similar, since it makes the text unambiguous?\r\n\r\nOTOH, I find this pretty clear and am not sure that the charmod style adds that much. I like quoting the character like this when it's printable.\r\n\r\n",
+    "created_at": "2020-11-02T19:11:01Z",
+    "updated_at": "2020-11-02T19:29:04Z",
+    "html_url": "https://github.com/whatwg/encoding/pull/247#discussion_r516196511",
+    "pull_request_url": "https://api.github.com/repos/whatwg/encoding/pulls/247",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/encoding/pulls/comments/516196511"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/encoding/pull/247#discussion_r516196511"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/encoding/pulls/247"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/encoding/pulls/comments/516196511/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 1919,
+    "original_line": 1919,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 24,
+    "position": 24,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/encoding/pulls/comments/516199366",
+    "pull_request_review_id": 521920184,
+    "id": 516199366,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDUxNjE5OTM2Ng==",
+    "diff_hunk": "@@ -3345,13 +3346,15 @@ https://stackoverflow.com/questions/6986789/why-are-some-bytes-prefixed-with-0xf\n <var>ioQueue</var> and <var>byte</var>, runs these steps:\n \n <ol>\n- <li><p>If <var>byte</var> is <a>end-of-queue</a>, return\n- <a>finished</a>.\n+ <li><p>If <var>byte</var> is <a>end-of-queue</a>, then return <a>finished</a>.\n \n- <li><p>If <var>byte</var> is an <a>ASCII byte</a>, return\n- a code point whose value is <var>byte</var>.\n+ <li><p>Let <var>byteValue</var> be <var>byte</var>'s <a for=byte>value</a>.",
+    "path": "encoding.bs",
+    "commit_id": "a92bda8faaf5362a94452208c714a38c60b16d58",
+    "original_commit_id": "a92bda8faaf5362a94452208c714a38c60b16d58",
+    "user": {
+      "login": "aphillips",
+      "id": 69082,
+      "node_id": "MDQ6VXNlcjY5MDgy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/69082?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/aphillips",
+      "html_url": "https://github.com/aphillips",
+      "followers_url": "https://api.github.com/users/aphillips/followers",
+      "following_url": "https://api.github.com/users/aphillips/following{/other_user}",
+      "gists_url": "https://api.github.com/users/aphillips/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/aphillips/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/aphillips/subscriptions",
+      "organizations_url": "https://api.github.com/users/aphillips/orgs",
+      "repos_url": "https://api.github.com/users/aphillips/repos",
+      "events_url": "https://api.github.com/users/aphillips/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/aphillips/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "is `byteValue` really needed vs. just saying things like:\r\n\r\n> If byte is an ASCII byte, then return a code point whose value is byte's value.\r\n\r\nI realize that \"code point's value\" is a different integer type than \"byte's value\", but we mean the number in any case.",
+    "created_at": "2020-11-02T19:17:03Z",
+    "updated_at": "2020-11-02T19:29:04Z",
+    "html_url": "https://github.com/whatwg/encoding/pull/247#discussion_r516199366",
+    "pull_request_url": "https://api.github.com/repos/whatwg/encoding/pulls/247",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/encoding/pulls/comments/516199366"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/encoding/pull/247#discussion_r516199366"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/encoding/pulls/247"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/encoding/pulls/comments/516199366/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 3351,
+    "original_line": 3351,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 68,
+    "position": 68,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/encoding/pulls/comments/516204123",
+    "pull_request_review_id": 521920184,
+    "id": 516204123,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDUxNjIwNDEyMw==",
+    "diff_hunk": "@@ -3345,13 +3346,15 @@ https://stackoverflow.com/questions/6986789/why-are-some-bytes-prefixed-with-0xf\n <var>ioQueue</var> and <var>byte</var>, runs these steps:\n \n <ol>\n- <li><p>If <var>byte</var> is <a>end-of-queue</a>, return\n- <a>finished</a>.\n+ <li><p>If <var>byte</var> is <a>end-of-queue</a>, then return <a>finished</a>.\n \n- <li><p>If <var>byte</var> is an <a>ASCII byte</a>, return\n- a code point whose value is <var>byte</var>.\n+ <li><p>Let <var>byteValue</var> be <var>byte</var>'s <a for=byte>value</a>.\n \n- <li><p>Return a code point whose value is 0xF780 + <var>byte</var> &minus; 0x80.\n+ <li><p>If <var>byte</var> is an <a>ASCII byte</a>, then return a <a>code point</a> whose\n+ <a for=\"code point\">value</a> is <var>byteValue</var>.\n+\n+ <li><p>Return a <a>code point</a> whose <a for=\"code point\">value</a> is\n+ 0xF780 + <var>byteValue</var> &minus; 0x80.",
+    "path": "encoding.bs",
+    "commit_id": "a92bda8faaf5362a94452208c714a38c60b16d58",
+    "original_commit_id": "a92bda8faaf5362a94452208c714a38c60b16d58",
+    "user": {
+      "login": "aphillips",
+      "id": 69082,
+      "node_id": "MDQ6VXNlcjY5MDgy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/69082?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/aphillips",
+      "html_url": "https://github.com/aphillips",
+      "followers_url": "https://api.github.com/users/aphillips/followers",
+      "following_url": "https://api.github.com/users/aphillips/following{/other_user}",
+      "gists_url": "https://api.github.com/users/aphillips/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/aphillips/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/aphillips/subscriptions",
+      "organizations_url": "https://api.github.com/users/aphillips/orgs",
+      "repos_url": "https://api.github.com/users/aphillips/repos",
+      "events_url": "https://api.github.com/users/aphillips/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/aphillips/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I see the problem. You don't want prose here. But can't we just say `0xF780 + byte - 0x80`?\r\n\r\nIs there a reason I'm not seeing for why we don't just make the number `0xF700`? Is the reason to emphasize that we're trying to get to/from bytes >= 0x80?",
+    "created_at": "2020-11-02T19:26:30Z",
+    "updated_at": "2020-11-02T19:29:04Z",
+    "html_url": "https://github.com/whatwg/encoding/pull/247#discussion_r516204123",
+    "pull_request_url": "https://api.github.com/repos/whatwg/encoding/pulls/247",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/encoding/pulls/comments/516204123"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/encoding/pull/247#discussion_r516204123"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/encoding/pulls/247"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/encoding/pulls/comments/516204123/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 3357,
+    "original_line": 3357,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 75,
+    "position": 75,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/encoding/pulls/comments/516204790",
+    "pull_request_review_id": 521920184,
+    "id": 516204790,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDUxNjIwNDc5MA==",
+    "diff_hunk": "@@ -3361,14 +3364,15 @@ https://stackoverflow.com/questions/6986789/why-are-some-bytes-prefixed-with-0xf\n <var>ioQueue</var> and <var>code point</var>, runs these steps:\n \n <ol>\n- <li><p>If <var>code point</var> is <a>end-of-queue</a>, return\n- <a>finished</a>.\n+ <li><p>If <var>code point</var> is <a>end-of-queue</a>, then return <a>finished</a>.\n \n- <li><p>If <var>code point</var> is an <a>ASCII code point</a>, return\n- a byte whose value is <var>code point</var>.\n+ <li><p>Let <var>codePointValue</var> be <var>code point</var>'s <a for=\"code point\">value</a>.\n+\n+ <li><p>If <var>code point</var> is an <a>ASCII code point</a>, then return a <a>byte</a> whose\n+ <a for=byte>value</a> is <var>codePointValue</var>.\n \n- <li><p>If <var>code point</var> is in the range U+F780 to U+F7FF, inclusive, return\n- a byte whose value is <var>code point</var> &minus; 0xF780 + 0x80.\n+ <li><p>If <var>codePointValue</var> is in the range 0xF780 to 0xF7FF, inclusive, then return a\n+ <a>byte</a> whose <a for=byte>value</a> is <var>codePointValue</var> &minus; 0xF780 + 0x80.",
+    "path": "encoding.bs",
+    "commit_id": "a92bda8faaf5362a94452208c714a38c60b16d58",
+    "original_commit_id": "a92bda8faaf5362a94452208c714a38c60b16d58",
+    "user": {
+      "login": "aphillips",
+      "id": 69082,
+      "node_id": "MDQ6VXNlcjY5MDgy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/69082?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/aphillips",
+      "html_url": "https://github.com/aphillips",
+      "followers_url": "https://api.github.com/users/aphillips/followers",
+      "following_url": "https://api.github.com/users/aphillips/following{/other_user}",
+      "gists_url": "https://api.github.com/users/aphillips/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/aphillips/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/aphillips/subscriptions",
+      "organizations_url": "https://api.github.com/users/aphillips/orgs",
+      "repos_url": "https://api.github.com/users/aphillips/repos",
+      "events_url": "https://api.github.com/users/aphillips/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/aphillips/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "usw. ",
+    "created_at": "2020-11-02T19:27:41Z",
+    "updated_at": "2020-11-02T19:29:04Z",
+    "html_url": "https://github.com/whatwg/encoding/pull/247#discussion_r516204790",
+    "pull_request_url": "https://api.github.com/repos/whatwg/encoding/pulls/247",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/encoding/pulls/comments/516204790"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/encoding/pull/247#discussion_r516204790"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/encoding/pulls/247"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/encoding/pulls/comments/516204790/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 3375,
+    "original_line": 3375,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 97,
+    "position": 97,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/encoding/pulls/comments/516474508",
+    "pull_request_review_id": 522246490,
+    "id": 516474508,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDUxNjQ3NDUwOA==",
+    "diff_hunk": "@@ -3345,13 +3346,15 @@ https://stackoverflow.com/questions/6986789/why-are-some-bytes-prefixed-with-0xf\n <var>ioQueue</var> and <var>byte</var>, runs these steps:\n \n <ol>\n- <li><p>If <var>byte</var> is <a>end-of-queue</a>, return\n- <a>finished</a>.\n+ <li><p>If <var>byte</var> is <a>end-of-queue</a>, then return <a>finished</a>.\n \n- <li><p>If <var>byte</var> is an <a>ASCII byte</a>, return\n- a code point whose value is <var>byte</var>.\n+ <li><p>Let <var>byteValue</var> be <var>byte</var>'s <a for=byte>value</a>.\n \n- <li><p>Return a code point whose value is 0xF780 + <var>byte</var> &minus; 0x80.\n+ <li><p>If <var>byte</var> is an <a>ASCII byte</a>, then return a <a>code point</a> whose\n+ <a for=\"code point\">value</a> is <var>byteValue</var>.\n+\n+ <li><p>Return a <a>code point</a> whose <a for=\"code point\">value</a> is\n+ 0xF780 + <var>byteValue</var> &minus; 0x80.",
+    "path": "encoding.bs",
+    "commit_id": "a92bda8faaf5362a94452208c714a38c60b16d58",
+    "original_commit_id": "a92bda8faaf5362a94452208c714a38c60b16d58",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "We've had some cases where we want to distinguish bytes from numbers. So the question is whether we want to do that here as well. And I guess in some sense we do since we want to return code points or bytes, but a lot of the calculations are on numbers.\r\n\r\nI think we could use _byte_ in the calculation directly (as we already did), but it wouldn't really be logically consistent with how we talk about bytes and numbers elsewhere in the web platform.\r\n\r\n(I guess another way would be that we say that in equations they are casted to their value.)",
+    "created_at": "2020-11-03T07:51:15Z",
+    "updated_at": "2020-11-03T07:51:45Z",
+    "html_url": "https://github.com/whatwg/encoding/pull/247#discussion_r516474508",
+    "pull_request_url": "https://api.github.com/repos/whatwg/encoding/pulls/247",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/encoding/pulls/comments/516474508"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/encoding/pull/247#discussion_r516474508"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/encoding/pulls/247"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/encoding/pulls/comments/516474508/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 3357,
+    "original_line": 3357,
+    "side": "RIGHT",
+    "in_reply_to_id": 516204123,
+    "author_association": "MEMBER",
+    "original_position": 75,
+    "position": 75,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/encoding/pulls/comments/516475065",
+    "pull_request_review_id": 522247158,
+    "id": 516475065,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDUxNjQ3NTA2NQ==",
+    "diff_hunk": "@@ -1915,7 +1916,7 @@ constructor steps are:\n  <p class=note>{{DOMString}}, as well as an <a for=/>I/O queue</a> of code units rather than scalar\n  values, are used here so that a surrogate pair that is split between chunks can be reassembled into\n  the appropriate scalar value. The behavior is otherwise identical to {{USVString}}. In particular,\n- lone surrogates will be replaced with U+FFFD.\n+ lone surrogates will be replaced with U+FFFD (�).",
+    "path": "encoding.bs",
+    "commit_id": "a92bda8faaf5362a94452208c714a38c60b16d58",
+    "original_commit_id": "a92bda8faaf5362a94452208c714a38c60b16d58",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "We made up our own convention in https://infra.spec.whatwg.org/#code-points since we found the one in Charmod a bit too verbose, iirc.",
+    "created_at": "2020-11-03T07:52:29Z",
+    "updated_at": "2020-11-03T07:52:30Z",
+    "html_url": "https://github.com/whatwg/encoding/pull/247#discussion_r516475065",
+    "pull_request_url": "https://api.github.com/repos/whatwg/encoding/pulls/247",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/encoding/pulls/comments/516475065"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/encoding/pull/247#discussion_r516475065"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/encoding/pulls/247"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/encoding/pulls/comments/516475065/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 1919,
+    "original_line": 1919,
+    "side": "RIGHT",
+    "in_reply_to_id": 516196511,
+    "author_association": "MEMBER",
+    "original_position": 24,
+    "position": 24,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/encoding/pulls/comments/516515590",
+    "pull_request_review_id": 522299423,
+    "id": 516515590,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDUxNjUxNTU5MA==",
+    "diff_hunk": "@@ -3345,13 +3346,15 @@ https://stackoverflow.com/questions/6986789/why-are-some-bytes-prefixed-with-0xf\n <var>ioQueue</var> and <var>byte</var>, runs these steps:\n \n <ol>\n- <li><p>If <var>byte</var> is <a>end-of-queue</a>, return\n- <a>finished</a>.\n+ <li><p>If <var>byte</var> is <a>end-of-queue</a>, then return <a>finished</a>.\n \n- <li><p>If <var>byte</var> is an <a>ASCII byte</a>, return\n- a code point whose value is <var>byte</var>.\n+ <li><p>Let <var>byteValue</var> be <var>byte</var>'s <a for=byte>value</a>.\n \n- <li><p>Return a code point whose value is 0xF780 + <var>byte</var> &minus; 0x80.\n+ <li><p>If <var>byte</var> is an <a>ASCII byte</a>, then return a <a>code point</a> whose\n+ <a for=\"code point\">value</a> is <var>byteValue</var>.\n+\n+ <li><p>Return a <a>code point</a> whose <a for=\"code point\">value</a> is\n+ 0xF780 + <var>byteValue</var> &minus; 0x80.",
+    "path": "encoding.bs",
+    "commit_id": "a92bda8faaf5362a94452208c714a38c60b16d58",
+    "original_commit_id": "a92bda8faaf5362a94452208c714a38c60b16d58",
+    "user": {
+      "login": "andreubotella",
+      "id": 8225977,
+      "node_id": "MDQ6VXNlcjgyMjU5Nzc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8225977?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/andreubotella",
+      "html_url": "https://github.com/andreubotella",
+      "followers_url": "https://api.github.com/users/andreubotella/followers",
+      "following_url": "https://api.github.com/users/andreubotella/following{/other_user}",
+      "gists_url": "https://api.github.com/users/andreubotella/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/andreubotella/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/andreubotella/subscriptions",
+      "organizations_url": "https://api.github.com/users/andreubotella/orgs",
+      "repos_url": "https://api.github.com/users/andreubotella/repos",
+      "events_url": "https://api.github.com/users/andreubotella/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/andreubotella/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "We could define implicit conversions code point → number and byte → number (whatwg/infra#319) and perhaps the other way around too. But even if we don't, we could use short algorithmic phrases inside the formula: \"0xF780 + (byte's value) &minus; 0x80\".\r\n\r\nThere are other formulas in the standard that use byte or code point values directly, though, and they should be changed accordingly. (Interestingly, there are formulas dealing with code units around TextEncoder and TextEncoderStream, which don't have this problem because code units seem to be defined directly as a number type.)",
+    "created_at": "2020-11-03T09:10:40Z",
+    "updated_at": "2020-11-03T09:10:41Z",
+    "html_url": "https://github.com/whatwg/encoding/pull/247#discussion_r516515590",
+    "pull_request_url": "https://api.github.com/repos/whatwg/encoding/pulls/247",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/encoding/pulls/comments/516515590"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/encoding/pull/247#discussion_r516515590"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/encoding/pulls/247"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/encoding/pulls/comments/516515590/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 3357,
+    "original_line": 3357,
+    "side": "RIGHT",
+    "in_reply_to_id": 516204123,
+    "author_association": "MEMBER",
+    "original_position": 75,
+    "position": 75,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/encoding/pulls/comments/516703341",
+    "pull_request_review_id": 522544500,
+    "id": 516703341,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDUxNjcwMzM0MQ==",
+    "diff_hunk": "@@ -3345,13 +3346,15 @@ https://stackoverflow.com/questions/6986789/why-are-some-bytes-prefixed-with-0xf\n <var>ioQueue</var> and <var>byte</var>, runs these steps:\n \n <ol>\n- <li><p>If <var>byte</var> is <a>end-of-queue</a>, return\n- <a>finished</a>.\n+ <li><p>If <var>byte</var> is <a>end-of-queue</a>, then return <a>finished</a>.\n \n- <li><p>If <var>byte</var> is an <a>ASCII byte</a>, return\n- a code point whose value is <var>byte</var>.\n+ <li><p>Let <var>byteValue</var> be <var>byte</var>'s <a for=byte>value</a>.\n \n- <li><p>Return a code point whose value is 0xF780 + <var>byte</var> &minus; 0x80.\n+ <li><p>If <var>byte</var> is an <a>ASCII byte</a>, then return a <a>code point</a> whose\n+ <a for=\"code point\">value</a> is <var>byteValue</var>.\n+\n+ <li><p>Return a <a>code point</a> whose <a for=\"code point\">value</a> is\n+ 0xF780 + <var>byteValue</var> &minus; 0x80.",
+    "path": "encoding.bs",
+    "commit_id": "a92bda8faaf5362a94452208c714a38c60b16d58",
+    "original_commit_id": "a92bda8faaf5362a94452208c714a38c60b16d58",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "FWIW I intuitively like making the code point <—> byte/number conversions explicit, and don't see as much of a need for distinguishing bytes and numbers. (I'd be OK defining bytes as a subtype of numbers, if we ever make progress on defining numbers.)",
+    "created_at": "2020-11-03T14:24:09Z",
+    "updated_at": "2020-11-03T14:24:10Z",
+    "html_url": "https://github.com/whatwg/encoding/pull/247#discussion_r516703341",
+    "pull_request_url": "https://api.github.com/repos/whatwg/encoding/pulls/247",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/encoding/pulls/comments/516703341"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/encoding/pull/247#discussion_r516703341"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/encoding/pulls/247"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/encoding/pulls/comments/516703341/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 3357,
+    "original_line": 3357,
+    "side": "RIGHT",
+    "in_reply_to_id": 516204123,
+    "author_association": "MEMBER",
+    "original_position": 75,
+    "position": 75,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

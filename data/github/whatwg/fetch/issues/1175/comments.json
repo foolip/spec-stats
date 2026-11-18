@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/fetch/issues/comments/782154131",
+    "html_url": "https://github.com/whatwg/fetch/issues/1175#issuecomment-782154131",
+    "issue_url": "https://api.github.com/repos/whatwg/fetch/issues/1175",
+    "id": 782154131,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDc4MjE1NDEzMQ==",
+    "user": {
+      "login": "wanderview",
+      "id": 1256526,
+      "node_id": "MDQ6VXNlcjEyNTY1MjY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1256526?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/wanderview",
+      "html_url": "https://github.com/wanderview",
+      "followers_url": "https://api.github.com/users/wanderview/followers",
+      "following_url": "https://api.github.com/users/wanderview/following{/other_user}",
+      "gists_url": "https://api.github.com/users/wanderview/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/wanderview/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/wanderview/subscriptions",
+      "organizations_url": "https://api.github.com/users/wanderview/orgs",
+      "repos_url": "https://api.github.com/users/wanderview/repos",
+      "events_url": "https://api.github.com/users/wanderview/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/wanderview/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2021-02-19T15:38:19Z",
+    "updated_at": "2021-02-19T15:39:51Z",
+    "body": "Just thinking this through out loud here....\r\n\r\nI don't like status quo because it deviates from redirects.\r\n\r\nI would be for alternative 2, except its a breaking a change.  Fragments are exposed on FetchEvent.request.url today and its hard to know if there are service workers out there customizing logic based on the fragment.\r\n\r\nI guess alternative 1 also has some backward incompatibility today.  If there is an existing service worker that progressively caches responses it could stumble into the cache poisoning scenario you outline above.\r\n\r\nThe site could probably more easily fix alternative 1 issue than they could fix alternative 2, though.  The site could just do `new Response(response_with_fragment)` when adding to cache_storage to avoid the poisoning.  If their fetch handler logic depends on request fragments, though, that would require architectural changes to fix.\r\n\r\nOf course, alternative 1 problem is much more likely than alternative 2.\r\n\r\nFrom a launching perspective I think we could probably craft metrics to determine how often alternative 1 problem occurs.  I'm not sure how to craft a metric to detect fragment-specific logic in alternative 2 problem, though.\r\n\r\nWe could try to measure how possible alternative 1 is before deciding.  Measurements would require remembering the response fragment (even if not exposed yet) and then counting how many pages return a cache_storage originated response with a different fragment than FetchEvent.request.url.\r\n\r\nIf the measurements show the issue does not happen in practice today then I would argue to go ahead with alternative 1.  If the issue is real, though, then maybe we could be default to not storing fragments in cache_storage and provide a `preserveFragment:true` option in cache_storage to opt in to storing it.\r\n\r\nI think my main concern with this plan would be the cost of getting measurements in place and this not being a prioritized effort.\r\n\r\nWhat do other folks think?  @jakearchibald @asutherland @youennf @mfalken",
+    "author_association": "MEMBER",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/fetch/issues/comments/782154131/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

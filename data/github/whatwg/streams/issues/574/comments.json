@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/issues/comments/256937195",
+    "html_url": "https://github.com/whatwg/streams/issues/574#issuecomment-256937195",
+    "issue_url": "https://api.github.com/repos/whatwg/streams/issues/574",
+    "id": 256937195,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDI1NjkzNzE5NQ==",
+    "user": {
+      "login": "ricea",
+      "id": 6678407,
+      "node_id": "MDQ6VXNlcjY2Nzg0MDc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6678407?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ricea",
+      "html_url": "https://github.com/ricea",
+      "followers_url": "https://api.github.com/users/ricea/followers",
+      "following_url": "https://api.github.com/users/ricea/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ricea/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ricea/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ricea/subscriptions",
+      "organizations_url": "https://api.github.com/users/ricea/orgs",
+      "repos_url": "https://api.github.com/users/ricea/repos",
+      "events_url": "https://api.github.com/users/ricea/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ricea/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2016-10-28T14:36:44Z",
+    "updated_at": "2016-10-28T14:36:44Z",
+    "body": "In the case of fixed-block-size transforms, like encryption, I don't think it helps that much. Even if we provide a minimum total size, the transformer still has to deal with the case where they receive data that is not an exact multiple of the block size. So what they'll end up doing is storing an array of chunks from the last call to transform() that haven't been used yet (or keep a copy of the data in their own buffer). Once you've got that data structure it's trivial to add new chunks of data to it if you don't have enough to process a block yet. So the minimal total size ends up being not that helpful.\n\nA way to say \"feed me exactly 1024 bytes at a time, no more, no less\" would solve this problem but seems a bit exotic. What I mean by \"exotic\" is that it solves a specific problem for one particular use-case but is useless for everyone else.\n\nI think it would be natural to look at this again when #27 (\"the writev problem\") is resolved. If we have batched writes then the case for batched transforms become a lot more compelling.\n",
+    "author_association": "COLLABORATOR",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/issues/comments/256937195/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

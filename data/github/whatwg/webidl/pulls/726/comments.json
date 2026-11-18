@@ -1,0 +1,785 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/282945755",
+    "pull_request_review_id": 236187736,
+    "id": 282945755,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI4Mjk0NTc1NQ==",
+    "diff_hunk": "@@ -3981,12 +3981,19 @@ the iterator objects returned by <code class=\"idl\">entries</code>,\n <code class=\"idl\">keys</code>, <code class=\"idl\">values</code>, and {{@@iterator}} are\n actual [=array iterator objects=].\n \n-Interfaces with iterable declarations must not\n-have any [=interface members=]\n-named \"<code>entries</code>\", \"<code>forEach</code>\",\n-\"<code>keys</code>\", or \"<code>values</code>\",\n-or have any [=inherited interfaces=]\n-that have [=members=] with these names.\n+Interfaces with iterable declarations must not have any [=regular attributes=] or [=constants=]\n+named\n+\"<code>entries</code>\",\n+\"<code>forEach</code>\",\n+\"<code>keys</code>\", or\n+\"<code>values</code>\",\n+or have any [=inherited interfaces=] that have [=regular operations=], [=regular attributes=] or\n+[=constants=] with these names.\n+\n+Note: Operations with these names are allowed on interfaces with iterable declarations and will",
+    "path": "index.bs",
+    "commit_id": "164a960feddb1f5ba0b135a4ce4b165671cac355",
+    "original_commit_id": "a477ba8010fa24d2ae09bc20eac81fd191c90376",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Why this change?  Regular operations with these names didn't use to be allowed, and they still shouldn't be, imo.",
+    "created_at": "2019-05-10T16:04:09Z",
+    "updated_at": "2019-05-16T09:38:39Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/726#discussion_r282945755",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/726",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/282945755"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/726#discussion_r282945755"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/726"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/282945755/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 3993,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 19,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/282946278",
+    "pull_request_review_id": 236187736,
+    "id": 282946278,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI4Mjk0NjI3OA==",
+    "diff_hunk": "@@ -4132,23 +4139,30 @@ keyword is used, this includes <code class=\"idl\">entries</code>,\n For read–write maplikes, it also includes <code class=\"idl\">clear</code>,\n <code class=\"idl\">delete</code>, and <code class=\"idl\">set</code> methods.\n \n-Maplike interfaces must not\n-have any [=interface members=]\n-named \"<code>entries</code>\", \"<code>forEach</code>\",\n-\"<code>get</code>\", \"<code>has</code>\",\n-\"<code>keys</code>\", \"<code>size</code>\", or\n+Maplike interfaces must not have any [=regular attributes=] or [=constants=] named\n+\"<code>entries</code>\",\n+\"<code>forEach</code>\",\n+\"<code>get</code>\",\n+\"<code>has</code>\",\n+\"<code>keys</code>\",\n+\"<code>size</code>\", or\n \"<code>values</code>\",\n-or have any [=inherited interfaces=]\n-that have [=members=] with these names.\n-Read–write maplike interfaces must not\n-have any [=attributes=]\n-or [=constants=] named\n-\"<code>clear</code>\", \"<code>delete</code>\",\n-or \"<code>set</code>\", or have any [=inherited interfaces=]\n-that have [=attributes=] or [=constants=] with these names.\n-\n-Note: Operations named \"<code>clear</code>\", \"<code>delete</code>\",\n-or \"<code>set</code>\" are allowed on read–write maplike\n+or have any [=inherited interfaces=] that have [=regular operations=], [=regular attributes=] or\n+[=constants=] with these names.\n+\n+Maplike interfaces must not have any [=regular operations=] or [=constants=] named\n+\"<code>size</code>\",\n+or have any [=inherited interfaces=] that have [=regular operations=], [=regular attributes=] or\n+[=constants=] with that name.\n+\n+Read–write maplike interfaces must not have any [=regular attributes=] or [=constants=] named\n+\"<code>clear</code>\",\n+\"<code>delete</code>\", or\n+\"<code>set</code>\",\n+or have any [=inherited interfaces=] that have [=regular operations=], [=regular attributes=] or\n+[=constants=] with these names.\n+\n+Note: Operations with these names are allowed on maplike",
+    "path": "index.bs",
+    "commit_id": "164a960feddb1f5ba0b135a4ce4b165671cac355",
+    "original_commit_id": "a477ba8010fa24d2ae09bc20eac81fd191c90376",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Again, looks wrong.  The existing \"can be overridden\" thing was for methods that might need to be hooked because they modify the map and might need to update other internal data structures.  But we don't really want hooking for random read operations, right?",
+    "created_at": "2019-05-10T16:05:35Z",
+    "updated_at": "2019-05-16T09:38:39Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/726#discussion_r282946278",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/726",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/282946278"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/726#discussion_r282946278"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/726"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/282946278/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 4165,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 69,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/282946478",
+    "pull_request_review_id": 236187736,
+    "id": 282946478,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI4Mjk0NjQ3OA==",
+    "diff_hunk": "@@ -4226,22 +4240,28 @@ keyword is used, this includes <code class=\"idl\">entries</code>,\n For read–write setlikes, it also includes <code class=\"idl\">add</code>,\n <code class=\"idl\">clear</code>, and <code class=\"idl\">delete</code> methods.\n \n-Setlike interfaces must not\n-have any [=interface members=]\n-named \"<code>entries</code>\", \"<code>forEach</code>\",\n-\"<code>has</code>\", \"<code>keys</code>\",\n-\"<code>size</code>\", or \"<code>values</code>\",\n-or have any [=inherited interfaces=]\n-that have [=members=] with these names.\n-Read–write setlike interfaces must not\n-have any [=attributes=]\n-or [=constants=] named\n-\"<code>add</code>\", \"<code>clear</code>\",\n-or \"<code>delete</code>\", or have any [=inherited interfaces=]\n-that have [=attributes=] or [=constants=] with these names.\n-\n-Note: Operations named \"<code>add</code>\", \"<code>clear</code>\",\n-or \"<code>delete</code>\" are allowed on read–write setlike\n+Setlike interfaces must not have any [=regular attributes=] or [=constants=] named\n+\"<code>entries</code>\",\n+\"<code>forEach</code>\",\n+\"<code>has</code>\",\n+\"<code>keys</code>\", or\n+\"<code>values</code>\",\n+or have any [=inherited interfaces=] that have [=regular operations=], [=regular attributes=] or\n+[=constants=] with these names.\n+\n+Setlike interfaces must not have any [=regular operations=] or [=constants=] named\n+\"<code>size</code>\",\n+or have any [=inherited interfaces=] that have [=regular operations=], [=regular attributes=] or\n+[=constants=] with that name.\n+\n+Read–write setlike interfaces must not have any [=regular attributes=] or [=constants=] named\n+\"<code>add</code>\",\n+\"<code>clear</code>\", or\n+\"<code>delete</code>\",\n+or have any [=inherited interfaces=] that have [=regular operations=], [=regular attributes=] or\n+[=constants=] with these names.\n+\n+Note: Operations with these names are allowed on setlike",
+    "path": "index.bs",
+    "commit_id": "164a960feddb1f5ba0b135a4ce4b165671cac355",
+    "original_commit_id": "a477ba8010fa24d2ae09bc20eac81fd191c90376",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Same here.",
+    "created_at": "2019-05-10T16:06:14Z",
+    "updated_at": "2019-05-16T09:38:39Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/726#discussion_r282946478",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/726",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/282946478"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/726#discussion_r282946478"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/726"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/282946478/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 4264,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 114,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/283505402",
+    "pull_request_review_id": 236879988,
+    "id": 283505402,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI4MzUwNTQwMg==",
+    "diff_hunk": "@@ -4132,23 +4132,26 @@ keyword is used, this includes <code class=\"idl\">entries</code>,\n For read–write maplikes, it also includes <code class=\"idl\">clear</code>,\n <code class=\"idl\">delete</code>, and <code class=\"idl\">set</code> methods.\n \n-Maplike interfaces must not\n-have any [=interface members=]\n-named \"<code>entries</code>\", \"<code>forEach</code>\",\n-\"<code>get</code>\", \"<code>has</code>\",\n-\"<code>keys</code>\", \"<code>size</code>\", or\n+Maplike interfaces and their [=inherited interfaces=] must not have any [=regular operations=],\n+[=regular attributes=] or [=constants=] named\n+\"<code>entries</code>\",\n+\"<code>forEach</code>\",\n+\"<code>get</code>\",\n+\"<code>has</code>\",\n+\"<code>keys</code>\",\n+\"<code>size</code>\", or\n \"<code>values</code>\",\n-or have any [=inherited interfaces=]\n-that have [=members=] with these names.\n-Read–write maplike interfaces must not\n-have any [=attributes=]\n-or [=constants=] named\n-\"<code>clear</code>\", \"<code>delete</code>\",\n-or \"<code>set</code>\", or have any [=inherited interfaces=]\n-that have [=attributes=] or [=constants=] with these names.\n-\n-Note: Operations named \"<code>clear</code>\", \"<code>delete</code>\",\n-or \"<code>set</code>\" are allowed on read–write maplike\n+or have any [=inherited interfaces=] that have [=regular operations=], [=regular attributes=] or",
+    "path": "index.bs",
+    "commit_id": "164a960feddb1f5ba0b135a4ce4b165671cac355",
+    "original_commit_id": "d07b4b18a5a6e5d502053c6d72e103a675e7e28b",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This is repeating things twice about inherited interfaces, right?",
+    "created_at": "2019-05-13T19:44:44Z",
+    "updated_at": "2019-05-16T09:38:39Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/726#discussion_r283505402",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/726",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/283505402"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/726#discussion_r283505402"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/726"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/283505402/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 4144,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 48,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/283506348",
+    "pull_request_review_id": 236879988,
+    "id": 283506348,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI4MzUwNjM0OA==",
+    "diff_hunk": "@@ -11579,7 +11583,8 @@ if the interface has a [=setlike declaration=].\n \n <h5 id=\"es-forEach\">forEach</h5>\n \n-If the [=interface=] has any of the following:\n+If the [=interface=] does not declare a [=regular operation=] with [=identifier=]\n+<code class=\"idl\">forEach</code> and has any of the following:",
+    "path": "index.bs",
+    "commit_id": "164a960feddb1f5ba0b135a4ce4b165671cac355",
+    "original_commit_id": "d07b4b18a5a6e5d502053c6d72e103a675e7e28b",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This change is not needed, since things named \"forEach\" are disallowed in that case.  Similar for the other methods...",
+    "created_at": "2019-05-13T19:47:23Z",
+    "updated_at": "2019-05-16T09:38:39Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/726#discussion_r283506348",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/726",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/283506348"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/726#discussion_r283506348"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/726"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/283506348/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 11587,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 108,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/283718708",
+    "pull_request_review_id": 237141193,
+    "id": 283718708,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI4MzcxODcwOA==",
+    "diff_hunk": "@@ -4226,22 +4227,23 @@ keyword is used, this includes <code class=\"idl\">entries</code>,\n For read–write setlikes, it also includes <code class=\"idl\">add</code>,\n <code class=\"idl\">clear</code>, and <code class=\"idl\">delete</code> methods.\n \n-Setlike interfaces must not\n-have any [=interface members=]\n-named \"<code>entries</code>\", \"<code>forEach</code>\",\n-\"<code>has</code>\", \"<code>keys</code>\",\n-\"<code>size</code>\", or \"<code>values</code>\",\n-or have any [=inherited interfaces=]\n-that have [=members=] with these names.\n-Read–write setlike interfaces must not\n-have any [=attributes=]\n-or [=constants=] named\n-\"<code>add</code>\", \"<code>clear</code>\",\n-or \"<code>delete</code>\", or have any [=inherited interfaces=]\n-that have [=attributes=] or [=constants=] with these names.\n-\n-Note: Operations named \"<code>add</code>\", \"<code>clear</code>\",\n-or \"<code>delete</code>\" are allowed on read–write setlike\n+Setlike interfaces and their [=inherited interfaces=] must not have any [=regular operations=],\n+[=regular attributes=] or [=constants=] named",
+    "path": "index.bs",
+    "commit_id": "164a960feddb1f5ba0b135a4ce4b165671cac355",
+    "original_commit_id": "d6722f1dc262cfb5f16d6f3c759a84ed34cd9cc8",
+    "user": {
+      "login": "Ms2ger",
+      "id": 111161,
+      "node_id": "MDQ6VXNlcjExMTE2MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/111161?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Ms2ger",
+      "html_url": "https://github.com/Ms2ger",
+      "followers_url": "https://api.github.com/users/Ms2ger/followers",
+      "following_url": "https://api.github.com/users/Ms2ger/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Ms2ger/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Ms2ger/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Ms2ger/subscriptions",
+      "organizations_url": "https://api.github.com/users/Ms2ger/orgs",
+      "repos_url": "https://api.github.com/users/Ms2ger/repos",
+      "events_url": "https://api.github.com/users/Ms2ger/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Ms2ger/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This forbids\r\n```webidl\r\ninterface A { void entries(); };\r\ninterface B : A { readonly setlike<long>; };\r\n```\r\nbut not\r\n```webidl\r\ninterface A { readonly setlike<long>; };\r\ninterface B : A { void entries(); };\r\n```\r\n\r\nShould it?",
+    "created_at": "2019-05-14T09:55:17Z",
+    "updated_at": "2019-05-16T09:38:39Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/726#discussion_r283718708",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/726",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/283718708"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/726#discussion_r283718708"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/726"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/283718708/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 4231,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 82,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/284431280",
+    "pull_request_review_id": 238045882,
+    "id": 284431280,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI4NDQzMTI4MA==",
+    "diff_hunk": "@@ -4226,22 +4227,23 @@ keyword is used, this includes <code class=\"idl\">entries</code>,\n For read–write setlikes, it also includes <code class=\"idl\">add</code>,\n <code class=\"idl\">clear</code>, and <code class=\"idl\">delete</code> methods.\n \n-Setlike interfaces must not\n-have any [=interface members=]\n-named \"<code>entries</code>\", \"<code>forEach</code>\",\n-\"<code>has</code>\", \"<code>keys</code>\",\n-\"<code>size</code>\", or \"<code>values</code>\",\n-or have any [=inherited interfaces=]\n-that have [=members=] with these names.\n-Read–write setlike interfaces must not\n-have any [=attributes=]\n-or [=constants=] named\n-\"<code>add</code>\", \"<code>clear</code>\",\n-or \"<code>delete</code>\", or have any [=inherited interfaces=]\n-that have [=attributes=] or [=constants=] with these names.\n-\n-Note: Operations named \"<code>add</code>\", \"<code>clear</code>\",\n-or \"<code>delete</code>\" are allowed on read–write setlike\n+Setlike interfaces and their [=inherited interfaces=] must not have any [=regular operations=],\n+[=regular attributes=] or [=constants=] named",
+    "path": "index.bs",
+    "commit_id": "164a960feddb1f5ba0b135a4ce4b165671cac355",
+    "original_commit_id": "d6722f1dc262cfb5f16d6f3c759a84ed34cd9cc8",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "That is a really good question....  Seems like disallowing it until there's a use case that might want it, and then deciding how it should work, is reasonable...",
+    "created_at": "2019-05-15T20:12:53Z",
+    "updated_at": "2019-05-16T09:38:39Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/726#discussion_r284431280",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/726",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/284431280"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/726#discussion_r284431280"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/726"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/284431280/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 4231,
+    "side": "RIGHT",
+    "in_reply_to_id": 283718708,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 82,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/286087912",
+    "pull_request_review_id": 240126351,
+    "id": 286087912,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDI4NjA4NzkxMg==",
+    "diff_hunk": "@@ -4226,22 +4227,23 @@ keyword is used, this includes <code class=\"idl\">entries</code>,\n For read–write setlikes, it also includes <code class=\"idl\">add</code>,\n <code class=\"idl\">clear</code>, and <code class=\"idl\">delete</code> methods.\n \n-Setlike interfaces must not\n-have any [=interface members=]\n-named \"<code>entries</code>\", \"<code>forEach</code>\",\n-\"<code>has</code>\", \"<code>keys</code>\",\n-\"<code>size</code>\", or \"<code>values</code>\",\n-or have any [=inherited interfaces=]\n-that have [=members=] with these names.\n-Read–write setlike interfaces must not\n-have any [=attributes=]\n-or [=constants=] named\n-\"<code>add</code>\", \"<code>clear</code>\",\n-or \"<code>delete</code>\", or have any [=inherited interfaces=]\n-that have [=attributes=] or [=constants=] with these names.\n-\n-Note: Operations named \"<code>add</code>\", \"<code>clear</code>\",\n-or \"<code>delete</code>\" are allowed on read–write setlike\n+Setlike interfaces and their [=inherited interfaces=] must not have any [=regular operations=],\n+[=regular attributes=] or [=constants=] named",
+    "path": "index.bs",
+    "commit_id": "164a960feddb1f5ba0b135a4ce4b165671cac355",
+    "original_commit_id": "d6722f1dc262cfb5f16d6f3c759a84ed34cd9cc8",
+    "user": {
+      "login": "Ms2ger",
+      "id": 111161,
+      "node_id": "MDQ6VXNlcjExMTE2MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/111161?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Ms2ger",
+      "html_url": "https://github.com/Ms2ger",
+      "followers_url": "https://api.github.com/users/Ms2ger/followers",
+      "following_url": "https://api.github.com/users/Ms2ger/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Ms2ger/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Ms2ger/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Ms2ger/subscriptions",
+      "organizations_url": "https://api.github.com/users/Ms2ger/orgs",
+      "repos_url": "https://api.github.com/users/Ms2ger/repos",
+      "events_url": "https://api.github.com/users/Ms2ger/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Ms2ger/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Done.",
+    "created_at": "2019-05-21T15:27:56Z",
+    "updated_at": "2019-05-21T15:27:56Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/726#discussion_r286087912",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/726",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/286087912"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/726#discussion_r286087912"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/726"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/286087912/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 4231,
+    "side": "RIGHT",
+    "in_reply_to_id": 283718708,
+    "author_association": "MEMBER",
+    "original_position": 82,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/392407367",
+    "pull_request_review_id": 374532356,
+    "id": 392407367,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDM5MjQwNzM2Nw==",
+    "diff_hunk": "@@ -4132,23 +4133,25 @@ keyword is used, this includes <code class=\"idl\">entries</code>,\n For read–write maplikes, it also includes <code class=\"idl\">clear</code>,\n <code class=\"idl\">delete</code>, and <code class=\"idl\">set</code> methods.\n \n-Maplike interfaces must not\n-have any [=interface members=]\n-named \"<code>entries</code>\", \"<code>forEach</code>\",\n-\"<code>get</code>\", \"<code>has</code>\",\n-\"<code>keys</code>\", \"<code>size</code>\", or\n-\"<code>values</code>\",\n-or have any [=inherited interfaces=]\n-that have [=members=] with these names.\n-Read–write maplike interfaces must not\n-have any [=attributes=]\n-or [=constants=] named\n-\"<code>clear</code>\", \"<code>delete</code>\",\n-or \"<code>set</code>\", or have any [=inherited interfaces=]\n-that have [=attributes=] or [=constants=] with these names.\n-\n-Note: Operations named \"<code>clear</code>\", \"<code>delete</code>\",\n-or \"<code>set</code>\" are allowed on read–write maplike\n+Maplike interfaces, their [=inherited interfaces=], and any [=interfaces=] that",
+    "path": "index.bs",
+    "commit_id": "164a960feddb1f5ba0b135a4ce4b165671cac355",
+    "original_commit_id": "164a960feddb1f5ba0b135a4ce4b165671cac355",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Is it worth factoring out the \"interface, its inherited interfaces, and all interfaces that inherit from it\" concept so it can be reused, instead of copy/pasting it?",
+    "created_at": "2020-03-13T18:42:06Z",
+    "updated_at": "2020-03-13T18:43:43Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/726#discussion_r392407367",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/726",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/392407367"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/726#discussion_r392407367"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/726"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/392407367/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 4136,
+    "original_line": 4136,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 41,
+    "position": 41,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/392407676",
+    "pull_request_review_id": 374532356,
+    "id": 392407676,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDM5MjQwNzY3Ng==",
+    "diff_hunk": "@@ -4132,23 +4133,25 @@ keyword is used, this includes <code class=\"idl\">entries</code>,\n For read–write maplikes, it also includes <code class=\"idl\">clear</code>,\n <code class=\"idl\">delete</code>, and <code class=\"idl\">set</code> methods.\n \n-Maplike interfaces must not\n-have any [=interface members=]\n-named \"<code>entries</code>\", \"<code>forEach</code>\",\n-\"<code>get</code>\", \"<code>has</code>\",\n-\"<code>keys</code>\", \"<code>size</code>\", or\n-\"<code>values</code>\",\n-or have any [=inherited interfaces=]\n-that have [=members=] with these names.\n-Read–write maplike interfaces must not\n-have any [=attributes=]\n-or [=constants=] named\n-\"<code>clear</code>\", \"<code>delete</code>\",\n-or \"<code>set</code>\", or have any [=inherited interfaces=]\n-that have [=attributes=] or [=constants=] with these names.\n-\n-Note: Operations named \"<code>clear</code>\", \"<code>delete</code>\",\n-or \"<code>set</code>\" are allowed on read–write maplike\n+Maplike interfaces, their [=inherited interfaces=], and any [=interfaces=] that\n+[=interface/inherit=] from them must not have any [=regular operations=], [=regular attributes=] or\n+[=constants=] named\n+\"<code>entries</code>\",\n+\"<code>forEach</code>\",\n+\"<code>get</code>\",\n+\"<code>has</code>\",\n+\"<code>keys</code>\",\n+\"<code>size</code>\", or\n+\"<code>values</code>\".\n+\n+Read–write maplike interfaces must not have any [=regular attributes=] or [=constants=] named\n+\"<code>clear</code>\",\n+\"<code>delete</code>\", or\n+\"<code>set</code>\",\n+or have any [=inherited interfaces=] that have [=regular operations=], [=regular attributes=] or\n+[=constants=] with these names.",
+    "path": "index.bs",
+    "commit_id": "164a960feddb1f5ba0b135a4ce4b165671cac355",
+    "original_commit_id": "164a960feddb1f5ba0b135a4ce4b165671cac355",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Can interfaces inheriting from the read-write maplike have these things?  Seems like they shouldn't...",
+    "created_at": "2020-03-13T18:42:50Z",
+    "updated_at": "2020-03-13T18:43:43Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/726#discussion_r392407676",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/726",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/392407676"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/726#discussion_r392407676"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/726"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/392407676/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 4152,
+    "original_line": 4152,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 57,
+    "position": 57,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/392407875",
+    "pull_request_review_id": 374532356,
+    "id": 392407875,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDM5MjQwNzg3NQ==",
+    "diff_hunk": "@@ -4226,22 +4229,24 @@ keyword is used, this includes <code class=\"idl\">entries</code>,\n For read–write setlikes, it also includes <code class=\"idl\">add</code>,\n <code class=\"idl\">clear</code>, and <code class=\"idl\">delete</code> methods.\n \n-Setlike interfaces must not\n-have any [=interface members=]\n-named \"<code>entries</code>\", \"<code>forEach</code>\",\n-\"<code>has</code>\", \"<code>keys</code>\",\n-\"<code>size</code>\", or \"<code>values</code>\",\n-or have any [=inherited interfaces=]\n-that have [=members=] with these names.\n-Read–write setlike interfaces must not\n-have any [=attributes=]\n-or [=constants=] named\n-\"<code>add</code>\", \"<code>clear</code>\",\n-or \"<code>delete</code>\", or have any [=inherited interfaces=]\n-that have [=attributes=] or [=constants=] with these names.\n-\n-Note: Operations named \"<code>add</code>\", \"<code>clear</code>\",\n-or \"<code>delete</code>\" are allowed on read–write setlike\n+Setlike interfaces, their [=inherited interfaces=], and any [=interfaces=] that\n+[=interface/inherit=] from them must not have any [=regular operations=], [=regular attributes=] or\n+[=constants=] named\n+\"<code>entries</code>\",\n+\"<code>forEach</code>\",\n+\"<code>has</code>\",\n+\"<code>keys</code>\",\n+\"<code>size</code>\", or\n+\"<code>values</code>\".\n+\n+Read–write setlike interfaces must not have any [=regular attributes=] or [=constants=] named\n+\"<code>add</code>\",\n+\"<code>clear</code>\", or\n+\"<code>delete</code>\",\n+or have any [=inherited interfaces=] that have [=regular operations=], [=regular attributes=] or",
+    "path": "index.bs",
+    "commit_id": "164a960feddb1f5ba0b135a4ce4b165671cac355",
+    "original_commit_id": "164a960feddb1f5ba0b135a4ce4b165671cac355",
+    "user": {
+      "login": "bzbarsky",
+      "id": 1457979,
+      "node_id": "MDQ6VXNlcjE0NTc5Nzk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1457979?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bzbarsky",
+      "html_url": "https://github.com/bzbarsky",
+      "followers_url": "https://api.github.com/users/bzbarsky/followers",
+      "following_url": "https://api.github.com/users/bzbarsky/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bzbarsky/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bzbarsky/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bzbarsky/subscriptions",
+      "organizations_url": "https://api.github.com/users/bzbarsky/orgs",
+      "repos_url": "https://api.github.com/users/bzbarsky/repos",
+      "events_url": "https://api.github.com/users/bzbarsky/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bzbarsky/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Again, what about interfaces that inherit from the read-write setlike?",
+    "created_at": "2020-03-13T18:43:16Z",
+    "updated_at": "2020-03-13T18:43:43Z",
+    "html_url": "https://github.com/whatwg/webidl/pull/726#discussion_r392407875",
+    "pull_request_url": "https://api.github.com/repos/whatwg/webidl/pulls/726",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/comments/392407875"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/webidl/pull/726#discussion_r392407875"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/webidl/pulls/726"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/webidl/pulls/comments/392407875/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 4246,
+    "original_line": 4246,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 97,
+    "position": 97,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

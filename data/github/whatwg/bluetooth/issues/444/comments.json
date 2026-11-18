@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/bluetooth/issues/comments/503234833",
+    "html_url": "https://github.com/whatwg/bluetooth/issues/444#issuecomment-503234833",
+    "issue_url": "https://api.github.com/repos/whatwg/bluetooth/issues/444",
+    "id": 503234833,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDUwMzIzNDgzMw==",
+    "user": {
+      "login": "odejesush",
+      "id": 15678445,
+      "node_id": "MDQ6VXNlcjE1Njc4NDQ1",
+      "avatar_url": "https://avatars.githubusercontent.com/u/15678445?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/odejesush",
+      "html_url": "https://github.com/odejesush",
+      "followers_url": "https://api.github.com/users/odejesush/followers",
+      "following_url": "https://api.github.com/users/odejesush/following{/other_user}",
+      "gists_url": "https://api.github.com/users/odejesush/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/odejesush/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/odejesush/subscriptions",
+      "organizations_url": "https://api.github.com/users/odejesush/orgs",
+      "repos_url": "https://api.github.com/users/odejesush/repos",
+      "events_url": "https://api.github.com/users/odejesush/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/odejesush/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2019-06-18T17:31:55Z",
+    "updated_at": "2019-06-18T17:31:55Z",
+    "body": "The services that you include in the filters for `requestDevice()` are the services that will be used to filter out devices when a scan is performed. As long as you include the custom defined GATT service UUID, and it is a valid UUID that is not in the blocklist, then the device should be shown in the user prompt.\r\n\r\nThe line that you referenced from the spec is from step 6.2 of the [scan for devices](https://webbluetoothcg.github.io/web-bluetooth/#scan-for-devices) algorithm. If we follow the steps backwards, the set of Service UUIDs that is used in the algorithm comes from the _requiredServiceUUIDs_ set in  step 7 of the [request Bluetooth devices](https://webbluetoothcg.github.io/web-bluetooth/#request-bluetooth-devices) algorithm. The _requiredServiceUUIDs_ is the result of [canonicalizing](https://webbluetoothcg.github.io/web-bluetooth/#bluetoothlescanfilterinit-canonicalizing) the filters passed into `requestDevice()`, performed in step 2.4.3 of the [request Bluetooth devices](https://webbluetoothcg.github.io/web-bluetooth/#request-bluetooth-devices) algorithm.\r\n\r\nThe [canonicalizing](https://webbluetoothcg.github.io/web-bluetooth/#bluetoothlescanfilterinit-canonicalizing) algorithm makes sure that the services included in the filter are valid in step 3. It does this by first attempting to [grab the service UUID given a service name](https://webbluetoothcg.github.io/web-bluetooth/#dom-bluetoothuuid-getservice), or if a UUID is given, it makes sure that it's a [valid UUID](https://webbluetoothcg.github.io/web-bluetooth/#valid-uuid). After this step, it checks if the service UUID is in the [blocklist](https://github.com/WebBluetoothCG/registries/blob/master/gatt_blocklist.txt) and throws a `SecurityError` if it is. Hopefully this explanation makes sense.",
+    "author_association": "CONTRIBUTOR",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/bluetooth/issues/comments/503234833/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

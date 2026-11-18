@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/481665362",
+    "html_url": "https://github.com/whatwg/html/issues/4516#issuecomment-481665362",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/4516",
+    "id": 481665362,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDQ4MTY2NTM2Mg==",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2019-04-10T12:14:21Z",
+    "updated_at": "2019-04-10T12:14:21Z",
+    "body": "I looked into this a bit and as far as I can tell this isn't related to the dispatch algorithm. It's about the activation behavior of the label element only.\r\n\r\nWhen the label element is associated with a checkbox, either via nesting or the for attribute, and its activation behavior is triggered, user agents dispatch a (new) click event on the checkbox. (There are some differences here, e.g., `new MouseEvent(\"click\", {button:2}` [does not trigger activation behavior](https://software.hixie.ch/utilities/js/live-dom-viewer/saved/6845) of the label element in Firefox, but does in other browsers.)\r\n\r\nTo completely remove platform-dependent behavior however we'd have to test how this works for all form controls a `label` element can be associated with, as the activation behavior might well differ.",
+    "author_association": "MEMBER",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/481665362/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

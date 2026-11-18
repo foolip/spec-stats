@@ -1,0 +1,145 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/171071002",
+    "pull_request_review_id": 99860462,
+    "id": 171071002,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE3MTA3MTAwMg==",
+    "diff_hunk": "@@ -926,15 +926,15 @@ result of the following steps:\n     <li><p>Set <var>action</var>'s {{NotificationAction/icon}} to\n     <var>entry</var>'s <a for=action>icon URL</a>.\n \n-    <!-- XXX IDL dictionaries are usually returned by value, so don't need to be\n-         immutable. But FrozenArray reifies the dictionaries to mutable JS\n-         objects accessed by reference, so we explicitly freeze them.\n-         It would be better to do this with IDL primitives instead of JS - see\n-         https://www.w3.org/Bugs/Public/show_bug.cgi?id=29004 -->\n-    <li><p>Call <a lt=\"freeze\">Object.freeze</a> on <var>action</var>, to\n-    prevent accidental mutation by scripts.\n+    <li><p>Let <var>jsAction</var> be <var>action</var>, <a>converted to an ECMAScript value</a>.\n \n-    <li><p>Append <var>action</var> to <var>frozenActions</var>.\n+    <li><p>Perform <a abstract-op>SetIntegrityLevel</a>(<var>jsAction</var>, \"frozen\").\n+\n+    <li><p>Let <var>idlAction</var> be <var>jsAction</var>, <a>converted to an IDL value</a>.",
+    "path": "notifications.bs",
+    "commit_id": "9e4392db003ddd5bfd9e1ef4441e185df515f148",
+    "original_commit_id": "9e4392db003ddd5bfd9e1ef4441e185df515f148",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This isn't correct, at least as written. The conversion, presumably to an IDL `NotificationAction` type (although that isn't stated), will re-perform the Get()s of all the properties, which can be observable if Object.prototype is modified. Then we'll convert back to JS in the binding layer.\r\n\r\nI don't think there's any way to do this rigorously as long as your return type is `FrozenArray<NotificationAction>` (instead of `FrozenArray<object>`). The conversion between JS objects and dictionaries is observable and side effecting.",
+    "created_at": "2018-02-27T21:24:32Z",
+    "updated_at": "2018-02-27T21:24:36Z",
+    "html_url": "https://github.com/whatwg/notifications/pull/125#discussion_r171071002",
+    "pull_request_url": "https://api.github.com/repos/whatwg/notifications/pulls/125",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/comments/171071002"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/notifications/pull/125#discussion_r171071002"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/125"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/171071002/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 933,
+    "original_line": 933,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 32,
+    "position": 32,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/171151902",
+    "pull_request_review_id": 99953658,
+    "id": 171151902,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE3MTE1MTkwMg==",
+    "diff_hunk": "@@ -926,15 +926,15 @@ result of the following steps:\n     <li><p>Set <var>action</var>'s {{NotificationAction/icon}} to\n     <var>entry</var>'s <a for=action>icon URL</a>.\n \n-    <!-- XXX IDL dictionaries are usually returned by value, so don't need to be\n-         immutable. But FrozenArray reifies the dictionaries to mutable JS\n-         objects accessed by reference, so we explicitly freeze them.\n-         It would be better to do this with IDL primitives instead of JS - see\n-         https://www.w3.org/Bugs/Public/show_bug.cgi?id=29004 -->\n-    <li><p>Call <a lt=\"freeze\">Object.freeze</a> on <var>action</var>, to\n-    prevent accidental mutation by scripts.\n+    <li><p>Let <var>jsAction</var> be <var>action</var>, <a>converted to an ECMAScript value</a>.\n \n-    <li><p>Append <var>action</var> to <var>frozenActions</var>.\n+    <li><p>Perform <a abstract-op>SetIntegrityLevel</a>(<var>jsAction</var>, \"frozen\").\n+\n+    <li><p>Let <var>idlAction</var> be <var>jsAction</var>, <a>converted to an IDL value</a>.",
+    "path": "notifications.bs",
+    "commit_id": "9e4392db003ddd5bfd9e1ef4441e185df515f148",
+    "original_commit_id": "9e4392db003ddd5bfd9e1ef4441e185df515f148",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I cannot use `FrozenArray` then either since it's constructor takes an IDL value. I'm not sure I want to inline all of that. That would be rather bad and I'd likely make mistakes or it would result in mismatches down the line.\r\n\r\nThere is some mismatch here though with implementations I think where JS values are backed by IDL values and you can manipulate either. That's not conversion, but just grabbing the corresponding value, but IDL doesn't formalize that.",
+    "created_at": "2018-02-28T06:20:13Z",
+    "updated_at": "2018-02-28T06:20:13Z",
+    "html_url": "https://github.com/whatwg/notifications/pull/125#discussion_r171151902",
+    "pull_request_url": "https://api.github.com/repos/whatwg/notifications/pulls/125",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/comments/171151902"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/notifications/pull/125#discussion_r171151902"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/notifications/pulls/125"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/notifications/pulls/comments/171151902/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 933,
+    "original_line": 933,
+    "side": "RIGHT",
+    "in_reply_to_id": 171071002,
+    "author_association": "MEMBER",
+    "original_position": 32,
+    "position": 32,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]

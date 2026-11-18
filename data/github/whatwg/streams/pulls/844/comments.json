@@ -1,0 +1,286 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/145153239",
+    "pull_request_review_id": 69910652,
+    "id": 145153239,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE0NTE1MzIzOQ==",
+    "diff_hunk": "@@ -0,0 +1,217 @@\n+/**\n+ * Creates random values with the help of WebCrypto API\n+ */\n+function createRandomValuesStream(numberOfBytes = 10, valueInterval = 1000, maxValues = null) {\n+    const cqs = new CountQueuingStrategy({ highWaterMark: 4 });\n+    const readableStream = new ReadableStream({\n+        totalEnqueuedItemsCount: 0,\n+        interval: null,\n+\n+        start(controller) {\n+            logStatusText('`start` method of the readable stream called')\n+            this.startValueInterval(controller);\n+        },\n+\n+        /**\n+         * Starting the random values generation again after a certain period\n+         * @param {*} controller \n+         */\n+        async pull(controller) {",
+    "path": "demos/random-values-stream/index.js",
+    "commit_id": "6bc3e1314efdf97a2328e644226f08dbfad534e6",
+    "original_commit_id": "6bc3e1314efdf97a2328e644226f08dbfad534e6",
+    "user": {
+      "login": "ricea",
+      "id": 6678407,
+      "node_id": "MDQ6VXNlcjY2Nzg0MDc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6678407?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ricea",
+      "html_url": "https://github.com/ricea",
+      "followers_url": "https://api.github.com/users/ricea/followers",
+      "following_url": "https://api.github.com/users/ricea/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ricea/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ricea/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ricea/subscriptions",
+      "organizations_url": "https://api.github.com/users/ricea/orgs",
+      "repos_url": "https://api.github.com/users/ricea/repos",
+      "events_url": "https://api.github.com/users/ricea/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ricea/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This is unnecessarily complicated. You don't need to track `desiredSize` yourself. As long as you have called `enqueue()` you can rely on the ReadableStream to call you back when there is no backpressure.\r\n\r\nIt would be simpler to do something like\r\n\r\n```javascript\r\npull(controller) {\r\n  if (maxValues && this.totalEnqueuedItemsCount >= maxValues) {\r\n    controller.close();\r\n    return;\r\n  }\r\n  let resolve;\r\n  const promise = new Promise(r => {\r\n    resolve = r;\r\n  });\r\n  setTimeout(() => {\r\n    controller.enqueue(randomValuesUint8Array(20));\r\n    ++this.totalEnqueuedItemsCount;\r\n    resolve();\r\n  }, valueInterval);\r\n  return promise;\r\n}\r\n```\r\n\r\n(untested).",
+    "created_at": "2017-10-17T14:45:43Z",
+    "updated_at": "2017-10-17T14:45:43Z",
+    "html_url": "https://github.com/whatwg/streams/pull/844#discussion_r145153239",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/844",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/145153239"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/844#discussion_r145153239"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/844"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/145153239/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 19,
+    "original_line": 19,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 19,
+    "position": 19,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/145153704",
+    "pull_request_review_id": 69911177,
+    "id": 145153704,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE0NTE1MzcwNA==",
+    "diff_hunk": "@@ -0,0 +1,217 @@\n+/**\n+ * Creates random values with the help of WebCrypto API\n+ */\n+function createRandomValuesStream(numberOfBytes = 10, valueInterval = 1000, maxValues = null) {\n+    const cqs = new CountQueuingStrategy({ highWaterMark: 4 });\n+    const readableStream = new ReadableStream({\n+        totalEnqueuedItemsCount: 0,\n+        interval: null,\n+\n+        start(controller) {\n+            logStatusText('`start` method of the readable stream called')\n+            this.startValueInterval(controller);\n+        },\n+\n+        /**\n+         * Starting the random values generation again after a certain period\n+         * @param {*} controller \n+         */\n+        async pull(controller) {\n+            if (controller.desiredSize > 2 && !this.interval) {\n+                this.startValueInterval(controller);\n+            }\n+        },\n+\n+        async close(controller) {\n+            logStatusText('`close` method of the readable stream called');\n+            this.clearValueInterval();\n+            controller.close();\n+            return;\n+        },\n+\n+        async cancel() {\n+            logStatusText('`cancel` method of the readable stream called')\n+            this.clearValueInterval();\n+        },\n+\n+        throwFinalError(error) {\n+            console.log('Errored out');\n+            console.error(error);\n+\n+            this.clearValueInterval();\n+        },\n+\n+        startValueInterval(controller) {\n+            if (this.interval) {\n+                return;\n+            }\n+\n+            this.interval = setInterval(() => {\n+                try {\n+                    controller.enqueue(randomValuesUint8Array(20));\n+                    this.totalEnqueuedItemsCount++;\n+                    this.checkBackpressureSignal(controller);\n+                    \n+                    // Close the stream and clear the interval\n+                    if (maxValues && this.totalEnqueuedItemsCount >= maxValues) {\n+                        return this.close(controller);  \n+                    }\n+                } catch (error) {\n+                    this.throwFinalError(error);\n+                }\n+            }, valueInterval);\n+        },\n+        \n+        /**\n+         * Clears the value interval stored in this.interval reference\n+         */\n+        clearValueInterval() {\n+            if (this.interval) {\n+                clearInterval(this.interval);\n+                this.interval = null;\n+            }\n+        },\n+\n+        /**\n+         * Checks a backpressure signal  and clears the interval\n+         * not enqueuing any more values\n+         * \n+         * @param {*} controller \n+         * @param {*} interval\n+         */\n+        checkBackpressureSignal(controller, interval) {\n+            if (controller.desiredSize <= 0) {\n+                this.clearValueInterval();\n+            }\n+        }\n+    }, cqs);\n+\n+    return readableStream;\n+}\n+\n+/**\n+ * Creates a random values Uint8Array\n+ * @param {*} numberOfBytes \n+ */\n+function randomValuesUint8Array(numberOfBytes) {\n+    const uint8Array = new Uint8Array(numberOfBytes);\n+    return window.crypto.getRandomValues(uint8Array);\n+}\n+\n+/**\n+ * Create a writable stream to display the output with a builtin backpressure\n+ */\n+function createOutputWritableStream(parentElement) {\n+    /**\n+     * Equivalent to\n+     * \n+     * const cqs = new CountQueuingStrategy({\n+     *  highWaterMark: 3,\n+     * });\n+     */\n+    const queuingStrategy = {\n+        highWaterMark: 3,\n+        size() { return 1; }\n+    }\n+\n+    const writable = new WritableStream({\n+        async write(chunk, controller) {\n+            try {\n+                await writeChunk(chunk);\n+                return;\n+            } catch (error) {\n+                return this.finalErrorHandler(error, controller);\n+            }\n+        },\n+\n+        finalErrorHandler(error, controller) {\n+            controller.error(error);\n+            logStatusText('Error occured in the writable stream');\n+            return error;\n+        },\n+\n+        close() {\n+            logStatusText('Closing the stream');\n+            console.log('Stream closed');\n+        }\n+    });\n+\n+    /**\n+     * Writes a chunk to the span and appends it to the parent element\n+     * @param {*} chunk \n+     */\n+    async function writeChunk(chunk) {",
+    "path": "demos/random-values-stream/index.js",
+    "commit_id": "6bc3e1314efdf97a2328e644226f08dbfad534e6",
+    "original_commit_id": "6bc3e1314efdf97a2328e644226f08dbfad534e6",
+    "user": {
+      "login": "ricea",
+      "id": 6678407,
+      "node_id": "MDQ6VXNlcjY2Nzg0MDc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6678407?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ricea",
+      "html_url": "https://github.com/ricea",
+      "followers_url": "https://api.github.com/users/ricea/followers",
+      "following_url": "https://api.github.com/users/ricea/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ricea/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ricea/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ricea/subscriptions",
+      "organizations_url": "https://api.github.com/users/ricea/orgs",
+      "repos_url": "https://api.github.com/users/ricea/repos",
+      "events_url": "https://api.github.com/users/ricea/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ricea/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This function doesn't need to be async as it performs no asynchronous operations. Also, as it is only called within write(), it might as well just be included in that function.",
+    "created_at": "2017-10-17T14:47:14Z",
+    "updated_at": "2017-10-17T14:47:14Z",
+    "html_url": "https://github.com/whatwg/streams/pull/844#discussion_r145153704",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/844",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/145153704"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/844#discussion_r145153704"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/844"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/145153704/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 143,
+    "original_line": 143,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 143,
+    "position": 143,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/145153891",
+    "pull_request_review_id": 69911386,
+    "id": 145153891,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE0NTE1Mzg5MQ==",
+    "diff_hunk": "@@ -0,0 +1,217 @@\n+/**\n+ * Creates random values with the help of WebCrypto API\n+ */\n+function createRandomValuesStream(numberOfBytes = 10, valueInterval = 1000, maxValues = null) {\n+    const cqs = new CountQueuingStrategy({ highWaterMark: 4 });\n+    const readableStream = new ReadableStream({\n+        totalEnqueuedItemsCount: 0,\n+        interval: null,\n+\n+        start(controller) {\n+            logStatusText('`start` method of the readable stream called')\n+            this.startValueInterval(controller);\n+        },\n+\n+        /**\n+         * Starting the random values generation again after a certain period\n+         * @param {*} controller \n+         */\n+        async pull(controller) {\n+            if (controller.desiredSize > 2 && !this.interval) {\n+                this.startValueInterval(controller);\n+            }\n+        },\n+\n+        async close(controller) {\n+            logStatusText('`close` method of the readable stream called');\n+            this.clearValueInterval();\n+            controller.close();\n+            return;\n+        },\n+\n+        async cancel() {\n+            logStatusText('`cancel` method of the readable stream called')\n+            this.clearValueInterval();\n+        },\n+\n+        throwFinalError(error) {\n+            console.log('Errored out');\n+            console.error(error);\n+\n+            this.clearValueInterval();\n+        },\n+\n+        startValueInterval(controller) {\n+            if (this.interval) {\n+                return;\n+            }\n+\n+            this.interval = setInterval(() => {\n+                try {\n+                    controller.enqueue(randomValuesUint8Array(20));\n+                    this.totalEnqueuedItemsCount++;\n+                    this.checkBackpressureSignal(controller);\n+                    \n+                    // Close the stream and clear the interval\n+                    if (maxValues && this.totalEnqueuedItemsCount >= maxValues) {\n+                        return this.close(controller);  \n+                    }\n+                } catch (error) {\n+                    this.throwFinalError(error);\n+                }\n+            }, valueInterval);\n+        },\n+        \n+        /**\n+         * Clears the value interval stored in this.interval reference\n+         */\n+        clearValueInterval() {\n+            if (this.interval) {\n+                clearInterval(this.interval);\n+                this.interval = null;\n+            }\n+        },\n+\n+        /**\n+         * Checks a backpressure signal  and clears the interval\n+         * not enqueuing any more values\n+         * \n+         * @param {*} controller \n+         * @param {*} interval\n+         */\n+        checkBackpressureSignal(controller, interval) {\n+            if (controller.desiredSize <= 0) {\n+                this.clearValueInterval();\n+            }\n+        }\n+    }, cqs);\n+\n+    return readableStream;\n+}\n+\n+/**\n+ * Creates a random values Uint8Array\n+ * @param {*} numberOfBytes \n+ */\n+function randomValuesUint8Array(numberOfBytes) {\n+    const uint8Array = new Uint8Array(numberOfBytes);\n+    return window.crypto.getRandomValues(uint8Array);\n+}\n+\n+/**\n+ * Create a writable stream to display the output with a builtin backpressure\n+ */\n+function createOutputWritableStream(parentElement) {\n+    /**\n+     * Equivalent to\n+     * \n+     * const cqs = new CountQueuingStrategy({\n+     *  highWaterMark: 3,\n+     * });\n+     */\n+    const queuingStrategy = {\n+        highWaterMark: 3,\n+        size() { return 1; }\n+    }\n+\n+    const writable = new WritableStream({\n+        async write(chunk, controller) {\n+            try {\n+                await writeChunk(chunk);\n+                return;\n+            } catch (error) {",
+    "path": "demos/random-values-stream/index.js",
+    "commit_id": "6bc3e1314efdf97a2328e644226f08dbfad534e6",
+    "original_commit_id": "6bc3e1314efdf97a2328e644226f08dbfad534e6",
+    "user": {
+      "login": "ricea",
+      "id": 6678407,
+      "node_id": "MDQ6VXNlcjY2Nzg0MDc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6678407?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ricea",
+      "html_url": "https://github.com/ricea",
+      "followers_url": "https://api.github.com/users/ricea/followers",
+      "following_url": "https://api.github.com/users/ricea/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ricea/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ricea/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ricea/subscriptions",
+      "organizations_url": "https://api.github.com/users/ricea/orgs",
+      "repos_url": "https://api.github.com/users/ricea/repos",
+      "events_url": "https://api.github.com/users/ricea/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ricea/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Not necessary to catch the exception. If write() throws, the stream will errored automatically.",
+    "created_at": "2017-10-17T14:47:50Z",
+    "updated_at": "2017-10-17T14:47:50Z",
+    "html_url": "https://github.com/whatwg/streams/pull/844#discussion_r145153891",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/844",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/145153891"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/844#discussion_r145153891"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/844"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/145153891/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 122,
+    "original_line": 122,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 122,
+    "position": 122,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/145154339",
+    "pull_request_review_id": 69911921,
+    "id": 145154339,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDE0NTE1NDMzOQ==",
+    "diff_hunk": "@@ -8,14 +8,17 @@\n <dl>\n   <dt><a href=\"append-child.html\">Append child WritableStream</a>\n   <dd>Piping through a series of transforms to a custom writable stream that appends children to\n-  the DOM.\n+  the DOM.</dd>",
+    "path": "demos/index.html",
+    "commit_id": "6bc3e1314efdf97a2328e644226f08dbfad534e6",
+    "original_commit_id": "6bc3e1314efdf97a2328e644226f08dbfad534e6",
+    "user": {
+      "login": "ricea",
+      "id": 6678407,
+      "node_id": "MDQ6VXNlcjY2Nzg0MDc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6678407?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ricea",
+      "html_url": "https://github.com/ricea",
+      "followers_url": "https://api.github.com/users/ricea/followers",
+      "following_url": "https://api.github.com/users/ricea/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ricea/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ricea/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ricea/subscriptions",
+      "organizations_url": "https://api.github.com/users/ricea/orgs",
+      "repos_url": "https://api.github.com/users/ricea/repos",
+      "events_url": "https://api.github.com/users/ricea/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ricea/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "The end tag is not needed, see https://html.spec.whatwg.org/multipage/grouping-content.html#the-dd-element.\r\n\r\nI find it tidier to leave it out.",
+    "created_at": "2017-10-17T14:49:15Z",
+    "updated_at": "2017-10-17T14:49:15Z",
+    "html_url": "https://github.com/whatwg/streams/pull/844#discussion_r145154339",
+    "pull_request_url": "https://api.github.com/repos/whatwg/streams/pulls/844",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/comments/145154339"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/streams/pull/844#discussion_r145154339"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/streams/pulls/844"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/streams/pulls/comments/145154339/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 11,
+    "original_line": 11,
+    "side": "RIGHT",
+    "author_association": "COLLABORATOR",
+    "original_position": 5,
+    "position": 5,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_sources": []
+  }
+]
