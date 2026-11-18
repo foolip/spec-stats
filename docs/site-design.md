@@ -11,14 +11,14 @@ decisions log.
 
 ```
 data/github/ ── derive (Python) ──▶ published tables ──▶ pages (browser)
-   raw, both tiers                  items, actions,       compute every
+   raw, both tiers                  items, events,        compute every
                                     users + coverage      metric in memory
 ```
 
 - **Raw:** `data/github/`, as fetched (`docs/extraction.md`).
 - **Build:** one Python step (standard library only) reads the raw files
   and writes a few small published tables. Every rule about what the raw
-  data means lives here: which events count, how an item's state is
+  data means lives here: which raw events count, how an item's state is
   worked out, what's left out, where the timeline starts.
 - **Pages:** plain HTML, CSS and ES modules with no JavaScript build step
   (decisions log, 2026-11-13). They read only the published tables and
@@ -39,13 +39,13 @@ data could give one.
 - **The detail tiers stay at build time.** Items stored as their row only
   (`docs/extraction.md`, "Row-only items") are closed and were last
   updated before the window, so none is open in it and none has an
-  action in it. The build skips them; they serve `check` and
+  event in it. The build skips them; they serve `check` and
   completeness only. Every item the published tables hold has its
   details, and the pages can't tell the difference and don't need to.
 - **Opening state.** Items already open when the window starts get a
-  synthetic `carried_in` action dated the window's first day. The build
+  synthetic `_carried_in` event dated the window's first day. The build
   works out who was open then by replaying each item's events before the
-  window. No other action dated before the window is published.
+  window. No other event dated before the window is published.
 - **Item dates may be older than the window.** An item's `created` is its
   real creation date, so the age of a backlog item on a day in the window
   is right. That is an attribute of an item in the window, not a figure
@@ -62,16 +62,16 @@ data could give one.
 ## First version: open PRs
 
 The first page is the number of open PRs over time, per spec. The build
-publishes only what that needs, and the tables grow a column or a kind at
+publishes only what that needs, and the tables grow a column or an event type at
 a time as later metrics need them:
 
 - **repos**: the lookup list of repo names.
-- **kinds**: `carried_in`, `opened`, `closed`, `reopened`. No `merged`:
+- **event_types**: `_carried_in`, `_opened`, `closed`, `reopened`. No `merged`:
   GitHub records a `closed` event on every merge too (all 154 merged
   whatwg/dom PRs have both), so `closed` alone ends a PR's open span.
 - **items**, PRs only: repo, and number (for links and for checking a
   count against GitHub).
-- **actions**: day, item, kind.
+- **events**: day, item, event.
 - **coverage**: the window.
 
 No users, labels or other lookups yet. Whether drafts count as open is
@@ -79,15 +79,20 @@ decided with the metric's definition.
 
 ## Published tables
 
-A star schema: one table of facts (actions) and tables describing the
+A star schema: one table of facts (events) and tables describing the
 things they refer to (items, users).
 
 - **items**, one row per issue or PR: repo, number, is_pr, author,
   created, and attributes worked out at build time (size, whether a PR
   is normative or has a WPT PR, first response, …), null where unknown.
-- **actions**, one row per thing someone did in the window: UTC day,
-  item, actor, kind, and flags such as self or bot. Kinds:
-  - lifecycle: `carried_in`, `opened`, `closed`, `reopened`, `merged`;
+- **events**, one row per thing that happened to an item in the window:
+  UTC day, item, actor, event, and flags such as self or bot. The names
+  are GitHub's: `event` as in `events.json` and the timeline API, whose
+  values GitHub calls issue event types. Comments and reviews come from
+  their own files but take the timeline's names, `commented` and
+  `reviewed`. Event types GitHub doesn't have start with `_`: `_opened`
+  (from the item's `created_at`) and `_carried_in` (ours). Event types:
+  - lifecycle: `_carried_in`, `_opened`, `closed`, `reopened`, `merged`;
   - detail: `commented`, `reviewed` (with its state), `review_requested`,
     `labeled`, `unlabeled`, `ready_for_review`, `converted_to_draft`, …
 - **users**, one row per GitHub account that acts, bots included (GitHub's
@@ -100,10 +105,10 @@ things they refer to (items, users).
   under its title.
 
 Files are columnar: an array per column rather than an object per row,
-with repos, logins, labels and kinds as indexes into small lookup lists.
+with repos, logins, labels and event types as indexes into small lookup lists.
 That keeps the files small and lets the browser load columns straight
 into typed arrays; a join is an array lookup. Expected size: about
-10,000 items and tens of thousands of actions, a few MB of JSON before
+10,000 items and tens of thousands of events, a few MB of JSON before
 compression.
 
 Where the files go, and whether they're committed or built when the site
@@ -148,13 +153,13 @@ Data is daily (UTC); binning is a display choice.
 
 Each metric is defined once, in a registry the pages, the metric picker,
 the hover text and the docs all read: id, label, a one-line definition,
-unit, kind (below), the action kinds it uses, and a version, bumped with
+unit, kind (below), the event types it uses, and a version, bumped with
 a decisions-log entry when the definition changes.
 
 | Kind | Examples | A day's point |
 |---|---|---|
-| Flow | PRs merged, reviews, comments | Count of actions over the trailing window |
-| Stock | Open issues and PRs, backlog by age, items stalled on a label | State at the end of the day, replayed from `carried_in`, `opened`, `reopened` and `closed` |
+| Flow | PRs merged, reviews, comments | Count of events over the trailing window |
+| Stock | Open issues and PRs, backlog by age, items stalled on a label | State at the end of the day, replayed from `_carried_in`, `_opened`, `reopened` and `closed` |
 | Duration | Time to first response | Median, with the share unanswered after 7 days, over items whose clock started in the trailing window |
 | Non-additive | Distinct reviewers, people doing 50% of reviews and merges | Recomputed over the trailing window from per-person daily counts |
 
