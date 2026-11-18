@@ -1,0 +1,87 @@
+# Build the site and publish it to GitHub Pages (docs/site-design.md,
+# "Frontend"): `python3 -m specstats build` writes build/data.json from
+# data/github/ (offline), then the Vite build in web/ writes web/dist/,
+# data.json included. Nothing is committed.
+#
+# Publishes on every push to main, after every run of "Fetch GitHub data"
+# (its commits are pushed with the built-in token, which doesn't trigger
+# push workflows, so this waits for the run instead), and on demand. A
+# pull request gets the same checks and build, without publishing.
+#
+# Needs Settings → Pages → Source: "GitHub Actions" (once, by hand: the
+# built-in token can't turn Pages on).
+
+name: Site
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_run:
+    workflows: ["Fetch GitHub data"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  # One publish at a time, the newest waiting rather than cancelling one
+  # half done; a pull request's builds only replace each other.
+  group: site-${{ github.event_name == 'pull_request' && github.ref || 'main' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # After a fetch, main as it is now, with the run's data commit.
+          ref: ${{ github.event_name == 'workflow_run' && 'main' || '' }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Build data.json
+        run: python3 -m specstats build
+
+      - name: Install
+        working-directory: web
+        run: npm ci
+
+      - name: Check and test
+        working-directory: web
+        run: npm run check && npm test
+
+      - name: Build the site
+        working-directory: web
+        run: npm run build
+
+      - uses: actions/upload-pages-artifact@v4
+        if: github.event_name != 'pull_request'
+        with:
+          path: web/dist
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write     # to publish
+      id-token: write  # to prove the publish comes from this workflow
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4

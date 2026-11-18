@@ -1,0 +1,288 @@
+/* The WHATWG's look, made more modern (docs/site-design.md, "Look"):
+   the WHATWG green as the one accent, the system font stack, a calm white
+   page. Chart series use a validated categorical palette. */
+
+:root {
+  color-scheme: light dark;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --bg: #ffffff;
+  --surface: #f6f6f4;
+  --ink: #111111;
+  --ink-2: #555555;
+  --ink-3: #767672;
+  --rule: #e2e2de;
+  --grid: #ebebe7;
+  --accent: #3c790a;        /* the WHATWG green */
+  --accent-ink: #ffffff;
+  --accent-soft: #e9f2e1;
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --tooltip-bg: #ffffff;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.06), 0 4px 16px rgb(0 0 0 / 0.08);
+  --z-sticky: 10;
+  --z-tooltip: 30;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #161615;
+    --surface: #1f1f1d;
+    --ink: #f0efec;
+    --ink-2: #c3c2b7;
+    --ink-3: #a8a8a2;
+    --rule: #34342f;
+    --grid: #2a2a27;
+    --accent: #7cc24a;      /* a lighter step of the green, 8.3:1 on --bg */
+    --accent-ink: #10200a;
+    --accent-soft: #22301a;
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --tooltip-bg: #232321;
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 4px 16px rgb(0 0 0 / 0.4);
+  }
+}
+
+* { box-sizing: border-box; }
+
+html {
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.5;
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-text-size-adjust: 100%;
+}
+
+body { margin: 0; }
+
+a { color: var(--accent); text-underline-offset: 0.15em; }
+a:hover { text-decoration-thickness: 2px; }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.wrap { max-width: 64rem; margin: 0 auto; padding: 0 1rem; }
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}
+
+/* Header and footer */
+
+header.site { border-top: 4px solid var(--accent); padding: 1.25rem 0 0.5rem; }
+header.site .wrap { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 1rem; }
+.brand {
+  font-weight: 700; font-size: 1.125rem; letter-spacing: -0.01em;
+  color: var(--ink); text-decoration: none;
+}
+.brand::before {
+  content: ""; display: inline-block; width: 0.6em; height: 0.6em; margin-right: 0.45em;
+  border-radius: 50%; border: 0.14em solid var(--accent); vertical-align: 0.02em;
+}
+.tagline { margin: 0; color: var(--ink-2); font-size: 0.9375rem; }
+
+footer.site { margin-top: 4rem; padding: 1.5rem 0 3rem; border-top: 1px solid var(--rule); color: var(--ink-3); font-size: 0.875rem; }
+footer.site p { margin: 0.25rem 0; }
+
+.notice { padding: 3rem 0; color: var(--ink-2); }
+
+/* A view */
+
+.view hgroup { margin: 2rem 0 1.25rem; }
+.view h1 { font-size: clamp(1.75rem, 4vw, 2.25rem); line-height: 1.15; letter-spacing: -0.02em; margin: 0; }
+.question { margin: 0.4rem 0 0; color: var(--ink-2); font-size: 1.0625rem; max-width: 40rem; }
+
+h2 { font-size: 1rem; margin: 0; letter-spacing: -0.005em; }
+
+/* Controls: one sticky row above the charts */
+
+.controls {
+  position: sticky; top: 0; z-index: var(--z-sticky);
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.75rem;
+  padding: 0.625rem 0; margin: 0 0 1.5rem;
+  background: var(--bg);
+  border-bottom: 1px solid var(--rule);
+}
+
+button, input, summary { font: inherit; color: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: default; }
+
+/* One control height and shape for every button in the bar. */
+.menu-button, .segmented, button.copy, .check, .select {
+  height: 2rem; border: 1px solid var(--rule); border-radius: 8px; background: var(--surface);
+  font-size: 0.875rem;
+}
+.menu-button, button.copy { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0 0.7rem; white-space: nowrap; }
+.menu-button::after { content: ""; width: 0.4em; height: 0.4em; margin: -0.2em 0 0 0.15rem; border: solid var(--ink-3); border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); }
+.menu-button:hover, button.copy:hover { border-color: var(--ink-3); }
+.menu-label { color: var(--ink-2); }
+
+/* The spec select: the label and a native select inside one control. */
+.select { position: relative; display: inline-flex; align-items: center; gap: 0.4rem; padding: 0 0 0 0.7rem; cursor: pointer; }
+.select:hover { border-color: var(--ink-3); }
+.select:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+.select select {
+  appearance: none; height: 100%; border: 0; background: none; color: var(--ink); font: inherit;
+  padding: 0 1.6rem 0 0; cursor: pointer; max-width: 16rem; text-overflow: ellipsis;
+}
+.select select:focus-visible { outline: none; }
+.select::after {
+  content: ""; position: absolute; right: 0.75rem; top: 50%; pointer-events: none;
+  width: 0.4em; height: 0.4em; margin-top: -0.3em; border: solid var(--ink-3); border-width: 0 1.5px 1.5px 0; transform: rotate(45deg);
+}
+.select option { color: var(--ink); background: var(--tooltip-bg); }
+
+.segmented { display: inline-flex; align-items: stretch; max-width: 100%; overflow-x: auto; scrollbar-width: none; padding: 2px; gap: 2px; }
+.segmented button {
+  border: 0; background: none; padding: 0 0.6rem; border-radius: 6px;
+  font-size: 0.875rem; color: var(--ink-2); white-space: nowrap; font-variant-numeric: tabular-nums;
+}
+.segmented button:hover { color: var(--ink); }
+.segmented button[aria-pressed="true"] { background: var(--bg); color: var(--ink); font-weight: 600; box-shadow: 0 0 0 1px var(--rule); }
+.segment-menu[data-active] { background: var(--bg); color: var(--ink); font-weight: 600; box-shadow: 0 0 0 1px var(--rule); }
+.segment-menu::after { content: " ▾"; color: var(--ink-3); font-weight: 400; }
+
+.check { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0 0.7rem; cursor: pointer; user-select: none; }
+.check input, .menu input[type="checkbox"] { accent-color: var(--accent); width: 1rem; height: 1rem; margin: 0; }
+
+/* Copy link: both labels share one grid cell, so the width never changes. */
+button.copy { margin-left: auto; display: inline-grid; }
+button.copy > span { grid-area: 1 / 1; text-align: center; }
+button.copy > .hidden { visibility: hidden; }
+button.copy > span:last-child { color: var(--accent); font-weight: 600; }
+
+/* Menus: in the top layer, opaque, never clipped. Placed by Menu.svelte's
+   place() unless anchor positioning is supported (below). */
+.menu {
+  position: fixed; inset: auto; margin: 0; overscroll-behavior: contain;
+  width: max-content; max-width: calc(100vw - 16px); max-height: calc(100vh - 6rem); overflow: auto;
+  padding: 0.75rem; color: var(--ink);
+  background: var(--tooltip-bg); border: 1px solid var(--rule); border-radius: 12px; box-shadow: var(--shadow);
+  scrollbar-width: thin; scrollbar-color: var(--rule) transparent;
+}
+
+.dates { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.dates label { display: grid; gap: 0.2rem; font-size: 0.8125rem; color: var(--ink-2); }
+.dates input {
+  height: 2rem; border: 1px solid var(--rule); border-radius: 8px; padding: 0 0.5rem;
+  background: var(--bg); color: var(--ink); font-size: 0.875rem; font-variant-numeric: tabular-nums;
+}
+.menu-note { margin: 0.6rem 0 0; font-size: 0.8125rem; color: var(--ink-3); }
+.menu-done { display: none; }
+
+@supports (position-area: block-end) {
+  @media (min-width: 641px) {
+    .menu {
+      position-area: block-end span-inline-end;
+      position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+      margin-block-start: 6px;
+      max-height: calc(100vh - 2rem);
+    }
+  }
+}
+
+/* Open and close with a short fade (and a small slide, motion allowing). */
+.menu {
+  opacity: 1;
+  transition: opacity 0.15s ease-out, display 0.15s, overlay 0.15s;
+  transition-behavior: allow-discrete;
+}
+.menu:not(:popover-open) { opacity: 0; }
+@starting-style { .menu:popover-open { opacity: 0; } }
+@media (prefers-reduced-motion: no-preference) {
+  .menu { transition: opacity 0.15s ease-out, translate 0.2s cubic-bezier(0.25, 1, 0.5, 1), display 0.2s, overlay 0.2s; transition-behavior: allow-discrete; }
+  .menu:not(:popover-open) { translate: 0 -4px; }
+  @starting-style { .menu:popover-open { translate: 0 -4px; } }
+}
+.menu::backdrop { overflow: hidden; overscroll-behavior: contain; }
+
+/* Summary tiles */
+
+.tiles { display: flex; flex-wrap: wrap; gap: 1rem 3rem; margin: 0 0 2rem; }
+.tile { min-width: 10rem; }
+.tile-label { font-size: 0.8125rem; color: var(--ink-2); }
+.tile-value { font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; line-height: 1.2; }
+.tile-note { font-size: 0.8125rem; color: var(--ink-3); }
+
+/* Panels */
+
+.panel { margin: 0 0 2rem; }
+.panel > h2, .panel-head { margin-bottom: 0.75rem; }
+.panel-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0.5rem 1rem; }
+.legend { display: flex; gap: 1rem; list-style: none; margin: 0; padding: 0; font-size: 0.8125rem; color: var(--ink-2); }
+.swatch { display: inline-block; width: 0.7rem; height: 0.7rem; border-radius: 3px; margin-right: 0.35rem; vertical-align: -0.05em; }
+
+/* Charts */
+
+.chart { position: relative; width: 100%; }
+.chart svg { display: block; overflow: visible; touch-action: pan-y; font-size: 12px; }
+.chart svg:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
+.chart .grid line { stroke: var(--grid); }
+.chart .grid text, .chart .axis text { fill: var(--ink-3); font-variant-numeric: tabular-nums; }
+.chart .axis line { stroke: var(--rule); }
+.chart .band { stroke: var(--bg); stroke-width: 1; }
+.chart .outline { fill: none; stroke: var(--ink); stroke-opacity: 0.35; stroke-width: 1; }
+.chart .end-labels text { fill: var(--ink-2); font-size: 12px; }
+.chart .end-labels .value { fill: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.chart .crosshair { stroke: var(--ink); stroke-opacity: 0.5; stroke-width: 1; }
+.chart .dot { fill: var(--bg); stroke: var(--ink); stroke-width: 2; }
+.tooltip {
+  position: absolute; pointer-events: none; transform: translateX(12px);
+  min-width: 10rem; padding: 0.5rem 0.75rem; border-radius: 10px;
+  background: var(--tooltip-bg); border: 1px solid var(--rule); box-shadow: var(--shadow);
+  font-size: 0.8125rem;
+}
+.tt-date { font-weight: 600; margin-bottom: 0.25rem; }
+.tooltip table { border-collapse: collapse; width: 100%; }
+.tooltip th { text-align: left; font-weight: 400; color: var(--ink-2); padding: 0.05rem 1rem 0.05rem 0; }
+.tooltip td { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+.tooltip .total th, .tooltip .total td { border-top: 1px solid var(--rule); padding-top: 0.2rem; }
+
+/* Tables */
+
+table { border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.table-view { margin-top: 0.75rem; font-size: 0.875rem; }
+.table-view summary { cursor: pointer; color: var(--ink-2); }
+.table-view table { margin-top: 0.5rem; }
+.table-view th, .table-view td { padding: 0.2rem 1.25rem 0.2rem 0; text-align: right; border-bottom: 1px solid var(--grid); }
+.table-view th:first-child, .table-view td:first-child { text-align: left; }
+
+.by-spec { width: 100%; font-size: 0.9375rem; }
+.by-spec th, .by-spec td { padding: 0.35rem 0.75rem 0.35rem 0; border-bottom: 1px solid var(--grid); text-align: left; }
+.by-spec thead th { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); }
+.by-spec .n { text-align: right; width: 5rem; }
+.by-spec .muted { color: var(--ink-3); }
+.by-spec tbody th { font-weight: 400; }
+.by-spec .bar-col { width: 35%; }
+.bar { display: block; height: 0.5rem; border-radius: 0 4px 4px 0; background: var(--series-1); min-width: 1px; }
+button.spec { border: 0; padding: 0; background: none; cursor: pointer; text-align: left; }
+button.spec:hover { color: var(--accent); text-decoration: underline; }
+
+@media (max-width: 640px) {
+  .controls { position: static; }
+  button.copy { margin-left: 0; }
+  .segmented { width: 100%; }
+  .segmented button { flex: 1; padding: 0 0.4rem; }
+  /* Menus become a bottom sheet. */
+  .menu {
+    inset: auto 0 0 0; width: 100%; max-width: none; max-height: 85vh;
+    border-radius: 16px 16px 0 0; border-bottom: 0; padding: 1rem 1rem calc(1rem + env(safe-area-inset-bottom));
+  }
+  .menu::backdrop { background: rgb(0 0 0 / 0.3); }
+  .menu-done {
+    display: block; width: 100%; margin-top: 0.75rem; height: 2.75rem;
+    border: 0; border-radius: 10px; background: var(--accent); color: var(--accent-ink); font-weight: 600;
+  }
+  .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .tile { min-width: 0; }
+  .tile-value { font-size: 1.625rem; }
+  .by-spec .bar-col { display: none; }
+}
+
+@media (max-width: 640px) and (prefers-reduced-motion: no-preference) {
+  .menu:not(:popover-open) { translate: 0 1.5rem; }
+  @starting-style { .menu:popover-open { translate: 0 1.5rem; } }
+}

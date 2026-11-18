@@ -320,5 +320,51 @@
     },
     "performed_via_github_app": null,
     "minimized": null
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/6978952058",
+    "html_url": "https://github.com/whatwg/html/pull/13110#issuecomment-6978952058",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/13110",
+    "id": 6978952058,
+    "node_id": "IC_kwDOALaj488AAAABn_pbeg",
+    "user": {
+      "login": "vinhill",
+      "id": 36379249,
+      "node_id": "MDQ6VXNlcjM2Mzc5MjQ5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/36379249?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/vinhill",
+      "html_url": "https://github.com/vinhill",
+      "followers_url": "https://api.github.com/users/vinhill/followers",
+      "following_url": "https://api.github.com/users/vinhill/following{/other_user}",
+      "gists_url": "https://api.github.com/users/vinhill/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/vinhill/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/vinhill/subscriptions",
+      "organizations_url": "https://api.github.com/users/vinhill/orgs",
+      "repos_url": "https://api.github.com/users/vinhill/repos",
+      "events_url": "https://api.github.com/users/vinhill/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/vinhill/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-18T12:45:41Z",
+    "updated_at": "2026-11-18T12:45:41Z",
+    "body": "I assume ❌ means the behavior differs from \"With precursor\".\r\n\r\nThe Gecko concept of a [precursor](https://searchfox.org/firefox-main/rev/cac2c0cf44beecb92c93119bd79e2408636f76d7/caps/nsIPrincipal.idl#716-732) only applies to opaque principals. To clarify, would \"With precursor\" be the current #13110 plus something like the following?\r\n\r\n- If environment's top-level creation URL matches about:blank and environment's top-level origin is non-null, ...; otherwise _if environment's top-level origin has a precursor then return the result of Is origin potentially trustworthy? given environment's top-level origin's precursor; ..._\r\n\r\n---\r\n\r\n> Initial about:blank of a popup opened by a sandboxed data: frame\r\n\r\nIf we introduce the \"precursor\" concept, we could perhaps remove the rule that top-level `data` documents aren't a secure context. Then popups from a `srcdoc` or `data` iframe would behave the same. Whereas if the user navigates to a `data` URI, there would be no precursor and it would remain a not secure context.",
+    "author_association": "CONTRIBUTOR",
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/6978952058/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
   }
 ]
