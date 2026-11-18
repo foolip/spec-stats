@@ -261,8 +261,8 @@ nothing else holds it: the app reads its state from the URL and writes
 it back.
 
 ```
-/?repos=dom,html&from=2024-01-01&to=2026-11-17&drafts=exclude
-/?repos=-html&range=1y
+/?repo=html&from=2024-01-01&to=2026-11-17&drafts=exclude
+/?repo=dom&range=1y
 ```
 
 `web/src/lib/url.ts` parses and writes it. The parameters so far:
@@ -270,7 +270,7 @@ it back.
 | Parameter | Values | Default |
 |---|---|---|
 | `view` | `open-prs` | `open-prs` |
-| `repos` | repo names, `dom,html`; or names to leave out, `-html` | all |
+| `repo` | one repo's name, `html` | all |
 | `range` | `3y`, `1y`, `6m`, `3m`, counted back from the window's end | `all` |
 | `from`, `to` | `YYYY-MM-DD`, clamped to the window; replace `range` | |
 | `drafts` | `stack` (drafts shown on top), `exclude` (left out) | `stack` |
@@ -280,7 +280,7 @@ it back.
   dragging a range doesn't fill the back button; **changing view** adds
   one (`pushState`), so Back returns to the previous chart. `popstate`
   re-reads the URL.
-- **Parameters mean the same in every view** that uses them (`repos`,
+- **Parameters mean the same in every view** that uses them (`repo`,
   `from`, `to`, `window`), so switching views keeps the filters.
 - **Relative or fixed dates.** Presets write `range=12m`, which moves
   with the data; "link to this view" writes `from` and `to` instead, so
@@ -314,6 +314,29 @@ text first, nothing decorative. On top of that, careful type at a
 comfortable reading width, generous whitespace, thin chart lines with few
 gridlines, a real dark mode, and a sticky bar for the range and repo
 filters.
+
+The filter bar is one row of same-sized controls (since 2026-11-18, after
+the maintainer found the first version hard to use): a Spec select, date
+presets with a Custom button, an "Include drafts" checkbox, and "Copy
+link".
+
+- **Spec** is a native `<select>`: All specs, or one spec, the two
+  common cases, each one choice (type-ahead works, and phones show their
+  own picker), and the URL holds at most one (`repo=html`). Clicking a
+  spec in the by-spec table also selects it.
+- **Custom** opens a native popover (the Popover API, in the top layer,
+  so the bar can't clip it or show through), placed under its button
+  with CSS anchor positioning (`position-area`, flipping at the
+  viewport's edges), or by a few lines of script where that isn't
+  supported (Firefox, in November 2026), and a bottom sheet on narrow
+  screens. It fades in and out (`@starting-style`), with a small slide
+  unless reduced motion is preferred. No polyfill: the Popover API has
+  been in every major browser since January 2025.
+- Patterns follow Modern Web Guidance (GoogleChrome/modern-web-guidance)
+  where it covers them.
+
+`docs/PRODUCT.md` has the
+users, personality and principles the design follows.
 
 What the WHATWG's own styles use (read on 2026-11-18 from the
 whatwg/whatwg.org repo, which holds both sites: `whatwg.org/style/shared.css`,

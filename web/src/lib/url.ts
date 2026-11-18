@@ -14,25 +14,20 @@ export type Preset = (typeof PRESETS)[number];
 export const DRAFTS = ["stack", "exclude"] as const;
 export type Drafts = (typeof DRAFTS)[number];
 
-/** Which repos: every one, only some, or every one but some. Names, not
- * indexes, so links survive repos being added. */
-export type Repos =
-  | { mode: "all" }
-  | { mode: "only"; names: string[] }
-  | { mode: "except"; names: string[] };
-
 export type Range = { preset: Preset } | { from: string; to: string };
 
 export interface State {
   view: View;
-  repos: Repos;
+  /** One repo's name, or null for every repo. A name, not an index, so
+   * links survive repos being added. */
+  repo: string | null;
   range: Range;
   drafts: Drafts;
 }
 
 export const DEFAULT: State = {
   view: "open-prs",
-  repos: { mode: "all" },
+  repo: null,
   range: { preset: "all" },
   drafts: "stack",
 };
@@ -58,18 +53,6 @@ function validDate(value: string | null, ctx: Context): string | null {
   return value;
 }
 
-function parseRepos(value: string | null, ctx: Context): Repos {
-  if (!value) return { mode: "all" };
-  const known = new Set(ctx.repoNames);
-  const parts = value.split(",").filter(Boolean);
-  const except = parts.filter((p) => p.startsWith("-")).map((p) => p.slice(1)).filter((n) => known.has(n));
-  const only = parts.filter((p) => !p.startsWith("-")).filter((n) => known.has(n));
-  const sorted = (names: string[]) => [...new Set(names)].sort();
-  if (only.length) return { mode: "only", names: sorted(only) };
-  if (except.length && except.length < known.size) return { mode: "except", names: sorted(except) };
-  return { mode: "all" };
-}
-
 export function parse(search: string, ctx: Context): State {
   const q = new URLSearchParams(search);
   const from = validDate(q.get("from"), ctx);
@@ -81,7 +64,7 @@ export function parse(search: string, ctx: Context): State {
   if ("from" in range && range.from > range.to) return parse(withoutRange(q), ctx);
   return {
     view: oneOf(VIEWS, q.get("view"), DEFAULT.view),
-    repos: parseRepos(q.get("repos"), ctx),
+    repo: ctx.repoNames.find((n) => n === q.get("repo")) ?? null,
     range,
     drafts: oneOf(DRAFTS, q.get("drafts"), DEFAULT.drafts),
   };
@@ -98,8 +81,7 @@ function withoutRange(q: URLSearchParams): string {
 export function serialize(state: State): string {
   const q = new URLSearchParams();
   if (state.view !== DEFAULT.view) q.set("view", state.view);
-  if (state.repos.mode === "only") q.set("repos", state.repos.names.join(","));
-  if (state.repos.mode === "except") q.set("repos", state.repos.names.map((n) => `-${n}`).join(","));
+  if (state.repo !== null) q.set("repo", state.repo);
   if ("preset" in state.range) {
     if (state.range.preset !== "all") q.set("range", state.range.preset);
   } else {
@@ -107,17 +89,13 @@ export function serialize(state: State): string {
     q.set("to", state.range.to);
   }
   if (state.drafts !== DEFAULT.drafts) q.set("drafts", state.drafts);
-  // Commas in repo lists stay readable.
-  const s = q.toString().replaceAll("%2C", ",");
+  const s = q.toString();
   return s ? `?${s}` : "";
 }
 
 /** The repo indexes a state selects. */
-export function selectedRepos(repos: Repos, names: string[]): number[] {
-  const all = names.map((_, i) => i);
-  if (repos.mode === "only") return all.filter((i) => repos.names.includes(names[i]));
-  if (repos.mode === "except") return all.filter((i) => !repos.names.includes(names[i]));
-  return all;
+export function selectedRepos(repo: string | null, names: string[]): number[] {
+  return repo === null ? names.map((_, i) => i) : [names.indexOf(repo)].filter((i) => i >= 0);
 }
 
 const PRESET_MONTHS: Record<Exclude<Preset, "all">, number> = { "3y": 36, "1y": 12, "6m": 6, "3m": 3 };

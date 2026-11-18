@@ -16,7 +16,7 @@
   let { data, state: view, ctx, navigate }: Props = $props();
 
   const byRepo = $derived(openByRepo(data));
-  const repos = $derived(selectedRepos(view.repos, data.repos.name));
+  const repos = $derived(selectedRepos(view.repo, data.repos.name));
   const series = $derived(total(byRepo, repos, data.days));
   const [start, end] = $derived(rangeDays(view.range, ctx));
   const drafts = $derived(view.drafts === "stack");
@@ -61,14 +61,26 @@
     return out.reverse();
   });
 
+  // Copy feedback: the label swaps in place (both labels share one grid
+  // cell, so the button keeps its width), and a live region announces it.
   let copied = $state(false);
+  let announcement = $state("");
+  let lastAnnouncement = "";
+  let copiedTimer: ReturnType<typeof setTimeout> | undefined;
+  function announce(message: string) {
+    // VoiceOver skips a message identical to the previous one.
+    announcement = message === lastAnnouncement ? `${message}\u00a0` : message;
+    lastAnnouncement = announcement;
+  }
   async function copyLink() {
     const url = new URL(location.href);
     url.search = serialize({ ...view, range: fixed(view.range, ctx) });
     try {
       await navigator.clipboard.writeText(url.toString());
       copied = true;
-      setTimeout(() => (copied = false), 2000);
+      announce("Link to this view copied");
+      clearTimeout(copiedTimer);
+      copiedTimer = setTimeout(() => (copied = false), 2500);
     } catch {
       prompt("Link to this view", url.toString());
     }
@@ -81,22 +93,24 @@
     <p class="question">How many PRs are waiting, and is the backlog growing or shrinking?</p>
   </hgroup>
 
-  <div class="controls" role="toolbar" aria-label="Filters">
+  <div class="controls" role="group" aria-label="Filters">
     <RepoPicker
       names={data.repos.name}
       standards={data.repos.standard}
-      repos={view.repos}
-      onchange={(r) => navigate({ ...view, repos: r })}
+      repo={view.repo}
+      onchange={(r) => navigate({ ...view, repo: r })}
     />
     <RangePicker range={view.range} {ctx} onchange={(r) => navigate({ ...view, range: r })} />
-    <fieldset class="drafts">
-      <legend class="label">Drafts</legend>
-      <div class="segmented" role="group" aria-label="Drafts">
-        <button type="button" aria-pressed={drafts} onclick={() => navigate({ ...view, drafts: "stack" })}>Shown</button>
-        <button type="button" aria-pressed={!drafts} onclick={() => navigate({ ...view, drafts: "exclude" })}>Left out</button>
-      </div>
-    </fieldset>
-    <button type="button" class="link" onclick={copyLink}>{copied ? "Copied" : "Copy link to this view"}</button>
+    <label class="check">
+      <input type="checkbox" checked={drafts}
+        onchange={(e) => navigate({ ...view, drafts: e.currentTarget.checked ? "stack" : "exclude" })} />
+      Include drafts
+    </label>
+    <button type="button" class="copy" title="Copy a link to this view, with its dates fixed" onclick={copyLink}>
+      <span class:hidden={copied}>Copy link</span>
+      <span class:hidden={!copied} aria-hidden={!copied}>Link copied</span>
+    </button>
+    <span class="visually-hidden" role="status">{announcement}</span>
   </div>
 
   <section class="tiles" aria-label="Summary">
@@ -158,7 +172,7 @@
           <tr>
             <th scope="row">
               <button type="button" class="spec" title="Show only {row.standard}"
-                onclick={() => navigate({ ...view, repos: { mode: "only", names: [row.name] } })}>{row.standard}</button>
+                onclick={() => navigate({ ...view, repo: row.name })}>{row.standard}</button>
             </th>
             <td class="n">{num(row.open)}</td>
             {#if drafts}<td class="n muted">{num(row.draft)}</td>{/if}
