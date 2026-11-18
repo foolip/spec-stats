@@ -1,7 +1,9 @@
 <script lang="ts">
-  import Menu from "./Menu.svelte";
-  import { reposFor } from "../lib/repos.ts";
-  import { selectedRepos, type Repos } from "../lib/url.ts";
+  // All specs or one spec: a native <select>, so picking a spec is one
+  // choice (type ahead works, and phones show their own picker). A link
+  // with several specs, or all but some (`repos=dom,html`, `repos=-html`),
+  // still works and shows as an extra option.
+  import type { Repos } from "../lib/url.ts";
 
   interface Props {
     names: string[];
@@ -11,65 +13,33 @@
   }
   let { names, standards, repos, onchange }: Props = $props();
 
-  const selected = $derived(new Set(selectedRepos(repos, names).map((i) => names[i])));
   const order = $derived(names.map((_, i) => i).sort((a, b) => standards[a].localeCompare(standards[b])));
   const standard = (n: string) => standards[names.indexOf(n)];
-  const summary = $derived(
-    repos.mode === "all"
-      ? "All"
-      : repos.mode === "except"
-        ? repos.names.length === 1
-          ? `All but ${standard(repos.names[0])}`
-          : `All but ${repos.names.length}`
-        : repos.names.length <= 2
-          ? repos.names.map(standard).join(", ")
-          : `${repos.names.length} specs`,
+  const value = $derived(
+    repos.mode === "all" ? "" : repos.mode === "only" && repos.names.length === 1 ? repos.names[0] : "*",
+  );
+  const otherLabel = $derived(
+    repos.mode === "except"
+      ? `All but ${repos.names.map(standard).join(", ")}`
+      : repos.mode === "only"
+        ? repos.names.map(standard).join(", ")
+        : "",
   );
 
-  function toggle(name: string) {
-    const next = new Set(selected);
-    if (next.has(name)) next.delete(name);
-    else next.add(name);
-    if (next.size) onchange(reposFor(next, names));
+  function choose(v: string) {
+    if (v === "*") return;
+    onchange(v === "" ? { mode: "all" } : { mode: "only", names: [v] });
   }
 </script>
 
-<Menu label="Specs">
-  {#snippet button()}<span class="menu-label">Specs</span> {summary}{/snippet}
-  <div class="menu-head">
-    <span class="count">{selected.size} of {names.length} specs</span>
-    <div class="quick">
-      <button type="button" disabled={repos.mode === "all"} onclick={() => onchange({ mode: "all" })}>Select all</button>
-      {#if names.includes("html")}
-        <button
-          type="button"
-          disabled={repos.mode === "except" && repos.names.join() === "html"}
-          onclick={() => onchange({ mode: "except", names: ["html"] })}>All but HTML</button
-        >
-      {/if}
-    </div>
-  </div>
-  <ul class="spec-list">
+<label class="select">
+  <span class="menu-label">Spec</span>
+  <select {value} onchange={(e) => choose(e.currentTarget.value)}>
+    <option value="">All specs</option>
+    {#if value === "*"}<option value="*">{otherLabel}</option>{/if}
+    <hr />
     {#each order as i (names[i])}
-      {@const on = selected.has(names[i])}
-      <li>
-        <label>
-          <input
-            type="checkbox"
-            checked={on}
-            disabled={on && selected.size === 1}
-            title={on && selected.size === 1 ? "At least one spec stays selected" : undefined}
-            onchange={() => toggle(names[i])}
-          />
-          {standards[i]}
-        </label>
-        <button
-          type="button"
-          class="only"
-          aria-label="Only {standards[i]}"
-          onclick={() => onchange({ mode: "only", names: [names[i]] })}>only</button
-        >
-      </li>
+      <option value={names[i]}>{standards[i]}</option>
     {/each}
-  </ul>
-</Menu>
+  </select>
+</label>

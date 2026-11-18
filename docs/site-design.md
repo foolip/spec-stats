@@ -316,19 +316,28 @@ gridlines, a real dark mode, and a sticky bar for the range and repo
 filters.
 
 The filter bar is one row of same-sized controls (since 2026-11-18, after
-the maintainer found the first version hard to use): a Specs button,
-date presets with a Custom button, an "Include drafts" checkbox, and
-"Copy link". Specs and Custom open native popovers (the Popover API, in
-the top layer, so the bar can't clip them or show through), placed under
-their button with CSS anchor positioning (`position-area`, flipping at
-the viewport's edges), or by a few lines of script where that isn't
-supported (Firefox, in November 2026), and a bottom sheet on narrow
-screens. They fade in and out (`@starting-style`), with a small slide
-unless reduced motion is preferred. Patterns follow Modern Web Guidance
-(GoogleChrome/modern-web-guidance) where it covers them. No polyfills:
-the Popover API has been in every major browser since January 2025. The spec list fits
-without scrolling on wide screens, each spec has an "only" button, and
-the last selected spec can't be unchecked. `docs/PRODUCT.md` has the
+the maintainer found the first version hard to use): a Spec select, date
+presets with a Custom button, an "Include drafts" checkbox, and "Copy
+link".
+
+- **Spec** is a native `<select>`: All specs, or one spec, the two
+  common cases, each one choice (type-ahead works, and phones show their
+  own picker). A link with several specs or all but some (`repos=dom,html`,
+  `repos=-html`) still works and shows as an extra option; the page
+  offers no way to make one. Clicking a spec in the by-spec table also
+  selects it.
+- **Custom** opens a native popover (the Popover API, in the top layer,
+  so the bar can't clip it or show through), placed under its button
+  with CSS anchor positioning (`position-area`, flipping at the
+  viewport's edges), or by a few lines of script where that isn't
+  supported (Firefox, in November 2026), and a bottom sheet on narrow
+  screens. It fades in and out (`@starting-style`), with a small slide
+  unless reduced motion is preferred. No polyfill: the Popover API has
+  been in every major browser since January 2025.
+- Patterns follow Modern Web Guidance (GoogleChrome/modern-web-guidance)
+  where it covers them.
+
+`docs/PRODUCT.md` has the
 users, personality and principles the design follows.
 
 What the WHATWG's own styles use (read on 2026-11-18 from the

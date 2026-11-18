@@ -1,7 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { DEFAULT, fixed, parse, rangeDays, selectedRepos, serialize, type Context } from "../src/lib/url.ts";
-import { reposFor } from "../src/lib/repos.ts";
 
 const ctx: Context = { repoNames: ["dom", "fetch", "html", "url"], from: "2022-01-01", to: "2026-11-17" };
 
@@ -30,11 +29,10 @@ test("repos are listed in a fixed order, and excluding every repo means all", ()
   assert.equal(serialize(parse("?repos=-dom,-fetch,-html,-url", ctx)), "");
 });
 
-test("the shorter way to write a selection is used", () => {
+test("a selection's repos", () => {
   const names = ctx.repoNames;
-  assert.deepEqual(reposFor(new Set(names), names), { mode: "all" });
-  assert.deepEqual(reposFor(new Set(["dom", "fetch", "url"]), names), { mode: "except", names: ["html"] });
-  assert.deepEqual(reposFor(new Set(["html"]), names), { mode: "only", names: ["html"] });
+  assert.deepEqual(selectedRepos({ mode: "all" }, names), [0, 1, 2, 3]);
+  assert.deepEqual(selectedRepos({ mode: "only", names: ["html"] }, names), [2]);
   assert.deepEqual(selectedRepos({ mode: "except", names: ["html"] }, names), [0, 1, 3]);
 });
 
