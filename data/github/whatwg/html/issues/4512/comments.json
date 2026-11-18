@@ -280,5 +280,52 @@
     },
     "performed_via_github_app": null,
     "minimized": null
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/6973057981",
+    "html_url": "https://github.com/whatwg/html/issues/4512#issuecomment-6973057981",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/4512",
+    "id": 6973057981,
+    "node_id": "IC_kwDOALaj488AAAABn6BrvQ",
+    "user": {
+      "login": "mrego",
+      "id": 11602,
+      "node_id": "MDQ6VXNlcjExNjAy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/11602?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mrego",
+      "html_url": "https://github.com/mrego",
+      "followers_url": "https://api.github.com/users/mrego/followers",
+      "following_url": "https://api.github.com/users/mrego/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mrego/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mrego/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mrego/subscriptions",
+      "organizations_url": "https://api.github.com/users/mrego/orgs",
+      "repos_url": "https://api.github.com/users/mrego/repos",
+      "events_url": "https://api.github.com/users/mrego/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mrego/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-18T08:20:32Z",
+    "updated_at": "2026-11-18T08:20:32Z",
+    "body": "Following up on this, it looks spec might need some change to match browsers' behavior. Coming back to the default case where you only use `focus()` as @zcorpan asked before.\n\nThe following test case shows magenta in all engines except Servo (which follows the spec):\n```\n<!DOCTYPE html>\n<style>\n* {\n  margin: 0;\n  padding: 0;\n  background: magenta;\n}\n#target {\n  margin-top: 200vh;\n  height: 100vh;\n  background: cyan;\n}\n#target:focus-visible {\n  outline: none;\n}\n</style>\n<div id=\"target\" tabindex=\"1\"></div>\n<script>\n  target.focus();\n  window.requestAnimationFrame(() => {\n    window.requestAnimationFrame(() => {\n      window.scrollTo(0,0);\n      target.focus();\n    });\n  });\n</script>\n```\n\nYou can test it live at https://people.igalia.com/mrego/html/focus-scroll-issue.html\n\nThe spec says:\n- The [`focus()` method steps](https://html.spec.whatwg.org/multipage/interaction.html#dom-focus) run the [focusing steps](https://html.spec.whatwg.org/multipage/interaction.html#focusing-steps) in step 2.\n- Step 5 of the focusing steps returns early when \"new focus target is the currently focused area of a top-level traversable\", but that only exits the focusing steps.\n- `focus()` then continues to [step 4](https://html.spec.whatwg.org/multipage/interaction.html#dom-focusoptions-preventscroll), which scrolls the element into view, because [`preventScroll`](https://html.spec.whatwg.org/multipage/interaction.html#dom-focusoptions-preventscroll) defaults to false.\n\nThis might need a spec change, so the last point doesn't happen when focus hasn't changed. That's probably the way to go, given that many pages often call `focus()` on the already focused element, so following the current spec has performance implications.\n\n",
+    "author_association": "MEMBER",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/6973057981/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
   }
 ]
