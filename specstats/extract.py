@@ -411,15 +411,9 @@ def update_items(client, store, log=print):
     first = "cursor" not in s
     if first:
         s.setdefault("started", now())
-    listing = now()[:10]
     since = max(s["from"], _minus_overlap(s["cursor"])) if not first else s["from"]
     synced = _list_and_sync(client, store, since, s, log=log)
     s.setdefault("cursor", s["from"])  # nothing updated since `from`
-    # Every item updated since `from` is stored as of the day this listing
-    # started: `build` publishes up to the day before. A date, not a time,
-    # so an unchanged repo's state.json changes at most once a day. (A
-    # stopped run raises before this, leaving the last complete listing's.)
-    s["listed"] = listing
     if "started" in s:
         # The first listing is done. Anything that changed since it
         # started is in the next listing, and any event since then in the

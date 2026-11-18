@@ -4,8 +4,8 @@ from specstats import build, extract
 from tests.fakegithub import REPO
 from tests.test_pipeline import QUIET, START, TempDirs, client, populated
 
-# START is 2024-06-01; the tests' "now", when every listing runs, is
-# 2025-04-01, so the window ends on 2025-03-31.
+# START is 2024-06-01. The window ends the day before the newest
+# updated_at seen (the repo's cursor).
 STANDARDS = {REPO: "DOM"}
 
 
@@ -106,14 +106,20 @@ class BuildTest(TempDirs):
         self.assertEqual(data["repos"]["name"], ["dom"])
         self.assertEqual(logs, ["whatwg/url: nothing stored; left out"])
 
-    def test_the_window_ends_with_the_least_recent_complete_listing(self):
+    def test_the_window_ends_before_the_newest_time_seen_in_any_repo(self):
         gh = populated()
         self.sync(gh)
         store = extract.RepoStore(REPO)
-        store.state["items"]["listed"] = "2025-03-20"
+        self.assertEqual(store.state["items"]["cursor"], "2025-03-02T00:00:00Z")
+        self.assertEqual(self.build()[0]["meta"]["to"], "2025-03-01")
         store.state["items"]["rows"] = "2025-03-25T10:00:00Z"
         store.save_state()
         self.assertEqual(self.build()[0]["meta"]["to"], "2025-03-24")
+        other = extract.RepoStore("whatwg/url")
+        other.state = dict(store.state, items=dict(store.state["items"], cursor="2025-03-28T08:00:00Z"))
+        other.save_state()
+        data, _ = self.build(dict(STANDARDS, **{"whatwg/url": "URL"}))
+        self.assertEqual((data["meta"]["to"], data["repos"]["name"]), ("2025-03-27", ["dom", "url"]))
 
     def test_write(self):
         gh = populated()

@@ -83,10 +83,12 @@ a time as later metrics need them:
 `python3 -m specstats build` (`specstats/build.py`) writes it to
 `build/data.json`, which isn't committed: whatever deploys the site runs
 the build. `events.day` counts UTC days from `meta.from`, day 0. The
-window ends on the last full UTC day before the least recent of each
-repo's latest complete listing (`items.listed` or `items.rows` in its
-`state.json`, `docs/extraction.md`); a repo with no complete listing, or
-nothing stored (whatwg/nfc), is left out. A PR whose events disagree
+window ends on the last full UTC day before the newest time any repo's
+`state.json` shows it was listed at: the newest `updated_at` seen
+(`items.cursor`) or the last reconcile's start (`items.rows`). Every run
+lists every repo, so that's when the data was last complete; if fetching
+stops, the window stops with it. A repo whose listings aren't done, or
+with nothing stored (whatwg/nfc), is left out. A PR whose events disagree
 with its own state follows its state: a `closed` at its `closed_at` (12
 PRs on 2026-11-18), or a `reopened` at its `updated_at`.
 

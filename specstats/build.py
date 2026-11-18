@@ -15,8 +15,10 @@ by day, then item, then time.
 
 This first version holds what open PRs over time needs: PRs only, and
 the events that open and close them. One timeline: from `updated_since`
-in config/fetch.json to the last full UTC day before every repo's
-latest complete listing. Nothing before it is published: a PR already
+in config/fetch.json to the last full UTC day before the newest
+`updated_at` seen in any repo (each repo's `items.cursor`), or the last
+reconcile's start (`items.rows`) if newer: every run lists every repo,
+so that's when the data was last complete. Nothing before it is published: a PR already
 open when it starts gets `_carried_in` on day 0, worked out from its
 events before then. `_created` comes from the PR's `created_at`, as
 GitHub has no event for it. A merge is a `closed` event too, so there's
@@ -46,17 +48,19 @@ def _day(ts):
     return datetime.date.fromisoformat(ts[:10])
 
 
-def complete_as_of(store):
-    """The day (YYYY-MM-DD) every item updated since `from` was last known to
-    be stored: when the latest complete updates listing or reconcile started
-    (`items.listed`, a date, or `items.rows`, a time). None while
-    the repo's first listing, its listing of old open items, or a listing
-    back to a moved start isn't done."""
+def listed(store):
+    """Whether the repo's listings are done: its first listing, its listing
+    of old open items, and any listing back to a moved start."""
     s = store.state.get("items", {})
-    if "cursor" not in s or "started" in s or "extend" in s or s.get("open") != {"done": True}:
-        return None
-    times = [t[:10] for t in (s.get("listed"), s.get("rows")) if t]
-    return max(times) if times else None
+    return "cursor" in s and "started" not in s and "extend" not in s and s.get("open") == {"done": True}
+
+
+def newest(store):
+    """The newest time the repo's state shows it was listed at: the newest
+    `updated_at` seen (`items.cursor`) or the last reconcile's start
+    (`items.rows`)."""
+    s = store.state["items"]
+    return max(t for t in (s["cursor"], s.get("rows")) if t)
 
 
 def transitions(obj, events, fixes):
@@ -118,13 +122,15 @@ def build(root=None, standards=None, updated_since=None, log=print):
             log(f"{repo}: nothing stored; left out")
         elif store.state.get("items", {}).get("from") != since:
             log(f"{repo}: stored from {store.state.get('items', {}).get('from')}, not {since}; left out")
-        elif complete_as_of(store) is None:
+        elif not listed(store):
             log(f"{repo}: no complete listing yet; left out")
         else:
             stores[repo] = store
     if not stores:
         raise ValueError("no repo has complete data")
-    end = min(_day(complete_as_of(s)) for s in stores.values())  # its own day is partial
+    # Every run lists every repo, so the newest time seen anywhere is when
+    # the data was last complete. Its own day is partial.
+    end = max(_day(newest(s)) for s in stores.values())
     to = end - datetime.timedelta(days=1)
 
     repos = {"name": [], "standard": []}

@@ -111,12 +111,6 @@ stored) is synced. `state.json` keeps two dates under `items`:
   (below). Each run first removes stored items last updated before
   `updated_since` (git keeps them), with any 422 record for them.
 - `cursor`: the newest `updated_at` seen, saved after every page.
-- `listed` (since 2026-11-18): the day (UTC, no time) the last complete
-  updates listing started. Every item updated since `from` was stored as
-  of then; with `rows` (the reconcile's start), it's what `build`
-  publishes up to, the day before. A date, so an unchanged repo's
-  `state.json` changes at most once a day. A stopped run leaves the
-  previous one's.
 
 **Backfill.** The first listing, from `S` = `from`. It's an update with
 no cursor yet: a run can stop anywhere and the next continues from the
