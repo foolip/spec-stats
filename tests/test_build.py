@@ -46,6 +46,11 @@ class BuildTest(TempDirs):
         gh.add_event(13, "2025-01-03T00:00:00Z", "reopened", "ed")
         gh.issues[13]["state"] = "open"
         gh.touch(13, "2025-01-03T00:00:00Z")
+        # Reopened and closed again on one day: both kept, in time order.
+        gh.add_issue(16, "2025-02-01T00:00:00Z", is_pr=True)
+        gh.close(16, "2025-02-05T00:00:00Z")
+        gh.add_event(16, "2025-02-20T09:00:00Z", "reopened", "ed")
+        gh.close(16, "2025-02-20T17:00:00Z")
         # Closed after the window ends: still open on its last day.
         gh.add_issue(14, "2025-03-15T00:00:00Z", is_pr=True)
         gh.close(14, "2025-04-01T12:00:00Z")
@@ -57,7 +62,7 @@ class BuildTest(TempDirs):
         self.assertEqual(data["meta"], {"from": "2024-06-01", "to": "2025-03-31"})
         self.assertEqual(data["event_types"], ["_carried_in", "_created", "closed", "reopened"])
         self.assertEqual(data["repos"], {"name": ["dom"], "standard": ["DOM"]})
-        self.assertEqual(data["items"], {"repo": [0] * 6, "number": [2, 3, 10, 12, 13, 14]})
+        self.assertEqual(data["items"], {"repo": [0] * 7, "number": [2, 3, 10, 12, 13, 14, 16]})
         self.assertEqual(self.events(data), {
             2: [(day("2025-02-01"), "_created"), (day("2025-02-10"), "closed")],
             3: [(day("2025-03-01"), "_created"), (day("2025-03-02"), "closed")],
@@ -66,6 +71,8 @@ class BuildTest(TempDirs):
             13: [(day("2025-01-01"), "_created"), (day("2025-01-02"), "closed"),
                  (day("2025-01-03"), "reopened")],
             14: [(day("2025-03-15"), "_created")],
+            16: [(day("2025-02-01"), "_created"), (day("2025-02-05"), "closed"),
+                 (day("2025-02-20"), "reopened"), (day("2025-02-20"), "closed")],
         })
         # Sorted by day, then item.
         ev = data["events"]
@@ -103,7 +110,7 @@ class BuildTest(TempDirs):
         gh = populated()
         self.sync(gh)
         store = extract.RepoStore(REPO)
-        store.state["items"]["listed"] = "2025-03-20T10:00:00Z"
+        store.state["items"]["listed"] = "2025-03-20"
         store.state["items"]["rows"] = "2025-03-25T10:00:00Z"
         store.save_state()
         self.assertEqual(self.build()[0]["meta"]["to"], "2025-03-24")

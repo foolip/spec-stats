@@ -10,7 +10,8 @@
 
 Each table is stored by column. `items.repo` is an index into `repos`,
 `events.item` into `items`, `events.event` into `event_types`, and
-`events.day` counts UTC days from `meta.from` (day 0).
+`events.day` counts UTC days from `meta.from` (day 0). Events are sorted
+by day, then item, then time.
 
 This first version holds what open PRs over time needs: PRs only, and
 the events that open and close them. One timeline: from `updated_since`
@@ -46,14 +47,15 @@ def _day(ts):
 
 
 def complete_as_of(store):
-    """When every item updated since `from` was last known to be stored: the
-    start of the latest complete updates listing or reconcile. None while
+    """The day (YYYY-MM-DD) every item updated since `from` was last known to
+    be stored: when the latest complete updates listing or reconcile started
+    (`items.listed`, a date, or `items.rows`, a time). None while
     the repo's first listing, its listing of old open items, or a listing
     back to a moved start isn't done."""
     s = store.state.get("items", {})
     if "cursor" not in s or "started" in s or "extend" in s or s.get("open") != {"done": True}:
         return None
-    times = [t for t in (s.get("listed"), s.get("rows")) if t]
+    times = [t[:10] for t in (s.get("listed"), s.get("rows")) if t]
     return max(times) if times else None
 
 
@@ -141,7 +143,8 @@ def build(root=None, standards=None, updated_since=None, log=print):
             i = len(items["number"])
             items["repo"].append(r)
             items["number"].append(number)
-            rows.extend((day, i, EVENT_TYPES.index(kind)) for day, kind in evs)
+            # In time order within a day too: closed, then reopened, the same day.
+            rows.extend((day, i, k, EVENT_TYPES.index(kind)) for k, (day, kind) in enumerate(evs))
     rows.sort()
     for what, n in sorted(fixes.items()):
         log(f"fixed up from the item's own state ({what}): {n}")
@@ -150,8 +153,8 @@ def build(root=None, standards=None, updated_since=None, log=print):
         "event_types": EVENT_TYPES,
         "repos": repos,
         "items": items,
-        "events": {"day": [d for d, _, _ in rows], "item": [i for _, i, _ in rows],
-                   "event": [e for _, _, e in rows]},
+        "events": {"day": [r[0] for r in rows], "item": [r[1] for r in rows],
+                   "event": [r[3] for r in rows]},
     }
 
 

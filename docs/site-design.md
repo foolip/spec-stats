@@ -74,7 +74,8 @@ a time as later metrics need them:
   whatwg/dom PRs have both), so `closed` alone ends a PR's open span.
 - **items**, PRs only: repo, and number (for links and for checking a
   count against GitHub).
-- **events**: day, item, event, sorted by day. Only changes of state
+- **events**: day, item, event, sorted by day, item and time (a PR
+  reopened and closed on one day has both, in that order). Only changes of state
   are published (a second `closed` without a `reopened` between is left
   out), and a PR with no event in the window isn't an item.
 - **meta**: the window.

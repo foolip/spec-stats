@@ -633,7 +633,7 @@ class ExtractTest(TempDirs):
         self.assertEqual(os.listdir(self.issue_dir() / "4"), ["index.json"])
         self.assertEqual(self.store().section("items"),
                          {"cursor": "2025-03-02T00:00:00Z", "from": START, "open": {"done": True},
-                          "listed": "2025-04-01T00:00:00Z"})
+                          "listed": "2025-04-01"})
         # An unfinished one: the listing starts from the start date, and
         # skips what's stored unchanged.
         store = self.store()
@@ -648,7 +648,7 @@ class ExtractTest(TempDirs):
                           "/issues/events"])
         self.assertEqual(self.store().section("items"), {"from": START, "cursor": "2025-05-01T00:00:00Z",
                                                              "open": {"done": True},
-                                                             "listed": "2025-04-01T00:00:00Z"})
+                                                             "listed": "2025-04-01"})
 
     def test_deadline_stops_cleanly_and_the_next_run_continues(self):
         gh = populated()
