@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Menu from "./Menu.svelte";
   import { reposFor } from "../lib/repos.ts";
   import { selectedRepos, type Repos } from "../lib/url.ts";
 
@@ -12,68 +13,63 @@
 
   const selected = $derived(new Set(selectedRepos(repos, names).map((i) => names[i])));
   const order = $derived(names.map((_, i) => i).sort((a, b) => standards[a].localeCompare(standards[b])));
+  const standard = (n: string) => standards[names.indexOf(n)];
   const summary = $derived(
     repos.mode === "all"
-      ? "All specs"
+      ? "All"
       : repos.mode === "except"
-        ? `All but ${repos.names.map((n) => standards[names.indexOf(n)]).join(", ")}`
-        : repos.names.length <= 3
-          ? repos.names.map((n) => standards[names.indexOf(n)]).join(", ")
+        ? repos.names.length === 1
+          ? `All but ${standard(repos.names[0])}`
+          : `All but ${repos.names.length}`
+        : repos.names.length <= 2
+          ? repos.names.map(standard).join(", ")
           : `${repos.names.length} specs`,
   );
-
-  let details: HTMLDetailsElement;
-
-  // Close on a click outside, or Escape.
-  $effect(() => {
-    const onClick = (e: MouseEvent) => {
-      if (details.open && !details.contains(e.target as Node)) details.open = false;
-    };
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && details.open) {
-        details.open = false;
-        details.querySelector("summary")?.focus();
-      }
-    };
-    document.addEventListener("click", onClick);
-    document.addEventListener("keydown", onKey);
-    return () => {
-      document.removeEventListener("click", onClick);
-      document.removeEventListener("keydown", onKey);
-    };
-  });
 
   function toggle(name: string) {
     const next = new Set(selected);
     if (next.has(name)) next.delete(name);
     else next.add(name);
-    onchange(reposFor(next, names));
+    if (next.size) onchange(reposFor(next, names));
   }
 </script>
 
-<details class="picker" bind:this={details}>
-  <summary><span class="label">Specs</span> {summary}</summary>
-  <div class="popover">
+<Menu label="Specs">
+  {#snippet button()}<span class="menu-label">Specs</span> {summary}{/snippet}
+  <div class="menu-head">
+    <span class="count">{selected.size} of {names.length} specs</span>
     <div class="quick">
-      <button type="button" aria-pressed={repos.mode === "all"} onclick={() => onchange({ mode: "all" })}>All</button>
+      <button type="button" disabled={repos.mode === "all"} onclick={() => onchange({ mode: "all" })}>Select all</button>
       {#if names.includes("html")}
         <button
           type="button"
-          aria-pressed={repos.mode === "except" && repos.names.join() === "html"}
+          disabled={repos.mode === "except" && repos.names.join() === "html"}
           onclick={() => onchange({ mode: "except", names: ["html"] })}>All but HTML</button
         >
       {/if}
     </div>
-    <ul>
-      {#each order as i (names[i])}
-        <li>
-          <label>
-            <input type="checkbox" checked={selected.has(names[i])} onchange={() => toggle(names[i])} />
-            {standards[i]}
-            <span class="repo">{names[i]}</span>
-          </label>
-        </li>
-      {/each}
-    </ul>
   </div>
-</details>
+  <ul class="spec-list">
+    {#each order as i (names[i])}
+      {@const on = selected.has(names[i])}
+      <li>
+        <label>
+          <input
+            type="checkbox"
+            checked={on}
+            disabled={on && selected.size === 1}
+            title={on && selected.size === 1 ? "At least one spec stays selected" : undefined}
+            onchange={() => toggle(names[i])}
+          />
+          {standards[i]}
+        </label>
+        <button
+          type="button"
+          class="only"
+          aria-label="Only {standards[i]}"
+          onclick={() => onchange({ mode: "only", names: [names[i]] })}>only</button
+        >
+      </li>
+    {/each}
+  </ul>
+</Menu>

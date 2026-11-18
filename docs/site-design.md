@@ -315,6 +315,16 @@ comfortable reading width, generous whitespace, thin chart lines with few
 gridlines, a real dark mode, and a sticky bar for the range and repo
 filters.
 
+The filter bar is one row of same-sized controls (since 2026-11-18, after
+the maintainer found the first version hard to use): a Specs button,
+date presets with a Custom button, an "Include drafts" checkbox, and
+"Copy link". Specs and Custom open native popovers (the Popover API, in
+the top layer, so the bar can't clip them or show through), placed under
+their button, and a bottom sheet on narrow screens. The spec list fits
+without scrolling on wide screens, each spec has an "only" button, and
+the last selected spec can't be unchecked. `docs/PRODUCT.md` has the
+users, personality and principles the design follows.
+
 What the WHATWG's own styles use (read on 2026-11-18 from the
 whatwg/whatwg.org repo, which holds both sites: `whatwg.org/style/shared.css`,
 `resources.whatwg.org/standard.css`, `spec.css` and `logo.svg`):

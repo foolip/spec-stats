@@ -68,7 +68,7 @@
     try {
       await navigator.clipboard.writeText(url.toString());
       copied = true;
-      setTimeout(() => (copied = false), 2000);
+      setTimeout(() => (copied = false), 2500);
     } catch {
       prompt("Link to this view", url.toString());
     }
@@ -89,14 +89,16 @@
       onchange={(r) => navigate({ ...view, repos: r })}
     />
     <RangePicker range={view.range} {ctx} onchange={(r) => navigate({ ...view, range: r })} />
-    <fieldset class="drafts">
-      <legend class="label">Drafts</legend>
-      <div class="segmented" role="group" aria-label="Drafts">
-        <button type="button" aria-pressed={drafts} onclick={() => navigate({ ...view, drafts: "stack" })}>Shown</button>
-        <button type="button" aria-pressed={!drafts} onclick={() => navigate({ ...view, drafts: "exclude" })}>Left out</button>
-      </div>
-    </fieldset>
-    <button type="button" class="link" onclick={copyLink}>{copied ? "Copied" : "Copy link to this view"}</button>
+    <label class="check">
+      <input type="checkbox" checked={drafts}
+        onchange={(e) => navigate({ ...view, drafts: e.currentTarget.checked ? "stack" : "exclude" })} />
+      Include drafts
+    </label>
+    <button type="button" class="copy" title="Copy a link to this view, with its dates fixed" onclick={copyLink}>
+      <span class:hidden={copied}>Copy link</span>
+      <span class:hidden={!copied} aria-hidden={!copied}>Link copied</span>
+    </button>
+    <span class="visually-hidden" role="status">{copied ? "Link to this view copied" : ""}</span>
   </div>
 
   <section class="tiles" aria-label="Summary">
