@@ -87,3 +87,4 @@ hour's budget takes several runs, one an hour.
 
 - [`docs/plan.md`](docs/plan.md): goal, ground rules, decisions log, status and next steps.
 - [`docs/extraction.md`](docs/extraction.md): what is fetched, how daily updates work, and the consistency checks.
+- [`docs/site-design.md`](docs/site-design.md): how the dashboards will be built: published tables, data in the browser, time and metrics.
