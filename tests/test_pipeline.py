@@ -45,7 +45,7 @@ def populated(**kw):
 
 START = "2024-06-01T00:00:00Z"
 
-FULL = {"issues": 1, "prs": 2, "pulls": 2, "comments": 1, "events": 5, "reviews": 1, "review_comments": 2,
+FULL = {"issues": 1, "prs": 2, "row_only": 0, "pulls": 2, "comments": 1, "events": 5, "reviews": 1, "review_comments": 2,
         "gone": 0}
 
 
@@ -80,6 +80,11 @@ class ExtractTest(TempDirs):
 
     def count(self, what):
         return self.store().counts()[what]
+
+    def full(self):
+        """The stored numbers with their details."""
+        store = self.store()
+        return [n for n in sorted(store.index()) if store.full(n)]
 
     def issue_dir(self):
         return self.files / REPO / "issues"
@@ -286,8 +291,8 @@ class ExtractTest(TempDirs):
             extract.sync_repo(client(gh), self.store(), reconcile_=True, log=lines.append)
         self.assertEqual(sorted(self.store().index()), list(range(1, 13)))
         self.assertIn(f"{REPO} reconcile: 12 items listed by creation time, 12 updated since {START} or open; "
-                      "synced 8 changed or missing (8 weren't stored: #5, #6, #7, #8, #9, #10, #11, #12) "
-                      "and 0 unlisted; "
+                      "synced 8 changed or missing (8 weren't stored: #5, #6, #7, #8, #9, #10, #11, #12), "
+                      "stored 0 other rows new or changed, fetched 0 unlisted; "
                       "12 stored, 0 gone", lines)
 
     def test_reconcile_listing_cut_off_fails(self):
@@ -437,23 +442,89 @@ class ExtractTest(TempDirs):
         c = client(gh)
         self.sync(gh, c)
         self.assertEqual(self.calls(gh, c), ["/issues", "/issues/events"])
-        # Moving the start forward keeps open items; the weekly reconcile
-        # checks them too.
+        # Moving the start forward keeps open items whole; #2, closed
+        # before it, keeps only its row. The weekly reconcile checks open
+        # items too.
         self.since.stop()
         with mock.patch.object(extract, "load_updated_since", return_value="2025-02-15T00:00:00Z"):
             self.sync(gh)
-            self.assertEqual(sorted(self.store().index()), [1, 3, 4, 5])
+            self.assertEqual(self.full(), [1, 3, 4, 5])
             del gh.issues[4]
             self.sync(gh, reconcile_=True)
-            self.assertEqual((sorted(self.store().index()), self.store().gone()), ([1, 3, 5], {4}))
+            self.assertEqual((self.full(), self.store().gone()), ([1, 3, 5], {4}))
             # Closing one moves it into the updates' listing...
             gh.close(5, "2025-05-01T00:00:00Z")
             self.sync(gh)
             self.assertEqual(self.store().get("issues", 5)["state"], "closed")
-        # ...and once it's closed and last updated before the start, it goes.
+        # ...and once it's closed and last updated before the start, only
+        # its row is kept.
         with mock.patch.object(extract, "load_updated_since", return_value="2025-06-01T00:00:00Z"):
             self.sync(gh)
-        self.assertEqual(sorted(self.store().index()), [1])
+        self.assertEqual((self.full(), sorted(self.store().index())), ([1], [1, 2, 3, 5, 6]))  # #6's row from the reconcile
+        self.assertEqual(check.check_repo(self.store()), [])
+        self.since.start()
+
+    def test_reconcile_stores_every_other_row(self):
+        gh = populated()
+        gh.add_issue(5, "2023-01-01T00:00:00Z", closed_at="2023-02-01T00:00:00Z")
+        gh.add_issue(6, "2023-03-01T00:00:00Z", is_pr=True, merged_at="2023-03-02T00:00:00Z", merged_by="ed")
+        # No #4: deleted before any listing, or a discussion.
+        self.sync(gh)
+        self.assertEqual(sorted(self.store().index()), [1, 2, 3])
+        self.assertNotIn("rows", self.store().section("items"))
+        c = client(gh)
+        self.sync(gh, c, reconcile_=True)
+        # The rows come from the listing alone: no request per item.
+        self.assertEqual(set(self.calls(gh, c)), {"/issues", "/issues/events"})
+        self.assertEqual((self.full(), sorted(self.store().index())), ([1, 2, 3], [1, 2, 3, 5, 6]))
+        for n in (5, 6):
+            self.assertEqual(os.listdir(self.issue_dir() / str(n)), ["index.json"])
+        self.assertFalse((self.files / REPO / "pulls" / "6").exists())
+        self.assertEqual(self.store().get("issues", 5), gh.issues[5])
+        self.assertEqual(self.store().section("items")["rows"], "2025-04-01T00:00:00Z")
+        self.assertEqual(self.count("row_only"), 2)
+        self.assertEqual(check.check_repo(self.store()), [])
+        self.assertIn("(never listed, not a finding: deleted, transferred or discussions) 4",
+                      check.report(root=self.files)[0])
+        # Events of a row-only item aren't stored.
+        gh.add_event(5, "2025-03-10T00:00:00Z", "referenced", "ed")
+        self.sync(gh)
+        self.assertEqual(os.listdir(self.issue_dir() / "5"), ["index.json"])
+        # A changed row is stored again by the next reconcile, even with the
+        # same updated_at; a deleted one is fetched, and recorded as gone.
+        gh.issues[5]["title"] = "renamed"
+        del gh.issues[6]
+        c = client(gh)
+        self.sync(gh, c, reconcile_=True)
+        self.assertIn("/issues/6", self.calls(gh, c))
+        self.assertEqual(self.store().get("issues", 5)["title"], "renamed")
+        self.assertEqual((sorted(self.store().index()), self.store().gone()), ([1, 2, 3, 5], {6}))
+        # Updated, it's fetched whole by the hourly update.
+        gh.add_comment(5, "2025-05-01T00:00:00Z", "bob")
+        self.sync(gh)
+        self.assertEqual(self.full(), [1, 2, 3, 5])
+        self.assertEqual(len(self.store().get("issues", 5, "events")), 2)  # closed, referenced
+        self.assertEqual(check.check_repo(self.store()), [])
+
+    def test_check_finds_details_of_a_row_only_item(self):
+        gh = populated()
+        gh.add_issue(4, "2023-01-01T00:00:00Z", closed_at="2023-02-01T00:00:00Z")
+        self.sync(gh, reconcile_=True)
+        self.store().put("issues", 4, "events", [{"id": 1, "event": "closed"}])
+        self.assertEqual(check.check_repo(self.store()), [
+            ("stored with details, but closed and last updated before `from` (only the row should be)", [4])])
+
+    def test_moving_the_start_back_gives_rows_their_details(self):
+        gh = populated()
+        gh.add_issue(4, "2023-06-01T00:00:00Z", closed_at="2023-06-02T00:00:00Z")
+        self.sync(gh, reconcile_=True)
+        self.assertEqual(self.full(), [1, 2, 3])
+        self.since.stop()
+        with mock.patch.object(extract, "load_updated_since", return_value="2023-01-01T00:00:00Z"):
+            self.sync(gh)
+            self.assertEqual(self.full(), [1, 2, 3, 4])
+            self.assertEqual(len(self.store().get("issues", 4, "events")), 1)
+            self.assertEqual(check.check_repo(self.store()), [])
         self.since.start()
 
     def test_open_listing_resumes_where_it_stopped(self):
@@ -508,14 +579,14 @@ class ExtractTest(TempDirs):
         items = self.store().section("items")
         self.assertEqual(items["from"], "2023-03-01T00:00:00Z")
         self.assertNotIn("extend", items)
-        # Moving it forward again removes what's last updated before it,
-        # and fetches nothing.
+        # Moving it forward again keeps only the row of what's last updated
+        # before it, and fetches nothing.
         self.since.start()
         c = client(gh)
         self.sync(gh, c)
         self.assertEqual((c.requests, self.store().section("items")["from"]), (2, START))
-        self.assertEqual(sorted(self.store().index()), [1, 2, 3])
-        self.assertFalse((self.issue_dir() / "4").exists())
+        self.assertEqual((self.full(), sorted(self.store().index())), ([1, 2, 3], [1, 2, 3, 4]))
+        self.assertEqual(os.listdir(self.issue_dir() / "4"), ["index.json"])
 
     def test_moving_the_start_back_resumes_where_it_stopped(self):
         gh = populated()
@@ -532,7 +603,8 @@ class ExtractTest(TempDirs):
                     self.sync(gh, client(gh, requests=6))
                     break
                 except github.DeadlineReached:
-                    self.assertIn("extend", self.store().section("items"))
+                    items = self.store().section("items")
+                    self.assertTrue("extend" in items or items["from"] == "2023-01-01T00:00:00Z")
         self.assertGreater(runs, 2)
         self.assertEqual(sorted(self.store().index()), list(range(1, 10)))
         self.assertEqual(self.store().section("items")["from"], "2023-01-01T00:00:00Z")
@@ -557,8 +629,8 @@ class ExtractTest(TempDirs):
         self.sync(gh, c)
         self.assertEqual(self.calls(gh, c)[0], "/issues/2")  # the 422 retried; #4's record went with it
         self.assertEqual(self.store().refused(), {})
-        self.assertEqual(sorted(self.store().index()), [1, 2, 3])
-        self.assertFalse((self.issue_dir() / "4").exists())
+        self.assertEqual((self.full(), sorted(self.store().index())), ([1, 2, 3], [1, 2, 3, 4]))
+        self.assertEqual(os.listdir(self.issue_dir() / "4"), ["index.json"])
         self.assertEqual(self.store().section("items"),
                          {"cursor": "2025-03-02T00:00:00Z", "from": START, "open": {"done": True}})
         # An unfinished one: the listing starts from the start date, and

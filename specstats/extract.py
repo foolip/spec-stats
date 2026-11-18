@@ -24,8 +24,11 @@ changed) and syncs those whose updated_at differs from the stored one.
 Moving the start date back later lists just the stretch before the old
 one (extend_items). Open items are fetched too, however long ago they
 were last updated: they're listed once (list_open_items), and after that
-any change moves them into the updates' listing. Stored closed items last
-updated before the start date are removed (set_start).
+any change moves them into the updates' listing. Every other item, closed
+and last updated before the start date, is stored as its listing row alone
+(issues/{n}/index.json, no details), from the weekly reconcile, which
+lists every item (set_start strips the details of items that fall behind
+a start date moved forward).
 
 Events are part of an item (GET /issues/{n}/events, fetched with it).
 After the first listing, each run also reads the repo-wide /issues/events
@@ -186,6 +189,26 @@ class RepoStore:
             by_id[o["id"]] = o
         self.put(kind, number, what, [by_id[i] for i in sorted(by_id)])
 
+    def full(self, number):
+        """Whether a stored item has its details (comments, events, pulls/):
+        updated since `from`, or open. The rest are their row alone."""
+        return _full(self.index()[number], self.state.get("items", {}).get("from", ""))
+
+    def strip_details(self, number):
+        """Remove everything stored for a number but its row; whether there
+        was anything."""
+        stripped = False
+        for what in ("comments", "events"):
+            path = self.path("issues", number, what)
+            if path.exists():
+                path.unlink()
+                stripped = True
+        pulls = self.dir / "pulls" / str(number)
+        if pulls.exists():
+            shutil.rmtree(pulls)
+            stripped = True
+        return stripped
+
     def remove_item(self, number):
         """Everything stored for a deleted or transferred issue or PR."""
         for kind in ("issues", "pulls"):
@@ -216,6 +239,7 @@ class RepoStore:
     def counts(self):
         idx = self.index()
         out = {"issues": sum(not i["is_pr"] for i in idx.values()), "prs": sum(i["is_pr"] for i in idx.values()),
+               "row_only": sum(not self.full(n) for n in idx),
                "pulls": len(list(self.dir.glob("pulls/*/index.json")))}
         for name, kind, what in (("comments", "issues", "comments"), ("events", "issues", "events"),
                                  ("reviews", "pulls", "reviews"), ("review_comments", "pulls", "comments")):
@@ -340,19 +364,21 @@ def list_ascending(client, path, params, on_page, until=None):
                 raise GitHubError(f"{path}: more rows at {mark} than GitHub will page through ({e.message})")
 
 
-def _sync_changed(client, store, rows):
+def _sync_changed(client, store, rows, closed_too=False):
     """Sync each listed item whose updated_at differs from the stored one
-    (or that isn't stored), storing the row as the item. Returns how many
-    were synced."""
+    (or that isn't stored, or with `closed_too`, that's closed: it may be
+    stored as its row alone), storing the row as the item. Returns how
+    many were synced."""
     idx, synced = store.index(), 0
     for row in rows:
-        if idx.get(row["number"], {}).get("updated_at") != row["updated_at"]:
+        if ((closed_too and row["state"] != "open")
+                or idx.get(row["number"], {}).get("updated_at") != row["updated_at"]):
             sync_item(client, store, row["number"], obj=row)
             synced += 1
     return synced
 
 
-def _list_and_sync(client, store, since, part, until=None, params=ITEMS, log=print):
+def _list_and_sync(client, store, since, part, until=None, params=ITEMS, closed_too=False, log=print):
     """List the items updated since `since` (and before `until`), syncing
     the changed ones, and save `part["cursor"]`, the listing's mark
     (the last row's updated_at), after every page: the resume point. A run stopped mid-page lists
@@ -361,7 +387,7 @@ def _list_and_sync(client, store, since, part, until=None, params=ITEMS, log=pri
     total = [0]
 
     def on_page(rows, mark):
-        synced = _sync_changed(client, store, rows)
+        synced = _sync_changed(client, store, rows, closed_too=closed_too)
         total[0] += synced
         if mark:
             part["cursor"] = max(mark, part.get("cursor", ""))
@@ -402,13 +428,16 @@ def extend_items(client, store, since, log=print):
     """When `updated_since` is moved back before `from`: the items updated
     in between, listed by keyset from `since` and stopping at `from`, with
     their own resume point (`items.extend`). Items updated since then are
-    the updates' business. Once done, `from` is `since`."""
+    the updates' business. Once done, `from` is `since`. Every closed item
+    listed is synced, unchanged or not: it may be stored as its row alone,
+    and now gets its details. (Open ones have them already.) A run stopped
+    midway syncs the closed items of the page it stopped in again."""
     s = store.section("items")
     ext = s.get("extend")
     if not ext or ext["from"] != since:
         ext = s["extend"] = {"from": since}
     start = max(since, _minus_overlap(ext["cursor"])) if "cursor" in ext else since
-    synced = _list_and_sync(client, store, start, ext, until=s["from"], log=log)
+    synced = _list_and_sync(client, store, start, ext, until=s["from"], closed_too=True, log=log)
     del s["extend"]
     s["from"] = since
     store.save_state()
@@ -456,8 +485,8 @@ def migrate_state(store, since):
 
 def set_start(store, since, log=print):
     """Apply `updated_since`: stored closed items last updated before it
-    are removed (git keeps them), and so are their 422 records; open ones
-    are kept (list_open_items). Moved forward,
+    keep only their row: their details are removed (git keeps them), and
+    so are their 422 records. Open ones keep everything (list_open_items). Moved forward,
     `from` follows it (and a listing back to an earlier date is dropped);
     moved back, extend_items lists the stretch before `from`."""
     s = store.section("items")
@@ -465,38 +494,66 @@ def set_start(store, since, log=print):
     if since > s["from"]:
         s["from"] = since
         s.pop("extend", None)
-    old = sorted(n for n, i in store.index().items() if i["updated_at"] < since and i["state"] != "open")
-    for n in old:
-        store.remove_item(n)
+    old = [n for n, i in sorted(store.index().items()) if not _full(i, since)]
+    stripped = [n for n in old if store.strip_details(n) | (n in store.refused())]
+    for n in stripped:
         store.set_refused(n, None)
-    if old:
+    if stripped:
         store.save_state()
-        log(f"{store.repo} items: removed {len(old)} closed, last updated before {since}")
+        log(f"{store.repo} items: kept only the row of {len(stripped)} closed, last updated before {since}")
 
 
-def _kept(item, since):
-    """Whether an item belongs in the data: updated since `since`, or open."""
+def _full(item, since):
+    """Whether an item is stored with its details (comments, events, and
+    for a PR its pull object, reviews and inline comments): updated since
+    `since`, or open. The rest are stored as their row alone."""
     return item["updated_at"] >= since or item["state"] == "open"
+
+
+def sync_row(client, store, number):
+    """GET /issues/{n} for a stored item the reconcile didn't list: recorded
+    as gone if it is, synced whole if it should have its details now, and
+    otherwise its row stored."""
+    try:
+        obj = client.rest(f"/repos/{store.repo}/issues/{number}").data
+    except Gone:
+        store.remove_item(number)
+        store.set_gone(number)
+        store.set_refused(number, None)
+        return
+    if _full(obj, store.section("items")["from"]):
+        sync_item(client, store, number, obj=obj)
+    else:
+        store.strip_details(number)
+        store.put("issues", number, None, obj)
 
 
 def reconcile(client, store, log=print):
     """Weekly: a second, independent listing of the items. Every item, in
     order of creation, by offset pages (created_at doesn't change, so
     nothing moves around; an item deleted mid-listing can shift one row
-    past a page boundary), keeping those updated since `from` or open on
-    the client. Then sync any listed item whose updated_at differs from the
-    stored one or that isn't stored (an update listing missed it), and any
-    stored item updated since `from` or open that isn't listed (deleted or
-    transferred). (While a listing back to an earlier date is under way,
-    its items aren't checked yet.)"""
+    past a page boundary). Then:
+
+    - sync any listed item updated since `from` or open whose updated_at
+      differs from the stored one or that isn't stored (an update listing
+      missed it);
+    - store the row of every other listed item, if it differs from the
+      stored one (these have no details);
+    - fetch any stored item that isn't listed (deleted or transferred).
+
+    `items.rows` records when every item was last listed: from then on,
+    every number up to the highest listed is stored or gone, or was never
+    listed (check). (While a listing back to an earlier date is under way,
+    its items get their details from that listing.)"""
     s = store.section("items")
     path = f"/repos/{store.repo}/issues"
     params = {"state": "all", "sort": "created", "direction": "asc", "per_page": PER_PAGE}
+    started = now()
     listed, total, page = {}, 0, 1
     resp = client.rest(path, params)
     while True:
         total += len(resp.data)
-        listed.update((r["number"], r) for r in resp.data if _kept(r, s["from"]))
+        listed.update((r["number"], r) for r in resp.data)
         if len(resp.data) < PER_PAGE:
             break
         page += 1
@@ -511,16 +568,27 @@ def reconcile(client, store, log=print):
         if not resp.data:
             break
     idx = store.index()
-    missed = [n for n in sorted(listed) if n not in idx]
-    changed = _sync_changed(client, store, [listed[n] for n in sorted(listed)])
-    unlisted = sorted(n for n, i in idx.items() if n not in listed and _kept(i, s["from"]))
+    full = [n for n in sorted(listed) if _full(listed[n], s["from"])]
+    missed = [n for n in full if n not in idx]
+    changed = _sync_changed(client, store, [listed[n] for n in full])
+    rows = 0
+    for n in sorted(set(listed) - set(full)):
+        if n not in idx or store.get("issues", n) != listed[n]:
+            store.strip_details(n)
+            store.put("issues", n, None, listed[n])
+            rows += 1
+    unlisted = sorted(n for n in idx if n not in listed)
     for n in unlisted:
-        sync_item(client, store, n)
+        if store.full(n):
+            sync_item(client, store, n)
+        else:
+            sync_row(client, store, n)
+    s["rows"] = started
     store.save_state()
-    log(f"{store.repo} reconcile: {total} items listed by creation time, {len(listed)} updated since "
+    log(f"{store.repo} reconcile: {total} items listed by creation time, {len(full)} updated since "
         f"{s['from']} or open; synced {changed} changed or missing ({len(missed)} weren't stored"
-        f"{': ' + _list(missed[:20]) if missed else ''}) and {len(unlisted)} unlisted; "
-        f"{len(store.index())} stored, {len(store.gone())} gone")
+        f"{': ' + _list(missed[:20]) if missed else ''}), stored {rows} other rows new or changed, "
+        f"fetched {len(unlisted)} unlisted; {len(store.index())} stored, {len(store.gone())} gone")
 
 
 # --- events ------------------------------------------------------------------
@@ -532,16 +600,16 @@ def _without_issue(event):
 
 
 def _store_events(store, events):
-    """Listed events under their issue's number, merged by id, for stored
-    items only. The rest are dropped: an item updated before `from` (its
-    events come with it if it's updated again), one not fetched yet (they
-    will), and deleted and transferred ones (the listing keeps their
-    events)."""
+    """Listed events under their issue's number, merged by id, for items
+    stored with their details only. The rest are dropped: an item stored as
+    its row alone (its events come with it if it's updated again), one not
+    fetched yet (they will), and deleted and transferred ones (the listing
+    keeps their events)."""
     idx = store.index()
     groups = defaultdict(list)
     for obj in events:
         n = obj["issue"]["number"]
-        if n in idx:
+        if n in idx and store.full(n):
             groups[n].append(_without_issue(obj))
     for n, objs in groups.items():
         store.merge("issues", n, "events", objs)

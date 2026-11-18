@@ -63,7 +63,7 @@ def sample(store, size, seed=0):
     for _, kind, what in KINDS:
         lists = sorted(store.lists(kind, what), key=lambda x: -len(x[1]))
         add(n for n, _ in lists[:per_kind])
-    rest = sorted(store.index())
+    rest = sorted(n for n in store.index() if store.full(n))
     random.Random(seed).shuffle(rest)
     add(rest)
     return sorted(picked)
