@@ -60,7 +60,9 @@ class BuildTest(TempDirs):
 
         data, logs = self.build()
         self.assertEqual(data["meta"], {"from": "2024-06-01", "to": "2025-03-31"})
-        self.assertEqual(data["event_types"], ["_carried_in", "_created", "closed", "reopened"])
+        self.assertEqual(data["event_types"], ["_carried_in", "_carried_in_as_draft", "_created",
+                                               "_created_as_draft", "closed", "reopened",
+                                               "convert_to_draft", "ready_for_review"])
         self.assertEqual(data["repos"], {"name": ["dom"], "standard": ["DOM"]})
         self.assertEqual(data["items"], {"repo": [0] * 7, "number": [2, 3, 10, 12, 13, 14, 16]})
         self.assertEqual(self.events(data), {
@@ -79,6 +81,39 @@ class BuildTest(TempDirs):
         self.assertEqual(list(zip(ev["day"], ev["item"])), sorted(zip(ev["day"], ev["item"])))
         self.assertEqual(logs, [])
 
+    def test_drafts(self):
+        gh = populated()
+        # Created as a draft, ready later (GitHub has no event for the first).
+        gh.add_issue(10, "2025-01-01T00:00:00Z", is_pr=True, draft_ready_at="2025-01-10T00:00:00Z")
+        # Created as a draft, still one.
+        gh.add_issue(11, "2025-01-01T00:00:00Z", is_pr=True)
+        gh.pulls[11]["draft"] = True
+        # Ready when created, made a draft, then closed as one.
+        gh.add_issue(12, "2025-01-01T00:00:00Z", is_pr=True)
+        gh.add_event(12, "2025-01-05T00:00:00Z", "convert_to_draft", "alice")
+        gh.pulls[12]["draft"] = True
+        gh.close(12, "2025-01-20T00:00:00Z")
+        # Open as a draft when the window starts, ready in it.
+        gh.add_issue(13, "2024-01-01T00:00:00Z", is_pr=True, draft_ready_at="2025-02-01T00:00:00Z")
+        # A draft when the window starts, but closed then; reopened in it.
+        gh.add_issue(14, "2024-01-01T00:00:00Z", is_pr=True, closed_at="2024-02-01T00:00:00Z")
+        gh.pulls[14]["draft"] = True
+        gh.add_event(14, "2025-02-01T00:00:00Z", "reopened", "ed")
+        gh.issues[14]["state"] = "open"
+        gh.touch(14, "2025-02-01T00:00:00Z")
+        self.sync(gh)
+        data, logs = self.build()
+        ev = self.events(data)
+        self.assertEqual(ev[10], [(day("2025-01-01"), "_created"), (day("2025-01-01"), "_created_as_draft"),
+                                  (day("2025-01-10"), "ready_for_review")])
+        self.assertEqual(ev[11], [(day("2025-01-01"), "_created"), (day("2025-01-01"), "_created_as_draft")])
+        self.assertEqual(ev[12], [(day("2025-01-01"), "_created"), (day("2025-01-05"), "convert_to_draft"),
+                                  (day("2025-01-20"), "closed")])
+        self.assertEqual(ev[13], [(0, "_carried_in"), (0, "_carried_in_as_draft"),
+                                  (day("2025-02-01"), "ready_for_review")])
+        self.assertEqual(ev[14], [(0, "_carried_in_as_draft"), (day("2025-02-01"), "reopened")])
+        self.assertEqual(logs, [])
+
     def test_the_items_own_state_wins(self):
         gh = populated()
         gh.add_issue(10, "2025-01-01T00:00:00Z", is_pr=True)
@@ -86,11 +121,17 @@ class BuildTest(TempDirs):
         gh.add_issue(11, "2025-01-01T00:00:00Z", is_pr=True)
         gh.close(11, "2025-01-10T00:00:00Z")
         gh.add_event(11, "2025-01-20T00:00:00Z", "closed", "ed")  # closed twice
+        gh.add_issue(12, "2025-01-01T00:00:00Z", is_pr=True, draft_ready_at="2025-01-05T00:00:00Z")
+        gh.pulls[12].update(draft=True, updated_at="2025-01-07T00:00:00Z")  # a draft again, with no event
         self.sync(gh)
         data, logs = self.build()
+        self.assertEqual(self.events(data)[12], [
+            (day("2025-01-01"), "_created"), (day("2025-01-01"), "_created_as_draft"),
+            (day("2025-01-05"), "ready_for_review"), (day("2025-01-07"), "convert_to_draft")])
         self.assertEqual(self.events(data)[10], [(day("2025-01-01"), "_created"), (day("2025-02-01"), "closed")])
         self.assertEqual(self.events(data)[11], [(day("2025-01-01"), "_created"), (day("2025-01-10"), "closed")])
-        self.assertEqual(logs, ["fixed up from the item's own state (closed with no `closed` event): 1"])
+        self.assertEqual(logs, ["fixed up from the item's own state (closed with no `closed` event): 1",
+                                "fixed up from the item's own state (draft state differs from the last draft event): 1"])
 
     def test_incomplete_repos_are_left_out(self):
         gh = populated()

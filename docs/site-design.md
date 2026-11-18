@@ -69,9 +69,24 @@ a time as later metrics need them:
   GitHub's API, and the spec's subdomain) and `standard` (`HTML`, the
   standard's `name` in `config/db.json`, as is: no "Standard" added), so
   pages show HTML rather than html.
-- **event_types**: `_carried_in`, `_created`, `closed`, `reopened`. No `merged`:
-  GitHub records a `closed` event on every merge too (all 154 merged
-  whatwg/dom PRs have both), so `closed` alone ends a PR's open span.
+- **event_types**: `_carried_in`, `_carried_in_as_draft`, `_created`,
+  `_created_as_draft`, `closed`, `reopened`, `convert_to_draft`,
+  `ready_for_review`. No `merged`: GitHub records a `closed` event on
+  every merge too (all 154 merged whatwg/dom PRs have both), so `closed`
+  alone ends a PR's open span.
+  - **Drafts** are a second state alongside open or closed, so a page can
+    show open PRs with the drafts among them. GitHub's `convert_to_draft`
+    and `ready_for_review` change it. GitHub has no event for a PR
+    created as a draft, so the build adds `_created_as_draft` after
+    `_created` (a PR was created as a draft if its first draft event is
+    `ready_for_review`, or, with none, if it's a draft now), and
+    `_carried_in_as_draft` for a PR that was a draft when the window
+    started (after `_carried_in` if it was open; alone if it was closed
+    and is reopened in the window). So a page knows a PR's draft state
+    from its events so far, without looking ahead.
+  - The open count is a sum over the open/closed events; open drafts need
+    each PR's open and draft state replayed, as a draft can be closed
+    without becoming ready.
 - **items**, PRs only: repo, and number (for links and for checking a
   count against GitHub).
 - **events**: day, item, event, sorted by day, item and time (a PR
@@ -90,14 +105,16 @@ lists every repo, so that's when the data was last complete; if fetching
 stops, the window stops with it. A repo whose listings aren't done, or
 with nothing stored (whatwg/nfc), is left out. A PR whose events disagree
 with its own state follows its state: a `closed` at its `closed_at` (12
-PRs on 2026-11-18), or a `reopened` at its `updated_at`.
+PRs on 2026-11-18), or a `reopened` at its `updated_at`; where the
+pull object's `draft` differs from its last draft event, a draft event
+at the pull object's `updated_at` (none on 2026-11-18).
 
-On 2026-11-18 it held 26 repos, 3,727 PRs and 7,098 events in 108 KB,
+On 2026-11-18 it held 26 repos, 3,727 PRs and 7,736 events in 115 KB,
 2022-01-01 to 2026-11-17: 242 PRs open at the start and 560 at the end,
-each repo's end count equal to its stored open PRs.
+64 of them drafts; each repo's end counts equal its stored open PRs and
+drafts.
 
-No users, labels or other lookups yet. Whether drafts count as open is
-decided with the metric's definition.
+No users, labels or other lookups yet.
 
 ## Published tables
 
@@ -115,8 +132,10 @@ things they refer to (items, users, repos).
   `reviewed`. Event types GitHub doesn't have start with `_`: `_created`
   (from the item's `created_at`) and `_carried_in` (ours). Event types:
   - lifecycle: `_carried_in`, `_created`, `closed`, `reopened`, `merged`;
+  - draft: `_carried_in_as_draft`, `_created_as_draft`,
+    `convert_to_draft`, `ready_for_review`;
   - detail: `commented`, `reviewed` (with its state), `review_requested`,
-    `labeled`, `unlabeled`, `ready_for_review`, `convert_to_draft`, …
+    `labeled`, `unlabeled`, …
 - **users**, one row per GitHub account that acts, bots included (GitHub's
   term, as in the raw data): login, and later organization and bot
   status, when ground rule 3's question about per-person figures is
