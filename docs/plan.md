@@ -12,9 +12,10 @@ as one static site, each answering one question from public data. Each
 data source gets its own extractor, with its raw data kept losslessly as
 committed JSON files (`data/github/` for GitHub).
 
-**Current phase: collecting data, and building the first dashboard's
-data.** Since 2026-11-18, `build` turns the stored data into the file
-the site will read (`docs/site-design.md`); no pages yet. A first dashboard was drafted and
+**Current phase: collecting data, and building the first dashboard.**
+Since 2026-11-18, `build` turns the stored data into the file the site
+reads, and `web/` holds the site, with its first view, open PRs
+(`docs/site-design.md`), published to GitHub Pages by `.github/workflows/site.yml`. A first dashboard was drafted and
 removed on 2026-11-14 (decisions log); its last version is at commit
 `10edb66`:
 
@@ -33,7 +34,9 @@ removed on 2026-11-14 (decisions log); its last version is at commit
    reviews, commits, changed files) and the public profiles of accounts
    seen in them. Approved on 2026-11-17: whatwg/sg's `db.json` from
    raw.githubusercontent.com, copied into `config/db.json` by
-   `python3 -m specstats sync-db`. Not approved: git clones (deferred on 2026-11-13: API data
+   `python3 -m specstats sync-db`. Approved on 2026-11-18: reading the
+   WHATWG's site and spec stylesheets and logo, for the frontend's look
+   (read once, from the whatwg/whatwg.org repo). Not approved: git clones (deferred on 2026-11-13: API data
    first), browser bug trackers, wpt.fyi, GH Archive, and any repo outside
    `whatwg/`.
    - `extract --dry-run` prints what a run would fetch without fetching.
@@ -83,7 +86,7 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-13 | Count each action in the month it happened (review submitted, comment written, merge), not when the PR closed | Same lesson as cosh's metric_version 3: close-week counting smears long-running PRs |
 | 2026-11-13 | Org from the profile `company` field plus `config/affiliations.json` overrides | The WHATWG has no affiliations file like Chromium's; `company` is public and self-declared |
 | 2026-11-13 | Self-reviews and bots are left out; the PR author's comments aren't "responses" | Replies in one's own review threads are recorded as reviews, but they aren't review work |
-| 2026-11-13 | Web pages are plain HTML, CSS and ES modules, with no build step | Small enough not to need one |
+| 2026-11-13 | ~~Web pages are plain HTML, CSS and ES modules, with no build step~~ (superseded on 2026-11-18: Svelte and Vite, below) | Small enough not to need one |
 | 2026-11-14 | Stay with Python (standard library only), with our own small REST client rather than a wrapper library | Maintainer's choice. The extractor needs raw JSON, ETags, `since` with overlap and per-page cursors, which wrappers hide or don't help with; Octokit's throttling plugin (TypeScript) was the main thing given up |
 | 2026-11-14 | Issues and PRs (the `/issues` listing) are committed to this repo, one file per item: `data/github/{owner}/{repo}/issues/{number}.json`, pretty-printed (2-space indent, GitHub's field order, trailing newline). ~~SQLite stays the working cache~~ (superseded below) | Maintainer's choice. A file per item keeps each update a small diff and every file small; git keeps the history and hosts the data long term, and a run can resume from the files if the artifact is gone. One directory for both kinds, as they share one number sequence |
 | 2026-11-14 | **No SQLite for raw data.** Everything fetched is committed as files laid out like the API paths (`issues/{n}.json` (since 2026-11-15 `issues/{n}/index.json`), `issues/{n}/comments.json`, `pulls/{n}/reviews.json`, `users/{login}.json`, …) plus a `state.json` per repo; git replaces the `history` table and the workflow artifact. Events are stored without their embedded copy of the issue. SQLite may come back for crunching | Maintainer's choice: public, browsable data in one place with its history, and no second copy to keep in sync. The embedded issue is a snapshot of `issues/{n}.json` at fetch time, repeated on every event |
@@ -148,6 +151,16 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-18 | **The window ends on the last full UTC day before the newest time seen in any repo**: the newest `updated_at` listed (`items.cursor`) or the last reconcile's start (`items.rows`), across repos. Repos whose listings aren't done, or with nothing stored, are left out and logged. Nothing new is recorded in `state.json` | Maintainer's choice. Every run lists every repo, and whatwg/html alone changes most days, so the newest cursor is within hours of the last run; if fetching stops, the window stops with it. It overstates only if a run stops partway and the later repos stay unfetched, unlikely now that the backfill is done. Recording when the last listing ran (tried first, `items.listed`) would change `state.json` on every run: a data commit every hour (or day, as a date) with nothing new from GitHub |
 | 2026-11-18 | **A PR's own state wins over its events** in the build: closed with no `closed` event gets one at its `closed_at`; open after a `closed` event gets a `reopened` at its `updated_at`. Only changes of state are published, in time order within a day (a PR reopened and closed on one day has both), and PRs with no event in the window are left out | So each repo's open count on the last day equals its stored open PRs (it does, for all 26). 12 PRs on 2026-11-18 were closed with no `closed` event; `check` keeps reporting them |
 | 2026-11-18 | **Draft PRs are published as a second state**: GitHub's `convert_to_draft` and `ready_for_review`, plus `_created_as_draft` (after `_created`) and `_carried_in_as_draft` (after `_carried_in`, or alone for a PR closed at the start and reopened in the window), so pages can show open PRs with the drafts among them | Maintainer's choice, after the first chart counted drafts as open (64 of 560 open PRs on 2026-11-17, 34 of whatwg/html's 325). The synthetic events say a PR was created as a draft when it happens, so a page never has to find a later `ready_for_review` to know. Additions, not replacements: one creation event per PR, so counts of created and open PRs ignore drafts. `_created_as_draft` rather than `_convert_to_draft`, which would be too close to GitHub's `convert_to_draft` |
+| 2026-11-18 | **The frontend is one Svelte 5 app built with Vite** into a static single-page app (not SvelteKit), in `web/`; deploying runs `build` and then the Vite build. Replaces "no build step" (2026-11-13) | Maintainer's choice. Every view, filter and range must round-trip through the URL; deriving the UI from state that's read from the URL is less error-prone with a framework than with hand-written DOM updates, and that grows with each view. Deploying already needs a build step for `data.json`, so Vite adds little. Instant switching between views comes from one app holding the data in memory, which this keeps. SvelteKit adds server rendering and file-based routing that a query-string app doesn't need |
+| 2026-11-18 | **The URL is the view**: every view, filter and date range is in the query string, defaults left out; controls `replaceState`, view changes `pushState`; presets are relative (`range=12m`), "link to this view" fixes `from` and `to`; unknown parameters are dropped quietly | Maintainer's requirement that the exact view can be linked to |
+| 2026-11-18 | **Hand-written SVG charts** (`d3-scale`, `d3-shape`), no chart library | Maintainer's choice, for full control of the WHATWG-like look. The tooltips, crosshair, keyboard access and table views are ours to build and test |
+| 2026-11-18 | **The frontend is TypeScript**, checked with `svelte-check` and `tsc` | Maintainer's choice |
+| 2026-11-18 | **The look takes the WHATWG's green, `#3c790a`, as the one accent, and its system font stack**, on a white page; chart series use a validated categorical palette; the WHATWG logo isn't used | The maintainer approved reading the WHATWG's stylesheets and logo. The sandbox's network blocks whatwg.org and resources.whatwg.org, and adding them was declined, so the files were read once from the whatwg/whatwg.org repo on raw.githubusercontent.com, which holds both sites. The specs' header-link colours aren't chosen to be told apart in charts. The logo would make the site look like the WHATWG's own |
+| 2026-11-18 | **First view built: open PRs** (`web/`): the open PRs per day, ready for review and drafts stacked, for any set of specs and dates, with summary tiles, a month-end table and a by-spec table; filters in the URL (`repos`, `range` or `from`/`to`, `drafts`) | Maintainer's instruction to start on the frontend with the open PRs view |
+| 2026-11-18 | **Frontend dependencies pinned exactly, installed with `npm install --before=2026-11-01`**: Svelte 5.57.3, Vite ~~8.3.5~~ (8.3.7 since the same day, below), TypeScript 6.0.3 (svelte-check 4.7 doesn't accept TypeScript 7 yet), d3-scale 4.0.2, d3-shape 3.2.0. Unit tests run with `node --test` and Node's type stripping, so no test framework | Releases at least two weeks old, so a compromised release has time to be caught; exact pins, so an install is what was tested. `npm audit` reports a ReDoS advisory in picomatch, used by Vite's file globbing at build time on our own config, not on input from users |
+| 2026-11-18 | **Vite 8.3.7** (was 8.3.5), with Rolldown 1.2.18, an exception to the two-week rule | GHSA-p4f5-76q4-ffq7 (critical, published 2026-11-10): remote code execution through the `__vite-browser-external` virtual module, in Vite 8.3.0 to 8.3.6, for a dev server exposed to the network (`--host` or `server.host`). Ours isn't, but the fix is a patch release. 8.3.7 (2026-11-09) is the patched version the advisory names, and its only change is the Rolldown update; 8.3.8 adds unrelated fixes. Installed with `--before=2026-11-10`. `npm audit` didn't list this advisory |
+| 2026-11-18 | **Dependabot** (`.github/dependabot.yml`): weekly version updates for `web/`'s npm packages and the workflows' actions, each grouped into one PR (npm: minor and patch together; majors one by one), with a 14-day cooldown | Maintainer's instruction, after GHSA-p4f5-76q4-ffq7. The cooldown keeps the two-week rule for releases without anyone checking dates. Security updates aren't in the file: they're a repository setting (Settings, Code security), and they skip the cooldown. Python needs nothing, being standard library only |
+| 2026-11-18 | **The site is published to GitHub Pages** by `.github/workflows/site.yml`: `build`, then `npm ci`, `npm run check`, `npm test` and `npm run build` in `web/`, and `web/dist/` deployed. On every push to `main`, after every run of "Fetch GitHub data", and on demand; a pull request gets the checks and build without publishing | Maintainer's instruction. The fetch's data commits are pushed with the built-in token, which doesn't trigger push workflows, so the site waits for the fetch run (`workflow_run`) instead: the published data is at most one fetch behind. Pages' own Actions source, not a `gh-pages` branch, so built files never land in git. Pages has to be set to "GitHub Actions" in the repository settings once, by hand |
 
 ## Status
 
@@ -205,8 +218,10 @@ removed on 2026-11-14 (decisions log); its last version is at commit
    sync-db` when whatwg/sg's db.json changes.
 3. Watch whether the scheduled runs fire: on 2026-11-17 the hourly one
    ran at 04:49 and 14:55 and missed every other hour.
-4. Then dashboards, built as `docs/site-design.md` describes. First,
-   the open PRs page on `build/data.json` (built since 2026-11-18). Then
+4. Then dashboards, built as `docs/site-design.md` describes. The open
+   PRs view is built (`web/`, 2026-11-18) and published to GitHub Pages
+   (`.github/workflows/site.yml`) once Pages is set to "GitHub Actions"
+   in the repository settings. Then
    bring back Maintenance load (commit `10edb66`), reworked around the
    prototype's catalog: PRs touched (split by size) instead of raw review
    counts, review sessions, sign-offs (`APPROVED` or

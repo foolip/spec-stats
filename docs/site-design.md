@@ -10,7 +10,7 @@ decisions log.
 ## Shape
 
 ```
-data/github/ ── build (Python) ───▶ build/data.json ──▶ pages (browser)
+data/github/ ── build (Python) ───▶ build/data.json ──▶ web app (browser)
    raw, both tiers                  items, events,        compute every
                                     users + meta          metric in memory
 ```
@@ -20,9 +20,9 @@ data/github/ ── build (Python) ───▶ build/data.json ──▶ pages 
   and writes a few small published tables. Every rule about what the raw
   data means lives here: which raw events count, how an item's state is
   worked out, what's left out, where the timeline starts.
-- **Pages:** plain HTML, CSS and ES modules with no JavaScript build step
-  (decisions log, 2026-11-13). They read only the published tables and
-  compute every metric from them in the browser.
+- **Web app:** one Svelte app, built with Vite into static files
+  ("Frontend", below). It reads only the published tables and computes
+  every metric from them in the browser.
 
 The pattern follows cosh (pages read only small published files, every
 page says what dates its data covers), but where cosh publishes a summary
@@ -173,7 +173,7 @@ deployed, not committed ("First version", above).
 - **All in memory.** The tables are loaded whole and every control change
   recomputes from them; filtering and summing 10,000 rows takes about a
   millisecond. No IndexedDB, Web Worker or in-browser database. One
-  loader caches each file's promise, so pages and sections sharing a file
+  loader caches each file's promise, so views sharing a file
   fetch it once.
 - **Kept between visits:** the data only in the HTTP cache (GitHub Pages
   sends `max-age=600` and ETags; a manifest of file hashes can add a
@@ -181,8 +181,9 @@ deployed, not committed ("First version", above).
   (date range, repos, metric) in the URL, so views can be shared;
   preferences such as the theme in `localStorage`, wrapped in try/catch,
   with nothing depending on them.
-- **Load only what a page needs**, and heavier files only when a control
-  asks for them.
+- **Load once, switch instantly.** The app loads the data file once;
+  every view after that is computed from memory, with no request. If the
+  file is ever split, heavier parts load when a view first needs them.
 
 ## Time
 
@@ -217,14 +218,124 @@ a decisions-log entry when the definition changes.
 | Duration | Time to first response | Median, with the share unanswered after 7 days, over items whose clock started in the trailing window |
 | Non-additive | Distinct reviewers, people doing 50% of reviews and merges | Recomputed over the trailing window from per-person daily counts |
 
-## Pages
+## Frontend
 
-- A landing page, and one page per dashboard, each answering one
-  question.
-- A shared module for loading, the window subtitle, the date range,
-  rolling-window and repo controls, URL state and charts, so each page is
-  mostly its question, its metrics and its charts.
-- **The main dimension is the spec** (27 repos), and whatwg/html is most
-  of the activity, so views need to keep it from flattening the rest:
+### Stack
+
+- **Svelte 5 and Vite**, built into a static single-page app: one HTML
+  file, its scripts and styles, and `data.json` next to them, served by
+  GitHub Pages. Plain Svelte, not SvelteKit: there's nothing to render on
+  a server, and SvelteKit's file-based routing works against one page
+  whose views live in the query string.
+- The source lives in `web/`. Deploying runs `python3 -m specstats build`
+  and then `npm ci && npm run build` in `web/`, and publishes the result
+  (`.github/workflows/site.yml`, after every push to `main` and every
+  fetch run);
+  the Vite dev server serves `build/data.json` as `data.json`.
+- **Few dependencies:** Svelte, Vite, and `d3-scale` and `d3-shape` for
+  the charts; TypeScript and `svelte-check` (with `@tsconfig/svelte` and
+  type packages) to check them. All pinned exactly. Anything else needs a
+  reason in the decisions log. Unit tests use `node --test` with Node's
+  type stripping, so no test framework.
+- **TypeScript**, checked with `svelte-check` and `tsc`.
+
+### Views
+
+- **One app, many views.** Each dashboard is a view (open PRs, later
+  maintenance load, response times, …), each answering one question. The
+  start view introduces the site and links to the views. Switching views
+  re-renders from the data in memory, so it's instant.
+- Shared components: the data loader, the window subtitle ("2022-01-01
+  to 2026-11-17", from `meta`), the date-range, rolling-window and repo
+  controls, and the charts. A view is mostly its question, its metrics
+  and its charts.
+- The spec (27 repos) is the main dimension, and whatwg/html is most of
+  the activity, so views need to keep it from flattening the rest:
   per-spec small multiples or tables, and an "all but html" choice.
   Organization is a later, second dimension.
+
+### The URL is the view
+
+Everything that decides what's on screen is in the query string, and
+nothing else holds it: the app reads its state from the URL and writes
+it back.
+
+```
+/?repos=dom,html&from=2024-01-01&to=2026-11-17&drafts=exclude
+/?repos=-html&range=1y
+```
+
+`web/src/lib/url.ts` parses and writes it. The parameters so far:
+
+| Parameter | Values | Default |
+|---|---|---|
+| `view` | `open-prs` | `open-prs` |
+| `repos` | repo names, `dom,html`; or names to leave out, `-html` | all |
+| `range` | `3y`, `1y`, `6m`, `3m`, counted back from the window's end | `all` |
+| `from`, `to` | `YYYY-MM-DD`, clamped to the window; replace `range` | |
+| `drafts` | `stack` (drafts shown on top), `exclude` (left out) | `stack` |
+
+- **Defaults are left out**, so `/?view=open-prs` is a whole link.
+- **Changing a control** replaces the history entry (`replaceState`), so
+  dragging a range doesn't fill the back button; **changing view** adds
+  one (`pushState`), so Back returns to the previous chart. `popstate`
+  re-reads the URL.
+- **Parameters mean the same in every view** that uses them (`repos`,
+  `from`, `to`, `window`), so switching views keeps the filters.
+- **Relative or fixed dates.** Presets write `range=12m`, which moves
+  with the data; "link to this view" writes `from` and `to` instead, so
+  the link shows the same dates later (the figures are stable up to the
+  data's small corrections).
+- **Unknown or invalid parameters are dropped quietly** and the URL
+  rewritten without them, so old links keep working as views change.
+- Repos in the URL are their `name` (`html`), not indexes, as indexes
+  change when repos are added.
+
+### Charts
+
+Hand-written SVG components, using `d3-scale` and `d3-shape` for scales,
+ticks and paths; no chart library. About 1,800 daily points a series is
+well within what SVG draws smoothly, and owning the markup gives full
+control of type, colour and axes. What a library would have given is
+ours to build and test:
+
+- a crosshair with a tooltip on time series, and a tooltip per mark on
+  bars, with hit targets larger than the marks;
+- keyboard access to the same values, and a table view of every chart;
+- a legend for two or more series, plus direct labels where they fit;
+- light and dark themes, each with its own colours checked for contrast
+  and colour-vision deficiency.
+
+### Look
+
+The WHATWG's look, made more modern: the green of the WHATWG logo as the
+one accent, a calm, mostly monochrome page, and typography that puts the
+text first, nothing decorative. On top of that, careful type at a
+comfortable reading width, generous whitespace, thin chart lines with few
+gridlines, a real dark mode, and a sticky bar for the range and repo
+filters.
+
+What the WHATWG's own styles use (read on 2026-11-18 from the
+whatwg/whatwg.org repo, which holds both sites: `whatwg.org/style/shared.css`,
+`resources.whatwg.org/standard.css`, `spec.css` and `logo.svg`):
+
+- **Green** `#3c790a` (the logo, and the specs' header links); the site's
+  `--whatwggreen` is `#3a7908`, with buttons graded to `#00981b`.
+- **Type:** the system sans-serif stack (`-apple-system,
+  BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif`);
+  no web fonts.
+- **Page:** black text; whatwg.org on a light grey (`rgb(235, 235, 235)`)
+  with a 900px column; the specs on white, up to 80em wide; plain
+  underlined links, blue `#00f` and visited `#0e388c` on whatwg.org.
+- **The specs' header links** each have a colour: comms blue `#165fcc`,
+  feedback red `#ff3e3a`, changes teal `#54b29a`, misc orange `#ffa32d`.
+- **Dark mode:** the specs follow `prefers-color-scheme` (through
+  Bikeshed's variables); whatwg.org doesn't.
+
+So spec-stats uses the green `#3c790a` as its one accent (with a lighter
+step of the same hue for dark mode, checked for contrast), the same
+system font stack, a white page, and a reading column near whatwg.org's.
+Chart series colours are a validated categorical palette, not the header
+links' colours, which aren't chosen to be told apart in charts. The
+WHATWG logo isn't used: spec-stats isn't a WHATWG site, and shouldn't
+look like one.

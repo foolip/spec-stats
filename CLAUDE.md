@@ -23,4 +23,9 @@ has the design for the dashboards to come.
 
 ```
 python3 -m unittest discover tests
+cd web && npm ci && npm run check && npm test
 ```
+
+- The frontend is in `web/` (Svelte 5, Vite, TypeScript); `docs/site-design.md`
+  ("Frontend") describes it. Its dependencies are pinned exactly; add one
+  only with a reason in the decisions log.
