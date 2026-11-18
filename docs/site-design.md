@@ -66,7 +66,7 @@ publishes only what that needs, and the tables grow a column or an event type at
 a time as later metrics need them:
 
 - **repos**: the lookup list of repo names.
-- **event_types**: `_carried_in`, `_opened`, `closed`, `reopened`. No `merged`:
+- **event_types**: `_carried_in`, `_created`, `closed`, `reopened`. No `merged`:
   GitHub records a `closed` event on every merge too (all 154 merged
   whatwg/dom PRs have both), so `closed` alone ends a PR's open span.
 - **items**, PRs only: repo, and number (for links and for checking a
@@ -90,9 +90,9 @@ things they refer to (items, users).
   are GitHub's: `event` as in `events.json` and the timeline API, whose
   values GitHub calls issue event types. Comments and reviews come from
   their own files but take the timeline's names, `commented` and
-  `reviewed`. Event types GitHub doesn't have start with `_`: `_opened`
+  `reviewed`. Event types GitHub doesn't have start with `_`: `_created`
   (from the item's `created_at`) and `_carried_in` (ours). Event types:
-  - lifecycle: `_carried_in`, `_opened`, `closed`, `reopened`, `merged`;
+  - lifecycle: `_carried_in`, `_created`, `closed`, `reopened`, `merged`;
   - detail: `commented`, `reviewed` (with its state), `review_requested`,
     `labeled`, `unlabeled`, `ready_for_review`, `convert_to_draft`, …
 - **users**, one row per GitHub account that acts, bots included (GitHub's
@@ -159,7 +159,7 @@ a decisions-log entry when the definition changes.
 | Kind | Examples | A day's point |
 |---|---|---|
 | Flow | PRs merged, reviews, comments | Count of events over the trailing window |
-| Stock | Open issues and PRs, backlog by age, items stalled on a label | State at the end of the day, replayed from `_carried_in`, `_opened`, `reopened` and `closed` |
+| Stock | Open issues and PRs, backlog by age, items stalled on a label | State at the end of the day, replayed from `_carried_in`, `_created`, `reopened` and `closed` |
 | Duration | Time to first response | Median, with the share unanswered after 7 days, over items whose clock started in the trailing window |
 | Non-additive | Distinct reviewers, people doing 50% of reviews and merges | Recomputed over the trailing window from per-person daily counts |
 
