@@ -12,7 +12,7 @@ decisions log.
 ```
 data/github/ ── derive (Python) ──▶ published tables ──▶ pages (browser)
    raw, both tiers                  items, events,        compute every
-                                    users + coverage      metric in memory
+                                    users + meta          metric in memory
 ```
 
 - **Raw:** `data/github/`, as fetched (`docs/extraction.md`).
@@ -72,7 +72,7 @@ a time as later metrics need them:
 - **items**, PRs only: repo, and number (for links and for checking a
   count against GitHub).
 - **events**: day, item, event.
-- **coverage**: the window.
+- **meta**: the window.
 
 No users, labels or other lookups yet. Whether drafts count as open is
 decided with the metric's definition.
@@ -99,13 +99,19 @@ things they refer to (items, users).
   term, as in the raw data): login, and later organization and bot
   status, when ground rule 3's question about per-person figures is
   settled. Until then pages show no per-person figures.
-- **coverage**: the window, `{"from": "2022-01-01", "to": "…"}`, read
-  from each repo's `state.json` in the same run as the tables, so the
-  dates a page shows can't disagree with its figures. Each page shows it
-  under its title.
+
+Alongside the tables, a **meta** object describes the data as a whole:
+the window, `{"from": "2022-01-01", "to": "…"}`, read from each repo's
+`state.json` in the same run as the tables, so the dates a page shows
+can't disagree with its figures. Each page shows the window under its
+title. It's not a table: nothing refers to it.
 
 Files are columnar: an array per column rather than an object per row,
-with repos, logins, labels and event types as indexes into small lookup lists.
+with repos, logins, labels and event types as indexes into small lookup
+lists: plain arrays of strings, which are enough to filter on (picking
+repos is picking a set of indexes). A list becomes a table when its
+entries get attributes, e.g. repos with their spec's title from
+`config/db.json` when a page shows titles.
 That keeps the files small and lets the browser load columns straight
 into typed arrays; a join is an array lookup. Expected size: about
 10,000 items and tens of thousands of events, a few MB of JSON before
@@ -167,7 +173,7 @@ a decisions-log entry when the definition changes.
 
 - A landing page, and one page per dashboard, each answering one
   question.
-- A shared module for loading, the coverage subtitle, the date range,
+- A shared module for loading, the window subtitle, the date range,
   rolling-window and repo controls, URL state and charts, so each page is
   mostly its question, its metrics and its charts.
 - **The main dimension is the spec** (27 repos), and whatwg/html is most
