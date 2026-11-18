@@ -520,13 +520,6 @@ class ExtractTest(TempDirs):
                           "/issues/events"])
         self.assertEqual(self.store().section("items"), {"from": START, "cursor": "2025-05-01T00:00:00Z"})
 
-    def test_changing_pr_resources_fails(self):
-        gh = populated()
-        self.sync(gh)
-        with mock.patch.object(extract, "load_pr_resources", return_value=["pull", "reviews", "commits"]):
-            with self.assertRaisesRegex(extract.CheckFailed, "pr_resources"):
-                self.sync(gh)
-
     def test_deadline_stops_cleanly_and_the_next_run_continues(self):
         gh = populated()
         for i in range(2):  # enough events for several pages, and an odd count

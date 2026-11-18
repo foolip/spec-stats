@@ -27,8 +27,6 @@ data/github/
     pulls/1234/index.json       GET …/pulls/1234 (PRs only)
     pulls/1234/reviews.json     GET …/pulls/1234/reviews
     pulls/1234/comments.json    GET …/pulls/1234/comments (inline review comments)
-    pulls/1234/commits.json     (optional)
-    pulls/1234/files.json       (optional)
     state.json                  how far each part has got, and numbers that are gone
 ```
 
@@ -63,9 +61,8 @@ Everything for one number is fetched together and replaces what's stored:
 | `GET /issues/{n}` | only if the item wasn't listed: its row from the items listing is stored instead (below) |
 | `GET /issues/{n}/comments` | if the issue's `comments` count isn't 0 |
 | `GET /issues/{n}/events` | always (the issue has no count of them) |
-| `GET /pulls/{n}` | PRs, if `pull` is in `config/fetch.json` (default); see below for HTTP 422 |
-| `GET /pulls/{n}/reviews` | PRs, if `reviews` is in `config/fetch.json` (default) |
-| `GET /pulls/{n}/commits`, `/files` | PRs, if turned on in `config/fetch.json` (off) |
+| `GET /pulls/{n}` | PRs; see below for HTTP 422 |
+| `GET /pulls/{n}/reviews` | PRs |
 | `GET /pulls/{n}/comments` | PRs, unless `pull` says `review_comments` is 0 |
 
 So a listed issue costs one or two requests and a PR three to five, plus
@@ -89,10 +86,6 @@ discussion), or redirects (transferred to another repo), the number is
 recorded as gone in `state.json`, anything stored for it is removed, and it
 isn't fetched again. **Redirects aren't followed**, so nothing is
 fetched from the other repo; a transfer is treated as a deletion.
-
-The set of per-PR resources is recorded in `state.json`. Changing it in
-`config/fetch.json` makes the run fail: fetching a newly enabled
-resource for every existing PR isn't implemented yet.
 
 ## Items: updated since a start date
 
@@ -230,7 +223,6 @@ itself can't be done right:
 - The repo-wide `/issues/events` doesn't reach back to the last run's
   events: HTTP 422, or a full page (100 events) with no next link, which
   is how GitHub cut off whatwg/html's listing at page 300.
-- `config/fetch.json` changed its per-PR resources.
 - Any other HTTP 422, except the one below.
 
 **HTTP 422** (`Unprocessable`) isn't a rate limit (those are 403 and

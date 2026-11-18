@@ -11,8 +11,6 @@ JSON files committed to this repo, laid out like the API paths
     pulls/{n}/index.json       GET /pulls/{n}
     pulls/{n}/reviews.json     GET /pulls/{n}/reviews
     pulls/{n}/comments.json    GET /pulls/{n}/comments
-    pulls/{n}/commits.json     (optional)
-    pulls/{n}/files.json       (optional)
     state.json                 where each part is up to, and numbers that are gone
 
 Git keeps every earlier version, so nothing here keeps history itself.
@@ -53,15 +51,6 @@ from .github import GitHubError, Gone, Unprocessable
 OVERLAP = timedelta(days=1)
 PER_PAGE = 100
 
-PR_RESOURCES = {
-    # resource -> (API path, file under pulls/{n}/, paged)
-    "pull": ("/repos/{repo}/pulls/{n}", None, False),
-    "reviews": ("/repos/{repo}/pulls/{n}/reviews", "reviews", True),
-    "commits": ("/repos/{repo}/pulls/{n}/commits", "commits", True),
-    "files": ("/repos/{repo}/pulls/{n}/files", "files", True),
-}
-
-
 class CheckFailed(Exception):
     """Fetching can't be done right; the run stores what it has and fails."""
 
@@ -95,14 +84,6 @@ def load_updated_since():
     ts = _config().get("updated_since", "2022-01-01T00:00:00Z")
     _parse(ts)  # the format the listings use
     return ts
-
-
-def load_pr_resources():
-    names = _config().get("pr_resources", ["pull", "reviews"])
-    unknown = set(names) - set(PR_RESOURCES)
-    if unknown:
-        raise ValueError(f"unknown pr_resources in config/fetch.json: {sorted(unknown)}")
-    return names
 
 
 # --- files ---------------------------------------------------------------------
@@ -261,7 +242,7 @@ def _all_pages(client, path, params=None):
 
 # --- one item ------------------------------------------------------------------
 
-def sync_item(client, store, number, resources, obj=None):
+def sync_item(client, store, number, obj=None):
     """Fetch everything for one issue or PR number and replace what's stored.
 
     `obj` is the item's row from the items listing, if it was listed: the
@@ -288,19 +269,14 @@ def sync_item(client, store, number, resources, obj=None):
         events = [_without_issue(e) for e in _all_pages(client, f"/repos/{repo}/issues/{number}/events")]
         pr, refused = {}, {}
         if "pull_request" in obj:
-            for res in resources:
-                path, _, paged = PR_RESOURCES[res]
-                url = path.format(repo=repo, n=number)
-                if paged:
-                    pr[res] = list(_all_pages(client, url))
-                    continue
-                try:
-                    pr[res] = client.rest(url).data
-                except Unprocessable as e:  # only /pulls/{n} is unpaged
-                    pr[res], refused[res] = None, e.message
-            pull = pr.get("pull")
-            pr["review_comments"] = (list(_all_pages(client, f"/repos/{repo}/pulls/{number}/comments"))
-                                     if pull is None or pull["review_comments"] else None)
+            try:
+                pull = client.rest(f"/repos/{repo}/pulls/{number}").data
+            except Unprocessable as e:
+                pull, refused["pull"] = None, e.message
+            pr[None] = pull
+            pr["reviews"] = list(_all_pages(client, f"/repos/{repo}/pulls/{number}/reviews"))
+            pr["comments"] = (list(_all_pages(client, f"/repos/{repo}/pulls/{number}/comments"))
+                              if pull is None or pull["review_comments"] else None)
     except Gone:
         store.remove_item(number)
         store.set_gone(number)
@@ -310,8 +286,7 @@ def sync_item(client, store, number, resources, obj=None):
     store.set_refused(number, refused)
     store.put("issues", number, "comments", comments)
     store.put("issues", number, "events", events)
-    for res, data in pr.items():
-        what = "comments" if res == "review_comments" else PR_RESOURCES[res][1]
+    for what, data in pr.items():
         store.put("pulls", number, what, data)
     store.put("issues", number, None, obj)
     return obj
@@ -363,19 +338,19 @@ def list_ascending(client, path, params, on_page, until=None):
                 raise GitHubError(f"{path}: more rows at {mark} than GitHub will page through ({e.message})")
 
 
-def _sync_changed(client, store, rows, resources):
+def _sync_changed(client, store, rows):
     """Sync each listed item whose updated_at differs from the stored one
     (or that isn't stored), storing the row as the item. Returns how many
     were synced."""
     idx, synced = store.index(), 0
     for row in rows:
         if idx.get(row["number"], {}).get("updated_at") != row["updated_at"]:
-            sync_item(client, store, row["number"], resources, obj=row)
+            sync_item(client, store, row["number"], obj=row)
             synced += 1
     return synced
 
 
-def _list_and_sync(client, store, resources, since, part, until=None, log=print):
+def _list_and_sync(client, store, since, part, until=None, log=print):
     """List the items updated since `since` (and before `until`), syncing
     the changed ones, and save `part["cursor"]`, the listing's mark
     (the last row's updated_at), after every page: the resume point. A run stopped mid-page lists
@@ -384,7 +359,7 @@ def _list_and_sync(client, store, resources, since, part, until=None, log=print)
     total = [0]
 
     def on_page(rows, mark):
-        synced = _sync_changed(client, store, rows, resources)
+        synced = _sync_changed(client, store, rows)
         total[0] += synced
         if mark:
             part["cursor"] = max(mark, part.get("cursor", ""))
@@ -398,7 +373,7 @@ def _list_and_sync(client, store, resources, since, part, until=None, log=print)
     return total[0]
 
 
-def update_items(client, store, resources, log=print):
+def update_items(client, store, log=print):
     """Items updated since the cursor (minus OVERLAP, but not before
     `from`): one request if nothing changed. The first time, there's no
     cursor and this is the backfill: every item updated since `from`."""
@@ -407,7 +382,7 @@ def update_items(client, store, resources, log=print):
     if first:
         s.setdefault("started", now())
     since = max(s["from"], _minus_overlap(s["cursor"])) if not first else s["from"]
-    synced = _list_and_sync(client, store, resources, since, s, log=log)
+    synced = _list_and_sync(client, store, since, s, log=log)
     s.setdefault("cursor", s["from"])  # nothing updated since `from`
     if "started" in s:
         # The first listing is done. Anything that changed since it
@@ -419,7 +394,7 @@ def update_items(client, store, resources, log=print):
     return synced
 
 
-def extend_items(client, store, resources, since, log=print):
+def extend_items(client, store, since, log=print):
     """When `updated_since` is moved back before `from`: the items updated
     in between, listed by keyset from `since` and stopping at `from`, with
     their own resume point (`items.extend`). Items updated since then are
@@ -429,7 +404,7 @@ def extend_items(client, store, resources, since, log=print):
     if not ext or ext["from"] != since:
         ext = s["extend"] = {"from": since}
     start = max(since, _minus_overlap(ext["cursor"])) if "cursor" in ext else since
-    synced = _list_and_sync(client, store, resources, start, ext, until=s["from"], log=log)
+    synced = _list_and_sync(client, store, start, ext, until=s["from"], log=log)
     del s["extend"]
     s["from"] = since
     store.save_state()
@@ -471,7 +446,7 @@ def set_start(store, since, log=print):
         log(f"{store.repo} items: removed {len(old)} last updated before {since}")
 
 
-def reconcile(client, store, resources, log=print):
+def reconcile(client, store, log=print):
     """Weekly: a second, independent listing of the items. Every item, in
     order of creation, by offset pages (created_at doesn't change, so
     nothing moves around; an item deleted mid-listing can shift one row
@@ -504,10 +479,10 @@ def reconcile(client, store, resources, log=print):
             break
     idx = store.index()
     missed = [n for n in sorted(listed) if n not in idx]
-    changed = _sync_changed(client, store, [listed[n] for n in sorted(listed)], resources)
+    changed = _sync_changed(client, store, [listed[n] for n in sorted(listed)])
     unlisted = sorted(n for n, i in idx.items() if n not in listed and i["updated_at"] >= s["from"])
     for n in unlisted:
-        sync_item(client, store, n, resources)
+        sync_item(client, store, n)
     store.save_state()
     log(f"{store.repo} reconcile: {total} items listed by creation time, {len(listed)} updated since "
         f"{s['from']}; synced {changed} changed or missing ({len(missed)} weren't stored"
@@ -574,13 +549,13 @@ def sync_events(client, store, log=print):
 
 # --- whole repo ----------------------------------------------------------------
 
-def retry_refused(client, store, resources, log=print):
+def retry_refused(client, store, log=print):
     """Fetch again every item GitHub refused part of (HTTP 422) on an earlier
     run: such refusals can pass (whatwg/dom #548's did, a run later). The
     record goes once GitHub answers."""
     numbers = sorted(store.refused())
     for n in numbers:
-        sync_item(client, store, n, resources)
+        sync_item(client, store, n)
     if numbers:
         store.save_state()
         still = sorted(store.refused())
@@ -594,22 +569,17 @@ def _list(numbers):
 def sync_repo(client, store, reconcile_=False, log=print):
     """Everything for one repo. If the client's deadline stops it midway,
     what's fetched so far is saved and the next run continues."""
-    resources = load_pr_resources()
-    fixed = store.state.setdefault("pr_resources", resources)
-    if fixed != resources:
-        raise CheckFailed(f"{store.repo}: config/fetch.json pr_resources is {resources}, but stored PRs "
-                          f"have {fixed}; fetching a changed set for every PR isn't implemented")
     since = load_updated_since()
     gone = False
     try:
         migrate_state(store, since)
         set_start(store, since, log=log)
-        retry_refused(client, store, resources, log=log)
-        update_items(client, store, resources, log=log)
+        retry_refused(client, store, log=log)
+        update_items(client, store, log=log)
         if since < store.section("items")["from"]:
-            extend_items(client, store, resources, since, log=log)
+            extend_items(client, store, since, log=log)
         if reconcile_:
-            reconcile(client, store, resources, log=log)
+            reconcile(client, store, log=log)
         # After items: the events cursor is set when the first listing finishes.
         sync_events(client, store, log=log)
     except Gone as e:
