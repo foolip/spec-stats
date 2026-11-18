@@ -366,5 +366,51 @@
     },
     "performed_via_github_app": null,
     "minimized": null
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/6977413699",
+    "html_url": "https://github.com/whatwg/html/pull/13268#issuecomment-6977413699",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/13268",
+    "id": 6977413699,
+    "node_id": "IC_kwDOALaj488AAAABn-LiQw",
+    "user": {
+      "login": "noamr",
+      "id": 88566,
+      "node_id": "MDQ6VXNlcjg4NTY2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88566?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/noamr",
+      "html_url": "https://github.com/noamr",
+      "followers_url": "https://api.github.com/users/noamr/followers",
+      "following_url": "https://api.github.com/users/noamr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/noamr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/noamr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/noamr/subscriptions",
+      "organizations_url": "https://api.github.com/users/noamr/orgs",
+      "repos_url": "https://api.github.com/users/noamr/repos",
+      "events_url": "https://api.github.com/users/noamr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/noamr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-18T11:36:13Z",
+    "updated_at": "2026-11-18T11:36:13Z",
+    "body": "Agreed on option B, and good catch on 84fc9a2 — `focus chain` currently stops at `node navigable`'s `parent` (#11886 / #11873), so the `<iframe>` never appears in `new chain`.\n\nChecking the containers directly before firing `blur` sounds much better, and also avoids depending on whether #11873 keeps navigable containers in `new chain`. One small gotcha: start from `new focus target`'s document's own `node navigable` (i.e. `inclusive ancestor navigables` rather than `ancestor navigables`, when `new focus target` is a focusable area with a non-null `node navigable`), since a child `<iframe>` is its own document's `node navigable`'s `container`. (Until #11886 is fixed, the spec also never designates the `<iframe>` as the parent's focused area, though engines already do.)\n\nThe `hasFocus()` update in web-platform-tests/wpt#65298 looks good! Might also be worth adding one subtest calling `childButton.focus()` again while already focused on that path during an `after-transition` navigation, to check that the reset still runs.\n",
+    "author_association": "CONTRIBUTOR",
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/6977413699/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
   }
 ]
