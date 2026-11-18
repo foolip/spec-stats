@@ -47,6 +47,7 @@ python3 -m specstats extract --max-minutes 60     # stop cleanly after an hour; 
 python3 -m specstats extract --reconcile          # weekly: also re-list every issue/PR since the start (deletions, missed updates)
 python3 -m specstats stats                        # what's stored (offline)
 python3 -m specstats sync-db                      # copy whatwg/sg's db.json into config/db.json
+python3 -m specstats build                        # build/data.json, the file the site reads (offline; not committed)
 python3 -m unittest discover tests
 ```
 

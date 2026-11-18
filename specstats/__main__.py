@@ -6,6 +6,8 @@
   python3 -m specstats listing-check [--repo whatwg/dom] [--size 50]
                                   are listing rows the same as GET /issues/{n}?
   python3 -m specstats sync-db    copy whatwg/sg's db.json into config/db.json
+  python3 -m specstats build [--out build/data.json]
+                                  offline: the JSON file the site reads (docs/site-design.md)
 
 extract fetches everything that changed since the last run into
 data/github/. Only items (issues and PRs) updated since `updated_since` in
@@ -27,7 +29,7 @@ normally, and the next run continues from there.
 import argparse
 import sys
 
-from . import check, extract, github, listing_check, sgdb, timeline_check
+from . import build, check, extract, github, listing_check, sgdb, timeline_check
 
 
 def main(argv=None):
@@ -53,6 +55,8 @@ def main(argv=None):
                    help="how many of the most, and of the least, recently updated items (default: 50)")
     sub.add_parser("sync-db", help="copy whatwg/sg's db.json (the Living Standards, whose repos "
                    "are fetched) into config/db.json")
+    p = sub.add_parser("build", help="write the JSON file the site reads, from data/github/ (offline)")
+    p.add_argument("--out", help="where to write it (default: build/data.json)")
     args = ap.parse_args(argv)
     # Show each line as it's printed, even when stdout is a pipe (as in
     # GitHub Actions), where Python would otherwise hold it in a buffer.
@@ -61,6 +65,14 @@ def main(argv=None):
 
     if args.cmd == "stats":
         print(stats())
+        return 0
+    if args.cmd == "build":
+        log = lambda m: print(m, file=sys.stderr)
+        data = build.build(log=log)
+        path, size = build.write(data, args.out)
+        meta = data["meta"]
+        log(f"{path}: {meta['from']} to {meta['to']}, {len(data['repos']['name'])} repos, "
+            f"{len(data['items']['number'])} PRs, {len(data['events']['day'])} events, {size:,} bytes")
         return 0
     if args.cmd == "sync-db":
         sgdb.sync()
