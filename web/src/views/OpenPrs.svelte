@@ -16,7 +16,7 @@
   let { data, state: view, ctx, navigate }: Props = $props();
 
   const byRepo = $derived(openByRepo(data));
-  const repos = $derived(selectedRepos(view.repos, data.repos.name));
+  const repos = $derived(selectedRepos(view.repo, data.repos.name));
   const series = $derived(total(byRepo, repos, data.days));
   const [start, end] = $derived(rangeDays(view.range, ctx));
   const drafts = $derived(view.drafts === "stack");
@@ -97,8 +97,8 @@
     <RepoPicker
       names={data.repos.name}
       standards={data.repos.standard}
-      repos={view.repos}
-      onchange={(r) => navigate({ ...view, repos: r })}
+      repo={view.repo}
+      onchange={(r) => navigate({ ...view, repo: r })}
     />
     <RangePicker range={view.range} {ctx} onchange={(r) => navigate({ ...view, range: r })} />
     <label class="check">
@@ -172,7 +172,7 @@
           <tr>
             <th scope="row">
               <button type="button" class="spec" title="Show only {row.standard}"
-                onclick={() => navigate({ ...view, repos: { mode: "only", names: [row.name] } })}>{row.standard}</button>
+                onclick={() => navigate({ ...view, repo: row.name })}>{row.standard}</button>
             </th>
             <td class="n">{num(row.open)}</td>
             {#if drafts}<td class="n muted">{num(row.draft)}</td>{/if}

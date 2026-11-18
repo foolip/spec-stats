@@ -10,30 +10,28 @@ test("the default view is the empty query string", () => {
 });
 
 test("a view round-trips through the URL", () => {
-  const search = "?repos=dom,html&from=2024-01-01&to=2026-11-17&drafts=exclude";
+  const search = "?repo=html&from=2024-01-01&to=2026-11-17&drafts=exclude";
   assert.equal(serialize(parse(search, ctx)), search);
-  assert.equal(serialize(parse("?repos=-html&range=1y", ctx)), "?repos=-html&range=1y");
+  assert.equal(serialize(parse("?repo=dom&range=1y", ctx)), "?repo=dom&range=1y");
 });
 
 test("unknown and invalid parameters are dropped", () => {
-  assert.equal(serialize(parse("?view=nope&repos=html,nfc&range=7y&drafts=maybe&utm_source=x", ctx)), "?repos=html");
-  assert.equal(serialize(parse("?repos=nfc", ctx)), "");
+  assert.equal(serialize(parse("?view=nope&repo=html&range=7y&drafts=maybe&utm_source=x", ctx)), "?repo=html");
+  assert.equal(serialize(parse("?repo=nfc", ctx)), "");
+  // Lists and exclusions aren't supported: all repos.
+  assert.equal(serialize(parse("?repo=dom,html", ctx)), "");
+  assert.equal(serialize(parse("?repo=-html", ctx)), "");
+  assert.equal(serialize(parse("?repos=html", ctx)), "");
   assert.equal(serialize(parse("?from=2025-13-45", ctx)), "");
   // Out of the window: clamped to it. Backwards: dropped.
   assert.equal(serialize(parse("?from=2019-01-01&to=2030-01-01", ctx)), "?from=2022-01-01&to=2026-11-17");
   assert.equal(serialize(parse("?from=2025-01-01&to=2024-01-01&range=1y", ctx)), "");
 });
 
-test("repos are listed in a fixed order, and excluding every repo means all", () => {
-  assert.equal(serialize(parse("?repos=url,dom,dom", ctx)), "?repos=dom,url");
-  assert.equal(serialize(parse("?repos=-dom,-fetch,-html,-url", ctx)), "");
-});
-
-test("a selection's repos", () => {
+test("a state's repos", () => {
   const names = ctx.repoNames;
-  assert.deepEqual(selectedRepos({ mode: "all" }, names), [0, 1, 2, 3]);
-  assert.deepEqual(selectedRepos({ mode: "only", names: ["html"] }, names), [2]);
-  assert.deepEqual(selectedRepos({ mode: "except", names: ["html"] }, names), [0, 1, 3]);
+  assert.deepEqual(selectedRepos(null, names), [0, 1, 2, 3]);
+  assert.deepEqual(selectedRepos("html", names), [2]);
 });
 
 test("presets are relative to the end of the window; links fix them", () => {

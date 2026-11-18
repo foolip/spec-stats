@@ -261,8 +261,8 @@ nothing else holds it: the app reads its state from the URL and writes
 it back.
 
 ```
-/?repos=dom,html&from=2024-01-01&to=2026-11-17&drafts=exclude
-/?repos=-html&range=1y
+/?repo=html&from=2024-01-01&to=2026-11-17&drafts=exclude
+/?repo=dom&range=1y
 ```
 
 `web/src/lib/url.ts` parses and writes it. The parameters so far:
@@ -270,7 +270,7 @@ it back.
 | Parameter | Values | Default |
 |---|---|---|
 | `view` | `open-prs` | `open-prs` |
-| `repos` | repo names, `dom,html`; or names to leave out, `-html` | all |
+| `repo` | one repo's name, `html` | all |
 | `range` | `3y`, `1y`, `6m`, `3m`, counted back from the window's end | `all` |
 | `from`, `to` | `YYYY-MM-DD`, clamped to the window; replace `range` | |
 | `drafts` | `stack` (drafts shown on top), `exclude` (left out) | `stack` |
@@ -280,7 +280,7 @@ it back.
   dragging a range doesn't fill the back button; **changing view** adds
   one (`pushState`), so Back returns to the previous chart. `popstate`
   re-reads the URL.
-- **Parameters mean the same in every view** that uses them (`repos`,
+- **Parameters mean the same in every view** that uses them (`repo`,
   `from`, `to`, `window`), so switching views keeps the filters.
 - **Relative or fixed dates.** Presets write `range=12m`, which moves
   with the data; "link to this view" writes `from` and `to` instead, so
@@ -322,10 +322,8 @@ link".
 
 - **Spec** is a native `<select>`: All specs, or one spec, the two
   common cases, each one choice (type-ahead works, and phones show their
-  own picker). A link with several specs or all but some (`repos=dom,html`,
-  `repos=-html`) still works and shows as an extra option; the page
-  offers no way to make one. Clicking a spec in the by-spec table also
-  selects it.
+  own picker), and the URL holds at most one (`repo=html`). Clicking a
+  spec in the by-spec table also selects it.
 - **Custom** opens a native popover (the Popover API, in the top layer,
   so the bar can't clip it or show through), placed under its button
   with CSS anchor positioning (`position-area`, flipping at the
