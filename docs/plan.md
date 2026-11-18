@@ -12,9 +12,10 @@ as one static site, each answering one question from public data. Each
 data source gets its own extractor, with its raw data kept losslessly as
 committed JSON files (`data/github/` for GitHub).
 
-**Current phase: collecting data, and building the first dashboard's
-data.** Since 2026-11-18, `build` turns the stored data into the file
-the site will read (`docs/site-design.md`); no pages yet. A first dashboard was drafted and
+**Current phase: collecting data, and building the first dashboard.**
+Since 2026-11-18, `build` turns the stored data into the file the site
+reads, and `web/` holds the site, with its first view, open PRs
+(`docs/site-design.md`). It isn't deployed yet. A first dashboard was drafted and
 removed on 2026-11-14 (decisions log); its last version is at commit
 `10edb66`:
 
@@ -155,6 +156,8 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-18 | **Hand-written SVG charts** (`d3-scale`, `d3-shape`), no chart library | Maintainer's choice, for full control of the WHATWG-like look. The tooltips, crosshair, keyboard access and table views are ours to build and test |
 | 2026-11-18 | **The frontend is TypeScript**, checked with `svelte-check` and `tsc` | Maintainer's choice |
 | 2026-11-18 | **The look takes the WHATWG's green, `#3c790a`, as the one accent, and its system font stack**, on a white page; chart series use a validated categorical palette; the WHATWG logo isn't used | The maintainer approved reading the WHATWG's stylesheets and logo. The sandbox's network blocks whatwg.org and resources.whatwg.org, and adding them was declined, so the files were read once from the whatwg/whatwg.org repo on raw.githubusercontent.com, which holds both sites. The specs' header-link colours aren't chosen to be told apart in charts. The logo would make the site look like the WHATWG's own |
+| 2026-11-18 | **First view built: open PRs** (`web/`): the open PRs per day, ready for review and drafts stacked, for any set of specs and dates, with summary tiles, a month-end table and a by-spec table; filters in the URL (`repos`, `range` or `from`/`to`, `drafts`) | Maintainer's instruction to start on the frontend with the open PRs view |
+| 2026-11-18 | **Frontend dependencies pinned exactly, installed with `npm install --before=2026-11-01`**: Svelte 5.57.3, Vite 8.3.5, TypeScript 6.0.3 (svelte-check 4.7 doesn't accept TypeScript 7 yet), d3-scale 4.0.2, d3-shape 3.2.0. Unit tests run with `node --test` and Node's type stripping, so no test framework | Releases at least two weeks old, so a compromised release has time to be caught; exact pins, so an install is what was tested. `npm audit` reports a ReDoS advisory in picomatch, used by Vite's file globbing at build time on our own config, not on input from users |
 
 ## Status
 
@@ -212,8 +215,9 @@ removed on 2026-11-14 (decisions log); its last version is at commit
    sync-db` when whatwg/sg's db.json changes.
 3. Watch whether the scheduled runs fire: on 2026-11-17 the hourly one
    ran at 04:49 and 14:55 and missed every other hour.
-4. Then dashboards, built as `docs/site-design.md` describes. First,
-   the open PRs page on `build/data.json` (built since 2026-11-18). Then
+4. Then dashboards, built as `docs/site-design.md` describes. The open
+   PRs view is built (`web/`, 2026-11-18); next, a workflow that runs
+   `build` and the Vite build and deploys to GitHub Pages. Then
    bring back Maintenance load (commit `10edb66`), reworked around the
    prototype's catalog: PRs touched (split by size) instead of raw review
    counts, review sessions, sign-offs (`APPROVED` or

@@ -231,7 +231,10 @@ a decisions-log entry when the definition changes.
   and then `npm ci && npm run build` in `web/`, and publishes the result;
   the Vite dev server serves `build/data.json` as `data.json`.
 - **Few dependencies:** Svelte, Vite, and `d3-scale` and `d3-shape` for
-  the charts. Anything else needs a reason in the decisions log.
+  the charts; TypeScript and `svelte-check` (with `@tsconfig/svelte` and
+  type packages) to check them. All pinned exactly. Anything else needs a
+  reason in the decisions log. Unit tests use `node --test` with Node's
+  type stripping, so no test framework.
 - **TypeScript**, checked with `svelte-check` and `tsc`.
 
 ### Views
@@ -256,8 +259,19 @@ nothing else holds it: the app reads its state from the URL and writes
 it back.
 
 ```
-/?view=open-prs&repos=html,dom&from=2024-01-01&to=2026-11-17&window=91&drafts=stack
+/?repos=dom,html&from=2024-01-01&to=2026-11-17&drafts=exclude
+/?repos=-html&range=1y
 ```
+
+`web/src/lib/url.ts` parses and writes it. The parameters so far:
+
+| Parameter | Values | Default |
+|---|---|---|
+| `view` | `open-prs` | `open-prs` |
+| `repos` | repo names, `dom,html`; or names to leave out, `-html` | all |
+| `range` | `3y`, `1y`, `6m`, `3m`, counted back from the window's end | `all` |
+| `from`, `to` | `YYYY-MM-DD`, clamped to the window; replace `range` | |
+| `drafts` | `stack` (drafts shown on top), `exclude` (left out) | `stack` |
 
 - **Defaults are left out**, so `/?view=open-prs` is a whole link.
 - **Changing a control** replaces the history entry (`replaceState`), so

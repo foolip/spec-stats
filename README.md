@@ -52,6 +52,16 @@ python3 -m specstats build                        # build/data.json, the file th
 python3 -m unittest discover tests
 ```
 
+The site (`web/`, Svelte, Vite and TypeScript; `docs/site-design.md`,
+"Frontend") reads `build/data.json`, so run `build` first:
+
+```
+cd web && npm ci
+npm run dev                                       # localhost:5173, with build/data.json as data.json
+npm run check && npm test                         # svelte-check and tsc; unit tests (node --test)
+npm run build                                     # web/dist/: the static site, data.json included
+```
+
 The first `extract` fetches each repo's issues and PRs updated since
 `updated_since` in `config/fetch.json` (2022-01-01), and the open ones
 however old, one at a time, each
