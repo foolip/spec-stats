@@ -94,7 +94,7 @@ things they refer to (items, users).
   (from the item's `created_at`) and `_carried_in` (ours). Event types:
   - lifecycle: `_carried_in`, `_opened`, `closed`, `reopened`, `merged`;
   - detail: `commented`, `reviewed` (with its state), `review_requested`,
-    `labeled`, `unlabeled`, `ready_for_review`, `converted_to_draft`, …
+    `labeled`, `unlabeled`, `ready_for_review`, `convert_to_draft`, …
 - **users**, one row per GitHub account that acts, bots included (GitHub's
   term, as in the raw data): login, and later organization and bot
   status, when ground rule 3's question about per-person figures is
