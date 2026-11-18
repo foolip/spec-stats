@@ -54,7 +54,7 @@ permissions:
 jobs:
   fetch:
     runs-on: ubuntu-latest
-    timeout-minutes: 350
+    timeout-minutes: 60
     env:
       GITHUB_TOKEN: ${{ github.token }}
       PYTHONUNBUFFERED: "1"  # log lines appear as they're printed, not at exit
@@ -65,13 +65,15 @@ jobs:
         with:
           python-version: "3.13"
 
-      # The fetch stops itself after 300 minutes (no request starts after
-      # that), leaving time to commit. The step timeout is
-      # a backstop; a timed-out step still lets the commit step run.
+      # The fetch stops itself after 50 minutes (no request starts after
+      # that), leaving time to commit before the next hourly run is due.
+      # Runs normally stop at the rate-limit reserve well before that. The
+      # step timeout is a backstop; a timed-out step still lets the commit
+      # step run.
       - name: Fetch
-        timeout-minutes: 320
+        timeout-minutes: 55
         run: >-
-          python3 -m specstats extract --max-minutes 300
+          python3 -m specstats extract --max-minutes 50
           ${{ (inputs.reconcile || github.event.schedule == '18 3 * * 1') && '--reconcile' || '' }}
 
       - name: Commit the fetched data

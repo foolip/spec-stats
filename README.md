@@ -76,7 +76,7 @@ updates work, and how holes are caught: [`docs/extraction.md`](docs/extraction.m
 ### In GitHub Actions
 
 `.github/workflows/fetch.yml` runs the extractor every hour (at :48),
-with `--reconcile` once a week (Mondays at 03:18 UTC), and on demand (Actions → "Fetch GitHub data" → Run workflow). Each run stops itself after 300
+with `--reconcile` once a week (Mondays at 03:18 UTC), and on demand (Actions → "Fetch GitHub data" → Run workflow). Each run stops itself after 50
 minutes and commits what it fetched to `data/github/`, even if it failed,
 and the next run resumes from there. If `main` moved during the run, it
 fails without committing, as the collection code may have changed; don't
