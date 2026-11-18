@@ -10,7 +10,7 @@ decisions log.
 ## Shape
 
 ```
-data/github/ ── derive (Python) ──▶ published tables ──▶ pages (browser)
+data/github/ ── build (Python) ───▶ build/data.json ──▶ pages (browser)
    raw, both tiers                  items, events,        compute every
                                     users + meta          metric in memory
 ```
@@ -74,8 +74,24 @@ a time as later metrics need them:
   whatwg/dom PRs have both), so `closed` alone ends a PR's open span.
 - **items**, PRs only: repo, and number (for links and for checking a
   count against GitHub).
-- **events**: day, item, event.
+- **events**: day, item, event, sorted by day. Only changes of state
+  are published (a second `closed` without a `reopened` between is left
+  out), and a PR with no event in the window isn't an item.
 - **meta**: the window.
+
+`python3 -m specstats build` (`specstats/build.py`) writes it to
+`build/data.json`, which isn't committed: whatever deploys the site runs
+the build. `events.day` counts UTC days from `meta.from`, day 0. The
+window ends on the last full UTC day before the least recent of each
+repo's latest complete listing (`items.listed` or `items.rows` in its
+`state.json`, `docs/extraction.md`); a repo with no complete listing, or
+nothing stored (whatwg/nfc), is left out. A PR whose events disagree
+with its own state follows its state: a `closed` at its `closed_at` (12
+PRs on 2026-11-18), or a `reopened` at its `updated_at`.
+
+On 2026-11-18 it held 26 repos, 3,727 PRs and 7,098 events in 108 KB,
+2022-01-01 to 2026-11-17: 242 PRs open at the start and 560 at the end,
+each repo's end count equal to its stored open PRs.
 
 No users, labels or other lookups yet. Whether drafts count as open is
 decided with the metric's definition.
@@ -127,9 +143,8 @@ request returns one build's data and `meta` always matches the tables.
 Split it only when a table gets large and some pages don't need it
 (comment and review events are the likely first case): by what pages
 need, with `meta` in the file every page loads first and each file
-carrying the build's id. Where the file goes, and whether it's committed
-or built when the site is deployed, is decided when the first page is
-built.
+carrying the build's id. It's `build/data.json`, built when the site is
+deployed, not committed ("First version", above).
 
 ## In the browser
 

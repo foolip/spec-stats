@@ -12,8 +12,9 @@ as one static site, each answering one question from public data. Each
 data source gets its own extractor, with its raw data kept losslessly as
 committed JSON files (`data/github/` for GitHub).
 
-**Current phase: collecting data only.** No deriving, summarizing or
-pages until the data is in and checked. A first dashboard was drafted and
+**Current phase: collecting data, and building the first dashboard's
+data.** Since 2026-11-18, `build` turns the stored data into the file
+the site will read (`docs/site-design.md`); no pages yet. A first dashboard was drafted and
 removed on 2026-11-14 (decisions log); its last version is at commit
 `10edb66`:
 
@@ -143,6 +144,9 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-18 | **The window is a `meta` object, not a `coverage` table** | Maintainer's choice. It describes the data as a whole and nothing refers to it, so a one-row table was the wrong shape; cosh keeps the same thing in `meta.data_span` |
 | 2026-11-18 | **A `repos` table** (`name`, e.g. `html`, and `standard`, e.g. `HTML`, from `config/db.json`), not a lookup list of repo names | Maintainer's choice: pages show the standard's name, HTML rather than html. `name` is GitHub's: the repository object's field, which REST paths call `{repo}`. `standard` rather than `db.json`'s own `name`, which the build maps in one place. `shortname`, considered first, is used nowhere in the code |
 | 2026-11-18 | **The published data is one JSON file** (`meta`, lookup lists and tables), split only when a table gets large and some pages don't need it; pages show standards by their `db.json` name as is (HTML, not HTML Standard) | Maintainer's choice. The first version is tens to hundreds of KB; one request can't mix two builds, so `meta` always matches the tables, and the loader is one cached fetch |
+| 2026-11-18 | **`python3 -m specstats build`** writes the first version's data (`docs/site-design.md`, "First version") to `build/data.json`, offline. It isn't committed (`build/` is gitignored): whatever deploys the site runs the build | Maintainer's instruction to build the file the client uses. Committed, it would change with nearly every hourly data commit, and it's rebuilt from `data/github/` in seconds |
+| 2026-11-18 | **The window ends on the last full UTC day before every repo's latest complete listing**: `extract` records `items.listed`, when the last complete updates listing started; the end is the least recent of each repo's `listed` or `rows` (the reconcile's start). Repos with no complete listing, or nothing stored, are left out and logged | The cursor is the newest `updated_at` seen, which says nothing about when a quiet repo was last checked; a run stopped by the rate limit leaves later repos older, so the oldest decides |
+| 2026-11-18 | **A PR's own state wins over its events** in the build: closed with no `closed` event gets one at its `closed_at`; open after a `closed` event gets a `reopened` at its `updated_at`. Only changes of state are published, and PRs with no event in the window are left out | So each repo's open count on the last day equals its stored open PRs (it does, for all 26). 12 PRs on 2026-11-18 were closed with no `closed` event; `check` keeps reporting them |
 
 ## Status
 
@@ -200,9 +204,11 @@ removed on 2026-11-14 (decisions log); its last version is at commit
    sync-db` when whatwg/sg's db.json changes.
 3. Watch whether the scheduled runs fire: on 2026-11-17 the hourly one
    ran at 04:49 and 14:55 and missed every other hour.
-4. Then dashboards, built as `docs/site-design.md` describes: bring back
-   Maintenance load (commit `10edb66`), reworked around the prototype's catalog: PRs touched (split by size)
-   instead of raw review counts, review sessions, sign-offs (`APPROVED` or
+4. Then dashboards, built as `docs/site-design.md` describes. First,
+   the open PRs page on `build/data.json` (built since 2026-11-18). Then
+   bring back Maintenance load (commit `10edb66`), reworked around the
+   prototype's catalog: PRs touched (split by size) instead of raw review
+   counts, review sessions, sign-offs (`APPROVED` or
    LGTM), unquoted words.
 
 ## Dashboard ideas

@@ -411,9 +411,14 @@ def update_items(client, store, log=print):
     first = "cursor" not in s
     if first:
         s.setdefault("started", now())
+    listing = now()
     since = max(s["from"], _minus_overlap(s["cursor"])) if not first else s["from"]
     synced = _list_and_sync(client, store, since, s, log=log)
     s.setdefault("cursor", s["from"])  # nothing updated since `from`
+    # Every item updated since `from` is stored as of when this listing
+    # started: the date `build` publishes up to. (A stopped run raises
+    # before this, leaving the last complete listing's time.)
+    s["listed"] = listing
     if "started" in s:
         # The first listing is done. Anything that changed since it
         # started is in the next listing, and any event since then in the

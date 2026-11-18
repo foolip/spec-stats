@@ -20,20 +20,26 @@ def db_path():
     return paths.CONFIG / "db.json"
 
 
-def repos(db=None):
-    """The repos of db.json's standards, sorted."""
+def standards(db=None):
+    """{repo: the standard's name} for db.json's standards, e.g.
+    {"whatwg/html": "HTML"}, sorted by repo."""
     if db is None:
         db = json.loads(db_path().read_text())
-    out = set()
+    out = {}
     for ws in db["workstreams"]:
         for std in ws["standards"]:
             m = HREF.match(std["href"])
             if not m:
                 raise ValueError(f"no whatwg/ repo for {std['name']}: {std['href']}")
-            out.add(f"whatwg/{m.group(1)}")
+            out[f"whatwg/{m.group(1)}"] = std["name"]
     if not out:
         raise ValueError("db.json lists no standards")
-    return sorted(out)
+    return dict(sorted(out.items()))
+
+
+def repos(db=None):
+    """The repos of db.json's standards, sorted."""
+    return list(standards(db))
 
 
 def fetch():
