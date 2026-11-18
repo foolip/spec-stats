@@ -1,0 +1,31 @@
+# Dependabot version updates (decisions log, 2026-11-18). Security updates
+# aren't configured here: they're a repository setting, and they ignore the
+# cooldown, so a fix like GHSA-p4f5-76q4-ffq7 arrives at once.
+version: 2
+updates:
+  # The site (web/): pinned exactly; a release has to be two weeks old
+  # before a version update proposes it, as with --before when installing.
+  - package-ecosystem: npm
+    directory: /web
+    schedule:
+      interval: weekly
+      day: monday
+    cooldown:
+      default-days: 14
+    versioning-strategy: increase
+    groups:
+      web-minor-and-patch:
+        update-types: [minor, patch]
+    open-pull-requests-limit: 5
+
+  # The workflows' actions.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    cooldown:
+      default-days: 14
+    groups:
+      actions:
+        patterns: ["*"]
