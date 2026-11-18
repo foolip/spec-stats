@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/xhr/issues/comments/6396472226",
+    "html_url": "https://github.com/whatwg/xhr/issues/242#issuecomment-6396472226",
+    "issue_url": "https://api.github.com/repos/whatwg/xhr/issues/242",
+    "id": 6396472226,
+    "node_id": "IC_kwDOAFf3jc8AAAABfUJrog",
+    "user": {
+      "login": "shannonbooth",
+      "id": 35911232,
+      "node_id": "MDQ6VXNlcjM1OTExMjMy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/35911232?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/shannonbooth",
+      "html_url": "https://github.com/shannonbooth",
+      "followers_url": "https://api.github.com/users/shannonbooth/followers",
+      "following_url": "https://api.github.com/users/shannonbooth/following{/other_user}",
+      "gists_url": "https://api.github.com/users/shannonbooth/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/shannonbooth/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/shannonbooth/subscriptions",
+      "organizations_url": "https://api.github.com/users/shannonbooth/orgs",
+      "repos_url": "https://api.github.com/users/shannonbooth/repos",
+      "events_url": "https://api.github.com/users/shannonbooth/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/shannonbooth/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-10-25T10:24:37Z",
+    "updated_at": "2026-10-25T10:24:37Z",
+    "body": "I originally (incorrectly) interpreted browser behaviour as returning if the flag was set, basically:\n\n```diff\ndiff --git a/xhr.bs b/xhr.bs\nindex e57f5f8..3b3c945 100644\n--- a/xhr.bs\n+++ b/xhr.bs\n@@ -822,6 +822,8 @@ <h4 id=the-send()-method>The <code>send()</code> method</h4>\n     <p>Let <var>processRequestBodyChunkLength</var>, given a <var>bytesLength</var>, be these steps:\n \n     <ol>\n+     <li><p>If <a>this</a>'s <a>upload complete</a> is true, then return.\n+\n      <li><p>Increase <var>requestBodyTransmitted</var> by <var>bytesLength</var>.\n \n      <li><p>If not roughly 50ms have passed since these steps were last invoked, then return.\n@@ -829,7 +831,6 @@ <h4 id=the-send()-method>The <code>send()</code> method</h4>\n      <li><p>If <a>this</a>'s <a>upload listener</a> is true, then <a>fire a progress event</a>\n      named <a event><code>progress</code></a> at <a>this</a>'s <a>upload object</a> with\n      <var>requestBodyTransmitted</var> and <var>requestBodyLength</var>.\n-     <!-- upload complete can never be true here I hope -->\n     </ol>\n \n     <p class=note>These steps are only invoked when new bytes are transmitted.\n@@ -838,6 +839,8 @@ <h4 id=the-send()-method>The <code>send()</code> method</h4>\n     <p>Let <var>processRequestEndOfBody</var> be these steps:\n \n     <ol>\n+     <li><p>If <a>this</a>'s <a>upload complete</a> is true, then return.\n+\n      <li><p>Set <a>this</a>'s <a>upload complete</a> to true.\n \n      <li><p>If <a>this</a>'s <a>upload listener</a> is false, then return.\n@@ -851,7 +854,6 @@ <h4 id=the-send()-method>The <code>send()</code> method</h4>\n      <li><p><a>Fire a progress event</a> named <a event><code>loadend</code></a> at <a>this</a>'s\n      <a>upload object</a> with <var>requestBodyTransmitted</var> and <var>requestBodyLength</var>.\n     </ol>\n-    <!-- upload complete can never be true here I hope -->\n \n    <li>\n     <p>Let <var>processResponse</var>, given a <var>response</var>, be these steps:\n```\n\nThis matches the tests:\n * https://github.com/web-platform-tests/wpt/blob/master/xhr/send-redirect-post-upload.htm\n * https://github.com/web-platform-tests/wpt/blob/master/xhr/send-entity-body-get-head-async.htm\n * https://github.com/web-platform-tests/wpt/blob/master/xhr/open-during-abort-processing.htm\n\nBut after thinking the implications of such a change through further, I don't think that's desirable, and XHR is missing some test coverage for _when_ the upload is considered complete. I think it should be when the final response arrives, but engines don't seem to have converged on that behaviour. From playing around with some tests locally, Firefox seems to have the behaviour I would expect (not the change I mention above), Chromium and Safari do not. ",
+    "author_association": "MEMBER",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/xhr/issues/comments/6396472226/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]
