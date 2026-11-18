@@ -135,6 +135,20 @@ timestamps, a briefly stale API) is listed again.
 - Deleted and transferred-out numbers are never listed, so they aren't
   fetched or recorded as gone, unless they were stored (the reconcile).
 
+**Open items, however old.** Each repo also lists, once, its open items
+last updated before `from`:
+`GET /issues?state=open&sort=updated&direction=asc`, by keyset from the
+oldest, stopping at the first row updated at or after `from` (those are
+the updates' business), and syncs them like any listed item. Its resume
+point is `items.open` (`cursor`, then `{"done": true}`). After that it's
+never needed again: any change to an open item, closing it included,
+moves its `updated_at` past `from`, so the updates list it; reopening an
+old closed item does the same. Removing items last updated before
+`updated_since` skips open ones. So the data has every item open at any
+time since `from`, for counts of open issues and PRs over time
+(2026-11-18: 29 PRs and 1,601 issues across `org:whatwg` were open and
+last updated before 2022-01-01).
+
 **Moving the start date.** Moving `updated_since` back, before `from`,
 lists just the items updated in between: from the new date by keyset,
 stopping at the first row updated at or after `from` (those are the
@@ -143,7 +157,9 @@ updates' business). It has its own resume point (`items.extend`: its
 `from` becomes the new date. Items updated while it runs move past `from`
 and are picked up by the next update. Moving `updated_since` forward
 fetches nothing: `from` follows it (any listing back to an earlier date
-is dropped), and stored items last updated before it are removed.
+is dropped), and stored closed items last updated before it are removed.
+Neither needs the open items listed again: moved back, the listing adds
+items; moved forward, the open ones in between are stored already.
 
 **Before 2026-11-17** items were backfilled by number, 1 to the highest
 (`items.highest` and `items.next`). The first run of the new code
@@ -266,7 +282,7 @@ manually for now.
 
 Per repo: items refused with HTTP 422 earlier, the items listing (the
 backfill or an update), then the listing back to a moved start date if
-there is one, then with `--reconcile` the reconcile, then (once the first
+there is one, then the open items' listing until it's done once, then with `--reconcile` the reconcile, then (once the first
 listing is done) the events listing.
 
 A caught-up run of an unchanged repo is two requests, and changes no
@@ -306,7 +322,7 @@ listing shows a deleted or transferred item, and the updates' listing
 can skip items (above), so the reconcile lists *every* item in order of
 creation (`sort=created&direction=asc`, one request per 100 items: about
 130 for whatwg/html), by offset pages, and keeps the ones updated since
-`from` on the client. `created_at` doesn't change, so rows don't move
+`from` or open on the client. `created_at` doesn't change, so rows don't move
 around as they're updated; new items go at the end. An item deleted
 mid-listing can shift one row past a page boundary, so a skip is still
 possible, but not the same skip as the updates'. Then:
@@ -314,7 +330,7 @@ possible, but not the same skip as the updates'. Then:
 1. any listed item whose `updated_at` differs from the stored one, or
    that isn't stored, is synced (a missed update, or an item the updates'
    listing skipped; the log names up to 20 of those);
-2. any stored item updated since `from` that isn't listed is synced,
+2. any stored item updated since `from` or open that isn't listed is synced,
    which records it as gone if it is.
 
 If the listing ends on a full page with no next link, the next page is
@@ -329,7 +345,7 @@ page that far) fails the run.
   `updated_at` may not be in an update's listing when it changes, if that
   timestamp doesn't move. The reconcile, by creation time, catches both,
   within a week.
-- Items last updated before `from` aren't fetched (by design since
+- Closed items last updated before `from` aren't fetched (by design since
   2026-11-17), and nothing records that their numbers exist. Numbers
   deleted or transferred out are only recorded as gone if they were
   stored.

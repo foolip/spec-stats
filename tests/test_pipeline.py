@@ -109,13 +109,14 @@ class ExtractTest(TempDirs):
             "/issues/2/events", "/pulls/2", "/pulls/2/reviews", "/pulls/2/comments",
             "/issues",  # keyset: since a second before #2's updated_at: #2 again, and #3
             "/issues/3/events", "/pulls/3", "/pulls/3/reviews",  # no review comments to fetch
+            "/issues",  # open items last updated before the start: none (#1 is after it)
             "/issues/events"])  # after the first listing: events since it started
         self.assertEqual(gh.calls[0][1].split("?")[1],
                          "state=all&sort=updated&direction=asc&per_page=2&since=2024-06-01T00%3A00%3A00Z")
 
     def test_items_updated_before_the_start_are_not_fetched(self):
         gh = populated()
-        gh.add_issue(4, "2024-01-01T00:00:00Z")  # last updated before the start
+        gh.add_issue(4, "2024-01-01T00:00:00Z", closed_at="2024-01-01T00:00:00Z")  # last updated before the start
         gh.add_event(4, "2025-03-10T00:00:00Z", "referenced", "ed")  # doesn't move updated_at
         self.sync(gh)
         self.sync(gh)
@@ -126,7 +127,7 @@ class ExtractTest(TempDirs):
         gh.add_comment(4, "2025-05-01T00:00:00Z", "bob")
         self.sync(gh)
         self.assertEqual(sorted(self.store().index()), [1, 2, 3, 4])
-        self.assertEqual(len(self.store().get("issues", 4, "events")), 1)
+        self.assertEqual(len(self.store().get("issues", 4, "events")), 2)  # closed and referenced
     def test_first_listing_logs_progress(self):
         gh = populated()
         lines = []
@@ -135,6 +136,7 @@ class ExtractTest(TempDirs):
             f"{REPO} items: synced 2 of 2 listed, up to 2025-02-10T00:00:00Z",
             f"{REPO} items: synced 1 of 2 listed, up to 2025-03-02T00:00:00Z",
             f"{REPO} items: synced 3 changed",
+            f"{REPO} items: synced 0 open, last updated before {START}",
             f"{REPO} events: stored 0"])
     def test_file_layout_and_format(self):
         gh = populated()
@@ -283,7 +285,7 @@ class ExtractTest(TempDirs):
             lines = []
             extract.sync_repo(client(gh), self.store(), reconcile_=True, log=lines.append)
         self.assertEqual(sorted(self.store().index()), list(range(1, 13)))
-        self.assertIn(f"{REPO} reconcile: 12 items listed by creation time, 12 updated since {START}; "
+        self.assertIn(f"{REPO} reconcile: 12 items listed by creation time, 12 updated since {START} or open; "
                       "synced 8 changed or missing (8 weren't stored: #5, #6, #7, #8, #9, #10, #11, #12) "
                       "and 0 unlisted; "
                       "12 stored, 0 gone", lines)
@@ -418,9 +420,62 @@ class ExtractTest(TempDirs):
         self.assertEqual(self.store().counts(), FULL)
         self.assertEqual(self.store().section("events")["cursor"], "2025-04-01T00:00:00Z")
         self.assertNotIn("started", self.store().section("items"))
+    def test_open_items_are_fetched_however_old(self):
+        gh = populated()
+        gh.add_issue(4, "2023-01-01T00:00:00Z")                                  # open issue
+        gh.add_issue(5, "2023-02-01T00:00:00Z", is_pr=True)                       # open PR
+        gh.add_issue(6, "2023-03-01T00:00:00Z", closed_at="2023-04-01T00:00:00Z")  # closed: not fetched
+        c = client(gh)
+        self.sync(gh, c)
+        self.assertEqual(sorted(self.store().index()), [1, 2, 3, 4, 5])
+        self.assertTrue((self.files / REPO / "pulls" / "5" / "index.json").exists())
+        open_listing = [u for _, u in gh.calls if "state=open" in u]
+        self.assertEqual(open_listing[0].split("?")[1], "state=open&sort=updated&direction=asc&per_page=2")
+        self.assertEqual(self.store().section("items")["open"], {"done": True})
+        self.assertEqual(check.check_repo(self.store()), [])
+        # Listed once: then a run of an unchanged repo is two requests again.
+        c = client(gh)
+        self.sync(gh, c)
+        self.assertEqual(self.calls(gh, c), ["/issues", "/issues/events"])
+        # Moving the start forward keeps open items; the weekly reconcile
+        # checks them too.
+        self.since.stop()
+        with mock.patch.object(extract, "load_updated_since", return_value="2025-02-15T00:00:00Z"):
+            self.sync(gh)
+            self.assertEqual(sorted(self.store().index()), [1, 3, 4, 5])
+            del gh.issues[4]
+            self.sync(gh, reconcile_=True)
+            self.assertEqual((sorted(self.store().index()), self.store().gone()), ([1, 3, 5], {4}))
+            # Closing one moves it into the updates' listing...
+            gh.close(5, "2025-05-01T00:00:00Z")
+            self.sync(gh)
+            self.assertEqual(self.store().get("issues", 5)["state"], "closed")
+        # ...and once it's closed and last updated before the start, it goes.
+        with mock.patch.object(extract, "load_updated_since", return_value="2025-06-01T00:00:00Z"):
+            self.sync(gh)
+        self.assertEqual(sorted(self.store().index()), [1])
+        self.since.start()
+
+    def test_open_listing_resumes_where_it_stopped(self):
+        gh = populated()
+        for i in range(4, 10):
+            gh.add_issue(i, f"2023-0{i}-01T00:00:00Z")
+        runs, mid_open = 0, 0
+        while True:
+            runs += 1
+            self.assertLess(runs, 20)
+            try:
+                self.sync(gh, client(gh, requests=6))
+                break
+            except github.DeadlineReached:
+                mid_open += "cursor" in self.store().section("items").get("open", {})
+        self.assertGreater(mid_open, 0)
+        self.assertEqual(sorted(self.store().index()), list(range(1, 10)))
+        self.assertEqual(self.store().section("items")["open"], {"done": True})
+
     def test_reconcile_catches_deletions_and_missed_updates(self):
         gh = populated()
-        gh.add_issue(4, "2024-01-01T00:00:00Z")  # updated before the start: not fetched
+        gh.add_issue(4, "2024-01-01T00:00:00Z", closed_at="2024-01-01T00:00:00Z")  # updated before the start: not fetched
         self.sync(gh)
         gh.transferred.add(2)                   # transferred, and
         del gh.issues[1], gh.issues[2]          # deleted, which no update listing shows
@@ -437,8 +492,8 @@ class ExtractTest(TempDirs):
 
     def test_moving_the_start_back_fetches_only_the_items_in_between(self):
         gh = populated()
-        gh.add_issue(4, "2023-06-01T00:00:00Z")
-        gh.add_issue(5, "2023-01-01T00:00:00Z")
+        gh.add_issue(4, "2023-06-01T00:00:00Z", closed_at="2023-06-01T00:00:00Z")
+        gh.add_issue(5, "2023-01-01T00:00:00Z", closed_at="2023-01-01T00:00:00Z")
         self.sync(gh)
         self.assertEqual(sorted(self.store().index()), [1, 2, 3])
         self.since.stop()
@@ -465,7 +520,7 @@ class ExtractTest(TempDirs):
     def test_moving_the_start_back_resumes_where_it_stopped(self):
         gh = populated()
         for i in range(4, 10):
-            gh.add_issue(i, f"2023-0{i}-01T00:00:00Z")
+            gh.add_issue(i, f"2023-0{i}-01T00:00:00Z", closed_at=f"2023-0{i}-01T00:00:00Z")
         self.sync(gh)
         self.since.stop()
         with mock.patch.object(extract, "load_updated_since", return_value="2023-01-01T00:00:00Z"):
@@ -484,7 +539,7 @@ class ExtractTest(TempDirs):
 
     def test_by_number_state_is_converted(self):
         gh = populated()
-        gh.add_issue(4, "2024-01-01T00:00:00Z")  # last updated before the start
+        gh.add_issue(4, "2024-01-01T00:00:00Z", closed_at="2024-01-01T00:00:00Z")  # last updated before the start
         gh.unprocessable["/pulls/2"] = "too many files changed"
         self.since.stop()
         with mock.patch.object(extract, "load_updated_since", return_value="2023-01-01T00:00:00Z"):
@@ -505,7 +560,7 @@ class ExtractTest(TempDirs):
         self.assertEqual(sorted(self.store().index()), [1, 2, 3])
         self.assertFalse((self.issue_dir() / "4").exists())
         self.assertEqual(self.store().section("items"),
-                         {"cursor": "2025-03-02T00:00:00Z", "from": START})
+                         {"cursor": "2025-03-02T00:00:00Z", "from": START, "open": {"done": True}})
         # An unfinished one: the listing starts from the start date, and
         # skips what's stored unchanged.
         store = self.store()
@@ -518,7 +573,8 @@ class ExtractTest(TempDirs):
         self.assertEqual([u for u in self.calls(gh, c) if u != "/issues"],
                          ["/issues/3/comments", "/issues/3/events", "/pulls/3", "/pulls/3/reviews",
                           "/issues/events"])
-        self.assertEqual(self.store().section("items"), {"from": START, "cursor": "2025-05-01T00:00:00Z"})
+        self.assertEqual(self.store().section("items"), {"from": START, "cursor": "2025-05-01T00:00:00Z",
+                                                             "open": {"done": True}})
 
     def test_deadline_stops_cleanly_and_the_next_run_continues(self):
         gh = populated()

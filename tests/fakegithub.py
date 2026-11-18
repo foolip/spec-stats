@@ -40,7 +40,7 @@ class FakeGitHub:
         return self._id
 
     def add_issue(self, number, at, author="alice", is_pr=False, merged_at=None, merged_by=None,
-                  draft_ready_at=None, reviews=(), labels=()):
+                  draft_ready_at=None, reviews=(), labels=(), closed_at=None):
         obj = {"number": number, "created_at": at, "updated_at": max(at, merged_at or at), "closed_at": merged_at,
                "state": "closed" if merged_at else "open", "user": user(author), "comments": 0,
                "labels": [{"name": l} for l in labels],
@@ -49,6 +49,9 @@ class FakeGitHub:
         if merged_at:
             self.add_event(number, merged_at, "merged", merged_by)
             self.add_event(number, merged_at, "closed", merged_by)
+        elif closed_at:  # closed, not merged
+            obj.update(state="closed", closed_at=closed_at, updated_at=max(at, closed_at))
+            self.add_event(number, closed_at, "closed", author)
         if is_pr:
             obj["pull_request"] = {"merged_at": merged_at}
             self.pulls[number] = {
@@ -117,6 +120,7 @@ class FakeGitHub:
                 return self.sort_keys.get(o["number"], o["updated_at"])
             rows = sorted(self.issues.values(), key=lambda o: (key(o), o["number"]),
                           reverse=q.get("direction") == "desc")
+            rows = [o for o in rows if q.get("state", "open") == "all" or o["state"] == q.get("state", "open")]
             return self._list(url, q, headers, [o for o in rows if "since" not in q or key(o) >= q["since"]])
         if path == "/issues/comments":
             return self._list(url, q, headers, self._since(sorted(self.issue_comments, key=lambda o: o["updated_at"]), q))
