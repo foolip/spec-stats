@@ -15,7 +15,7 @@ committed JSON files (`data/github/` for GitHub).
 **Current phase: collecting data, and building the first dashboard.**
 Since 2026-11-18, `build` turns the stored data into the file the site
 reads, and `web/` holds the site, with its first view, open PRs
-(`docs/site-design.md`). It isn't deployed yet. A first dashboard was drafted and
+(`docs/site-design.md`), published to GitHub Pages by `.github/workflows/site.yml`. A first dashboard was drafted and
 removed on 2026-11-14 (decisions log); its last version is at commit
 `10edb66`:
 
@@ -160,6 +160,7 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-18 | **Frontend dependencies pinned exactly, installed with `npm install --before=2026-11-01`**: Svelte 5.57.3, Vite ~~8.3.5~~ (8.3.7 since the same day, below), TypeScript 6.0.3 (svelte-check 4.7 doesn't accept TypeScript 7 yet), d3-scale 4.0.2, d3-shape 3.2.0. Unit tests run with `node --test` and Node's type stripping, so no test framework | Releases at least two weeks old, so a compromised release has time to be caught; exact pins, so an install is what was tested. `npm audit` reports a ReDoS advisory in picomatch, used by Vite's file globbing at build time on our own config, not on input from users |
 | 2026-11-18 | **Vite 8.3.7** (was 8.3.5), with Rolldown 1.2.18, an exception to the two-week rule | GHSA-p4f5-76q4-ffq7 (critical, published 2026-11-10): remote code execution through the `__vite-browser-external` virtual module, in Vite 8.3.0 to 8.3.6, for a dev server exposed to the network (`--host` or `server.host`). Ours isn't, but the fix is a patch release. 8.3.7 (2026-11-09) is the patched version the advisory names, and its only change is the Rolldown update; 8.3.8 adds unrelated fixes. Installed with `--before=2026-11-10`. `npm audit` didn't list this advisory |
 | 2026-11-18 | **Dependabot** (`.github/dependabot.yml`): weekly version updates for `web/`'s npm packages and the workflows' actions, each grouped into one PR (npm: minor and patch together; majors one by one), with a 14-day cooldown | Maintainer's instruction, after GHSA-p4f5-76q4-ffq7. The cooldown keeps the two-week rule for releases without anyone checking dates. Security updates aren't in the file: they're a repository setting (Settings, Code security), and they skip the cooldown. Python needs nothing, being standard library only |
+| 2026-11-18 | **The site is published to GitHub Pages** by `.github/workflows/site.yml`: `build`, then `npm ci`, `npm run check`, `npm test` and `npm run build` in `web/`, and `web/dist/` deployed. On every push to `main`, after every run of "Fetch GitHub data", and on demand; a pull request gets the checks and build without publishing | Maintainer's instruction. The fetch's data commits are pushed with the built-in token, which doesn't trigger push workflows, so the site waits for the fetch run (`workflow_run`) instead: the published data is at most one fetch behind. Pages' own Actions source, not a `gh-pages` branch, so built files never land in git. Pages has to be set to "GitHub Actions" in the repository settings once, by hand |
 
 ## Status
 
@@ -218,8 +219,9 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 3. Watch whether the scheduled runs fire: on 2026-11-17 the hourly one
    ran at 04:49 and 14:55 and missed every other hour.
 4. Then dashboards, built as `docs/site-design.md` describes. The open
-   PRs view is built (`web/`, 2026-11-18); next, a workflow that runs
-   `build` and the Vite build and deploys to GitHub Pages. Then
+   PRs view is built (`web/`, 2026-11-18) and published to GitHub Pages
+   (`.github/workflows/site.yml`) once Pages is set to "GitHub Actions"
+   in the repository settings. Then
    bring back Maintenance load (commit `10edb66`), reworked around the
    prototype's catalog: PRs touched (split by size) instead of raw review
    counts, review sessions, sign-offs (`APPROVED` or

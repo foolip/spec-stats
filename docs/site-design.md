@@ -228,7 +228,9 @@ a decisions-log entry when the definition changes.
   a server, and SvelteKit's file-based routing works against one page
   whose views live in the query string.
 - The source lives in `web/`. Deploying runs `python3 -m specstats build`
-  and then `npm ci && npm run build` in `web/`, and publishes the result;
+  and then `npm ci && npm run build` in `web/`, and publishes the result
+  (`.github/workflows/site.yml`, after every push to `main` and every
+  fetch run);
   the Vite dev server serves `build/data.json` as `data.json`.
 - **Few dependencies:** Svelte, Vite, and `d3-scale` and `d3-shape` for
   the charts; TypeScript and `svelte-check` (with `@tsconfig/svelte` and

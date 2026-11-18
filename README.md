@@ -6,8 +6,9 @@ from public data, following [cosh](https://github.com/RByers/cosh)
 (Chromium Open Source Health).
 
 **For now it only collects data:** a serial, incremental extractor
-mirrors the GitHub activity of the WHATWG repos into `data/github/`. Nothing
-is derived or summarized yet, and there are no pages. A first dashboard
+mirrors the GitHub activity of the WHATWG repos into `data/github/`. The
+site has one view so far, open PRs over time (`web/`, published to GitHub
+Pages). A first dashboard
 (Maintenance load) and its pipeline were drafted and then removed until the
 data is in; they're in git at `10edb66` (`specstats/derive.py`,
 `specstats/summarize.py`, `web/`, `docs/maintenance-load.md`). Ideas for
@@ -94,6 +95,11 @@ hour's budget takes several runs, one an hour.
 - The "Listing check" workflow (`python3 -m specstats listing-check`)
   compares the items listing's rows with `GET /issues/{n}` for a sample
   of a repo's items, and commits nothing.
+- The "Site" workflow (`.github/workflows/site.yml`) runs `build` and the
+  site's checks, tests and build, and publishes `web/dist/` to GitHub
+  Pages: on every push to `main`, after every fetch run, and on demand.
+  Pull requests get the checks and build without publishing. It needs
+  Settings → Pages → Source set to "GitHub Actions".
 
 ## Docs
 
