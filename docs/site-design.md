@@ -65,7 +65,9 @@ The first page is the number of open PRs over time, per spec. The build
 publishes only what that needs, and the tables grow a column or an event type at
 a time as later metrics need them:
 
-- **repos**: the lookup list of repo names.
+- **repos**, one row per standard: `shortname` (`html`, the repo's name
+  and the spec's subdomain) and `name` (`HTML`, the standard's name in
+  `config/db.json`), so pages show HTML rather than html.
 - **event_types**: `_carried_in`, `_created`, `closed`, `reopened`. No `merged`:
   GitHub records a `closed` event on every merge too (all 154 merged
   whatwg/dom PRs have both), so `closed` alone ends a PR's open span.
@@ -80,7 +82,7 @@ decided with the metric's definition.
 ## Published tables
 
 A star schema: one table of facts (events) and tables describing the
-things they refer to (items, users).
+things they refer to (items, users, repos).
 
 - **items**, one row per issue or PR: repo, number, is_pr, author,
   created, and attributes worked out at build time (size, whether a PR
@@ -99,6 +101,8 @@ things they refer to (items, users).
   term, as in the raw data): login, and later organization and bot
   status, when ground rule 3's question about per-person figures is
   settled. Until then pages show no per-person figures.
+- **repos**, one row per standard in `config/db.json`: `shortname` and
+  `name`, as above; later perhaps its workstream.
 
 Alongside the tables, a **meta** object describes the data as a whole:
 the window, `{"from": "2022-01-01", "to": "…"}`, read from each repo's
@@ -107,11 +111,10 @@ can't disagree with its figures. Each page shows the window under its
 title. It's not a table: nothing refers to it.
 
 Files are columnar: an array per column rather than an object per row,
-with repos, logins, labels and event types as indexes into small lookup
-lists: plain arrays of strings, which are enough to filter on (picking
-repos is picking a set of indexes). A list becomes a table when its
-entries get attributes, e.g. repos with their spec's title from
-`config/db.json` when a page shows titles.
+with logins, labels and event types as indexes into small lookup lists
+(plain arrays of strings) and repos as indexes into the repos table.
+Filtering is picking a set of indexes. A lookup list becomes a table when
+its entries get attributes, as repos did for the standards' names.
 That keeps the files small and lets the browser load columns straight
 into typed arrays; a join is an array lookup. Expected size: about
 10,000 items and tens of thousands of events, a few MB of JSON before
