@@ -320,7 +320,13 @@ the maintainer found the first version hard to use): a Specs button,
 date presets with a Custom button, an "Include drafts" checkbox, and
 "Copy link". Specs and Custom open native popovers (the Popover API, in
 the top layer, so the bar can't clip them or show through), placed under
-their button, and a bottom sheet on narrow screens. The spec list fits
+their button with CSS anchor positioning (`position-area`, flipping at
+the viewport's edges), or by a few lines of script where that isn't
+supported (Firefox, in November 2026), and a bottom sheet on narrow
+screens. They fade in and out (`@starting-style`), with a small slide
+unless reduced motion is preferred. Patterns follow Modern Web Guidance
+(GoogleChrome/modern-web-guidance) where it covers them. No polyfills:
+the Popover API has been in every major browser since January 2025. The spec list fits
 without scrolling on wide screens, each spec has an "only" button, and
 the last selected spec can't be unchecked. `docs/PRODUCT.md` has the
 users, personality and principles the design follows.

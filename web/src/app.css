@@ -127,6 +127,7 @@ button:disabled { cursor: default; }
 }
 .segmented button:hover { color: var(--ink); }
 .segmented button[aria-pressed="true"] { background: var(--bg); color: var(--ink); font-weight: 600; box-shadow: 0 0 0 1px var(--rule); }
+.segment-menu[data-active] { background: var(--bg); color: var(--ink); font-weight: 600; box-shadow: 0 0 0 1px var(--rule); }
 .segment-menu::after { content: " ▾"; color: var(--ink-3); font-weight: 400; }
 
 .check { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0 0.7rem; cursor: pointer; user-select: none; }
@@ -138,9 +139,10 @@ button.copy > span { grid-area: 1 / 1; text-align: center; }
 button.copy > .hidden { visibility: hidden; }
 button.copy > span:last-child { color: var(--accent); font-weight: 600; }
 
-/* Menus: in the top layer, opaque, never clipped. */
+/* Menus: in the top layer, opaque, never clipped. Placed by Menu.svelte's
+   place() unless anchor positioning is supported (below). */
 .menu {
-  position: fixed; inset: auto; margin: 0;
+  position: fixed; inset: auto; margin: 0; overscroll-behavior: contain;
   width: max-content; max-width: calc(100vw - 16px); max-height: calc(100vh - 6rem); overflow: auto;
   padding: 0.75rem; color: var(--ink);
   background: var(--tooltip-bg); border: 1px solid var(--rule); border-radius: 12px; box-shadow: var(--shadow);
@@ -166,6 +168,7 @@ button.copy > span:last-child { color: var(--accent); font-weight: 600; }
   font-size: 0.75rem; color: var(--accent); opacity: 0;
 }
 .spec-list li:hover .only, .spec-list .only:focus-visible { opacity: 1; }
+@media (hover: none) { .spec-list .only { opacity: 1; } }
 .spec-list .only:hover { text-decoration: underline; }
 
 .dates { display: flex; flex-wrap: wrap; gap: 0.75rem; }
@@ -176,6 +179,32 @@ button.copy > span:last-child { color: var(--accent); font-weight: 600; }
 }
 .menu-note { margin: 0.6rem 0 0; font-size: 0.8125rem; color: var(--ink-3); }
 .menu-done { display: none; }
+
+@supports (position-area: block-end) {
+  @media (min-width: 641px) {
+    .menu {
+      position-area: block-end span-inline-end;
+      position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+      margin-block-start: 6px;
+      max-height: calc(100vh - 2rem);
+    }
+  }
+}
+
+/* Open and close with a short fade (and a small slide, motion allowing). */
+.menu {
+  opacity: 1;
+  transition: opacity 0.15s ease-out, display 0.15s, overlay 0.15s;
+  transition-behavior: allow-discrete;
+}
+.menu:not(:popover-open) { opacity: 0; }
+@starting-style { .menu:popover-open { opacity: 0; } }
+@media (prefers-reduced-motion: no-preference) {
+  .menu { transition: opacity 0.15s ease-out, translate 0.2s cubic-bezier(0.25, 1, 0.5, 1), display 0.2s, overlay 0.2s; transition-behavior: allow-discrete; }
+  .menu:not(:popover-open) { translate: 0 -4px; }
+  @starting-style { .menu:popover-open { translate: 0 -4px; } }
+}
+.menu::backdrop { overflow: hidden; overscroll-behavior: contain; }
 
 /* Summary tiles */
 
@@ -251,6 +280,7 @@ button.spec:hover { color: var(--accent); text-decoration: underline; }
   }
   .menu::backdrop { background: rgb(0 0 0 / 0.3); }
   .spec-list { grid-template-columns: 1fr; }
+  .spec-list li { border-radius: 0; }
   .spec-list li + li { border-top: 1px solid var(--grid); }
   .spec-list .only { opacity: 1; padding: 0.5rem 0.6rem; }
   .spec-list label { padding: 0.6rem 0.25rem; font-size: 1rem; }
@@ -262,4 +292,9 @@ button.spec:hover { color: var(--accent); text-decoration: underline; }
   .tile { min-width: 0; }
   .tile-value { font-size: 1.625rem; }
   .by-spec .bar-col { display: none; }
+}
+
+@media (max-width: 640px) and (prefers-reduced-motion: no-preference) {
+  .menu:not(:popover-open) { translate: 0 1.5rem; }
+  @starting-style { .menu:popover-open { translate: 0 1.5rem; } }
 }

@@ -33,7 +33,7 @@
       onclick={() => onchange({ preset: p })}>{LABELS[p]}</button
     >
   {/each}
-  <Menu label="Custom dates" buttonClass="segment-menu" pressed={custom}>
+  <Menu label="Custom dates" buttonClass="segment-menu" active={custom}>
     {#snippet button()}{custom ? `${longDate(dates.from)} – ${longDate(dates.to)}` : "Custom"}{/snippet}
     <div class="dates">
       <label>

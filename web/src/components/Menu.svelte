@@ -1,8 +1,10 @@
 <script lang="ts">
   // A button that opens a panel: the native Popover API, so the panel is in
   // the top layer (never clipped or see-through because of the controls bar)
-  // and closes on Escape or a click outside. Placed under its button on
-  // wide screens, a bottom sheet on narrow ones.
+  // and closes on Escape or a click outside. On wide screens it's placed
+  // under its button with CSS anchor positioning (popovertarget makes the
+  // button its implicit anchor), or by place() where that isn't supported
+  // (Firefox, in November 2026); on narrow screens it's a bottom sheet.
   import type { Snippet } from "svelte";
 
   interface Props {
@@ -12,19 +14,21 @@
     button: Snippet;
     children: Snippet;
     buttonClass?: string;
-    pressed?: boolean;
+    /** Marks the button as showing a chosen value (styling only). */
+    active?: boolean;
   }
-  let { label, button: buttonContent, children, buttonClass = "menu-button", pressed }: Props = $props();
+  let { label, button: buttonContent, children, buttonClass = "menu-button", active = false }: Props = $props();
 
   const id = `menu-${Math.random().toString(36).slice(2)}`;
   let button: HTMLButtonElement;
   let panel: HTMLDivElement;
   let open = $state(false);
 
+  const anchored = typeof CSS !== "undefined" && CSS.supports("position-area: block-end");
   const narrow = () => matchMedia("(max-width: 640px)").matches;
 
   function place() {
-    if (narrow()) {
+    if (anchored || narrow()) {
       panel.style.removeProperty("left");
       panel.style.removeProperty("top");
       return;
@@ -41,7 +45,7 @@
   }
 
   $effect(() => {
-    if (!open) return;
+    if (!open || anchored) return;
     addEventListener("resize", place);
     addEventListener("scroll", place, true);
     return () => {
@@ -57,7 +61,7 @@
   class={buttonClass}
   popovertarget={id}
   aria-expanded={open}
-  aria-pressed={pressed}
+  data-active={active || undefined}
 >
   {@render buttonContent()}
 </button>

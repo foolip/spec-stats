@@ -61,14 +61,26 @@
     return out.reverse();
   });
 
+  // Copy feedback: the label swaps in place (both labels share one grid
+  // cell, so the button keeps its width), and a live region announces it.
   let copied = $state(false);
+  let announcement = $state("");
+  let lastAnnouncement = "";
+  let copiedTimer: ReturnType<typeof setTimeout> | undefined;
+  function announce(message: string) {
+    // VoiceOver skips a message identical to the previous one.
+    announcement = message === lastAnnouncement ? `${message}\u00a0` : message;
+    lastAnnouncement = announcement;
+  }
   async function copyLink() {
     const url = new URL(location.href);
     url.search = serialize({ ...view, range: fixed(view.range, ctx) });
     try {
       await navigator.clipboard.writeText(url.toString());
       copied = true;
-      setTimeout(() => (copied = false), 2500);
+      announce("Link to this view copied");
+      clearTimeout(copiedTimer);
+      copiedTimer = setTimeout(() => (copied = false), 2500);
     } catch {
       prompt("Link to this view", url.toString());
     }
@@ -81,7 +93,7 @@
     <p class="question">How many PRs are waiting, and is the backlog growing or shrinking?</p>
   </hgroup>
 
-  <div class="controls" role="toolbar" aria-label="Filters">
+  <div class="controls" role="group" aria-label="Filters">
     <RepoPicker
       names={data.repos.name}
       standards={data.repos.standard}
@@ -98,7 +110,7 @@
       <span class:hidden={copied}>Copy link</span>
       <span class:hidden={!copied} aria-hidden={!copied}>Link copied</span>
     </button>
-    <span class="visually-hidden" role="status">{copied ? "Link to this view copied" : ""}</span>
+    <span class="visually-hidden" role="status">{announcement}</span>
   </div>
 
   <section class="tiles" aria-label="Summary">
