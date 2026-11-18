@@ -111,13 +111,14 @@ the window, `{"from": "2022-01-01", "to": "…"}`, read from each repo's
 can't disagree with its figures. Each page shows the window under its
 title. It's not a table: nothing refers to it.
 
-Files are columnar: an array per column rather than an object per row,
-with logins, labels and event types as indexes into small lookup lists
-(plain arrays of strings) and repos as indexes into the repos table.
-Filtering is picking a set of indexes. A lookup list becomes a table when
-its entries get attributes, as repos did for the standards' names.
-That keeps the files small and lets the browser load columns straight
-into typed arrays; a join is an array lookup. Expected size: about
+Each table is stored by column: an object of arrays, one per column,
+rather than an array of objects, one per row. Logins, labels and event
+types are indexes into small lookup lists (plain arrays of strings), and
+repos are indexes into the repos table. Filtering is picking a set of
+indexes. A lookup list becomes a table when its entries get attributes,
+as repos did for the standards' names. Storing by column keeps the file
+small (no key repeated on every row) and lets the browser load columns
+straight into typed arrays; a join is an array lookup. Expected size: about
 10,000 items and tens of thousands of events, a few MB of JSON before
 compression.
 
