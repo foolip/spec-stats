@@ -30,6 +30,17 @@ data/github/
     state.json                  how far each part has got, and numbers that are gone
 ```
 
+**Row-only items.** An item updated since `from` or still open is stored
+with its *details*: comments, events, and for a PR the `pulls/{n}/`
+files. Every other item (closed, and last updated before `from`) is just
+its row from the items listing, `issues/{n}/index.json`, stored by the
+weekly reconcile (below; since 2026-11-18). Whether an item has its
+details follows from its row and `from`: `RepoStore.full(n)`. So an
+issue's missing `events.json` means "no events" only for an item with
+its details. The rows alone give every item's `created_at`, `closed_at`,
+state, labels and, for a PR, `pull_request.merged_at`, back to the
+repo's first item.
+
 Lists that would be empty have no file. Issues and PRs share one
 `issues/` directory because they share one number sequence; a PR also
 has `pulls/{n}/index.json`, the PR view of the same number.
@@ -157,9 +168,12 @@ updates' business). It has its own resume point (`items.extend`: its
 `from` becomes the new date. Items updated while it runs move past `from`
 and are picked up by the next update. Moving `updated_since` forward
 fetches nothing: `from` follows it (any listing back to an earlier date
-is dropped), and stored closed items last updated before it are removed.
-Neither needs the open items listed again: moved back, the listing adds
-items; moved forward, the open ones in between are stored already.
+is dropped), and stored closed items last updated before it keep only
+their row (their details are removed; git keeps them). Moved back, the
+listing syncs every closed item in the stretch, unchanged or not, as it
+may be stored as its row alone. Neither needs the open items listed
+again: moved back, the listing adds items; moved forward, the open ones
+in between are stored already.
 
 **Before 2026-11-17** items were backfilled by number, 1 to the highest
 (`items.highest` and `items.next`). The first run of the new code
@@ -260,14 +274,19 @@ as size and `merged_by` (the `merged` event names who merged it).
 reports, per repo:
 
 - numbers both stored and recorded as gone;
-- closed items with no `closed` event, merged PRs with no `merged` event;
-- PRs with no `pulls/{n}/index.json` and no 422 recorded for them;
+- row-only items (closed, last updated before `from`) with details stored;
+- among items with their details: closed items with no `closed` event,
+  merged PRs with no `merged` event, PRs with no `pulls/{n}/index.json`
+  and no 422 recorded for them;
 - events stored under a number with no `issues/{n}/index.json`.
 
-Which items *should* be stored, those updated since `from`, can't be told
-offline; the weekly reconcile compares them with GitHub's listing. (Until
-2026-11-17 it also reported numbers from 1 to the highest that were
-neither stored nor gone.)
+Whether every item is stored can't be told offline; the weekly reconcile
+compares the stored items with GitHub's listing. Once it has stored every
+row (`items.rows` in `state.json`), every number from 1 to the highest
+should be stored or gone, except numbers no listing ever showed: deleted
+or transferred before any listing, or discussions, which share the number
+sequence. Those are listed as a note, not a finding: telling them apart
+would take a `GET /issues/{n}` each.
 
 It also lists what GitHub refused with HTTP 422 (`refused` in
 `state.json`), as notes, not findings. It exits with an error if it finds
@@ -321,17 +340,24 @@ A second, independent listing of the items, once a week. No update
 listing shows a deleted or transferred item, and the updates' listing
 can skip items (above), so the reconcile lists *every* item in order of
 creation (`sort=created&direction=asc`, one request per 100 items: about
-130 for whatwg/html), by offset pages, and keeps the ones updated since
-`from` or open on the client. `created_at` doesn't change, so rows don't move
+130 for whatwg/html), by offset pages. `created_at` doesn't change, so rows don't move
 around as they're updated; new items go at the end. An item deleted
 mid-listing can shift one row past a page boundary, so a skip is still
 possible, but not the same skip as the updates'. Then:
 
-1. any listed item whose `updated_at` differs from the stored one, or
-   that isn't stored, is synced (a missed update, or an item the updates'
-   listing skipped; the log names up to 20 of those);
-2. any stored item updated since `from` or open that isn't listed is synced,
-   which records it as gone if it is.
+1. any listed item updated since `from` or open whose `updated_at`
+   differs from the stored one, or that isn't stored, is synced (a missed
+   update, or an item the updates' listing skipped; the log names up to
+   20 of those);
+2. every other listed item's row is stored if it differs from the stored
+   one, whole-object, so a change that doesn't move `updated_at` is
+   caught too. No request per item: the first reconcile after 2026-11-18
+   stores about 15,000 rows across the repos for the listing's cost alone;
+3. any stored item that isn't listed is fetched by number, which records
+   it as gone if it is (for a row-only item, just `GET /issues/{n}`).
+
+`items.rows` in `state.json` is when the last reconcile started: every
+item listed then is stored.
 
 If the listing ends on a full page with no next link, the next page is
 asked for by number: an empty page is the end; HTTP 422 (GitHub won't
@@ -345,10 +371,12 @@ page that far) fails the run.
   `updated_at` may not be in an update's listing when it changes, if that
   timestamp doesn't move. The reconcile, by creation time, catches both,
   within a week.
-- Closed items last updated before `from` aren't fetched (by design since
-  2026-11-17), and nothing records that their numbers exist. Numbers
-  deleted or transferred out are only recorded as gone if they were
-  stored.
+- Closed items last updated before `from` have no details (by design
+  since 2026-11-17), only their row (since 2026-11-18), from the weekly
+  reconcile: a repo's first rows wait for a run with `--reconcile`, and
+  `closed_at` is only the last close, so a row-only item's reopenings are
+  unknown. Numbers deleted or transferred out are only recorded as gone if
+  they were stored.
 - An event skipped by a deletion during a multi-page events read stays
   missing (accepted on 2026-11-15).
 - A change that doesn't move an item's `updated_at` (other than events) is

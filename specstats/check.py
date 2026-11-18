@@ -16,9 +16,10 @@ def _some(numbers, limit=20):
 
 def check_repo(store):
     """[(check, [numbers])] for one repo's files, only the checks that found
-    something, or None if nothing's fetched yet. Which items should be
-    stored (those updated since `from`) can't be told offline; `extract
-    --reconcile` checks that."""
+    something, or None if nothing's fetched yet. Items updated since
+    `from`, or open, should have their details; the rest, only their row.
+    Whether every item is stored can't be told offline (`extract
+    --reconcile` checks that), but numbers never listed are a note."""
     state = store.state
     if not state.get("items"):
         return None
@@ -31,7 +32,13 @@ def check_repo(store):
 
     add("stored and also recorded as gone", [n for n in idx if n in gone])
     no_closed, no_merged, no_pull = [], [], []
+    row_only = {n for n in idx if not store.full(n)}
+    add("stored with details, but closed and last updated before `from` (only the row should be)",
+        [n for n in row_only if store.get("issues", n, "events") is not None or store.get("issues", n, "comments")
+         is not None or (store.dir / "pulls" / str(n)).exists()])
     for n, info in idx.items():
+        if n in row_only:
+            continue
         kinds = {e["event"] for e in store.get("issues", n, "events", [])}
         if info["state"] == "closed" and "closed" not in kinds:
             no_closed.append(n)
@@ -48,11 +55,26 @@ def check_repo(store):
     return found
 
 
+def unaccounted(store):
+    """Numbers up to the highest stored that are neither stored nor gone,
+    once the reconcile has listed every item (`items.rows`): deleted or
+    transferred before any listing saw them, or discussions, which share
+    the numbers. None before that."""
+    if "rows" not in store.state.get("items", {}):
+        return None
+    idx, gone = store.index(), store.gone()
+    return [n for n in range(1, max(idx, default=0) + 1) if n not in idx and n not in gone]
+
+
 def notes(store):
-    """Lines about what GitHub refused (HTTP 422), recorded by the fetch.
-    Not findings: GitHub's limits, not bugs in the process."""
-    return [f"#{n} {res}: {message}" for n, r in sorted(store.refused().items())
-            for res, message in r.items() if res != "checked_at"]
+    """Lines that aren't findings: what GitHub refused (HTTP 422), its
+    limits, and numbers never listed (deleted, transferred or discussions)."""
+    out = [f"(refused by GitHub, not a finding) #{n} {res}: {message}" for n, r in sorted(store.refused().items())
+           for res, message in r.items() if res != "checked_at"]
+    missing = unaccounted(store)
+    if missing:
+        out.append(f"(never listed, not a finding: deleted, transferred or discussions) {_some(missing)}")
+    return out
 
 
 def report(repos=None, root=None):
@@ -69,5 +91,5 @@ def report(repos=None, root=None):
             any_found = True
             lines.append(f"- {repo}:")
             lines += [f"  - {name}: {_some(numbers)}" for name, numbers in found]
-        lines += [f"  - (refused by GitHub, not a finding) {line}" for line in notes(store)]
+        lines += [f"  - {line}" for line in notes(store)]
     return "\n".join(lines) + "\n", any_found

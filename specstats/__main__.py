@@ -9,8 +9,9 @@
 
 extract fetches everything that changed since the last run into
 data/github/. Only items (issues and PRs) updated since `updated_since` in
-config/fetch.json, or still open, are fetched. With --reconcile (weekly), it also re-lists
-every one of them, to catch deletions and missed updates. It stores what GitHub returns,
+config/fetch.json, or still open, are fetched with their details. With
+--reconcile (weekly), it also lists every item, to catch deletions and
+missed updates, and stores the listing row of every other item. It stores what GitHub returns,
 consistent or not, and exits with an error (extract.CheckFailed), after
 storing what it fetched, only if fetching itself can't be done right.
 check looks for inconsistencies in the stored data (bugs in the process,
@@ -127,6 +128,7 @@ def progress(state):
     if not items.get("open", {}).get("done"):
         cursor = items.get("open", {}).get("cursor")
         out += f"; open items listed up to {cursor}" if cursor else "; open items not listed yet"
+    out += f"; every item's row as of {items['rows']}" if "rows" in items else "; other rows not listed yet (--reconcile)"
     if "cursor" in events:
         out += f"; events up to {events['cursor']}"
     return out
