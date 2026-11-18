@@ -67,7 +67,8 @@ a time as later metrics need them:
 
 - **repos**, one row per standard: `shortname` (`html`, the repo's name
   and the spec's subdomain) and `name` (`HTML`, the standard's name in
-  `config/db.json`), so pages show HTML rather than html.
+  `config/db.json`, as is: no "Standard" added), so pages show HTML
+  rather than html.
 - **event_types**: `_carried_in`, `_created`, `closed`, `reopened`. No `merged`:
   GitHub records a `closed` event on every merge too (all 154 merged
   whatwg/dom PRs have both), so `closed` alone ends a PR's open span.
@@ -120,8 +121,14 @@ into typed arrays; a join is an array lookup. Expected size: about
 10,000 items and tens of thousands of events, a few MB of JSON before
 compression.
 
-Where the files go, and whether they're committed or built when the site
-is deployed, is decided when the first page is built.
+**One JSON file** holds `meta`, the lookup lists and every table, so one
+request returns one build's data and `meta` always matches the tables.
+Split it only when a table gets large and some pages don't need it
+(comment and review events are the likely first case): by what pages
+need, with `meta` in the file every page loads first and each file
+carrying the build's id. Where the file goes, and whether it's committed
+or built when the site is deployed, is decided when the first page is
+built.
 
 ## In the browser
 

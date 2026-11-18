@@ -142,6 +142,7 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-18 | **`_created`, not `_opened`**, for the synthesized event at an item's creation | Maintainer's choice. It pairs with `created_at`, the field it's built from, as `closed` and `merged` pair with `closed_at` and `merged_at`; `opened` is the `action` of GitHub's webhooks and activity feed, which aren't used; and it says nothing about a PR being open for review, which `ready_for_review` marks for drafts |
 | 2026-11-18 | **The window is a `meta` object, not a `coverage` table** | Maintainer's choice. It describes the data as a whole and nothing refers to it, so a one-row table was the wrong shape; cosh keeps the same thing in `meta.data_span` |
 | 2026-11-18 | **A `repos` table** (`shortname`, e.g. `html`, and `name`, e.g. `HTML`, from `config/db.json`), not a lookup list of repo names | Maintainer's choice: pages show the standard's name, HTML rather than html. `shortname` is the WHATWG's term for the subdomain and repo name; `name` is `db.json`'s field |
+| 2026-11-18 | **The published data is one JSON file** (`meta`, lookup lists and tables), split only when a table gets large and some pages don't need it; pages show standards by their `db.json` name as is (HTML, not HTML Standard) | Maintainer's choice. The first version is tens to hundreds of KB; one request can't mix two builds, so `meta` always matches the tables, and the loader is one cached fetch |
 
 ## Status
 
