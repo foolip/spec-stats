@@ -22,8 +22,10 @@ in order of updated_at. The first listing is the backfill; after it, each
 run lists the items updated since the last run (one request if nothing
 changed) and syncs those whose updated_at differs from the stored one.
 Moving the start date back later lists just the stretch before the old
-one (extend_items). Stored items last updated before it are removed
-(set_start).
+one (extend_items). Open items are fetched too, however long ago they
+were last updated: they're listed once (list_open_items), and after that
+any change moves them into the updates' listing. Stored closed items last
+updated before the start date are removed (set_start).
 
 Events are part of an item (GET /issues/{n}/events, fetched with it).
 After the first listing, each run also reads the repo-wide /issues/events
@@ -350,7 +352,7 @@ def _sync_changed(client, store, rows):
     return synced
 
 
-def _list_and_sync(client, store, since, part, until=None, log=print):
+def _list_and_sync(client, store, since, part, until=None, params=ITEMS, log=print):
     """List the items updated since `since` (and before `until`), syncing
     the changed ones, and save `part["cursor"]`, the listing's mark
     (the last row's updated_at), after every page: the resume point. A run stopped mid-page lists
@@ -368,8 +370,10 @@ def _list_and_sync(client, store, since, part, until=None, log=print):
             log(f"{store.repo} items: synced {synced} of {len(rows)} listed, up to {part['cursor']} "
                 f"({client.requests} requests so far)")
 
-    list_ascending(client, f"/repos/{store.repo}/issues", dict(ITEMS, per_page=PER_PAGE, since=since),
-                   on_page, until=until)
+    params = dict(params, per_page=PER_PAGE)
+    if since is not None:
+        params["since"] = since
+    list_ascending(client, f"/repos/{store.repo}/issues", params, on_page, until=until)
     return total[0]
 
 
@@ -411,6 +415,29 @@ def extend_items(client, store, since, log=print):
     log(f"{store.repo} items: synced {synced} updated since {since}, before the earlier start")
 
 
+OPEN_ITEMS = {"state": "open", "sort": "updated", "direction": "asc"}
+
+
+def list_open_items(client, store, log=print):
+    """Once per repo: the open items last updated before `from`, listed by
+    keyset from the oldest and stopping at `from` (those after it are the
+    updates' business), with their own resume point (`items.open`). After
+    that, an open item can't drop out of the data: any change to it, such
+    as closing it, moves its updated_at past `from`, so the updates list
+    it; and set_start keeps open items, however old. A new `updated_since`
+    doesn't need a new listing: moved back, it only adds items; moved
+    forward, the open ones between the two dates are stored already."""
+    s = store.section("items")
+    part = s.setdefault("open", {})
+    if part.get("done"):
+        return
+    since = _minus_overlap(part["cursor"]) if "cursor" in part else None
+    synced = _list_and_sync(client, store, since, part, until=s["from"], params=OPEN_ITEMS, log=log)
+    s["open"] = {"done": True}
+    store.save_state()
+    log(f"{store.repo} items: synced {synced} open, last updated before {s['from']}")
+
+
 def migrate_state(store, since):
     """state.json from the by-number backfill (items.highest, until
     2026-11-17) to the by-updated_at one (items.from = `since`). A
@@ -428,8 +455,9 @@ def migrate_state(store, since):
 
 
 def set_start(store, since, log=print):
-    """Apply `updated_since`: stored items last updated before it are
-    removed (git keeps them), and so are their 422 records. Moved forward,
+    """Apply `updated_since`: stored closed items last updated before it
+    are removed (git keeps them), and so are their 422 records; open ones
+    are kept (list_open_items). Moved forward,
     `from` follows it (and a listing back to an earlier date is dropped);
     moved back, extend_items lists the stretch before `from`."""
     s = store.section("items")
@@ -437,23 +465,28 @@ def set_start(store, since, log=print):
     if since > s["from"]:
         s["from"] = since
         s.pop("extend", None)
-    old = sorted(n for n, i in store.index().items() if i["updated_at"] < since)
+    old = sorted(n for n, i in store.index().items() if i["updated_at"] < since and i["state"] != "open")
     for n in old:
         store.remove_item(n)
         store.set_refused(n, None)
     if old:
         store.save_state()
-        log(f"{store.repo} items: removed {len(old)} last updated before {since}")
+        log(f"{store.repo} items: removed {len(old)} closed, last updated before {since}")
+
+
+def _kept(item, since):
+    """Whether an item belongs in the data: updated since `since`, or open."""
+    return item["updated_at"] >= since or item["state"] == "open"
 
 
 def reconcile(client, store, log=print):
     """Weekly: a second, independent listing of the items. Every item, in
     order of creation, by offset pages (created_at doesn't change, so
     nothing moves around; an item deleted mid-listing can shift one row
-    past a page boundary), keeping those updated since `from` on the
-    client. Then sync any listed item whose updated_at differs from the
+    past a page boundary), keeping those updated since `from` or open on
+    the client. Then sync any listed item whose updated_at differs from the
     stored one or that isn't stored (an update listing missed it), and any
-    stored item updated since `from` that isn't listed (deleted or
+    stored item updated since `from` or open that isn't listed (deleted or
     transferred). (While a listing back to an earlier date is under way,
     its items aren't checked yet.)"""
     s = store.section("items")
@@ -463,7 +496,7 @@ def reconcile(client, store, log=print):
     resp = client.rest(path, params)
     while True:
         total += len(resp.data)
-        listed.update((r["number"], r) for r in resp.data if r["updated_at"] >= s["from"])
+        listed.update((r["number"], r) for r in resp.data if _kept(r, s["from"]))
         if len(resp.data) < PER_PAGE:
             break
         page += 1
@@ -480,12 +513,12 @@ def reconcile(client, store, log=print):
     idx = store.index()
     missed = [n for n in sorted(listed) if n not in idx]
     changed = _sync_changed(client, store, [listed[n] for n in sorted(listed)])
-    unlisted = sorted(n for n, i in idx.items() if n not in listed and i["updated_at"] >= s["from"])
+    unlisted = sorted(n for n, i in idx.items() if n not in listed and _kept(i, s["from"]))
     for n in unlisted:
         sync_item(client, store, n)
     store.save_state()
     log(f"{store.repo} reconcile: {total} items listed by creation time, {len(listed)} updated since "
-        f"{s['from']}; synced {changed} changed or missing ({len(missed)} weren't stored"
+        f"{s['from']} or open; synced {changed} changed or missing ({len(missed)} weren't stored"
         f"{': ' + _list(missed[:20]) if missed else ''}) and {len(unlisted)} unlisted; "
         f"{len(store.index())} stored, {len(store.gone())} gone")
 
@@ -578,6 +611,7 @@ def sync_repo(client, store, reconcile_=False, log=print):
         update_items(client, store, log=log)
         if since < store.section("items")["from"]:
             extend_items(client, store, since, log=log)
+        list_open_items(client, store, log=log)
         if reconcile_:
             reconcile(client, store, log=log)
         # After items: the events cursor is set when the first listing finishes.
