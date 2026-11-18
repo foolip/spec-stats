@@ -65,10 +65,10 @@ The first page is the number of open PRs over time, per spec. The build
 publishes only what that needs, and the tables grow a column or an event type at
 a time as later metrics need them:
 
-- **repos**, one row per standard: `shortname` (`html`, the repo's name
-  and the spec's subdomain) and `name` (`HTML`, the standard's name in
-  `config/db.json`, as is: no "Standard" added), so pages show HTML
-  rather than html.
+- **repos**, one row per standard: `name` (`html`, the repo's `name` in
+  GitHub's API, and the spec's subdomain) and `standard` (`HTML`, the
+  standard's `name` in `config/db.json`, as is: no "Standard" added), so
+  pages show HTML rather than html.
 - **event_types**: `_carried_in`, `_created`, `closed`, `reopened`. No `merged`:
   GitHub records a `closed` event on every merge too (all 154 merged
   whatwg/dom PRs have both), so `closed` alone ends a PR's open span.
@@ -102,8 +102,8 @@ things they refer to (items, users, repos).
   term, as in the raw data): login, and later organization and bot
   status, when ground rule 3's question about per-person figures is
   settled. Until then pages show no per-person figures.
-- **repos**, one row per standard in `config/db.json`: `shortname` and
-  `name`, as above; later perhaps its workstream.
+- **repos**, one row per standard in `config/db.json`: `name` and
+  `standard`, as above; later perhaps its workstream.
 
 Alongside the tables, a **meta** object describes the data as a whole:
 the window, `{"from": "2022-01-01", "to": "…"}`, read from each repo's
