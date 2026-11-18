@@ -59,6 +59,24 @@ data could give one.
   with no `closed` event), the build decides once, for example by falling
   back to the item's `closed_at`, and `check` keeps reporting it.
 
+## First version: open PRs
+
+The first page is the number of open PRs over time, per spec. The build
+publishes only what that needs, and the tables grow a column or a kind at
+a time as later metrics need them:
+
+- **repos**: the lookup list of repo names.
+- **kinds**: `carried_in`, `opened`, `closed`, `reopened`. No `merged`:
+  GitHub records a `closed` event on every merge too (all 154 merged
+  whatwg/dom PRs have both), so `closed` alone ends a PR's open span.
+- **items**, PRs only: repo, and number (for links and for checking a
+  count against GitHub).
+- **actions**: day, item, kind.
+- **coverage**: the window.
+
+No users, labels or other lookups yet. Whether drafts count as open is
+decided with the metric's definition.
+
 ## Published tables
 
 A star schema: one table of facts (actions) and tables describing the
