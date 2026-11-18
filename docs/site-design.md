@@ -12,7 +12,7 @@ decisions log.
 ```
 data/github/ ── derive (Python) ──▶ published tables ──▶ pages (browser)
    raw, both tiers                  items, actions,       compute every
-                                    people + coverage     metric in memory
+                                    users + coverage      metric in memory
 ```
 
 - **Raw:** `data/github/`, as fetched (`docs/extraction.md`).
@@ -62,7 +62,7 @@ data could give one.
 ## Published tables
 
 A star schema: one table of facts (actions) and tables describing the
-things they refer to (items, people).
+things they refer to (items, users).
 
 - **items**, one row per issue or PR: repo, number, is_pr, author,
   created, and attributes worked out at build time (size, whether a PR
@@ -72,7 +72,8 @@ things they refer to (items, people).
   - lifecycle: `carried_in`, `opened`, `closed`, `reopened`, `merged`;
   - detail: `commented`, `reviewed` (with its state), `review_requested`,
     `labeled`, `unlabeled`, `ready_for_review`, `converted_to_draft`, …
-- **people**, one row per actor: login, and later organization and bot
+- **users**, one row per GitHub account that acts, bots included (GitHub's
+  term, as in the raw data): login, and later organization and bot
   status, when ground rule 3's question about per-person figures is
   settled. Until then pages show no per-person figures.
 - **coverage**: the window, `{"from": "2022-01-01", "to": "…"}`, read
