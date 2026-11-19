@@ -412,5 +412,51 @@
     },
     "performed_via_github_app": null,
     "minimized": null
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/7014252018",
+    "html_url": "https://github.com/whatwg/html/pull/12430#issuecomment-7014252018",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/12430",
+    "id": 7014252018,
+    "node_id": "IC_kwDOALaj488AAAABohT98g",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-19T15:51:43Z",
+    "updated_at": "2026-11-19T15:51:43Z",
+    "body": "<details>\n<summary>AI feedback</summary>\n\nReviewed at 09bcc48. CI passes, and the added lines stay within 100 columns with no trailing whitespace. I traced the pending `selectedcontent` update through adding and removing `multiple`, disconnecting and reconnecting, and scripts running during parsing, and found no gaps apart from the moving case below. The model also matches WebKit's prototype on the clones, the source pointer, selectedness syncing, the coalesced microtask, and cloning once parsing is done.\n\n**Blockers**\n\n- Main changed under this PR, and git merges it without conflicts into broken text. 3941bb4 turned the `multiple` prose into the `select` *HTML element attribute change steps*, which take *element*, *localName*, *oldValue*, and *value*. After a merge, \"If the `multiple` attribute was added, then queue an update … given *select*\" refers to a variable those steps don't define. The previous step already returns unless exactly one of *oldValue* and *value* is null, so this can become \"If *oldValue* is null, then queue an update … given *element*.\"\n- c18a7c5 replaced \"popped off the stack of open elements of an HTML parser or XML parser\" with *HTML element children parsed steps* everywhere except `object`. After a rebase, the end-of-parse step should be the `select` *HTML element children parsed steps*. The three notes that say \"popped off the stack of open elements\" (in *queue an update of a `select`'s descendant `selectedcontent` elements* and in the `option` and `selectedcontent` *HTML element post-connection steps*) should then refer to the parser finishing parsing the children of *select*. The hook comes with a warning against new uses, but the microtask is the separate script path that warning asks for, and the PR description already explains why parsing is handled separately.\n- The test linked in the checklist, `selectedcontent-multiple.tentative.html`, still checks the earlier model: `<div>` wrappers around only the selected options. Tests are needed for the `option` clones (including unselected ones and `:checked`), selectedness syncing without re-cloning, the coalesced microtask, cloning once parsing is done, adding and removing `multiple`, moves, and the UA style rule. WebKit's `LayoutTests/fast/forms/select/selectedcontent-multiple/` covers most of this and could be upstreamed; it expects the synchronous timing suggested below.\n\n**Suggestions**\n\n- Consider matching the timing of `select` without `multiple` wherever cloning cost allows. `selectedcontent` might eventually clone all options for single select too, and if both share timing now, that change would only affect what gets cloned, not when. Concretely:\n\n  - Inserting a `selectedcontent`, including a `select` becoming connected: single select fills it synchronously (the insertion steps queue the update and the post-connection steps perform it). For `multiple`, performing it would mean cloning. Keep the check for the `select` being on the stack of open elements; in conforming markup the `button` comes first, so nothing would be cloned at that point anyway.\n  - Adding `multiple`: clone synchronously, the same way removing it updates synchronously.\n  - Single select has no connectedness checks (it updates a disconnected `select` when an option is removed, when selectedness changes, or when `multiple` is removed), so the connectedness checks for `multiple` could go.\n\n  One way to write this: move the microtask body into a \"perform a `select`'s pending `selectedcontent` update\" algorithm (clone if `multiple`, otherwise update), call it from the microtask and from both post-connection steps, and put the parser check inside *clone a `select`'s `option`s into its descendant `selectedcontent` elements*. The `multiple` step then becomes \"If *oldValue* is null, then clone … given *element*.\" The remaining differences from single select would be that the `option` post-connection steps don't perform the update, and that options are cloned once parsing is done. Both avoid quadratic cloning, and single select would need both if it cloned all options. WebKit's prototype already clones synchronously in the first two cases.\n- The new step in the `option` *HTML element moving steps* queues a re-clone for every move, including when an ancestor of the `select` moves: the DOM runs the moving steps for each descendant, passing the subtree root's old parent. So `moveBefore()` on a wrapper around a `<select multiple>` replaces all clones. The step's note says \"within a `select` element\", and the `selectedcontent` moving steps already skip this case. Consider adding \"*oldAncestor* is an inclusive descendant of *newSelect*\" to the condition; WebKit's prototype makes the same check.\n- Skipping `selectedcontent` in *list of options* and in *nearest ancestor `select`* also changes `select` without `multiple`, and fixes #13038. Consider saying so in the commit message (\"Fixes #13038\") or splitting it out. `customizable-select/selectedcontent-cloned-option-is-not-an-option.tentative.html` already covers it.\n- Cloning the `option` element copies its `id`, and the clones come before the options in tree order, so `getElementById()`, `querySelector()`, and ARIA ID references find the clone. Consider whether clones should drop `id`, or at least add an author-facing note. WebKit's prototype has the same caveat.\n- Only selectedness is kept in sync. Changes to an option's attributes or children (`disabled`, `class`, `label`, text) don't reach its clones until the list of options changes again. Consider saying so in the new author-facing paragraph, since authors will likely style clones by class.\n- The note after *queue an update of a `select`'s descendant `selectedcontent` elements* says changes to selectedness \"do not count as such an update, so inserting several `option` elements one after another clones them once\". The coalescing comes from the pending flag; the point is that the `multiple` path never clears it. Consider: \"When *select* has the `multiple` attribute, only cloning its `option` elements clears its pending `selectedcontent` update; updating the clones' selectedness does not.\"\n- Optional: the `option` *HTML element children parsed steps* still update the `selectedcontent` elements for every selected option of a `select` with `multiple` while it is being parsed. That does nothing, because nothing has been cloned yet. Consider returning early for `multiple` there, as WebKit does.\n- PR description: the `<select multiple size=1><button><selectedcontent>` example only renders as a button once #12069 lands, so consider mentioning that dependency. In the checklist, the WebKit bug is https://bugs.webkit.org/show_bug.cgi?id=325127; Gecko and MDN are still empty.\n\n**Nits**\n\n- The first paragraph of the `selectedcontent` section (\"reflects the contents of a `select` element's currently selected `option` element\") is now only true without `multiple`.\n- The first step of *queue an update of a `select`'s descendant `selectedcontent` elements* has two adjacent notes; they could be merged.\n- The note after *update the selectedness of a `selectedcontent`'s cloned `option`s* (\"This is what runs when …\") reads awkwardly. For example: \"Changing the selectedness of an `option` element of a `select` element with the `multiple` attribute runs this, rather than replacing the cloned `option` elements.\"\n- `:not(selectedcontent > option)` only excludes direct children. `:not(selectedcontent option)` would match the *nearest ancestor `select`* change, which treats any `option` inside a `selectedcontent` as not belonging to the `select`.\n- The commit message in the PR description has trailing whitespace on several lines.\n\n</details>\n",
+    "author_association": "MEMBER",
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/7014252018/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
   }
 ]

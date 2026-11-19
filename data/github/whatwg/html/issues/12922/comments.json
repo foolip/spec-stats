@@ -550,5 +550,51 @@
     },
     "performed_via_github_app": null,
     "minimized": null
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/7010416842",
+    "html_url": "https://github.com/whatwg/html/pull/12922#issuecomment-7010416842",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/12922",
+    "id": 7010416842,
+    "node_id": "IC_kwDOALaj488AAAABodp4yg",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-19T13:23:49Z",
+    "updated_at": "2026-11-19T13:23:49Z",
+    "body": "Not applied yet: D1, D2, D3. Open: Q1, Q2.\n\nD1: `match integrity metadata` checks for \"no metadata\", but SRI's parse metadata returns a possibly empty set, so `<link rel=modulepreload integrity=X>` then `<script type=module>` without `integrity` fails. Its equality is also order-sensitive (`\"A B\"` vs `\"B A\"`). Not applied: proposed fix: [spec](https://github.com/zcorpan/html/commit/8f7d28c7dfa1bb8f73a8e42b94f3c2c1ed8ca278), [test](https://github.com/zcorpan/wpt/commit/b88410203c56ef7ba4b10f79337cc24378bcf024).\n\nD2: A mismatch runs onComplete synchronously, inside prepare the script element before its steps to run when the result is ready are set. So `<link rel=modulepreload href=a.js><script type=module src=a.js integrity=...>` never fires `error` and blocks DOMContentLoaded (same class as #8534). Not applied: proposed fix (queue a task): [spec](https://github.com/zcorpan/html/commit/4527cc03ec993553b7a246aa74a65ca90c6c1a9e), [test](https://github.com/zcorpan/wpt/commit/dacde17bc23ad1de87bf13be7e210ffd1f029dce).\n\nD3: The tests' load/error waits have no timeout, so one bug stalls the file; the 2-request asserts depend on HTTP caching; and there's no script → script with wrong integrity case. Not applied: [proposed fix](https://github.com/zcorpan/wpt/compare/9dfeeae5baae80d75b70ca7d4323d1b43c684427...3fbe162bc35524dacba851d5668c6bd806b0e4a1).\n\nQ1: What should a fetch whose integrity doesn't match an existing module map entry do?\n\n- a: Fail (as is). Correct hashes fail, and whether a UA fetched modulepreload's optional descendants becomes observable. An in-flight mismatch depends on timing.\n- b: Check the integrity against the entry's response body, as yoavweiss [suggested](https://github.com/whatwg/html/pull/12922#issuecomment-5652151697), waiting for an in-flight entry. Correct hashes load, no double evaluation. Costs keeping the body (or digests) per module. [spec](https://github.com/zcorpan/html/commit/b98088300dbd3477d568ddb4de6a5936b7290633), [test](https://github.com/zcorpan/wpt/commit/378ac498d77fae8fefee3cb4fa1fd1e8bf38ed22) (on top of D2)\n- c: a, but an in-flight mismatch waits, then fails or refetches if the entry was removed. Removes the timing dependence only. [spec](https://github.com/zcorpan/html/commit/1b563d8c1ae019406520f364679c025ed4ea61a3), [test](https://github.com/zcorpan/wpt/commit/98b4c8bb47b5c17559a1ac40b37217b6208fdec5) (on top of D2)\n\n<details><summary>Evidence</summary>\n\nSafari TP 255 already seems to do b for modulepreload → script: correct hash loads (1 request, 1 evaluation), wrong hash fails. For script → script it skips the check. Chrome Canary does a.\n</details>\n\nQ2: An import map can add integrity for a URL that's already loaded, so `import(u)`, then `<script type=importmap>` with integrity for `u`, then `import(u)` from the same script rejects. That breaks HostLoadImportedModule's requirement to give the same result for the same referrer and module request (Chrome Canary throws `TypeError`).\n\n- a: Ignore import map integrity for URLs already in the module map. Also keeps modulepreload → import map → plain script working. [spec](https://github.com/zcorpan/html/commit/0dc5c53bd3185f89c49be3baef84bedba9d805ac), [test](https://github.com/zcorpan/wpt/commit/ff6179f297118282c1bc41816bfc851dfe830f69)\n- b: Reuse `referrer.[[LoadedModules]]` in HostLoadImportedModule. Fixes only the same-referrer case. [spec](https://github.com/zcorpan/html/commit/ebc1e79e7e44ea9fb3e0fdc9af002daaed5c8305), [test](https://github.com/zcorpan/wpt/compare/9dfeeae5baae80d75b70ca7d4323d1b43c684427...52791bde1bb0198a2baa8f0567cf195bb4432038)\n\n<details><summary>Reviewed commits</summary>\n\nReviewed at 518a3a3 on 772ebf4, with web-platform-tests/wpt#62691 at 9dfeeae, together with #13257 at 05b00f8, using spec-pr-review.\n</details>\n",
+    "author_association": "MEMBER",
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/7010416842/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
   }
 ]

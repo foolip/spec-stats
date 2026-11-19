@@ -10,7 +10,7 @@
   "review_comments_url": "https://api.github.com/repos/whatwg/html/pulls/13110/comments",
   "review_comment_url": "https://api.github.com/repos/whatwg/html/pulls/comments{/number}",
   "comments_url": "https://api.github.com/repos/whatwg/html/issues/13110/comments",
-  "statuses_url": "https://api.github.com/repos/whatwg/html/statuses/c5ab39d1830c9e9088ce117a942cc7a076f55f0b",
+  "statuses_url": "https://api.github.com/repos/whatwg/html/statuses/4f79d0774a14a4bf7e02eb2f4801061a740d7fec",
   "number": 13110,
   "state": "open",
   "locked": false,
@@ -36,12 +36,12 @@
     "user_view_type": "public",
     "site_admin": false
   },
-  "body": "A top-level about:blank Document has about:blank as its top-level creation URL, which \"Is url potentially trustworthy?\" always accepts. The secure context algorithm now uses the environment's top-level origin for these instead. This changes three cases:\n\n* A Document created by navigating a top-level traversable to about:blank was a secure context regardless of its origin. This meant an  http: page could navigate a same-origin popup to about:blank and use [SecureContext] APIs through it. It is now a secure context only if its origin is potentially trustworthy, matching the behaviour of Chromium, Webkit, and Gecko.\n\n* #13103 made a popup's initial about:blank Document copy its creator's top-level creation URL. That is wrong when the creator is a non-secure context with a potentially trustworthy origin, such as an https: iframe in an http: page: the popup was not a secure context, and neither was the same-origin Document that later reused its Window. That step is reverted where instead the popup is now decided by its own origin, matching the behaviour of Chromium, Gecko and WebKit.\n\n* A popup's about:blank Document with an opaque origin, such as one opened by a sandboxed iframe with allow-popups-to-escape-sandbox, is not a secure context, since an opaque origin is never potentially trustworthy. This matches WebKit.\n\nTests: https://github.com/web-platform-tests/wpt/pull/64008\n\nFollow up to https://github.com/whatwg/html/pull/13103, Fixes https://github.com/whatwg/html/issues/13109\n\n---\n\nI am not 100% confident in these changes - though to my understanding they do seem very sensible and more correct - it took me a few attempts before I could get the test matrix matching. In particular, I am a little confused about the last bulleted above. I am not sure what behaviour should be specified here, WebKit one seems simplest to me, so I've gone with that. Firefox/Chromium might have better behaviour though.\n\n---\n\n\n<!--\nThank you for contributing to the HTML Standard! Please describe the change you are making and complete the checklist below if your change is not editorial.\n\nWhen you submit this PR, and each time you edit this comment (including checking a checkbox through the UI!), PR Preview will run and update it. As such make any edits in one go and only after PR Preview has run.\n\nIf you think your PR is ready to land, please double-check that the build is passing and the checklist is complete before pinging.\n-->\n\n- [ ] At least two implementers are interested (and none opposed):\n   * Webkit (implements, pending decision on last bullet)\n   * …\n- [x] [Tests](https://github.com/web-platform-tests/wpt) are written and can be reviewed and commented upon at:\n   * https://github.com/web-platform-tests/wpt/pull/64008\n- [ ] [Implementation bugs](https://github.com/whatwg/meta/blob/main/MAINTAINERS.md#handling-pull-requests) are filed:\n   * Chromium: …\n   * Gecko: …\n   * WebKit: …\n   * Deno (only for timers, structured clone, base64 utils, channel messaging, module resolution, web workers, and web storage): …\n   * Node.js (only for timers, structured clone, base64 utils, channel messaging, and module resolution): …\n- [x] Corresponding [HTML AAM](https://w3c.github.io/html-aam/) & [ARIA in HTML](https://w3c.github.io/html-aria/) issues & PRs: N/A\n- [x] [MDN issue](https://github.com/whatwg/meta/blob/main/MAINTAINERS.md#handling-pull-requests) is filed: N/A\n- [x] The top of this comment includes a [clear commit message](https://github.com/whatwg/meta/blob/main/COMMITTING.md) to use. <!-- If you created this PR from a single commit, Github copied its message. Otherwise, you need to add a commit message yourself. -->\n\n(See [WHATWG Working Mode: Changes](https://whatwg.org/working-mode#changes) for more details.)\n\n\n<!--\n    This comment and the below content is programmatically generated.\n    You may add a comma-separated list of anchors you'd like a\n    direct link to below (e.g. #idl-serializers, #idl-sequence):\n\n    Don't remove this comment or modify anything below this line.\n    If you don't want a preview generated for this pull request,\n    just replace the whole of this comment's content by \"no preview\"\n    and remove what's below.\n-->\n***\n<a href=\"https://whatpr.org/html/13110/document-sequences.html\" title=\"Last updated on Oct 22, 2026, 5:59 AM UTC (c5ab39d)\">/document-sequences.html</a>  ( <a href=\"https://whatpr.org/html/13110/c6c3055...c5ab39d/document-sequences.html\" title=\"Last updated on Oct 22, 2026, 5:59 AM UTC (c5ab39d)\">diff</a> )\n<a href=\"https://whatpr.org/html/13110/infrastructure.html\" title=\"Last updated on Oct 22, 2026, 5:59 AM UTC (c5ab39d)\">/infrastructure.html</a>  ( <a href=\"https://whatpr.org/html/13110/c6c3055...c5ab39d/infrastructure.html\" title=\"Last updated on Oct 22, 2026, 5:59 AM UTC (c5ab39d)\">diff</a> )\n<a href=\"https://whatpr.org/html/13110/webappapis.html\" title=\"Last updated on Oct 22, 2026, 5:59 AM UTC (c5ab39d)\">/webappapis.html</a>  ( <a href=\"https://whatpr.org/html/13110/c6c3055...c5ab39d/webappapis.html\" title=\"Last updated on Oct 22, 2026, 5:59 AM UTC (c5ab39d)\">diff</a> )",
+  "body": "TODO: Write new description and tests\n\nTests: https://github.com/web-platform-tests/wpt/pull/64008\n\nFollow up to https://github.com/whatwg/html/pull/13103, Fixes https://github.com/whatwg/html/issues/13109\n\n<!--\nThank you for contributing to the HTML Standard! Please describe the change you are making and complete the checklist below if your change is not editorial.\n\nWhen you submit this PR, and each time you edit this comment (including checking a checkbox through the UI!), PR Preview will run and update it. As such make any edits in one go and only after PR Preview has run.\n\nIf you think your PR is ready to land, please double-check that the build is passing and the checklist is complete before pinging.\n-->\n\n- [ ] At least two implementers are interested (and none opposed):\n   * Webkit (implements, pending decision on last bullet)\n   * …\n- [ ] [Tests](https://github.com/web-platform-tests/wpt) are written and can be reviewed and commented upon at:\n   * https://github.com/web-platform-tests/wpt/pull/64008\n- [ ] [Implementation bugs](https://github.com/whatwg/meta/blob/main/MAINTAINERS.md#handling-pull-requests) are filed:\n   * Chromium: …\n   * Gecko: …\n   * WebKit: …\n   * Deno (only for timers, structured clone, base64 utils, channel messaging, module resolution, web workers, and web storage): …\n   * Node.js (only for timers, structured clone, base64 utils, channel messaging, and module resolution): …\n- [x] Corresponding [HTML AAM](https://w3c.github.io/html-aam/) & [ARIA in HTML](https://w3c.github.io/html-aria/) issues & PRs: N/A\n- [ ] [MDN issue](https://github.com/whatwg/meta/blob/main/MAINTAINERS.md#handling-pull-requests) is filed: N/A\n- [ ] The top of this comment includes a [clear commit message](https://github.com/whatwg/meta/blob/main/COMMITTING.md) to use. <!-- If you created this PR from a single commit, Github copied its message. Otherwise, you need to add a commit message yourself. -->\n\n(See [WHATWG Working Mode: Changes](https://whatwg.org/working-mode#changes) for more details.)\n\n\n<!--\n    This comment and the below content is programmatically generated.\n    You may add a comma-separated list of anchors you'd like a\n    direct link to below (e.g. #idl-serializers, #idl-sequence):\n\n    Don't remove this comment or modify anything below this line.\n    If you don't want a preview generated for this pull request,\n    just replace the whole of this comment's content by \"no preview\"\n    and remove what's below.\n-->\n***\n<a href=\"https://whatpr.org/html/13110/browsers.html\" title=\"Last updated on Nov 19, 2026, 6:31 PM UTC (4f79d07)\">/browsers.html</a>  ( <a href=\"https://whatpr.org/html/13110/c6c3055...4f79d07/browsers.html\" title=\"Last updated on Nov 19, 2026, 6:31 PM UTC (4f79d07)\">diff</a> )\n<a href=\"https://whatpr.org/html/13110/document-sequences.html\" title=\"Last updated on Nov 19, 2026, 6:31 PM UTC (4f79d07)\">/document-sequences.html</a>  ( <a href=\"https://whatpr.org/html/13110/c6c3055...4f79d07/document-sequences.html\" title=\"Last updated on Nov 19, 2026, 6:31 PM UTC (4f79d07)\">diff</a> )\n<a href=\"https://whatpr.org/html/13110/infrastructure.html\" title=\"Last updated on Nov 19, 2026, 6:31 PM UTC (4f79d07)\">/infrastructure.html</a>  ( <a href=\"https://whatpr.org/html/13110/c6c3055...4f79d07/infrastructure.html\" title=\"Last updated on Nov 19, 2026, 6:31 PM UTC (4f79d07)\">diff</a> )\n<a href=\"https://whatpr.org/html/13110/webappapis.html\" title=\"Last updated on Nov 19, 2026, 6:31 PM UTC (4f79d07)\">/webappapis.html</a>  ( <a href=\"https://whatpr.org/html/13110/c6c3055...4f79d07/webappapis.html\" title=\"Last updated on Nov 19, 2026, 6:31 PM UTC (4f79d07)\">diff</a> )",
   "labels": [],
   "milestone": null,
   "active_lock_reason": null,
   "created_at": "2026-10-21T22:54:23Z",
-  "updated_at": "2026-11-18T12:45:42Z",
+  "updated_at": "2026-11-19T19:40:48Z",
   "closed_at": null,
   "merged_at": null,
   "assignees": [],
@@ -178,7 +178,7 @@
       "watchers": 0,
       "open_issues_count": 0,
       "open_issues": 0,
-      "size": 1164909,
+      "size": 1166801,
       "default_branch": "main",
       "has_issues": false,
       "has_projects": true,
@@ -186,7 +186,7 @@
       "has_pages": false,
       "has_discussions": false,
       "has_pull_requests": true,
-      "pushed_at": "2026-11-06T01:02:34Z",
+      "pushed_at": "2026-11-19T18:28:14Z",
       "created_at": "2024-12-03T05:33:48Z",
       "updated_at": "2026-09-24T20:30:56Z",
       "allow_forking": true,
@@ -243,7 +243,7 @@
       "hooks_url": "https://api.github.com/repos/shannonbooth/html/hooks",
       "svn_url": "https://github.com/shannonbooth/html"
     },
-    "sha": "c5ab39d1830c9e9088ce117a942cc7a076f55f0b",
+    "sha": "4f79d0774a14a4bf7e02eb2f4801061a740d7fec",
     "user": {
       "login": "shannonbooth",
       "id": 35911232,
@@ -314,14 +314,14 @@
         "whatwg",
         "workers"
       ],
-      "forks_count": 3236,
-      "forks": 3236,
-      "stargazers_count": 9457,
-      "watchers_count": 9457,
-      "watchers": 9457,
-      "open_issues_count": 2783,
-      "open_issues": 2783,
-      "size": 1350926,
+      "forks_count": 3235,
+      "forks": 3235,
+      "stargazers_count": 9458,
+      "watchers_count": 9458,
+      "watchers": 9458,
+      "open_issues_count": 2786,
+      "open_issues": 2786,
+      "size": 1352863,
       "default_branch": "main",
       "has_issues": true,
       "has_projects": false,
@@ -329,9 +329,9 @@
       "has_pages": false,
       "has_discussions": false,
       "has_pull_requests": true,
-      "pushed_at": "2026-11-17T20:11:19Z",
+      "pushed_at": "2026-11-19T16:33:51Z",
       "created_at": "2013-08-08T06:26:07Z",
-      "updated_at": "2026-11-18T11:10:07Z",
+      "updated_at": "2026-11-19T15:30:36Z",
       "allow_forking": true,
       "web_commit_signoff_required": false,
       "pull_request_creation_policy": "all",
@@ -386,7 +386,7 @@
       "hooks_url": "https://api.github.com/repos/whatwg/html/hooks",
       "svn_url": "https://github.com/whatwg/html"
     },
-    "sha": "c6c3055c1287bf50070260d53555d8d6ab530771",
+    "sha": "3941bb4c6ecc16a97b473badba6f800fd37eb277",
     "user": {
       "login": "whatwg",
       "id": 2226336,
@@ -417,7 +417,7 @@
       "href": "https://api.github.com/repos/whatwg/html/pulls/13110/commits"
     },
     "statuses": {
-      "href": "https://api.github.com/repos/whatwg/html/statuses/c5ab39d1830c9e9088ce117a942cc7a076f55f0b"
+      "href": "https://api.github.com/repos/whatwg/html/statuses/4f79d0774a14a4bf7e02eb2f4801061a740d7fec"
     },
     "html": {
       "href": "https://github.com/whatwg/html/pull/13110"
@@ -443,11 +443,11 @@
   "rebaseable": true,
   "mergeable_state": "blocked",
   "merged_by": null,
-  "comments": 8,
+  "comments": 9,
   "review_comments": 0,
   "maintainer_can_modify": true,
-  "commits": 1,
-  "additions": 18,
-  "deletions": 13,
+  "commits": 3,
+  "additions": 83,
+  "deletions": 29,
   "changed_files": 1
 }

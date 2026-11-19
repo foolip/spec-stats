@@ -186,5 +186,52 @@
     },
     "performed_via_github_app": null,
     "minimized": null
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/7017950358",
+    "html_url": "https://github.com/whatwg/html/issues/11397#issuecomment-7017950358",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/11397",
+    "id": 7017950358,
+    "node_id": "IC_kwDOALaj488AAAABok1slg",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-19T18:17:35Z",
+    "updated_at": "2026-11-19T18:17:35Z",
+    "body": "Rough plan to fix this:\n\n1. Add parse errors where parsing would change with the proposal ([\"rcdata-c\"](https://github.com/zcorpan/foreign-rawtext-compat-11397#readme) plus breakout).\n2. Make a draft spec PR for it, with tests. This includes changing the content model of SVG `title` in HTML documents from phrasing content to text, comments and PIs, since it would no longer be an HTML integration point.\n3. Add an opt-in mode to the spec's HTML serializer whose output parses the same before and after the change. It drops SVG/MathML `textarea`, `xmp`, `iframe`, `noembed`, `noframes` and `plaintext` elements anywhere, since they would break out. Inside SVG/MathML `title`, `style`, `script` and `noscript`, it omits comments and PIs that contain the element's end tag and flattens element children to text.\n4. Boil the ocean: fix server-side sanitizers as per [the transition-risk notes](https://github.com/zcorpan/foreign-rawtext-compat-11397#transition-risk-for-stored-and-server-side-sanitized-content), using the serializer mode (step 3) where it helps.\n5. Ship it in one browser (Firefox).\n6. Land the spec PR, implement in other browsers.\n\nThis was discussed at WHATNOT: @mfreed7 said Chromium would be willing to follow if I did the boiling, and @annevk wasn't sure it was worth it but also didn't want to stand in the way (please correct if needed).\n",
+    "author_association": "MEMBER",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/7017950358/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
   }
 ]

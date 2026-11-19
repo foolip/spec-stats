@@ -139,5 +139,52 @@
     },
     "performed_via_github_app": null,
     "minimized": null
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/7016500145",
+    "html_url": "https://github.com/whatwg/html/issues/13176#issuecomment-7016500145",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/13176",
+    "id": 7016500145,
+    "node_id": "IC_kwDOALaj488AAAABojdLsQ",
+    "user": {
+      "login": "LeaVerou",
+      "id": 175836,
+      "node_id": "MDQ6VXNlcjE3NTgzNg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/175836?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/LeaVerou",
+      "html_url": "https://github.com/LeaVerou",
+      "followers_url": "https://api.github.com/users/LeaVerou/followers",
+      "following_url": "https://api.github.com/users/LeaVerou/following{/other_user}",
+      "gists_url": "https://api.github.com/users/LeaVerou/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/LeaVerou/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/LeaVerou/subscriptions",
+      "organizations_url": "https://api.github.com/users/LeaVerou/orgs",
+      "repos_url": "https://api.github.com/users/LeaVerou/repos",
+      "events_url": "https://api.github.com/users/LeaVerou/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/LeaVerou/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-19T17:17:24Z",
+    "updated_at": "2026-11-19T18:04:22Z",
+    "body": "Is this something that should be solved in HTML? The OP states that often authors use the same placeholder across multiple images, the placeholder is effectively presentational, and even the syntax of the proposed attribute is CSS. CSS syntax in an HTML attribute not explicitly framed around CSS tends to be an architectural smell.\n\nAnd if we lean more heavily into CSS, it has all the primitives that the use case needs!\nThis works across browsers:\n\n```css\nimg {\n\tcontent: url(\"placeholder.png\");\n}\n```\n\nWhat we _don't_ have is a way to only target the image when it is still loading. But that's useful even _outside_ of placeholders, and has already been [proposed](https://github.com/w3c/csswg-drafts/issues/7467) and [accepted](https://github.com/w3c/csswg-drafts/issues/7467#issuecomment-3492573205) by the CSS WG.\n\nAnd for placeholders that are specific to the element, authors could always use an ad hoc attribute and `attr()`. The benefit of a standard attribute is that it doesn't require double handshakes so it composes better, but I'm not sure composability around this is a huge need.\n\nAnd if it later turns out that we do want an actual official attribute, all we need is adding this to the UA stylesheet:\n\n```css\nimg[preview]:loading {\n\tcontent: attr(preview type(<image>));\n}\n```\n\nCSS includes primitives that get you all of the stated goals:\n- Colors: `image(<color>)` (and gradients too!)\n- Responsive image selection: `image-set()`\n- Transitions via `cross-fade()`\n- The light/dark case can just use `light-dark(<image>, <image>)` instead of the duplicate markup in the explainer\n- Fetching hints can be done via `url()` modifiers https://github.com/w3c/csswg-drafts/issues/1603\n\nAlso, the proposed pseudo-elements seem like a more complex and more overfit solution to the same use cases that `@image` was [proposed](https://github.com/w3c/csswg-drafts/issues/6807) to solve (also [accepted](https://github.com/w3c/csswg-drafts/issues/6807#issuecomment-1248380039) by the WG)",
+    "author_association": "MEMBER",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/7016500145/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
   }
 ]

@@ -366,5 +366,51 @@
     },
     "performed_via_github_app": null,
     "minimized": null
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/7011599660",
+    "html_url": "https://github.com/whatwg/html/pull/12890#issuecomment-7011599660",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/12890",
+    "id": 7011599660,
+    "node_id": "IC_kwDOALaj488AAAABoeyFLA",
+    "user": {
+      "login": "noamr",
+      "id": 88566,
+      "node_id": "MDQ6VXNlcjg4NTY2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88566?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/noamr",
+      "html_url": "https://github.com/noamr",
+      "followers_url": "https://api.github.com/users/noamr/followers",
+      "following_url": "https://api.github.com/users/noamr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/noamr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/noamr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/noamr/subscriptions",
+      "organizations_url": "https://api.github.com/users/noamr/orgs",
+      "repos_url": "https://api.github.com/users/noamr/repos",
+      "events_url": "https://api.github.com/users/noamr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/noamr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-19T14:13:13Z",
+    "updated_at": "2026-11-19T14:13:13Z",
+    "body": "> @noamr I rebased this onto main and force-pushed, since it had conflicts. The only conflict was with `navigable`, which main now binds as a variable; your fix for it had already landed there. On top of that I added a [fixup](https://github.com/whatwg/html/commit/708a4fc1748c41b42cd64f3914904dccd1a3d159):\r\n> \r\n> * The navigation start time is now set in one place: an If/Otherwise right after window's associated Document is set. `loadTimingInfo` is created where main creates it. No behavior change.\r\n> * The XXX box now links to \"supplied with a response\" and to a follow-up issue I filed for object/embed/multipart timing: [Navigation timing for object, embed, and multipart/x-mixed-replace documents #13285](https://github.com/whatwg/html/issues/13285).\r\n> \r\n> Separately, Fetch only sets full timing info when the request's destination is \"document\", so \"extract full timing info\" asserts for iframe navigations. That's already the case on main. [whatwg/fetch#1975](https://github.com/whatwg/fetch/pull/1975) fixes that.\r\n> \r\n> One question for the checklist: do you know whether Chromium and Gecko create a navigation timing entry for `about:srcdoc` and `javascript:` URL documents? The draft WPT in [web-platform-tests/wpt#65457](https://github.com/web-platform-tests/wpt/pull/65457) tests this, so its CI results should also tell us.\r\n\r\nThanks for rebasing and cleaning that up! The fixup looks good to me.\r\nChecking the CI results on web-platform-tests/wpt#65457:\r\n- Chromium creates the navigation timing entry for both `about:srcdoc` and `javascript:` URL documents (both subtests pass).\r\n- Gecko also creates the entry for both (`entries.length === 1`), though it fails the `entry.name` assertion because it returns `\"document\"` instead of `\"about:srcdoc\"` / `\"about:blank\"`.\r\n- WebKit does not create an entry for either (`entries.length === 0`).",
+    "author_association": "CONTRIBUTOR",
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/7011599660/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
   }
 ]
