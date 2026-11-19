@@ -47,7 +47,13 @@
 
 <header class="site">
   <div class="wrap">
-    <a class="brand" href="./">spec-stats</a>
+    <a class="brand" href="./"
+      ><svg class="logo" viewBox="0 0 100 100" aria-hidden="true"
+        ><circle cx="50" cy="50" r="45" fill="none" stroke-width="10" /><path
+          d="M27,57h12v16h-12zM44,43h12v30h-12zM61,29h12v44h-12z"
+        /></svg
+      >spec-stats</a
+    >
     <p class="tagline">How the WHATWG’s Living Standards are maintained, from public GitHub data.</p>
   </div>
 </header>

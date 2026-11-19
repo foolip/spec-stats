@@ -362,3 +362,10 @@ Chart series colours are a validated categorical palette, not the header
 links' colours, which aren't chosen to be told apart in charts. The
 WHATWG logo isn't used: spec-stats isn't a WHATWG site, and shouldn't
 look like one.
+
+The site's icon, `web/public/favicon.svg`, is drawn the way the WHATWG's
+spec logos are (`resources.whatwg.org/logo-*.svg`): a 100×100 viewBox, a
+white circle (r=45) with a 10-wide `#3c790a` ring, and one solid green
+glyph, here three rising bars. It's an icon of the same family, not the
+WHATWG logo itself. The header shows it before the site's name, inline
+and drawn in `--accent`, so dark mode gets the lighter green.
