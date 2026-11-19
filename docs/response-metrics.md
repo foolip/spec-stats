@@ -269,6 +269,213 @@ as censored, as if they might still be merged, which overstates
 merging. The cohort shares ("merged within 30 days") don't have that
 problem.
 
+## PR time to merge: which number to track
+
+The question (2026-11-19): what number about PR merge times goes down
+in the month editor attention improves, and back up in the month it
+lapses, without moving long before or after? And is the median the
+most robust choice?
+
+Seven ways of attributing time to merge to a month were compared, on the
+data and on a simulation where the true change is known.
+
+| Metric | A month's value |
+|---|---|
+| **Merge-month median** | median age at merge of the PRs merged that month. The industry convention: DORA's lead time for changes, and cycle time in most PR dashboards |
+| **Cohort median** | Kaplan–Meier median time to merge of the PRs that became ready that month |
+| **Cohort share** | share of the PRs that became ready that month merged within 30 days |
+| **Period median** | median of a synthetic cohort that meets, at every age, the merge rates seen that month (below) |
+| **Period share** | the same synthetic cohort's share merged within 30 days, with closes without merging as a competing outcome |
+| **Open-age median** | median age of the PRs open and ready at the month's end |
+| **Little's law** | mean number of PRs open and ready over the month, divided by merges per day |
+
+**Period** is the life-table method that demographers use for period
+life expectancy:
+
+- Age bands are 0–1, 1–2, 2–4, 4–7, 7–14, 14–30, 30–60, 60–90, 90–180,
+  180–365 and 365–730 days, and over 730.
+- For each band, count the merges in the month of PRs at that age, and
+  divide by the PR-days that open, ready PRs spent at that age during
+  the month: an occurrence/exposure rate.
+- Chain those rates into a survival curve and read off the median or the
+  share merged by 30 days. With closes without merging as a competing
+  outcome, that share is the Aalen–Johansen cumulative incidence.
+
+Every PR open in the month contributes to that month's value, and only
+to it, whenever it was opened. Nothing is revised later.
+
+### Simulation
+
+The simulation runs 48 months:
+
+- About 1 PR a day becomes ready, about whatwg/html's rate.
+- 70% are easy (merge rate 1/3 a day) and 30% hard (1/120 a day). A few
+  are closed without merging.
+- **Step:** merge rates are multiplied by 3 in months 24–29.
+- **Sweep:** in month 24 only, every PR older than 60 days is merged, a
+  backlog clean-up.
+
+Means of 40 runs:
+
+| Step: merge rates ×3 in months 24–29 | 22 | 23 | **24** | 25 | 29 | **30** | 31 |
+|---|---|---|---|---|---|---|---|
+| merge-month median (days) | 3.6 | 4.0 | **5.6** | 3.2 | 1.3 | **2.5** | 2.7 |
+| cohort median | 4.0 | 3.7 | **1.4** | 1.6 | 1.3 | **4.5** | 3.7 |
+| cohort share ≤30 d | 76% | 82% | **87%** | 87% | 82% | **75%** | 80% |
+| period median | 4.0 | 4.1 | **1.4** | 1.7 | 1.3 | **4.4** | 4.1 |
+| period share ≤30 d | 77% | 77% | **88%** | 87% | 86% | **74%** | 78% |
+| open-age median | 76 | 74 | **68** | 46 | 27 | **28** | 40 |
+| Little's law | 37 | 39 | **19** | 16 | 13 | **22** | 25 |
+
+| Sweep: PRs over 60 days merged in month 24 | 23 | **24** | 25 | 26 |
+|---|---|---|---|---|
+| merge-month median (days) | 4.0 | **43.5** | 2.8 | 3.0 |
+| cohort and period medians, shares ≤30 d | unchanged | **unchanged** | unchanged | unchanged |
+| period mean, capped at 365 days | 35 | **16** | 55 | 52 |
+| open-age median | 74 | **20** | 29 | 41 |
+| Little's law | 37 | **10** | 21 | 27 |
+
+How each metric behaved:
+
+- **The merge-month median moves the wrong way.**
+  - In the month attention improves, editors also merge the old PRs
+    waiting for them, so it rises: 4.0 to 5.6 days, and to 43.5 in the
+    sweep.
+  - Once attention lapses, the PRs still being merged are the quick
+    ones, so it looks *better*: 2.5 days in month 30, against about 3.7
+    before.
+  - The data shows the same in whatwg/html in April 2026. Editors merged
+    12 PRs, from 216 that were open and ready, the fewest in 2026, and
+    8 of the 12 were under a week old. The merge-month median was
+    2.2 days, among the best months, while the period share merged
+    within 30 days was 34%, among the worst.
+  - It's the conventional metric, and this is its known survivorship
+    flaw: it only sees PRs that got merged.
+- **The period metrics move in the month and only then.** The period
+  median goes 4.1, 1.4, …, 1.3, 4.4, and the period share 77%, 88%, …,
+  86%, 74%.
+- **The cohort metrics nearly do.** The cohort share moved a month
+  early: the cohort of month 23 got 82%, because those PRs were still
+  waiting when the change came. That lead grows with the threshold: up
+  to 30 days for "within 30 days". A cohort's value is also provisional
+  until its PRs have had 30 days, and the median until half of them
+  merge. That never happens in some whatwg/html months.
+- **The stock-based metrics lag.** The open-age median takes months to
+  fall and months to recover. Little's law falls in the month but
+  recovers over months, as the backlog builds up again. Both are in
+  effect a measure of the backlog, which does change slowly.
+- **No median or share at 30 days sees a backlog sweep.** Merging PRs
+  older than 60 days doesn't change how a typical PR is treated. A mean
+  capped at 365 days sees it, but rebounds after (55 in month 25,
+  against 35). The rates at old ages come from few PRs, and the PRs that
+  reach those ages depend on the past. Demographers call these selection
+  effects; the short-threshold shares showed none. The backlog side is
+  better shown by a stock: open PRs waiting more than 30 or 90 days. That
+  count drops in the month of a sweep and only grows back as PRs age.
+
+### Is the median robust?
+
+Not here. A median is robust to outliers, but how precise it is depends
+on how many items fall near it, and WHATWG's merge times are spread out
+almost evenly on a log scale.
+
+PRs ready since 2022, by time to merge:
+
+| | <1 h | 1–6 h | 6–24 h | 1–2 d | 2–4 d | 4–7 d | 7–14 d | 14–30 d | 30–90 d | 90–365 d | >1 y | not merged |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| whatwg/html | 6% | 8% | 11% | 6% | 7% | 7% | 7% | 7% | 6% | 5% | 1% | 29% |
+| all but html | 21% | 10% | 14% | 6% | 8% | 5% | 5% | 4% | 4% | 4% | 1% | 20% |
+
+What that means for a median:
+
+- For whatwg/html, about 7% of PRs fall in each doubling of time from
+  1 day to 30 days, and the median is about 10 days, in the middle of
+  that range.
+- In a month of about 30 PRs, the share merged by any given time has a
+  sampling error of about √(0.25/30), 9 points. That's more than one
+  doubling, so a monthly median can be off by a factor of 2 to 3.
+- Where fewer than half the PRs merge, the median is undefined (some
+  whatwg/html months).
+
+A share at a fixed threshold has the same 9-point error, but in the unit
+it's read in. Measured as roughness (the median month-to-month change,
+relative to the series' median), from 2022-04 to 2026-10:
+
+| | html, 30-day window | html, 91-day | all but html, 30-day | all but html, 91-day |
+|---|---|---|---|---|
+| merge-month median | 62% | 29% | 120% | 21% |
+| cohort median | 139% | 25% | 118% | 33% |
+| period median | 110% | 31% | 166% | 43% |
+| cohort share ≤30 d | 18% | 6% | 12% | 4% |
+| period share ≤30 d | 20% | 7% | 18% | 5% |
+| period mean ≤365 d | 37% | 12% | 59% | 20% |
+| Little's law | 28% | 10% | 30% | 12% |
+
+Shares are 3 to 14 times steadier than medians. Averaged over the
+months, the period share matches the cohort share: 60–61% against 60%
+for whatwg/html, and 72–74% against 71–72% for the rest. Treating
+closes without merging as merely leaving the count, instead of as a
+competing outcome, put it 4 to 7 points higher.
+
+### Conventional or proven
+
+- **The conventional software metric** is the median (or mean) time to
+  merge, by the month of the merge: DORA's lead time, most cycle-time
+  dashboards, and `github/issue-metrics`' time to close. It's widely
+  used, but it fails the test above, in both directions.
+- **The proven method for this property** is the period life table: age-
+  specific occurrence/exposure rates over a calendar period, combined
+  into a synthetic cohort, with competing risks where there's more than
+  one outcome. National statistics offices publish period life
+  expectancy every year for this reason: it reflects that year's
+  conditions without waiting for a generation to die out, and isn't
+  revised later. It's standard in demography, actuarial work and
+  survival analysis (the piecewise-exponential model). It isn't common
+  in software dashboards, and I haven't found one that uses it.
+- **Little's law** (flow time = work in progress / throughput) is the
+  queueing and Kanban convention. It's exact over long periods, but over
+  a month it mostly reflects the backlog.
+
+### Recommendation
+
+- **Headline:** the period share of PRs merged within N days, at the
+  trailing window's merge rates, with closes without merging as a
+  competing outcome. Shown as the share *not* merged within N days, it's
+  a number that goes down when attention improves.
+  - It moved in exactly the simulated months.
+  - It's 3 to 14 times steadier than any median.
+  - It's defined even when fewer than half the PRs merge, and it's final
+    the day the window ends.
+  - With the site's default 91-day window, sampling error for
+    whatwg/html is roughly ±5 points. A 28-day window responds within
+    the month at about ±9 points. Small
+    repos need the 364-day window.
+- **N:** a threshold near the typical PR's merge time is the most
+  sensitive. 7 days (whatwg/html 45%, the rest 64%) or 30 days (60% and
+  73%).
+- **Companion stock:** open PRs waiting more than 30 or 90 days, from
+  the open PRs view. It's the one that sees backlog clean-ups.
+- **Secondary:** the period median, in the hover or table, with the
+  91-day or longer window only.
+- **For history:** cohort shares by month or quarter ready, as tables
+  ("of the PRs ready in 2024-Q1, 62% were merged within 30 days"),
+  marked provisional until the cohort has had N days.
+- **Not:** the merge-month median, despite the convention.
+
+Time to merge also depends on more than editors: implementer interest,
+tests and authors' revisions all add to it. For editor attention alone,
+time to first response (metric 1) or time from a push to the next review
+is closer, and the same period method applies to them.
+
+What the browser needs is per PR: when the clock started, when it ended,
+and how (merged, closed or open). That's the item attributes already
+proposed below. A daily series is a pass over about 3,900 PRs and 12 age
+bands per day of the window, which should fit the in-memory design
+(`docs/site-design.md`); that's still to be checked in the browser.
+
+The scripts are in the session's scratchpad (`prmerge.py`, `simavg.py`,
+`cif.py`), not the repo.
+
 ## Proposal
 
 For the maintainer to decide; the open questions are in the last list.
@@ -330,8 +537,10 @@ by activity rather than a field or label the WHATWG doesn't use.
   - No plain median, since half the issues are open. A Kaplan–Meier
     median only where more than half are resolved, and "over N days"
     otherwise.
-- **PRs:** from ready for review, the shares merged, closed unmerged and
-  still open, 7 and 30 days after the clock started, by cohort.
+- **PRs:** from ready for review, the period share not merged within
+  N days, with closes as a competing outcome, as the headline ("PR time
+  to merge", above); cohort shares merged, closed unmerged and still open
+  7 and 30 days after the clock started, for tables of history.
   - This shows both outcomes without survival estimates that treat
     abandoned PRs as "still might merge".
   - Split by the opener's role: outside contributors' PRs are merged far
