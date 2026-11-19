@@ -576,6 +576,31 @@ month" or "per week". A smooth 13-week rolling area was tried instead.
 It lines up with the daily line just as well, but the split bars read
 better when they're wide enough.
 
+**Splitting the open-PRs line (mock-ups, 2026-11-19).** As a stacked
+area, the open PRs need a split that doesn't change on its own. Age
+bands would: a PR moves up a band just by waiting, so the layers shift
+with nothing having happened. Two splits were tried, each reconstructed
+for every day since 2022. The end counts match the PRs open now.
+
+- **Review state**, from top to bottom:
+  - draft;
+  - no response yet;
+  - discussed, no verdict;
+  - changes requested (the author's move);
+  - approved, not merged.
+
+  A verdict is each reviewer's latest approval or change request.
+  whatwg/html went from 10 PRs with no response yet on 2022-01-01 to 63
+  now, and from 27 approved but not merged to 61. It shows whose move
+  each PR is waiting on.
+- **Year opened** (a layer cake): opened before 2022, 2022–2023, 2024,
+  2025, 2026. A layer only shrinks once its years are over, so clearing
+  old PRs shows directly. The 137 PRs open at the start of 2022 are down
+  to 70.
+
+Both use a blue ordinal ramp, so they can't be mixed up with the merge
+bars' greens, and drafts are hatched.
+
 **What the bar's height measures.** In the step simulation (merge rates
 tripled in months 24–29, about 30 PRs ready a month), merges went from
 29 a month to 43 in month 24 and 37 in month 25. By month 27 they were
