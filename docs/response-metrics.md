@@ -527,6 +527,55 @@ worse, the other better. If one number is still wanted, the capped mean
 is the honest single exchange rate, and the choice of cap should be
 recorded in the decisions log.
 
+### Merges per period, by age when merged
+
+A simpler option (2026-11-19): count the PRs merged each week or month,
+with each bar split by how long after ready for review they were merged
+(within 7 days, 8–90 days, over 90 days), and the number of PRs that
+became ready drawn as a line.
+
+- It's a flow, so it's counted in the period the work was done, as cosh
+  does, with nothing provisional.
+- Old and new work each get a colour, so time spent on old PRs shows as
+  more dark green, not as a worse number.
+
+whatwg/html since 2022 merges about 22 PRs a month (6 a week; 4 of the
+last 52 weeks had none) against about 30 becoming ready:
+
+| Merged | Share of merges |
+|---|---|
+| within 7 days | 63% |
+| 8–90 days | 28% |
+| over 90 days | 9% |
+
+**What the bar's height measures.** In the step simulation (merge rates
+tripled in months 24–29, about 30 PRs ready a month), merges went from
+29 a month to 43 in month 24 and 37 in month 25. By month 27 they were
+back to 31, while editors were still three times as fast. When the
+speed-up ended they fell to 23, then recovered.
+
+When PRs don't wait long, merges can't exceed the PRs coming in, so the
+height mostly measures demand. It shows a *change* in attention as a
+one-off pulse while the backlog drains or builds, not its level.
+
+The colours carry the level:
+
+- Merges within 7 days went from 64% to 75% of the total and stayed
+  there while the speed-up lasted.
+- Merges over 90 days drained to about 1 a month, because few old PRs
+  were left.
+
+So the chart reads well as a picture of the work:
+
+- what got merged;
+- how old it was;
+- against the line, whether merges keep up with PRs becoming ready.
+
+As a single metric of attention it's weaker than the shares above, and
+it shouldn't be reduced to "% of merges that were fresh". That's a
+merge-month figure, and clearing old PRs pushes it the wrong way, as
+with the merge-month median.
+
 ### Recommendation
 
 - **Headline:** the period share of PRs merged within N days, at the
