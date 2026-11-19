@@ -22,7 +22,6 @@
   const repos = $derived(selectedRepos(view.repo, data.repos.name));
   const series = $derived(total(byRepo, repos, data.days));
   const [start, end] = $derived(rangeDays(view.range, ctx));
-  const drafts = $derived(view.drafts === "include");
 
   // Open PRs by the year they were opened, oldest at the bottom.
   const cohorts = $derived(yearCohorts(data));
@@ -32,7 +31,7 @@
       const values = new Int32Array(data.days);
       for (const r of repos) {
         const s = byCohort[r][g];
-        for (let d = 0; d < data.days; d++) values[d] += s.ready[d] + (drafts ? s.draft[d] : 0);
+        for (let d = 0; d < data.days; d++) values[d] += s.ready[d] + s.draft[d];
       }
       return { label, values, color: `var(--cohort-${g})` };
     }),
@@ -58,7 +57,7 @@
   const merged = $derived(mergeCounts.reduce((s, c) => s + c.reduce((a, b) => a + b, 0), 0));
   const UNIT = { week: "ISO week", month: "month", quarter: "quarter" } as const;
 
-  const open = (s: { ready: Int32Array; draft: Int32Array }, d: number) => s.ready[d] + (drafts ? s.draft[d] : 0);
+  const open = (s: { ready: Int32Array; draft: Int32Array }, d: number) => s.ready[d] + s.draft[d];
   const now = $derived(open(series, end));
   const change = $derived(now - open(series, start));
 
@@ -130,11 +129,6 @@
       onchange={(r) => navigate({ ...view, repo: r })}
     />
     <RangePicker range={view.range} {ctx} onchange={(r) => navigate({ ...view, range: r })} />
-    <label class="check">
-      <input type="checkbox" checked={drafts}
-        onchange={(e) => navigate({ ...view, drafts: e.currentTarget.checked ? "include" : "exclude" })} />
-      Include drafts
-    </label>
     <button type="button" class="copy" title="Copy a link to this view, with its dates fixed" onclick={copyLink}>
       <span class:hidden={copied}>Copy link</span>
       <span class:hidden={!copied} aria-hidden={!copied}>Link copied</span>
@@ -146,7 +140,7 @@
     <div class="tile">
       <div class="tile-label">Open on {longDate(dateOf(data.from, end))}</div>
       <div class="tile-value">{num(now)}</div>
-      {#if drafts}<div class="tile-note">{num(series.draft[end])} of them drafts</div>{/if}
+      <div class="tile-note">{num(series.draft[end])} of them drafts</div>
     </div>
     <div class="tile">
       <div class="tile-label">Change since {longDate(dateOf(data.from, start))}</div>
@@ -177,7 +171,7 @@
             <th scope="col">Date</th>
             {#each [...layers].reverse() as l (l.label)}<th scope="col">{l.label}</th>{/each}
             <th scope="col">Open</th>
-            {#if drafts}<th scope="col">Of them drafts</th>{/if}
+            <th scope="col">Of them drafts</th>
           </tr>
         </thead>
         <tbody>
@@ -186,7 +180,7 @@
               <td>{longDate(m.date)}</td>
               {#each [...m.values].reverse() as v, k (k)}<td>{num(v)}</td>{/each}
               <td>{num(m.total)}</td>
-              {#if drafts}<td>{num(m.draft)}</td>{/if}
+              <td>{num(m.draft)}</td>
             </tr>
           {/each}
         </tbody>
@@ -235,7 +229,7 @@
         <tr>
           <th scope="col">Spec</th>
           <th scope="col" class="n">Open</th>
-          {#if drafts}<th scope="col" class="n">Drafts</th>{/if}
+          <th scope="col" class="n">Drafts</th>
           <th scope="col" class="n">Change</th>
           <th scope="col" class="bar-col"><span class="visually-hidden">Open, as a bar</span></th>
         </tr>
@@ -248,7 +242,7 @@
                 onclick={() => navigate({ ...view, repo: row.name })}>{row.standard}</button>
             </th>
             <td class="n">{num(row.open)}</td>
-            {#if drafts}<td class="n muted">{num(row.draft)}</td>{/if}
+            <td class="n muted">{num(row.draft)}</td>
             <td class="n" class:up={row.change > 0} class:down={row.change < 0}>{signed(row.change)}</td>
             <td class="bar-col"><span class="bar" style:width="{(row.open / maxOpen) * 100}%"></span></td>
           </tr>

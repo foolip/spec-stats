@@ -173,6 +173,7 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-19 | **The build publishes `merged` events and two item columns, `created` and `hours_to_merge`**. This supersedes "No `merged` event type" (2026-11-18): `closed` still ends a PR's open span, and `merged` changes no state | Needed for the two charts above. Hours, not days, because "within 1 day" needs hours. The data file grows from 115 KB to 183 KB |
 | 2026-11-19 | **Age is one green in both charts, light for new and darker with age**, in light and dark mode alike: the year-opened layers (current year lightest) and the merge bands (within 1 day lightest). It replaces the blue ramp for the layers, and the dark-mode merge bands are flipped to match | Maintainer's choice: new things are light green and darken with age. One meaning for lightness across the view; both ramps pass the ordinal-ramp checks (monotone lightness, visible steps, the end nearest the page at least 2:1) on both backgrounds |
 | 2026-11-19 | **The header shows the site icon from `web/public/favicon.svg` (an `<img>`), not an inline copy of its paths** | One source for the icon; it keeps its white circle in dark mode, where the inline copy had no fill and lost it |
+| 2026-11-19 | **No "Include drafts" control**: drafts are always counted among the open PRs, with how many are drafts in the tiles and tables; the `drafts` URL parameter is gone, and old links with it are read without it | Maintainer's instruction |
 
 ## Status
 
