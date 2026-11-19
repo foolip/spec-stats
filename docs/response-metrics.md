@@ -548,6 +548,20 @@ last 52 weeks had none) against about 30 becoming ready:
 | 8–90 days | 28% |
 | over 90 days | 9% |
 
+**Evenly sized buckets.** For whatwg/html's 1,310 merges since 2022,
+the thirds break at 22.8 hours and 8.9 days after ready for review.
+
+| Breaks | Within the first | Between | After the second |
+|---|---|---|---|
+| 1 day and 10 days | 34% | 34% | 32% |
+| 1 day and 7 days | 34% | 29% | 37% |
+
+1 and 10 days is the most even split with round breaks; 1 and 7 days
+is easier to explain. The thirds move from year to year: the first
+break between 17 hours and 1.3 days, the second between 6.2 and
+12.9 days. Four even buckets would break at 12.8 hours, 3.1 days and
+16.5 days.
+
 **What the bar's height measures.** In the step simulation (merge rates
 tripled in months 24–29, about 30 PRs ready a month), merges went from
 29 a month to 43 in month 24 and 37 in month 25. By month 27 they were
