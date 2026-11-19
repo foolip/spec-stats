@@ -10,7 +10,7 @@
   "review_comments_url": "https://api.github.com/repos/whatwg/html/pulls/13281/comments",
   "review_comment_url": "https://api.github.com/repos/whatwg/html/pulls/comments{/number}",
   "comments_url": "https://api.github.com/repos/whatwg/html/issues/13281/comments",
-  "statuses_url": "https://api.github.com/repos/whatwg/html/statuses/e6adc69af4b4dc3e3c4b2fc413ee323c10071bd9",
+  "statuses_url": "https://api.github.com/repos/whatwg/html/statuses/66805df15a97ea6148ae3fbf434502496bd740d7",
   "number": 13281,
   "state": "open",
   "locked": false,
@@ -36,12 +36,12 @@
     "user_view_type": "public",
     "site_admin": false
   },
-  "body": "focus() now only scrolls the element into view when the focus actually moves. This matches implementations, which don't scroll when focus() is called on the element that already has focus.\n\nFixes #4512.\n\n- [x] At least two implementers are interested (and none opposed):\n   * All engines except Servo behave like this\n- [x] [Tests](https://github.com/web-platform-tests/wpt) are written and can be reviewed and commented upon at:\n   * https://github.com/web-platform-tests/wpt/pull/65371\n- [x] [Implementation bugs](https://github.com/whatwg/meta/blob/main/MAINTAINERS.md#handling-pull-requests) are filed:\n   * Servo: https://github.com/servo/servo/issues/50033\n- [x] [MDN issue](https://github.com/whatwg/meta/blob/main/MAINTAINERS.md#handling-pull-requests) is filed:\n   * This is a corner case and matches web engines, so no need for a change\n- [x] The top of this comment includes a [clear commit message](https://github.com/whatwg/meta/blob/main/COMMITTING.md) to use.\n\n\n<!--\n    This comment and the below content is programmatically generated.\n    You may add a comma-separated list of anchors you'd like a\n    direct link to below (e.g. #idl-serializers, #idl-sequence):\n\n    Don't remove this comment or modify anything below this line.\n    If you don't want a preview generated for this pull request,\n    just replace the whole of this comment's content by \"no preview\"\n    and remove what's below.\n-->\n***\n<a href=\"https://whatpr.org/html/13281/interaction.html\" title=\"Last updated on Nov 18, 2026, 12:54 PM UTC (e6adc69)\">/interaction.html</a>  ( <a href=\"https://whatpr.org/html/13281/823898c...e6adc69/interaction.html\" title=\"Last updated on Nov 18, 2026, 12:54 PM UTC (e6adc69)\">diff</a> )",
+  "body": "focus() now only scrolls the element into view and indicates focus when the focus actually moves. This matches implementations, which neither scroll nor change the focus indication (e.g., :focus-visible) when focus() is called on the element that already has focus, whatever the preventScroll and focusVisible options are.\n\nFor a shadow host that delegates focus, \"get the focusable area\" now returns the currently focused area itself instead of its DOM anchor, so that the check also matches when that area is not an element, e.g., a scrollable region.\n\nFixes #4512.\n\n- [x] At least two implementers are interested (and none opposed):\n   * All engines except Servo behave like this\n- [x] [Tests](https://github.com/web-platform-tests/wpt) are written and can be reviewed and commented upon at:\n   * https://github.com/web-platform-tests/wpt/pull/65371\n- [x] [Implementation bugs](https://github.com/whatwg/meta/blob/main/MAINTAINERS.md#handling-pull-requests) are filed:\n   * Servo: https://github.com/servo/servo/issues/50033\n- [x] [MDN issue](https://github.com/whatwg/meta/blob/main/MAINTAINERS.md#handling-pull-requests) is filed:\n   * This is a corner case and matches web engines, so no need for a change\n- [x] The top of this comment includes a [clear commit message](https://github.com/whatwg/meta/blob/main/COMMITTING.md) to use.\n\n\n<!--\n    This comment and the below content is programmatically generated.\n    You may add a comma-separated list of anchors you'd like a\n    direct link to below (e.g. #idl-serializers, #idl-sequence):\n\n    Don't remove this comment or modify anything below this line.\n    If you don't want a preview generated for this pull request,\n    just replace the whole of this comment's content by \"no preview\"\n    and remove what's below.\n-->\n***\n<a href=\"https://whatpr.org/html/13281/interaction.html\" title=\"Last updated on Nov 19, 2026, 7:56 AM UTC (66805df)\">/interaction.html</a>  ( <a href=\"https://whatpr.org/html/13281/823898c...66805df/interaction.html\" title=\"Last updated on Nov 19, 2026, 7:56 AM UTC (66805df)\">diff</a> )",
   "labels": [],
   "milestone": null,
   "active_lock_reason": null,
   "created_at": "2026-11-18T12:51:34Z",
-  "updated_at": "2026-11-18T22:14:50Z",
+  "updated_at": "2026-11-19T07:56:43Z",
   "closed_at": null,
   "merged_at": null,
   "assignees": [],
@@ -101,7 +101,7 @@
       "has_pages": false,
       "has_discussions": false,
       "has_pull_requests": true,
-      "pushed_at": "2026-11-18T12:47:37Z",
+      "pushed_at": "2026-11-19T07:51:33Z",
       "created_at": "2021-02-25T11:03:30Z",
       "updated_at": "2023-08-14T18:07:48Z",
       "allow_forking": true,
@@ -158,7 +158,7 @@
       "hooks_url": "https://api.github.com/repos/mrego/html/hooks",
       "svn_url": "https://github.com/mrego/html"
     },
-    "sha": "e6adc69af4b4dc3e3c4b2fc413ee323c10071bd9",
+    "sha": "66805df15a97ea6148ae3fbf434502496bd740d7",
     "user": {
       "login": "mrego",
       "id": 11602,
@@ -234,9 +234,9 @@
       "stargazers_count": 9459,
       "watchers_count": 9459,
       "watchers": 9459,
-      "open_issues_count": 2782,
-      "open_issues": 2782,
-      "size": 1350926,
+      "open_issues_count": 2785,
+      "open_issues": 2785,
+      "size": 1354772,
       "default_branch": "main",
       "has_issues": true,
       "has_projects": false,
@@ -244,7 +244,7 @@
       "has_pages": false,
       "has_discussions": false,
       "has_pull_requests": true,
-      "pushed_at": "2026-11-17T20:11:19Z",
+      "pushed_at": "2026-11-19T11:14:16Z",
       "created_at": "2013-08-08T06:26:07Z",
       "updated_at": "2026-11-19T02:48:05Z",
       "allow_forking": true,
@@ -332,7 +332,7 @@
       "href": "https://api.github.com/repos/whatwg/html/pulls/13281/commits"
     },
     "statuses": {
-      "href": "https://api.github.com/repos/whatwg/html/statuses/e6adc69af4b4dc3e3c4b2fc413ee323c10071bd9"
+      "href": "https://api.github.com/repos/whatwg/html/statuses/66805df15a97ea6148ae3fbf434502496bd740d7"
     },
     "html": {
       "href": "https://github.com/whatwg/html/pull/13281"
@@ -358,11 +358,11 @@
   "rebaseable": true,
   "mergeable_state": "blocked",
   "merged_by": null,
-  "comments": 3,
+  "comments": 4,
   "review_comments": 0,
   "maintainer_can_modify": true,
   "commits": 1,
-  "additions": 17,
-  "deletions": 12,
+  "additions": 30,
+  "deletions": 24,
   "changed_files": 1
 }
