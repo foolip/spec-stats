@@ -231,6 +231,9 @@ removed on 2026-11-14 (decisions log); its last version is at commit
    prototype's catalog: PRs touched (split by size) instead of raw review
    counts, review sessions, sign-offs (`APPROVED` or
    LGTM), unquoted words.
+   Response times and triage: `docs/response-metrics.md` (research,
+   2026-11-19) compares published definitions, measures them on the
+   data and proposes three metrics, with open questions to decide.
 
 ## Dashboard ideas
 
