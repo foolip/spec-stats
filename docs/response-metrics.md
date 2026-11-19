@@ -436,6 +436,97 @@ competing outcome, put it 4 to 7 points higher.
   queueing and Kanban convention. It's exact over long periods, but over
   a month it mostly reflects the backlog.
 
+### Old PRs against new
+
+The share merged within N days only uses merge rates at ages under
+N days. So it gives no credit for merging a PR older than that, and it
+counts against time taken from new PRs to work on old ones. Is that a
+problem, or what it should do?
+
+**This kind of target has a known failure.** The NHS in England
+measured hospitals by the share of patients treated within 18 weeks.
+
+- That rewarded treating patients who could still make the threshold
+  over those who had already missed it.
+- A threshold analysis (Quinn et al., BMJ Quality & Safety, 2023) found
+  treatments bunched just before 18 weeks, with a drop just after.
+- Hospitals met the target with long tails behind it.
+- The fix was a second figure for the longest waits (52 weeks), and in
+  2015 the targets themselves were scrapped for these perverse
+  incentives.
+- An average-wait measure was considered as a replacement, which would
+  push the other way, toward the longest waits first.
+
+**Simulation, "divert":** in months 24–29, editors spend their attention
+on old PRs. PRs under 30 days old are merged at half the rate, and those
+over 60 days at 4 times the rate. Means of 40 runs:
+
+| Month | 23 | 24 | 25 | 29 | 30 | 31 |
+|---|---|---|---|---|---|---|
+| merges (of which over 90 days old) | 29 (4) | 37 (11) | 33 (5) | 30 (2) | 32 (1) | 28 (2) |
+| not merged within 30 days (period) | 23% | 28% | 26% | 27% | 17% | 25% |
+| open PRs over 90 days old | 15 | 7 | 4 | 2 | 4 | 7 |
+| merges per open PR per month, all ages | 0.84 | 1.18 | 1.22 | 1.25 | 1.35 | 1.07 |
+| period mean, capped at 365 days | 36 | 27 | 27 | 30 | 32 | 44 |
+
+- **Only the share counts the diversion against editors:** about 5
+  points worse.
+- **The backlog count only credits it:** 15 to 2.
+- **The all-age merge rate and the capped mean net the two.** They come
+  out better here, because 4 times the rate on old PRs outweighs half on
+  new ones.
+- Month 30's 17% is a transient. The new PRs that waited during the
+  diversion include more easy ones, so the rate looks high for a month.
+
+**In the data there's no sign of a trade-off.** Clearing old PRs is a
+small part of the work. whatwg/html merges a median of 2 PRs over
+90 days old a month, against 19 newer ones. Over 57 months:
+
+- Months with more old-PR merges don't have fewer newer merges: Spearman
+  +0.08 for whatwg/html, +0.15 for the rest.
+- They don't treat new PRs worse either: +0.19 and −0.11 against the
+  share not merged within 30 days.
+- None of these is significant: with 57 months, that needs about ±0.26.
+
+So far, attention to old and to new PRs hasn't come at each other's
+expense.
+
+**Whether to favour new PRs is a policy choice, not a statistical one.**
+
+For new PRs first:
+
+- the author is still there and the context is fresh;
+- a quick merge or review is what keeps contributors coming back;
+- the period share already doesn't move when old PRs are cleared.
+
+For old PRs:
+
+- many are normative changes waiting on implementer interest, where
+  merging is high-value work;
+- a figure that never credits them makes that work invisible;
+- once a PR is past N days, the share gives no reason to ever merge it.
+
+Any single number has to pick an exchange rate between the two:
+
+- The share within N days values only PRs under N days old.
+- The all-age merge rate weighs every day a PR waits equally. It's
+  mostly the size of the old backlog, much of it blocked on others.
+- The capped mean weighs every day up to a year equally. It's noisier
+  (12% roughness at 91 days for whatwg/html, against 7%) and rebounds
+  after changes.
+
+**Proposal:** don't collapse it into one number. Show two figures that
+each answer one question, as the NHS ended up doing:
+
+- "Are new PRs handled promptly?": the share not merged within N days.
+- "Is the old backlog shrinking?": open PRs waiting more than 90 days,
+  or more than a year.
+
+Shown side by side, a diversion looks like what it is: one figure
+worse, the other better. If one number is still wanted, the capped mean
+is the honest single exchange rate, and the choice of cap should be
+recorded in the decisions log.
+
 ### Recommendation
 
 - **Headline:** the period share of PRs merged within N days, at the
@@ -453,8 +544,10 @@ competing outcome, put it 4 to 7 points higher.
 - **N:** a threshold near the typical PR's merge time is the most
   sensitive. 7 days (whatwg/html 45%, the rest 64%) or 30 days (60% and
   73%).
-- **Companion stock:** open PRs waiting more than 30 or 90 days, from
-  the open PRs view. It's the one that sees backlog clean-ups.
+- **Companion stock, always shown with it:** open PRs waiting more than
+  90 days (or a year), from the open PRs view. It's the one that sees
+  backlog clean-ups, and without it the headline rewards ignoring old PRs
+  ("Old PRs against new", above).
 - **Secondary:** the period median, in the hover or table, with the
   91-day or longer window only.
 - **For history:** cohort shares by month or quarter ready, as tables
@@ -474,7 +567,7 @@ bands per day of the window, which should fit the in-memory design
 (`docs/site-design.md`); that's still to be checked in the browser.
 
 The scripts are in the session's scratchpad (`prmerge.py`, `simavg.py`,
-`cif.py`), not the repo.
+`cif.py`, `divert.py`), not the repo.
 
 ## Proposal
 
@@ -597,3 +690,7 @@ wanted. With the 7-day threshold as the headline, days may be enough.
 - [Mozilla: Triage for Bugzilla](https://firefox-source-docs.mozilla.org/bug-mgmt/policies/triage-bugzilla.html).
 - [Rust Forge: issue triaging](https://forge.rust-lang.org/release/issue-triaging.html).
 - [cosh](https://github.com/RByers/cosh) README.
+- Quinn et al., [Unintended consequences of the 18-week referral to treatment standard in NHS England: a threshold analysis](https://research.birmingham.ac.uk/en/publications/unintended-consequences-of-the-18-week-referral-to-treatment-stan/), BMJ Quality & Safety, 2023;
+  [Nuffield Trust: the growing problem of treatment waiting times](https://www.nuffieldtrust.org.uk/news-item/the-growing-problem-of-treatment-waiting-times);
+  [Full Fact: the perverse results of the 18-week wait](https://straightstatistics.fullfact.org/article/perverse-results-18-week-wait);
+  [BMJ: hospital treatment targets have been simplified](https://www.bmj.com/content/350/bmj.h3090.full) (2015).
