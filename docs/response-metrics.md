@@ -562,6 +562,20 @@ break between 17 hours and 1.3 days, the second between 6.2 and
 12.9 days. Four even buckets would break at 12.8 hours, 3.1 days and
 16.5 days.
 
+**Presentation (mock-ups, 2026-11-19).** The bars sit under the
+open-PRs line, sharing its time axis and date range: two panels, not one
+chart with two y-axes. Each bin is the smallest calendar period that
+keeps a bar at least 8 px wide at the chart's width:
+
+- months for the whole window since 2022 (59 bars, about 12 px each);
+- ISO weeks for a year or less (52 bars, about 13 px);
+- quarters for anything wider than months allow.
+
+The current period is shaded as partial, and the y-axis says "per
+month" or "per week". A smooth 13-week rolling area was tried instead.
+It lines up with the daily line just as well, but the split bars read
+better when they're wide enough.
+
 **What the bar's height measures.** In the step simulation (merge rates
 tripled in months 24–29, about 30 PRs ready a month), merges went from
 29 a month to 43 in month 24 and 37 in month 25. By month 27 they were
