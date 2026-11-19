@@ -5,7 +5,14 @@ export interface RawData {
   meta: { from: string; to: string };
   event_types: string[];
   repos: { name: string[]; standard: string[] };
-  items: { repo: number[]; number: number[] };
+  items: {
+    repo: number[];
+    number: number[];
+    /** Day of the PR's created_at, from meta.from; negative before the window. */
+    created: number[];
+    /** Hours from ready for review to merge, for PRs merged in the window. */
+    hours_to_merge: (number | null)[];
+  };
   events: { day: number[]; item: number[]; event: number[] };
 }
 
@@ -17,7 +24,7 @@ export interface Data {
   days: number;
   eventTypes: string[];
   repos: { name: string[]; standard: string[] };
-  items: { repo: Int32Array; number: Int32Array };
+  items: { repo: Int32Array; number: Int32Array; created: Int32Array; hoursToMerge: Float64Array };
   events: { day: Int32Array; item: Int32Array; event: Int32Array };
 }
 
@@ -48,7 +55,13 @@ export function fromRaw(raw: RawData): Data {
     days: dayOf(raw.meta.from, raw.meta.to) + 1,
     eventTypes: raw.event_types,
     repos: raw.repos,
-    items: { repo: Int32Array.from(raw.items.repo), number: Int32Array.from(raw.items.number) },
+    items: {
+      repo: Int32Array.from(raw.items.repo),
+      number: Int32Array.from(raw.items.number),
+      created: Int32Array.from(raw.items.created),
+      // NaN for PRs not merged in the window.
+      hoursToMerge: Float64Array.from(raw.items.hours_to_merge, (h) => h ?? NaN),
+    },
     events: {
       day: Int32Array.from(raw.events.day),
       item: Int32Array.from(raw.events.item),

@@ -7,8 +7,8 @@ from public data, following [cosh](https://github.com/RByers/cosh)
 
 **For now it only collects data:** a serial, incremental extractor
 mirrors the GitHub activity of the WHATWG repos into `data/github/`. The
-site has one view so far, open PRs over time (`web/`, published to GitHub
-Pages). A first dashboard
+site has one view so far, open PRs over time by year opened, with the
+PRs merged each week or month below (`web/`, published to GitHub Pages). A first dashboard
 (Maintenance load) and its pipeline were drafted and then removed until the
 data is in; they're in git at `10edb66` (`specstats/derive.py`,
 `specstats/summarize.py`, `web/`, `docs/maintenance-load.md`). Ideas for

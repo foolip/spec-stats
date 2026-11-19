@@ -4,15 +4,17 @@
 
   {"meta": {"from": "2022-01-01", "to": "2026-11-17"},
    "event_types": ["_carried_in", "_carried_in_as_draft", "_created", "_created_as_draft",
-                   "closed", "reopened", "convert_to_draft", "ready_for_review"],
+                   "closed", "reopened", "convert_to_draft", "ready_for_review", "merged"],
    "repos":  {"name": ["dom", ...], "standard": ["DOM", ...]},
-   "items":  {"repo": [0, ...], "number": [1234, ...]},
+   "items":  {"repo": [0, ...], "number": [1234, ...], "created": [-412, ...],
+              "hours_to_merge": [null, 30.25, ...]},
    "events": {"day": [0, ...], "item": [0, ...], "event": [0, ...]}}
 
 Each table is stored by column. `items.repo` is an index into `repos`,
 `events.item` into `items`, `events.event` into `event_types`, and
-`events.day` counts UTC days from `meta.from` (day 0). Events are sorted
-by day, then item, then time.
+`events.day` and `items.created` count UTC days from `meta.from` (day 0);
+`created` is the day of the PR's `created_at`, negative for a PR opened
+before the window. Events are sorted by day, then item, then time.
 
 This first version holds what open PRs over time needs: PRs only, and
 the events that open and close them and make them drafts or ready for
@@ -23,8 +25,12 @@ reconcile's start (`items.rows`) if newer: every run lists every repo,
 so that's when the data was last complete. Nothing before it is published: a PR already
 open when it starts gets `_carried_in` on day 0, worked out from its
 events before then. `_created` comes from the PR's `created_at`, as
-GitHub has no event for it. A merge is a `closed` event too, so there's
-no `merged`.
+GitHub has no event for it. A merge is a `closed` event too, which is
+what ends a PR's open span; `merged` (from the PR's `merged_at`) is there
+for counting merges, and doesn't change its state. `items.hours_to_merge`
+is the time from the PR being ready for review (created, or its first
+`ready_for_review` if it was created as a draft) to its merge, in hours,
+for PRs merged in the window, and null for the rest.
 
 Draft status is a second state alongside open or closed, with GitHub's
 `convert_to_draft` and `ready_for_review`. GitHub has no event for a PR
@@ -50,7 +56,7 @@ from pathlib import Path
 from . import extract, paths, sgdb
 
 EVENT_TYPES = ["_carried_in", "_carried_in_as_draft", "_created", "_created_as_draft",
-               "closed", "reopened", "convert_to_draft", "ready_for_review"]
+               "closed", "reopened", "convert_to_draft", "ready_for_review", "merged"]
 LIFECYCLE = ("closed", "reopened")
 DRAFT = ("convert_to_draft", "ready_for_review")
 
@@ -61,6 +67,10 @@ def out_path():
 
 def _day(ts):
     return datetime.date.fromisoformat(ts[:10])
+
+
+def _time(ts):
+    return datetime.datetime.fromisoformat(ts.replace("Z", "+00:00"))
 
 
 def listed(store):
@@ -128,6 +138,9 @@ def item_events(obj, pull, events, start, end, fixes):
     if created >= end:
         return []
     changes, draft = transitions(obj, pull, events, fixes)
+    merged_at = (obj.get("pull_request") or {}).get("merged_at")
+    if merged_at:
+        changes = sorted(changes + [(merged_at, "merged")], key=lambda t: t[0])
     is_open = True
     out = []
 
@@ -149,6 +162,10 @@ def item_events(obj, pull, events, start, end, fixes):
         if not carried and day >= start:
             carry_in()
             carried = True
+        if kind == "merged":
+            if day >= start:
+                out.append((day, kind))
+            continue
         if kind in LIFECYCLE:
             if is_open == (kind == "reopened"):
                 continue  # closed twice, or reopened while open
@@ -164,6 +181,22 @@ def item_events(obj, pull, events, start, end, fixes):
     if all(kind == "_carried_in_as_draft" for _, kind in out):
         return []  # a draft, but closed for the whole window
     return [((d - start).days, kind) for d, kind in out]
+
+
+def hours_to_merge(obj, pull, events, fixes):
+    """Hours from the PR being ready for review to its merge: from
+    `created_at`, or from its first `ready_for_review` if it was created
+    as a draft."""
+    changes, draft_at_creation = transitions(obj, pull, events, {})
+    ready = obj["created_at"]
+    if draft_at_creation:
+        first = next((at for at, kind in changes if kind == "ready_for_review"), None)
+        if first is None:
+            _fix(fixes, "merged while a draft: hours to merge from `created_at`")
+        else:
+            ready = first
+    hours = (_time(obj["pull_request"]["merged_at"]) - _time(ready)).total_seconds() / 3600
+    return round(max(hours, 0.0), 2)
 
 
 def build(root=None, standards=None, updated_since=None, log=print):
@@ -190,7 +223,7 @@ def build(root=None, standards=None, updated_since=None, log=print):
     to = end - datetime.timedelta(days=1)
 
     repos = {"name": [], "standard": []}
-    items = {"repo": [], "number": []}
+    items = {"repo": [], "number": [], "created": [], "hours_to_merge": []}
     rows = []
     fixes = {}
     for r, (repo, store) in enumerate(stores.items()):
@@ -206,6 +239,11 @@ def build(root=None, standards=None, updated_since=None, log=print):
             i = len(items["number"])
             items["repo"].append(r)
             items["number"].append(number)
+            items["created"].append((_day(obj["created_at"]) - start).days)
+            merged = any(kind == "merged" for _, kind in evs)
+            items["hours_to_merge"].append(hours_to_merge(obj, store.get("pulls", number),
+                                                          store.get("issues", number, "events", []), fixes)
+                                           if merged else None)
             # In time order within a day too: closed, then reopened, the same day.
             rows.extend((day, i, k, EVENT_TYPES.index(kind)) for k, (day, kind) in enumerate(evs))
     rows.sort()
