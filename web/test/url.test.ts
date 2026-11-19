@@ -12,7 +12,10 @@ test("the default view is the empty query string", () => {
 test("a view round-trips through the URL", () => {
   const search = "?repo=html&from=2024-01-01&to=2026-11-17&drafts=exclude";
   assert.equal(serialize(parse(search, ctx)), search);
-  assert.equal(serialize(parse("?repo=dom&range=1y", ctx)), "?repo=dom&range=1y");
+  assert.equal(serialize(parse("?repo=dom&range=all", ctx)), "?repo=dom&range=all");
+  // The default range, the last year, is left out.
+  assert.deepEqual(parse("?repo=dom", ctx).range, { preset: "1y" });
+  assert.equal(serialize(parse("?repo=dom&range=1y", ctx)), "?repo=dom");
 });
 
 test("unknown and invalid parameters are dropped", () => {

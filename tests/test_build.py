@@ -62,12 +62,18 @@ class BuildTest(TempDirs):
         self.assertEqual(data["meta"], {"from": "2024-06-01", "to": "2025-03-31"})
         self.assertEqual(data["event_types"], ["_carried_in", "_carried_in_as_draft", "_created",
                                                "_created_as_draft", "closed", "reopened",
-                                               "convert_to_draft", "ready_for_review"])
+                                               "convert_to_draft", "ready_for_review", "merged"])
         self.assertEqual(data["repos"], {"name": ["dom"], "standard": ["DOM"]})
-        self.assertEqual(data["items"], {"repo": [0] * 7, "number": [2, 3, 10, 12, 13, 14, 16]})
+        self.assertEqual(data["items"], {
+            "repo": [0] * 7, "number": [2, 3, 10, 12, 13, 14, 16],
+            "created": [day(d) for d in ("2025-02-01", "2025-03-01", "2024-01-01", "2023-01-01",
+                                         "2025-01-01", "2025-03-15", "2025-02-01")],
+            # #2 merged 9 days after it was created, #3 one day after.
+            "hours_to_merge": [216.0, 24.0, None, None, None, None, None]})
+        self.assertLess(data["items"]["created"][3], 0)  # opened before the window
         self.assertEqual(self.events(data), {
-            2: [(day("2025-02-01"), "_created"), (day("2025-02-10"), "closed")],
-            3: [(day("2025-03-01"), "_created"), (day("2025-03-02"), "closed")],
+            2: [(day("2025-02-01"), "_created"), (day("2025-02-10"), "closed"), (day("2025-02-10"), "merged")],
+            3: [(day("2025-03-01"), "_created"), (day("2025-03-02"), "closed"), (day("2025-03-02"), "merged")],
             10: [(0, "_carried_in"), (day("2025-01-15"), "closed")],
             12: [(0, "_carried_in")],
             13: [(day("2025-01-01"), "_created"), (day("2025-01-02"), "closed"),
@@ -112,6 +118,22 @@ class BuildTest(TempDirs):
         self.assertEqual(ev[13], [(0, "_carried_in"), (0, "_carried_in_as_draft"),
                                   (day("2025-02-01"), "ready_for_review")])
         self.assertEqual(ev[14], [(0, "_carried_in_as_draft"), (day("2025-02-01"), "reopened")])
+        self.assertEqual(logs, [])
+
+    def test_hours_to_merge_count_from_ready_for_review(self):
+        gh = populated()
+        # Created as a draft, ready 2 days later, merged 6 hours after that.
+        gh.add_issue(10, "2025-01-01T00:00:00Z", is_pr=True, draft_ready_at="2025-01-03T00:00:00Z",
+                     merged_at="2025-01-03T06:00:00Z", merged_by="ed")
+        # Merged before the window ended, but created before it started.
+        gh.add_issue(11, "2024-05-01T12:00:00Z", is_pr=True, merged_at="2025-01-01T12:00:00Z", merged_by="ed")
+        self.sync(gh)
+        data, logs = self.build()
+        items = data["items"]
+        hours = dict(zip(items["number"], items["hours_to_merge"]))
+        self.assertEqual(hours[10], 6.0)
+        self.assertEqual(hours[11], 245 * 24.0)
+        self.assertEqual(self.events(data)[10][-1], (day("2025-01-03"), "merged"))
         self.assertEqual(logs, [])
 
     def test_the_items_own_state_wins(self):

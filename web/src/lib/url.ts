@@ -11,7 +11,7 @@ export type View = (typeof VIEWS)[number];
 export const PRESETS = ["all", "3y", "1y", "6m", "3m"] as const;
 export type Preset = (typeof PRESETS)[number];
 
-export const DRAFTS = ["stack", "exclude"] as const;
+export const DRAFTS = ["include", "exclude"] as const;
 export type Drafts = (typeof DRAFTS)[number];
 
 export type Range = { preset: Preset } | { from: string; to: string };
@@ -25,11 +25,13 @@ export interface State {
   drafts: Drafts;
 }
 
+const DEFAULT_PRESET: Preset = "1y";
+
 export const DEFAULT: State = {
   view: "open-prs",
   repo: null,
-  range: { preset: "all" },
-  drafts: "stack",
+  range: { preset: DEFAULT_PRESET },
+  drafts: "include",
 };
 
 /** What a query string is checked against. */
@@ -60,7 +62,7 @@ export function parse(search: string, ctx: Context): State {
   const range: Range =
     from !== null || to !== null
       ? { from: from ?? ctx.from, to: to ?? ctx.to }
-      : { preset: oneOf(PRESETS, q.get("range"), "all") };
+      : { preset: oneOf(PRESETS, q.get("range"), DEFAULT_PRESET) };
   if ("from" in range && range.from > range.to) return parse(withoutRange(q), ctx);
   return {
     view: oneOf(VIEWS, q.get("view"), DEFAULT.view),
@@ -83,7 +85,7 @@ export function serialize(state: State): string {
   if (state.view !== DEFAULT.view) q.set("view", state.view);
   if (state.repo !== null) q.set("repo", state.repo);
   if ("preset" in state.range) {
-    if (state.range.preset !== "all") q.set("range", state.range.preset);
+    if (state.range.preset !== DEFAULT_PRESET) q.set("range", state.range.preset);
   } else {
     q.set("from", state.range.from);
     q.set("to", state.range.to);

@@ -71,9 +71,11 @@ a time as later metrics need them:
   pages show HTML rather than html.
 - **event_types**: `_carried_in`, `_carried_in_as_draft`, `_created`,
   `_created_as_draft`, `closed`, `reopened`, `convert_to_draft`,
-  `ready_for_review`. No `merged`: GitHub records a `closed` event on
-  every merge too (all 154 merged whatwg/dom PRs have both), so `closed`
-  alone ends a PR's open span.
+  `ready_for_review`, `merged`.
+  - GitHub records a `closed` event on every merge too (all 154 merged
+    whatwg/dom PRs have both), so `closed` alone ends a PR's open span.
+  - `merged` (since 2026-11-19, from the PR's `merged_at`) is there for
+    counting merges and changes no state.
   - **Drafts** are a second state alongside open or closed, so a page can
     show open PRs with the drafts among them. GitHub's `convert_to_draft`
     and `ready_for_review` change it. GitHub has no event for a PR
@@ -87,8 +89,18 @@ a time as later metrics need them:
   - The open count is a sum over the open/closed events; open drafts need
     each PR's open and draft state replayed, as a draft can be closed
     without becoming ready.
-- **items**, PRs only: repo, and number (for links and for checking a
-  count against GitHub).
+- **items**, PRs only:
+  - repo, and number (for links and for checking a count against
+    GitHub);
+  - `created`: the day of `created_at`, counted from `meta.from`, so
+    negative for a PR opened before the window;
+  - `hours_to_merge`: hours from ready for review to merge, for PRs
+    merged in the window, and null for the rest. Ready for review means
+    created, or the first `ready_for_review` for a PR created as a
+    draft.
+
+  The last two were added on 2026-11-19, for open PRs by year opened and
+  merges by time to merge.
 - **events**: day, item, event, sorted by day, item and time (a PR
   reopened and closed on one day has both, in that order). Only changes of state
   are published (a second `closed` without a `reopened` between is left
@@ -262,7 +274,7 @@ it back.
 
 ```
 /?repo=html&from=2024-01-01&to=2026-11-17&drafts=exclude
-/?repo=dom&range=1y
+/?repo=dom&range=all
 ```
 
 `web/src/lib/url.ts` parses and writes it. The parameters so far:
@@ -271,9 +283,9 @@ it back.
 |---|---|---|
 | `view` | `open-prs` | `open-prs` |
 | `repo` | one repo's name, `html` | all |
-| `range` | `3y`, `1y`, `6m`, `3m`, counted back from the window's end | `all` |
+| `range` | `all`, `3y`, `1y`, `6m`, `3m`, counted back from the window's end | `1y` |
 | `from`, `to` | `YYYY-MM-DD`, clamped to the window; replace `range` | |
-| `drafts` | `stack` (drafts shown on top), `exclude` (left out) | `stack` |
+| `drafts` | `include` (counted), `exclude` (left out) | `include` |
 
 - **Defaults are left out**, so `/?view=open-prs` is a whole link.
 - **Changing a control** replaces the history entry (`replaceState`), so
@@ -291,10 +303,49 @@ it back.
 - Repos in the URL are their `name` (`html`), not indexes, as indexes
   change when repos are added.
 
+### The open PRs view
+
+Since 2026-11-19 the view has two charts, one above the other on the
+same time axis, over the last year by default:
+
+- **Open PRs at the end of each day, by year opened.** A stacked area,
+  oldest at the bottom: one layer for each of the last five calendar
+  years, and one for every PR opened before them ("before 2022"). A layer
+  only shrinks once its year is over, so clearing old PRs shows as its
+  layer thinning. "Include drafts" counts drafts in the layers or leaves
+  them out; they're no longer a layer of their own.
+- **PRs merged per period, by time from ready for review to merge.**
+  Stacked bars:
+  - The split is within 1 day, 1–10 days, and more than 10 days, stacked
+    slowest at the bottom, so the fastest (lightest) is on top as the
+    newest year is in the chart above. For
+    whatwg/html's 1,310 merges since 2022 those breaks give near thirds:
+    34%, 34% and 32% (`docs/response-metrics.md`).
+  - Each bar is a calendar period: the smallest of ISO week, month or
+    quarter that keeps every bar at least 8 px wide. That's ISO weeks
+    for a year at desktop widths, months for the whole window or on a
+    phone.
+  - Periods the range cuts short (the current week, or a range starting
+    mid-week) are shaded and marked "partial".
+
+Both charts show age the same way: one green, light for new and darker
+with age, in light and dark mode alike. That covers the year-opened
+layers (the current year lightest) and the merge bands (within 1 day
+lightest). Each ramp is validated as an ordinal ramp against the page
+in both modes (`--cohort-*`, `--age-*` in `app.css`).
+
 ### Charts
 
 Hand-written SVG components, using `d3-scale` and `d3-shape` for scales,
-ticks and paths; no chart library. About 1,800 daily points a series is
+ticks and paths; no chart library.
+
+- **Lines and areas use `curveMonotoneX`.** It passes through every
+  day's value and never overshoots, so the chart rounds corners without
+  smoothing the data.
+- **One time axis for charts shown together.** `StackedArea` and
+  `StackedBars` share their margins (`web/src/lib/chart.ts`). The axis
+  runs from the start of the first day to the end of the last, each
+  day's value sits at its middle, and a bar covers its whole days. About 1,800 daily points a series is
 well within what SVG draws smoothly, and owning the markup gives full
 control of type, colour and axes. What a library would have given is
 ours to build and test:

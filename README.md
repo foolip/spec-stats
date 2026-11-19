@@ -7,8 +7,8 @@ from public data, following [cosh](https://github.com/RByers/cosh)
 
 **For now it only collects data:** a serial, incremental extractor
 mirrors the GitHub activity of the WHATWG repos into `data/github/`. The
-site has one view so far, open PRs over time (`web/`, published to GitHub
-Pages). A first dashboard
+site has one view so far, open PRs over time by year opened, with the
+PRs merged each week or month below (`web/`, published to GitHub Pages). A first dashboard
 (Maintenance load) and its pipeline were drafted and then removed until the
 data is in; they're in git at `10edb66` (`specstats/derive.py`,
 `specstats/summarize.py`, `web/`, `docs/maintenance-load.md`). Ideas for
@@ -106,3 +106,4 @@ hour's budget takes several runs, one an hour.
 - [`docs/plan.md`](docs/plan.md): goal, ground rules, decisions log, status and next steps.
 - [`docs/extraction.md`](docs/extraction.md): what is fetched, how daily updates work, and the consistency checks.
 - [`docs/site-design.md`](docs/site-design.md): how the dashboards will be built: published tables, data in the browser, time and metrics.
+- [`docs/response-metrics.md`](docs/response-metrics.md): research on triage, first-response and resolution metrics, with a proposal.

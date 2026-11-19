@@ -2,7 +2,8 @@
   // A stacked area chart of daily values, with a crosshair and tooltip
   // (pointer and keyboard) and direct labels at the right edge.
   import { scaleLinear, scaleUtc } from "d3-scale";
-  import { area as d3area, line as d3line } from "d3-shape";
+  import { area as d3area, curveMonotoneX, line as d3line } from "d3-shape";
+  import { margins } from "../lib/chart.ts";
   import { dateOf, parseDate } from "../lib/data.ts";
   import { longDate, num } from "../lib/format.ts";
 
@@ -30,15 +31,18 @@
   let width = $state(720);
   let hover = $state<number | null>(null);
 
-  const M = $derived({ top: 12, right: width < 520 ? 84 : 112, bottom: 28, left: 40 });
+  const M = $derived(margins(width));
   const days = $derived(Array.from({ length: end - start + 1 }, (_, k) => start + k));
   const tops = $derived(
     layers.map((_, l) => days.map((d) => layers.slice(0, l + 1).reduce((s, layer) => s + layer.values[d], 0))),
   );
   const totals = $derived(tops.at(-1) ?? []);
+  // The axis runs from the start of the first day to the end of the last,
+  // and each day's value sits at its middle, so bars of whole days
+  // (StackedBars) line up with it.
   const x = $derived(
     scaleUtc()
-      .domain([parseDate(dateOf(from, start)), parseDate(dateOf(from, end))])
+      .domain([parseDate(dateOf(from, start)), parseDate(dateOf(from, end + 1))])
       .range([M.left, Math.max(M.left + 1, width - M.right)]),
   );
   const y = $derived(
@@ -47,10 +51,11 @@
       .nice(5)
       .range([height - M.bottom, M.top]),
   );
-  const xAt = (d: number) => x(parseDate(dateOf(from, d)));
+  const xAt = (d: number) => x(parseDate(dateOf(from, d)) + 43_200_000);
   const paths = $derived(
     layers.map((_, l) =>
       d3area<number>()
+        .curve(curveMonotoneX)
         .x((_, k) => xAt(days[k]))
         .y0((_, k) => y(l === 0 ? 0 : tops[l - 1][k]))
         .y1((_, k) => y(tops[l][k]))(days) ?? "",
@@ -58,6 +63,7 @@
   );
   const outline = $derived(
     d3line<number>()
+      .curve(curveMonotoneX)
       .x((_, k) => xAt(days[k]))
       .y((t) => y(t))(totals) ?? "",
   );
@@ -84,7 +90,7 @@
   function onPointer(e: PointerEvent) {
     const rect = (e.currentTarget as SVGElement).getBoundingClientRect();
     const t = x.invert(e.clientX - rect.left).getTime();
-    const d = Math.round((t - parseDate(from)) / 86_400_000);
+    const d = Math.floor((t - parseDate(from)) / 86_400_000);
     hover = Math.min(end, Math.max(start, d));
   }
 
@@ -164,7 +170,7 @@
       <div class="tt-date">{longDate(dateOf(from, hover))}</div>
       <table>
         <tbody>
-          {#each [...layers].reverse() as layer (layer.label)}
+          {#each [...layers].reverse().filter((l) => layers.length <= 2 || l.values[hover!] > 0) as layer (layer.label)}
             <tr>
               <th scope="row"><span class="swatch" style:background={layer.color}></span>{layer.label}</th>
               <td>{num(layer.values[hover])}</td>
