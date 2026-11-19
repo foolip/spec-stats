@@ -451,9 +451,9 @@ measured hospitals by the share of patients treated within 18 weeks.
 - A threshold analysis (Quinn et al., BMJ Quality & Safety, 2023) found
   treatments bunched just before 18 weeks, with a drop just after.
 - Hospitals met the target with long tails behind it.
-- The fix was a second figure for the longest waits (52 weeks), and in
-  2015 the targets themselves were scrapped for these perverse
-  incentives.
+- A backstop target for the longest waits (52 weeks) was added. In
+  2015, some of the 18-week targets were dropped as perverse
+  incentives (BMJ: "simplified").
 - An average-wait measure was considered as a replacement, which would
   push the other way, toward the longest waits first.
 
