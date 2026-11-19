@@ -598,6 +598,16 @@ for every day since 2022. The end counts match the PRs open now.
   old PRs shows directly. The 137 PRs open at the start of 2022 are down
   to 70.
 
+- **Age bands that move** (tried at the maintainer's request): under
+  1 year on top, then 1–2, 2–3, 3–4 and 4–5 years, and 5 years or more
+  at the bottom, recomputed every day.
+  - The right edge matches the histogram of open PRs by age.
+  - The bottom band grew from 5 PRs to 69 only because PRs passed
+    5 years old without being closed, not because anything happened to
+    them.
+  - Each band's change is PRs ageing into it minus PRs ageing out or
+    closed.
+
 Both use a blue ordinal ramp, so they can't be mixed up with the merge
 bars' greens, and drafts are hatched.
 
