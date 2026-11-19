@@ -326,9 +326,11 @@ same time axis, over the last year by default:
   - Periods the range cuts short (the current week, or a range starting
     mid-week) are shaded and marked "partial".
 
-Blue for the year-opened layers and green for the merge bands: each is
-one hue in steps, light to dark, validated as an ordinal ramp against
-the page in light and dark mode (`--cohort-*`, `--age-*` in `app.css`).
+Both charts show age the same way: one green, light for new and darker
+with age, in light and dark mode alike. That covers the year-opened
+layers (the current year lightest) and the merge bands (within 1 day
+lightest). Each ramp is validated as an ordinal ramp against the page
+in both modes (`--cohort-*`, `--age-*` in `app.css`).
 
 ### Charts
 
