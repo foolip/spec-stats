@@ -316,7 +316,9 @@ same time axis, over the last year by default:
   them out; they're no longer a layer of their own.
 - **PRs merged per period, by time from ready for review to merge.**
   Stacked bars:
-  - The split is within 1 day, 1–10 days, and more than 10 days. For
+  - The split is within 1 day, 1–10 days, and more than 10 days, stacked
+    slowest at the bottom, so the fastest (lightest) is on top as the
+    newest year is in the chart above. For
     whatwg/html's 1,310 merges since 2022 those breaks give near thirds:
     34%, 34% and 32% (`docs/response-metrics.md`).
   - Each bar is a calendar period: the smallest of ISO week, month or

@@ -105,7 +105,8 @@
   function valueText(j: number): string {
     const p = periods[j];
     if (!p) return "";
-    return `${name(p)}${p.partial ? " (partial)" : ""}: ${num(totals[j])} merged; ${layers
+    return `${name(p)}${p.partial ? " (partial)" : ""}: ${num(totals[j])} merged; ${[...layers]
+      .reverse()
       .map((l) => `${num(l.values[j])} ${l.label}`)
       .join(", ")}`;
   }

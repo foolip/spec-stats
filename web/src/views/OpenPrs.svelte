@@ -48,9 +48,13 @@
   const bin = $derived(chooseBin(data.from, start, end, plotWidth));
   const mergePeriods = $derived(periods(data.from, start, end, bin));
   const mergeCounts = $derived(mergesByPeriod(data, repos, mergePeriods));
-  const mergeLayers: BarLayer[] = $derived(
+  // Fastest first, for the legend and the table; stacked the other way,
+  // so the slowest is at the bottom and the fastest (lightest) on top, as
+  // the open PRs' newest layer is.
+  const mergeBands: BarLayer[] = $derived(
     BAND_LABELS.map((label, k) => ({ label, values: mergeCounts.map((c) => c[k]), color: `var(--age-${k})` })),
   );
+  const mergeLayers = $derived([...mergeBands].reverse());
   const merged = $derived(mergeCounts.reduce((s, c) => s + c.reduce((a, b) => a + b, 0), 0));
   const UNIT = { week: "ISO week", month: "month", quarter: "quarter" } as const;
 
@@ -194,7 +198,7 @@
     <div class="panel-head">
       <h2>PRs merged per {UNIT[bin]}, by time from ready for review to merge</h2>
       <ul class="legend">
-        {#each mergeLayers as l (l.label)}
+        {#each mergeBands as l (l.label)}
           <li><span class="swatch" style:background={l.color}></span>{l.label}</li>
         {/each}
       </ul>
@@ -207,7 +211,7 @@
         <thead>
           <tr>
             <th scope="col">{UNIT[bin][0].toUpperCase() + UNIT[bin].slice(1)}</th>
-            {#each mergeLayers as l (l.label)}<th scope="col">{l.label}</th>{/each}
+            {#each mergeBands as l (l.label)}<th scope="col">{l.label}</th>{/each}
             <th scope="col">Merged</th>
           </tr>
         </thead>
