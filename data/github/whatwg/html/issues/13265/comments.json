@@ -1,0 +1,48 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/6982734168",
+    "html_url": "https://github.com/whatwg/html/pull/13265#issuecomment-6982734168",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/13265",
+    "id": 6982734168,
+    "node_id": "IC_kwDOALaj488AAAABoDQRWA",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-18T15:15:52Z",
+    "updated_at": "2026-11-18T15:15:52Z",
+    "body": "<details>\n<summary>AI feedback</summary>\n\nReviewed at 58e1f06. CI builds, and the PR merges cleanly into main. Engines already behave this way: libxml2 and expat report an empty-element tag as a start event followed by an end event, so WebKit runs `finishParsingChildren()` and Gecko runs `DoneAddingChildren()` for `<video/>`. `<style/>` and `<object/>` still react to their insertion, because they're never on the stack of open elements. The HTML parser has the same gap for normal start tags, so that's now tracked in #13282 and needs nothing here.\n\n**Suggestions**\n\n- Consider spelling out [\"if the parser successfully parsed the entire element\"](https://github.com/JinDX/html/blob/58e1f06a4bafe5631b9a814e5a3be73f0886e68c/source#L153851). It has to exclude two cases: a well-formedness error, and the parser being aborted (abort a parser pops the whole stack, and the XML parser is aborted \"in the same way as for an HTML parser\"). A positive phrasing would be clearer, e.g. \"if that happened because the element's end tag was parsed or because the element is represented by an empty-element tag\".\n- This is a normative change. As written today, `<video src=…/>` never clears its blocked-on-parser flag, so it never fires `loadedmetadata`, and `<script src=…/>` is never prepared. Consider restoring the PR template and adding a WPT test, e.g. an `.xhtml` test where `<video src=…/>` and `<audio src=…/>` fire `loadedmetadata`. Since implementations already match, no implementation bugs are needed.\n\n**Nits**\n\n- [\"after creating the element and performing the corresponding tree operations\"](https://github.com/JinDX/html/blob/58e1f06a4bafe5631b9a814e5a3be73f0886e68c/source#L153803) doesn't say which tree operations. \"immediately after inserting it\" would be more precise.\n- The title's \"XML parser completion\" reads like it's about stop parsing. Maybe \"Finish parsing the children of XML empty-element tags\".\n\n</details>\n",
+    "author_association": "MEMBER",
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/6982734168/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]
