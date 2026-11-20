@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { fromRaw, type RawData } from "../src/lib/data.ts";
-import { chooseBin, mergesByPeriod, periodName, periods } from "../src/lib/merges.ts";
+import { chooseBin, periodName, periods, sampleDays } from "../src/lib/bins.ts";
+import { mergesByPeriod } from "../src/lib/merges.ts";
 
 const FROM = "2022-01-01";
 
@@ -28,11 +29,30 @@ test("periods are ISO weeks, months or quarters, clipped to the range", () => {
   assert.equal(periodName(quarters.at(-1)!, "quarter"), "2026 Q4");
 });
 
+test("days are whole periods, never partial", () => {
+  const days = periods(FROM, 10, 16, "day");
+  assert.equal(days.length, 7);
+  assert.ok(days.every((p, k) => p.start === 10 + k && p.end === p.start && !p.partial));
+  assert.equal(periodName(days[0], "day"), "Tue 11 Jan 2022");
+});
+
+test("a count is drawn on the range's first day and each period's last", () => {
+  // 2022-01-03 is a Monday: days 2–8 are the first whole ISO week.
+  const weeks = periods(FROM, 0, 20, "week");
+  assert.deepEqual(sampleDays(weeks), [0, 1, 8, 15, 20]);
+  // A range starting on a Sunday: its first day is also its first week's last.
+  assert.deepEqual(sampleDays(periods(FROM, 1, 8, "week")), [1, 8]);
+  assert.deepEqual(sampleDays(periods(FROM, 3, 6, "day")), [3, 4, 5, 6]);
+  assert.deepEqual(sampleDays([]), []);
+});
+
 test("the bin is the smallest period that keeps bars wide enough", () => {
   assert.equal(chooseBin(FROM, 1782 - 365, 1781, 560), "week"); // 53 weeks: 10.6 px
   assert.equal(chooseBin(FROM, 1782 - 365, 1781, 400), "month"); // 7.5 px a week
   assert.equal(chooseBin(FROM, 0, 1781, 560), "month"); // 59 months: 9.5 px
   assert.equal(chooseBin(FROM, 0, 1781, 300), "quarter");
+  // Auto never chooses days, however wide: a day's merges are mostly 0 to 3.
+  assert.equal(chooseBin(FROM, 1690, 1781, 2000), "week");
 });
 
 test("merges are counted per period and by time to merge", () => {

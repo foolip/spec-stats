@@ -285,6 +285,7 @@ it back.
 | `repo` | one repo's name, `html` | all |
 | `range` | `all`, `3y`, `1y`, `6m`, `3m`, counted back from the window's end | `1y` |
 | `from`, `to` | `YYYY-MM-DD`, clamped to the window; replace `range` | |
+| `bin` | `day`, `week` (ISO), `month`, `quarter`: the period of the bars, and of the points the open PRs are drawn at | `auto` |
 
 - **Defaults are left out**, so `/?view=open-prs` is a whole link.
 - **Changing a control** replaces the history entry (`replaceState`), so
@@ -307,7 +308,7 @@ it back.
 Since 2026-11-19 the view has two charts, one above the other on the
 same time axis, over the last year by default:
 
-- **Open PRs at the end of each day, by year opened.** A stacked area,
+- **Open PRs at the end of each period, by year opened.** A stacked area,
   oldest at the bottom: one layer for each of the last five calendar
   years, and one for every PR opened before them ("before 2022"). A layer
   only shrinks once its year is over, so clearing old PRs shows as its
@@ -319,12 +320,26 @@ same time axis, over the last year by default:
     newest year is in the chart above. For
     whatwg/html's 1,310 merges since 2022 those breaks give near thirds:
     34%, 34% and 32% (`docs/response-metrics.md`).
-  - Each bar is a calendar period: the smallest of ISO week, month or
-    quarter that keeps every bar at least 8 px wide. That's ISO weeks
-    for a year at desktop widths, months for the whole window or on a
-    phone.
+  - Each bar is a calendar period: a day, an ISO week, a month or a
+    quarter, chosen with the "Per" select (`bin` in the URL).
+  - "Auto", the default, picks the smallest of week, month or quarter
+    that keeps every bar at least 8 px wide: ISO weeks for a year at
+    desktop widths, months for the whole window or on a phone. It never
+    picks days, as a day's merges are mostly 0 to 3; they can be chosen.
+  - Bars only a few pixels wide (days over years) lose the gap between
+    them, so they don't disappear into it.
   - Periods the range cuts short (the current week, or a range starting
-    mid-week) are shaded and marked "partial".
+    mid-week) are shaded and marked "partial". Days are always whole.
+
+The area follows the bars' period (since 2026-11-20): it's drawn
+through the open count on the range's first day and at the end of each
+period, so one point a week, month or quarter, or every day with days.
+That makes it smoother without smoothing the data. Each point is an
+exact count, joined with `curveMonotoneX`. The tooltip still gives every
+day's counts, and the y-scale fits every day, so it doesn't change with
+the period. A burst inside a period (October 2026's batch of 20 PRs from
+one contributor in a week) shows as a rise from one period's end to the
+next.
 
 Both charts show age the same way: one green, light for new and darker
 with age, in light and dark mode alike. That covers the year-opened
@@ -338,7 +353,7 @@ Hand-written SVG components, using `d3-scale` and `d3-shape` for scales,
 ticks and paths; no chart library.
 
 - **Lines and areas use `curveMonotoneX`.** It passes through every
-  day's value and never overshoots, so the chart rounds corners without
+  point drawn and never overshoots, so the chart rounds corners without
   smoothing the data.
 - **One time axis for charts shown together.** `StackedArea` and
   `StackedBars` share their margins (`web/src/lib/chart.ts`). The axis

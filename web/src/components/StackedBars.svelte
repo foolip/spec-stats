@@ -6,7 +6,7 @@
   import { margins } from "../lib/chart.ts";
   import { dateOf, parseDate } from "../lib/data.ts";
   import { longDate, num } from "../lib/format.ts";
-  import type { Period } from "../lib/merges.ts";
+  import type { Period } from "../lib/bins.ts";
 
   export interface BarLayer {
     label: string;
@@ -54,11 +54,15 @@
   const tickFormat = $derived(x.tickFormat());
 
   const GAP = 2;
-  /** Each bar's segments, bottom first; the top one gets rounded corners. */
+  /** Each bar's segments, bottom first; the top one gets rounded corners.
+   * The gap between bars narrows, then goes, for bars only a few pixels
+   * wide (days over years), so they don't vanish into it. */
   const bars = $derived(
     periods.map((p, j) => {
-      const x0 = dayX(p.start) + GAP / 2;
-      const x1 = Math.max(x0 + 1, dayX(p.end + 1) - GAP / 2);
+      const slot = dayX(p.end + 1) - dayX(p.start);
+      const gap = slot >= 6 ? GAP : slot >= 3 ? 1 : 0;
+      const x0 = dayX(p.start) + gap / 2;
+      const x1 = Math.max(x0 + 0.5, dayX(p.end + 1) - gap / 2);
       let base = 0;
       const segs: { d: string; color: string }[] = [];
       const nonzero = layers.map((l, k) => [l, k] as const).filter(([l]) => l.values[j] > 0);

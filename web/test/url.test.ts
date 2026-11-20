@@ -18,6 +18,14 @@ test("a view round-trips through the URL", () => {
   assert.equal(serialize(parse("?repo=dom&range=1y", ctx)), "?repo=dom");
 });
 
+test("the bars' period is in the URL, auto by default", () => {
+  assert.equal(parse("", ctx).bin, "auto");
+  assert.equal(serialize(parse("?bin=quarter", ctx)), "?bin=quarter");
+  assert.equal(serialize(parse("?repo=html&bin=day", ctx)), "?repo=html&bin=day");
+  assert.equal(serialize(parse("?bin=auto", ctx)), "");
+  assert.equal(serialize(parse("?bin=fortnight", ctx)), "");
+});
+
 test("unknown and invalid parameters are dropped", () => {
   assert.equal(serialize(parse("?view=nope&repo=html&range=7y&drafts=maybe&utm_source=x", ctx)), "?repo=html");
   assert.equal(serialize(parse("?repo=nfc", ctx)), "");
