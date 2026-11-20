@@ -1,11 +1,11 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { fromRaw, type RawData } from "../src/lib/data.ts";
+import { fromRaw } from "../src/lib/data.ts";
 import { openByGroup, openByRepo, total, yearCohorts } from "../src/lib/openprs.ts";
+import { encode, shuffled, type Table } from "./helpers.ts";
 
 const TYPES = ["_carried_in", "_carried_in_as_draft", "_created", "_created_as_draft",
   "closed", "reopened", "convert_to_draft", "ready_for_review", "merged"];
-const T = (t: string) => TYPES.indexOf(t);
 
 test("open and draft PRs are counted at the end of each day", () => {
   const events: [number, number, string][] = [
@@ -21,15 +21,15 @@ test("open and draft PRs are counted at the end of each day", () => {
     [6, 1, "closed"],
     [6, 1, "merged"],       // a merge changes nothing beyond its `closed`
   ];
-  const raw: RawData = {
+  const table: Table = {
     meta: { from: "2025-01-01", to: "2025-01-07" },
     event_types: TYPES,
     repos: { name: ["dom", "html"], standard: ["DOM", "HTML"] },
     // #10 opened in 2024, before the window; #20 and #21 in it.
     items: { repo: [0, 1, 1], number: [10, 20, 21], created: [-30, 1, 4], hours_to_merge: [null, 120, null] },
-    events: { day: events.map((e) => e[0]), item: events.map((e) => e[1]), event: events.map((e) => T(e[2])) },
+    events,
   };
-  const data = fromRaw(raw);
+  const data = fromRaw(encode(table));
   assert.equal(data.days, 7);
   const byRepo = openByRepo(data);
   assert.deepEqual([...byRepo[0].ready], [0, 0, 1, 1, 1, 1, 1]);
@@ -50,4 +50,9 @@ test("open and draft PRs are counted at the end of each day", () => {
   assert.deepEqual([...byGroup[1][0].ready], [0, 0, 0, 0, 0, 0, 0]);
   assert.ok(Number.isNaN(data.items.hoursToMerge[0]));
   assert.equal(data.items.hoursToMerge[1], 120);
+
+  // The order of items and events makes no difference.
+  const other = fromRaw(encode(shuffled(table)));
+  assert.deepEqual(openByRepo(other), byRepo);
+  assert.deepEqual(openByGroup(other, yearCohorts(other, 2).of, 3), byGroup);
 });

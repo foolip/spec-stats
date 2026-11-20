@@ -1,5 +1,6 @@
 // The data file `python3 -m specstats build` writes (docs/site-design.md):
-// each table stored by column, indexes into lookup lists and tables.
+// each table stored by column, indexes into lookup lists and tables, laid
+// out to compress well (specstats/build.py).
 
 export interface RawData {
   meta: { from: string; to: string };
@@ -7,16 +8,28 @@ export interface RawData {
   repos: { name: string[]; standard: string[] };
   items: {
     repo: number[];
+    /** Difference from the previous item of the same repo (the first of a repo's: its number). */
     number: number[];
-    /** Day of the PR's created_at, from meta.from; negative before the window. */
+    /** Day of the PR's created_at, from meta.from (negative before the window),
+     * as a difference from the previous item of the same repo, like `number`. */
     created: number[];
     /** Hours from ready for review to merge, for PRs merged in the window. */
     hours_to_merge: (number | null)[];
+    /** How many of `events` are this item's, which follow the previous item's. */
+    events: number[];
   };
-  events: { day: number[]; item: number[]; event: number[] };
+  /** Grouped by item, each item's in time order. `day` is the days since
+   * the item's previous event, or for its first, since max(created, 0). */
+  events: { day: number[]; event: number[] };
 }
 
-/** The data as the app uses it: the same columns, as typed arrays. */
+/** The data as the app uses it: the columns as typed arrays, with values
+ * rather than differences, and each event's item.
+ *
+ * Events are grouped by item, each item's in time order. Nothing else
+ * about the order of events or items is promised: code that needs events
+ * in day order must sort them itself (test/helpers.ts runs views on
+ * shuffled items to check). */
 export interface Data {
   from: string;
   to: string;
@@ -49,6 +62,29 @@ export function dateOf(from: string, day: number): string {
 }
 
 export function fromRaw(raw: RawData): Data {
+  const n = raw.items.repo.length;
+  const repo = Int32Array.from(raw.items.repo);
+  const number = new Int32Array(n);
+  const created = new Int32Array(n);
+  const lastNumber = new Int32Array(raw.repos.name.length);
+  const lastCreated = new Int32Array(raw.repos.name.length);
+  for (let i = 0; i < n; i++) {
+    const r = repo[i];
+    number[i] = lastNumber[r] += raw.items.number[i];
+    created[i] = lastCreated[r] += raw.items.created[i];
+  }
+  const m = raw.events.day.length;
+  const counted = raw.items.events.reduce((a, b) => a + b, 0);
+  if (counted !== m) throw new Error(`items.events adds up to ${counted}, but there are ${m} events`);
+  const day = new Int32Array(m);
+  const item = new Int32Array(m);
+  for (let i = 0, k = 0; i < n; i++) {
+    let d = Math.max(created[i], 0);
+    for (const end = k + raw.items.events[i]; k < end; k++) {
+      day[k] = d += raw.events.day[k];
+      item[k] = i;
+    }
+  }
   return {
     from: raw.meta.from,
     to: raw.meta.to,
@@ -56,17 +92,13 @@ export function fromRaw(raw: RawData): Data {
     eventTypes: raw.event_types,
     repos: raw.repos,
     items: {
-      repo: Int32Array.from(raw.items.repo),
-      number: Int32Array.from(raw.items.number),
-      created: Int32Array.from(raw.items.created),
+      repo,
+      number,
+      created,
       // NaN for PRs not merged in the window.
       hoursToMerge: Float64Array.from(raw.items.hours_to_merge, (h) => h ?? NaN),
     },
-    events: {
-      day: Int32Array.from(raw.events.day),
-      item: Int32Array.from(raw.events.item),
-      event: Int32Array.from(raw.events.event),
-    },
+    events: { day, item, event: Int32Array.from(raw.events.event) },
   };
 }
 

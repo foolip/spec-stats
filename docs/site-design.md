@@ -103,11 +103,31 @@ a time as later metrics need them:
 
   The last two were added on 2026-11-19, for open PRs by year opened and
   merges by time to merge.
-- **events**: day, item, event, sorted by day, item and time (a PR
+- **events**: day, item, event, each item's in time order (a PR
   reopened and closed on one day has both, in that order). Only changes of state
   are published (a second `closed` without a `reopened` between is left
   out), and a PR with no event in the window isn't an item.
 - **meta**: the window.
+
+**Laid out to compress well** (since 2026-11-20). In the file:
+
+- events are grouped by item, in the items' order; `items.events` says
+  how many each item has, so there's no `events.item` column;
+- `events.day` is the days since the item's previous event, or for its
+  first event, since `max(created, 0)`: mostly 0;
+- `items.number` and `items.created` are differences from the previous
+  item of the same repo (the first of a repo's items holds its own
+  value); items are written by repo and number, so both are small.
+
+The loader (`fromRaw` in `web/src/lib/data.ts`) turns these back into
+values and gives every event its item, so views see `day`, `item` and
+`event` arrays. They may rely on each item's events being together and
+in time order, and on nothing else about the order of events or items:
+a view that needs events by day sorts them itself. The web tests run
+each view on the same data with its items shuffled to check.
+`build.expand` does the same decoding in Python. On 2026-11-20 this took
+the file from 183 KB (43.9 KB gzipped) to 100 KB (21.5 KB gzipped),
+with the same contents.
 
 `python3 -m specstats build` (`specstats/build.py`) writes it to
 `build/data.json`, which isn't committed: whatever deploys the site runs
