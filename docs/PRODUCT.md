@@ -29,7 +29,7 @@ exact, no hype, every number explained.
 - SaaS analytics dashboards: hero metrics, gradient accents, card grids.
 - Leaderboards or anything that ranks or blames people (`docs/plan.md`,
   ground rule 5).
-- Gamified stats, streaks, celebratory colour.
+- Gamified stats, streaks, celebratory color.
 
 ## Design Principles
 
@@ -46,4 +46,4 @@ exact, no hype, every number explained.
 
 WCAG 2.2 AA (assumed; not yet confirmed with the maintainer): text
 contrast, full keyboard use including the charts, screen-reader values for
-each chart day, colour-vision-safe series, and light and dark themes.
+each chart day, color-vision-safe series, and light and dark themes.

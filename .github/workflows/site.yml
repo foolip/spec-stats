@@ -26,7 +26,7 @@ permissions:
   contents: read
 
 concurrency:
-  # One publish at a time, the newest waiting rather than cancelling one
+  # One publish at a time, the newest waiting rather than canceling one
   # half done; a pull request's builds only replace each other.
   group: site-${{ github.event_name == 'pull_request' && github.ref || 'main' }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}

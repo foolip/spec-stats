@@ -11,7 +11,7 @@
     label: string;
     /** One value per day of the window. */
     values: Int32Array;
-    /** A CSS colour, e.g. var(--series-1). */
+    /** A CSS color, e.g. var(--series-1). */
     color: string;
   }
 
