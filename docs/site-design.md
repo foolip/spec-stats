@@ -320,7 +320,7 @@ page); the rest is in the query string.
 
 The first paint shows the whole page but the charts' drawings, from the
 HTML alone, and nothing moves after it. On a phone on slow 4G with a 4×
-slower CPU, that's 0.3 s, which is also the LCP, against 0.7 s for a
+slower CPU, that's about 0.3 s, which is also the LCP, against 0.7 s for a
 "Loading…" line and 1.5 s for the page when Svelte built it in the
 browser (until 2026-11-20); the charts follow at about 1.1 s.
 
@@ -332,29 +332,29 @@ browser (until 2026-11-20); the charts follow at about 1.1 s.
   inline, so the HTML, about 10 KB gzipped, is all the first paint
   needs; even the header's icon is in it, as a `data:` URL made from
   `public/favicon.svg`. The site's root and `404.html` are copies of
-  `reviews/`. Pages
-  link to everything relative to the site's root, through `<base>`;
-  `404.html` is served at any depth, so its `<base>` is absolute:
-  `SITE_BASE`, `/spec-stats/` unless set.
+  `reviews/`. Links are absolute paths from the site's root on its host,
+  `SITE_BASE`, `/spec-stats/` unless set, as `404.html` is served at
+  any depth. (No `<base>`: it would make `#footer`, below, point at
+  another page.)
 - **The controller**, `src/controller.ts`, is plain TypeScript, built
-  into one small script (7 KB) inlined into every page's `<head>`. It
-  owns the URL and the form controls for the life of the page: it reads
-  the state from the URL, sets the controls and the texts that need no
-  data (`data-text`: the range's dates, the bars' period), handles the
-  controls' events (on the document) and writes the URL back. Those
+  into one small script (6 KB) inlined into every page after the view,
+  before the footer. It owns the URL and the form controls for the life
+  of the page: it reads the state from the URL, sets the controls and
+  the texts that need no data (`data-text`: the range's dates, the bars'
+  period), handles the controls' events and writes the URL back. Those
   texts come from `stateText()` in `lib/texts.ts`, which the prerender
   uses too, so the two agree. The controls work before Svelte has
-  loaded.
-- **Before the first paint, in every browser.** The controller runs
-  before the body is parsed, and a `MutationObserver` applies the state
-  as the parser adds elements. Its callbacks run at the end of each
-  parser task, and browsers only paint between tasks, so no paint shows
-  the prerendered state where the URL asks for another, however the HTML
-  arrives. (`<link rel="expect" blocking="render">` would say the same
-  thing, but Chromium 157 doesn't support it, and painted the controls
-  before a script placed after them had run.) Running the controller
-  costs about 5 ms of CPU; it formats dates by hand (`lib/format.ts`),
-  as creating an `Intl.DateTimeFormat` took 54 ms on the throttled phone.
+  loaded. Running it costs about 5 ms of CPU; it formats dates by hand
+  (`lib/format.ts`), as creating an `Intl.DateTimeFormat` took 54 ms on
+  the throttled phone.
+- **Before the first paint.** `<link rel="expect" href="#footer"
+  blocking="render">` holds rendering until the footer is parsed, which
+  is after the controller has run, so no paint shows the prerendered
+  state where the URL asks for another, however the HTML arrives. The
+  target is the footer, not the controller's own `<script>`: an element
+  counts as parsed at its start tag, and the script's text can still be
+  in the next network packet. Browsers without `rel="expect"` (Chromium
+  has it) paint a page this small whole in practice.
 - **Islands.** The parts that need the data (`src/Island.svelte`: the
   tiles' values, the tables' rows, the by-spec table and the charts) are
   Svelte components. `src/main.ts` loads the data and mounts each one in

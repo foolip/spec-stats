@@ -2,7 +2,9 @@
 // <script type="application/json" id="config"> element.
 
 export interface PageConfig {
-  /** The data file, relative to the site's root (the page's <base>). */
+  /** The site's root on its host: "/spec-stats/". */
+  root: string;
+  /** The data file, from the site's root. */
   data: string;
   /** The window, YYYY-MM-DD. */
   from: string;

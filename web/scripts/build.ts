@@ -8,8 +8,8 @@
 // 5. Every page: reviews/ and reviews/<repo>/, the site's root and
 //    404.html (copies of reviews/).
 //
-// SITE_BASE is the site's path on its host, for 404.html, which is served
-// at any depth: "/spec-stats/" (GitHub Pages) unless set.
+// SITE_BASE is the site's path on its host, which every page's links start
+// with: "/spec-stats/" (GitHub Pages) unless set.
 
 import { createHash } from "node:crypto";
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
@@ -58,16 +58,16 @@ writeFileSync(join(dist, dataFile), dataText);
 const raw = JSON.parse(dataText);
 const icon = readFileSync(join(web, "public", "favicon.svg"), "utf-8");
 
-function write(path: string, base: string, file = join(path, "index.html")) {
-  const html = renderPage(raw, { path, base, data: dataFile, main, controller: { code: controller }, icon });
+function write(path: string, file = join(path, "index.html")) {
+  const html = renderPage(raw, { path, root: siteBase, data: dataFile, main, controller: { code: controller }, icon });
   mkdirSync(dirname(join(dist, file)), { recursive: true });
   writeFileSync(join(dist, file), html);
 }
 
 const all = paths(raw);
-for (const path of all) write(path, "../".repeat(path.split("/").length - 1));
-write("", "./");
-write(all[0], siteBase, "404.html");
+for (const path of all) write(path);
+write("");
+write(all[0], "404.html");
 rmSync(tmp, { recursive: true });
 
 console.log(`dist/: ${all.length} pages, the site's root and 404.html, from ${DATA}; controller ${(controller.length / 1024).toFixed(1)} KB`);

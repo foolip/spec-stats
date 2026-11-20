@@ -35,7 +35,7 @@ function pages(): Plugin {
           const { renderPage } = await server.ssrLoadModule("/src/page.ts");
           const html = renderPage(JSON.parse(readData()), {
             path: path.slice(1),
-            base: "/",
+            root: "/",
             data: "data.json",
             main: "src/main.ts",
             controller: { src: "/src/controller.ts" },

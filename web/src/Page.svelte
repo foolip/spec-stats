@@ -13,17 +13,23 @@
 
   interface Props {
     model: Model;
+    /** The site's root on its host, "/spec-stats/". */
+    root: string;
     /** The site icon, public/favicon.svg, as a data: URL, so it's in the
      * first paint. */
     icon: string;
+    /** The controller's <script>, which runs before the footer is parsed:
+     * the page's <link rel="expect" href="#footer" blocking="render">
+     * holds the first paint until then. */
+    controller: string;
   }
-  let { model, icon }: Props = $props();
+  let { model, root, icon, controller }: Props = $props();
   const t = $derived(model.text);
 </script>
 
 <header class="site">
   <div class="wrap">
-    <a class="brand" href="./"><img class="logo" src={icon} alt="" />spec-stats</a>
+    <a class="brand" href={root}><img class="logo" src={icon} alt="" />spec-stats</a>
     <p class="tagline">How the WHATWG’s Living Standards are maintained, from public GitHub data.</p>
   </div>
 </header>
@@ -107,7 +113,9 @@
   </article>
 </main>
 
-<footer class="site">
+{@html controller}
+
+<footer class="site" id="footer">
   <div class="wrap">
     <p>Data from {longDate(model.data.from)} to {longDate(model.data.to)}, from the GitHub REST API.</p>
     <p>Not affiliated with the WHATWG. <a href="https://github.com/foolip/spec-stats">Source on GitHub</a>.</p>

@@ -17,11 +17,11 @@ export interface PageOptions {
   /** The page's path from the site's root: "" (the root), "reviews/" or
    * "reviews/html/". */
   path: string;
-  /** The site's root, relative to the page ("../") or absolute (404.html). */
-  base: string;
-  /** The data file, relative to the site's root. */
+  /** The site's root on its host: "/spec-stats/" (GitHub Pages), "/". */
+  root: string;
+  /** The data file, from the site's root. */
   data: string;
-  /** The script that mounts the islands, relative to the site's root. */
+  /** The script that mounts the islands, from the site's root. */
   main: string;
   /** The controller: its code, inlined, or (in development) its URL. */
   controller: { code: string } | { src: string };
@@ -48,6 +48,7 @@ export function renderPage(raw: RawData, o: PageOptions): string {
   const state = parse(o.path, "", ctx);
   const model = new Model(data, state);
   const config: PageConfig = {
+    root: o.root,
     data: o.data,
     from: data.from,
     to: data.to,
@@ -55,30 +56,31 @@ export function renderPage(raw: RawData, o: PageOptions): string {
     standards: data.repos.standard,
     prerendered: href(state),
   };
-  // The controller runs from the <head>, before the body is parsed, and
-  // before main.ts, a module (so deferred). As a module itself (in
-  // development), it comes first.
+  // The controller runs before the footer, as it's parsed; main.ts, a
+  // module, is deferred, so it runs after. As a module itself (in
+  // development), the controller is deferred too, and main.ts follows it.
+  const main = `<script type="module" src="${o.root}${o.main}"></script>`;
   const controller =
     "code" in o.controller
       ? `<script>${o.controller.code.replaceAll("</script", "<\\/script")}</script>`
-      : `<script type="module" src="${o.controller.src}"></script>`;
-  const { body } = render(Page, { props: { model, icon: `data:image/svg+xml,${encodeURIComponent(o.icon)}` } });
+      : `<script type="module" src="${o.controller.src}"></script>\n${main}`;
+  const icon = `data:image/svg+xml,${encodeURIComponent(o.icon)}`;
+  const { body } = render(Page, { props: { model, root: o.root, icon, controller } });
   const r = state.repo === null ? -1 : data.repos.name.indexOf(state.repo);
   return `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<base href="${o.base}">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
 <title>${pageTitle(r < 0 ? null : data.repos.standard[r])}</title>
 <meta name="description" content="How WHATWG specs are maintained, from public GitHub data.">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="preload" href="${o.data}" as="fetch" crossorigin>
+<link rel="icon" href="${o.root}favicon.svg" type="image/svg+xml">
+<link rel="expect" href="#footer" blocking="render">
+<link rel="preload" href="${o.root}${o.data}" as="fetch" crossorigin>
+${"code" in o.controller ? main : ""}
 <style>${css}</style>
 <script type="application/json" id="config">${scriptJson(config)}</script>
-${controller}
-<script type="module" src="${o.main}"></script>
 </head>
 <body>
 ${body}
