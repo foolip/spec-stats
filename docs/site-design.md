@@ -386,7 +386,9 @@ presets with a Custom button, and "Copy link".
 - **Spec** is a native `<select>`: All specs, or one spec, the two
   common cases, each one choice (type-ahead works, and phones show their
   own picker), and the URL holds at most one (`repo=html`). Clicking a
-  spec in the by-spec table also selects it.
+  spec in the by-spec table also selects it. The by-spec table is shown
+  only when more than one spec is (since 2026-11-20): for one spec it
+  would repeat the tiles.
 - **Custom** opens a native popover (the Popover API, in the top layer,
   so the bar can't clip it or show through), placed under its button
   with CSS anchor positioning (`position-area`, flipping at the

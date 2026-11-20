@@ -226,6 +226,8 @@
     </details>
   </section>
 
+  <!-- With one spec, the table would only repeat the tiles. -->
+  {#if rows.length > 1}
   <section class="panel">
     <h2>By spec</h2>
     <table class="by-spec">
@@ -252,4 +254,5 @@
       </tbody>
     </table>
   </section>
+  {/if}
 </article>
