@@ -12,7 +12,7 @@
     label: string;
     /** One value per period. */
     values: number[];
-    /** A CSS colour. */
+    /** A CSS color. */
     color: string;
   }
 

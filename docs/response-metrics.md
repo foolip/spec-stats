@@ -76,7 +76,7 @@ review or item it's GitHub's value at fetch time, not when it was written:
   comments written over years, so the value is current, not historical.
 - It also depends on whether the account's org membership is visible to
   the token. In whatwg/html, 80 accounts did something on someone else's
-  item that needs triage or write access: labelling, assigning, closing,
+  item that needs triage or write access: labeling, assigning, closing,
   merging, requesting review. Of those, 36 show as `MEMBER`, 28 as
   `CONTRIBUTOR` and 14 as `NONE`.
 - Conversely, 63 accounts that show as `MEMBER` or `COLLABORATOR` in
@@ -87,7 +87,7 @@ and counts non-maintainers, so the "maintainers only" filter that CHAOSS
 suggests can't be built from this field.
 
 **A role can be inferred from permission-gated actions instead.**
-Someone who has labelled, assigned, closed or merged *someone else's*
+Someone who has labeled, assigned, closed or merged *someone else's*
 item in a repo has triage access there. The first such action dates when
 that access started showing, and the data has it per repo with no extra
 fetching. It undercounts people with access who never used it, and
@@ -491,7 +491,7 @@ small part of the work. whatwg/html merges a median of 2 PRs over
 So far, attention to old and to new PRs hasn't come at each other's
 expense.
 
-**Whether to favour new PRs is a policy choice, not a statistical one.**
+**Whether to favor new PRs is a policy choice, not a statistical one.**
 
 For new PRs first:
 
@@ -536,7 +536,7 @@ became ready drawn as a line.
 
 - It's a flow, so it's counted in the period the work was done, as cosh
   does, with nothing provisional.
-- Old and new work each get a colour, so time spent on old PRs shows as
+- Old and new work each get a color, so time spent on old PRs shows as
   more dark green, not as a worse number.
 
 whatwg/html since 2022 merges about 22 PRs a month (6 a week; 4 of the
@@ -605,7 +605,7 @@ for every day since 2022. The end counts match the PRs open now.
   - The bottom band grew from 5 PRs to 69 only because PRs passed
     5 years old without being closed, not because anything happened to
     them.
-  - Each band's change is PRs ageing into it minus PRs ageing out or
+  - Each band's change is PRs aging into it minus PRs aging out or
     closed.
 
 Both use a blue ordinal ramp, so they can't be mixed up with the merge
@@ -621,7 +621,7 @@ When PRs don't wait long, merges can't exceed the PRs coming in, so the
 height mostly measures demand. It shows a *change* in attention as a
 one-off pulse while the backlog drains or builds, not its level.
 
-The colours carry the level:
+The colors carry the level:
 
 - Merges within 7 days went from 64% to 75% of the total and stayed
   there while the speed-up lasted.

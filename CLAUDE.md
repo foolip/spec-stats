@@ -18,6 +18,7 @@ has the design for the dashboards to come.
   Tests write to a temporary directory (`SPECSTATS_GITHUB`).
 - Python is standard library only.
 - Record decisions in the decisions log with a date and the reason.
+- Write American English (en-US): color, not colour.
 
 ## Tests
 
