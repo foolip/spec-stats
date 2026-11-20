@@ -8,7 +8,7 @@ import type { Period } from "./bins.ts";
  * more than 10 days. For whatwg/html's merges since 2022 these split them
  * into near thirds (docs/response-metrics.md). */
 export const BAND_ENDS = [24, 240];
-export const BAND_LABELS = ["within 1 day", "in 1–10 days", "after more than 10 days"];
+export const BAND_LABELS = ["within 1 day", "open 1–10 days", "open >10 days"];
 
 /** Merges per period and band: counts[period][band], for the chosen repos. */
 export function mergesByPeriod(data: Data, repos: Iterable<number>, ps: Period[]): number[][] {
