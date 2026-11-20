@@ -3,6 +3,7 @@
 // parse() reads a query string into a whole, valid state, dropping what it
 // doesn't understand; serialize() writes the state back.
 
+import { BINS, type Bin } from "./bins.ts";
 import { dateOf, dayOf } from "./data.ts";
 
 export const VIEWS = ["open-prs"] as const;
@@ -13,12 +14,18 @@ export type Preset = (typeof PRESETS)[number];
 
 export type Range = { preset: Preset } | { from: string; to: string };
 
+/** Bars' period: a calendar day, ISO week, month or quarter, or "auto" (the
+ * smallest of week, month and quarter that keeps bars wide enough). */
+export type BinChoice = Bin | "auto";
+export const BIN_CHOICES: readonly BinChoice[] = ["auto", ...BINS];
+
 export interface State {
   view: View;
   /** One repo's name, or null for every repo. A name, not an index, so
    * links survive repos being added. */
   repo: string | null;
   range: Range;
+  bin: BinChoice;
 }
 
 const DEFAULT_PRESET: Preset = "1y";
@@ -27,6 +34,7 @@ export const DEFAULT: State = {
   view: "open-prs",
   repo: null,
   range: { preset: DEFAULT_PRESET },
+  bin: "auto",
 };
 
 /** What a query string is checked against. */
@@ -63,6 +71,7 @@ export function parse(search: string, ctx: Context): State {
     view: oneOf(VIEWS, q.get("view"), DEFAULT.view),
     repo: ctx.repoNames.find((n) => n === q.get("repo")) ?? null,
     range,
+    bin: oneOf(BIN_CHOICES, q.get("bin"), DEFAULT.bin),
   };
 }
 
@@ -84,6 +93,7 @@ export function serialize(state: State): string {
     q.set("from", state.range.from);
     q.set("to", state.range.to);
   }
+  if (state.bin !== DEFAULT.bin) q.set("bin", state.bin);
   const s = q.toString();
   return s ? `?${s}` : "";
 }

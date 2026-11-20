@@ -6,7 +6,9 @@
   import { margins } from "../lib/chart.ts";
   import { dateOf, type Data } from "../lib/data.ts";
   import { longDate, num, signed } from "../lib/format.ts";
-  import { BAND_LABELS, chooseBin, mergesByPeriod, periodName, periods } from "../lib/merges.ts";
+  import BinPicker from "../components/BinPicker.svelte";
+  import { chooseBin, periodName, periods, sampleDays } from "../lib/bins.ts";
+  import { BAND_LABELS, mergesByPeriod } from "../lib/merges.ts";
   import { openByGroup, openByRepo, total, yearCohorts } from "../lib/openprs.ts";
   import { fixed, rangeDays, selectedRepos, serialize, type Context, type State } from "../lib/url.ts";
 
@@ -44,7 +46,8 @@
     const m = margins(barsWidth);
     return barsWidth - m.left - m.right;
   });
-  const bin = $derived(chooseBin(data.from, start, end, plotWidth));
+  const autoBin = $derived(chooseBin(data.from, start, end, plotWidth));
+  const bin = $derived(view.bin === "auto" ? autoBin : view.bin);
   const mergePeriods = $derived(periods(data.from, start, end, bin));
   const mergeCounts = $derived(mergesByPeriod(data, repos, mergePeriods));
   // Fastest first, for the legend and the table; stacked the other way,
@@ -55,7 +58,10 @@
   );
   const mergeLayers = $derived([...mergeBands].reverse());
   const merged = $derived(mergeCounts.reduce((s, c) => s + c.reduce((a, b) => a + b, 0), 0));
-  const UNIT = { week: "ISO week", month: "month", quarter: "quarter" } as const;
+  const UNIT = { day: "day", week: "ISO week", month: "month", quarter: "quarter" } as const;
+  // The open PRs are drawn at the same periods' ends, so they follow the bin
+  // too: every day, or the last day of each week, month or quarter.
+  const sample = $derived(sampleDays(mergePeriods));
 
   // Drafts aren't counted: only PRs ready for review.
   const open = (s: { ready: Int32Array }, d: number) => s.ready[d];
@@ -129,6 +135,7 @@
       onchange={(r) => navigate({ ...view, repo: r })}
     />
     <RangePicker range={view.range} {ctx} onchange={(r) => navigate({ ...view, range: r })} />
+    <BinPicker bin={view.bin} auto={autoBin} onchange={(b) => navigate({ ...view, bin: b })} />
     <button type="button" class="copy" title="Copy a link to this view, with its dates fixed" onclick={copyLink}>
       <span class:hidden={copied}>Copy link</span>
       <span class:hidden={!copied} aria-hidden={!copied}>Link copied</span>
@@ -154,14 +161,14 @@
 
   <section class="panel">
     <div class="panel-head">
-      <h2>Open PRs at the end of each day, by year opened</h2>
+      <h2>Open PRs at the end of each {UNIT[bin]}, by year opened</h2>
       <ul class="legend">
         {#each [...layers].reverse() as l (l.label)}
           <li><span class="swatch" style:background={l.color}></span>{l.label}</li>
         {/each}
       </ul>
     </div>
-    <StackedArea from={data.from} {start} {end} {layers} label="Open PRs by year opened" />
+    <StackedArea from={data.from} {start} {end} {layers} {sample} label="Open PRs by year opened" />
     <details class="table-view">
       <summary>Table: month ends</summary>
       <table>

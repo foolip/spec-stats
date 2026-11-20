@@ -23,10 +23,14 @@
     end: number;
     /** Bottom layer first. */
     layers: Layer[];
+    /** The days to draw, in order: by default every day. The tooltip still
+     * shows every day's values; the y-scale fits every day too, so it
+     * doesn't change with the days drawn. */
+    sample?: number[];
     label: string;
     height?: number;
   }
-  let { from, start, end, layers, label, height = 320 }: Props = $props();
+  let { from, start, end, layers, sample, label, height = 320 }: Props = $props();
 
   let width = $state(720);
   let hover = $state<number | null>(null);
@@ -52,20 +56,23 @@
       .range([height - M.bottom, M.top]),
   );
   const xAt = (d: number) => x(parseDate(dateOf(from, d)) + 43_200_000);
+  /** Indexes into days of the days drawn. */
+  const drawn = $derived(sample ? sample.map((d) => d - start) : days.map((_, k) => k));
+  const drawnSet = $derived(new Set(drawn));
   const paths = $derived(
     layers.map((_, l) =>
       d3area<number>()
         .curve(curveMonotoneX)
-        .x((_, k) => xAt(days[k]))
-        .y0((_, k) => y(l === 0 ? 0 : tops[l - 1][k]))
-        .y1((_, k) => y(tops[l][k]))(days) ?? "",
+        .x((k) => xAt(days[k]))
+        .y0((k) => y(l === 0 ? 0 : tops[l - 1][k]))
+        .y1((k) => y(tops[l][k]))(drawn) ?? "",
     ),
   );
   const outline = $derived(
     d3line<number>()
       .curve(curveMonotoneX)
-      .x((_, k) => xAt(days[k]))
-      .y((t) => y(t))(totals) ?? "",
+      .x((k) => xAt(days[k]))
+      .y((k) => y(totals[k]))(drawn) ?? "",
   );
   const xTicks = $derived(x.ticks(Math.max(2, Math.floor(width / 110))));
   const yTicks = $derived(y.ticks(5));
@@ -157,7 +164,9 @@
     </g>
     {#if hoverK !== null}
       <line class="crosshair" x1={xAt(hover!)} x2={xAt(hover!)} y1={M.top} y2={height - M.bottom} />
-      <circle class="dot" cx={xAt(hover!)} cy={y(totals[hoverK])} r="4" />
+      {#if drawnSet.has(hoverK)}
+        <circle class="dot" cx={xAt(hover!)} cy={y(totals[hoverK])} r="4" />
+      {/if}
     {/if}
   </svg>
   {#if hover !== null && hoverK !== null}
