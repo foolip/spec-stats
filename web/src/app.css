@@ -62,6 +62,9 @@ html {
   background: var(--bg);
   color: var(--ink);
   -webkit-text-size-adjust: 100%;
+  /* Room for a classic scrollbar from the first paint, so the page doesn't
+     narrow when it grows tall enough to scroll (CLS 0, with main below). */
+  scrollbar-gutter: stable;
 }
 
 body { margin: 0; }
@@ -92,6 +95,12 @@ header.site .wrap { display: flex; flex-wrap: wrap; align-items: baseline; gap: 
 
 footer.site { margin-top: 4rem; padding: 1.5rem 0 3rem; border-top: 1px solid var(--rule); color: var(--ink-3); font-size: 0.875rem; }
 footer.site p { margin: 0.25rem 0; }
+
+/* No layout shift when the data arrives and the view replaces the notice
+   (CLS 0, with the scrollbar gutter above): main is at least a screen
+   tall, so the footer starts below the fold, and it's a flow root, so its
+   children's margins can't move it. */
+main { display: flow-root; min-height: 100vh; }
 
 .notice { padding: 3rem 0; color: var(--ink-2); }
 
