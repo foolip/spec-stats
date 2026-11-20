@@ -91,7 +91,7 @@ export interface Cohorts {
 export function yearCohorts(data: Data, years = 5): Cohorts {
   const last = Number(data.to.slice(0, 4));
   const first = last - years + 1;
-  const labels = [`before ${first}`];
+  const labels = ["older"];
   for (let y = first; y <= last; y++) labels.push(String(y));
   const of = new Int32Array(data.items.created.length);
   for (let i = 0; i < of.length; i++) {
