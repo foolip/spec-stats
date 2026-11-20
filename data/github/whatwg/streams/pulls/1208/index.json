@@ -10,7 +10,7 @@
   "review_comments_url": "https://api.github.com/repos/whatwg/streams/pulls/1208/comments",
   "review_comment_url": "https://api.github.com/repos/whatwg/streams/pulls/comments{/number}",
   "comments_url": "https://api.github.com/repos/whatwg/streams/issues/1208/comments",
-  "statuses_url": "https://api.github.com/repos/whatwg/streams/statuses/579663f9661af44bf45be9f1af5c9ccc7fefa018",
+  "statuses_url": "https://api.github.com/repos/whatwg/streams/statuses/5e26f17ca1540d9ad7828a5c6b5bda3c5c4deec4",
   "number": 1208,
   "state": "open",
   "locked": false,
@@ -36,12 +36,12 @@
     "user_view_type": "public",
     "site_admin": false
   },
-  "body": "In #1207, we raised concern about whether it's currently possible for `pipeTo()` to drop chunks when the pipe shuts down *while it still has a pending read request*.\n\nIt turns out that this *is* indeed possible. [The new WPT tests](https://github.com/web-platform-tests/wpt/pull/32399) demonstrate at least one way this can happen: by aborting a pipe with an `AbortSignal`, and then enqueuing a chunk immediately after aborting the signal.\n\nThis PR fixes this by releasing the pipe's reader immediately when *starting* the shutdown process, rather than when it *finalizes* the shutdown. This ensures that any pending reads that were started are immediately rejected, and the chunks stay in the source's queue.\n\n~This does have the side effect of releasing the reader *before* the pipe promise resolves. I don't know if this is acceptable.~ Fixed in https://github.com/whatwg/streams/pull/1208#issuecomment-1015911238.\n\n- [ ] At least two implementers are interested (and none opposed):\n   * …\n   * …\n- [ ] [Tests](https://github.com/web-platform-tests/wpt) are written and can be reviewed and commented upon at:\n   * https://github.com/web-platform-tests/wpt/pull/32399\n- [ ] [Implementation bugs](https://github.com/whatwg/meta/blob/main/MAINTAINERS.md#handling-pull-requests) are filed:\n   * Chrome: …\n   * Firefox: …\n   * Safari: …\n\n(See [WHATWG Working Mode: Changes](https://whatwg.org/working-mode#changes) for more details.)\n\n\n<!--\n    This comment and the below content is programmatically generated.\n    You may add a comma-separated list of anchors you'd like a\n    direct link to below (e.g. #idl-serializers, #idl-sequence):\n\n    Don't remove this comment or modify anything below this line.\n    If you don't want a preview generated for this pull request,\n    just replace the whole of this comment's content by \"no preview\"\n    and remove what's below.\n-->\n***\n<a href=\"https://whatpr.org/streams/1208.html\" title=\"Last updated on Nov 16, 2026, 7:28 PM UTC (579663f)\">Preview</a> | <a href=\"https://whatpr.org/streams/1208/4c5b332...579663f.html\" title=\"Last updated on Nov 16, 2026, 7:28 PM UTC (579663f)\">Diff</a>",
+  "body": "In #1207, we raised concern about whether it's currently possible for `pipeTo()` to drop chunks when the pipe shuts down *while it still has a pending read request*.\n\nIt turns out that this *is* indeed possible. [The new WPT tests](https://github.com/web-platform-tests/wpt/pull/32399) demonstrate at least one way this can happen: by aborting a pipe with an `AbortSignal`, and then enqueuing a chunk immediately after aborting the signal.\n\nThis PR fixes this by releasing the pipe's reader immediately when *starting* the shutdown process, rather than when it *finalizes* the shutdown. This ensures that any pending reads that were started are immediately rejected, and the chunks stay in the source's queue.\n\n~This does have the side effect of releasing the reader *before* the pipe promise resolves. I don't know if this is acceptable.~ Fixed in https://github.com/whatwg/streams/pull/1208#issuecomment-1015911238.\n\n- [ ] At least two implementers are interested (and none opposed):\n   * …\n   * …\n- [ ] [Tests](https://github.com/web-platform-tests/wpt) are written and can be reviewed and commented upon at:\n   * https://github.com/web-platform-tests/wpt/pull/32399\n- [ ] [Implementation bugs](https://github.com/whatwg/meta/blob/main/MAINTAINERS.md#handling-pull-requests) are filed:\n   * Chrome: …\n   * Firefox: …\n   * Safari: …\n\n(See [WHATWG Working Mode: Changes](https://whatwg.org/working-mode#changes) for more details.)\n\n\n<!--\n    This comment and the below content is programmatically generated.\n    You may add a comma-separated list of anchors you'd like a\n    direct link to below (e.g. #idl-serializers, #idl-sequence):\n\n    Don't remove this comment or modify anything below this line.\n    If you don't want a preview generated for this pull request,\n    just replace the whole of this comment's content by \"no preview\"\n    and remove what's below.\n-->\n***\n<a href=\"https://whatpr.org/streams/1208.html\" title=\"Last updated on Nov 20, 2026, 9:39 AM UTC (5e26f17)\">Preview</a> | <a href=\"https://whatpr.org/streams/1208/4c5b332...5e26f17.html\" title=\"Last updated on Nov 20, 2026, 9:39 AM UTC (5e26f17)\">Diff</a>",
   "labels": [],
   "milestone": null,
   "active_lock_reason": null,
   "created_at": "2022-01-16T00:07:18Z",
-  "updated_at": "2026-11-16T19:28:56Z",
+  "updated_at": "2026-11-20T09:39:18Z",
   "closed_at": null,
   "merged_at": null,
   "assignees": [],
@@ -101,7 +101,7 @@
       "has_pages": false,
       "has_discussions": false,
       "has_pull_requests": true,
-      "pushed_at": "2026-11-16T19:28:37Z",
+      "pushed_at": "2026-11-20T09:39:04Z",
       "created_at": "2017-12-18T16:39:52Z",
       "updated_at": "2026-10-25T09:32:38Z",
       "allow_forking": true,
@@ -158,7 +158,7 @@
       "hooks_url": "https://api.github.com/repos/MattiasBuelens/streams/hooks",
       "svn_url": "https://github.com/MattiasBuelens/streams"
     },
-    "sha": "579663f9661af44bf45be9f1af5c9ccc7fefa018",
+    "sha": "5e26f17ca1540d9ad7828a5c6b5bda3c5c4deec4",
     "user": {
       "login": "MattiasBuelens",
       "id": 649348,
@@ -229,9 +229,9 @@
       ],
       "forks_count": 177,
       "forks": 177,
-      "stargazers_count": 1420,
-      "watchers_count": 1420,
-      "watchers": 1420,
+      "stargazers_count": 1419,
+      "watchers_count": 1419,
+      "watchers": 1419,
       "open_issues_count": 145,
       "open_issues": 145,
       "size": 4700,
@@ -244,7 +244,7 @@
       "has_pull_requests": true,
       "pushed_at": "2026-10-25T13:59:54Z",
       "created_at": "2013-10-29T17:16:58Z",
-      "updated_at": "2026-11-10T13:39:18Z",
+      "updated_at": "2026-11-19T19:05:03Z",
       "allow_forking": true,
       "web_commit_signoff_required": false,
       "pull_request_creation_policy": "all",
@@ -330,7 +330,7 @@
       "href": "https://api.github.com/repos/whatwg/streams/pulls/1208/commits"
     },
     "statuses": {
-      "href": "https://api.github.com/repos/whatwg/streams/statuses/579663f9661af44bf45be9f1af5c9ccc7fefa018"
+      "href": "https://api.github.com/repos/whatwg/streams/statuses/5e26f17ca1540d9ad7828a5c6b5bda3c5c4deec4"
     },
     "html": {
       "href": "https://github.com/whatwg/streams/pull/1208"
@@ -359,8 +359,8 @@
   "comments": 3,
   "review_comments": 23,
   "maintainer_can_modify": true,
-  "commits": 20,
-  "additions": 123,
+  "commits": 19,
+  "additions": 116,
   "deletions": 32,
   "changed_files": 4
 }

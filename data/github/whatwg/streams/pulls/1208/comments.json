@@ -6,7 +6,7 @@
     "node_id": "PRRC_kwDOANUOW84uz-W0",
     "diff_hunk": "@@ -2198,6 +2198,9 @@ The following abstract operations operate on {{ReadableStream}} instances at a h\n     |originalError|, then:\n    1. If |shuttingDown| is true, abort these substeps.\n    1. Set |shuttingDown| to true.\n+   1. If |reader| [=implements=] {{ReadableStreamBYOBReader}}, perform\n+      ! [$ReadableStreamBYOBReaderRelease$](|reader|).\n+   1. Otherwise, perform ! [$ReadableStreamDefaultReaderRelease$](|reader|).",
     "path": "index.bs",
-    "commit_id": "579663f9661af44bf45be9f1af5c9ccc7fefa018",
+    "commit_id": "5e26f17ca1540d9ad7828a5c6b5bda3c5c4deec4",
     "original_commit_id": "5e5adad653304564cac37833ca88d39eac644ba3",
     "user": {
       "login": "MattiasBuelens",
@@ -68,6 +68,7 @@
     "position": 83,
     "subject_type": "line",
     "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
     "copilot_code_review_sources": []
   },
   {
@@ -77,7 +78,7 @@
     "node_id": "PRRC_kwDOANUOW84u60bj",
     "diff_hunk": "@@ -2198,6 +2198,9 @@ The following abstract operations operate on {{ReadableStream}} instances at a h\n     |originalError|, then:\n    1. If |shuttingDown| is true, abort these substeps.\n    1. Set |shuttingDown| to true.\n+   1. If |reader| [=implements=] {{ReadableStreamBYOBReader}}, perform\n+      ! [$ReadableStreamBYOBReaderRelease$](|reader|).\n+   1. Otherwise, perform ! [$ReadableStreamDefaultReaderRelease$](|reader|).",
     "path": "index.bs",
-    "commit_id": "579663f9661af44bf45be9f1af5c9ccc7fefa018",
+    "commit_id": "5e26f17ca1540d9ad7828a5c6b5bda3c5c4deec4",
     "original_commit_id": "5e5adad653304564cac37833ca88d39eac644ba3",
     "user": {
       "login": "domenic",
@@ -140,6 +141,7 @@
     "position": 83,
     "subject_type": "line",
     "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
     "copilot_code_review_sources": []
   },
   {
@@ -149,7 +151,7 @@
     "node_id": "PRRC_kwDOANUOW84u7DSR",
     "diff_hunk": "@@ -2198,6 +2198,9 @@ The following abstract operations operate on {{ReadableStream}} instances at a h\n     |originalError|, then:\n    1. If |shuttingDown| is true, abort these substeps.\n    1. Set |shuttingDown| to true.\n+   1. If |reader| [=implements=] {{ReadableStreamBYOBReader}}, perform\n+      ! [$ReadableStreamBYOBReaderRelease$](|reader|).\n+   1. Otherwise, perform ! [$ReadableStreamDefaultReaderRelease$](|reader|).",
     "path": "index.bs",
-    "commit_id": "579663f9661af44bf45be9f1af5c9ccc7fefa018",
+    "commit_id": "5e26f17ca1540d9ad7828a5c6b5bda3c5c4deec4",
     "original_commit_id": "5e5adad653304564cac37833ca88d39eac644ba3",
     "user": {
       "login": "MattiasBuelens",
@@ -212,6 +214,7 @@
     "position": 83,
     "subject_type": "line",
     "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
     "copilot_code_review_sources": []
   },
   {
@@ -221,7 +224,7 @@
     "node_id": "PRRC_kwDOANUOW84u-wk3",
     "diff_hunk": "@@ -200,6 +200,12 @@ function ReadableStreamPipeTo(source, dest, preventClose, preventAbort, preventC\n       }\n \n       return transformPromiseWith(writer._readyPromise, () => {\n+        if (shuttingDown === true) {\n+          return promiseResolvedWith(true);\n+        }\n+        if (dest._state !== 'writable' || WritableStreamCloseQueuedOrInFlight(dest) === true) {\n+          return promiseResolvedWith(true);\n+        }",
     "path": "reference-implementation/lib/abstract-ops/readable-streams.js",
-    "commit_id": "579663f9661af44bf45be9f1af5c9ccc7fefa018",
+    "commit_id": "5e26f17ca1540d9ad7828a5c6b5bda3c5c4deec4",
     "original_commit_id": "7b446d57b817975b94e68242e6a0f3405a0c1014",
     "user": {
       "login": "MattiasBuelens",
@@ -283,6 +286,7 @@
     "position": 37,
     "subject_type": "line",
     "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
     "copilot_code_review_sources": []
   },
   {
@@ -354,6 +358,7 @@
     "position": 1,
     "subject_type": "line",
     "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
     "copilot_code_review_sources": []
   },
   {
@@ -363,7 +368,7 @@
     "node_id": "PRRC_kwDOANUOW84vCk7o",
     "diff_hunk": "@@ -2175,7 +2175,7 @@ The following abstract operations operate on {{ReadableStream}} instances at a h\n        |source|.[=ReadableStream/[[storedError]]=].\n     1. Otherwise, [=shutdown=] with |source|.[=ReadableStream/[[storedError]]=].\n    1. <strong>Errors must be propagated backward:</strong> if |dest|.[=WritableStream/[[state]]=]\n-      is or becomes \"`errored`\", then\n+      is or becomes \"`erroring`\" or \"`errored`\", then",
     "path": "index.bs",
-    "commit_id": "579663f9661af44bf45be9f1af5c9ccc7fefa018",
+    "commit_id": "5e26f17ca1540d9ad7828a5c6b5bda3c5c4deec4",
     "original_commit_id": "0eb6177b85c062ed21c5168d0dd6851562cd1f94",
     "user": {
       "login": "MattiasBuelens",
@@ -425,6 +430,7 @@
     "position": 73,
     "subject_type": "line",
     "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
     "copilot_code_review_sources": []
   },
   {
@@ -434,7 +440,7 @@
     "node_id": "PRRC_kwDOANUOW84vKjw2",
     "diff_hunk": "@@ -2175,7 +2175,7 @@ The following abstract operations operate on {{ReadableStream}} instances at a h\n        |source|.[=ReadableStream/[[storedError]]=].\n     1. Otherwise, [=shutdown=] with |source|.[=ReadableStream/[[storedError]]=].\n    1. <strong>Errors must be propagated backward:</strong> if |dest|.[=WritableStream/[[state]]=]\n-      is or becomes \"`errored`\", then\n+      is or becomes \"`erroring`\" or \"`errored`\", then",
     "path": "index.bs",
-    "commit_id": "579663f9661af44bf45be9f1af5c9ccc7fefa018",
+    "commit_id": "5e26f17ca1540d9ad7828a5c6b5bda3c5c4deec4",
     "original_commit_id": "0eb6177b85c062ed21c5168d0dd6851562cd1f94",
     "user": {
       "login": "ricea",
@@ -497,6 +503,7 @@
     "position": 73,
     "subject_type": "line",
     "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
     "copilot_code_review_sources": []
   },
   {
@@ -506,7 +513,7 @@
     "node_id": "PRRC_kwDOANUOW84vKj2y",
     "diff_hunk": "@@ -200,6 +200,12 @@ function ReadableStreamPipeTo(source, dest, preventClose, preventAbort, preventC\n       }\n \n       return transformPromiseWith(writer._readyPromise, () => {\n+        if (shuttingDown === true) {\n+          return promiseResolvedWith(true);\n+        }\n+        if (dest._state !== 'writable' || WritableStreamCloseQueuedOrInFlight(dest) === true) {\n+          return promiseResolvedWith(true);\n+        }",
     "path": "reference-implementation/lib/abstract-ops/readable-streams.js",
-    "commit_id": "579663f9661af44bf45be9f1af5c9ccc7fefa018",
+    "commit_id": "5e26f17ca1540d9ad7828a5c6b5bda3c5c4deec4",
     "original_commit_id": "7b446d57b817975b94e68242e6a0f3405a0c1014",
     "user": {
       "login": "ricea",
@@ -569,6 +576,7 @@
     "position": 37,
     "subject_type": "line",
     "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
     "copilot_code_review_sources": []
   },
   {
@@ -640,6 +648,7 @@
     "position": 1,
     "subject_type": "line",
     "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
     "copilot_code_review_sources": []
   },
   {
@@ -712,6 +721,7 @@
     "position": 1,
     "subject_type": "line",
     "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
     "copilot_code_review_sources": []
   },
   {
@@ -721,7 +731,7 @@
     "node_id": "PRRC_kwDOANUOW84vN8a_",
     "diff_hunk": "@@ -2210,6 +2221,10 @@ The following abstract operations operate on {{ReadableStream}} instances at a h\n     ask to shutdown, optionally with an error |error|, then:\n    1. If |shuttingDown| is true, abort these substeps.\n    1. Set |shuttingDown| to true.\n+   1. If |reader| [=implements=] {{ReadableStreamBYOBReader}}, perform",
     "path": "index.bs",
-    "commit_id": "579663f9661af44bf45be9f1af5c9ccc7fefa018",
+    "commit_id": "5e26f17ca1540d9ad7828a5c6b5bda3c5c4deec4",
     "original_commit_id": "124582a9c678538643e9106759f0aaba055a8d66",
     "user": {
       "login": "domenic",
@@ -783,6 +793,7 @@
     "position": 99,
     "subject_type": "line",
     "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
     "copilot_code_review_sources": []
   },
   {
@@ -855,6 +866,7 @@
     "position": 1,
     "subject_type": "line",
     "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
     "copilot_code_review_sources": []
   },
   {
@@ -864,7 +876,7 @@
     "node_id": "PRRC_kwDOANUOW84vOC2R",
     "diff_hunk": "@@ -2210,6 +2221,10 @@ The following abstract operations operate on {{ReadableStream}} instances at a h\n     ask to shutdown, optionally with an error |error|, then:\n    1. If |shuttingDown| is true, abort these substeps.\n    1. Set |shuttingDown| to true.\n+   1. If |reader| [=implements=] {{ReadableStreamBYOBReader}}, perform",
     "path": "index.bs",
-    "commit_id": "579663f9661af44bf45be9f1af5c9ccc7fefa018",
+    "commit_id": "5e26f17ca1540d9ad7828a5c6b5bda3c5c4deec4",
     "original_commit_id": "124582a9c678538643e9106759f0aaba055a8d66",
     "user": {
       "login": "MattiasBuelens",
@@ -927,6 +939,7 @@
     "position": 99,
     "subject_type": "line",
     "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
     "copilot_code_review_sources": []
   },
   {
@@ -999,6 +1012,7 @@
     "position": 1,
     "subject_type": "line",
     "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
     "copilot_code_review_sources": []
   },
   {
@@ -1008,7 +1022,7 @@
     "node_id": "PRRC_kwDOANUOW84vRgh0",
     "diff_hunk": "@@ -2210,6 +2221,10 @@ The following abstract operations operate on {{ReadableStream}} instances at a h\n     ask to shutdown, optionally with an error |error|, then:\n    1. If |shuttingDown| is true, abort these substeps.\n    1. Set |shuttingDown| to true.\n+   1. If |reader| [=implements=] {{ReadableStreamBYOBReader}}, perform",
     "path": "index.bs",
-    "commit_id": "579663f9661af44bf45be9f1af5c9ccc7fefa018",
+    "commit_id": "5e26f17ca1540d9ad7828a5c6b5bda3c5c4deec4",
     "original_commit_id": "124582a9c678538643e9106759f0aaba055a8d66",
     "user": {
       "login": "MattiasBuelens",
@@ -1071,6 +1085,7 @@
     "position": 99,
     "subject_type": "line",
     "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
     "copilot_code_review_sources": []
   },
   {
@@ -1080,7 +1095,7 @@
     "node_id": "PRRC_kwDOANUOW84vRgtJ",
     "diff_hunk": "@@ -2210,6 +2221,10 @@ The following abstract operations operate on {{ReadableStream}} instances at a h\n     ask to shutdown, optionally with an error |error|, then:\n    1. If |shuttingDown| is true, abort these substeps.\n    1. Set |shuttingDown| to true.\n+   1. If |reader| [=implements=] {{ReadableStreamBYOBReader}}, perform",
     "path": "index.bs",
-    "commit_id": "579663f9661af44bf45be9f1af5c9ccc7fefa018",
+    "commit_id": "5e26f17ca1540d9ad7828a5c6b5bda3c5c4deec4",
     "original_commit_id": "124582a9c678538643e9106759f0aaba055a8d66",
     "user": {
       "login": "domenic",
@@ -1143,6 +1158,7 @@
     "position": 99,
     "subject_type": "line",
     "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
     "copilot_code_review_sources": []
   },
   {
@@ -1215,6 +1231,7 @@
     "position": 1,
     "subject_type": "line",
     "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
     "copilot_code_review_sources": []
   },
   {
@@ -1287,6 +1304,7 @@
     "position": 1,
     "subject_type": "line",
     "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
     "copilot_code_review_sources": []
   },
   {
@@ -1359,6 +1377,7 @@
     "position": 1,
     "subject_type": "line",
     "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
     "copilot_code_review_sources": []
   },
   {
@@ -1431,6 +1450,7 @@
     "position": 1,
     "subject_type": "line",
     "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
     "copilot_code_review_sources": []
   },
   {
@@ -1503,6 +1523,7 @@
     "position": 1,
     "subject_type": "line",
     "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
     "copilot_code_review_sources": []
   },
   {
@@ -1575,6 +1596,7 @@
     "position": 1,
     "subject_type": "line",
     "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
     "copilot_code_review_sources": []
   },
   {
@@ -1647,6 +1669,7 @@
     "position": 1,
     "subject_type": "line",
     "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
     "copilot_code_review_sources": []
   }
 ]
