@@ -99,7 +99,9 @@ a time as later metrics need them:
   - `hours_to_merge`: hours from ready for review to merge, for PRs
     merged in the window, and null for the rest. Ready for review means
     created, or the first `ready_for_review` for a PR created as a
-    draft.
+    draft. Whole hours, rounded up (since 2026-11-20): merged within that
+    many hours, so a limit in whole hours, like the merge chart's 24 and
+    240, counts each PR as the exact time would.
 
   The last two were added on 2026-11-19, for open PRs by year opened and
   merges by time to merge.
@@ -127,7 +129,8 @@ a view that needs events by day sorts them itself. The web tests run
 each view on the same data with its items shuffled to check.
 `build.expand` does the same decoding in Python. On 2026-11-20 this took
 the file from 183 KB (43.9 KB gzipped) to 100 KB (21.5 KB gzipped),
-with the same contents.
+with the same contents, and whole hours to merge to 92 KB (17.7 KB
+gzipped).
 
 `python3 -m specstats build` (`specstats/build.py`) writes it to
 `build/data.json`, which isn't committed: whatever deploys the site runs

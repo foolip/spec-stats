@@ -13,7 +13,8 @@ export interface RawData {
     /** Day of the PR's created_at, from meta.from (negative before the window),
      * as a difference from the previous item of the same repo, like `number`. */
     created: number[];
-    /** Hours from ready for review to merge, for PRs merged in the window. */
+    /** Hours from ready for review to merge, for PRs merged in the window:
+     * whole hours, rounded up. */
     hours_to_merge: (number | null)[];
     /** How many of `events` are this item's, which follow the previous item's. */
     events: number[];

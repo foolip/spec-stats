@@ -71,7 +71,7 @@ test("merges are counted per period and by time to merge", () => {
     meta: { from: FROM, to: "2022-01-31" },
     event_types: types,
     repos: { name: ["html", "dom"], standard: ["HTML", "DOM"] },
-    items: { repo: [0, 1, 0, 0], number: [1, 2, 3, 4], created: [0, 0, 0, 0], hours_to_merge: [24, 3, 24.5, 241] },
+    items: { repo: [0, 1, 0, 0], number: [1, 2, 3, 4], created: [0, 0, 0, 0], hours_to_merge: [24, 3, 25, 241] },
     events: ev,
   };
   const ps = periods(FROM, 0, 30, "week");

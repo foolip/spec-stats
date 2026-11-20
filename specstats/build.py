@@ -7,7 +7,7 @@
                    "closed", "reopened", "convert_to_draft", "ready_for_review", "merged"],
    "repos":  {"name": ["dom", ...], "standard": ["DOM", ...]},
    "items":  {"repo": [0, ...], "number": [1234, 5, ...], "created": [-412, 3, ...],
-              "hours_to_merge": [null, 30.25, ...], "events": [2, ...]},
+              "hours_to_merge": [null, 31, ...], "events": [2, ...]},
    "events": {"day": [0, 17, ...], "event": [0, 4, ...]}}
 
 Each table is stored by column. `items.repo` is an index into `repos`
@@ -39,8 +39,9 @@ GitHub has no event for it. A merge is a `closed` event too, which is
 what ends a PR's open span; `merged` (from the PR's `merged_at`) is there
 for counting merges, and doesn't change its state. `items.hours_to_merge`
 is the time from the PR being ready for review (created, or its first
-`ready_for_review` if it was created as a draft) to its merge, in hours,
-for PRs merged in the window, and null for the rest.
+`ready_for_review` if it was created as a draft) to its merge, in whole
+hours rounded up (merged within that many hours), for PRs merged in the
+window, and null for the rest.
 
 Draft status is a second state alongside open or closed, with GitHub's
 `convert_to_draft` and `ready_for_review`. GitHub has no event for a PR
@@ -194,9 +195,10 @@ def item_events(obj, pull, events, start, end, fixes):
 
 
 def hours_to_merge(obj, pull, events, fixes):
-    """Hours from the PR being ready for review to its merge: from
-    `created_at`, or from its first `ready_for_review` if it was created
-    as a draft."""
+    """Hours from the PR being ready for review to its merge, rounded up:
+    from `created_at`, or from its first `ready_for_review` if it was
+    created as a draft. Rounded up so that any limit in whole hours ("within
+    24 hours") gives the same answer as the exact time."""
     changes, draft_at_creation = transitions(obj, pull, events, {})
     ready = obj["created_at"]
     if draft_at_creation:
@@ -205,8 +207,8 @@ def hours_to_merge(obj, pull, events, fixes):
             _fix(fixes, "merged while a draft: hours to merge from `created_at`")
         else:
             ready = first
-    hours = (_time(obj["pull_request"]["merged_at"]) - _time(ready)).total_seconds() / 3600
-    return round(max(hours, 0.0), 2)
+    taken = _time(obj["pull_request"]["merged_at"]) - _time(ready)
+    return max(-(-taken // datetime.timedelta(hours=1)), 0)
 
 
 def build(root=None, standards=None, updated_since=None, log=print):

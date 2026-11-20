@@ -13,7 +13,7 @@ test("the data file is decoded into values, with each event's item", () => {
       repo: [0, 1, 0, 1],
       number: [10, 3, 2, 4],
       created: [-30, 5, 32, 3],
-      hours_to_merge: [null, 1.5, null, null],
+      hours_to_merge: [null, 2, null, null],
       events: [2, 1, 1, 2],
     },
     events: {

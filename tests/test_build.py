@@ -70,7 +70,7 @@ class BuildTest(TempDirs):
             "created": [day(d) for d in ("2025-02-01", "2025-03-01", "2024-01-01", "2023-01-01",
                                          "2025-01-01", "2025-03-15", "2025-02-01")],
             # #2 merged 9 days after it was created, #3 one day after.
-            "hours_to_merge": [216.0, 24.0, None, None, None, None, None]})
+            "hours_to_merge": [216, 24, None, None, None, None, None]})
         self.assertLess(items["created"][3], 0)  # opened before the window
         self.assertEqual(self.events(data), {
             2: [(day("2025-02-01"), "_created"), (day("2025-02-10"), "closed"), (day("2025-02-10"), "merged")],
@@ -132,12 +132,16 @@ class BuildTest(TempDirs):
                      merged_at="2025-01-03T06:00:00Z", merged_by="ed")
         # Merged before the window ended, but created before it started.
         gh.add_issue(11, "2024-05-01T12:00:00Z", is_pr=True, merged_at="2025-01-01T12:00:00Z", merged_by="ed")
+        # Merged 24 hours and 1 second after it was created: rounded up.
+        gh.add_issue(12, "2025-01-05T00:00:00Z", is_pr=True, merged_at="2025-01-06T00:00:01Z", merged_by="ed")
         self.sync(gh)
         data, logs = self.build()
         items, _ = build.expand(data)
         hours = dict(zip(items["number"], items["hours_to_merge"]))
-        self.assertEqual(hours[10], 6.0)
-        self.assertEqual(hours[11], 245 * 24.0)
+        self.assertEqual(hours[10], 6)
+        self.assertEqual(hours[11], 245 * 24)
+        self.assertEqual(hours[12], 25)
+        self.assertIsInstance(hours[10], int)
         self.assertEqual(self.events(data)[10][-1], (day("2025-01-03"), "merged"))
         self.assertEqual(logs, [])
 
