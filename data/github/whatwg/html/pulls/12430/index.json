@@ -10,7 +10,7 @@
   "review_comments_url": "https://api.github.com/repos/whatwg/html/pulls/12430/comments",
   "review_comment_url": "https://api.github.com/repos/whatwg/html/pulls/comments{/number}",
   "comments_url": "https://api.github.com/repos/whatwg/html/issues/12430/comments",
-  "statuses_url": "https://api.github.com/repos/whatwg/html/statuses/09bcc487fef130b76ec810395449828b17a6cb7d",
+  "statuses_url": "https://api.github.com/repos/whatwg/html/statuses/6fad3fd08f4eba97e19262d4d405d93ed0bbd521",
   "number": 12430,
   "state": "open",
   "locked": false,
@@ -36,7 +36,7 @@
     "user_view_type": "public",
     "site_admin": false
   },
-  "body": "<!--\nThank you for contributing to the HTML Standard! Please describe the change you are making and complete the checklist below if your change is not editorial.\n\nWhen you submit this PR, and each time you edit this comment (including checking a checkbox through the UI!), PR Preview will run and update it. As such make any edits in one go and only after PR Preview has run.\n\nIf you think your PR is ready to land, please double-check that the build is passing and the checklist is complete before pinging.\n-->\n\nThis PR adds support for the selectedcontent element in a select element\nwith the multiple attribute. Every option in the select's list of options\nis cloned into selectedcontent, and each clone has the same selectedness\nas the option it was cloned from. A new UA style rule hides the clones\nwhich aren't selected:\n\n```css\nselect[multiple] selectedcontent > option:not(:checked) {\n  display: none;\n}\n```\nHere is what the markup would look like after the selectedcontent element performs its cloning:\n```html\n<select multiple size=1>\n  <button>\n    <selectedcontent>\n      <option>one</option>\n      <option>two</option>\n      <option>three</option>\n    </selectedcontent>\n  </button>\n  <option>one</option>\n  <option>two</option>\n  <option>three</option>\n</select>\n```\n\nThe clones are not considered options of the select, and the UA style rules which\ngive options their size, spacing, layout, and interactive styles exclude\nthem with `:not(selectedcontent > option)`.\n\nSince every option insertion means selectedcontent needs updating, the \noptions are only cloned at these times:\n\n- **When the select is done being parsed.** Nothing is cloned and no\n  microtasks are queued during parsing, because microtask timing relative\n  to parsing is inconsistent, which would make the clone timing and \n  mutation records inconsistent.\n- **In a microtask coalesced per select, when modified by script.** This\n  avoids cloning every option each time an option is inserted when\n  building a select imperatively.\n\nChanging an option's selectedness updates the selectedness of its \nexisting clone without re-cloning.\n    \nFixes https://github.com/whatwg/html/issues/12342\n\n\n- [ ] At least two implementers are interested (and none opposed):\n   * Chrome\n   * …\n   * Standards positions:\n     - https://github.com/WebKit/standards-positions/issues/684\n     - https://github.com/mozilla/standards-positions/issues/1420\n- [x] [Tests](https://github.com/web-platform-tests/wpt) are written and can be reviewed and commented upon at:\n   * https://wpt.fyi/results/html/semantics/forms/the-select-element/customizable-select-multiple-popup/selectedcontent-multiple.tentative.html\n- [ ] [Implementation bugs](https://github.com/whatwg/meta/blob/main/MAINTAINERS.md#handling-pull-requests) are filed:\n   * Chromium: https://issues.chromium.org/issues/483769482\n   * Gecko: …\n   * WebKit: …\n- [x] Corresponding [HTML AAM](https://w3c.github.io/html-aam/) & [ARIA in HTML](https://w3c.github.io/html-aria/) issues & PRs: https://github.com/w3c/aria/issues/2956\n- [ ] [MDN issue](https://github.com/whatwg/meta/blob/main/MAINTAINERS.md#handling-pull-requests) is filed: …\n- [x] The top of this comment includes a [clear commit message](https://github.com/whatwg/meta/blob/main/COMMITTING.md) to use. <!-- If you created this PR from a single commit, Github copied its message. Otherwise, you need to add a commit message yourself. -->\n\n(See [WHATWG Working Mode: Changes](https://whatwg.org/working-mode#changes) for more details.)\n\n\n<!--\n    This comment and the below content is programmatically generated.\n    You may add a comma-separated list of anchors you'd like a\n    direct link to below (e.g. #idl-serializers, #idl-sequence):\n\n    Don't remove this comment or modify anything below this line.\n    If you don't want a preview generated for this pull request,\n    just replace the whole of this comment's content by \"no preview\"\n    and remove what's below.\n-->\n***\n<a href=\"https://whatpr.org/html/12430/form-elements.html\" title=\"Last updated on Nov 18, 2026, 7:56 PM UTC (09bcc48)\">/form-elements.html</a>  ( <a href=\"https://whatpr.org/html/12430/4c54fae...09bcc48/form-elements.html\" title=\"Last updated on Nov 18, 2026, 7:56 PM UTC (09bcc48)\">diff</a> )\n<a href=\"https://whatpr.org/html/12430/rendering.html\" title=\"Last updated on Nov 18, 2026, 7:56 PM UTC (09bcc48)\">/rendering.html</a>  ( <a href=\"https://whatpr.org/html/12430/4c54fae...09bcc48/rendering.html\" title=\"Last updated on Nov 18, 2026, 7:56 PM UTC (09bcc48)\">diff</a> )",
+  "body": "<!--\nThank you for contributing to the HTML Standard! Please describe the change you are making and complete the checklist below if your change is not editorial.\n\nWhen you submit this PR, and each time you edit this comment (including checking a checkbox through the UI!), PR Preview will run and update it. As such make any edits in one go and only after PR Preview has run.\n\nIf you think your PR is ready to land, please double-check that the build is passing and the checklist is complete before pinging.\n-->\n\nThis PR adds support for the selectedcontent element in a select element\nwith the multiple attribute. Every option in the select's list of options                                                                     \nis cloned into selectedcontent, and each clone has the same selectedness\nas the option it was cloned from. A new UA style rule hides the clones\nwhich aren't selected:\n    \n```css                                                                       \nselect[multiple] selectedcontent > option:not(:checked) {\n  display: none;\n}\n```\n\nHere is what the markup would look like after the selectedcontent element\nperforms its cloning:\n\n```html   \n<select multiple size=1>\n  <button>\n    <selectedcontent>\n      <option>one</option>\n      <option>two</option>\n      <option>three</option>\n    </selectedcontent>\n  </button>\n  <option>one</option> \n  <option>two</option>\n  <option>three</option>\n</select>\n```\n\nThe clones are not options of the select: selectedcontent now ends the\nsearch for an option's nearest ancestor select, and the list of options\nskips selectedcontent descendants. This also changes select without the\nmultiple attribute, so that an option inside a selectedcontent is no\nlonger one of its options. The UA style rules which give options their\nsize, spacing, layout, and interactive styles exclude the clones with\n`:not(selectedcontent option)`.\n\nOnly selectedness is kept in sync. Changing an option's selectedness\nupdates the selectedness of its existing clones without cloning again.\nChanges to an option's attributes or children are not reflected until the\noptions are cloned again. Each clone keeps its option's `id`, so\n`getElementById()`, selectors, and ID references can find the clone.\nThe timing matches select without the multiple attribute wherever cloning \ncost allows:\n- **Inserting a selectedcontent** (including when its select gets\n  connected) clones the options synchronously in its post-connection\n  steps.\n- **Adding the multiple attribute** clones the options synchronously, the\n  same way that removing it synchronously updates selectedcontent.\n- **Inserting, removing, or moving an option** clones the options in a\n  microtask which is coalesced per select. Unlike select without the\n  multiple attribute, the option post-connection steps don't perform the\n  update, so building a select imperatively doesn't clone every option\n  each time one is inserted. Moving an ancestor of the select doesn't\n  clone again.\n- **While the select is being parsed**, nothing is cloned and no\n  microtasks are queued. The options are cloned once, when the parser\n  finishes parsing the select's children. Microtask timing relative to\n  parsing is inconsistent, which would make the clone timing and mutation\n  records inconsistent.\n\nAs with select without the multiple attribute, this works the same way\nwhether or not the select is connected.\n\nFixes https://github.com/whatwg/html/issues/12342\nFixes https://github.com/whatwg/html/issues/13038\n\n- [ ] At least two implementers are interested (and none opposed):\n   * Chrome\n   * …\n   * Standards positions:\n     - https://github.com/WebKit/standards-positions/issues/684\n     - https://github.com/mozilla/standards-positions/issues/1420\n- [x] [Tests](https://github.com/web-platform-tests/wpt) are written and can be reviewed and commented upon at:\n   * https://wpt.fyi/results/html/semantics/forms/the-select-element/customizable-select-multiple-popup/selectedcontent-multiple.tentative.html\n   * https://chromium-review.googlesource.com/c/chromium/src/+/8738126\n- [ ] [Implementation bugs](https://github.com/whatwg/meta/blob/main/MAINTAINERS.md#handling-pull-requests) are filed:\n   * Chromium: https://issues.chromium.org/issues/483769482\n   * Gecko: …\n   * WebKit: https://bugs.webkit.org/show_bug.cgi?id=325127\n- [x] Corresponding [HTML AAM](https://w3c.github.io/html-aam/) & [ARIA in HTML](https://w3c.github.io/html-aria/) issues & PRs: https://github.com/w3c/aria/issues/2956\n- [ ] [MDN issue](https://github.com/whatwg/meta/blob/main/MAINTAINERS.md#handling-pull-requests) is filed: …\n- [x] The top of this comment includes a [clear commit message](https://github.com/whatwg/meta/blob/main/COMMITTING.md) to use. <!-- If you created this PR from a single commit, Github copied its message. Otherwise, you need to add a commit message yourself. -->\n\n(See [WHATWG Working Mode: Changes](https://whatwg.org/working-mode#changes) for more details.)\n\n\n<!--\n    This comment and the below content is programmatically generated.\n    You may add a comma-separated list of anchors you'd like a\n    direct link to below (e.g. #idl-serializers, #idl-sequence):\n\n    Don't remove this comment or modify anything below this line.\n    If you don't want a preview generated for this pull request,\n    just replace the whole of this comment's content by \"no preview\"\n    and remove what's below.\n-->\n***\n<a href=\"https://whatpr.org/html/12430/form-elements.html\" title=\"Last updated on Nov 20, 2026, 2:26 AM UTC (6fad3fd)\">/form-elements.html</a>  ( <a href=\"https://whatpr.org/html/12430/3941bb4...6fad3fd/form-elements.html\" title=\"Last updated on Nov 20, 2026, 2:26 AM UTC (6fad3fd)\">diff</a> )\n<a href=\"https://whatpr.org/html/12430/rendering.html\" title=\"Last updated on Nov 20, 2026, 2:26 AM UTC (6fad3fd)\">/rendering.html</a>  ( <a href=\"https://whatpr.org/html/12430/3941bb4...6fad3fd/rendering.html\" title=\"Last updated on Nov 20, 2026, 2:26 AM UTC (6fad3fd)\">diff</a> )",
   "labels": [
     {
       "id": 7719196142,
@@ -53,7 +53,7 @@
   "milestone": null,
   "active_lock_reason": null,
   "created_at": "2026-05-08T22:58:41Z",
-  "updated_at": "2026-11-19T15:51:43Z",
+  "updated_at": "2026-11-20T02:26:45Z",
   "closed_at": null,
   "merged_at": null,
   "assignees": [],
@@ -113,7 +113,7 @@
       "has_pages": false,
       "has_discussions": false,
       "has_pull_requests": true,
-      "pushed_at": "2026-11-18T19:53:00Z",
+      "pushed_at": "2026-11-20T02:19:46Z",
       "created_at": "2020-03-04T19:52:14Z",
       "updated_at": "2026-11-11T19:11:56Z",
       "allow_forking": true,
@@ -170,7 +170,7 @@
       "hooks_url": "https://api.github.com/repos/josepharhar/html/hooks",
       "svn_url": "https://github.com/josepharhar/html"
     },
-    "sha": "09bcc487fef130b76ec810395449828b17a6cb7d",
+    "sha": "6fad3fd08f4eba97e19262d4d405d93ed0bbd521",
     "user": {
       "login": "josepharhar",
       "id": 7681467,
@@ -246,9 +246,9 @@
       "stargazers_count": 9458,
       "watchers_count": 9458,
       "watchers": 9458,
-      "open_issues_count": 2786,
-      "open_issues": 2786,
-      "size": 1352863,
+      "open_issues_count": 2787,
+      "open_issues": 2787,
+      "size": 1352865,
       "default_branch": "main",
       "has_issues": true,
       "has_projects": false,
@@ -256,7 +256,7 @@
       "has_pages": false,
       "has_discussions": false,
       "has_pull_requests": true,
-      "pushed_at": "2026-11-19T16:33:51Z",
+      "pushed_at": "2026-11-19T22:05:16Z",
       "created_at": "2013-08-08T06:26:07Z",
       "updated_at": "2026-11-19T15:30:36Z",
       "allow_forking": true,
@@ -313,7 +313,7 @@
       "hooks_url": "https://api.github.com/repos/whatwg/html/hooks",
       "svn_url": "https://github.com/whatwg/html"
     },
-    "sha": "4c54fae106900a24130da614b7ad29d85c6981c6",
+    "sha": "3941bb4c6ecc16a97b473badba6f800fd37eb277",
     "user": {
       "login": "whatwg",
       "id": 2226336,
@@ -344,7 +344,7 @@
       "href": "https://api.github.com/repos/whatwg/html/pulls/12430/commits"
     },
     "statuses": {
-      "href": "https://api.github.com/repos/whatwg/html/statuses/09bcc487fef130b76ec810395449828b17a6cb7d"
+      "href": "https://api.github.com/repos/whatwg/html/statuses/6fad3fd08f4eba97e19262d4d405d93ed0bbd521"
     },
     "html": {
       "href": "https://github.com/whatwg/html/pull/12430"
@@ -370,11 +370,11 @@
   "rebaseable": false,
   "mergeable_state": "blocked",
   "merged_by": null,
-  "comments": 10,
+  "comments": 11,
   "review_comments": 2,
   "maintainer_can_modify": true,
-  "commits": 49,
-  "additions": 283,
-  "deletions": 36,
+  "commits": 51,
+  "additions": 301,
+  "deletions": 53,
   "changed_files": 1
 }
