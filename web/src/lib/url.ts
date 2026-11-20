@@ -58,27 +58,32 @@ function validDate(value: string | null, ctx: Context): string | null {
   return value;
 }
 
+/** Dates as in GitHub's search, `2024-01-01..2026-11-17`, `*` for an
+ * open end; clamped to the window. Null if invalid or backwards. */
+function dates(from: string | null, to: string | null, ctx: Context): Range | null {
+  const a = validDate(from === "*" ? ctx.from : from, ctx);
+  const b = validDate(to === "*" ? ctx.to : to, ctx);
+  return a !== null && b !== null && a <= b ? { from: a, to: b } : null;
+}
+
+/** `range`: a preset or dates. Null if invalid. */
+function parseRange(value: string | null, ctx: Context): Range | null {
+  if (value === null) return null;
+  if ((PRESETS as readonly string[]).includes(value)) return { preset: value as Preset };
+  const m = /^([^.]*)\.\.([^.]*)$/.exec(value);
+  return m ? dates(m[1], m[2], ctx) : null;
+}
+
 export function parse(search: string, ctx: Context): State {
   const q = new URLSearchParams(search);
-  const from = validDate(q.get("from"), ctx);
-  const to = validDate(q.get("to"), ctx);
-  const range: Range =
-    from !== null || to !== null
-      ? { from: from ?? ctx.from, to: to ?? ctx.to }
-      : { preset: oneOf(PRESETS, q.get("range"), DEFAULT_PRESET) };
-  if ("from" in range && range.from > range.to) return parse(withoutRange(q), ctx);
+  // `from` and `to`, written by "Copy link" until 2026-11-20, still read.
+  const legacy = q.has("from") || q.has("to") ? dates(q.get("from") ?? "*", q.get("to") ?? "*", ctx) : null;
   return {
     view: oneOf(VIEWS, q.get("view"), DEFAULT.view),
     repo: ctx.repoNames.find((n) => n === q.get("repo")) ?? null,
-    range,
+    range: parseRange(q.get("range"), ctx) ?? legacy ?? { preset: DEFAULT_PRESET },
     bin: oneOf(BIN_CHOICES, q.get("bin"), DEFAULT.bin),
   };
-}
-
-function withoutRange(q: URLSearchParams): string {
-  const copy = new URLSearchParams(q);
-  for (const k of ["from", "to", "range"]) copy.delete(k);
-  return copy.toString();
 }
 
 /** The query string for a state, "" for the default view. Parameters are
@@ -90,8 +95,7 @@ export function serialize(state: State): string {
   if ("preset" in state.range) {
     if (state.range.preset !== DEFAULT_PRESET) q.set("range", state.range.preset);
   } else {
-    q.set("from", state.range.from);
-    q.set("to", state.range.to);
+    q.set("range", `${state.range.from}..${state.range.to}`);
   }
   if (state.bin !== DEFAULT.bin) q.set("bin", state.bin);
   const s = q.toString();

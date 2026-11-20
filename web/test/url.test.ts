@@ -10,7 +10,7 @@ test("the default view is the empty query string", () => {
 });
 
 test("a view round-trips through the URL", () => {
-  const search = "?repo=html&from=2024-01-01&to=2026-11-17";
+  const search = "?repo=html&range=2024-01-01..2026-11-17";
   assert.equal(serialize(parse(search, ctx)), search);
   assert.equal(serialize(parse("?repo=dom&range=all", ctx)), "?repo=dom&range=all");
   // The default range, the last year, is left out.
@@ -33,9 +33,33 @@ test("unknown and invalid parameters are dropped", () => {
   assert.equal(serialize(parse("?repo=dom,html", ctx)), "");
   assert.equal(serialize(parse("?repo=-html", ctx)), "");
   assert.equal(serialize(parse("?repos=html", ctx)), "");
-  assert.equal(serialize(parse("?from=2025-13-45", ctx)), "");
+  assert.equal(serialize(parse("?range=2025-13-45..2026-01-01", ctx)), "");
+  assert.equal(serialize(parse("?range=2025-01-01", ctx)), "");
+  assert.equal(serialize(parse("?range=2025-01-01...2026-01-01", ctx)), "");
+  assert.equal(serialize(parse("?range=..", ctx)), "");
   // Out of the window: clamped to it. Backwards: dropped.
-  assert.equal(serialize(parse("?from=2019-01-01&to=2030-01-01", ctx)), "?from=2022-01-01&to=2026-11-17");
+  assert.equal(serialize(parse("?range=2019-01-01..2030-01-01", ctx)), "?range=2022-01-01..2026-11-17");
+  assert.equal(serialize(parse("?range=2025-01-01..2024-01-01", ctx)), "");
+});
+
+test("custom dates are written as in GitHub's search, * for an open end", () => {
+  assert.deepEqual(parse("?range=2024-01-01..2025-06-30", ctx).range, { from: "2024-01-01", to: "2025-06-30" });
+  assert.equal(serialize(parse("?range=2024-01-01..*", ctx)), "?range=2024-01-01..2026-11-17");
+  assert.equal(serialize(parse("?range=*..2024-01-01", ctx)), "?range=2022-01-01..2024-01-01");
+  assert.equal(serialize(parse("?range=*..*", ctx)), "?range=2022-01-01..2026-11-17");
+  assert.equal(serialize(parse("?range=2024-01-01..2024-01-01", ctx)), "?range=2024-01-01..2024-01-01");
+  // Unencoded in the URL; encoded, as some tools write it, also read.
+  assert.equal(serialize(parse("?range=2024-01-01..%2A", ctx)), "?range=2024-01-01..2026-11-17");
+});
+
+test("old from and to links still work, rewritten to range", () => {
+  assert.equal(serialize(parse("?repo=html&from=2024-01-01&to=2026-11-17", ctx)), "?repo=html&range=2024-01-01..2026-11-17");
+  assert.equal(serialize(parse("?from=2024-01-01", ctx)), "?range=2024-01-01..2026-11-17");
+  assert.equal(serialize(parse("?to=2024-01-01", ctx)), "?range=2022-01-01..2024-01-01");
+  assert.equal(serialize(parse("?from=2019-01-01&to=2030-01-01", ctx)), "?range=2022-01-01..2026-11-17");
+  // A valid range wins; invalid or backwards dates are dropped.
+  assert.equal(serialize(parse("?range=3y&from=2024-01-01", ctx)), "?range=3y");
+  assert.equal(serialize(parse("?from=2025-13-45", ctx)), "");
   assert.equal(serialize(parse("?from=2025-01-01&to=2024-01-01&range=1y", ctx)), "");
 });
 

@@ -273,7 +273,7 @@ nothing else holds it: the app reads its state from the URL and writes
 it back.
 
 ```
-/?repo=html&from=2024-01-01&to=2026-11-17
+/?repo=html&range=2024-01-01..2026-11-17
 /?repo=dom&range=all
 ```
 
@@ -283,8 +283,7 @@ it back.
 |---|---|---|
 | `view` | `open-prs` | `open-prs` |
 | `repo` | one repo's name, `html` | all |
-| `range` | `all`, `3y`, `1y`, `6m`, `3m`, counted back from the window's end | `1y` |
-| `from`, `to` | `YYYY-MM-DD`, clamped to the window; replace `range` | |
+| `range` | `all`, `3y`, `1y`, `6m`, `3m`, counted back from the window's end; or dates as in GitHub's search, `2024-01-01..2026-11-17`, inclusive and clamped to the window, `*` for an open end | `1y` |
 | `bin` | `day`, `week` (ISO), `month`, `quarter`: the period of the bars, and of the points the open PRs are drawn at | `auto` |
 
 - **Defaults are left out**, so `/?view=open-prs` is a whole link.
@@ -293,13 +292,15 @@ it back.
   one (`pushState`), so Back returns to the previous chart. `popstate`
   re-reads the URL.
 - **Parameters mean the same in every view** that uses them (`repo`,
-  `from`, `to`, `window`), so switching views keeps the filters.
+  `range`, `window`), so switching views keeps the filters.
 - **Relative or fixed dates.** Presets write `range=12m`, which moves
-  with the data; "link to this view" writes `from` and `to` instead, so
-  the link shows the same dates later (the figures are stable up to the
-  data's small corrections).
+  with the data; "link to this view" writes the dates instead
+  (`range=2024-01-01..2026-11-17`), so the link shows the same dates
+  later (the figures are stable up to the data's small corrections).
 - **Unknown or invalid parameters are dropped quietly** and the URL
   rewritten without them, so old links keep working as views change.
+  `from` and `to`, which held custom dates until 2026-11-20, are still
+  read and rewritten as `range`.
 - Repos in the URL are their `name` (`html`), not indexes, as indexes
   change when repos are added.
 
