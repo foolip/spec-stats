@@ -50,14 +50,22 @@ function nextDate(date: string, bin: Bin): string {
   return d.toISOString().slice(0, 10);
 }
 
-/** For "auto": the smallest period, a week or longer, whose bars are at
- * least `minWidth` px wide. */
-export function chooseBin(from: string, start: number, end: number, width: number, minWidth = 8): Bin {
+/** At most this many bars for "auto": a year of ISO weeks, which can touch
+ * 54 weeks. */
+export const AUTO_MAX_BARS = 54;
+
+/** For "auto": the smallest period, a week or longer, that gives at most
+ * AUTO_MAX_BARS bars. From the range alone, not the chart's width, so the
+ * page can show it before anything is measured (docs/site-design.md). */
+export function chooseBin(from: string, start: number, end: number): Bin {
   for (const bin of AUTO_BINS) {
-    if (width / periods(from, start, end, bin).length >= minWidth) return bin;
+    if (periods(from, start, end, bin).length <= AUTO_MAX_BARS) return bin;
   }
   return "quarter";
 }
+
+/** A period's unit in text: "Open PRs at the end of each ISO week". */
+export const UNIT: Record<Bin, string> = { day: "day", week: "ISO week", month: "month", quarter: "quarter" };
 
 /** "Tue 17 Nov 2026", "2026-W47", "November 2026" or "2026 Q4". */
 export function periodName(p: Period, bin: Bin): string {

@@ -104,6 +104,11 @@ main { display: flow-root; min-height: 100vh; }
 
 .notice { padding: 3rem 0; color: var(--ink-2); }
 
+/* Until the data has loaded, the parts that need it show the values the
+   page was prerendered with. If the URL asks for others, the controller
+   marks the page pending and they're hidden, keeping their space. */
+[data-pending] [data-island] { visibility: hidden; }
+
 /* A view */
 
 .view hgroup { margin: 2rem 0 1.25rem; }

@@ -46,13 +46,15 @@ test("a count is drawn on the range's first day and each period's last", () => {
   assert.deepEqual(sampleDays([]), []);
 });
 
-test("the bin is the smallest period that keeps bars wide enough", () => {
-  assert.equal(chooseBin(FROM, 1782 - 365, 1781, 560), "week"); // 53 weeks: 10.6 px
-  assert.equal(chooseBin(FROM, 1782 - 365, 1781, 400), "month"); // 7.5 px a week
-  assert.equal(chooseBin(FROM, 0, 1781, 560), "month"); // 59 months: 9.5 px
-  assert.equal(chooseBin(FROM, 0, 1781, 300), "quarter");
-  // Auto never chooses days, however wide: a day's merges are mostly 0 to 3.
-  assert.equal(chooseBin(FROM, 1690, 1781, 2000), "week");
+test("auto is the smallest period with at most 54 bars", () => {
+  // From the range alone: the smallest period with at most 54 bars.
+  assert.equal(chooseBin(FROM, 1782 - 365, 1781), "week"); // a year: 53 weeks
+  assert.equal(chooseBin(FROM, 1782 - 371, 1781), "week"); // 54 weeks
+  assert.equal(chooseBin(FROM, 1782 - 378, 1781), "month"); // 55 weeks: 13 months
+  assert.equal(chooseBin(FROM, 1782 - 1095, 1781), "month"); // three years: 37 months
+  assert.equal(chooseBin(FROM, 0, 1781), "quarter"); // 59 months: 20 quarters
+  // Auto never chooses days, however short: a day's merges are mostly 0 to 3.
+  assert.equal(chooseBin(FROM, 1690, 1781), "week");
 });
 
 test("merges are counted per period and by time to merge", () => {
