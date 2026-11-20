@@ -71,16 +71,7 @@
       <div class="chart-box" data-island="openChart" style:height="{AREA_HEIGHT}px"></div>
       <details class="table-view">
         <summary>Table: month ends</summary>
-        <table>
-          <thead>
-            <tr>
-              <th scope="col">Date</th>
-              {#each [...model.layers].reverse() as l (l.label)}<th scope="col">{l.label}</th>{/each}
-              <th scope="col">Open</th>
-            </tr>
-          </thead>
-          <tbody data-island="openRows"><islands.openRows {model} /></tbody>
-        </table>
+        <div data-island="openTable"><islands.openTable {model} /></div>
       </details>
     </section>
 
@@ -96,16 +87,7 @@
       <div class="chart-box" data-island="mergesChart" style:height="{BARS_HEIGHT}px"></div>
       <details class="table-view">
         <summary>Table: merges per <span data-text="unit">{t.unit}</span></summary>
-        <table>
-          <thead>
-            <tr>
-              <th scope="col" data-text="unit-title">{t.unitTitle}</th>
-              {#each model.mergeBands as l (l.label)}<th scope="col">{l.label}</th>{/each}
-              <th scope="col">Merged</th>
-            </tr>
-          </thead>
-          <tbody data-island="mergesRows"><islands.mergesRows {model} /></tbody>
-        </table>
+        <div data-island="mergesTable"><islands.mergesTable {model} /></div>
       </details>
     </section>
 
@@ -113,17 +95,7 @@
          controller shows and hides it. -->
     <section class="panel" id="by-spec" hidden={model.view.repo !== null}>
       <h2>By spec</h2>
-      <table class="by-spec">
-        <thead>
-          <tr>
-            <th scope="col">Spec</th>
-            <th scope="col" class="n">Open</th>
-            <th scope="col" class="n">Change</th>
-            <th scope="col" class="bar-col"><span class="visually-hidden">Open, as a bar</span></th>
-          </tr>
-        </thead>
-        <tbody data-island="bySpecRows"><islands.bySpecRows {model} /></tbody>
-      </table>
+      <div data-island="bySpecTable"><islands.bySpecTable {model} /></div>
     </section>
   </article>
 </main>

@@ -358,8 +358,8 @@ browser (until 2026-11-20); the charts follow at about 1.1 s.
   has it) paint a page this small whole in practice.
 - **Islands.** The parts that need the data are Svelte components in
   `src/islands/`, one each: the tiles' values, the charts and the
-  tables' rows. Everything around them, the tables' headings included,
-  is static HTML. `src/islands/index.ts` maps each `data-island` name to
+  tables, each a whole element's content. Everything around them is
+  static HTML. `src/islands/index.ts` maps each `data-island` name to
   its component; `Page.svelte` prerenders them from it (the charts as
   empty boxes) and `src/main.ts` mounts them from it, so the names can't
   drift apart. Once the data has loaded, `main.ts` mounts each in its

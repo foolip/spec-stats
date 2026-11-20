@@ -79,7 +79,7 @@ function apply() {
   toInput.min = t.dates.from;
   binSelect.value = state.bin;
   binSelect.options[0].text = t.autoLabel;
-  const text: Record<string, string> = { start: t.startDate, end: t.endDate, unit: t.unit, "unit-title": t.unitTitle };
+  const text: Record<string, string> = { start: t.startDate, end: t.endDate, unit: t.unit };
   for (const el of texts) el.textContent = text[el.dataset.text!];
   // With one spec, the by-spec table would only repeat the tiles.
   bySpec.hidden = state.repo !== null;
@@ -115,7 +115,7 @@ for (const input of [fromInput, toInput]) {
   });
 }
 binSelect.addEventListener("change", () => set({ bin: binSelect.value as BinChoice }));
-// The by-spec table's spec names show only that spec. Its rows are an
+// The by-spec table's spec names show only that spec. The table is an
 // island, remounted with the data, so this listens on the document.
 document.addEventListener("click", (e) => {
   const b = (e.target as Element).closest<HTMLElement>("button[data-repo]");
