@@ -115,7 +115,7 @@
     hover = Math.min(end, Math.max(start, next));
   }
 
-  /** What a screen reader hears for a day: "17 Nov 2026: 120 2026, 45 2025". */
+  /** What a screen reader hears for a day: "Nov 17, 2026: 120 2026, 45 2025". */
   function valueText(d: number): string {
     return `${longDate(dateOf(from, d))}: ${layers.map((l) => `${num(l.values[d])} ${l.label}`).join(", ")}`;
   }

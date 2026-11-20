@@ -1,16 +1,19 @@
-const dateFormat = new Intl.DateTimeFormat("en-GB", {
+/** The page's locale, matching `<html lang>` in index.html. */
+export const LOCALE = "en-US";
+
+const dateFormat = new Intl.DateTimeFormat(LOCALE, {
   day: "numeric",
   month: "short",
   year: "numeric",
   timeZone: "UTC",
 });
 
-/** "17 Nov 2026" for "2026-11-17". */
+/** "Nov 17, 2026" for "2026-11-17". */
 export function longDate(date: string): string {
   return dateFormat.format(new Date(`${date}T00:00:00Z`));
 }
 
-const numberFormat = new Intl.NumberFormat("en-GB");
+const numberFormat = new Intl.NumberFormat(LOCALE);
 
 export function num(n: number): string {
   return numberFormat.format(n);
