@@ -11,9 +11,6 @@ export type View = (typeof VIEWS)[number];
 export const PRESETS = ["all", "3y", "1y", "6m", "3m"] as const;
 export type Preset = (typeof PRESETS)[number];
 
-export const DRAFTS = ["include", "exclude"] as const;
-export type Drafts = (typeof DRAFTS)[number];
-
 export type Range = { preset: Preset } | { from: string; to: string };
 
 export interface State {
@@ -22,7 +19,6 @@ export interface State {
    * links survive repos being added. */
   repo: string | null;
   range: Range;
-  drafts: Drafts;
 }
 
 const DEFAULT_PRESET: Preset = "1y";
@@ -31,7 +27,6 @@ export const DEFAULT: State = {
   view: "open-prs",
   repo: null,
   range: { preset: DEFAULT_PRESET },
-  drafts: "include",
 };
 
 /** What a query string is checked against. */
@@ -68,7 +63,6 @@ export function parse(search: string, ctx: Context): State {
     view: oneOf(VIEWS, q.get("view"), DEFAULT.view),
     repo: ctx.repoNames.find((n) => n === q.get("repo")) ?? null,
     range,
-    drafts: oneOf(DRAFTS, q.get("drafts"), DEFAULT.drafts),
   };
 }
 
@@ -90,7 +84,6 @@ export function serialize(state: State): string {
     q.set("from", state.range.from);
     q.set("to", state.range.to);
   }
-  if (state.drafts !== DEFAULT.drafts) q.set("drafts", state.drafts);
   const s = q.toString();
   return s ? `?${s}` : "";
 }

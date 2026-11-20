@@ -273,7 +273,7 @@ nothing else holds it: the app reads its state from the URL and writes
 it back.
 
 ```
-/?repo=html&from=2024-01-01&to=2026-11-17&drafts=exclude
+/?repo=html&from=2024-01-01&to=2026-11-17
 /?repo=dom&range=all
 ```
 
@@ -285,7 +285,6 @@ it back.
 | `repo` | one repo's name, `html` | all |
 | `range` | `all`, `3y`, `1y`, `6m`, `3m`, counted back from the window's end | `1y` |
 | `from`, `to` | `YYYY-MM-DD`, clamped to the window; replace `range` | |
-| `drafts` | `include` (counted), `exclude` (left out) | `include` |
 
 - **Defaults are left out**, so `/?view=open-prs` is a whole link.
 - **Changing a control** replaces the history entry (`replaceState`), so
@@ -312,8 +311,7 @@ same time axis, over the last year by default:
   oldest at the bottom: one layer for each of the last five calendar
   years, and one for every PR opened before them ("before 2022"). A layer
   only shrinks once its year is over, so clearing old PRs shows as its
-  layer thinning. "Include drafts" counts drafts in the layers or leaves
-  them out; they're no longer a layer of their own.
+  layer thinning. Drafts aren't counted, only PRs ready for review.
 - **PRs merged per period, by time from ready for review to merge.**
   Stacked bars:
   - The split is within 1 day, 1–10 days, and more than 10 days, stacked
@@ -368,8 +366,7 @@ filters.
 
 The filter bar is one row of same-sized controls (since 2026-11-18, after
 the maintainer found the first version hard to use): a Spec select, date
-presets with a Custom button, an "Include drafts" checkbox, and "Copy
-link".
+presets with a Custom button, and "Copy link".
 
 - **Spec** is a native `<select>`: All specs, or one spec, the two
   common cases, each one choice (type-ahead works, and phones show their
