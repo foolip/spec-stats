@@ -55,6 +55,7 @@ const binSelect = control<HTMLSelectElement>("bin");
 const copy = control<HTMLButtonElement>("copy");
 const status = control<HTMLElement>("status");
 const texts = [...document.querySelectorAll<HTMLElement>("[data-text]")];
+const bySpec = document.getElementById("by-spec")!;
 
 /** The state in the URL: the path from the site's root, and the query. */
 function fromUrl(): State {
@@ -80,6 +81,8 @@ function apply() {
   binSelect.options[0].text = t.autoLabel;
   const text: Record<string, string> = { start: t.startDate, end: t.endDate, unit: t.unit, "unit-title": t.unitTitle };
   for (const el of texts) el.textContent = text[el.dataset.text!];
+  // With one spec, the by-spec table would only repeat the tiles.
+  bySpec.hidden = state.repo !== null;
   const r = state.repo === null ? -1 : config.repos.indexOf(state.repo);
   document.title = pageTitle(r < 0 ? null : config.standards[r]);
   html.toggleAttribute("data-pending", !ready && href(state) !== config.prerendered);
@@ -112,7 +115,7 @@ for (const input of [fromInput, toInput]) {
   });
 }
 binSelect.addEventListener("change", () => set({ bin: binSelect.value as BinChoice }));
-// The by-spec table's spec names show only that spec. The table is an
+// The by-spec table's spec names show only that spec. Its rows are an
 // island, remounted with the data, so this listens on the document.
 document.addEventListener("click", (e) => {
   const b = (e.target as Element).closest<HTMLElement>("button[data-repo]");

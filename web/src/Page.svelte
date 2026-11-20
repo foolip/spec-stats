@@ -2,11 +2,11 @@
   // A whole page of the open PRs view, rendered on the server only
   // (src/page.ts): everything but the charts' drawings, with the values for
   // the state the page is for. In the browser, the controller
-  // (src/controller.ts) runs the controls and the texts marked data-text,
-  // and main.ts mounts the islands (Island.svelte) once the data has
-  // loaded.
+  // (src/controller.ts) runs the controls, the texts marked data-text and
+  // the by-spec table's visibility, and main.ts mounts the islands
+  // (src/islands/) once the data has loaded.
   import Controls from "./components/Controls.svelte";
-  import Island from "./Island.svelte";
+  import { islands } from "./islands/index.ts";
   import { AREA_HEIGHT, BARS_HEIGHT } from "./lib/chart.ts";
   import { longDate } from "./lib/format.ts";
   import type { Model } from "./lib/model.svelte.ts";
@@ -47,15 +47,15 @@
     <section class="tiles" aria-label="Summary">
       <div class="tile">
         <div class="tile-label">Open on <span data-text="end">{t.endDate}</span></div>
-        <div data-island="now"><Island name="now" {model} /></div>
+        <div data-island="openNow"><islands.openNow {model} /></div>
       </div>
       <div class="tile">
         <div class="tile-label">Change since <span data-text="start">{t.startDate}</span></div>
-        <div data-island="change"><Island name="change" {model} /></div>
+        <div data-island="openChange"><islands.openChange {model} /></div>
       </div>
       <div class="tile">
         <div class="tile-label">Merged since <span data-text="start">{t.startDate}</span></div>
-        <div data-island="merged"><Island name="merged" {model} /></div>
+        <div data-island="merged"><islands.merged {model} /></div>
       </div>
     </section>
 
@@ -68,7 +68,7 @@
           {/each}
         </ul>
       </div>
-      <div class="chart-box" data-island="area" style:height="{AREA_HEIGHT}px"></div>
+      <div class="chart-box" data-island="openChart" style:height="{AREA_HEIGHT}px"></div>
       <details class="table-view">
         <summary>Table: month ends</summary>
         <table>
@@ -79,7 +79,7 @@
               <th scope="col">Open</th>
             </tr>
           </thead>
-          <tbody data-island="monthly"><Island name="monthly" {model} /></tbody>
+          <tbody data-island="openRows"><islands.openRows {model} /></tbody>
         </table>
       </details>
     </section>
@@ -93,7 +93,7 @@
           {/each}
         </ul>
       </div>
-      <div class="chart-box" data-island="bars" style:height="{BARS_HEIGHT}px"></div>
+      <div class="chart-box" data-island="mergesChart" style:height="{BARS_HEIGHT}px"></div>
       <details class="table-view">
         <summary>Table: merges per <span data-text="unit">{t.unit}</span></summary>
         <table>
@@ -104,12 +104,27 @@
               <th scope="col">Merged</th>
             </tr>
           </thead>
-          <tbody data-island="merges"><Island name="merges" {model} /></tbody>
+          <tbody data-island="mergesRows"><islands.mergesRows {model} /></tbody>
         </table>
       </details>
     </section>
 
-    <div data-island="by-spec"><Island name="by-spec" {model} /></div>
+    <!-- For all specs only: with one, it would only repeat the tiles. The
+         controller shows and hides it. -->
+    <section class="panel" id="by-spec" hidden={model.view.repo !== null}>
+      <h2>By spec</h2>
+      <table class="by-spec">
+        <thead>
+          <tr>
+            <th scope="col">Spec</th>
+            <th scope="col" class="n">Open</th>
+            <th scope="col" class="n">Change</th>
+            <th scope="col" class="bar-col"><span class="visually-hidden">Open, as a bar</span></th>
+          </tr>
+        </thead>
+        <tbody data-island="bySpecRows"><islands.bySpecRows {model} /></tbody>
+      </table>
+    </section>
   </article>
 </main>
 

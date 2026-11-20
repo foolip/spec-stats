@@ -339,9 +339,10 @@ browser (until 2026-11-20); the charts follow at about 1.1 s.
 - **The controller**, `src/controller.ts`, is plain TypeScript, built
   into one small script (6 KB) inlined into every page after the view,
   before the footer. It owns the URL and the form controls for the life
-  of the page: it reads the state from the URL, sets the controls and
-  the texts that need no data (`data-text`: the range's dates, the bars'
-  period), handles the controls' events and writes the URL back. Those
+  of the page: it reads the state from the URL, sets the controls, the
+  texts that need no data (`data-text`: the range's dates, the bars'
+  period) and whether the by-spec table shows (all specs only), handles
+  the controls' events and writes the URL back. Those
   texts come from `stateText()` in `lib/texts.ts`, which the prerender
   uses too, so the two agree. The controls work before Svelte has
   loaded. Running it costs about 5 ms of CPU; it formats dates by hand
@@ -355,13 +356,18 @@ browser (until 2026-11-20); the charts follow at about 1.1 s.
   counts as parsed at its start tag, and the script's text can still be
   in the next network packet. Browsers without `rel="expect"` (Chromium
   has it) paint a page this small whole in practice.
-- **Islands.** The parts that need the data (`src/Island.svelte`: the
-  tiles' values, the tables' rows, the by-spec table and the charts) are
-  Svelte components. `src/main.ts` loads the data and mounts each one in
-  its `data-island` element, replacing the prerendered content in one
-  task, so nothing is painted in between; they then follow the
-  controller's state. They're mounted, not hydrated: replacing them is
-  cheap, and nothing has to match the prerendered markup.
+- **Islands.** The parts that need the data are Svelte components in
+  `src/islands/`, one each: the tiles' values, the charts and the
+  tables' rows. Everything around them, the tables' headings included,
+  is static HTML. `src/islands/index.ts` maps each `data-island` name to
+  its component; `Page.svelte` prerenders them from it (the charts as
+  empty boxes) and `src/main.ts` mounts them from it, so the names can't
+  drift apart. Once the data has loaded, `main.ts` mounts each in its
+  element, replacing the prerendered content in one task, so nothing is
+  painted in between; they then follow the controller's state, through
+  one shared model (`lib/model.svelte.ts`). They're mounted, not
+  hydrated: replacing them is cheap, and nothing has to match the
+  prerendered markup.
 - **Links with a query string** get the same page as without, with the
   default range's values. The controller marks the page `data-pending`,
   and CSS hides the islands (`visibility: hidden`, so they keep their
