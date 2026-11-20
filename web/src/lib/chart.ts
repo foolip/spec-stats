@@ -8,7 +8,7 @@ export interface Margins {
   left: number;
 }
 
-/** The right margin holds the area chart's end labels ("112 before 2022"). */
+/** The right margin holds the area chart's end labels ("112 older"). */
 export function margins(width: number): Margins {
   return { top: 12, right: width < 520 ? 100 : 112, bottom: 28, left: 40 };
 }

@@ -42,7 +42,7 @@ test("open and draft PRs are counted at the end of each day", () => {
 
   // By year opened: the last 2 years, and one group before them.
   const cohorts = yearCohorts(data, 2);
-  assert.deepEqual(cohorts.labels, ["before 2024", "2024", "2025"]);
+  assert.deepEqual(cohorts.labels, ["older", "2024", "2025"]);
   assert.deepEqual([...cohorts.of], [1, 2, 2]);
   const byGroup = openByGroup(data, cohorts.of, 3);
   assert.deepEqual([...byGroup[0][1].ready], [...byRepo[0].ready]);

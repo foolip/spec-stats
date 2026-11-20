@@ -79,7 +79,7 @@ export function total(series: OpenSeries[], repos: Iterable<number>, days: numbe
 }
 
 export interface Cohorts {
-  /** Labels, oldest first: "before 2022", "2022", …, "2026". */
+  /** Labels, oldest first: "older", "2022", …, "2026". */
   labels: string[];
   /** Each item's cohort: an index into labels. */
   of: Int32Array;
