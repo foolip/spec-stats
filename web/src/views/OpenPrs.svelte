@@ -140,7 +140,6 @@
     <div class="tile">
       <div class="tile-label">Open on {longDate(dateOf(data.from, end))}</div>
       <div class="tile-value">{num(now)}</div>
-      <div class="tile-note">not counting {num(series.draft[end])} drafts</div>
     </div>
     <div class="tile">
       <div class="tile-label">Change since {longDate(dateOf(data.from, start))}</div>

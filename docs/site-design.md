@@ -311,8 +311,7 @@ same time axis, over the last year by default:
   oldest at the bottom: one layer for each of the last five calendar
   years, and one for every PR opened before them ("before 2022"). A layer
   only shrinks once its year is over, so clearing old PRs shows as its
-  layer thinning. Drafts aren't counted, only PRs ready for review; the
-  first tile says how many drafts are left out.
+  layer thinning. Drafts aren't counted, only PRs ready for review.
 - **PRs merged per period, by time from ready for review to merge.**
   Stacked bars:
   - The split is within 1 day, 1–10 days, and more than 10 days, stacked
