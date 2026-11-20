@@ -123,8 +123,8 @@
 
 <article class="view">
   <hgroup>
-    <h1>Open pull requests</h1>
-    <p class="question">How many PRs are waiting, and is the backlog growing or shrinking?</p>
+    <h1>Reviews</h1>
+    <p class="question">How many PRs are open, and how many are getting merged?</p>
   </hgroup>
 
   <div class="controls" role="group" aria-label="Filters">
@@ -194,7 +194,7 @@
 
   <section class="panel">
     <div class="panel-head">
-      <h2>PRs merged per {UNIT[bin]}, by time from ready for review to merge</h2>
+      <h2>PRs merged per {UNIT[bin]}, by time open</h2>
       <ul class="legend">
         {#each mergeBands as l (l.label)}
           <li><span class="swatch" style:background={l.color}></span>{l.label}</li>
