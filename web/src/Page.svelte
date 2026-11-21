@@ -2,12 +2,10 @@
   // A whole page of the open PRs view, rendered on the server only
   // (src/page.ts): everything but the charts' drawings, with the values for
   // the state the page is for. In the browser, the controller
-  // (src/controller.ts) runs the controls, the texts marked data-text and
-  // the by-spec table's visibility, and main.ts mounts the islands
-  // (src/islands/) once the data has loaded.
+  // (src/controller.ts) runs the URL and the controls, and main.ts mounts
+  // the islands (src/islands/), one per section, once the data has loaded.
   import Controls from "./components/Controls.svelte";
   import { islands } from "./islands/index.ts";
-  import { AREA_HEIGHT, BARS_HEIGHT } from "./lib/chart.ts";
   import { longDate } from "./lib/format.ts";
   import type { Model } from "./lib/model.svelte.ts";
 
@@ -44,59 +42,10 @@
 
     <Controls state={model.view} text={t} ctx={model.ctx} standards={model.data.repos.standard} />
 
-    <section class="tiles" aria-label="Summary">
-      <div class="tile">
-        <div class="tile-label">Open on <span data-text="end">{t.endDate}</span></div>
-        <div data-island="openNow"><islands.openNow {model} /></div>
-      </div>
-      <div class="tile">
-        <div class="tile-label">Change since <span data-text="start">{t.startDate}</span></div>
-        <div data-island="openChange"><islands.openChange {model} /></div>
-      </div>
-      <div class="tile">
-        <div class="tile-label">Merged since <span data-text="start">{t.startDate}</span></div>
-        <div data-island="merged"><islands.merged {model} /></div>
-      </div>
-    </section>
-
-    <section class="panel">
-      <div class="panel-head">
-        <h2>Open PRs at the end of each <span data-text="unit">{t.unit}</span>, by year opened</h2>
-        <ul class="legend">
-          {#each [...model.layers].reverse() as l (l.label)}
-            <li><span class="swatch" style:background={l.color}></span>{l.label}</li>
-          {/each}
-        </ul>
-      </div>
-      <div class="chart-box" data-island="openChart" style:height="{AREA_HEIGHT}px"></div>
-      <details class="table-view">
-        <summary>Table: month ends</summary>
-        <div data-island="openTable"><islands.openTable {model} /></div>
-      </details>
-    </section>
-
-    <section class="panel">
-      <div class="panel-head">
-        <h2>PRs merged per <span data-text="unit">{t.unit}</span>, by time open</h2>
-        <ul class="legend">
-          {#each model.mergeBands as l (l.label)}
-            <li><span class="swatch" style:background={l.color}></span>{l.label}</li>
-          {/each}
-        </ul>
-      </div>
-      <div class="chart-box" data-island="mergesChart" style:height="{BARS_HEIGHT}px"></div>
-      <details class="table-view">
-        <summary>Table: merges per <span data-text="unit">{t.unit}</span></summary>
-        <div data-island="mergesTable"><islands.mergesTable {model} /></div>
-      </details>
-    </section>
-
-    <!-- For all specs only: with one, it would only repeat the tiles. The
-         controller shows and hides it. -->
-    <section class="panel" id="by-spec" hidden={model.view.repo !== null}>
-      <h2>By spec</h2>
-      <div data-island="bySpecTable"><islands.bySpecTable {model} /></div>
-    </section>
+    <div data-island="summary"><islands.summary {model} /></div>
+    <div data-island="openPanel"><islands.openPanel {model} /></div>
+    <div data-island="mergesPanel"><islands.mergesPanel {model} /></div>
+    <div data-island="bySpec"><islands.bySpec {model} /></div>
   </article>
 </main>
 

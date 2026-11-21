@@ -4,10 +4,10 @@
 // `<link rel="expect" href="#footer" blocking="render">` holds the first
 // paint until the footer is parsed, so this has run by then. It owns the
 // URL and the form controls for the life of the page: it reads the state
-// from the URL, sets the controls and the texts that need no data, and
-// handles the controls' events. The parts that need the data are Svelte
-// components, mounted by main.ts once the data has loaded; until then, if
-// the URL isn't the one the page was prerendered for, they're hidden
+// from the URL, sets the controls and handles their events. Everything
+// else that changes with the state is a Svelte island (src/islands/),
+// mounted by main.ts once the data has loaded; until then, if the URL
+// isn't the one the page was prerendered for, the islands are hidden
 // (`data-pending`), keeping their space.
 
 import type { PageConfig } from "./lib/config.ts";
@@ -54,8 +54,6 @@ const toInput = control<HTMLInputElement>("to");
 const binSelect = control<HTMLSelectElement>("bin");
 const copy = control<HTMLButtonElement>("copy");
 const status = control<HTMLElement>("status");
-const texts = [...document.querySelectorAll<HTMLElement>("[data-text]")];
-const bySpec = document.getElementById("by-spec")!;
 
 /** The state in the URL: the path from the site's root, and the query. */
 function fromUrl(): State {
@@ -65,8 +63,8 @@ function fromUrl(): State {
 
 let state = fromUrl();
 
-/** Show the state: the controls, the texts, the title and whether the
- * prerendered values are hidden. */
+/** Show the state: the controls, the title, and whether the islands'
+ * prerendered content is hidden. */
 function apply() {
   const t = stateText(state, ctx);
   repoSelect.value = state.repo ?? "";
@@ -79,10 +77,6 @@ function apply() {
   toInput.min = t.dates.from;
   binSelect.value = state.bin;
   binSelect.options[0].text = t.autoLabel;
-  const text: Record<string, string> = { start: t.startDate, end: t.endDate, unit: t.unit };
-  for (const el of texts) el.textContent = text[el.dataset.text!];
-  // With one spec, the by-spec table would only repeat the tiles.
-  bySpec.hidden = state.repo !== null;
   const r = state.repo === null ? -1 : config.repos.indexOf(state.repo);
   document.title = pageTitle(r < 0 ? null : config.standards[r]);
   html.toggleAttribute("data-pending", !ready && href(state) !== config.prerendered);
@@ -115,12 +109,6 @@ for (const input of [fromInput, toInput]) {
   });
 }
 binSelect.addEventListener("change", () => set({ bin: binSelect.value as BinChoice }));
-// The by-spec table's spec names show only that spec. The table is an
-// island, remounted with the data, so this listens on the document.
-document.addEventListener("click", (e) => {
-  const b = (e.target as Element).closest<HTMLElement>("button[data-repo]");
-  if (b) set({ repo: b.dataset.repo! });
-});
 
 // Copy link: the label swaps in place (both labels share one grid cell, so
 // the button keeps its width), and the live region announces it.

@@ -339,13 +339,12 @@ browser (until 2026-11-20); the charts follow at about 1.1 s.
 - **The controller**, `src/controller.ts`, is plain TypeScript, built
   into one small script (6 KB) inlined into every page after the view,
   before the footer. It owns the URL and the form controls for the life
-  of the page: it reads the state from the URL, sets the controls, the
-  texts that need no data (`data-text`: the range's dates, the bars'
-  period) and whether the by-spec table shows (all specs only), handles
-  the controls' events and writes the URL back. Those
-  texts come from `stateText()` in `lib/texts.ts`, which the prerender
-  uses too, so the two agree. The controls work before Svelte has
-  loaded. Running it costs about 5 ms of CPU; it formats dates by hand
+  of the page, and nothing else: it reads the state from the URL, sets
+  the controls (their labels, such as "Auto (week)", included) and the
+  title, handles the controls' events and writes the URL back. The
+  controls are the one part that must be right, and work, before Svelte
+  has loaded; their labels come from `stateText()` in `lib/texts.ts`,
+  which the islands use too, so the two agree. Running it costs about 5 ms of CPU; it formats dates by hand
   (`lib/format.ts`), as creating an `Intl.DateTimeFormat` took 54 ms on
   the throttled phone.
 - **Before the first paint.** `<link rel="expect" href="#footer"
@@ -356,10 +355,12 @@ browser (until 2026-11-20); the charts follow at about 1.1 s.
   counts as parsed at its start tag, and the script's text can still be
   in the next network packet. Browsers without `rel="expect"` (Chromium
   has it) paint a page this small whole in practice.
-- **Islands.** The parts that need the data are Svelte components in
-  `src/islands/`, one each: the tiles' values, the charts and the
-  tables, each a whole element's content. Everything around them is
-  static HTML. `src/islands/index.ts` maps each `data-island` name to
+- **Islands.** Everything else that changes with the state is a Svelte
+  component in `src/islands/`, one per section: the summary tiles, the
+  open PRs panel, the merges panel (each panel its heading, legend,
+  chart and table) and the by-spec table, which shows itself for all
+  specs only. The header, the view's title and question, and the footer
+  are static HTML. `src/islands/index.ts` maps each `data-island` name to
   its component; `Page.svelte` prerenders them from it (the charts as
   empty boxes) and `src/main.ts` mounts them from it, so the names can't
   drift apart. Once the data has loaded, `main.ts` mounts each in its
@@ -371,8 +372,10 @@ browser (until 2026-11-20); the charts follow at about 1.1 s.
 - **Links with a query string** get the same page as without, with the
   default range's values. The controller marks the page `data-pending`,
   and CSS hides the islands (`visibility: hidden`, so they keep their
-  space) until they're mounted. The controls, dates and headings are
-  right from the first paint.
+  space) until they're mounted. The controls are right from the first
+  paint. (An earlier version also had the controller set the sections'
+  dates and periods before the first paint, so only the numbers waited;
+  one owner per part was judged simpler.)
 - **The data file** is `data-<hash>.json`, named by its contents and
   preloaded by every page, so a page always gets the data it was
   rendered from, even across a deploy.
