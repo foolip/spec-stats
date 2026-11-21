@@ -25,6 +25,7 @@ has the design for the dashboards to come.
 ```
 python3 -m unittest discover tests
 cd web && npm ci && npm run check && npm test
+npm run build && npm run cwv   # Core Web Vitals budgets, about 3 minutes
 ```
 
 - The frontend is in `web/` (Svelte 5, Vite, TypeScript); `docs/site-design.md`

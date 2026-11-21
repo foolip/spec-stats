@@ -386,6 +386,31 @@ browser (until 2026-11-20); the charts follow at about 1.1 s.
 - **No loading message.** If the data can't be loaded, an error appears
   above the view.
 
+### Performance checks
+
+`npm run cwv` (`web/scripts/cwv.ts`, about 3 minutes) loads the built site
+in Chromium, served as GitHub Pages serves it, and fails on any Core Web
+Vitals regression. The site workflow runs it after every build, so a
+regression is never published, and on pull requests. These are lab
+checks: timings vary with the machine, so they have generous budgets,
+and what the design guarantees is checked exactly.
+
+| Check | How | Budget |
+|---|---|---|
+| CLS | 58 loads: six sizes, slow and fast, light and dark, the four kinds of URL, scrolled, with real scrollbars; every control used on one load per size | 0, on every load |
+| LCP | Three cold loads of each kind of URL on a throttled phone (Slow 4G, CPU 4× slower) | 1 s, median (about 0.35 s now) |
+| LCP in the first paint | The same loads | no later than the first paint, plus 50 ms |
+| First paint needs only the HTML | The same loads | no render-blocking request; HTML at most 14 KB gzipped (the first round trip); every request started by the HTML (no chain), the tab icon aside |
+| INP | Every control used, at full CPU speed | 200 ms (about 80 ms now) |
+
+INP at 4× slower CPU is reported but not enforced: choosing days for a
+year redraws 365 bars and table rows, which takes about 300 to 450 ms
+there. The checks were tested against regressions: dropping the data
+file's preload fails as a chain, and dropping the charts' fixed heights
+fails CLS. Playwright drives the browser; CI installs its Chromium
+(`npx playwright install --with-deps chromium`), and `CHROMIUM_PATH` runs
+another.
+
 ### The open PRs view
 
 Since 2026-11-19 the view has two charts, one above the other on the

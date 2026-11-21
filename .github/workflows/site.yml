@@ -2,7 +2,9 @@
 # "Frontend"): `python3 -m specstats build` writes build/data.json from
 # data/github/ (offline), then `npm run build` in web/ prerenders the
 # pages into web/dist/, with the script and the data file
-# (web/scripts/build.ts). Nothing is committed.
+# (web/scripts/build.ts), and `npm run cwv` checks them against the Core
+# Web Vitals budgets (web/scripts/cwv.ts) before anything is published.
+# Nothing is committed.
 #
 # Publishes on every push to main, after every run of "Fetch GitHub data"
 # (its commits are pushed with the built-in token, which doesn't trigger
@@ -35,7 +37,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v7
         with:
@@ -66,6 +68,16 @@ jobs:
       - name: Build the site
         working-directory: web
         run: npm run build
+
+      # The Core Web Vitals budgets (web/scripts/cwv.ts): a regression
+      # fails the run, so it isn't published.
+      - name: Install Chromium
+        working-directory: web
+        run: npx playwright install --with-deps chromium
+
+      - name: Check Core Web Vitals
+        working-directory: web
+        run: npm run cwv
 
       - uses: actions/upload-pages-artifact@v5
         if: github.event_name != 'pull_request'
