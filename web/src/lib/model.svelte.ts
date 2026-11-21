@@ -6,6 +6,7 @@ import { periods, sampleDays } from "./bins.ts";
 import type { Layer } from "../components/StackedArea.svelte";
 import type { BarLayer } from "../components/StackedBars.svelte";
 import { dateOf, type Data } from "./data.ts";
+import { compareText } from "./format.ts";
 import { BAND_LABELS, mergesByPeriod } from "./merges.ts";
 import { openByGroup, openByRepo, total, yearCohorts, type Cohorts, type OpenSeries } from "./openprs.ts";
 import { stateText } from "./texts.ts";
@@ -74,7 +75,7 @@ export class Model {
         open: this.byRepo[r].ready[this.text.end],
         change: this.byRepo[r].ready[this.text.end] - this.byRepo[r].ready[this.text.start],
       }))
-      .sort((a, b) => b.open - a.open || a.standard.localeCompare(b.standard)),
+      .sort((a, b) => b.open - a.open || compareText(a.standard, b.standard)),
   );
   maxOpen = $derived.by(() => Math.max(1, ...this.rows.map((r) => r.open)));
 

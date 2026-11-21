@@ -8,6 +8,13 @@
  * still formatted with Intl (bins.ts, in the islands only). */
 export const LOCALE = "en-US";
 
+/** Orders strings by UTF-16 code units, for sorting the standards' names.
+ * Not localeCompare: its first call sets up a collator, about 20 ms on the
+ * throttled phone. For the names in config/db.json the order is the same. */
+export function compareText(a: string, b: string): number {
+  return a < b ? -1 : a > b ? 1 : 0;
+}
+
 /** en-US's short month names. */
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 

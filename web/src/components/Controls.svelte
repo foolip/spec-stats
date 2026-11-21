@@ -5,7 +5,7 @@
   // the spec as a native <select> (type-ahead works, and phones show their
   // own picker), the date range as presets and a custom-dates menu (a
   // native popover), the bars' period as a <select>, and "Copy link".
-  import { longDate } from "../lib/format.ts";
+  import { compareText, longDate } from "../lib/format.ts";
   import { BIN_LABELS, PRESET_LABELS, PRESET_TITLES, type StateText } from "../lib/texts.ts";
   import { BIN_CHOICES, PRESETS, type Context, type State } from "../lib/url.ts";
 
@@ -18,7 +18,7 @@
   let { state, text, ctx, standards }: Props = $props();
 
   const names = $derived(ctx.repoNames);
-  const order = $derived(names.map((_, i) => i).sort((a, b) => standards[a].localeCompare(standards[b])));
+  const order = $derived(names.map((_, i) => i).sort((a, b) => compareText(standards[a], standards[b])));
   const custom = $derived("from" in state.range);
 </script>
 
