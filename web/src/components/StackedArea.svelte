@@ -3,7 +3,7 @@
   // (pointer and keyboard) and direct labels at the right edge.
   import { scaleLinear, scaleUtc } from "d3-scale";
   import { area as d3area, curveMonotoneX, line as d3line } from "d3-shape";
-  import { margins } from "../lib/chart.ts";
+  import { directLabels, margins } from "../lib/chart.ts";
   import { dateOf, parseDate } from "../lib/data.ts";
   import { longDate, num } from "../lib/format.ts";
 
@@ -78,13 +78,14 @@
       .x((k) => xAt(days[k]))
       .y((k) => y(totals[k]))(drawn) ?? "",
   );
-  const xTicks = $derived(x.ticks(Math.max(2, Math.floor(width / 110))));
+  const xTicks = $derived(x.ticks(Math.max(3, Math.floor(width / 110))));
   const yTicks = $derived(y.ticks(5));
   const tickFormat = $derived(x.tickFormat());
 
-  // Direct labels: each layer's last value, at the middle of its band,
-  // nudged apart so they don't overlap.
+  // Direct labels where they fit: each layer's last value, at the middle
+  // of its band, nudged apart so they don't overlap.
   const endLabels = $derived.by(() => {
+    if (!directLabels(width)) return [];
     const k = days.length - 1;
     const out = layers.map((layer, l) => {
       const lo = l === 0 ? 0 : tops[l - 1][k];

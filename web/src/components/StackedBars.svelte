@@ -53,7 +53,7 @@
       .nice(4)
       .range([height - M.bottom, M.top]),
   );
-  const xTicks = $derived(x.ticks(Math.max(2, Math.floor(width / 110))));
+  const xTicks = $derived(x.ticks(Math.max(3, Math.floor(width / 110))));
   const yTicks = $derived(y.ticks(4).filter((t) => Number.isInteger(t)));
   const tickFormat = $derived(x.tickFormat());
 
