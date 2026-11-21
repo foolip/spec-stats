@@ -1,42 +1,86 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { DEFAULT, fixed, parse, rangeDays, selectedRepos, serialize, type Context } from "../src/lib/url.ts";
+import { DEFAULT, fixed, href, pagePath, parse, query, rangeDays, selectedRepos, type Context } from "../src/lib/url.ts";
 
 const ctx: Context = { repoNames: ["dom", "fetch", "html", "url"], from: "2022-01-01", to: "2026-11-17" };
 
-test("the default view is the empty query string", () => {
-  assert.deepEqual(parse("", ctx), DEFAULT);
-  assert.equal(serialize(DEFAULT), "");
+/** A URL relative to the site's root, read and written back. */
+function round(url: string): string {
+  const i = url.indexOf("?");
+  return i < 0 ? href(parse(url, "", ctx)) : href(parse(url.slice(0, i), url.slice(i), ctx));
+}
+
+test("the default view is reviews/, with no query string", () => {
+  assert.deepEqual(parse("reviews/", "", ctx), DEFAULT);
+  assert.equal(href(DEFAULT), "reviews/");
+  // The site's root is the default view too.
+  assert.deepEqual(parse("", "", ctx), DEFAULT);
 });
 
-test("a view round-trips through the URL", () => {
-  const search = "?repo=html&from=2024-01-01&to=2026-11-17";
-  assert.equal(serialize(parse(search, ctx)), search);
-  assert.equal(serialize(parse("?repo=dom&range=all", ctx)), "?repo=dom&range=all");
+test("the view and spec are in the path, the rest in the query string", () => {
+  assert.equal(parse("reviews/html/", "", ctx).repo, "html");
+  assert.equal(round("reviews/html/?range=2024-01-01..2026-11-17"), "reviews/html/?range=2024-01-01..2026-11-17");
+  assert.equal(round("reviews/dom/?range=all&bin=month"), "reviews/dom/?range=all&bin=month");
+  assert.equal(round("reviews/html"), "reviews/html/");
+  assert.equal(pagePath({ view: "open-prs", repo: "url" }), "reviews/url/");
+  assert.equal(query({ ...DEFAULT, repo: "url" }), "");
   // The default range, the last year, is left out.
-  assert.deepEqual(parse("?repo=dom", ctx).range, { preset: "1y" });
-  assert.equal(serialize(parse("?repo=dom&range=1y", ctx)), "?repo=dom");
+  assert.deepEqual(parse("reviews/dom/", "", ctx).range, { preset: "1y" });
+  assert.equal(round("reviews/dom/?range=1y"), "reviews/dom/");
+});
+
+test("old ?repo= links go to the spec's page", () => {
+  assert.equal(round("?repo=html&range=3y"), "reviews/html/?range=3y");
+  assert.equal(round("reviews/?repo=dom"), "reviews/dom/");
+  assert.equal(round("?view=open-prs&repo=html"), "reviews/html/");
+  // The path wins over the query string.
+  assert.equal(round("reviews/url/?repo=dom"), "reviews/url/");
 });
 
 test("the bars' period is in the URL, auto by default", () => {
-  assert.equal(parse("", ctx).bin, "auto");
-  assert.equal(serialize(parse("?bin=quarter", ctx)), "?bin=quarter");
-  assert.equal(serialize(parse("?repo=html&bin=day", ctx)), "?repo=html&bin=day");
-  assert.equal(serialize(parse("?bin=auto", ctx)), "");
-  assert.equal(serialize(parse("?bin=fortnight", ctx)), "");
+  assert.equal(parse("reviews/", "", ctx).bin, "auto");
+  assert.equal(round("reviews/?bin=quarter"), "reviews/?bin=quarter");
+  assert.equal(round("reviews/html/?bin=day"), "reviews/html/?bin=day");
+  assert.equal(round("reviews/?bin=auto"), "reviews/");
+  assert.equal(round("reviews/?bin=fortnight"), "reviews/");
 });
 
 test("unknown and invalid parameters are dropped", () => {
-  assert.equal(serialize(parse("?view=nope&repo=html&range=7y&drafts=maybe&utm_source=x", ctx)), "?repo=html");
-  assert.equal(serialize(parse("?repo=nfc", ctx)), "");
+  assert.equal(round("reviews/html/?view=nope&range=7y&drafts=maybe&utm_source=x"), "reviews/html/");
+  assert.equal(round("reviews/nfc/"), "reviews/");
+  assert.equal(round("nope/html/"), "reviews/html/");
   // Lists and exclusions aren't supported: all repos.
-  assert.equal(serialize(parse("?repo=dom,html", ctx)), "");
-  assert.equal(serialize(parse("?repo=-html", ctx)), "");
-  assert.equal(serialize(parse("?repos=html", ctx)), "");
-  assert.equal(serialize(parse("?from=2025-13-45", ctx)), "");
+  assert.equal(round("?repo=dom,html"), "reviews/");
+  assert.equal(round("?repo=-html"), "reviews/");
+  assert.equal(round("?repos=html"), "reviews/");
+  assert.equal(round("reviews/?range=2025-13-45..2026-01-01"), "reviews/");
+  assert.equal(round("reviews/?range=2025-01-01"), "reviews/");
+  assert.equal(round("reviews/?range=2025-01-01...2026-01-01"), "reviews/");
+  assert.equal(round("reviews/?range=.."), "reviews/");
   // Out of the window: clamped to it. Backwards: dropped.
-  assert.equal(serialize(parse("?from=2019-01-01&to=2030-01-01", ctx)), "?from=2022-01-01&to=2026-11-17");
-  assert.equal(serialize(parse("?from=2025-01-01&to=2024-01-01&range=1y", ctx)), "");
+  assert.equal(round("reviews/?range=2019-01-01..2030-01-01"), "reviews/?range=2022-01-01..2026-11-17");
+  assert.equal(round("reviews/?range=2025-01-01..2024-01-01"), "reviews/");
+});
+
+test("custom dates are written as in GitHub's search, * for an open end", () => {
+  assert.deepEqual(parse("reviews/", "?range=2024-01-01..2025-06-30", ctx).range, { from: "2024-01-01", to: "2025-06-30" });
+  assert.equal(round("reviews/?range=2024-01-01..*"), "reviews/?range=2024-01-01..2026-11-17");
+  assert.equal(round("reviews/?range=*..2024-01-01"), "reviews/?range=2022-01-01..2024-01-01");
+  assert.equal(round("reviews/?range=*..*"), "reviews/?range=2022-01-01..2026-11-17");
+  assert.equal(round("reviews/?range=2024-01-01..2024-01-01"), "reviews/?range=2024-01-01..2024-01-01");
+  // Unencoded in the URL; encoded, as some tools write it, also read.
+  assert.equal(round("reviews/?range=2024-01-01..%2A"), "reviews/?range=2024-01-01..2026-11-17");
+});
+
+test("old from and to links still work, rewritten to range", () => {
+  assert.equal(round("?repo=html&from=2024-01-01&to=2026-11-17"), "reviews/html/?range=2024-01-01..2026-11-17");
+  assert.equal(round("reviews/?from=2024-01-01"), "reviews/?range=2024-01-01..2026-11-17");
+  assert.equal(round("reviews/?to=2024-01-01"), "reviews/?range=2022-01-01..2024-01-01");
+  assert.equal(round("reviews/?from=2019-01-01&to=2030-01-01"), "reviews/?range=2022-01-01..2026-11-17");
+  // A valid range wins; invalid or backwards dates are dropped.
+  assert.equal(round("reviews/?range=3y&from=2024-01-01"), "reviews/?range=3y");
+  assert.equal(round("reviews/?from=2025-13-45"), "reviews/");
+  assert.equal(round("reviews/?from=2025-01-01&to=2024-01-01&range=1y"), "reviews/");
 });
 
 test("a state's repos", () => {

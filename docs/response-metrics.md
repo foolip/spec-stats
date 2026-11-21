@@ -565,7 +565,8 @@ break between 17 hours and 1.3 days, the second between 6.2 and
 **Presentation (mock-ups, 2026-11-19).** The bars sit under the
 open-PRs line, sharing its time axis and date range: two panels, not one
 chart with two y-axes. Each bin is the smallest calendar period that
-keeps a bar at least 8 px wide at the chart's width:
+keeps a bar at least 8 px wide at the chart's width (since 2026-11-20,
+chosen from the range alone: at most 54 bars, `docs/site-design.md`):
 
 - months for the whole window since 2022 (59 bars, about 12 px each);
 - ISO weeks for a year or less (52 bars, about 13 px);

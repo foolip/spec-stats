@@ -28,10 +28,14 @@
     layers: BarLayer[];
     label: string;
     height?: number;
-    /** The width, bound so the parent can choose the period from it. */
+    /** The width to draw at until it's measured. */
     width?: number;
   }
-  let { from, start, end, periods, name, layers, label, height = 220, width = $bindable(720) }: Props = $props();
+  let { from, start, end, periods, name, layers, label, height = 220, width: initialWidth = 720 }: Props = $props();
+
+  // Only the first width: bind:clientWidth keeps it up to date.
+  // svelte-ignore state_referenced_locally
+  let width = $state(initialWidth);
 
   let hover = $state<number | null>(null);
 

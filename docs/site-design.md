@@ -20,9 +20,11 @@ data/github/ ── build (Python) ───▶ build/data.json ──▶ web ap
   and writes a few small published tables. Every rule about what the raw
   data means lives here: which raw events count, how an item's state is
   worked out, what's left out, where the timeline starts.
-- **Web app:** one Svelte app, built with Vite into static files
-  ("Frontend", below). It reads only the published tables and computes
-  every metric from them in the browser.
+- **Web app:** Svelte, built with Vite into static pages, one for each
+  view and spec, prerendered with the data ("Frontend", below). It reads
+  only the published tables and computes every metric from them, at
+  build time for each page's default view and in the browser for the
+  rest.
 
 The pattern follows cosh (pages read only small published files, every
 page says what dates its data covers), but where cosh publishes a summary
@@ -234,16 +236,16 @@ a decisions-log entry when the definition changes.
 
 ### Stack
 
-- **Svelte 5 and Vite**, built into a static single-page app: one HTML
-  file, its scripts and styles, and `data.json` next to them, served by
-  GitHub Pages. Plain Svelte, not SvelteKit: there's nothing to render on
-  a server, and SvelteKit's file-based routing works against one page
-  whose views live in the query string.
+- **Svelte 5 and Vite**, built into static pages served by GitHub Pages:
+  a page for each view and spec (`reviews/`, `reviews/html/`),
+  prerendered with `svelte/server` ("Loading", below), and one script
+  and one data file that every page shares. Plain Svelte, not SvelteKit:
+  rendering the pages is one short build script, `web/scripts/build.ts`.
 - The source lives in `web/`. Deploying runs `python3 -m specstats build`
   and then `npm ci && npm run build` in `web/`, and publishes the result
   (`.github/workflows/site.yml`, after every push to `main` and every
-  fetch run);
-  the Vite dev server serves `build/data.json` as `data.json`.
+  fetch run). The Vite dev server renders each page on request and
+  serves `build/data.json` as `data.json`.
 - **Few dependencies:** Svelte, Vite, and `d3-scale` and `d3-shape` for
   the charts; TypeScript and `svelte-check` (with `@tsconfig/svelte` and
   type packages) to check them. All pinned exactly. Anything else needs a
@@ -268,40 +270,149 @@ a decisions-log entry when the definition changes.
 
 ### The URL is the view
 
-Everything that decides what's on screen is in the query string, and
-nothing else holds it: the app reads its state from the URL and writes
-it back.
+Everything that decides what's on screen is in the URL, and nothing else
+holds it: the page reads its state from the URL and writes it back. The
+view and the spec are in the path, each with its own prerendered page
+(GitHub Pages ignores the query string, so only the path can choose a
+page); the rest is in the query string.
 
 ```
-/?repo=html&from=2024-01-01&to=2026-11-17
-/?repo=dom&range=all
+/reviews/html/?range=2024-01-01..2026-11-17
+/reviews/dom/?range=all
 ```
 
-`web/src/lib/url.ts` parses and writes it. The parameters so far:
+`web/src/lib/url.ts` parses and writes it, relative to the site's root
+(`/spec-stats/` on GitHub Pages):
+
+| Path | |
+|---|---|
+| `reviews/` | the open PRs view, all specs; also the site's root, until there's a start view |
+| `reviews/html/` | one spec, by repo name |
 
 | Parameter | Values | Default |
 |---|---|---|
-| `view` | `open-prs` | `open-prs` |
-| `repo` | one repo's name, `html` | all |
-| `range` | `all`, `3y`, `1y`, `6m`, `3m`, counted back from the window's end | `1y` |
-| `from`, `to` | `YYYY-MM-DD`, clamped to the window; replace `range` | |
+| `range` | `all`, `3y`, `1y`, `6m`, `3m`, counted back from the window's end; or dates as in GitHub's search, `2024-01-01..2026-11-17`, inclusive and clamped to the window, `*` for an open end | `1y` |
 | `bin` | `day`, `week` (ISO), `month`, `quarter`: the period of the bars, and of the points the open PRs are drawn at | `auto` |
 
-- **Defaults are left out**, so `/?view=open-prs` is a whole link.
-- **Changing a control** replaces the history entry (`replaceState`), so
-  dragging a range doesn't fill the back button; **changing view** adds
-  one (`pushState`), so Back returns to the previous chart. `popstate`
-  re-reads the URL.
-- **Parameters mean the same in every view** that uses them (`repo`,
-  `from`, `to`, `window`), so switching views keeps the filters.
+- **Defaults are left out**, so `/reviews/` is a whole link.
+- **Changing a control** replaces the history entry (`replaceState`),
+  the spec included, which changes the path without loading its page;
+  so dragging a range doesn't fill the back button. **Changing view**
+  will add one (`pushState`), so Back returns to the previous chart.
+  `popstate` re-reads the URL.
+- **Parameters mean the same in every view** that uses them (`range`,
+  `window`), and so does the spec in the path, so switching views keeps
+  the filters.
 - **Relative or fixed dates.** Presets write `range=12m`, which moves
-  with the data; "link to this view" writes `from` and `to` instead, so
-  the link shows the same dates later (the figures are stable up to the
-  data's small corrections).
+  with the data; "link to this view" writes the dates instead
+  (`range=2024-01-01..2026-11-17`), so the link shows the same dates
+  later (the figures are stable up to the data's small corrections).
 - **Unknown or invalid parameters are dropped quietly** and the URL
   rewritten without them, so old links keep working as views change.
+  `from` and `to`, which held custom dates until 2026-11-20, are still
+  read and rewritten as `range`, and `?repo=html`, from before specs had
+  their own pages, as `reviews/html/`. An unknown path gets `404.html`, a
+  copy of `reviews/`, which rewrites the URL to `reviews/`.
 - Repos in the URL are their `name` (`html`), not indexes, as indexes
   change when repos are added.
+
+### Loading
+
+The first paint shows the whole page but the charts' drawings, from the
+HTML alone, and nothing moves after it. On a phone on slow 4G with a 4×
+slower CPU, that's about 0.3 s, which is also the LCP, against 0.7 s for a
+"Loading…" line and 1.5 s for the page when Svelte built it in the
+browser (until 2026-11-20); the charts follow at about 1.1 s.
+
+- **Prerendered pages.** `web/scripts/build.ts` renders a page for each
+  view and spec (`src/page.ts`, `src/Page.svelte`) with the values for
+  the default range: header, controls, tiles, legends, tables and
+  footer, and the charts as empty boxes of their final height
+  (`AREA_HEIGHT` and `BARS_HEIGHT` in `lib/chart.ts`). The CSS is
+  inline, so the HTML, about 10 KB gzipped, is all the first paint
+  needs; even the header's icon is in it, as a `data:` URL made from
+  `public/favicon.svg`. The site's root and `404.html` are copies of
+  `reviews/`. Links are absolute paths from the site's root on its host,
+  `SITE_BASE`, `/spec-stats/` unless set, as `404.html` is served at
+  any depth. (No `<base>`: it would make `#footer`, below, point at
+  another page.)
+- **The controller**, `src/controller.ts`, is plain TypeScript, built
+  into one small script (6 KB) inlined into every page after the view,
+  before the footer. It owns the URL and the form controls for the life
+  of the page, and nothing else: it reads the state from the URL, sets
+  the controls (their labels, such as "Auto (week)", included) and the
+  title, handles the controls' events and writes the URL back. The
+  controls are the one part that must be right, and work, before Svelte
+  has loaded; their labels come from `stateText()` in `lib/texts.ts`,
+  which the islands use too, so the two agree. Running it costs about 5 ms of CPU; it formats dates by hand
+  (`lib/format.ts`), as creating an `Intl.DateTimeFormat` took 54 ms on
+  the throttled phone.
+- **Before the first paint.** `<link rel="expect" href="#footer"
+  blocking="render">` holds rendering until the footer is parsed, which
+  is after the controller has run, so no paint shows the prerendered
+  state where the URL asks for another, however the HTML arrives. The
+  target is the footer, not the controller's own `<script>`: an element
+  counts as parsed at its start tag, and the script's text can still be
+  in the next network packet. Browsers without `rel="expect"` (Chromium
+  has it) paint a page this small whole in practice.
+- **Islands.** Everything else that changes with the state is a Svelte
+  component in `src/islands/`, one per section: the summary tiles, the
+  open PRs panel, the merges panel (each panel its heading, legend,
+  chart and table) and the by-spec table, which shows itself for all
+  specs only. The header, the view's title and question, and the footer
+  are static HTML. `src/islands/index.ts` maps each `data-island` name to
+  its component; `Page.svelte` prerenders them from it (the charts as
+  empty boxes) and `src/main.ts` mounts them from it, so the names can't
+  drift apart. Once the data has loaded, `main.ts` mounts each in its
+  element, replacing the prerendered content in one task, so nothing is
+  painted in between; they then follow the controller's state, through
+  one shared model (`lib/model.svelte.ts`). They're mounted, not
+  hydrated: replacing them is cheap, and nothing has to match the
+  prerendered markup.
+- **Links with a query string** get the same page as without, with the
+  default range's values. The controller marks the page `data-pending`,
+  and CSS hides the islands (`visibility: hidden`, so they keep their
+  space) until they're mounted. The controls are right from the first
+  paint. (An earlier version also had the controller set the sections'
+  dates and periods before the first paint, so only the numbers waited;
+  one owner per part was judged simpler.)
+- **The data file** is `data-<hash>.json`, named by its contents and
+  preloaded by every page, so a page always gets the data it was
+  rendered from, even across a deploy.
+- **Nothing is measured** before the first paint: what the prerender and
+  the controller show comes from the URL and the data's dates only. The
+  charts' widths are measured when they're mounted, inside boxes whose
+  size is already fixed.
+- **No loading message.** If the data can't be loaded, an error appears
+  above the view.
+
+### Performance checks
+
+`npm run cwv` (`web/scripts/cwv.ts`, about 3 minutes) loads the built site
+in Chromium, served as GitHub Pages serves it, and fails on any Core Web
+Vitals regression. The site workflow runs it after every build, so a
+regression is never published, and on pull requests. These are lab
+checks: timings vary with the machine, so they have generous budgets,
+and what the design guarantees is checked exactly.
+
+| Check | How | Budget |
+|---|---|---|
+| CLS | 58 loads: six sizes, slow and fast, light and dark, the four kinds of URL, scrolled, with real scrollbars; every control used on one load per size | 0, on every load |
+| LCP | Three cold loads of each kind of URL on a throttled phone (Slow 4G, CPU 4× slower) | 1 s, median (about 0.35 s now) |
+| LCP in the first paint | The same loads | no later than the first paint, plus 50 ms |
+| First paint needs only the HTML | The same loads | no render-blocking request; HTML at most 14 KB gzipped (the first round trip); every request started by the HTML (no chain), the tab icon aside |
+| INP | Every control used, at full CPU speed | 200 ms (about 80 ms now) |
+
+INP at 4× slower CPU is reported but not enforced: choosing days for a
+year redraws 365 bars and table rows, which takes about 300 to 450 ms
+there. The checks were tested against regressions: dropping the data
+file's preload fails as a chain, and dropping the charts' fixed heights
+fails CLS. The browser is Chrome for Testing, the full Chrome build that
+Playwright pins to its own version (Chrome 158 for Playwright 1.65), in
+Chrome's headless mode, rather than Chrome Headless Shell, the separate
+build Playwright uses for headless by default. CI installs it with
+`npx playwright install --with-deps --no-shell chromium`;
+`CHROMIUM_PATH` runs another Chrome.
 
 ### The open PRs view
 
@@ -323,9 +434,13 @@ same time axis, over the last year by default:
   - Each bar is a calendar period: a day, an ISO week, a month or a
     quarter, chosen with the "Per" select (`bin` in the URL).
   - "Auto", the default, picks the smallest of week, month or quarter
-    that keeps every bar at least 8 px wide: ISO weeks for a year at
-    desktop widths, months for the whole window or on a phone. It never
-    picks days, as a day's merges are mostly 0 to 3; they can be chosen.
+    that gives at most 54 bars (a year of ISO weeks can touch 54): weeks
+    up to a year, months up to four and a half years, quarters beyond.
+    It's chosen from the range alone, not the chart's width, so the page
+    can show it before anything is measured ("Loading"; until
+    2026-11-20 it kept bars at least 8 px wide, which made it weeks on a
+    desktop and months on a phone). It never picks days, as a day's
+    merges are mostly 0 to 3; they can be chosen.
   - Bars only a few pixels wide (days over years) lose the gap between
     them, so they don't disappear into it.
   - Periods the range cuts short (the current week, or a range starting

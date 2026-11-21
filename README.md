@@ -58,9 +58,10 @@ The site (`web/`, Svelte, Vite and TypeScript; `docs/site-design.md`,
 
 ```
 cd web && npm ci
-npm run dev                                       # localhost:5173, with build/data.json as data.json
+npm run dev                                       # localhost:5173/reviews/, each page rendered on request
 npm run check && npm test                         # svelte-check and tsc; unit tests (node --test)
-npm run build                                     # web/dist/: the static site, data.json included
+npm run build                                     # web/dist/: the prerendered pages, script and data file
+npm run cwv                                       # Core Web Vitals budgets for web/dist/ (about 3 minutes; needs Chrome for Testing: npx playwright install --no-shell chromium)
 ```
 
 The first `extract` fetches each repo's issues and PRs updated since
