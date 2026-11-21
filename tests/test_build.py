@@ -24,10 +24,10 @@ class BuildTest(TempDirs):
 
     def events(self, data):
         """number -> [(day, event type)]"""
+        items, rows = build.expand(data)
         out = {}
-        items, ev = data["items"], data["events"]
-        for d, i, e in zip(ev["day"], ev["item"], ev["event"]):
-            out.setdefault(items["number"][i], []).append((d, data["event_types"][e]))
+        for i, d, e in rows:
+            out.setdefault(items["number"][i], []).append((d, e))
         return out
 
     def test_open_prs(self):
@@ -64,13 +64,14 @@ class BuildTest(TempDirs):
                                                "_created_as_draft", "closed", "reopened",
                                                "convert_to_draft", "ready_for_review", "merged"])
         self.assertEqual(data["repos"], {"name": ["dom"], "standard": ["DOM"]})
-        self.assertEqual(data["items"], {
+        items, _ = build.expand(data)
+        self.assertEqual(items, {
             "repo": [0] * 7, "number": [2, 3, 10, 12, 13, 14, 16],
             "created": [day(d) for d in ("2025-02-01", "2025-03-01", "2024-01-01", "2023-01-01",
                                          "2025-01-01", "2025-03-15", "2025-02-01")],
             # #2 merged 9 days after it was created, #3 one day after.
-            "hours_to_merge": [216.0, 24.0, None, None, None, None, None]})
-        self.assertLess(data["items"]["created"][3], 0)  # opened before the window
+            "hours_to_merge": [216, 24, None, None, None, None, None]})
+        self.assertLess(items["created"][3], 0)  # opened before the window
         self.assertEqual(self.events(data), {
             2: [(day("2025-02-01"), "_created"), (day("2025-02-10"), "closed"), (day("2025-02-10"), "merged")],
             3: [(day("2025-03-01"), "_created"), (day("2025-03-02"), "closed"), (day("2025-03-02"), "merged")],
@@ -82,9 +83,13 @@ class BuildTest(TempDirs):
             16: [(day("2025-02-01"), "_created"), (day("2025-02-05"), "closed"),
                  (day("2025-02-20"), "reopened"), (day("2025-02-20"), "closed")],
         })
-        # Sorted by day, then item.
-        ev = data["events"]
-        self.assertEqual(list(zip(ev["day"], ev["item"])), sorted(zip(ev["day"], ev["item"])))
+        # As stored: numbers and creation days as differences from the
+        # previous item, events grouped by item with days as gaps.
+        self.assertEqual(data["items"]["number"], [2, 1, 7, 2, 1, 1, 2])
+        self.assertEqual(data["items"]["created"][:2], [day("2025-02-01"), day("2025-03-01") - day("2025-02-01")])
+        self.assertEqual(data["items"]["events"], [3, 3, 2, 1, 3, 1, 4])
+        self.assertEqual(data["events"]["day"][:8], [0, 9, 0, 0, 1, 0, 0, day("2025-01-15")])
+        self.assertEqual(data["events"]["day"][-4:], [0, 4, 15, 0])  # #16
         self.assertEqual(logs, [])
 
     def test_drafts(self):
@@ -127,13 +132,32 @@ class BuildTest(TempDirs):
                      merged_at="2025-01-03T06:00:00Z", merged_by="ed")
         # Merged before the window ended, but created before it started.
         gh.add_issue(11, "2024-05-01T12:00:00Z", is_pr=True, merged_at="2025-01-01T12:00:00Z", merged_by="ed")
+        # Merged 24 hours and 1 second after it was created: rounded up.
+        gh.add_issue(12, "2025-01-05T00:00:00Z", is_pr=True, merged_at="2025-01-06T00:00:01Z", merged_by="ed")
         self.sync(gh)
         data, logs = self.build()
-        items = data["items"]
+        items, _ = build.expand(data)
         hours = dict(zip(items["number"], items["hours_to_merge"]))
-        self.assertEqual(hours[10], 6.0)
-        self.assertEqual(hours[11], 245 * 24.0)
+        self.assertEqual(hours[10], 6)
+        self.assertEqual(hours[11], 245 * 24)
+        self.assertEqual(hours[12], 25)
+        self.assertIsInstance(hours[10], int)
         self.assertEqual(self.events(data)[10][-1], (day("2025-01-03"), "merged"))
+        self.assertEqual(logs, [])
+
+    def test_a_first_event_can_come_after_the_window_starts(self):
+        gh = populated()
+        # Closed when the window starts, reopened in it: its first event is
+        # the reopening, so the first gap isn't 0.
+        gh.add_issue(10, "2024-01-01T00:00:00Z", is_pr=True, closed_at="2024-02-01T00:00:00Z")
+        gh.add_event(10, "2025-02-01T00:00:00Z", "reopened", "ed")
+        gh.issues[10]["state"] = "open"
+        gh.touch(10, "2025-02-01T00:00:00Z")
+        self.sync(gh)
+        data, logs = self.build()
+        self.assertEqual(self.events(data)[10], [(day("2025-02-01"), "reopened")])
+        self.assertEqual(data["items"]["events"][-1], 1)
+        self.assertEqual(data["events"]["day"][-1], day("2025-02-01"))
         self.assertEqual(logs, [])
 
     def test_the_items_own_state_wins(self):

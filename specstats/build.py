@@ -6,15 +6,25 @@
    "event_types": ["_carried_in", "_carried_in_as_draft", "_created", "_created_as_draft",
                    "closed", "reopened", "convert_to_draft", "ready_for_review", "merged"],
    "repos":  {"name": ["dom", ...], "standard": ["DOM", ...]},
-   "items":  {"repo": [0, ...], "number": [1234, ...], "created": [-412, ...],
-              "hours_to_merge": [null, 30.25, ...]},
-   "events": {"day": [0, ...], "item": [0, ...], "event": [0, ...]}}
+   "items":  {"repo": [0, ...], "number": [1234, 5, ...], "created": [-412, 3, ...],
+              "hours_to_merge": [null, 31, ...], "events": [2, ...]},
+   "events": {"day": [0, 17, ...], "event": [0, 4, ...]}}
 
-Each table is stored by column. `items.repo` is an index into `repos`,
-`events.item` into `items`, `events.event` into `event_types`, and
-`events.day` and `items.created` count UTC days from `meta.from` (day 0);
-`created` is the day of the PR's `created_at`, negative for a PR opened
-before the window. Events are sorted by day, then item, then time.
+Each table is stored by column. `items.repo` is an index into `repos`
+and `events.event` into `event_types`. Days count UTC days from
+`meta.from` (day 0); `created` is the day of the PR's `created_at`,
+negative for a PR opened before the window.
+
+The layout is chosen to compress well; the client assumes no order
+beyond what decoding needs:
+- `items.number` and `items.created` are differences from the previous
+  item of the same repo (the first of each repo's items holds its own
+  value). Items are written by repo and number, so both are small.
+- Events are grouped by item: the first `items.events[0]` events are the
+  first item's, the next `items.events[1]` the second's, and so on, each
+  item's in time order (a PR reopened and closed on one day has both, in
+  that order). `events.day` is the days since the item's previous event,
+  or for its first event, since `max(created, 0)`.
 
 This first version holds what open PRs over time needs: PRs only, and
 the events that open and close them and make them drafts or ready for
@@ -29,8 +39,9 @@ GitHub has no event for it. A merge is a `closed` event too, which is
 what ends a PR's open span; `merged` (from the PR's `merged_at`) is there
 for counting merges, and doesn't change its state. `items.hours_to_merge`
 is the time from the PR being ready for review (created, or its first
-`ready_for_review` if it was created as a draft) to its merge, in hours,
-for PRs merged in the window, and null for the rest.
+`ready_for_review` if it was created as a draft) to its merge, in whole
+hours rounded up (merged within that many hours), for PRs merged in the
+window, and null for the rest.
 
 Draft status is a second state alongside open or closed, with GitHub's
 `convert_to_draft` and `ready_for_review`. GitHub has no event for a PR
@@ -184,9 +195,10 @@ def item_events(obj, pull, events, start, end, fixes):
 
 
 def hours_to_merge(obj, pull, events, fixes):
-    """Hours from the PR being ready for review to its merge: from
-    `created_at`, or from its first `ready_for_review` if it was created
-    as a draft."""
+    """Hours from the PR being ready for review to its merge, rounded up:
+    from `created_at`, or from its first `ready_for_review` if it was
+    created as a draft. Rounded up so that any limit in whole hours ("within
+    24 hours") gives the same answer as the exact time."""
     changes, draft_at_creation = transitions(obj, pull, events, {})
     ready = obj["created_at"]
     if draft_at_creation:
@@ -195,8 +207,8 @@ def hours_to_merge(obj, pull, events, fixes):
             _fix(fixes, "merged while a draft: hours to merge from `created_at`")
         else:
             ready = first
-    hours = (_time(obj["pull_request"]["merged_at"]) - _time(ready)).total_seconds() / 3600
-    return round(max(hours, 0.0), 2)
+    taken = _time(obj["pull_request"]["merged_at"]) - _time(ready)
+    return max(-(-taken // datetime.timedelta(hours=1)), 0)
 
 
 def build(root=None, standards=None, updated_since=None, log=print):
@@ -223,30 +235,35 @@ def build(root=None, standards=None, updated_since=None, log=print):
     to = end - datetime.timedelta(days=1)
 
     repos = {"name": [], "standard": []}
-    items = {"repo": [], "number": [], "created": [], "hours_to_merge": []}
-    rows = []
+    items = {"repo": [], "number": [], "created": [], "hours_to_merge": [], "events": []}
+    events = {"day": [], "event": []}
     fixes = {}
     for r, (repo, store) in enumerate(stores.items()):
         repos["name"].append(repo.split("/", 1)[1])
         repos["standard"].append(standards[repo])
         index = store.index()
+        last_number = last_created = 0  # of the repo's previous item
         for number in sorted(n for n, i in index.items() if i["is_pr"] and store.full(n)):
             obj = store.get("issues", number)
             evs = item_events(obj, store.get("pulls", number), store.get("issues", number, "events", []),
                               start, end, fixes)
             if not evs:
                 continue
-            i = len(items["number"])
+            created = (_day(obj["created_at"]) - start).days
             items["repo"].append(r)
-            items["number"].append(number)
-            items["created"].append((_day(obj["created_at"]) - start).days)
+            items["number"].append(number - last_number)
+            items["created"].append(created - last_created)
+            last_number, last_created = number, created
             merged = any(kind == "merged" for _, kind in evs)
             items["hours_to_merge"].append(hours_to_merge(obj, store.get("pulls", number),
                                                           store.get("issues", number, "events", []), fixes)
                                            if merged else None)
-            # In time order within a day too: closed, then reopened, the same day.
-            rows.extend((day, i, k, EVENT_TYPES.index(kind)) for k, (day, kind) in enumerate(evs))
-    rows.sort()
+            items["events"].append(len(evs))
+            prev = max(created, 0)
+            for day, kind in evs:
+                events["day"].append(day - prev)
+                events["event"].append(EVENT_TYPES.index(kind))
+                prev = day
     for what, n in sorted(fixes.items()):
         log(f"fixed up from the item's own state ({what}): {n}")
     return {
@@ -254,9 +271,34 @@ def build(root=None, standards=None, updated_since=None, log=print):
         "event_types": EVENT_TYPES,
         "repos": repos,
         "items": items,
-        "events": {"day": [r[0] for r in rows], "item": [r[1] for r in rows],
-                   "event": [r[3] for r in rows]},
+        "events": events,
     }
+
+
+def expand(data):
+    """The inverse of the layout above, for tests and for reading the file:
+    `items.number` and `items.created` as values, and events as rows of
+    (item, day, event type), grouped by item."""
+    items = dict(data["items"])
+    last = {}
+    numbers, created = [], []
+    for r, n, c in zip(items["repo"], items["number"], items["created"]):
+        ln, lc = last.get(r, (0, 0))
+        last[r] = (ln + n, lc + c)
+        numbers.append(ln + n)
+        created.append(lc + c)
+    items["number"], items["created"] = numbers, created
+    rows = []
+    k = 0
+    for i, count in enumerate(items.pop("events")):
+        day = max(created[i], 0)
+        for _ in range(count):
+            day += data["events"]["day"][k]
+            rows.append((i, day, data["event_types"][data["events"]["event"][k]]))
+            k += 1
+    if k != len(data["events"]["day"]):
+        raise ValueError(f"items.events adds up to {k}, but there are {len(data['events']['day'])} events")
+    return items, rows
 
 
 def write(data, path=None):

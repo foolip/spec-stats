@@ -99,15 +99,38 @@ a time as later metrics need them:
   - `hours_to_merge`: hours from ready for review to merge, for PRs
     merged in the window, and null for the rest. Ready for review means
     created, or the first `ready_for_review` for a PR created as a
-    draft.
+    draft. Whole hours, rounded up (since 2026-11-20): merged within that
+    many hours, so a limit in whole hours, like the merge chart's 24 and
+    240, counts each PR as the exact time would.
 
   The last two were added on 2026-11-19, for open PRs by year opened and
   merges by time to merge.
-- **events**: day, item, event, sorted by day, item and time (a PR
+- **events**: day, item, event, each item's in time order (a PR
   reopened and closed on one day has both, in that order). Only changes of state
   are published (a second `closed` without a `reopened` between is left
   out), and a PR with no event in the window isn't an item.
 - **meta**: the window.
+
+**Laid out to compress well** (since 2026-11-20). In the file:
+
+- events are grouped by item, in the items' order; `items.events` says
+  how many each item has, so there's no `events.item` column;
+- `events.day` is the days since the item's previous event, or for its
+  first event, since `max(created, 0)`: mostly 0;
+- `items.number` and `items.created` are differences from the previous
+  item of the same repo (the first of a repo's items holds its own
+  value); items are written by repo and number, so both are small.
+
+The loader (`fromRaw` in `web/src/lib/data.ts`) turns these back into
+values and gives every event its item, so views see `day`, `item` and
+`event` arrays. They may rely on each item's events being together and
+in time order, and on nothing else about the order of events or items:
+a view that needs events by day sorts them itself. The web tests run
+each view on the same data with its items shuffled to check.
+`build.expand` does the same decoding in Python. On 2026-11-20 this took
+the file from 183 KB (43.9 KB gzipped) to 100 KB (21.5 KB gzipped),
+with the same contents, and whole hours to merge to 92 KB (17.7 KB
+gzipped).
 
 `python3 -m specstats build` (`specstats/build.py`) writes it to
 `build/data.json`, which isn't committed: whatever deploys the site runs
@@ -322,7 +345,8 @@ The first paint shows the whole page but the charts' drawings, from the
 HTML alone, and nothing moves after it. On a phone on slow 4G with a 4×
 slower CPU, that's about 0.3 s, which is also the LCP, against 0.7 s for a
 "Loading…" line and 1.5 s for the page when Svelte built it in the
-browser (until 2026-11-20); the charts follow at about 1.1 s.
+browser (until 2026-11-20); the charts follow at about 1.0 s (1.1 s
+before the data file's compact layout, 2026-11-20).
 
 - **Prerendered pages.** `web/scripts/build.ts` renders a page for each
   view and spec (`src/page.ts`, `src/Page.svelte`) with the values for

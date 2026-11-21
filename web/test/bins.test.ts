@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { fromRaw, type RawData } from "../src/lib/data.ts";
+import { fromRaw } from "../src/lib/data.ts";
+import { encode, shuffled, type Table } from "./helpers.ts";
 import { chooseBin, periodName, periods, sampleDays } from "../src/lib/bins.ts";
 import { mergesByPeriod } from "../src/lib/merges.ts";
 
@@ -66,16 +67,20 @@ test("merges are counted per period and by time to merge", () => {
     [10, 2, "closed"], [10, 2, "merged"], // week 2: 1–10 days
     [17, 3, "closed"], [17, 3, "merged"], // week 3: over 10 days
   ];
-  const raw: RawData = {
+  const table: Table = {
     meta: { from: FROM, to: "2022-01-31" },
     event_types: types,
     repos: { name: ["html", "dom"], standard: ["HTML", "DOM"] },
-    items: { repo: [0, 1, 0, 0], number: [1, 2, 3, 4], created: [0, 0, 0, 0], hours_to_merge: [24, 3, 24.5, 241] },
-    events: { day: ev.map((e) => e[0]), item: ev.map((e) => e[1]), event: ev.map((e) => types.indexOf(e[2])) },
+    items: { repo: [0, 1, 0, 0], number: [1, 2, 3, 4], created: [0, 0, 0, 0], hours_to_merge: [24, 3, 25, 241] },
+    events: ev,
   };
-  const data = fromRaw(raw);
   const ps = periods(FROM, 0, 30, "week");
   assert.equal(ps[0].first, "2021-12-27");
-  assert.deepEqual(mergesByPeriod(data, [0], ps).slice(0, 4), [[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]]);
-  assert.deepEqual(mergesByPeriod(data, [0, 1], ps)[1], [2, 0, 0]);
+  // The order of items and events makes no difference.
+  for (const data of [fromRaw(encode(table)), fromRaw(encode(shuffled(table)))]) {
+    assert.deepEqual(mergesByPeriod(data, [0], ps).slice(0, 4), [[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]]);
+    assert.deepEqual(mergesByPeriod(data, [0, 1], ps)[1], [2, 0, 0]);
+    // Only days in the periods count: the merge on day 17 is left out.
+    assert.deepEqual(mergesByPeriod(data, [0], periods(FROM, 0, 16, "week")).flat().reduce((a, b) => a + b), 2);
+  }
 });

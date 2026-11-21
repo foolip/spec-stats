@@ -20,14 +20,14 @@ export function mergesByPeriod(data: Data, repos: Iterable<number>, ps: Period[]
   const { day, item, event } = data.events;
   const lo = ps[0].start;
   const hi = ps[ps.length - 1].end;
-  let j = 0;
-  // Events are sorted by day.
+  // Each day's period, -1 for none: events come in no particular order.
+  const periodOf = new Int32Array(hi - lo + 1).fill(-1);
+  ps.forEach((p, j) => periodOf.fill(j, p.start - lo, p.end - lo + 1));
   for (let k = 0; k < day.length; k++) {
-    if (event[k] !== merged || day[k] < lo) continue;
-    if (day[k] > hi) break;
+    if (event[k] !== merged || day[k] < lo || day[k] > hi) continue;
+    const j = periodOf[day[k] - lo];
     const i = item[k];
-    if (!chosen[data.items.repo[i]]) continue;
-    while (ps[j].end < day[k]) j++;
+    if (j < 0 || !chosen[data.items.repo[i]]) continue;
     const h = data.items.hoursToMerge[i];
     const band = BAND_ENDS.findIndex((e) => h <= e);
     counts[j][band === -1 ? BAND_ENDS.length : band]++;
