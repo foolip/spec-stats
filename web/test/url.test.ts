@@ -96,5 +96,5 @@ test("presets are relative to the end of the window; links fix them", () => {
   assert.equal(b, last);
   assert.deepEqual(fixed({ preset: "1y" }, ctx), { from: "2025-11-18", to: "2026-11-17" });
   assert.equal(b - a + 1, 365);
-  assert.deepEqual(fixed({ preset: "3m" }, ctx), { from: "2026-08-18", to: "2026-11-17" });
+  assert.deepEqual(fixed({ preset: "3y" }, ctx), { from: "2023-11-18", to: "2026-11-17" });
 });

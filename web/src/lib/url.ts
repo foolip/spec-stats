@@ -14,7 +14,7 @@ export type View = (typeof VIEWS)[number];
 /** Each view's directory. */
 export const VIEW_PATHS: Record<View, string> = { "open-prs": "reviews" };
 
-export const PRESETS = ["all", "3y", "1y", "6m", "3m"] as const;
+export const PRESETS = ["all", "3y", "1y"] as const;
 export type Preset = (typeof PRESETS)[number];
 
 export type Range = { preset: Preset } | { from: string; to: string };
@@ -132,7 +132,7 @@ export function selectedRepos(repo: string | null, names: string[]): number[] {
   return repo === null ? names.map((_, i) => i) : [names.indexOf(repo)].filter((i) => i >= 0);
 }
 
-const PRESET_MONTHS: Record<Exclude<Preset, "all">, number> = { "3y": 36, "1y": 12, "6m": 6, "3m": 3 };
+const PRESET_MONTHS: Record<Exclude<Preset, "all">, number> = { "3y": 36, "1y": 12 };
 
 /** The first and last day (inclusive, days from ctx.from) a range covers. */
 export function rangeDays(range: Range, ctx: Context): [number, number] {

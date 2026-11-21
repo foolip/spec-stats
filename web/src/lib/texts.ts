@@ -9,8 +9,8 @@ import { longDate } from "./format.ts";
 import { fixed, rangeDays, type Context, type Preset, type State } from "./url.ts";
 
 export const BIN_LABELS: Record<Bin, string> = { day: "Day", week: "Week", month: "Month", quarter: "Quarter" };
-export const PRESET_LABELS: Record<Preset, string> = { all: "All", "3y": "3 yrs", "1y": "1 yr", "6m": "6 mo", "3m": "3 mo" };
-export const PRESET_TITLES: Record<Preset, string> = { all: "All", "3y": "3 years", "1y": "1 year", "6m": "6 months", "3m": "3 months" };
+export const PRESET_LABELS: Record<Preset, string> = { all: "All", "3y": "3 yrs", "1y": "1 yr" };
+export const PRESET_TITLES: Record<Preset, string> = { all: "All", "3y": "3 years", "1y": "1 year" };
 
 export interface StateText {
   /** First and last day of the range, inclusive, from ctx.from. */

@@ -139,7 +139,7 @@ const result = (page: Page) =>
 /** Every control once, with real input: the date presets, both selects by
  * keyboard, and a spec in the by-spec table. */
 async function useControls(page: Page) {
-  for (const preset of ["all", "3y", "6m", "1y"]) {
+  for (const preset of ["all", "3y", "1y"]) {
     await page.locator(`[data-preset="${preset}"]`).click();
     await page.waitForTimeout(600);
   }

@@ -314,7 +314,7 @@ page); the rest is in the query string.
 
 | Parameter | Values | Default |
 |---|---|---|
-| `range` | `all`, `3y`, `1y`, `6m`, `3m`, counted back from the window's end; or dates as in GitHub's search, `2024-01-01..2026-11-17`, inclusive and clamped to the window, `*` for an open end | `1y` |
+| `range` | `all`, `3y`, `1y`, counted back from the window's end; or dates as in GitHub's search, `2024-01-01..2026-11-17`, inclusive and clamped to the window, `*` for an open end | `1y` |
 | `bin` | `day`, `week` (ISO), `month`, `quarter`: the period of the bars, and of the points the open PRs are drawn at | `auto` |
 
 - **Defaults are left out**, so `/reviews/` is a whole link.
