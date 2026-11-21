@@ -19,7 +19,7 @@ export interface StateText {
   /** The bars' period: the choice, or what "auto" resolves to. */
   bin: Bin;
   auto: Bin;
-  /** "20 Nov 2025" */
+  /** "Nov 20, 2025" */
   startDate: string;
   endDate: string;
   /** "ISO week", and "ISO week" as a column heading. */

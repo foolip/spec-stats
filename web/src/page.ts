@@ -7,6 +7,7 @@
 import { render } from "svelte/server";
 import css from "./app.css?inline";
 import { fromRaw, type RawData } from "./lib/data.ts";
+import { LOCALE } from "./lib/format.ts";
 import type { PageConfig } from "./lib/config.ts";
 import { Model } from "./lib/model.svelte.ts";
 import { pageTitle } from "./lib/texts.ts";
@@ -68,7 +69,7 @@ export function renderPage(raw: RawData, o: PageOptions): string {
   const { body } = render(Page, { props: { model, root: o.root, icon, controller } });
   const r = state.repo === null ? -1 : data.repos.name.indexOf(state.repo);
   return `<!doctype html>
-<html lang="en">
+<html lang="${LOCALE}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">

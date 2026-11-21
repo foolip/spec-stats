@@ -447,15 +447,15 @@ ticks and paths; no chart library.
   runs from the start of the first day to the end of the last, each
   day's value sits at its middle, and a bar covers its whole days. About 1,800 daily points a series is
 well within what SVG draws smoothly, and owning the markup gives full
-control of type, colour and axes. What a library would have given is
+control of type, color and axes. What a library would have given is
 ours to build and test:
 
 - a crosshair with a tooltip on time series, and a tooltip per mark on
   bars, with hit targets larger than the marks;
 - keyboard access to the same values, and a table view of every chart;
 - a legend for two or more series, plus direct labels where they fit;
-- light and dark themes, each with its own colours checked for contrast
-  and colour-vision deficiency.
+- light and dark themes, each with its own colors checked for contrast
+  and color-vision deficiency.
 
 ### Look
 
@@ -499,10 +499,10 @@ whatwg/whatwg.org repo, which holds both sites: `whatwg.org/style/shared.css`,
 - **Type:** the system sans-serif stack (`-apple-system,
   BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif`);
   no web fonts.
-- **Page:** black text; whatwg.org on a light grey (`rgb(235, 235, 235)`)
+- **Page:** black text; whatwg.org on a light gray (`rgb(235, 235, 235)`)
   with a 900px column; the specs on white, up to 80em wide; plain
   underlined links, blue `#00f` and visited `#0e388c` on whatwg.org.
-- **The specs' header links** each have a colour: comms blue `#165fcc`,
+- **The specs' header links** each have a color: comms blue `#165fcc`,
   feedback red `#ff3e3a`, changes teal `#54b29a`, misc orange `#ffa32d`.
 - **Dark mode:** the specs follow `prefers-color-scheme` (through
   Bikeshed's variables); whatwg.org doesn't.
@@ -510,8 +510,8 @@ whatwg/whatwg.org repo, which holds both sites: `whatwg.org/style/shared.css`,
 So spec-stats uses the green `#3c790a` as its one accent (with a lighter
 step of the same hue for dark mode, checked for contrast), the same
 system font stack, a white page, and a reading column near whatwg.org's.
-Chart series colours are a validated categorical palette, not the header
-links' colours, which aren't chosen to be told apart in charts. The
+Chart series colors are a validated categorical palette, not the header
+links' colors, which aren't chosen to be told apart in charts. The
 WHATWG logo isn't used: spec-stats isn't a WHATWG site, and shouldn't
 look like one.
 

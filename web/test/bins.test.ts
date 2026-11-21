@@ -33,7 +33,7 @@ test("days are whole periods, never partial", () => {
   const days = periods(FROM, 10, 16, "day");
   assert.equal(days.length, 7);
   assert.ok(days.every((p, k) => p.start === 10 + k && p.end === p.start && !p.partial));
-  assert.equal(periodName(days[0], "day"), "Tue 11 Jan 2022");
+  assert.equal(periodName(days[0], "day"), "Tue, Jan 11, 2022");
 });
 
 test("a count is drawn on the range's first day and each period's last", () => {
