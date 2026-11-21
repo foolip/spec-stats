@@ -1,9 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { fromRaw } from "../src/lib/data.ts";
-import { encode, shuffled, type Table } from "./helpers.ts";
 import { chooseBin, periodName, periods, sampleDays } from "../src/lib/bins.ts";
-import { mergesByPeriod } from "../src/lib/merges.ts";
 
 const FROM = "2022-01-01";
 
@@ -56,31 +53,4 @@ test("auto is the smallest period with at most 54 bars", () => {
   assert.equal(chooseBin(FROM, 0, 1781), "quarter"); // 59 months: 20 quarters
   // Auto never chooses days, however short: a day's merges are mostly 0 to 3.
   assert.equal(chooseBin(FROM, 1690, 1781), "week");
-});
-
-test("merges are counted per period and by time to merge", () => {
-  const types = ["_created", "closed", "merged"];
-  const ev: [number, number, string][] = [
-    [0, 0, "_created"], [0, 1, "_created"], [0, 2, "_created"], [0, 3, "_created"],
-    [2, 0, "closed"], [2, 0, "merged"],   // week 1 (2022-01-03 is a Monday): within a day
-    [3, 1, "closed"], [3, 1, "merged"],   // week 1, other repo: left out
-    [10, 2, "closed"], [10, 2, "merged"], // week 2: 1–10 days
-    [17, 3, "closed"], [17, 3, "merged"], // week 3: over 10 days
-  ];
-  const table: Table = {
-    meta: { from: FROM, to: "2022-01-31" },
-    event_types: types,
-    repos: { name: ["html", "dom"], standard: ["HTML", "DOM"] },
-    items: { repo: [0, 1, 0, 0], number: [1, 2, 3, 4], created: [0, 0, 0, 0], hours_to_merge: [24, 3, 25, 241] },
-    events: ev,
-  };
-  const ps = periods(FROM, 0, 30, "week");
-  assert.equal(ps[0].first, "2021-12-27");
-  // The order of items and events makes no difference.
-  for (const data of [fromRaw(encode(table)), fromRaw(encode(shuffled(table)))]) {
-    assert.deepEqual(mergesByPeriod(data, [0], ps).slice(0, 4), [[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]]);
-    assert.deepEqual(mergesByPeriod(data, [0, 1], ps)[1], [2, 0, 0]);
-    // Only days in the periods count: the merge on day 17 is left out.
-    assert.deepEqual(mergesByPeriod(data, [0], periods(FROM, 0, 16, "week")).flat().reduce((a, b) => a + b), 2);
-  }
 });

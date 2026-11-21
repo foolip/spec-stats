@@ -29,6 +29,17 @@ test("the view and spec are in the path, the rest in the query string", () => {
   assert.equal(round("reviews/dom/?range=1y"), "reviews/dom/");
 });
 
+test("each view has its own path", () => {
+  assert.equal(parse("issues/", "", ctx).view, "open-issues");
+  assert.deepEqual(parse("issues/html/", "?range=3y", ctx), { ...DEFAULT, view: "open-issues", repo: "html", range: { preset: "3y" } });
+  assert.equal(round("issues/html/?range=all&bin=month"), "issues/html/?range=all&bin=month");
+  assert.equal(pagePath({ view: "open-issues", repo: null }), "issues/");
+  assert.equal(pagePath({ view: "open-issues", repo: "url" }), "issues/url/");
+  // An unknown spec: the view's page for every spec.
+  assert.equal(round("issues/nfc/"), "issues/");
+  assert.equal(round("issues/?repo=dom"), "issues/dom/");
+});
+
 test("old ?repo= links go to the spec's page", () => {
   assert.equal(round("?repo=html&range=3y"), "reviews/html/?range=3y");
   assert.equal(round("reviews/?repo=dom"), "reviews/dom/");

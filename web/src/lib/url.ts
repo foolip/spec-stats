@@ -1,6 +1,6 @@
 // The URL is the view (docs/site-design.md, "The URL is the view"): the
 // view and the spec are in the path, so each has its own prerendered page
-// (reviews/, reviews/html/), and the date range and the bars' period are in
+// (reviews/, reviews/html/, issues/html/), and the date range and the bars' period are in
 // the query string, defaults left out. parse() reads a path and query
 // string into a whole, valid state, dropping what it doesn't understand;
 // href() writes the state back. Paths are relative to the site's root.
@@ -8,11 +8,11 @@
 import { BINS, type Bin } from "./bins.ts";
 import { dateOf, dayOf } from "./data.ts";
 
-export const VIEWS = ["open-prs"] as const;
+export const VIEWS = ["open-prs", "open-issues"] as const;
 export type View = (typeof VIEWS)[number];
 
 /** Each view's directory. */
-export const VIEW_PATHS: Record<View, string> = { "open-prs": "reviews" };
+export const VIEW_PATHS: Record<View, string> = { "open-prs": "reviews", "open-issues": "issues" };
 
 export const PRESETS = ["all", "3y", "1y"] as const;
 export type Preset = (typeof PRESETS)[number];
@@ -85,7 +85,7 @@ function repoName(value: string | null | undefined, ctx: Context): string | null
 
 /**
  * The state for a path relative to the site's root ("", "reviews/",
- * "reviews/html/") and a query string. The site's root is the default
+ * "reviews/html/", "issues/") and a query string. The site's root is the default
  * view. Two kinds of old links still work, and are rewritten: `?repo=`,
  * before specs had their own pages, and `from` and `to`, which held custom
  * dates until 2026-11-20.

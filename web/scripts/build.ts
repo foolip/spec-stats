@@ -5,8 +5,8 @@
 // 3. The page renderer, src/page.ts, for Node.
 // 4. The data file, ../build/data.json, as data-<hash>.json, so a page
 //    always loads the data it was rendered from.
-// 5. Every page: reviews/ and reviews/<repo>/, the site's root and
-//    404.html (copies of reviews/).
+// 5. Every page: reviews/, reviews/<repo>/, issues/ and issues/<repo>/,
+//    the site's root and 404.html (copies of reviews/).
 //
 // SITE_BASE is the site's path on its host, which every page's links start
 // with: "/spec-stats/" (GitHub Pages) unless set.

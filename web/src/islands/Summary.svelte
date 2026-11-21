@@ -1,7 +1,8 @@
 <script lang="ts">
-  // The summary tiles: the PRs open at the end of the range, the change
-  // over it, and the PRs merged in it.
+  // The summary tiles: the PRs (or issues) open at the end of the range,
+  // the change over it, and the PRs merged (or issues closed) in it.
   import { num, signed } from "../lib/format.ts";
+  import { capitalized } from "../lib/texts.ts";
   import type { IslandProps } from "./index.ts";
 
   let { model }: IslandProps = $props();
@@ -19,7 +20,7 @@
     <div class="tile-note">from {num(model.startOpen)}</div>
   </div>
   <div class="tile">
-    <div class="tile-label">Merged since {t.startDate}</div>
-    <div class="tile-value">{num(model.merged)}</div>
+    <div class="tile-label">{capitalized(model.words.done)} since {t.startDate}</div>
+    <div class="tile-value">{num(model.done)}</div>
   </div>
 </section>

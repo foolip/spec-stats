@@ -61,10 +61,11 @@ data could give one.
   with no `closed` event), the build decides once, for example by falling
   back to the item's `closed_at`, and `check` keeps reporting it.
 
-## First version: open PRs
+## First version: open PRs and issues
 
-The first page is the number of open PRs over time, per spec. The build
-publishes only what that needs, and the tables grow a column or an event type at
+The first page is the number of open PRs over time, per spec; the second
+(since 2026-11-21) the same for issues. The build publishes only what
+those need, and the tables grow a column or an event type at
 a time as later metrics need them:
 
 - **repos**, one row per standard: `name` (`html`, the repo's `name` in
@@ -91,11 +92,12 @@ a time as later metrics need them:
   - The open count is a sum over the open/closed events; open drafts need
     each PR's open and draft state replayed, as a draft can be closed
     without becoming ready.
-- **items**, PRs only:
+- **items**, PRs and issues (issues since 2026-11-21):
   - repo, and number (for links and for checking a count against
     GitHub);
+  - `is_pr`: 1 for a PR, 0 for an issue;
   - `created`: the day of `created_at`, counted from `meta.from`, so
-    negative for a PR opened before the window;
+    negative for an item opened before the window;
   - `hours_to_merge`: hours from ready for review to merge, for PRs
     merged in the window, and null for the rest. Ready for review means
     created, or the first `ready_for_review` for a PR created as a
@@ -103,8 +105,16 @@ a time as later metrics need them:
     many hours, so a limit in whole hours, like the merge chart's 24 and
     240, counts each PR as the exact time would.
 
-  The last two were added on 2026-11-19, for open PRs by year opened and
-  merges by time to merge.
+  - `hours_to_close`: hours from an issue's creation to its last
+    `closed` event, for issues closed at the end of the window whose
+    last close is in it, and null for the rest (PRs included). Whole
+    hours, rounded up, like `hours_to_merge`. An issue closed, reopened
+    and closed again counts once, at its last close.
+
+  `created` and `hours_to_merge` were added on 2026-11-19, for open PRs
+  by year opened and merges by time to merge; `is_pr` and
+  `hours_to_close` on 2026-11-21, for the same about issues. Issues have
+  only `_carried_in`, `_created`, `closed` and `reopened` events.
 - **events**: day, item, event, each item's in time order (a PR
   reopened and closed on one day has both, in that order). Only changes of state
   are published (a second `closed` without a `reopened` between is left
@@ -150,6 +160,12 @@ On 2026-11-18 it held 26 repos, 3,727 PRs and 7,736 events in 115 KB,
 2022-01-01 to 2026-11-17: 242 PRs open at the start and 560 at the end,
 64 of them drafts; each repo's end counts equal its stored open PRs and
 drafts.
+
+With issues (2026-11-21), it held 3,751 PRs and 6,739 issues with 19,894
+events, in 298 KB (43 KB gzipped, from 18 KB with PRs alone). Laying the
+items out by kind, or sharing one column for hours to merge and to close,
+saved about 2 KB gzipped, so neither was done. Each repo's open issues on
+the last day equal its stored open issues, less those created after it.
 
 No users, labels or other lookups yet.
 
@@ -311,6 +327,7 @@ page); the rest is in the query string.
 |---|---|
 | `reviews/` | the open PRs view, all specs; also the site's root, until there's a start view |
 | `reviews/html/` | one spec, by repo name |
+| `issues/`, `issues/html/` | the open issues view (since 2026-11-21) |
 
 | Parameter | Values | Default |
 |---|---|---|
@@ -335,7 +352,13 @@ page); the rest is in the query string.
   `from` and `to`, which held custom dates until 2026-11-20, are still
   read and rewritten as `range`, and `?repo=html`, from before specs had
   their own pages, as `reviews/html/`. An unknown path gets `404.html`, a
-  copy of `reviews/`, which rewrites the URL to `reviews/`.
+  copy of `reviews/`, which rewrites the URL to `reviews/`; an unknown
+  spec under another view (`issues/nfc/`) loads that view's page
+  (`issues/`) instead.
+- **Views are linked under the site's name**, as tabs. Each link keeps
+  the spec and the query string, so switching views keeps the filters;
+  it loads the other view's prerendered page, and the data comes from
+  the HTTP cache.
 - Repos in the URL are their `name` (`html`), not indexes, as indexes
   change when repos are added.
 
@@ -381,7 +404,7 @@ before the data file's compact layout, 2026-11-20).
   has it) paint a page this small whole in practice.
 - **Islands.** Everything else that changes with the state is a Svelte
   component in `src/islands/`, one per section: the summary tiles, the
-  open PRs panel, the merges panel (each panel its heading, legend,
+  open PRs (or issues) panel, the merges (or closes) panel (each panel its heading, legend,
   chart and table) and the by-spec table, which shows itself for all
   specs only. The header, the view's title and question, and the footer
   are static HTML. `src/islands/index.ts` maps each `data-island` name to
@@ -421,7 +444,7 @@ and what the design guarantees is checked exactly.
 
 | Check | How | Budget |
 |---|---|---|
-| CLS | 58 loads: six sizes, slow and fast, light and dark, the four kinds of URL, scrolled, with real scrollbars; every control used on one load per size | 0, on every load |
+| CLS | 58 loads: six sizes, slow and fast, light and dark, the four kinds of URL (one of them an issues page), scrolled, with real scrollbars; every control used on one load per size | 0, on every load |
 | LCP | Three cold loads of each kind of URL on a throttled phone (Slow 4G, CPU 4× slower) | 1 s, median (about 0.35 s now) |
 | LCP in the first paint | The same loads | no later than the first paint, plus 50 ms |
 | First paint needs only the HTML | The same loads | no render-blocking request; HTML at most 14 KB gzipped (the first round trip); every request started by the HTML (no chain), the tab icon aside |
@@ -485,6 +508,29 @@ with age, in light and dark mode alike. That covers the year-opened
 layers (the current year lightest) and the merge bands (within 1 day
 lightest). Each ramp is validated as an ordinal ramp against the page
 in both modes (`--cohort-*`, `--age-*` in `app.css`).
+
+### The open issues view
+
+Since 2026-11-21, `issues/` mirrors the open PRs view for issues, with
+the same controls, layout and colors:
+
+- **Open issues at the end of each period, by year opened**, the same
+  layers. Issues have no drafts, so every open issue counts. About half
+  of the open issues (2,158 of 4,219 on 2026-11-20) were opened before
+  2022, so the oldest layer is the largest.
+- **Issues closed per period, by time open**, from creation to the last
+  close: within 1 week, 1 week to 90 days, more than 90 days. For
+  whatwg/html's 1,569 issues closed since 2022 those breaks give 39%,
+  28% and 33% (the median is 15 days), as the merge bands were chosen
+  for near thirds. Every close counts, whatever its `state_reason`
+  (completed, not planned or duplicate); an issue closed and later
+  reopened isn't counted until it's closed again.
+- The tiles: issues open at the end of the range, the change over it,
+  and issues closed in it; and the by-spec table.
+
+`Model` (`lib/model.svelte.ts`) takes the view from the state once, as a
+page shows one view: `lib/open.ts` counts the items of one kind, and
+`lib/flow.ts` counts merges or closes with their bands.
 
 ### Charts
 

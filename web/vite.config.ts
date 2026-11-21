@@ -27,7 +27,8 @@ function pages(): Plugin {
         res.setHeader("Content-Type", "application/json");
         res.end(readData());
       });
-      // "/", "/reviews/" and "/reviews/html/", as on the published site.
+      // "/", "/reviews/", "/reviews/html/" and "/issues/html/", as on the
+      // published site.
       server.middlewares.use(async (req, res, next) => {
         const path = new URL(req.url ?? "/", "http://localhost").pathname;
         if (!/^\/(?:[a-z-]+\/(?:[a-z0-9-]+\/)?)?$/.test(path)) return next();

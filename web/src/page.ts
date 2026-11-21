@@ -1,7 +1,7 @@
 // Renders the site's pages on the server (docs/site-design.md, "Loading"):
 // scripts/build.ts writes them into dist/, and the Vite dev server renders
-// them on request (vite.config.ts). Each page is the open PRs view with the
-// values for its spec and the default range, the CSS inline, and the
+// them on request (vite.config.ts). Each page is a view (open PRs or open
+// issues) with the values for its spec and the default range, the CSS inline, and the
 // controller (src/controller.ts) inline.
 
 import { render } from "svelte/server";
@@ -15,8 +15,8 @@ import { href, pagePath, parse, VIEWS } from "./lib/url.ts";
 import Page from "./Page.svelte";
 
 export interface PageOptions {
-  /** The page's path from the site's root: "" (the root), "reviews/" or
-   * "reviews/html/". */
+  /** The page's path from the site's root: "" (the root), "reviews/",
+   * "reviews/html/" or "issues/html/". */
   path: string;
   /** The site's root on its host: "/spec-stats/" (GitHub Pages), "/". */
   root: string;
@@ -55,6 +55,7 @@ export function renderPage(raw: RawData, o: PageOptions): string {
     to: data.to,
     repos: data.repos.name,
     standards: data.repos.standard,
+    view: state.view,
     prerendered: href(state),
   };
   // The controller runs before the footer, as it's parsed; main.ts, a
@@ -74,7 +75,7 @@ export function renderPage(raw: RawData, o: PageOptions): string {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<title>${pageTitle(r < 0 ? null : data.repos.standard[r])}</title>
+<title>${pageTitle(state.view, r < 0 ? null : data.repos.standard[r])}</title>
 <meta name="description" content="How WHATWG specs are maintained, from public GitHub data.">
 <link rel="icon" href="${o.root}favicon.svg" type="image/svg+xml">
 <link rel="expect" href="#footer" blocking="render">

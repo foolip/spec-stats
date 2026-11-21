@@ -31,7 +31,7 @@ class BuildTest(TempDirs):
         return out
 
     def test_open_prs(self):
-        gh = populated()  # #1 an issue, #2 and #3 PRs merged in the window
+        gh = populated()  # #1 an open issue, #2 and #3 PRs merged in the window
         # Open when the window starts, closed in it.
         gh.add_issue(10, "2024-01-01T00:00:00Z", is_pr=True)
         gh.close(10, "2025-01-15T00:00:00Z")
@@ -66,13 +66,15 @@ class BuildTest(TempDirs):
         self.assertEqual(data["repos"], {"name": ["dom"], "standard": ["DOM"]})
         items, _ = build.expand(data)
         self.assertEqual(items, {
-            "repo": [0] * 7, "number": [2, 3, 10, 12, 13, 14, 16],
-            "created": [day(d) for d in ("2025-02-01", "2025-03-01", "2024-01-01", "2023-01-01",
+            "repo": [0] * 8, "number": [1, 2, 3, 10, 12, 13, 14, 16], "is_pr": [0, 1, 1, 1, 1, 1, 1, 1],
+            "created": [day(d) for d in ("2025-01-01", "2025-02-01", "2025-03-01", "2024-01-01", "2023-01-01",
                                          "2025-01-01", "2025-03-15", "2025-02-01")],
             # #2 merged 9 days after it was created, #3 one day after.
-            "hours_to_merge": [216, 24, None, None, None, None, None]})
-        self.assertLess(items["created"][3], 0)  # opened before the window
+            "hours_to_merge": [None, 216, 24, None, None, None, None, None],
+            "hours_to_close": [None] * 8})
+        self.assertLess(items["created"][4], 0)  # opened before the window
         self.assertEqual(self.events(data), {
+            1: [(day("2025-01-01"), "_created")],
             2: [(day("2025-02-01"), "_created"), (day("2025-02-10"), "closed"), (day("2025-02-10"), "merged")],
             3: [(day("2025-03-01"), "_created"), (day("2025-03-02"), "closed"), (day("2025-03-02"), "merged")],
             10: [(0, "_carried_in"), (day("2025-01-15"), "closed")],
@@ -85,10 +87,10 @@ class BuildTest(TempDirs):
         })
         # As stored: numbers and creation days as differences from the
         # previous item, events grouped by item with days as gaps.
-        self.assertEqual(data["items"]["number"], [2, 1, 7, 2, 1, 1, 2])
-        self.assertEqual(data["items"]["created"][:2], [day("2025-02-01"), day("2025-03-01") - day("2025-02-01")])
-        self.assertEqual(data["items"]["events"], [3, 3, 2, 1, 3, 1, 4])
-        self.assertEqual(data["events"]["day"][:8], [0, 9, 0, 0, 1, 0, 0, day("2025-01-15")])
+        self.assertEqual(data["items"]["number"], [1, 1, 1, 7, 2, 1, 1, 2])
+        self.assertEqual(data["items"]["created"][:2], [day("2025-01-01"), day("2025-02-01") - day("2025-01-01")])
+        self.assertEqual(data["items"]["events"], [1, 3, 3, 2, 1, 3, 1, 4])
+        self.assertEqual(data["events"]["day"][:9], [0, 0, 9, 0, 0, 1, 0, 0, day("2025-01-15")])
         self.assertEqual(data["events"]["day"][-4:], [0, 4, 15, 0])  # #16
         self.assertEqual(logs, [])
 
@@ -124,6 +126,52 @@ class BuildTest(TempDirs):
                                   (day("2025-02-01"), "ready_for_review")])
         self.assertEqual(ev[14], [(0, "_carried_in_as_draft"), (day("2025-02-01"), "reopened")])
         self.assertEqual(logs, [])
+
+    def test_issues(self):
+        gh = populated()  # #1 an issue, open
+        # Closed in the window 2 days and an hour after it was created.
+        gh.add_issue(10, "2025-01-01T00:00:00Z")
+        gh.close(10, "2025-01-03T01:00:00Z")
+        # Open when the window starts, closed, reopened and closed again in
+        # it: counted from creation to the last close.
+        gh.add_issue(11, "2024-05-01T00:00:00Z")
+        gh.close(11, "2025-01-10T00:00:00Z")
+        gh.add_event(11, "2025-01-12T00:00:00Z", "reopened", "ed")
+        gh.close(11, "2025-01-20T00:00:00Z")
+        # Closed in the window, then reopened: not closed at the end.
+        gh.add_issue(12, "2025-01-01T00:00:00Z")
+        gh.close(12, "2025-01-05T00:00:00Z")
+        gh.add_event(12, "2025-01-06T00:00:00Z", "reopened", "ed")
+        gh.issues[12]["state"] = "open"
+        gh.touch(12, "2025-01-06T00:00:00Z")
+        # Closed before the window started, touched in it: not an item.
+        gh.add_issue(13, "2024-01-01T00:00:00Z", closed_at="2024-02-01T00:00:00Z")
+        gh.add_comment(13, "2025-01-05T00:00:00Z", "ed")
+        # Closed after the window ends: open at its end.
+        gh.add_issue(14, "2025-03-15T00:00:00Z")
+        gh.close(14, "2025-04-01T12:00:00Z")
+        # Closed with no `closed` event: the issue's own state wins.
+        gh.add_issue(15, "2025-01-01T00:00:00Z")
+        gh.close(15, "2025-01-02T00:00:00Z", event=False)
+        self.sync(gh)
+        data, logs = self.build()
+        items, _ = build.expand(data)
+        self.assertNotIn(13, items["number"])
+        issues = {n: (h, m) for n, pr, h, m in zip(items["number"], items["is_pr"], items["hours_to_close"],
+                                                     items["hours_to_merge"]) if not pr}
+        self.assertEqual(issues, {1: (None, None), 10: (49, None), 11: ((day("2025-01-20") - day("2024-05-01")) * 24, None),
+                                  12: (None, None), 14: (None, None), 15: (24, None)})
+        ev = self.events(data)
+        self.assertEqual(ev[10], [(day("2025-01-01"), "_created"), (day("2025-01-03"), "closed")])
+        self.assertEqual(ev[11], [(0, "_carried_in"), (day("2025-01-10"), "closed"),
+                                  (day("2025-01-12"), "reopened"), (day("2025-01-20"), "closed")])
+        self.assertEqual(ev[12], [(day("2025-01-01"), "_created"), (day("2025-01-05"), "closed"),
+                                  (day("2025-01-06"), "reopened")])
+        self.assertEqual(ev[14], [(day("2025-03-15"), "_created")])
+        # PRs have no hours to close.
+        self.assertEqual({h for h, pr in zip(items["hours_to_close"], items["is_pr"]) if pr}, {None})
+        # Issues have no draft events, and no pull object isn't a fix-up.
+        self.assertEqual(logs, ["fixed up from the item's own state (closed with no `closed` event): 1"])
 
     def test_hours_to_merge_count_from_ready_for_review(self):
         gh = populated()

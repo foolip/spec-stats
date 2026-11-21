@@ -50,8 +50,8 @@ function check(ok: boolean, message: string) {
 }
 
 // The URLs checked: each kind of page, and links with a query string, which
-// load a page prerendered for other values.
-const URLS = ["reviews/", "reviews/html/", "reviews/?range=3y&bin=month", "reviews/dom/?range=2024-01-01..2024-06-30"];
+// load a page prerendered for other values; both views.
+const URLS = ["reviews/", "issues/html/", "reviews/?range=3y&bin=month", "reviews/dom/?range=2024-01-01..2024-06-30"];
 
 const TYPES: Record<string, string> = {
   ".html": "text/html",

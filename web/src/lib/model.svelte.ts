@@ -1,14 +1,16 @@
-// Everything the open PRs view shows that needs the data, derived from the
-// data and the state. Used on the server to prerender a page and in the
-// browser, where the state follows the controller.
+// Everything a view shows that needs the data, derived from the data and
+// the state: open PRs and merges for the open PRs view, open issues and
+// closes for the open issues view. Used on the server to prerender a page
+// and in the browser, where the state follows the controller. A page is
+// one view, so the view is fixed when the model is made.
 
 import { periods, sampleDays } from "./bins.ts";
 import type { Layer } from "../components/StackedArea.svelte";
 import type { BarLayer } from "../components/StackedBars.svelte";
 import { dateOf, type Data } from "./data.ts";
-import { BAND_LABELS, mergesByPeriod } from "./merges.ts";
-import { openByGroup, openByRepo, total, yearCohorts, type Cohorts, type OpenSeries } from "./openprs.ts";
-import { stateText } from "./texts.ts";
+import { closes, flowByPeriod, merges, type Flow } from "./flow.ts";
+import { ofKind, openByGroup, openByRepo, total, yearCohorts, type Cohorts, type OpenSeries } from "./open.ts";
+import { stateText, VIEW_TEXT, type ViewText } from "./texts.ts";
 import { selectedRepos, type Context, type State } from "./url.ts";
 
 export class Model {
@@ -16,26 +18,35 @@ export class Model {
   /** Reactive in the browser. */
   view: State;
   ctx: Context;
+  /** The view's words: "PRs", "merged". */
+  words: ViewText;
   byRepo: OpenSeries[];
-  /** Open PRs by the year they were opened, oldest first. */
+  /** Open items by the year they were opened, oldest first. */
   cohorts: Cohorts;
   byCohort: OpenSeries[][];
+  /** Merges or closes. */
+  flow: Flow;
 
   constructor(data: Data, view: State) {
     this.data = data;
     this.view = view;
     this.ctx = { repoNames: data.repos.name, from: data.from, to: data.to };
-    this.byRepo = openByRepo(data);
+    this.words = VIEW_TEXT[view.view];
+    const kind = view.view === "open-issues" ? "issue" : "pr";
+    this.byRepo = openByRepo(data, kind);
     this.cohorts = yearCohorts(data);
-    this.byCohort = openByGroup(data, this.cohorts.of, this.cohorts.labels.length);
+    const mine = ofKind(data, kind);
+    const of = this.cohorts.of.map((g, i) => (mine[i] < 0 ? -1 : g));
+    this.byCohort = openByGroup(data, of, this.cohorts.labels.length);
+    this.flow = kind === "issue" ? closes(data) : merges(data);
   }
 
   text = $derived.by(() => stateText(this.view, this.ctx));
   repos = $derived.by(() => selectedRepos(this.view.repo, this.data.repos.name));
   series = $derived.by(() => total(this.byRepo, this.repos, this.data.days));
 
-  /** Open PRs by year opened, oldest at the bottom. Drafts aren't counted:
-   * only PRs ready for review. */
+  /** Open items by year opened, oldest at the bottom. Drafts aren't
+   * counted: only PRs ready for review (and every open issue). */
   layers: Layer[] = $derived.by(() =>
     this.cohorts.labels.map((label, g) => {
       const values = new Int32Array(this.data.days);
@@ -47,20 +58,24 @@ export class Model {
     }),
   );
 
-  /** PRs merged per calendar period. */
-  mergePeriods = $derived.by(() => periods(this.data.from, this.text.start, this.text.end, this.text.bin));
-  mergeCounts = $derived.by(() => mergesByPeriod(this.data, this.repos, this.mergePeriods));
+  /** PRs merged, or issues closed, per calendar period. */
+  flowPeriods = $derived.by(() => periods(this.data.from, this.text.start, this.text.end, this.text.bin));
+  flowCounts = $derived.by(() => flowByPeriod(this.data, this.flow, this.repos, this.flowPeriods));
   /** Fastest first, for the legend and the table; stacked the other way,
    * so the slowest is at the bottom and the fastest (lightest) on top, as
-   * the open PRs' newest layer is. */
-  mergeBands: BarLayer[] = $derived.by(() =>
-    BAND_LABELS.map((label, k) => ({ label, values: this.mergeCounts.map((c) => c[k]), color: `var(--age-${k})` })),
+   * the open items' newest layer is. */
+  flowBands: BarLayer[] = $derived.by(() =>
+    this.flow.bands.labels.map((label, k) => ({
+      label,
+      values: this.flowCounts.map((c) => c[k]),
+      color: `var(--age-${k})`,
+    })),
   );
-  mergeLayers = $derived.by(() => [...this.mergeBands].reverse());
-  merged = $derived.by(() => this.mergeCounts.reduce((s, c) => s + c.reduce((a, b) => a + b, 0), 0));
+  flowLayers = $derived.by(() => [...this.flowBands].reverse());
+  done = $derived.by(() => this.flowCounts.reduce((s, c) => s + c.reduce((a, b) => a + b, 0), 0));
   /** The open PRs are drawn at the same periods' ends, so they follow the
    * bin too: every day, or the last day of each week, month or quarter. */
-  sample = $derived.by(() => sampleDays(this.mergePeriods));
+  sample = $derived.by(() => sampleDays(this.flowPeriods));
 
   now = $derived.by(() => this.series.ready[this.text.end]);
   startOpen = $derived.by(() => this.series.ready[this.text.start]);

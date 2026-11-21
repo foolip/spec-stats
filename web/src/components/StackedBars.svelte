@@ -6,6 +6,7 @@
   import { margins } from "../lib/chart.ts";
   import { dateOf, parseDate } from "../lib/data.ts";
   import { longDate, num } from "../lib/format.ts";
+  import { capitalized } from "../lib/texts.ts";
   import type { Period } from "../lib/bins.ts";
 
   export interface BarLayer {
@@ -27,11 +28,13 @@
     /** Bottom layer first. */
     layers: BarLayer[];
     label: string;
+    /** What the bars count, for the totals: "merged". */
+    done: string;
     height?: number;
     /** The width to draw at until it's measured. */
     width?: number;
   }
-  let { from, start, end, periods, name, layers, label, height = 220, width: initialWidth = 720 }: Props = $props();
+  let { from, start, end, periods, name, layers, label, done, height = 220, width: initialWidth = 720 }: Props = $props();
 
   // Only the first width: bind:clientWidth keeps it up to date.
   // svelte-ignore state_referenced_locally
@@ -113,7 +116,7 @@
   function valueText(j: number): string {
     const p = periods[j];
     if (!p) return "";
-    return `${name(p)}${p.partial ? " (partial)" : ""}: ${num(totals[j])} merged; ${[...layers]
+    return `${name(p)}${p.partial ? " (partial)" : ""}: ${num(totals[j])} ${done}; ${[...layers]
       .reverse()
       .map((l) => `${num(l.values[j])} ${l.label}`)
       .join(", ")}`;
@@ -178,7 +181,7 @@
               <td>{num(layer.values[hover])}</td>
             </tr>
           {/each}
-          <tr class="total"><th scope="row">Merged</th><td>{num(totals[hover])}</td></tr>
+          <tr class="total"><th scope="row">{capitalized(done)}</th><td>{num(totals[hover])}</td></tr>
         </tbody>
       </table>
     </div>

@@ -14,8 +14,8 @@ committed JSON files (`data/github/` for GitHub).
 
 **Current phase: collecting data, and building the first dashboard.**
 Since 2026-11-18, `build` turns the stored data into the file the site
-reads, and `web/` holds the site, with its first view, open PRs
-(`docs/site-design.md`), published to GitHub Pages by `.github/workflows/site.yml`. A first dashboard was drafted and
+reads, and `web/` holds the site, with its first views, open PRs and
+(since 2026-11-21) open issues (`docs/site-design.md`), published to GitHub Pages by `.github/workflows/site.yml`. A first dashboard was drafted and
 removed on 2026-11-14 (decisions log); its last version is at commit
 `10edb66`:
 
@@ -188,6 +188,7 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-21 | **Core Web Vitals are checked in CI** (`npm run cwv`, `web/scripts/cwv.ts`, run by the site workflow before publishing and on pull requests): CLS 0 on 58 loads, LCP in the first paint and under 1 s on a throttled phone, no render-blocking request, HTML within 14 KB gzipped, no request chain, INP under 200 ms (`docs/site-design.md`, "Performance checks"). **Playwright 1.65.0** is a dev dependency for it, the newest release at least two weeks old, installed with `npm install --before=2026-11-07`; the browser is Chrome for Testing, the full Chrome Playwright pins (Chrome 158), not Chrome Headless Shell | Maintainer's requirement: no CWV regressions. Timings are machine-dependent, so they get generous budgets and the guarantees of the design (CLS 0, LCP at the first paint, no chain) are checked exactly. Playwright, because it drives Chromium with network and CPU throttling and reads its paint, layout-shift and event timings; nothing in the dependencies already could. Chrome for Testing, because it's the Chrome that users run, pinned so results don't change under the check; the headless shell, Playwright's default for headless, is a separate build. Not the runner's own Google Chrome: its version changes whenever the runner image does |
 | 2026-11-21 | **Below 480 px of chart width (phones), the open PRs chart has no direct labels at its right edge**, and both charts' right margin shrinks from 100 px to 16 px; the x axis always asks for at least three ticks | Maintainer's report that the graphs were narrower than ideal on phones: the labels' margin, shared with the bars so the time axes line up, took 100 of 343 px at 390 px wide, leaving the plot 203 px; it's now 287 px (+41%). The legend names the layers and the tooltip gives the values, so the labels add the least there. Desktop is unchanged |
 | 2026-11-21 | **The date range presets are All, 3 years and 1 year**; the 6-month and 3-month presets are removed, and links with `range=6m` or `range=3m` fall back to the default (1 year), like any unknown value | Maintainer's choice |
+| 2026-11-21 | **An open issues view (`issues/`, `issues/html/`) mirrors the open PRs view**: open issues by year opened, issues closed per period by time from creation to the last close (within 1 week, 1 week–90 days, more than 90 days), the same tiles and by-spec table. The build publishes issues too: `items.is_pr` and `items.hours_to_close`, and issues' `_carried_in`, `_created`, `closed` and `reopened` events. Views are linked as tabs under the site's name, keeping the spec and query string; each is its own prerendered page | Maintainer's instruction to add metrics for issues mirroring those for PRs. A view of its own rather than more panels on Reviews, whose question is about PRs; the URL design already had views in the path. The close bands give near thirds of whatwg/html's issues closed since 2022 (39%, 28%, 33%), as the merge bands were chosen; 1 and 10 days would give 22%, 22% and 56%. All closes count, whatever the `state_reason`, as closing as not planned or duplicate is triage work too. `data.json` grows from 18 KB to 43 KB gzipped; kept as one file for now: split by view (each view's items and events), the open PRs view would load about 18 KB instead of 43 KB, at the cost of a second file and loader, which `docs/site-design.md` allows once some pages don't need a table |
 
 ## Status
 
@@ -246,7 +247,8 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 3. Watch whether the scheduled runs fire: on 2026-11-17 the hourly one
    ran at 04:49 and 14:55 and missed every other hour.
 4. Then dashboards, built as `docs/site-design.md` describes. The open
-   PRs view is built (`web/`, 2026-11-18) and published to GitHub Pages
+   PRs view is built (`web/`, 2026-11-18), and the open issues view
+   (2026-11-21), both published to GitHub Pages
    (`.github/workflows/site.yml`) once Pages is set to "GitHub Actions"
    in the repository settings. Then
    bring back Maintenance load (commit `10edb66`), reworked around the

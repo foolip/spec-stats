@@ -1,13 +1,15 @@
 <script lang="ts">
-  // A whole page of the open PRs view, rendered on the server only
-  // (src/page.ts): everything but the charts' drawings, with the values for
-  // the state the page is for. In the browser, the controller
+  // A whole page of a view (open PRs or open issues), rendered on the
+  // server only (src/page.ts): everything but the charts' drawings, with
+  // the values for the state the page is for. In the browser, the controller
   // (src/controller.ts) runs the URL and the controls, and main.ts mounts
   // the islands (src/islands/), one per section, once the data has loaded.
   import Controls from "./components/Controls.svelte";
   import { islands } from "./islands/index.ts";
   import { longDate } from "./lib/format.ts";
   import type { Model } from "./lib/model.svelte.ts";
+  import { VIEW_TEXT } from "./lib/texts.ts";
+  import { href, VIEWS } from "./lib/url.ts";
 
   interface Props {
     model: Model;
@@ -30,21 +32,31 @@
     <a class="brand" href={root}><img class="logo" src={icon} alt="" />spec-stats</a>
     <p class="tagline">How the WHATWG’s Living Standards are maintained, from public GitHub data.</p>
   </div>
+  <!-- Links to the other views keep the spec and the query string: the
+       controller updates them as the state changes. -->
+  <div class="wrap">
+    <nav class="views" aria-label="Views">
+      {#each VIEWS as v (v)}
+        <a href="{root}{href({ ...model.view, view: v })}" data-view={v}
+          aria-current={v === model.view.view ? "page" : undefined}>{VIEW_TEXT[v].title}</a>
+      {/each}
+    </nav>
+  </div>
 </header>
 
 <main class="wrap">
   <p class="notice" role="alert" data-error hidden></p>
   <article class="view">
     <hgroup>
-      <h1>Reviews</h1>
-      <p class="question">How many PRs are open, and how many are getting merged?</p>
+      <h1>{model.words.title}</h1>
+      <p class="question">{model.words.question}</p>
     </hgroup>
 
     <Controls state={model.view} text={t} ctx={model.ctx} standards={model.data.repos.standard} />
 
     <div data-island="summary"><islands.summary {model} /></div>
     <div data-island="openPanel"><islands.openPanel {model} /></div>
-    <div data-island="mergesPanel"><islands.mergesPanel {model} /></div>
+    <div data-island="flowPanel"><islands.flowPanel {model} /></div>
     <div data-island="bySpec"><islands.bySpec {model} /></div>
   </article>
 </main>

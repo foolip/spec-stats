@@ -7,8 +7,16 @@ export interface Table {
   meta: RawData["meta"];
   event_types: string[];
   repos: RawData["repos"];
-  /** Values, not differences. */
-  items: { repo: number[]; number: number[]; created: number[]; hours_to_merge: (number | null)[] };
+  /** Values, not differences. `is_pr` is all 1s (PRs) and `hours_to_close`
+   * all nulls if left out. */
+  items: {
+    repo: number[];
+    number: number[];
+    is_pr?: number[];
+    created: number[];
+    hours_to_merge: (number | null)[];
+    hours_to_close?: (number | null)[];
+  };
   /** [day, item, event type], each item's in time order. */
   events: [number, number, string][];
 }
@@ -42,7 +50,14 @@ export function encode(t: Table): RawData {
     meta: t.meta,
     event_types: t.event_types,
     repos: t.repos,
-    items: { ...t.items, number, created, events: counts },
+    items: {
+      ...t.items,
+      number,
+      is_pr: t.items.is_pr ?? new Array<number>(n).fill(1),
+      created,
+      hours_to_close: t.items.hours_to_close ?? new Array<null>(n).fill(null),
+      events: counts,
+    },
     events: { day, event },
   };
 }
@@ -68,8 +83,10 @@ export function shuffled(t: Table): Table {
     items: {
       repo: pick(t.items.repo),
       number: pick(t.items.number),
+      is_pr: t.items.is_pr && pick(t.items.is_pr),
       created: pick(t.items.created),
       hours_to_merge: pick(t.items.hours_to_merge),
+      hours_to_close: t.items.hours_to_close && pick(t.items.hours_to_close),
     },
     events: t.events.map(([d, i, e]) => [d, to[i], e]),
   };
