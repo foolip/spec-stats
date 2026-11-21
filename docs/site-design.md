@@ -345,7 +345,8 @@ The first paint shows the whole page but the charts' drawings, from the
 HTML alone, and nothing moves after it. On a phone on slow 4G with a 4×
 slower CPU, that's about 0.3 s, which is also the LCP, against 0.7 s for a
 "Loading…" line and 1.5 s for the page when Svelte built it in the
-browser (until 2026-11-20); the charts follow at about 1.1 s.
+browser (until 2026-11-20); the charts follow at about 1.0 s (1.1 s
+before the data file's compact layout, 2026-11-20).
 
 - **Prerendered pages.** `web/scripts/build.ts` renders a page for each
   view and spec (`src/page.ts`, `src/Page.svelte`) with the values for
