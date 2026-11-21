@@ -495,7 +495,9 @@ ticks and paths; no chart library.
   point drawn and never overshoots, so the chart rounds corners without
   smoothing the data.
 - **One time axis for charts shown together.** `StackedArea` and
-  `StackedBars` share their margins (`web/src/lib/chart.ts`). The axis
+  `StackedBars` share their margins (`web/src/lib/chart.ts`): wide
+  enough on the right for the area chart's direct labels, which are
+  dropped below 480 px, on phones, so the plot gets the width. The axis
   runs from the start of the first day to the end of the last, each
   day's value sits at its middle, and a bar covers its whole days. About 1,800 daily points a series is
 well within what SVG draws smoothly, and owning the markup gives full
