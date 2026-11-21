@@ -16,8 +16,11 @@
 // - INP: the slowest response to a control, at full CPU speed.
 //
 // dist/ is served as GitHub Pages serves it: gzipped, under SITE_BASE,
-// with 404.html for unknown paths. CHROMIUM_PATH runs a browser other than
-// Playwright's own (`npx playwright install chromium`).
+// with 404.html for unknown paths. The browser is Chrome for Testing, the
+// full Chrome that Playwright pins to its version (`npx playwright install
+// --no-shell chromium`), in Chrome's headless mode: not Playwright's
+// default for headless, Chrome Headless Shell, a separate build. Set
+// CHROMIUM_PATH to run another Chrome.
 
 import { readFileSync, existsSync, statSync } from "node:fs";
 import { createServer, type Server } from "node:http";
@@ -253,7 +256,12 @@ const address = server.address();
 const origin = `http://127.0.0.1:${typeof address === "object" && address ? address.port : 0}${base}`;
 // Real scrollbars, as on Windows and Linux desktops: a page that narrows
 // when it starts to scroll shifts.
-const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH, ignoreDefaultArgs: ["--hide-scrollbars"] });
+const browser = await chromium.launch({
+  channel: "chromium",
+  executablePath: process.env.CHROMIUM_PATH,
+  ignoreDefaultArgs: ["--hide-scrollbars"],
+});
+console.log(`Chrome ${browser.version()}\n`);
 try {
   await lcpChecks(browser, origin);
   await clsChecks(browser, origin);

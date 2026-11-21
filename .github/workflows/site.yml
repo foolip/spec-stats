@@ -71,9 +71,11 @@ jobs:
 
       # The Core Web Vitals budgets (web/scripts/cwv.ts): a regression
       # fails the run, so it isn't published.
-      - name: Install Chromium
+      # Chrome for Testing, at the version Playwright pins; not the headless
+      # shell, which the checks don't use.
+      - name: Install Chrome for Testing
         working-directory: web
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps --no-shell chromium
 
       - name: Check Core Web Vitals
         working-directory: web

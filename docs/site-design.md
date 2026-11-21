@@ -407,9 +407,12 @@ INP at 4× slower CPU is reported but not enforced: choosing days for a
 year redraws 365 bars and table rows, which takes about 300 to 450 ms
 there. The checks were tested against regressions: dropping the data
 file's preload fails as a chain, and dropping the charts' fixed heights
-fails CLS. Playwright drives the browser; CI installs its Chromium
-(`npx playwright install --with-deps chromium`), and `CHROMIUM_PATH` runs
-another.
+fails CLS. The browser is Chrome for Testing, the full Chrome build that
+Playwright pins to its own version (Chrome 158 for Playwright 1.65), in
+Chrome's headless mode, rather than Chrome Headless Shell, the separate
+build Playwright uses for headless by default. CI installs it with
+`npx playwright install --with-deps --no-shell chromium`;
+`CHROMIUM_PATH` runs another Chrome.
 
 ### The open PRs view
 
