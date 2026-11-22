@@ -290,8 +290,8 @@ a decisions-log entry when the definition changes.
   (`.github/workflows/site.yml`, after every push to `main` and every
   fetch run). The Vite dev server renders each page on request and
   serves `build/data.json` as `data.json`.
-- **Few dependencies:** Svelte, Vite, and `d3-scale` and `d3-shape` for
-  the charts; TypeScript and `svelte-check` (with `@tsconfig/svelte` and
+- **Few dependencies:** Svelte, Vite, and `d3-scale`, `d3-shape` and
+  `d3-time-format` for the charts; TypeScript and `svelte-check` (with `@tsconfig/svelte` and
   type packages) to check them. All pinned exactly. Anything else needs a
   reason in the decisions log. Unit tests use `node --test` with Node's
   type stripping, so no test framework.
@@ -398,16 +398,23 @@ before the data file's compact layout, 2026-11-20).
   any depth. (No `<base>`: it would make `#footer`, below, point at
   another page.)
 - **The controller**, `src/controller.ts`, is plain TypeScript, built
-  into one small script (6 KB) inlined into every page after the view,
+  into one small script (5 KB) inlined into every page after the view,
   before the footer. It owns the URL and the form controls for the life
   of the page, and nothing else: it reads the state from the URL, sets
   the controls (their labels, such as "Auto (week)", included) and the
   title, handles the controls' events and writes the URL back. The
   controls are the one part that must be right, and work, before Svelte
   has loaded; their labels come from `stateText()` in `lib/texts.ts`,
-  which the islands use too, so the two agree. Running it costs about 5 ms of CPU; it formats dates by hand
-  (`lib/format.ts`), as creating an `Intl.DateTimeFormat` took 54 ms on
-  the throttled phone.
+  which the islands use too, so the two agree. Running it costs about 5 ms
+  of CPU. It shows no dates, but it bundles the summary tiles' ("Open on
+  Nov 21, 2026"), which `stateText()` makes with `longDate()` in
+  `lib/format.ts`. That's written by hand: `Intl`'s first use costs tens
+  of milliseconds on the throttled phone (54 ms for an
+  `Intl.DateTimeFormat`), and `d3-time-format` would add about 11 KB to
+  the controller. Nothing else uses `Intl` either: the islands name
+  periods with `d3-time-format`, which has its own en-US names, so their
+  mount doesn't pay that cost (about 27 ms with month periods, when they
+  used `toLocaleString`).
 - **Before the first paint.** `<link rel="expect" href="#footer"
   blocking="render">` holds rendering until the footer is parsed, which
   is after the controller has run, so no paint shows the prerendered
@@ -570,7 +577,8 @@ bands.
 ### Charts
 
 Hand-written SVG components, using `d3-scale` and `d3-shape` for scales,
-ticks and paths; no chart library.
+ticks and paths, and `d3-time-format` for the periods' names ("November 2026",
+"2026-W47"; `periodName()` in `lib/names.ts`); no chart library.
 
 - **Lines and areas use `curveMonotoneX`.** It passes through every
   point drawn and never overshoots, so the chart rounds corners without

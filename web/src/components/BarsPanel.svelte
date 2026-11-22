@@ -2,7 +2,8 @@
   // A panel of stacked bars per period, split into bands: heading, legend,
   // chart and table. Prerendered with the chart's box empty (no `width`).
   import StackedBars, { type BarLayer } from "./StackedBars.svelte";
-  import { periodName, periodNote, type Bin, type Period } from "../lib/bins.ts";
+  import { periodNote, type Bin, type Period } from "../lib/bins.ts";
+  import { periodName } from "../lib/names.ts";
   import { BARS_HEIGHT } from "../lib/chart.ts";
   import { num } from "../lib/format.ts";
   import { capitalized } from "../lib/texts.ts";
