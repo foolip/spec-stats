@@ -71,7 +71,9 @@ a time as later metrics need them:
 - **repos**, one row per standard: `name` (`html`, the repo's `name` in
   GitHub's API, and the spec's subdomain) and `standard` (`HTML`, the
   standard's `name` in `config/db.json`, as is: no "Standard" added), so
-  pages show HTML rather than html.
+  pages show HTML rather than html. In the order pages list specs (since
+  2026-11-22): by `standard`, with "Web Foo" sorted as WebFoo, so Web IDL
+  comes between WebHID and WebNFC; pages don't sort specs themselves.
 - **event_types**: `_carried_in`, `_carried_in_as_draft`, `_created`,
   `_created_as_draft`, `closed`, `reopened`, `convert_to_draft`,
   `ready_for_review`, `merged`.
@@ -134,7 +136,8 @@ a time as later metrics need them:
 The loader (`fromRaw` in `web/src/lib/data.ts`) turns these back into
 values and gives every event its item, so views see `day`, `item` and
 `event` arrays. They may rely on each item's events being together and
-in time order, and on nothing else about the order of events or items:
+in time order, and on nothing else about the order of events or items
+(the order of `repos` is the one the pages show):
 a view that needs events by day sorts them itself. The web tests run
 each view on the same data with its items shuffled to check.
 `build.expand` does the same decoding in Python. On 2026-11-20 this took

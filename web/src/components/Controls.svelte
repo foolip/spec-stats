@@ -17,8 +17,8 @@
   }
   let { state, text, ctx, standards }: Props = $props();
 
+  // In the order the build lists them (spec_order in specstats/build.py).
   const names = $derived(ctx.repoNames);
-  const order = $derived(names.map((_, i) => i).sort((a, b) => standards[a].localeCompare(standards[b])));
   const custom = $derived("from" in state.range);
 </script>
 
@@ -28,8 +28,8 @@
     <select data-control="repo">
       <option value="" selected={state.repo === null}>All specs</option>
       <hr />
-      {#each order as i (names[i])}
-        <option value={names[i]} selected={state.repo === names[i]}>{standards[i]}</option>
+      {#each names as name, i (name)}
+        <option value={name} selected={state.repo === name}>{standards[i]}</option>
       {/each}
     </select>
   </label>
