@@ -146,12 +146,10 @@ button { cursor: pointer; }
 button:disabled { cursor: default; }
 
 /* One control height and shape for every button in the bar. */
-.segmented, button.copy, .select {
+.segmented, .select {
   height: 2rem; border: 1px solid var(--rule); border-radius: 8px; background: var(--surface);
   font-size: 0.875rem;
 }
-button.copy { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0 0.7rem; white-space: nowrap; }
-button.copy:hover { border-color: var(--ink-3); }
 .menu-label { color: var(--ink-2); }
 
 /* The spec select: the label and a native select inside one control. */
@@ -176,13 +174,6 @@ button.copy:hover { border-color: var(--ink-3); }
 }
 .segmented button:hover { color: var(--ink); }
 .segmented button[aria-pressed="true"] { background: var(--bg); color: var(--ink); font-weight: 600; box-shadow: 0 0 0 1px var(--rule); }
-
-/* Copy link: both labels share one grid cell, so the width never changes. */
-button.copy { margin-left: auto; display: inline-grid; }
-button.copy > span { grid-area: 1 / 1; text-align: center; }
-button.copy > .hidden { visibility: hidden; }
-button.copy > span:last-child { color: var(--accent); font-weight: 600; }
-
 
 /* Summary tiles */
 
@@ -251,7 +242,6 @@ button.spec:hover { color: var(--accent); text-decoration: underline; }
 
 @media (max-width: 640px) {
   .controls { position: static; }
-  button.copy { margin-left: 0; }
   .segmented { width: 100%; }
   .segmented button { flex: 1; padding: 0 0.4rem; }
   .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }

@@ -3,8 +3,8 @@
   // controller (src/controller.ts) finds by its data-control attributes
   // and runs, from before the first paint. One row of same-sized controls:
   // the spec as a native <select> (type-ahead works, and phones show their
-  // own picker), the date range as presets, the bars' period as a
-  // <select>, and "Copy link".
+  // own picker), the date range as presets, and the bars' period as a
+  // <select>.
   import { BIN_LABELS, PRESET_LABELS, PRESET_TITLES, type StateText } from "../lib/texts.ts";
   import { BIN_CHOICES, PRESETS, type Context, type State } from "../lib/url.ts";
 
@@ -35,7 +35,7 @@
   <div class="segmented" role="group" aria-label="Date range">
     {#each PRESETS as p (p)}
       <button type="button" title={PRESET_TITLES[p]} aria-label={PRESET_TITLES[p]} data-preset={p}
-        aria-pressed={"preset" in state.range && state.range.preset === p}>{PRESET_LABELS[p]}</button>
+        aria-pressed={state.range === p}>{PRESET_LABELS[p]}</button>
     {/each}
   </div>
 
@@ -47,11 +47,4 @@
       {/each}
     </select>
   </label>
-
-  <!-- Both labels share one grid cell, so the width never changes. -->
-  <button type="button" class="copy" title="Copy a link to this view, with its dates fixed" data-control="copy">
-    <span>Copy link</span>
-    <span class="hidden" aria-hidden="true">Link copied</span>
-  </button>
-  <span class="visually-hidden" role="status" data-control="status"></span>
 </div>

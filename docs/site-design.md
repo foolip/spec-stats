@@ -319,7 +319,7 @@ view and the spec are in the path, each with its own prerendered page
 page); the rest is in the query string.
 
 ```
-/reviews/html/?range=2024-01-01..2026-11-17
+/reviews/html/?range=3y
 /reviews/dom/?range=all
 ```
 
@@ -336,7 +336,7 @@ The views are linked in that order: Issues, then Reviews.
 
 | Parameter | Values | Default |
 |---|---|---|
-| `range` | `all`, `3y`, `1y`, counted back from the window's end; or dates as in GitHub's search, `2024-01-01..2026-11-17`, inclusive and clamped to the window, `*` for an open end | `1y` |
+| `range` | `all`, `3y`, `1y`, counted back from the window's end (dates, `2024-01-01..2026-11-17`, until 2026-11-22) | `1y` |
 | `bin` | `day`, `week` (ISO), `month`, `quarter`: the period of the bars, and of the points the open PRs are drawn at | `auto` |
 
 - **Defaults are left out**, so `/reviews/` is a whole link.
@@ -348,10 +348,10 @@ The views are linked in that order: Issues, then Reviews.
 - **Parameters mean the same in every view** that uses them (`range`,
   `window`), and so does the spec in the path, so switching views keeps
   the filters.
-- **Relative or fixed dates.** Presets write `range=12m`, which moves
-  with the data; "link to this view" writes the dates instead
-  (`range=2024-01-01..2026-11-17`), so the link shows the same dates
-  later (the figures are stable up to the data's small corrections).
+- **Relative dates only.** Presets write `range=3y`, which moves with
+  the data, so a link shows the latest dates when it's opened. Fixed
+  dates, and the "Copy link" button that wrote them, were removed on
+  2026-11-22.
 - **Unknown or invalid parameters are dropped quietly** and the URL
   rewritten without them.
 - **Paths that aren't pages get `404.html`**, a static "Page not found"
@@ -583,10 +583,9 @@ filters.
 
 The filter bar is one row of same-sized controls (since 2026-11-18, after
 the maintainer found the first version hard to use): a Spec select, date
-presets, a Per select, and "Copy link". There's no control for custom
-dates (removed 2026-11-22: it didn't work on phones), but the URL still
-takes them (`range=2024-01-01..2026-11-17`), and "Copy link" writes the
-range as dates.
+presets, and a Per select. There's no control for custom dates (removed
+2026-11-22: it didn't work on phones), and no "Copy link" button: the
+address bar is the link.
 
 - **Spec** is a native `<select>`: All specs, or one spec, the two
   common cases, each one choice (type-ahead works, and phones show their

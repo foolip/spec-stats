@@ -14,7 +14,7 @@
 
 import type { PageConfig } from "./lib/config.ts";
 import { pageTitle, stateText, VIEW_TEXT } from "./lib/texts.ts";
-import { fixed, href, parse, type BinChoice, type Context, type Preset, type State, type View } from "./lib/url.ts";
+import { href, parse, type BinChoice, type Context, type Preset, type State, type View } from "./lib/url.ts";
 
 export interface Controller {
   readonly state: State;
@@ -50,8 +50,6 @@ function control<T extends HTMLElement>(name: string): T {
 const repoSelect = control<HTMLSelectElement>("repo");
 const presets = [...document.querySelectorAll<HTMLButtonElement>("[data-preset]")];
 const binSelect = control<HTMLSelectElement>("bin");
-const copy = control<HTMLButtonElement>("copy");
-const status = control<HTMLElement>("status");
 const viewLinks = [...document.querySelectorAll<HTMLAnchorElement>("a[data-view]")];
 const title = control<HTMLElement>("title");
 const question = control<HTMLElement>("question");
@@ -69,7 +67,7 @@ let state = fromUrl();
 function apply() {
   const t = stateText(state, ctx);
   repoSelect.value = state.repo ?? "";
-  for (const b of presets) b.setAttribute("aria-pressed", String("preset" in state.range && state.range.preset === b.dataset.preset));
+  for (const b of presets) b.setAttribute("aria-pressed", String(state.range === b.dataset.preset));
   binSelect.value = state.bin;
   binSelect.options[0].text = t.autoLabel;
   // The views, with the same spec and query string.
@@ -104,7 +102,7 @@ update(state);
 addEventListener("popstate", () => update(fromUrl()));
 
 repoSelect.addEventListener("change", () => set({ repo: repoSelect.value || null }));
-for (const b of presets) b.addEventListener("click", () => set({ range: { preset: b.dataset.preset as Preset } }));
+for (const b of presets) b.addEventListener("click", () => set({ range: b.dataset.preset as Preset }));
 binSelect.addEventListener("change", () => set({ bin: binSelect.value as BinChoice }));
 for (const a of viewLinks) {
   a.addEventListener("click", (e) => {
@@ -115,30 +113,6 @@ for (const a of viewLinks) {
     if (view !== state.view) update({ ...state, view }, true);
   });
 }
-
-// Copy link: the label swaps in place (both labels share one grid cell, so
-// the button keeps its width), and the live region announces it.
-let copiedTimer: ReturnType<typeof setTimeout> | undefined;
-function copied(on: boolean) {
-  const [label, done] = copy.children;
-  label.classList.toggle("hidden", on);
-  done.classList.toggle("hidden", !on);
-  done.setAttribute("aria-hidden", String(!on));
-}
-copy.addEventListener("click", async () => {
-  const url = new URL(href({ ...state, range: fixed(state.range, ctx) }), root).href;
-  try {
-    await navigator.clipboard.writeText(url);
-    copied(true);
-    // VoiceOver skips a message identical to the previous one.
-    const message = "Link to this view copied";
-    status.textContent = status.textContent === message ? `${message} ` : message;
-    clearTimeout(copiedTimer);
-    copiedTimer = setTimeout(() => copied(false), 2500);
-  } catch {
-    prompt("Link to this view", url);
-  }
-});
 
 window.specstats = {
   get state() {
