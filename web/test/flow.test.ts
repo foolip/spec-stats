@@ -69,10 +69,10 @@ test("issues are counted at their last close, by time open", () => {
 test("items opened are counted per period, by time to close", () => {
   const types = ["_carried_in", "_created", "closed", "reopened", "merged"];
   const ev: [number, number, string][] = [
-    [2, 0, "_created"], [2, 0, "closed"],                     // week 1: within 1 day
-    [3, 1, "_created"], [8, 1, "closed"],                     // week 1: 1–7 days
+    [2, 0, "_created"], [2, 0, "closed"],                     // week 1: within 1 week
+    [3, 1, "_created"], [8, 1, "closed"],                     // week 1: within 1 week
     [4, 2, "_created"],                                       // week 1: still open
-    [10, 3, "_created"], [30, 3, "closed"],                   // week 2: closed after 7 days
+    [10, 3, "_created"], [30, 3, "closed"],                   // week 2: closed later
     [0, 4, "_carried_in"], [11, 4, "closed"],                 // opened before the window: not counted
     [10, 5, "_created"], [10, 5, "closed"], [10, 5, "merged"], // a PR: counted only for PRs
     [24, 6, "_created"],                                      // week 4, in the last 7 days
@@ -94,7 +94,7 @@ test("items opened are counted per period, by time to close", () => {
   const ps = periods(FROM, 0, 30, "week");
   for (const data of [fromRaw(encode(table)), fromRaw(encode(shuffled(table)))]) {
     const issues = openedByPeriod(data, "issue", [0], ps);
-    assert.deepEqual(issues.counts.slice(0, 5), [[0, 0, 0], [1, 1, 1], [0, 0, 1], [0, 0, 0], [0, 0, 1]]);
+    assert.deepEqual(issues.counts.slice(0, 5), [[0, 0, 0], [2, 0, 1], [0, 1, 0], [0, 0, 0], [0, 0, 1]]);
     assert.deepEqual(openedByPeriod(data, "pr", [0], ps).counts[2], [1, 0, 0]);
     assert.deepEqual(openedByPeriod(data, "issue", [], ps).counts.flat().reduce((a, b) => a + b), 0);
     // Periods ending in the last 7 days (from 2022-01-25) may still change.

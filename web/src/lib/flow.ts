@@ -8,7 +8,7 @@ import type { Period } from "./bins.ts";
 import type { Kind } from "./open.ts";
 
 export interface Bands {
-  /** Hours that end each band but the last. */
+  /** Hours that end each band but the last (Infinity: any time). */
   ends: number[];
   /** One more than `ends`, fastest first. */
   labels: string[];
@@ -26,15 +26,17 @@ export const CLOSE_BANDS: Bands = {
   labels: ["within 1 week", "open 1 week–90 days", "open >90 days"],
 };
 
-/** Closed within 1 day, in 1–7 days, or not within 7 days (closed later,
- * or still open), for items by when they were opened. */
+/** Closed within 1 week, closed later, or still open, for items by when
+ * they were opened. The same for PRs and issues, so they compare: about
+ * 61%, 26% and 13% of PRs opened since 2022, and 24%, 26% and 51% of
+ * issues. "Still open" never settles, as old items keep being closed. */
 export const OUTCOME_BANDS: Bands = {
-  ends: [24, 7 * 24],
-  labels: ["closed within 1 day", "closed in 1–7 days", "open >7 days"],
+  ends: [7 * 24, Infinity],
+  labels: ["closed within 1 week", "closed later", "still open"],
 };
 
 /** Items opened in the window's last this many days may yet be closed
- * within OUTCOME_BANDS' 7 days, so their periods are provisional. */
+ * within OUTCOME_BANDS' 1 week, so their periods are provisional. */
 export const SETTLE_DAYS = 7;
 
 /** What a flow counts: the day of each item's last event of a type, for
