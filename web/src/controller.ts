@@ -14,7 +14,7 @@
 
 import type { PageConfig } from "./lib/config.ts";
 import { pageTitle, stateText, VIEW_TEXT } from "./lib/texts.ts";
-import { fixed, href, parse, type BinChoice, type Context, type Preset, type State, type View } from "./lib/url.ts";
+import { href, parse, type BinChoice, type Context, type Preset, type State, type View } from "./lib/url.ts";
 
 export interface Controller {
   readonly state: State;
@@ -49,13 +49,7 @@ function control<T extends HTMLElement>(name: string): T {
 }
 const repoSelect = control<HTMLSelectElement>("repo");
 const presets = [...document.querySelectorAll<HTMLButtonElement>("[data-preset]")];
-const custom = control<HTMLButtonElement>("custom");
-const menu = document.getElementById(custom.getAttribute("popovertarget")!)!;
-const fromInput = control<HTMLInputElement>("from");
-const toInput = control<HTMLInputElement>("to");
 const binSelect = control<HTMLSelectElement>("bin");
-const copy = control<HTMLButtonElement>("copy");
-const status = control<HTMLElement>("status");
 const viewLinks = [...document.querySelectorAll<HTMLAnchorElement>("a[data-view]")];
 const title = control<HTMLElement>("title");
 const question = control<HTMLElement>("question");
@@ -73,13 +67,7 @@ let state = fromUrl();
 function apply() {
   const t = stateText(state, ctx);
   repoSelect.value = state.repo ?? "";
-  for (const b of presets) b.setAttribute("aria-pressed", String("preset" in state.range && state.range.preset === b.dataset.preset));
-  custom.toggleAttribute("data-active", "from" in state.range);
-  custom.textContent = t.customLabel;
-  fromInput.value = t.dates.from;
-  fromInput.max = t.dates.to;
-  toInput.value = t.dates.to;
-  toInput.min = t.dates.from;
+  for (const b of presets) b.setAttribute("aria-pressed", String(state.range === b.dataset.preset));
   binSelect.value = state.bin;
   binSelect.options[0].text = t.autoLabel;
   // The views, with the same spec and query string.
@@ -114,14 +102,7 @@ update(state);
 addEventListener("popstate", () => update(fromUrl()));
 
 repoSelect.addEventListener("change", () => set({ repo: repoSelect.value || null }));
-for (const b of presets) b.addEventListener("click", () => set({ range: { preset: b.dataset.preset as Preset } }));
-for (const input of [fromInput, toInput]) {
-  input.addEventListener("change", () => {
-    const from = fromInput.value || ctx.from;
-    const to = toInput.value || ctx.to;
-    if (from <= to) set({ range: { from, to } });
-  });
-}
+for (const b of presets) b.addEventListener("click", () => set({ range: b.dataset.preset as Preset }));
 binSelect.addEventListener("change", () => set({ bin: binSelect.value as BinChoice }));
 for (const a of viewLinks) {
   a.addEventListener("click", (e) => {
@@ -132,55 +113,6 @@ for (const a of viewLinks) {
     if (view !== state.view) update({ ...state, view }, true);
   });
 }
-
-// Copy link: the label swaps in place (both labels share one grid cell, so
-// the button keeps its width), and the live region announces it.
-let copiedTimer: ReturnType<typeof setTimeout> | undefined;
-function copied(on: boolean) {
-  const [label, done] = copy.children;
-  label.classList.toggle("hidden", on);
-  done.classList.toggle("hidden", !on);
-  done.setAttribute("aria-hidden", String(!on));
-}
-copy.addEventListener("click", async () => {
-  const url = new URL(href({ ...state, range: fixed(state.range, ctx) }), root).href;
-  try {
-    await navigator.clipboard.writeText(url);
-    copied(true);
-    // VoiceOver skips a message identical to the previous one.
-    const message = "Link to this view copied";
-    status.textContent = status.textContent === message ? `${message} ` : message;
-    clearTimeout(copiedTimer);
-    copiedTimer = setTimeout(() => copied(false), 2500);
-  } catch {
-    prompt("Link to this view", url);
-  }
-});
-
-// The custom dates menu is a native popover. On wide screens it's placed
-// under its button with CSS anchor positioning, or here where that isn't
-// supported (Firefox, in November 2026); on narrow screens it's a bottom
-// sheet.
-const anchored = CSS.supports("position-area: block-end");
-function place() {
-  if (anchored || matchMedia("(max-width: 640px)").matches) {
-    menu.style.removeProperty("left");
-    menu.style.removeProperty("top");
-    return;
-  }
-  const r = custom.getBoundingClientRect();
-  menu.style.left = `${Math.max(8, Math.min(r.left, innerWidth - menu.offsetWidth - 8))}px`;
-  menu.style.top = `${r.bottom + 6}px`;
-}
-menu.addEventListener("toggle", (e) => {
-  const open = (e as ToggleEvent).newState === "open";
-  custom.setAttribute("aria-expanded", String(open));
-  if (open) place();
-  if (anchored) return;
-  const listen = open ? addEventListener : removeEventListener;
-  listen("resize", place);
-  listen("scroll", place, true);
-});
 
 window.specstats = {
   get state() {
