@@ -398,16 +398,20 @@ before the data file's compact layout, 2026-11-20).
   any depth. (No `<base>`: it would make `#footer`, below, point at
   another page.)
 - **The controller**, `src/controller.ts`, is plain TypeScript, built
-  into one small script (6 KB) inlined into every page after the view,
+  into one small script (5 KB) inlined into every page after the view,
   before the footer. It owns the URL and the form controls for the life
   of the page, and nothing else: it reads the state from the URL, sets
   the controls (their labels, such as "Auto (week)", included) and the
   title, handles the controls' events and writes the URL back. The
   controls are the one part that must be right, and work, before Svelte
   has loaded; their labels come from `stateText()` in `lib/texts.ts`,
-  which the islands use too, so the two agree. Running it costs about 5 ms of CPU; it formats dates by hand
-  (`lib/format.ts`), as creating an `Intl.DateTimeFormat` took 54 ms on
-  the throttled phone. Nothing else uses `Intl` either: the islands name
+  which the islands use too, so the two agree. Running it costs about 5 ms
+  of CPU. It shows no dates, but it bundles the summary tiles' ("Open on
+  Nov 21, 2026"), which `stateText()` makes with `longDate()` in
+  `lib/format.ts`. That's written by hand: `Intl`'s first use costs tens
+  of milliseconds on the throttled phone (54 ms for an
+  `Intl.DateTimeFormat`), and `d3-time-format` would add about 11 KB to
+  the controller. Nothing else uses `Intl` either: the islands name
   periods with `d3-time-format`, which has its own en-US names, so their
   mount doesn't pay that cost (about 27 ms with month periods, when they
   used `toLocaleString`).

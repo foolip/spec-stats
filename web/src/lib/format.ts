@@ -1,8 +1,9 @@
-// Dates and numbers as en-US writes them, by hand rather than with Intl:
-// creating an Intl.DateTimeFormat takes tens of milliseconds on a slow
-// phone, and the controller formats dates before the first paint
-// (docs/site-design.md, "Loading"). By hand, Node (which prerenders) and
-// every browser also give exactly the same text.
+// Dates and numbers as en-US writes them, by hand rather than with Intl or
+// d3-time-format: Intl's first use takes tens of milliseconds on a slow
+// phone, and the controller bundles this file (through stateText() in
+// texts.ts), where d3-time-format would add about 11 KB to every page's
+// inline script (docs/site-design.md, "Loading"). By hand, Node (which
+// prerenders) and every browser also give exactly the same text.
 
 /** The page's locale, for `<html lang>` (src/page.ts). */
 export const LOCALE = "en-US";
