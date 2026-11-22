@@ -155,7 +155,7 @@
       {/each}
     </g>
     <g class="axis">
-      {#each yTicks as t (t)}
+      {#each yTicks.filter((t) => t !== 0) as t (t)}
         <line x1={M.left - TICK} x2={M.left} y1={y(t)} y2={y(t)} />
       {/each}
     </g>
