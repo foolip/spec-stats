@@ -8,6 +8,7 @@ import type { Component } from "svelte";
 import type { Model } from "../lib/model.svelte.ts";
 import BySpec from "./BySpec.svelte";
 import FlowPanel from "./FlowPanel.svelte";
+import OpenedPanel from "./OpenedPanel.svelte";
 import OpenPanel from "./OpenPanel.svelte";
 import Summary from "./Summary.svelte";
 
@@ -22,6 +23,7 @@ export const islands = {
   summary: Summary,
   openPanel: OpenPanel,
   flowPanel: FlowPanel,
+  openedPanel: OpenedPanel,
   bySpec: BySpec,
 } satisfies Record<string, Component<IslandProps>>;
 

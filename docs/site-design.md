@@ -107,11 +107,13 @@ a time as later metrics need them:
     many hours, so a limit in whole hours, like the merge chart's 24 and
     240, counts each PR as the exact time would.
 
-  - `hours_to_close`: hours from an issue's creation to its last
-    `closed` event, for issues closed at the end of the window whose
-    last close is in it, and null for the rest (PRs included). Whole
-    hours, rounded up, like `hours_to_merge`. An issue closed, reopened
-    and closed again counts once, at its last close.
+  - `hours_to_close`: hours from an item's creation to its last
+    `closed` event (a merge is a close), for items closed at the end of
+    the window whose last close is in it, and null for the rest. Whole
+    hours, rounded up, like `hours_to_merge`. An item closed, reopened
+    and closed again counts once, at its last close. Issues only until
+    2026-11-22; PRs have it since, for PRs opened by time to close
+    (below), which took the file from 45.3 KB to 50.0 KB gzipped.
 
   `created` and `hours_to_merge` were added on 2026-11-19, for open PRs
   by year opened and merges by time to merge; `is_pr` and
@@ -416,8 +418,9 @@ before the data file's compact layout, 2026-11-20).
   has it) paint a page this small whole in practice.
 - **Islands.** Everything else that changes with the state is a Svelte
   component in `src/islands/`, one per section: the summary tiles, the
-  open PRs (or issues) panel, the merges (or closes) panel (each panel its heading, legend,
-  chart and table) and the by-spec table, which shows itself for all
+  open PRs (or issues) panel, the merges (or closes) panel, the PRs (or
+  issues) opened panel (each panel its heading, legend,
+  chart and table; the two bar panels share `components/BarsPanel.svelte`) and the by-spec table, which shows itself for all
   specs only. The header, the view's title and question, and the footer
   are static HTML. `src/islands/index.ts` maps each `data-island` name to
   its component; `Page.svelte` prerenders them from it (the charts as
@@ -475,8 +478,8 @@ build Playwright uses for headless by default. CI installs it with
 
 ### The open PRs view
 
-Since 2026-11-19 the view has two charts, one above the other on the
-same time axis, over the last year by default:
+Since 2026-11-19 the view has two charts, and since 2026-11-22 three,
+one above the other on the same time axis, over the last year by default:
 
 - **Open PRs at the end of each period, by year opened.** A stacked area,
   oldest at the bottom: one layer for each of the last five calendar
@@ -504,6 +507,18 @@ same time axis, over the last year by default:
     them, so they don't disappear into it.
   - Periods the range cuts short (the current week, or a range starting
     mid-week) are shaded and marked "partial". Days are always whole.
+
+- **PRs opened per period, by time to close** (since 2026-11-22), a
+  third chart on the same axis and periods: each PR at the day it was
+  created, split by its `hours_to_close`: closed within 1 day, closed in
+  1–7 days, and open more than 7 days (closed later, or still open). A
+  merge is a close. Of the 3,467 PRs opened from 2022-01-01 to
+  2026-11-14, 40%, 21% and 39%; whatwg/html's 1,846, 32%, 22% and 45%.
+  - PRs opened in the window's last 7 days may still be closed within 7
+    days, so periods ending in them are **provisional**: shaded like a
+    partial period, and marked "provisional" in the tooltip and the
+    table (`SETTLE_DAYS` in `lib/flow.ts`).
+  - PRs opened before the window aren't counted.
 
 The area follows the bars' period (since 2026-11-20): it's drawn
 through the open count on the range's first day and at the end of each
@@ -537,12 +552,17 @@ the same controls, layout and colors:
   for near thirds. Every close counts, whatever its `state_reason`
   (completed, not planned or duplicate); an issue closed and later
   reopened isn't counted until it's closed again.
+- **Issues opened per period, by time to close** (since 2026-11-22), as
+  for PRs: closed within 1 day, in 1–7 days, or open more than 7 days.
+  Of the 4,044 issues opened from 2022-01-01 to 2026-11-14, 13%, 10%
+  and 76%; whatwg/html's 2,586, 13%, 11% and 76%.
 - The tiles: issues open at the end of the range, the change over it,
   and issues closed in it; and the by-spec table.
 
-`Model` (`lib/model.svelte.ts`) takes the view from the state once, as a
-page shows one view: `lib/open.ts` counts the items of one kind, and
-`lib/flow.ts` counts merges or closes with their bands.
+`Model` (`lib/model.svelte.ts`) works out each kind's counts the first
+time its view is shown: `lib/open.ts` counts the items of one kind, and
+`lib/flow.ts` counts merges or closes, and items opened, with their
+bands.
 
 ### Charts
 

@@ -7,7 +7,7 @@
   import { dateOf, parseDate } from "../lib/data.ts";
   import { longDate, num } from "../lib/format.ts";
   import { capitalized } from "../lib/texts.ts";
-  import type { Period } from "../lib/bins.ts";
+  import { periodNote, type Period } from "../lib/bins.ts";
 
   export interface BarLayer {
     label: string;
@@ -83,7 +83,7 @@
         });
         base += l.values[j];
       });
-      return { x0: dayX(p.start), x1: dayX(p.end + 1), segs, partial: p.partial };
+      return { x0: dayX(p.start), x1: dayX(p.end + 1), segs, partial: p.partial || !!p.provisional };
     }),
   );
 
@@ -116,7 +116,7 @@
   function valueText(j: number): string {
     const p = periods[j];
     if (!p) return "";
-    return `${name(p)}${p.partial ? " (partial)" : ""}: ${num(totals[j])} ${done}; ${[...layers]
+    return `${name(p)}${periodNote(p)}: ${num(totals[j])} ${done}; ${[...layers]
       .reverse()
       .map((l) => `${num(l.values[j])} ${l.label}`)
       .join(", ")}`;
@@ -178,7 +178,7 @@
     {@const p = periods[hover]}
     <div class="tooltip" role="status" style:left="{Math.min(bars[hover].x1, width - 220)}px" style:top="{M.top}px">
       <div class="tt-date">{name(p)}</div>
-      <div class="tt-sub">{dates(p)}{p.partial ? " (partial)" : ""}</div>
+      <div class="tt-sub">{dates(p)}{periodNote(p)}</div>
       <table>
         <tbody>
           {#each [...layers].reverse() as layer (layer.label)}

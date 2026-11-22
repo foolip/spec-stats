@@ -17,6 +17,9 @@ export interface Period {
   first: string;
   /** Whether the range cuts the period short. */
   partial: boolean;
+  /** Whether its figures may still change: items opened in it may yet be
+   * closed within the time a band counts (lib/flow.ts, SETTLE_DAYS). */
+  provisional?: boolean;
 }
 
 /** The calendar periods covering days start..end (inclusive), clipped to them. */
@@ -84,6 +87,12 @@ export function periodName(p: Period, bin: Bin): string {
   return `${thu.getUTCFullYear()}-W${String(week).padStart(2, "0")}`;
 }
 
+
+/** " (partial)", " (provisional)", both, or "", after a period's name. */
+export function periodNote(p: Period): string {
+  const notes = [p.partial && "partial", p.provisional && "provisional"].filter(Boolean);
+  return notes.length ? ` (${notes.join(", ")})` : "";
+}
 
 /** The days to plot a daily count at so it follows the periods: the
  * range's first day, then each period's last day (clipped to the range).
