@@ -43,8 +43,8 @@
 
     <div data-island="summary"><islands.summary {model} /></div>
     <div data-island="openPanel"><islands.openPanel {model} /></div>
-    <div data-island="flowPanel"><islands.flowPanel {model} /></div>
     <div data-island="openedPanel"><islands.openedPanel {model} /></div>
+    <div data-island="flowPanel"><islands.flowPanel {model} /></div>
     <div data-island="bySpec"><islands.bySpec {model} /></div>
   </article>
 </main>
