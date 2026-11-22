@@ -15,7 +15,7 @@ export type View = (typeof VIEWS)[number];
 /** Each view's directory. */
 export const VIEW_PATHS: Record<View, string> = { "open-prs": "reviews", "open-issues": "issues" };
 
-export const PRESETS = ["all", "3y", "1y"] as const;
+export const PRESETS = ["1y", "3y", "all"] as const;
 export type Preset = (typeof PRESETS)[number];
 
 /** Bars' period: a calendar day, ISO week, month or quarter, or "auto" (the
