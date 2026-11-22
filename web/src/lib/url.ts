@@ -1,6 +1,6 @@
 // The URL is the view (docs/site-design.md, "The URL is the view"): the
 // view and the spec are in the path, so each has its own prerendered page
-// (reviews/, reviews/html/), and the date range and the bars' period are in
+// (reviews/, reviews/html/, issues/html/), and the date range and the bars' period are in
 // the query string, defaults left out. parse() reads a path and query
 // string into a whole, valid state, dropping what it doesn't understand;
 // href() writes the state back. Paths are relative to the site's root.
@@ -8,11 +8,12 @@
 import { BINS, type Bin } from "./bins.ts";
 import { dateOf, dayOf } from "./data.ts";
 
-export const VIEWS = ["open-prs"] as const;
+/** In the order of the links to them. The default view is DEFAULT.view. */
+export const VIEWS = ["open-issues", "open-prs"] as const;
 export type View = (typeof VIEWS)[number];
 
 /** Each view's directory. */
-export const VIEW_PATHS: Record<View, string> = { "open-prs": "reviews" };
+export const VIEW_PATHS: Record<View, string> = { "open-prs": "reviews", "open-issues": "issues" };
 
 export const PRESETS = ["all", "3y", "1y"] as const;
 export type Preset = (typeof PRESETS)[number];
@@ -36,7 +37,7 @@ export interface State {
 export const DEFAULT_PRESET: Preset = "1y";
 
 export const DEFAULT: State = {
-  view: "open-prs",
+  view: "open-issues",
   repo: null,
   range: { preset: DEFAULT_PRESET },
   bin: "auto",
@@ -84,21 +85,18 @@ function repoName(value: string | null | undefined, ctx: Context): string | null
 }
 
 /**
- * The state for a path relative to the site's root ("", "reviews/",
- * "reviews/html/") and a query string. The site's root is the default
- * view. Two kinds of old links still work, and are rewritten: `?repo=`,
- * before specs had their own pages, and `from` and `to`, which held custom
- * dates until 2026-11-20.
+ * The state for a page's path relative to the site's root ("", the default
+ * view; "reviews/", "issues/html/") and a query string. Pages exist only
+ * for views and specs (page.ts), so the path is always one; other paths
+ * get 404.html. Parameters that are unknown or invalid are left out.
  */
 export function parse(path: string, search: string, ctx: Context): State {
   const q = new URLSearchParams(search);
   const [dir, name] = path.split("/");
-  const view = VIEWS.find((v) => VIEW_PATHS[v] === dir) ?? DEFAULT.view;
-  const legacy = q.has("from") || q.has("to") ? dates(q.get("from") ?? "*", q.get("to") ?? "*", ctx) : null;
   return {
-    view,
-    repo: repoName(name, ctx) ?? (name ? null : repoName(q.get("repo"), ctx)),
-    range: parseRange(q.get("range"), ctx) ?? legacy ?? { preset: DEFAULT_PRESET },
+    view: VIEWS.find((v) => VIEW_PATHS[v] === dir) ?? DEFAULT.view,
+    repo: repoName(name, ctx),
+    range: parseRange(q.get("range"), ctx) ?? { preset: DEFAULT_PRESET },
     bin: oneOf(BIN_CHOICES, q.get("bin"), DEFAULT.bin),
   };
 }

@@ -1,27 +1,39 @@
-// Open PRs over time: each PR's open and draft state replayed from its
-// events, counted at the end of every day.
+// Open PRs or issues over time: each item's open and draft state replayed
+// from its events, counted at the end of every day. Issues are never
+// drafts, so all of them count as ready.
 
 import { dateOf, type Data } from "./data.ts";
 
 export interface OpenSeries {
-  /** Open PRs ready for review at the end of each day of the window. */
+  /** Open items ready for review (every open issue) at the end of each day
+   * of the window. */
   ready: Int32Array;
   /** Open draft PRs at the end of each day. */
   draft: Int32Array;
 }
+
+/** Which items are of a kind: PRs or issues. */
+export type Kind = "pr" | "issue";
 
 const OPENS = new Set(["_carried_in", "_created", "reopened"]);
 const CLOSES = new Set(["closed"]);
 const DRAFTS = new Set(["_carried_in_as_draft", "_created_as_draft", "convert_to_draft"]);
 const READIES = new Set(["ready_for_review"]);
 
-/** For each repo index: its open PRs, ready and draft, every day. */
-export function openByRepo(data: Data): OpenSeries[] {
-  return openByGroup(data, new Int32Array(data.items.repo.length), 1).map((groups) => groups[0]);
+/** Each item's group: 0 for the items of a kind, -1 for the rest. */
+export function ofKind(data: Data, kind: Kind): Int32Array {
+  const pr = kind === "pr" ? 1 : 0;
+  return Int32Array.from(data.items.isPr, (p) => (p === pr ? 0 : -1));
 }
 
-/** For each repo index and each group (`group[item]`, 0 to groups − 1):
- * its open PRs, ready and draft, every day. */
+/** For each repo index: its open items of a kind, ready and draft, every day. */
+export function openByRepo(data: Data, kind: Kind): OpenSeries[] {
+  return openByGroup(data, ofKind(data, kind), 1).map((groups) => groups[0]);
+}
+
+/** For each repo index and each group (`group[item]`, 0 to groups − 1;
+ * items in group -1 are left out): its open items, ready and draft, every
+ * day. */
 export function openByGroup(data: Data, group: Int32Array, groups: number): OpenSeries[][] {
   const kinds = data.eventTypes.map((t) =>
     OPENS.has(t) ? 1 : CLOSES.has(t) ? 2 : DRAFTS.has(t) ? 3 : READIES.has(t) ? 4 : 0,
@@ -36,6 +48,7 @@ export function openByGroup(data: Data, group: Int32Array, groups: number): Open
   const { day, item, event } = data.events;
   for (let k = 0; k < day.length; k++) {
     const i = item[k];
+    if (group[i] < 0) continue;
     const before = isOpen[i] ? (isDraft[i] ? 2 : 1) : 0;
     switch (kinds[event[k]]) {
       case 1: isOpen[i] = 1; break;
@@ -85,8 +98,8 @@ export interface Cohorts {
   of: Int32Array;
 }
 
-/** PRs grouped by the year they were opened: one group for each of the
- * last `years` calendar years up to the window's end, and one for every PR
+/** Items grouped by the year they were opened: one group for each of the
+ * last `years` calendar years up to the window's end, and one for every item
  * opened before those. A group only shrinks once its year is over. */
 export function yearCohorts(data: Data, years = 5): Cohorts {
   const last = Number(data.to.slice(0, 4));

@@ -27,20 +27,27 @@ function pages(): Plugin {
         res.setHeader("Content-Type", "application/json");
         res.end(readData());
       });
-      // "/", "/reviews/" and "/reviews/html/", as on the published site.
+      // "/", "/reviews/", "/reviews/html/" and "/issues/html/", as on the
+      // published site; other paths that look like pages get 404.html.
       server.middlewares.use(async (req, res, next) => {
         const path = new URL(req.url ?? "/", "http://localhost").pathname;
         if (!/^\/(?:[a-z-]+\/(?:[a-z0-9-]+\/)?)?$/.test(path)) return next();
         try {
-          const { renderPage } = await server.ssrLoadModule("/src/page.ts");
-          const html = renderPage(JSON.parse(readData()), {
-            path: path.slice(1),
-            root: "/",
-            data: "data.json",
-            main: "src/main.ts",
-            controller: { src: "/src/controller.ts" },
-            icon: readFileSync(fileURLToPath(new URL("public/favicon.svg", import.meta.url)), "utf-8"),
-          });
+          const { renderPage, renderNotFound, paths } = await server.ssrLoadModule("/src/page.ts");
+          const raw = JSON.parse(readData());
+          const icon = readFileSync(fileURLToPath(new URL("public/favicon.svg", import.meta.url)), "utf-8");
+          const found = path === "/" || paths(raw).includes(path.slice(1));
+          const html = found
+            ? renderPage(raw, {
+                path: path.slice(1),
+                root: "/",
+                data: "data.json",
+                main: "src/main.ts",
+                controller: { src: "/src/controller.ts" },
+                icon,
+              })
+            : renderNotFound({ root: "/", icon });
+          res.statusCode = found ? 200 : 404;
           res.setHeader("Content-Type", "text/html");
           res.end(await server.transformIndexHtml(req.url ?? "/", html));
         } catch (e) {

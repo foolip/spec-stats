@@ -12,7 +12,7 @@
 
 import type { PageConfig } from "./lib/config.ts";
 import { pageTitle, stateText } from "./lib/texts.ts";
-import { fixed, href, parse, type BinChoice, type Context, type Preset, type State } from "./lib/url.ts";
+import { fixed, href, parse, type BinChoice, type Context, type Preset, type State, type View } from "./lib/url.ts";
 
 export interface Controller {
   readonly state: State;
@@ -54,6 +54,7 @@ const toInput = control<HTMLInputElement>("to");
 const binSelect = control<HTMLSelectElement>("bin");
 const copy = control<HTMLButtonElement>("copy");
 const status = control<HTMLElement>("status");
+const viewLinks = [...document.querySelectorAll<HTMLAnchorElement>("a[data-view]")];
 
 /** The state in the URL: the path from the site's root, and the query. */
 function fromUrl(): State {
@@ -77,8 +78,10 @@ function apply() {
   toInput.min = t.dates.from;
   binSelect.value = state.bin;
   binSelect.options[0].text = t.autoLabel;
+  // The other views, with the same spec and query string.
+  for (const a of viewLinks) a.href = new URL(href({ ...state, view: a.dataset.view as View }), root).href;
   const r = state.repo === null ? -1 : config.repos.indexOf(state.repo);
-  document.title = pageTitle(r < 0 ? null : config.standards[r]);
+  document.title = pageTitle(state.view, r < 0 ? null : config.standards[r]);
   html.toggleAttribute("data-pending", !ready && href(state) !== config.prerendered);
 }
 
@@ -94,8 +97,7 @@ function set(change: Partial<State>) {
   update({ ...state, ...change });
 }
 
-// The URL as it should be: old links rewritten, and anything not
-// understood dropped (url.ts).
+// The URL as it should be: anything not understood dropped (url.ts).
 update(state);
 addEventListener("popstate", () => update(fromUrl()));
 

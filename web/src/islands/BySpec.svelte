@@ -1,5 +1,5 @@
 <script lang="ts">
-  // Open PRs by spec, most first, for all specs only: with one, it would
+  // Open PRs (or issues) by spec, most first, for all specs only: with one, it would
   // only repeat the tiles.
   import { num, signed } from "../lib/format.ts";
   import type { IslandProps } from "./index.ts";

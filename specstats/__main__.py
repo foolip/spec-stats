@@ -72,7 +72,8 @@ def main(argv=None):
         path, size = build.write(data, args.out)
         meta = data["meta"]
         log(f"{path}: {meta['from']} to {meta['to']}, {len(data['repos']['name'])} repos, "
-            f"{len(data['items']['number'])} PRs, {len(data['events']['day'])} events, {size:,} bytes")
+            f"{sum(data['items']['is_pr'])} PRs, {data['items']['is_pr'].count(0)} issues, "
+            f"{len(data['events']['day'])} events, {size:,} bytes")
         return 0
     if args.cmd == "sync-db":
         sgdb.sync()

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { fromRaw } from "../src/lib/data.ts";
-import { openByGroup, openByRepo, total, yearCohorts } from "../src/lib/openprs.ts";
+import { ofKind, openByGroup, openByRepo, total, yearCohorts } from "../src/lib/open.ts";
 import { encode, shuffled, type Table } from "./helpers.ts";
 
 const TYPES = ["_carried_in", "_carried_in_as_draft", "_created", "_created_as_draft",
@@ -31,7 +31,7 @@ test("open and draft PRs are counted at the end of each day", () => {
   };
   const data = fromRaw(encode(table));
   assert.equal(data.days, 7);
-  const byRepo = openByRepo(data);
+  const byRepo = openByRepo(data, "pr");
   assert.deepEqual([...byRepo[0].ready], [0, 0, 1, 1, 1, 1, 1]);
   assert.deepEqual([...byRepo[0].draft], [1, 1, 0, 0, 0, 0, 0]);
   assert.deepEqual([...byRepo[1].ready], [0, 1, 1, 1, 1, 1, 0]);
@@ -53,6 +53,47 @@ test("open and draft PRs are counted at the end of each day", () => {
 
   // The order of items and events makes no difference.
   const other = fromRaw(encode(shuffled(table)));
-  assert.deepEqual(openByRepo(other), byRepo);
+  assert.deepEqual(openByRepo(other, "pr"), byRepo);
   assert.deepEqual(openByGroup(other, yearCohorts(other, 2).of, 3), byGroup);
+});
+
+test("open issues and open PRs are counted apart", () => {
+  const table: Table = {
+    meta: { from: "2025-01-01", to: "2025-01-05" },
+    event_types: TYPES,
+    repos: { name: ["dom"], standard: ["DOM"] },
+    // #1 an issue carried in, #2 a PR, #3 an issue created on day 2.
+    items: {
+      repo: [0, 0, 0],
+      number: [1, 2, 3],
+      is_pr: [0, 1, 0],
+      created: [-30, 1, 2],
+      hours_to_merge: [null, null, null],
+      hours_to_close: [null, null, 72],
+    },
+    events: [
+      [0, 0, "_carried_in"],
+      [1, 1, "_created"],
+      [2, 2, "_created"],
+      [3, 0, "closed"],
+      [4, 0, "reopened"],
+      [4, 1, "convert_to_draft"],
+      [4, 2, "closed"],
+    ],
+  };
+  const data = fromRaw(encode(table));
+  assert.deepEqual([...data.items.isPr], [0, 1, 0]);
+  assert.equal(data.items.hoursToClose[2], 72);
+  assert.ok(Number.isNaN(data.items.hoursToClose[0]));
+  const issues = openByRepo(data, "issue")[0];
+  assert.deepEqual([...issues.ready], [1, 1, 2, 1, 1]);
+  assert.deepEqual([...issues.draft], [0, 0, 0, 0, 0]);
+  const prs = openByRepo(data, "pr")[0];
+  assert.deepEqual([...prs.ready], [0, 1, 1, 1, 0]);
+  assert.deepEqual([...prs.draft], [0, 0, 0, 0, 1]);
+  // Items of the other kind are left out of every group.
+  const byGroup = openByGroup(data, ofKind(data, "issue"), 1);
+  assert.deepEqual(byGroup[0][0], issues);
+  const other = fromRaw(encode(shuffled(table)));
+  assert.deepEqual(openByRepo(other, "issue")[0], issues);
 });

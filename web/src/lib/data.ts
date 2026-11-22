@@ -10,12 +10,18 @@ export interface RawData {
     repo: number[];
     /** Difference from the previous item of the same repo (the first of a repo's: its number). */
     number: number[];
-    /** Day of the PR's created_at, from meta.from (negative before the window),
+    /** 1 for a PR, 0 for an issue. */
+    is_pr: number[];
+    /** Day of the item's created_at, from meta.from (negative before the window),
      * as a difference from the previous item of the same repo, like `number`. */
     created: number[];
     /** Hours from ready for review to merge, for PRs merged in the window:
      * whole hours, rounded up. */
     hours_to_merge: (number | null)[];
+    /** Hours from creation to the last `closed` event, for issues closed at
+     * the end of the window whose last close is in it: whole hours, rounded
+     * up. */
+    hours_to_close: (number | null)[];
     /** How many of `events` are this item's, which follow the previous item's. */
     events: number[];
   };
@@ -38,7 +44,15 @@ export interface Data {
   days: number;
   eventTypes: string[];
   repos: { name: string[]; standard: string[] };
-  items: { repo: Int32Array; number: Int32Array; created: Int32Array; hoursToMerge: Float64Array };
+  items: {
+    repo: Int32Array;
+    number: Int32Array;
+    /** 1 for a PR, 0 for an issue. */
+    isPr: Uint8Array;
+    created: Int32Array;
+    hoursToMerge: Float64Array;
+    hoursToClose: Float64Array;
+  };
   events: { day: Int32Array; item: Int32Array; event: Int32Array };
 }
 
@@ -95,9 +109,12 @@ export function fromRaw(raw: RawData): Data {
     items: {
       repo,
       number,
+      isPr: Uint8Array.from(raw.items.is_pr),
       created,
-      // NaN for PRs not merged in the window.
+      // NaN for PRs not merged in the window, and for issues.
       hoursToMerge: Float64Array.from(raw.items.hours_to_merge, (h) => h ?? NaN),
+      // NaN for issues not closed in the window, and for PRs.
+      hoursToClose: Float64Array.from(raw.items.hours_to_close, (h) => h ?? NaN),
     },
     events: { day, item, event: Int32Array.from(raw.events.event) },
   };

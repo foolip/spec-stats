@@ -6,7 +6,7 @@
 import { chooseBin, UNIT, type Bin } from "./bins.ts";
 import { dateOf } from "./data.ts";
 import { longDate } from "./format.ts";
-import { fixed, rangeDays, type Context, type Preset, type State } from "./url.ts";
+import { fixed, rangeDays, type Context, type Preset, type State, type View } from "./url.ts";
 
 export const BIN_LABELS: Record<Bin, string> = { day: "Day", week: "Week", month: "Month", quarter: "Quarter" };
 export const PRESET_LABELS: Record<Preset, string> = { all: "All", "3y": "3 yrs", "1y": "1 yr" };
@@ -54,7 +54,40 @@ export function stateText(state: State, ctx: Context): StateText {
   };
 }
 
+export interface ViewText {
+  /** The view's name: its heading, its link, and its part of the title. */
+  title: string;
+  question: string;
+  /** What's counted: "PRs", "issues". */
+  items: string;
+  /** What the bars count, as a verb and a noun: "merged", "merges". */
+  done: string;
+  doneNoun: string;
+}
+
+export const VIEW_TEXT: Record<View, ViewText> = {
+  "open-prs": {
+    title: "Reviews",
+    question: "How many PRs are open, and how many are getting merged?",
+    items: "PRs",
+    done: "merged",
+    doneNoun: "merges",
+  },
+  "open-issues": {
+    title: "Issues",
+    question: "How many issues are open, and how many are getting closed?",
+    items: "issues",
+    done: "closed",
+    doneNoun: "closes",
+  },
+};
+
 /** "HTML · Reviews · spec-stats" */
-export function pageTitle(standard: string | null): string {
-  return `${standard ? `${standard} · ` : ""}Reviews · spec-stats`;
+export function pageTitle(view: View, standard: string | null): string {
+  return `${standard ? `${standard} · ` : ""}${VIEW_TEXT[view].title} · spec-stats`;
+}
+
+/** "Merged", for a column heading. */
+export function capitalized(s: string): string {
+  return s[0].toUpperCase() + s.slice(1);
 }

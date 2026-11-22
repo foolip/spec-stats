@@ -1,6 +1,6 @@
 <script lang="ts">
-  // Open PRs at the end of each period, by year opened: the chart and its
-  // table of month ends. Prerendered with the chart's box empty.
+  // Open PRs or issues at the end of each period, by year opened: the chart
+  // and its table of month ends. Prerendered with the chart's box empty.
   import StackedArea from "../components/StackedArea.svelte";
   import { AREA_HEIGHT } from "../lib/chart.ts";
   import { longDate, num } from "../lib/format.ts";
@@ -12,7 +12,7 @@
 
 <section class="panel">
   <div class="panel-head">
-    <h2>Open PRs at the end of each {model.text.unit}, by year opened</h2>
+    <h2>Open {model.words.items} at the end of each {model.text.unit}, by year opened</h2>
     <ul class="legend">
       {#each layers as l (l.label)}
         <li><span class="swatch" style:background={l.color}></span>{l.label}</li>
@@ -22,7 +22,7 @@
   <div class="chart-box" style:height="{AREA_HEIGHT}px">
     {#if width !== undefined}
       <StackedArea from={model.data.from} start={model.text.start} end={model.text.end} layers={model.layers}
-        sample={model.sample} label="Open PRs by year opened" height={AREA_HEIGHT} {width} />
+        sample={model.sample} label="Open {model.words.items} by year opened" height={AREA_HEIGHT} {width} />
     {/if}
   </div>
   <details class="table-view">
