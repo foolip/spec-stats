@@ -510,14 +510,17 @@ one above the other on the same time axis, over the last year by default:
 
 - **PRs opened per period, by time to close** (since 2026-11-22), a
   third chart on the same axis and periods: each PR at the day it was
-  created, split by its `hours_to_close`: closed within 1 day, closed in
-  1–7 days, and open more than 7 days (closed later, or still open). A
-  merge is a close. Of the 3,467 PRs opened from 2022-01-01 to
-  2026-11-14, 40%, 21% and 39%; whatwg/html's 1,846, 32%, 22% and 45%.
-  - PRs opened in the window's last 7 days may still be closed within 7
-    days, so periods ending in them are **provisional**: shaded like a
+  created, split by its `hours_to_close`: closed within 1 week, closed
+  later, or still open (until 2026-11-22: within 1 day, in 1–7 days, or
+  open more than 7 days). A merge is a close. Of the 3,513 PRs opened
+  from 2022-01-01 to 2026-11-21, 61%, 26% and 13%; whatwg/html's 1,868,
+  54%, 31% and 14%. The bands are the same for issues, so the two compare.
+  - PRs opened in the window's last 7 days may still be closed within a
+    week, so periods ending in them are **provisional**: shaded like a
     partial period, and marked "provisional" in the tooltip and the
-    table (`SETTLE_DAYS` in `lib/flow.ts`).
+    table (`SETTLE_DAYS` in `lib/flow.ts`). After that only "closed
+    later" and "still open" change, as old PRs are closed, which they
+    never stop doing; that isn't marked.
   - PRs opened before the window aren't counted.
 
 The area follows the bars' period (since 2026-11-20): it's drawn
@@ -553,9 +556,9 @@ the same controls, layout and colors:
   (completed, not planned or duplicate); an issue closed and later
   reopened isn't counted until it's closed again.
 - **Issues opened per period, by time to close** (since 2026-11-22), as
-  for PRs: closed within 1 day, in 1–7 days, or open more than 7 days.
-  Of the 4,044 issues opened from 2022-01-01 to 2026-11-14, 13%, 10%
-  and 76%; whatwg/html's 2,586, 13%, 11% and 76%.
+  for PRs: closed within 1 week, closed later, or still open. Of the
+  4,069 issues opened from 2022-01-01 to 2026-11-21, 24%, 26% and 51%;
+  whatwg/html's 2,608, 23%, 26% and 50%.
 - The tiles: issues open at the end of the range, the change over it,
   and issues closed in it; and the by-spec table.
 
