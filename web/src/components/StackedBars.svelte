@@ -3,7 +3,7 @@
   // margins as StackedArea, so the two line up when shown one above the
   // other. A tooltip per bar (pointer and keyboard).
   import { scaleLinear, scaleUtc } from "d3-scale";
-  import { margins } from "../lib/chart.ts";
+  import { margins, TICK } from "../lib/chart.ts";
   import { dateOf, parseDate } from "../lib/data.ts";
   import { longDate, num } from "../lib/format.ts";
   import { capitalized } from "../lib/texts.ts";
@@ -151,7 +151,12 @@
     <g class="grid">
       {#each yTicks as t (t)}
         <line x1={M.left} x2={width - M.right} y1={y(t)} y2={y(t)} />
-        <text x={M.left - 8} y={y(t)} dy="0.32em" text-anchor="end">{num(t)}</text>
+        <text x={M.left - 9} y={y(t)} dy="0.32em" text-anchor="end">{num(t)}</text>
+      {/each}
+    </g>
+    <g class="axis">
+      {#each yTicks as t (t)}
+        <line x1={M.left - TICK} x2={M.left} y1={y(t)} y2={y(t)} />
       {/each}
     </g>
     {#each bars as b, j (j)}
@@ -164,6 +169,7 @@
     <g class="axis">
       <line x1={M.left} x2={width - M.right} y1={height - M.bottom} y2={height - M.bottom} />
       {#each xTicks as t (t.getTime())}
+        <line x1={x(t)} x2={x(t)} y1={height - M.bottom} y2={height - M.bottom + TICK} />
         <text x={x(t)} y={height - M.bottom + 18} text-anchor="middle">{tickFormat(t)}</text>
       {/each}
     </g>

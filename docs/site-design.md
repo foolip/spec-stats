@@ -554,7 +554,9 @@ ticks and paths; no chart library.
   enough on the right for the area chart's direct labels, which are
   dropped below 480 px, on phones, so the plot gets the width. The axis
   runs from the start of the first day to the end of the last, each
-  day's value sits at its middle, and a bar covers its whole days. About 1,800 daily points a series is
+  day's value sits at its middle, and a bar covers its whole days.
+- **Tick marks on both axes**, 5 px outside the plot at each label, so
+  the start of a year or month is clear. About 1,800 daily points a series is
 well within what SVG draws smoothly, and owning the markup gives full
 control of type, color and axes. What a library would have given is
 ours to build and test:
