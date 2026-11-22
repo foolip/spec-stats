@@ -340,7 +340,7 @@ The views are linked in that order: Issues, then Reviews.
 - **Changing a control** replaces the history entry (`replaceState`),
   the spec included, which changes the path without loading its page;
   so dragging a range doesn't fill the back button. **Changing view**
-  will add one (`pushState`), so Back returns to the previous chart.
+  adds one (`pushState`), so Back returns to the previous chart.
   `popstate` re-reads the URL.
 - **Parameters mean the same in every view** that uses them (`range`,
   `window`), and so does the spec in the path, so switching views keeps
@@ -359,9 +359,15 @@ The views are linked in that order: Issues, then Reviews.
   site yet, so the parameters of earlier URL designs (`repo`, `repos`,
   `from`, `to`) are unknown parameters like any other.
 - **Views are linked under the site's name**, as tabs. Each link keeps
-  the spec and the query string, so switching views keeps the filters;
-  it loads the other view's prerendered page, and the data comes from
-  the HTTP cache.
+  the spec and the query string, so switching views keeps the filters.
+  **Switching is in place** (since 2026-11-22): the controller handles
+  the click (a plain click; with a modifier key it's an ordinary link),
+  pushes the URL, and sets the view's title and question and the current
+  tab; the islands recompute from the data in memory, as for any
+  control. `Model` works out each kind's series the first time its view
+  is shown. A click before the data has loaded hides the islands
+  (`data-pending`) until they're mounted for the new view. Each view
+  still has its own prerendered page, for links and reloads.
 - Repos in the URL are their `name` (`html`), not indexes, as indexes
   change when repos are added.
 
@@ -447,7 +453,7 @@ and what the design guarantees is checked exactly.
 
 | Check | How | Budget |
 |---|---|---|
-| CLS | 58 loads: six sizes, slow and fast, light and dark, the four kinds of URL (one of them an issues page), scrolled, with real scrollbars; every control used on one load per size | 0, on every load |
+| CLS | 58 loads: six sizes, slow and fast, light and dark, the four kinds of URL (one of them an issues page), scrolled, with real scrollbars; every control used on one load per size, switching views included | 0, on every load |
 | LCP | Three cold loads of each kind of URL on a throttled phone (Slow 4G, CPU 4× slower) | 1 s, median (about 0.35 s now) |
 | LCP in the first paint | The same loads | no later than the first paint, plus 50 ms |
 | First paint needs only the HTML | The same loads | no render-blocking request; HTML at most 14 KB gzipped (the first round trip); every request started by the HTML (no chain), the tab icon aside |

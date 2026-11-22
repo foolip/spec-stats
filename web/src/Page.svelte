@@ -35,8 +35,8 @@
   <p class="notice" role="alert" data-error hidden></p>
   <article class="view">
     <hgroup>
-      <h1>{model.words.title}</h1>
-      <p class="question">{model.words.question}</p>
+      <h1 data-control="title">{model.words.title}</h1>
+      <p class="question" data-control="question">{model.words.question}</p>
     </hgroup>
 
     <Controls state={model.view} text={t} ctx={model.ctx} standards={model.data.repos.standard} />

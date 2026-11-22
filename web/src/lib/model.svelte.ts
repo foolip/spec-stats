@@ -1,45 +1,66 @@
 // Everything a view shows that needs the data, derived from the data and
 // the state: open PRs and merges for the open PRs view, open issues and
 // closes for the open issues view. Used on the server to prerender a page
-// and in the browser, where the state follows the controller. A page is
-// one view, so the view is fixed when the model is made.
+// and in the browser, where the state follows the controller, the view
+// included: switching views recomputes from the data in memory.
 
 import { periods, sampleDays } from "./bins.ts";
 import type { Layer } from "../components/StackedArea.svelte";
 import type { BarLayer } from "../components/StackedBars.svelte";
 import { dateOf, type Data } from "./data.ts";
 import { closes, flowByPeriod, merges, type Flow } from "./flow.ts";
-import { ofKind, openByGroup, openByRepo, total, yearCohorts, type Cohorts, type OpenSeries } from "./open.ts";
-import { stateText, VIEW_TEXT, type ViewText } from "./texts.ts";
+import { ofKind, openByGroup, openByRepo, total, yearCohorts, type Cohorts, type Kind, type OpenSeries } from "./open.ts";
+import { stateText, VIEW_TEXT } from "./texts.ts";
 import { selectedRepos, type Context, type State } from "./url.ts";
+
+/** What a view counts, over the whole window and every repo. */
+interface Counts {
+  byRepo: OpenSeries[];
+  /** By repo, then by year opened (Model.cohorts). */
+  byCohort: OpenSeries[][];
+  /** Merges or closes. */
+  flow: Flow;
+}
 
 export class Model {
   data: Data;
   /** Reactive in the browser. */
   view: State;
   ctx: Context;
-  /** The view's words: "PRs", "merged". */
-  words: ViewText;
-  byRepo: OpenSeries[];
-  /** Open items by the year they were opened, oldest first. */
+  /** Items by the year they were opened, oldest first. */
   cohorts: Cohorts;
-  byCohort: OpenSeries[][];
-  /** Merges or closes. */
-  flow: Flow;
+  /** Each kind's counts, worked out the first time its view is shown. */
+  #counts = new Map<Kind, Counts>();
 
   constructor(data: Data, view: State) {
     this.data = data;
     this.view = view;
     this.ctx = { repoNames: data.repos.name, from: data.from, to: data.to };
-    this.words = VIEW_TEXT[view.view];
-    const kind = view.view === "open-issues" ? "issue" : "pr";
-    this.byRepo = openByRepo(data, kind);
     this.cohorts = yearCohorts(data);
-    const mine = ofKind(data, kind);
-    const of = this.cohorts.of.map((g, i) => (mine[i] < 0 ? -1 : g));
-    this.byCohort = openByGroup(data, of, this.cohorts.labels.length);
-    this.flow = kind === "issue" ? closes(data) : merges(data);
   }
+
+  #countsOf(kind: Kind): Counts {
+    let c = this.#counts.get(kind);
+    if (!c) {
+      const mine = ofKind(this.data, kind);
+      const of = this.cohorts.of.map((g, i) => (mine[i] < 0 ? -1 : g));
+      c = {
+        byRepo: openByRepo(this.data, kind),
+        byCohort: openByGroup(this.data, of, this.cohorts.labels.length),
+        flow: kind === "issue" ? closes(this.data) : merges(this.data),
+      };
+      this.#counts.set(kind, c);
+    }
+    return c;
+  }
+
+  kind: Kind = $derived.by(() => (this.view.view === "open-issues" ? "issue" : "pr"));
+  /** The view's words: "PRs", "merged". */
+  words = $derived.by(() => VIEW_TEXT[this.view.view]);
+  #c = $derived.by(() => this.#countsOf(this.kind));
+  byRepo = $derived.by(() => this.#c.byRepo);
+  byCohort = $derived.by(() => this.#c.byCohort);
+  flow = $derived.by(() => this.#c.flow);
 
   text = $derived.by(() => stateText(this.view, this.ctx));
   repos = $derived.by(() => selectedRepos(this.view.repo, this.data.repos.name));
