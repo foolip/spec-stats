@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { periods } from "../src/lib/bins.ts";
+import { periodNote, periods } from "../src/lib/bins.ts";
 import { fromRaw } from "../src/lib/data.ts";
-import { closes, flowByPeriod, merges } from "../src/lib/flow.ts";
+import { closes, flowByPeriod, merges, openedByPeriod } from "../src/lib/flow.ts";
 import { encode, shuffled, type Table } from "./helpers.ts";
 
 const FROM = "2022-01-01";
@@ -63,5 +63,43 @@ test("issues are counted at their last close, by time open", () => {
   for (const data of [fromRaw(encode(table)), fromRaw(encode(shuffled(table)))]) {
     assert.deepEqual(flowByPeriod(data, closes(data), [0], ps).slice(0, 4), [[0, 0, 0], [1, 0, 0], [0, 1, 0], [0, 0, 1]]);
     assert.deepEqual(flowByPeriod(data, merges(data), [0], ps).slice(0, 4), [[0, 0, 0], [0, 0, 0], [0, 1, 0], [0, 0, 0]]);
+  }
+});
+
+test("items opened are counted per period, by time to close", () => {
+  const types = ["_carried_in", "_created", "closed", "reopened", "merged"];
+  const ev: [number, number, string][] = [
+    [2, 0, "_created"], [2, 0, "closed"],                     // week 1: within 1 day
+    [3, 1, "_created"], [8, 1, "closed"],                     // week 1: 1–7 days
+    [4, 2, "_created"],                                       // week 1: still open
+    [10, 3, "_created"], [30, 3, "closed"],                   // week 2: closed after 7 days
+    [0, 4, "_carried_in"], [11, 4, "closed"],                 // opened before the window: not counted
+    [10, 5, "_created"], [10, 5, "closed"], [10, 5, "merged"], // a PR: counted only for PRs
+    [24, 6, "_created"],                                      // week 4, in the last 7 days
+  ];
+  const table: Table = {
+    meta: { from: FROM, to: "2022-01-31" },
+    event_types: types,
+    repos: { name: ["html"], standard: ["HTML"] },
+    items: {
+      repo: [0, 0, 0, 0, 0, 0, 0],
+      number: [1, 2, 3, 4, 5, 6, 7],
+      is_pr: [0, 0, 0, 0, 0, 1, 0],
+      created: [2, 3, 4, 10, -40, 10, 24],
+      hours_to_merge: [null, null, null, null, null, 5, null],
+      hours_to_close: [3, 24 * 5, null, 24 * 20, 51 * 24, 5, null],
+    },
+    events: ev,
+  };
+  const ps = periods(FROM, 0, 30, "week");
+  for (const data of [fromRaw(encode(table)), fromRaw(encode(shuffled(table)))]) {
+    const issues = openedByPeriod(data, "issue", [0], ps);
+    assert.deepEqual(issues.counts.slice(0, 5), [[0, 0, 0], [1, 1, 1], [0, 0, 1], [0, 0, 0], [0, 0, 1]]);
+    assert.deepEqual(openedByPeriod(data, "pr", [0], ps).counts[2], [1, 0, 0]);
+    assert.deepEqual(openedByPeriod(data, "issue", [], ps).counts.flat().reduce((a, b) => a + b), 0);
+    // Periods ending in the last 7 days (from 2022-01-25) may still change.
+    assert.deepEqual(issues.periods.map((p) => !!p.provisional), [false, false, false, false, true, true]);
+    assert.equal(periodNote(issues.periods[5]), " (partial, provisional)");
+    assert.equal(periodNote(issues.periods[4]), " (provisional)");
   }
 });

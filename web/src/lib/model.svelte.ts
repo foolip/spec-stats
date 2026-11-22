@@ -1,6 +1,6 @@
 // Everything a view shows that needs the data, derived from the data and
-// the state: open PRs and merges for the open PRs view, open issues and
-// closes for the open issues view. Used on the server to prerender a page
+// the state: open PRs, merges and PRs opened for the open PRs view; open
+// issues, closes and issues opened for the open issues view. Used on the server to prerender a page
 // and in the browser, where the state follows the controller, the view
 // included: switching views recomputes from the data in memory.
 
@@ -8,7 +8,7 @@ import { periods, sampleDays } from "./bins.ts";
 import type { Layer } from "../components/StackedArea.svelte";
 import type { BarLayer } from "../components/StackedBars.svelte";
 import { dateOf, type Data } from "./data.ts";
-import { closes, flowByPeriod, merges, type Flow } from "./flow.ts";
+import { closes, flowByPeriod, merges, openedByPeriod, OUTCOME_BANDS, type Flow } from "./flow.ts";
 import { ofKind, openByGroup, openByRepo, total, yearCohorts, type Cohorts, type Kind, type OpenSeries } from "./open.ts";
 import { stateText, VIEW_TEXT } from "./texts.ts";
 import { selectedRepos, type Context, type State } from "./url.ts";
@@ -82,9 +82,8 @@ export class Model {
   /** PRs merged, or issues closed, per calendar period. */
   flowPeriods = $derived.by(() => periods(this.data.from, this.text.start, this.text.end, this.text.bin));
   flowCounts = $derived.by(() => flowByPeriod(this.data, this.flow, this.repos, this.flowPeriods));
-  /** Fastest first, for the legend and the table; stacked the other way,
-   * so the slowest is at the bottom and the fastest (lightest) on top, as
-   * the open items' newest layer is. */
+  /** Fastest first, for the legend and the table (BarsPanel stacks them
+   * the other way). */
   flowBands: BarLayer[] = $derived.by(() =>
     this.flow.bands.labels.map((label, k) => ({
       label,
@@ -92,7 +91,15 @@ export class Model {
       color: `var(--age-${k})`,
     })),
   );
-  flowLayers = $derived.by(() => [...this.flowBands].reverse());
+  /** PRs or issues opened per period, by how soon they were closed. */
+  opened = $derived.by(() => openedByPeriod(this.data, this.kind, this.repos, this.flowPeriods));
+  openedBands: BarLayer[] = $derived.by(() =>
+    OUTCOME_BANDS.labels.map((label, k) => ({
+      label,
+      values: this.opened.counts.map((c) => c[k]),
+      color: `var(--age-${k})`,
+    })),
+  );
   done = $derived.by(() => this.flowCounts.reduce((s, c) => s + c.reduce((a, b) => a + b, 0), 0));
   /** The open PRs are drawn at the same periods' ends, so they follow the
    * bin too: every day, or the last day of each week, month or quarter. */

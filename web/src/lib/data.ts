@@ -18,9 +18,9 @@ export interface RawData {
     /** Hours from ready for review to merge, for PRs merged in the window:
      * whole hours, rounded up. */
     hours_to_merge: (number | null)[];
-    /** Hours from creation to the last `closed` event, for issues closed at
-     * the end of the window whose last close is in it: whole hours, rounded
-     * up. */
+    /** Hours from creation to the last `closed` event (a merge, for a PR),
+     * for items closed at the end of the window whose last close is in it:
+     * whole hours, rounded up. Issues only until 2026-11-22. */
     hours_to_close: (number | null)[];
     /** How many of `events` are this item's, which follow the previous item's. */
     events: number[];
@@ -113,7 +113,7 @@ export function fromRaw(raw: RawData): Data {
       created,
       // NaN for PRs not merged in the window, and for issues.
       hoursToMerge: Float64Array.from(raw.items.hours_to_merge, (h) => h ?? NaN),
-      // NaN for issues not closed in the window, and for PRs.
+      // NaN for items not closed in the window.
       hoursToClose: Float64Array.from(raw.items.hours_to_close, (h) => h ?? NaN),
     },
     events: { day, item, event: Int32Array.from(raw.events.event) },

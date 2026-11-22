@@ -45,10 +45,11 @@ is the time from the PR being ready for review (created, or its first
 `ready_for_review` if it was created as a draft) to its merge, in whole
 hours rounded up (merged within that many hours), for PRs merged in the
 window, and null for the rest (issues included).
-`items.hours_to_close` is the time from an issue's creation to its last
-`closed` event, in whole hours rounded up, for issues closed at the end
-of the window whose last close is in it, and null for the rest (PRs
-included): the issue counts as closed on that event's day.
+`items.hours_to_close` is the time from an item's creation to its last
+`closed` event (for a merged PR, its merge), in whole hours rounded up,
+for items closed at the end of the window whose last close is in it, and
+null for the rest: the item counts as closed on that event's day. PRs
+have it since 2026-11-22.
 
 Draft status (PRs only) is a second state alongside open or closed, with GitHub's
 `convert_to_draft` and `ready_for_review`. GitHub has no event for a PR
@@ -286,8 +287,7 @@ def build(root=None, standards=None, updated_since=None, log=print):
             last_number, last_created = number, created
             merged = any(kind == "merged" for _, kind in evs)
             items["hours_to_merge"].append(hours_to_merge(obj, pull, raw_events, fixes) if merged else None)
-            items["hours_to_close"].append(_hours(obj["created_at"], last_close)
-                                           if not is_pr and last_close else None)
+            items["hours_to_close"].append(_hours(obj["created_at"], last_close) if last_close else None)
             items["events"].append(len(evs))
             prev = max(created, 0)
             for day, kind in evs:
