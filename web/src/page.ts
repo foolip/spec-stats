@@ -11,7 +11,7 @@ import { LOCALE } from "./lib/format.ts";
 import type { PageConfig } from "./lib/config.ts";
 import { Model } from "./lib/model.svelte.ts";
 import { pageTitle } from "./lib/texts.ts";
-import { href, pagePath, parse, VIEWS } from "./lib/url.ts";
+import { DEFAULT, href, pagePath, parse, VIEWS } from "./lib/url.ts";
 import Page from "./Page.svelte";
 
 export interface PageOptions {
@@ -35,7 +35,8 @@ export interface PageOptions {
  * rewrites the URL. */
 export function paths(raw: RawData): string[] {
   const names = raw.repos.name;
-  return VIEWS.flatMap((view) => [pagePath({ view, repo: null }), ...names.map((repo) => pagePath({ view, repo }))]);
+  const views = [DEFAULT.view, ...VIEWS.filter((v) => v !== DEFAULT.view)];
+  return views.flatMap((view) => [pagePath({ view, repo: null }), ...names.map((repo) => pagePath({ view, repo }))]);
 }
 
 /** JSON for a <script> element: no "</script>" or "<!--" inside. */

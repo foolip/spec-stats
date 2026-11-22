@@ -8,7 +8,8 @@
 import { BINS, type Bin } from "./bins.ts";
 import { dateOf, dayOf } from "./data.ts";
 
-export const VIEWS = ["open-prs", "open-issues"] as const;
+/** In the order of the links to them. The default view is DEFAULT.view. */
+export const VIEWS = ["open-issues", "open-prs"] as const;
 export type View = (typeof VIEWS)[number];
 
 /** Each view's directory. */
