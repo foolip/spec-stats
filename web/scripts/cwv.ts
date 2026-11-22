@@ -136,9 +136,14 @@ async function loaded(page: Page) {
 const result = (page: Page) =>
   page.evaluate(() => (window as unknown as { cwv: { cls: number; shifts: string[]; lcp: number; inp: number; inpOn: string } }).cwv);
 
-/** Every control once, with real input: the date presets, both selects by
- * keyboard, and a spec in the by-spec table. */
+/** Every control once, with real input: both views' links (switching in
+ * place), the date presets, both selects by keyboard, and a spec in the
+ * by-spec table. */
 async function useControls(page: Page) {
+  for (const view of ["open-prs", "open-issues"]) {
+    await page.locator(`a[data-view="${view}"]`).click();
+    await page.waitForTimeout(600);
+  }
   for (const preset of ["all", "3y", "1y"]) {
     await page.locator(`[data-preset="${preset}"]`).click();
     await page.waitForTimeout(600);

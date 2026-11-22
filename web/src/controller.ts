@@ -8,10 +8,12 @@
 // else that changes with the state is a Svelte island (src/islands/),
 // mounted by main.ts once the data has loaded; until then, if the URL
 // isn't the one the page was prerendered for, the islands are hidden
-// (`data-pending`), keeping their space.
+// (`data-pending`), keeping their space. Switching views happens here too,
+// without loading a page: the view links push a history entry, and the
+// view's title and question are set from lib/texts.ts.
 
 import type { PageConfig } from "./lib/config.ts";
-import { pageTitle, stateText } from "./lib/texts.ts";
+import { pageTitle, stateText, VIEW_TEXT } from "./lib/texts.ts";
 import { fixed, href, parse, type BinChoice, type Context, type Preset, type State, type View } from "./lib/url.ts";
 
 export interface Controller {
@@ -55,6 +57,8 @@ const binSelect = control<HTMLSelectElement>("bin");
 const copy = control<HTMLButtonElement>("copy");
 const status = control<HTMLElement>("status");
 const viewLinks = [...document.querySelectorAll<HTMLAnchorElement>("a[data-view]")];
+const title = control<HTMLElement>("title");
+const question = control<HTMLElement>("question");
 
 /** The state in the URL: the path from the site's root, and the query. */
 function fromUrl(): State {
@@ -78,17 +82,25 @@ function apply() {
   toInput.min = t.dates.from;
   binSelect.value = state.bin;
   binSelect.options[0].text = t.autoLabel;
-  // The other views, with the same spec and query string.
-  for (const a of viewLinks) a.href = new URL(href({ ...state, view: a.dataset.view as View }), root).href;
+  // The views, with the same spec and query string.
+  for (const a of viewLinks) {
+    a.href = new URL(href({ ...state, view: a.dataset.view as View }), root).href;
+    if (a.dataset.view === state.view) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  }
+  title.textContent = VIEW_TEXT[state.view].title;
+  question.textContent = VIEW_TEXT[state.view].question;
   const r = state.repo === null ? -1 : config.repos.indexOf(state.repo);
   document.title = pageTitle(state.view, r < 0 ? null : config.standards[r]);
   html.toggleAttribute("data-pending", !ready && href(state) !== config.prerendered);
 }
 
-function update(next: State) {
+/** Change the state; a new history entry only if `push` (a view change),
+ * so dragging a range doesn't fill the back button. */
+function update(next: State, push = false) {
   state = next;
   const url = new URL(href(state), root);
-  if (url.href !== location.href) history.replaceState(null, "", url);
+  if (url.href !== location.href) history[push ? "pushState" : "replaceState"](null, "", url);
   apply();
   for (const f of listeners) f(state);
 }
@@ -111,6 +123,15 @@ for (const input of [fromInput, toInput]) {
   });
 }
 binSelect.addEventListener("change", () => set({ bin: binSelect.value as BinChoice }));
+for (const a of viewLinks) {
+  a.addEventListener("click", (e) => {
+    // A new tab or window, or a download, as for any link.
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    const view = a.dataset.view as View;
+    if (view !== state.view) update({ ...state, view }, true);
+  });
+}
 
 // Copy link: the label swaps in place (both labels share one grid cell, so
 // the button keeps its width), and the live region announces it.

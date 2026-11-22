@@ -1,6 +1,7 @@
 <script lang="ts">
   // The site's header, on every page: its name and icon, and the links to
-  // the views.
+  // the views. On a view's page, the controller switches views in place
+  // when they're clicked.
   import { VIEW_TEXT } from "../lib/texts.ts";
   import { VIEWS, type View } from "../lib/url.ts";
 
