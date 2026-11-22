@@ -10,11 +10,17 @@ function round(url: string): string {
   return i < 0 ? href(parse(url, "", ctx)) : href(parse(url.slice(0, i), url.slice(i), ctx));
 }
 
-test("the default view is reviews/, with no query string", () => {
-  assert.deepEqual(parse("reviews/", "", ctx), DEFAULT);
-  assert.equal(href(DEFAULT), "reviews/");
+test("the default view is issues/, with no query string", () => {
+  assert.deepEqual(parse("issues/", "", ctx), DEFAULT);
+  assert.equal(href(DEFAULT), "issues/");
   // The site's root is the default view too.
   assert.deepEqual(parse("", "", ctx), DEFAULT);
+  assert.equal(round(""), "issues/");
+  // Links to the root with a query string are from when the open PRs view
+  // was the only one.
+  assert.equal(round("?range=3y"), "reviews/?range=3y");
+  assert.equal(round("?bin=month"), "reviews/?bin=month");
+  assert.equal(round("?utm_source=x"), "issues/");
 });
 
 test("the view and spec are in the path, the rest in the query string", () => {
@@ -59,7 +65,7 @@ test("the bars' period is in the URL, auto by default", () => {
 test("unknown and invalid parameters are dropped", () => {
   assert.equal(round("reviews/html/?view=nope&range=7y&drafts=maybe&utm_source=x"), "reviews/html/");
   assert.equal(round("reviews/nfc/"), "reviews/");
-  assert.equal(round("nope/html/"), "reviews/html/");
+  assert.equal(round("nope/html/"), "issues/html/");
   // Lists and exclusions aren't supported: all repos.
   assert.equal(round("?repo=dom,html"), "reviews/");
   assert.equal(round("?repo=-html"), "reviews/");

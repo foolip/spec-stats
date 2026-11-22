@@ -64,9 +64,9 @@ function fromUrl(): State {
 
 let state = fromUrl();
 
-// A page shows one view. Only 404.html, a copy of the default view, is
-// served for another view's path (issues/nfc/, an unknown spec): load that
-// view's page instead.
+// A page shows one view. Only the site's root and 404.html, copies of the
+// default view, are served for another view's URL (an old link to the
+// root, reviews/nfc/): load that view's page instead.
 if (state.view !== config.view) location.replace(new URL(href(state), root));
 
 /** Show the state: the controls, the title, and whether the islands'

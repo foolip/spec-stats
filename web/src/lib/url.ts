@@ -37,7 +37,7 @@ export interface State {
 export const DEFAULT_PRESET: Preset = "1y";
 
 export const DEFAULT: State = {
-  view: "open-prs",
+  view: "open-issues",
   repo: null,
   range: { preset: DEFAULT_PRESET },
   bin: "auto",
@@ -84,17 +84,24 @@ function repoName(value: string | null | undefined, ctx: Context): string | null
   return ctx.repoNames.find((n) => n === value) ?? null;
 }
 
+/** Parameters of links to the site's root from before views had paths
+ * (2026-11-20), when the open PRs view was the only one. */
+const ROOT_LINK_PARAMS = ["view", "repo", "repos", "from", "to", "range", "bin", "drafts"];
+
 /**
  * The state for a path relative to the site's root ("", "reviews/",
  * "reviews/html/", "issues/") and a query string. The site's root is the default
- * view. Two kinds of old links still work, and are rewritten: `?repo=`,
- * before specs had their own pages, and `from` and `to`, which held custom
- * dates until 2026-11-20.
+ * view, the open issues view since 2026-11-22. Old links still work, and
+ * are rewritten: the site's root with a query string, from when the open
+ * PRs view was the only one, goes to that view; `?repo=`, before specs had
+ * their own pages, to the spec's page; and `from` and `to`, which held
+ * custom dates until 2026-11-20, to `range`.
  */
 export function parse(path: string, search: string, ctx: Context): State {
   const q = new URLSearchParams(search);
   const [dir, name] = path.split("/");
-  const view = VIEWS.find((v) => VIEW_PATHS[v] === dir) ?? DEFAULT.view;
+  const rootLink = dir === "" && ROOT_LINK_PARAMS.some((p) => q.has(p));
+  const view = VIEWS.find((v) => VIEW_PATHS[v] === dir) ?? (rootLink ? "open-prs" : DEFAULT.view);
   const legacy = q.has("from") || q.has("to") ? dates(q.get("from") ?? "*", q.get("to") ?? "*", ctx) : null;
   return {
     view,

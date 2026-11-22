@@ -325,9 +325,11 @@ page); the rest is in the query string.
 
 | Path | |
 |---|---|
-| `reviews/` | the open PRs view, all specs; also the site's root, until there's a start view |
-| `reviews/html/` | one spec, by repo name |
-| `issues/`, `issues/html/` | the open issues view (since 2026-11-21) |
+| `issues/` | the open issues view (since 2026-11-21), all specs; also the site's root (since 2026-11-22), until there's a start view |
+| `issues/html/` | one spec, by repo name |
+| `reviews/`, `reviews/html/` | the open PRs view (the site's root until 2026-11-22) |
+
+The views are linked in that order: Issues, then Reviews.
 
 | Parameter | Values | Default |
 |---|---|---|
@@ -351,10 +353,13 @@ page); the rest is in the query string.
   rewritten without them, so old links keep working as views change.
   `from` and `to`, which held custom dates until 2026-11-20, are still
   read and rewritten as `range`, and `?repo=html`, from before specs had
-  their own pages, as `reviews/html/`. An unknown path gets `404.html`, a
-  copy of `reviews/`, which rewrites the URL to `reviews/`; an unknown
-  spec under another view (`issues/nfc/`) loads that view's page
-  (`issues/`) instead.
+  their own pages, as `reviews/html/`. The site's root with any of the
+  parameters links had before views had paths (`repo`, `range`, `from`,
+  …) is a link to the open PRs view, the only one then, so it goes to
+  `reviews/`, though the root is now the open issues view. An unknown
+  path gets `404.html`, a copy of `issues/`, which rewrites the URL to
+  `issues/`; an unknown spec under another view (`reviews/nfc/`) loads
+  that view's page (`reviews/`) instead.
 - **Views are linked under the site's name**, as tabs. Each link keeps
   the spec and the query string, so switching views keeps the filters;
   it loads the other view's prerendered page, and the data comes from
@@ -379,7 +384,7 @@ before the data file's compact layout, 2026-11-20).
   inline, so the HTML, about 10 KB gzipped, is all the first paint
   needs; even the header's icon is in it, as a `data:` URL made from
   `public/favicon.svg`. The site's root and `404.html` are copies of
-  `reviews/`. Links are absolute paths from the site's root on its host,
+  `issues/`, the default view. Links are absolute paths from the site's root on its host,
   `SITE_BASE`, `/spec-stats/` unless set, as `404.html` is served at
   any depth. (No `<base>`: it would make `#footer`, below, point at
   another page.)
