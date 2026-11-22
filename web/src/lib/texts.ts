@@ -6,7 +6,7 @@
 import { chooseBin, UNIT, type Bin } from "./bins.ts";
 import { dateOf } from "./data.ts";
 import { longDate } from "./format.ts";
-import { fixed, rangeDays, type Context, type Preset, type State, type View } from "./url.ts";
+import { rangeDays, type Context, type Preset, type State, type View } from "./url.ts";
 
 export const BIN_LABELS: Record<Bin, string> = { day: "Day", week: "Week", month: "Month", quarter: "Quarter" };
 export const PRESET_LABELS: Record<Preset, string> = { all: "All", "3y": "3 yrs", "1y": "1 yr" };
@@ -27,17 +27,12 @@ export interface StateText {
   unitTitle: string;
   /** "Auto (week)" */
   autoLabel: string;
-  /** "Custom", or the custom range's dates. */
-  customLabel: string;
-  /** The range's dates, YYYY-MM-DD, for the date inputs. */
-  dates: { from: string; to: string };
 }
 
 export function stateText(state: State, ctx: Context): StateText {
   const [start, end] = rangeDays(state.range, ctx);
   const auto = chooseBin(ctx.from, start, end);
   const bin = state.bin === "auto" ? auto : state.bin;
-  const dates = fixed(state.range, ctx) as { from: string; to: string };
   const unit = UNIT[bin];
   return {
     start,
@@ -49,8 +44,6 @@ export function stateText(state: State, ctx: Context): StateText {
     unit,
     unitTitle: unit[0].toUpperCase() + unit.slice(1),
     autoLabel: `Auto (${BIN_LABELS[auto].toLowerCase()})`,
-    customLabel: "from" in state.range ? `${longDate(dates.from)} – ${longDate(dates.to)}` : "Custom",
-    dates,
   };
 }
 

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { DEFAULT, fixed, href, pagePath, parse, query, rangeDays, selectedRepos, type Context } from "../src/lib/url.ts";
+import { DEFAULT, href, pagePath, parse, query, rangeDays, selectedRepos, type Context } from "../src/lib/url.ts";
 
 const ctx: Context = { repoNames: ["dom", "fetch", "html", "url"], from: "2022-01-01", to: "2026-11-17" };
 
@@ -21,19 +21,19 @@ test("the default view is issues/, with no query string", () => {
 
 test("the view and spec are in the path, the rest in the query string", () => {
   assert.equal(parse("reviews/html/", "", ctx).repo, "html");
-  assert.equal(round("reviews/html/?range=2024-01-01..2026-11-17"), "reviews/html/?range=2024-01-01..2026-11-17");
+  assert.equal(round("reviews/html/?range=3y"), "reviews/html/?range=3y");
   assert.equal(round("reviews/dom/?range=all&bin=month"), "reviews/dom/?range=all&bin=month");
   assert.equal(round("reviews/html"), "reviews/html/");
   assert.equal(pagePath({ view: "open-prs", repo: "url" }), "reviews/url/");
   assert.equal(query({ ...DEFAULT, repo: "url" }), "");
   // The default range, the last year, is left out.
-  assert.deepEqual(parse("reviews/dom/", "", ctx).range, { preset: "1y" });
+  assert.deepEqual(parse("reviews/dom/", "", ctx).range, "1y");
   assert.equal(round("reviews/dom/?range=1y"), "reviews/dom/");
 });
 
 test("each view has its own path", () => {
   assert.equal(parse("issues/", "", ctx).view, "open-issues");
-  assert.deepEqual(parse("issues/html/", "?range=3y", ctx), { ...DEFAULT, view: "open-issues", repo: "html", range: { preset: "3y" } });
+  assert.deepEqual(parse("issues/html/", "?range=3y", ctx), { ...DEFAULT, view: "open-issues", repo: "html", range: "3y" });
   assert.equal(round("issues/html/?range=all&bin=month"), "issues/html/?range=all&bin=month");
   assert.equal(pagePath({ view: "open-issues", repo: null }), "issues/");
   assert.equal(pagePath({ view: "open-issues", repo: "url" }), "issues/url/");
@@ -57,23 +57,9 @@ test("unknown and invalid parameters are dropped", () => {
   assert.equal(round("reviews/html/?view=nope&range=7y&drafts=maybe&utm_source=x"), "reviews/html/");
   // Old parameters are unknown too.
   assert.equal(round("reviews/?repo=dom&from=2024-01-01&to=2026-11-17"), "reviews/");
-  assert.equal(round("reviews/?range=2025-13-45..2026-01-01"), "reviews/");
-  assert.equal(round("reviews/?range=2025-01-01"), "reviews/");
-  assert.equal(round("reviews/?range=2025-01-01...2026-01-01"), "reviews/");
-  assert.equal(round("reviews/?range=.."), "reviews/");
-  // Out of the window: clamped to it. Backwards: dropped.
-  assert.equal(round("reviews/?range=2019-01-01..2030-01-01"), "reviews/?range=2022-01-01..2026-11-17");
-  assert.equal(round("reviews/?range=2025-01-01..2024-01-01"), "reviews/");
-});
-
-test("custom dates are written as in GitHub's search, * for an open end", () => {
-  assert.deepEqual(parse("reviews/", "?range=2024-01-01..2025-06-30", ctx).range, { from: "2024-01-01", to: "2025-06-30" });
-  assert.equal(round("reviews/?range=2024-01-01..*"), "reviews/?range=2024-01-01..2026-11-17");
-  assert.equal(round("reviews/?range=*..2024-01-01"), "reviews/?range=2022-01-01..2024-01-01");
-  assert.equal(round("reviews/?range=*..*"), "reviews/?range=2022-01-01..2026-11-17");
-  assert.equal(round("reviews/?range=2024-01-01..2024-01-01"), "reviews/?range=2024-01-01..2024-01-01");
-  // Unencoded in the URL; encoded, as some tools write it, also read.
-  assert.equal(round("reviews/?range=2024-01-01..%2A"), "reviews/?range=2024-01-01..2026-11-17");
+  // Dates were read until 2026-11-22; now they're dropped too.
+  assert.equal(round("reviews/?range=2024-01-01..2026-11-17"), "reviews/");
+  assert.equal(round("reviews/?range=2024-01-01..*"), "reviews/");
 });
 
 test("a state's repos", () => {
@@ -82,12 +68,14 @@ test("a state's repos", () => {
   assert.deepEqual(selectedRepos("html", names), [2]);
 });
 
-test("presets are relative to the end of the window; links fix them", () => {
-  const last = rangeDays({ preset: "all" }, ctx)[1];
+test("presets are relative to the end of the window", () => {
+  const last = rangeDays("all", ctx)[1];
   assert.equal(last, 1781);
-  const [a, b] = rangeDays({ preset: "1y" }, ctx);
+  const [a, b] = rangeDays("1y", ctx);
   assert.equal(b, last);
-  assert.deepEqual(fixed({ preset: "1y" }, ctx), { from: "2025-11-18", to: "2026-11-17" });
   assert.equal(b - a + 1, 365);
-  assert.deepEqual(fixed({ preset: "3y" }, ctx), { from: "2023-11-18", to: "2026-11-17" });
+  const [c, d] = rangeDays("3y", ctx);
+  assert.equal(d, last);
+  // 2023-11-18 to 2025-11-18, across 2024-02-29.
+  assert.equal(a - c, 366 + 365);
 });
