@@ -110,7 +110,8 @@ export class Model {
         open: this.byRepo[r].ready[this.text.end],
         change: this.byRepo[r].ready[this.text.end] - this.byRepo[r].ready[this.text.start],
       }))
-      .sort((a, b) => b.open - a.open || a.standard.localeCompare(b.standard)),
+      // A stable sort: ties stay in the build's order of specs.
+      .sort((a, b) => b.open - a.open),
   );
   maxOpen = $derived.by(() => Math.max(1, ...this.rows.map((r) => r.open)));
 

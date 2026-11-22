@@ -5,14 +5,15 @@
   {"meta": {"from": "2022-01-01", "to": "2026-11-17"},
    "event_types": ["_carried_in", "_carried_in_as_draft", "_created", "_created_as_draft",
                    "closed", "reopened", "convert_to_draft", "ready_for_review", "merged"],
-   "repos":  {"name": ["dom", ...], "standard": ["DOM", ...]},
+   "repos":  {"name": ["compat", ...], "standard": ["Compatibility", ...]},
    "items":  {"repo": [0, ...], "number": [1234, 5, ...], "is_pr": [1, 0, ...],
               "created": [-412, 3, ...], "hours_to_merge": [null, 31, ...],
               "hours_to_close": [null, 2, ...], "events": [2, ...]},
    "events": {"day": [0, 17, ...], "event": [0, 4, ...]}}
 
 Each table is stored by column. `items.repo` is an index into `repos`
-and `events.event` into `event_types`. Days count UTC days from
+and `events.event` into `event_types`. `repos` is in the order the site
+lists specs, by `spec_order`, so the site never sorts them itself. Days count UTC days from
 `meta.from` (day 0); `created` is the day of the item's `created_at`,
 negative for an item opened before the window. `is_pr` is 1 for a PR and
 0 for an issue.
@@ -76,6 +77,12 @@ EVENT_TYPES = ["_carried_in", "_carried_in_as_draft", "_created", "_created_as_d
                "closed", "reopened", "convert_to_draft", "ready_for_review", "merged"]
 LIFECYCLE = ("closed", "reopened")
 DRAFT = ("convert_to_draft", "ready_for_review")
+
+
+def spec_order(name):
+    """The key specs are listed by: their name, with "Web Foo" as WebFoo,
+    so Web IDL is among WebBluetooth, WebHID and the rest."""
+    return name.replace("Web ", "Web", 1) if name.startswith("Web ") else name
 
 
 def out_path():
@@ -236,7 +243,7 @@ def build(root=None, standards=None, updated_since=None, log=print):
     since = updated_since or extract.load_updated_since()
     start = _day(since)
     stores = {}
-    for repo in standards:
+    for repo in sorted(standards, key=lambda r: (spec_order(standards[r]), r)):
         store = extract.RepoStore(repo, root)
         if not store.state:
             log(f"{repo}: nothing stored; left out")
