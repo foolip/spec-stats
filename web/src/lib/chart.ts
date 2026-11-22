@@ -31,4 +31,4 @@ export const BARS_HEIGHT = 220;
 
 /** The length of the axes' tick marks, outside the plot, so the start of a
  * year or month is clear and the label below or beside it names it. */
-export const TICK = 5;
+export const TICK_LENGTH = 5;
