@@ -49,10 +49,6 @@ function control<T extends HTMLElement>(name: string): T {
 }
 const repoSelect = control<HTMLSelectElement>("repo");
 const presets = [...document.querySelectorAll<HTMLButtonElement>("[data-preset]")];
-const custom = control<HTMLButtonElement>("custom");
-const menu = document.getElementById(custom.getAttribute("popovertarget")!)!;
-const fromInput = control<HTMLInputElement>("from");
-const toInput = control<HTMLInputElement>("to");
 const binSelect = control<HTMLSelectElement>("bin");
 const copy = control<HTMLButtonElement>("copy");
 const status = control<HTMLElement>("status");
@@ -74,12 +70,6 @@ function apply() {
   const t = stateText(state, ctx);
   repoSelect.value = state.repo ?? "";
   for (const b of presets) b.setAttribute("aria-pressed", String("preset" in state.range && state.range.preset === b.dataset.preset));
-  custom.toggleAttribute("data-active", "from" in state.range);
-  custom.textContent = t.customLabel;
-  fromInput.value = t.dates.from;
-  fromInput.max = t.dates.to;
-  toInput.value = t.dates.to;
-  toInput.min = t.dates.from;
   binSelect.value = state.bin;
   binSelect.options[0].text = t.autoLabel;
   // The views, with the same spec and query string.
@@ -115,13 +105,6 @@ addEventListener("popstate", () => update(fromUrl()));
 
 repoSelect.addEventListener("change", () => set({ repo: repoSelect.value || null }));
 for (const b of presets) b.addEventListener("click", () => set({ range: { preset: b.dataset.preset as Preset } }));
-for (const input of [fromInput, toInput]) {
-  input.addEventListener("change", () => {
-    const from = fromInput.value || ctx.from;
-    const to = toInput.value || ctx.to;
-    if (from <= to) set({ range: { from, to } });
-  });
-}
 binSelect.addEventListener("change", () => set({ bin: binSelect.value as BinChoice }));
 for (const a of viewLinks) {
   a.addEventListener("click", (e) => {
@@ -155,31 +138,6 @@ copy.addEventListener("click", async () => {
   } catch {
     prompt("Link to this view", url);
   }
-});
-
-// The custom dates menu is a native popover. On wide screens it's placed
-// under its button with CSS anchor positioning, or here where that isn't
-// supported (Firefox, in November 2026); on narrow screens it's a bottom
-// sheet.
-const anchored = CSS.supports("position-area: block-end");
-function place() {
-  if (anchored || matchMedia("(max-width: 640px)").matches) {
-    menu.style.removeProperty("left");
-    menu.style.removeProperty("top");
-    return;
-  }
-  const r = custom.getBoundingClientRect();
-  menu.style.left = `${Math.max(8, Math.min(r.left, innerWidth - menu.offsetWidth - 8))}px`;
-  menu.style.top = `${r.bottom + 6}px`;
-}
-menu.addEventListener("toggle", (e) => {
-  const open = (e as ToggleEvent).newState === "open";
-  custom.setAttribute("aria-expanded", String(open));
-  if (open) place();
-  if (anchored) return;
-  const listen = open ? addEventListener : removeEventListener;
-  listen("resize", place);
-  listen("scroll", place, true);
 });
 
 window.specstats = {

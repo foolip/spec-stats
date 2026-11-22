@@ -146,13 +146,12 @@ button { cursor: pointer; }
 button:disabled { cursor: default; }
 
 /* One control height and shape for every button in the bar. */
-.menu-button, .segmented, button.copy, .select {
+.segmented, button.copy, .select {
   height: 2rem; border: 1px solid var(--rule); border-radius: 8px; background: var(--surface);
   font-size: 0.875rem;
 }
-.menu-button, button.copy { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0 0.7rem; white-space: nowrap; }
-.menu-button::after { content: ""; width: 0.4em; height: 0.4em; margin: -0.2em 0 0 0.15rem; border: solid var(--ink-3); border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); }
-.menu-button:hover, button.copy:hover { border-color: var(--ink-3); }
+button.copy { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0 0.7rem; white-space: nowrap; }
+button.copy:hover { border-color: var(--ink-3); }
 .menu-label { color: var(--ink-2); }
 
 /* The spec select: the label and a native select inside one control. */
@@ -177,8 +176,6 @@ button:disabled { cursor: default; }
 }
 .segmented button:hover { color: var(--ink); }
 .segmented button[aria-pressed="true"] { background: var(--bg); color: var(--ink); font-weight: 600; box-shadow: 0 0 0 1px var(--rule); }
-.segment-menu[data-active] { background: var(--bg); color: var(--ink); font-weight: 600; box-shadow: 0 0 0 1px var(--rule); }
-.segment-menu::after { content: " ▾"; color: var(--ink-3); font-weight: 400; }
 
 /* Copy link: both labels share one grid cell, so the width never changes. */
 button.copy { margin-left: auto; display: inline-grid; }
@@ -186,50 +183,6 @@ button.copy > span { grid-area: 1 / 1; text-align: center; }
 button.copy > .hidden { visibility: hidden; }
 button.copy > span:last-child { color: var(--accent); font-weight: 600; }
 
-/* Menus: in the top layer, opaque, never clipped. Placed by Menu.svelte's
-   place() unless anchor positioning is supported (below). */
-.menu {
-  position: fixed; inset: auto; margin: 0; overscroll-behavior: contain;
-  width: max-content; max-width: calc(100vw - 16px); max-height: calc(100vh - 6rem); overflow: auto;
-  padding: 0.75rem; color: var(--ink);
-  background: var(--tooltip-bg); border: 1px solid var(--rule); border-radius: 12px; box-shadow: var(--shadow);
-  scrollbar-width: thin; scrollbar-color: var(--rule) transparent;
-}
-
-.dates { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-.dates label { display: grid; gap: 0.2rem; font-size: 0.8125rem; color: var(--ink-2); }
-.dates input {
-  height: 2rem; border: 1px solid var(--rule); border-radius: 8px; padding: 0 0.5rem;
-  background: var(--bg); color: var(--ink); font-size: 0.875rem; font-variant-numeric: tabular-nums;
-}
-.menu-note { margin: 0.6rem 0 0; font-size: 0.8125rem; color: var(--ink-3); }
-.menu-done { display: none; }
-
-@supports (position-area: block-end) {
-  @media (min-width: 641px) {
-    .menu {
-      position-area: block-end span-inline-end;
-      position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
-      margin-block-start: 6px;
-      max-height: calc(100vh - 2rem);
-    }
-  }
-}
-
-/* Open and close with a short fade (and a small slide, motion allowing). */
-.menu {
-  opacity: 1;
-  transition: opacity 0.15s ease-out, display 0.15s, overlay 0.15s;
-  transition-behavior: allow-discrete;
-}
-.menu:not(:popover-open) { opacity: 0; }
-@starting-style { .menu:popover-open { opacity: 0; } }
-@media (prefers-reduced-motion: no-preference) {
-  .menu { transition: opacity 0.15s ease-out, translate 0.2s cubic-bezier(0.25, 1, 0.5, 1), display 0.2s, overlay 0.2s; transition-behavior: allow-discrete; }
-  .menu:not(:popover-open) { translate: 0 -4px; }
-  @starting-style { .menu:popover-open { translate: 0 -4px; } }
-}
-.menu::backdrop { overflow: hidden; overscroll-behavior: contain; }
 
 /* Summary tiles */
 
@@ -301,23 +254,9 @@ button.spec:hover { color: var(--accent); text-decoration: underline; }
   button.copy { margin-left: 0; }
   .segmented { width: 100%; }
   .segmented button { flex: 1; padding: 0 0.4rem; }
-  /* Menus become a bottom sheet. */
-  .menu {
-    inset: auto 0 0 0; width: 100%; max-width: none; max-height: 85vh;
-    border-radius: 16px 16px 0 0; border-bottom: 0; padding: 1rem 1rem calc(1rem + env(safe-area-inset-bottom));
-  }
-  .menu::backdrop { background: rgb(0 0 0 / 0.3); }
-  .menu-done {
-    display: block; width: 100%; margin-top: 0.75rem; height: 2.75rem;
-    border: 0; border-radius: 10px; background: var(--accent); color: var(--accent-ink); font-weight: 600;
-  }
   .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
   .tile { min-width: 0; }
   .tile-value { font-size: 1.625rem; }
   .by-spec .bar-col { display: none; }
 }
 
-@media (max-width: 640px) and (prefers-reduced-motion: no-preference) {
-  .menu:not(:popover-open) { translate: 0 1.5rem; }
-  @starting-style { .menu:popover-open { translate: 0 1.5rem; } }
-}

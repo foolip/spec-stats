@@ -583,7 +583,10 @@ filters.
 
 The filter bar is one row of same-sized controls (since 2026-11-18, after
 the maintainer found the first version hard to use): a Spec select, date
-presets with a Custom button, and "Copy link".
+presets, a Per select, and "Copy link". There's no control for custom
+dates (removed 2026-11-22: it didn't work on phones), but the URL still
+takes them (`range=2024-01-01..2026-11-17`), and "Copy link" writes the
+range as dates.
 
 - **Spec** is a native `<select>`: All specs, or one spec, the two
   common cases, each one choice (type-ahead works, and phones show their
@@ -591,14 +594,6 @@ presets with a Custom button, and "Copy link".
   spec in the by-spec table also selects it. The by-spec table is shown
   only when more than one spec is (since 2026-11-20): for one spec it
   would repeat the tiles.
-- **Custom** opens a native popover (the Popover API, in the top layer,
-  so the bar can't clip it or show through), placed under its button
-  with CSS anchor positioning (`position-area`, flipping at the
-  viewport's edges), or by a few lines of script where that isn't
-  supported (Firefox, in November 2026), and a bottom sheet on narrow
-  screens. It fades in and out (`@starting-style`), with a small slide
-  unless reduced motion is preferred. No polyfill: the Popover API has
-  been in every major browser since January 2025.
 - Patterns follow Modern Web Guidance (GoogleChrome/modern-web-guidance)
   where it covers them.
 

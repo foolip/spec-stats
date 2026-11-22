@@ -3,9 +3,8 @@
   // controller (src/controller.ts) finds by its data-control attributes
   // and runs, from before the first paint. One row of same-sized controls:
   // the spec as a native <select> (type-ahead works, and phones show their
-  // own picker), the date range as presets and a custom-dates menu (a
-  // native popover), the bars' period as a <select>, and "Copy link".
-  import { longDate } from "../lib/format.ts";
+  // own picker), the date range as presets, the bars' period as a
+  // <select>, and "Copy link".
   import { BIN_LABELS, PRESET_LABELS, PRESET_TITLES, type StateText } from "../lib/texts.ts";
   import { BIN_CHOICES, PRESETS, type Context, type State } from "../lib/url.ts";
 
@@ -19,7 +18,6 @@
 
   // In the order the build lists them (spec_order in specstats/build.py).
   const names = $derived(ctx.repoNames);
-  const custom = $derived("from" in state.range);
 </script>
 
 <div class="controls" role="group" aria-label="Filters">
@@ -39,22 +37,6 @@
       <button type="button" title={PRESET_TITLES[p]} aria-label={PRESET_TITLES[p]} data-preset={p}
         aria-pressed={"preset" in state.range && state.range.preset === p}>{PRESET_LABELS[p]}</button>
     {/each}
-    <button type="button" class="segment-menu" popovertarget="range-menu" aria-expanded="false"
-      data-control="custom" data-active={custom || undefined}>{text.customLabel}</button>
-    <div id="range-menu" popover="auto" class="menu" role="dialog" aria-label="Custom dates">
-      <div class="dates">
-        <label>
-          From
-          <input type="date" data-control="from" min={ctx.from} max={text.dates.to} value={text.dates.from} />
-        </label>
-        <label>
-          To
-          <input type="date" data-control="to" min={text.dates.from} max={ctx.to} value={text.dates.to} />
-        </label>
-      </div>
-      <p class="menu-note">Data runs from {longDate(ctx.from)} to {longDate(ctx.to)}.</p>
-      <button type="button" class="menu-done" popovertarget="range-menu" popovertargetaction="hide">Done</button>
-    </div>
   </div>
 
   <label class="select">
