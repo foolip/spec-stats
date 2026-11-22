@@ -64,11 +64,6 @@ function fromUrl(): State {
 
 let state = fromUrl();
 
-// A page shows one view. Only the site's root and 404.html, copies of the
-// default view, are served for another view's URL (an old link to the
-// root, reviews/nfc/): load that view's page instead.
-if (state.view !== config.view) location.replace(new URL(href(state), root));
-
 /** Show the state: the controls, the title, and whether the islands'
  * prerendered content is hidden. */
 function apply() {
@@ -102,8 +97,7 @@ function set(change: Partial<State>) {
   update({ ...state, ...change });
 }
 
-// The URL as it should be: old links rewritten, and anything not
-// understood dropped (url.ts).
+// The URL as it should be: anything not understood dropped (url.ts).
 update(state);
 addEventListener("popstate", () => update(fromUrl()));
 

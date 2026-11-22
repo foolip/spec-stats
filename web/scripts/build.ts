@@ -6,7 +6,7 @@
 // 4. The data file, ../build/data.json, as data-<hash>.json, so a page
 //    always loads the data it was rendered from.
 // 5. Every page: reviews/, reviews/<repo>/, issues/ and issues/<repo>/,
-//    the site's root and 404.html (copies of issues/, the default view).
+//    the site's root (a copy of issues/, the default view), and 404.html.
 //
 // SITE_BASE is the site's path on its host, which every page's links start
 // with: "/spec-stats/" (GitHub Pages) unless set.
@@ -46,7 +46,7 @@ await build({
   build: { outDir: join(tmp, "ssr"), emptyOutDir: true, manifest: false, ssr: "src/page.ts", rollupOptions: { input: "src/page.ts" } },
 });
 
-const { renderPage, paths } = (await import(pathToFileURL(join(tmp, "ssr", "page.js")).href)) as typeof import("../src/page.ts");
+const { renderPage, renderNotFound, paths } = (await import(pathToFileURL(join(tmp, "ssr", "page.js")).href)) as typeof import("../src/page.ts");
 const controller = readFileSync(join(tmp, "controller.js"), "utf-8").trim();
 const manifest = JSON.parse(readFileSync(join(dist, ".vite", "manifest.json"), "utf-8")) as Record<string, { file: string }>;
 const main = manifest["src/main.ts"].file;
@@ -67,7 +67,7 @@ function write(path: string, file = join(path, "index.html")) {
 const all = paths(raw);
 for (const path of all) write(path);
 write("");
-write(all[0], "404.html");
+writeFileSync(join(dist, "404.html"), renderNotFound({ root: siteBase, icon }));
 rmSync(tmp, { recursive: true });
 
 console.log(`dist/: ${all.length} pages, the site's root and 404.html, from ${DATA}; controller ${(controller.length / 1024).toFixed(1)} KB`);

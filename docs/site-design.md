@@ -350,16 +350,14 @@ The views are linked in that order: Issues, then Reviews.
   (`range=2024-01-01..2026-11-17`), so the link shows the same dates
   later (the figures are stable up to the data's small corrections).
 - **Unknown or invalid parameters are dropped quietly** and the URL
-  rewritten without them, so old links keep working as views change.
-  `from` and `to`, which held custom dates until 2026-11-20, are still
-  read and rewritten as `range`, and `?repo=html`, from before specs had
-  their own pages, as `reviews/html/`. The site's root with any of the
-  parameters links had before views had paths (`repo`, `range`, `from`,
-  …) is a link to the open PRs view, the only one then, so it goes to
-  `reviews/`, though the root is now the open issues view. An unknown
-  path gets `404.html`, a copy of `issues/`, which rewrites the URL to
-  `issues/`; an unknown spec under another view (`reviews/nfc/`) loads
-  that view's page (`reviews/`) instead.
+  rewritten without them.
+- **Paths that aren't pages get `404.html`**, a static "Page not found"
+  page (`src/NotFound.svelte`) linking to the views, with no script or
+  data: an unknown view or spec (`reviews/nfc/`, `nope/dom/`). GitHub
+  Pages serves it with status 404.
+- **Old links aren't kept working** (since 2026-11-22): nobody uses the
+  site yet, so the parameters of earlier URL designs (`repo`, `repos`,
+  `from`, `to`) are unknown parameters like any other.
 - **Views are linked under the site's name**, as tabs. Each link keeps
   the spec and the query string, so switching views keeps the filters;
   it loads the other view's prerendered page, and the data comes from
@@ -383,8 +381,8 @@ before the data file's compact layout, 2026-11-20).
   (`AREA_HEIGHT` and `BARS_HEIGHT` in `lib/chart.ts`). The CSS is
   inline, so the HTML, about 10 KB gzipped, is all the first paint
   needs; even the header's icon is in it, as a `data:` URL made from
-  `public/favicon.svg`. The site's root and `404.html` are copies of
-  `issues/`, the default view. Links are absolute paths from the site's root on its host,
+  `public/favicon.svg`. The site's root is a copy of `issues/`, the
+  default view, whose controller rewrites the URL to `issues/`. Links are absolute paths from the site's root on its host,
   `SITE_BASE`, `/spec-stats/` unless set, as `404.html` is served at
   any depth. (No `<base>`: it would make `#footer`, below, point at
   another page.)

@@ -16,11 +16,7 @@ test("the default view is issues/, with no query string", () => {
   // The site's root is the default view too.
   assert.deepEqual(parse("", "", ctx), DEFAULT);
   assert.equal(round(""), "issues/");
-  // Links to the root with a query string are from when the open PRs view
-  // was the only one.
-  assert.equal(round("?range=3y"), "reviews/?range=3y");
-  assert.equal(round("?bin=month"), "reviews/?bin=month");
-  assert.equal(round("?utm_source=x"), "issues/");
+  assert.equal(round("?range=3y"), "issues/?range=3y");
 });
 
 test("the view and spec are in the path, the rest in the query string", () => {
@@ -41,17 +37,12 @@ test("each view has its own path", () => {
   assert.equal(round("issues/html/?range=all&bin=month"), "issues/html/?range=all&bin=month");
   assert.equal(pagePath({ view: "open-issues", repo: null }), "issues/");
   assert.equal(pagePath({ view: "open-issues", repo: "url" }), "issues/url/");
-  // An unknown spec: the view's page for every spec.
-  assert.equal(round("issues/nfc/"), "issues/");
-  assert.equal(round("issues/?repo=dom"), "issues/dom/");
 });
 
-test("old ?repo= links go to the spec's page", () => {
-  assert.equal(round("?repo=html&range=3y"), "reviews/html/?range=3y");
-  assert.equal(round("reviews/?repo=dom"), "reviews/dom/");
-  assert.equal(round("?view=open-prs&repo=html"), "reviews/html/");
-  // The path wins over the query string.
-  assert.equal(round("reviews/url/?repo=dom"), "reviews/url/");
+test("every page's path is read back as itself", () => {
+  for (const view of ["issues", "reviews"]) {
+    for (const path of [`${view}/`, ...ctx.repoNames.map((r) => `${view}/${r}/`)]) assert.equal(round(path), path);
+  }
 });
 
 test("the bars' period is in the URL, auto by default", () => {
@@ -64,12 +55,8 @@ test("the bars' period is in the URL, auto by default", () => {
 
 test("unknown and invalid parameters are dropped", () => {
   assert.equal(round("reviews/html/?view=nope&range=7y&drafts=maybe&utm_source=x"), "reviews/html/");
-  assert.equal(round("reviews/nfc/"), "reviews/");
-  assert.equal(round("nope/html/"), "issues/html/");
-  // Lists and exclusions aren't supported: all repos.
-  assert.equal(round("?repo=dom,html"), "reviews/");
-  assert.equal(round("?repo=-html"), "reviews/");
-  assert.equal(round("?repos=html"), "reviews/");
+  // Old parameters are unknown too.
+  assert.equal(round("reviews/?repo=dom&from=2024-01-01&to=2026-11-17"), "reviews/");
   assert.equal(round("reviews/?range=2025-13-45..2026-01-01"), "reviews/");
   assert.equal(round("reviews/?range=2025-01-01"), "reviews/");
   assert.equal(round("reviews/?range=2025-01-01...2026-01-01"), "reviews/");
@@ -87,17 +74,6 @@ test("custom dates are written as in GitHub's search, * for an open end", () => 
   assert.equal(round("reviews/?range=2024-01-01..2024-01-01"), "reviews/?range=2024-01-01..2024-01-01");
   // Unencoded in the URL; encoded, as some tools write it, also read.
   assert.equal(round("reviews/?range=2024-01-01..%2A"), "reviews/?range=2024-01-01..2026-11-17");
-});
-
-test("old from and to links still work, rewritten to range", () => {
-  assert.equal(round("?repo=html&from=2024-01-01&to=2026-11-17"), "reviews/html/?range=2024-01-01..2026-11-17");
-  assert.equal(round("reviews/?from=2024-01-01"), "reviews/?range=2024-01-01..2026-11-17");
-  assert.equal(round("reviews/?to=2024-01-01"), "reviews/?range=2022-01-01..2024-01-01");
-  assert.equal(round("reviews/?from=2019-01-01&to=2030-01-01"), "reviews/?range=2022-01-01..2026-11-17");
-  // A valid range wins; invalid or backwards dates are dropped.
-  assert.equal(round("reviews/?range=3y&from=2024-01-01"), "reviews/?range=3y");
-  assert.equal(round("reviews/?from=2025-13-45"), "reviews/");
-  assert.equal(round("reviews/?from=2025-01-01&to=2024-01-01&range=1y"), "reviews/");
 });
 
 test("a state's repos", () => {

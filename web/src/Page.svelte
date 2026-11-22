@@ -5,11 +5,11 @@
   // (src/controller.ts) runs the URL and the controls, and main.ts mounts
   // the islands (src/islands/), one per section, once the data has loaded.
   import Controls from "./components/Controls.svelte";
+  import SiteHeader from "./components/SiteHeader.svelte";
   import { islands } from "./islands/index.ts";
   import { longDate } from "./lib/format.ts";
   import type { Model } from "./lib/model.svelte.ts";
-  import { VIEW_TEXT } from "./lib/texts.ts";
-  import { href, VIEWS } from "./lib/url.ts";
+  import { href } from "./lib/url.ts";
 
   interface Props {
     model: Model;
@@ -27,22 +27,9 @@
   const t = $derived(model.text);
 </script>
 
-<header class="site">
-  <div class="wrap">
-    <a class="brand" href={root}><img class="logo" src={icon} alt="" />spec-stats</a>
-    <p class="tagline">How the WHATWG’s Living Standards are maintained, from public GitHub data.</p>
-  </div>
-  <!-- Links to the other views keep the spec and the query string: the
-       controller updates them as the state changes. -->
-  <div class="wrap">
-    <nav class="views" aria-label="Views">
-      {#each VIEWS as v (v)}
-        <a href="{root}{href({ ...model.view, view: v })}" data-view={v}
-          aria-current={v === model.view.view ? "page" : undefined}>{VIEW_TEXT[v].title}</a>
-      {/each}
-    </nav>
-  </div>
-</header>
+<!-- Links to the other views keep the spec and the query string: the
+     controller updates them as the state changes. -->
+<SiteHeader {root} {icon} href={(view) => href({ ...model.view, view })} current={model.view.view} />
 
 <main class="wrap">
   <p class="notice" role="alert" data-error hidden></p>
