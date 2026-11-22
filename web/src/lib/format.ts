@@ -4,8 +4,7 @@
 // (docs/site-design.md, "Loading"). By hand, Node (which prerenders) and
 // every browser also give exactly the same text.
 
-/** The page's locale, matching `<html lang>` (src/page.ts), for what's
- * still formatted with Intl (bins.ts, in the islands only). */
+/** The page's locale, for `<html lang>` (src/page.ts). */
 export const LOCALE = "en-US";
 
 /** en-US's short month names. */
