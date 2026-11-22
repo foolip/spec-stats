@@ -22,8 +22,8 @@ export interface IslandProps {
 export const islands = {
   summary: Summary,
   openPanel: OpenPanel,
-  flowPanel: FlowPanel,
   openedPanel: OpenedPanel,
+  flowPanel: FlowPanel,
   bySpec: BySpec,
 } satisfies Record<string, Component<IslandProps>>;
 

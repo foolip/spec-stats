@@ -493,6 +493,21 @@ one above the other on the same time axis, over the last year by default:
   years, and one for every PR opened before them ("before 2022"). A layer
   only shrinks once its year is over, so clearing old PRs shows as its
   layer thinning. Drafts aren't counted, only PRs ready for review.
+- **PRs opened per period, by time to close** (since 2026-11-22), on the
+  same axis and periods as the merges (the third chart until it was moved
+  above them, the same day): each PR at the day it was created, split by its `hours_to_close`: closed within 1 week, closed
+  later, or still open (until 2026-11-22: within 1 day, in 1–7 days, or
+  open more than 7 days). A merge is a close. Of the 3,513 PRs opened
+  from 2022-01-01 to 2026-11-21, 61%, 26% and 13%; whatwg/html's 1,868,
+  54%, 31% and 14%. The bands are the same for issues, so the two compare.
+  - PRs opened in the window's last 7 days may still be closed within a
+    week, so periods ending in them are **provisional**: shaded like a
+    partial period, and marked "provisional" in the tooltip and the
+    table (`SETTLE_DAYS` in `lib/flow.ts`). After that only "closed
+    later" and "still open" change, as old PRs are closed, which they
+    never stop doing; that isn't marked.
+  - PRs opened before the window aren't counted.
+
 - **PRs merged per period, by time from ready for review to merge.**
   Stacked bars:
   - The split is within 1 day, 1–10 days, and more than 10 days, stacked
@@ -514,21 +529,6 @@ one above the other on the same time axis, over the last year by default:
     them, so they don't disappear into it.
   - Periods the range cuts short (the current week, or a range starting
     mid-week) are shaded and marked "partial". Days are always whole.
-
-- **PRs opened per period, by time to close** (since 2026-11-22), a
-  third chart on the same axis and periods: each PR at the day it was
-  created, split by its `hours_to_close`: closed within 1 week, closed
-  later, or still open (until 2026-11-22: within 1 day, in 1–7 days, or
-  open more than 7 days). A merge is a close. Of the 3,513 PRs opened
-  from 2022-01-01 to 2026-11-21, 61%, 26% and 13%; whatwg/html's 1,868,
-  54%, 31% and 14%. The bands are the same for issues, so the two compare.
-  - PRs opened in the window's last 7 days may still be closed within a
-    week, so periods ending in them are **provisional**: shaded like a
-    partial period, and marked "provisional" in the tooltip and the
-    table (`SETTLE_DAYS` in `lib/flow.ts`). After that only "closed
-    later" and "still open" change, as old PRs are closed, which they
-    never stop doing; that isn't marked.
-  - PRs opened before the window aren't counted.
 
 The area follows the bars' period (since 2026-11-20): it's drawn
 through the open count on the range's first day and at the end of each
@@ -555,6 +555,10 @@ the same controls, layout and colors:
   layers. Issues have no drafts, so every open issue counts. About half
   of the open issues (2,158 of 4,219 on 2026-11-20) were opened before
   2022, so the oldest layer is the largest.
+- **Issues opened per period, by time to close** (since 2026-11-22), as
+  for PRs: closed within 1 week, closed later, or still open. Of the
+  4,069 issues opened from 2022-01-01 to 2026-11-21, 24%, 26% and 51%;
+  whatwg/html's 2,608, 23%, 26% and 50%.
 - **Issues closed per period, by time open**, from creation to the last
   close: within 1 week, 1 week to 90 days, more than 90 days. For
   whatwg/html's 1,569 issues closed since 2022 those breaks give 39%,
@@ -562,10 +566,6 @@ the same controls, layout and colors:
   for near thirds. Every close counts, whatever its `state_reason`
   (completed, not planned or duplicate); an issue closed and later
   reopened isn't counted until it's closed again.
-- **Issues opened per period, by time to close** (since 2026-11-22), as
-  for PRs: closed within 1 week, closed later, or still open. Of the
-  4,069 issues opened from 2022-01-01 to 2026-11-21, 24%, 26% and 51%;
-  whatwg/html's 2,608, 23%, 26% and 50%.
 - The tiles: issues open at the end of the range, the change over it,
   and issues closed in it; and the by-spec table.
 
