@@ -621,8 +621,9 @@ gridlines, a real dark mode, and a sticky bar for the range and repo
 filters.
 
 The filter bar is one row of same-sized controls (since 2026-11-18, after
-the maintainer found the first version hard to use): a Spec select, date
-presets, and a Per select. There's no control for custom dates (removed
+the maintainer found the first version hard to use): a Spec select, a
+Range select (Last year, Last 3 years, All; buttons until 2026-11-23),
+and a Per select. There's no control for custom dates (removed
 2026-11-22: it didn't work on phones), and no "Copy link" button: the
 address bar is the link.
 
