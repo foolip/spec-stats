@@ -363,7 +363,10 @@ The views are linked in that order: Issues, then Reviews.
 - **Old links aren't kept working** (since 2026-11-22): nobody uses the
   site yet, so the parameters of earlier URL designs (`repo`, `repos`,
   `from`, `to`) are unknown parameters like any other.
-- **Views are linked under the site's name**, as tabs. Each link keeps
+- **Views are linked under the site's name**, as large tabs, and the
+  current tab is the view's only visible name: its `<h1>` is visually
+  hidden (since 2026-11-23), kept for screen readers and the document
+  outline, with the view's question below the tabs. Each link keeps
   the spec and the query string, so switching views keeps the filters.
   **Switching is in place** (since 2026-11-22): the controller handles
   the click (a plain click; with a modifier key it's an ordinary link),

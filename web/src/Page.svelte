@@ -34,8 +34,10 @@
 <main class="wrap">
   <p class="notice" role="alert" data-error hidden></p>
   <article class="view">
+    <!-- The view's name is the current tab; the heading is for screen
+         readers and the document outline. -->
     <hgroup>
-      <h1 data-control="title">{model.words.title}</h1>
+      <h1 class="visually-hidden" data-control="title">{model.words.title}</h1>
       <p class="question" data-control="question">{model.words.question}</p>
     </hgroup>
 
