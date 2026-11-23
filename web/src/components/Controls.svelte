@@ -4,7 +4,7 @@
   // and runs, from before the first paint. One row of same-sized controls:
   // the spec as a native <select> (type-ahead works, and phones show their
   // own picker), and the date range and the bars' period as <select>s too.
-  import { BIN_LABELS, PRESET_LABELS, type StateText } from "../lib/texts.ts";
+  import { BIN_LABELS, CUSTOM_LABEL, PRESET_LABELS, type StateText } from "../lib/texts.ts";
   import { BIN_CHOICES, PRESETS, rangePreset, type Context, type State } from "../lib/url.ts";
 
   interface Props {
@@ -40,7 +40,7 @@
         <option value={p} selected={preset === p}>{PRESET_LABELS[p]}</option>
       {/each}
       {#if preset === null}
-        <option value="" selected>{text.rangeLabel}</option>
+        <option value="" selected>{CUSTOM_LABEL}</option>
       {/if}
     </select>
   </label>

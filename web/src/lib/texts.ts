@@ -10,6 +10,9 @@ import { rangeDays, type Context, type Preset, type State, type View } from "./u
 
 export const BIN_LABELS: Record<Bin, string> = { day: "Day", week: "Week", month: "Month", quarter: "Quarter" };
 export const PRESET_LABELS: Record<Preset, string> = { all: "All", "3y": "Last 3 years", "1y": "Last year" };
+/** The Period menu's option for dates that are no choice's, as on GitHub's
+ * contributors graph; the tiles say which dates. */
+export const CUSTOM_LABEL = "Custom range";
 
 export interface StateText {
   /** First and last day of the range, inclusive, from ctx.from. */
@@ -24,16 +27,13 @@ export interface StateText {
   /** "ISO week", and "ISO week" as a column heading. */
   unit: string;
   unitTitle: string;
-  /** "Nov 20, 2025 – Nov 19, 2026", for dates that are no Period choice. */
-  rangeLabel: string;
   /** "Auto (week)" */
   autoLabel: string;
 }
 
 export function stateText(state: State, ctx: Context): StateText {
   const [start, end] = rangeDays(state.range, ctx);
-  const startDate = longDate(dateOf(ctx.from, start));
-  const endDate = longDate(dateOf(ctx.from, end));
+
   const auto = chooseBin(ctx.from, start, end);
   const bin = state.bin === "auto" ? auto : state.bin;
   const unit = UNIT[bin];
@@ -42,9 +42,8 @@ export function stateText(state: State, ctx: Context): StateText {
     end,
     bin,
     auto,
-    startDate,
-    endDate,
-    rangeLabel: `${startDate} – ${endDate}`,
+    startDate: longDate(dateOf(ctx.from, start)),
+    endDate: longDate(dateOf(ctx.from, end)),
     unit,
     unitTitle: unit[0].toUpperCase() + unit.slice(1),
     autoLabel: `Auto (${BIN_LABELS[auto].toLowerCase()})`,

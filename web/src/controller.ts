@@ -14,7 +14,7 @@
 // spec's name.
 
 import type { PageConfig } from "./lib/config.ts";
-import { heading, pageTitle, stateText, VIEW_TEXT } from "./lib/texts.ts";
+import { CUSTOM_LABEL, heading, pageTitle, stateText, VIEW_TEXT } from "./lib/texts.ts";
 import { href, parse, presetRange, rangePreset, type BinChoice, type Context, type Preset, type State, type View } from "./lib/url.ts";
 
 export interface Controller {
@@ -70,10 +70,9 @@ function apply() {
   repoSelect.value = state.repo ?? "";
   // Dates that are no Period choice get an option of their own.
   const preset = rangePreset(state.range, ctx);
-  let custom = rangeSelect.querySelector<HTMLOptionElement>('option[value=""]');
+  const custom = rangeSelect.querySelector<HTMLOptionElement>('option[value=""]');
   if (preset === null) {
-    custom ??= rangeSelect.appendChild(new Option("", ""));
-    custom.text = t.rangeLabel;
+    if (!custom) rangeSelect.add(new Option(CUSTOM_LABEL, ""));
   } else {
     custom?.remove();
   }

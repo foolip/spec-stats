@@ -355,7 +355,8 @@ The views are linked in that order: Issues, then Reviews.
   days after the data is updated. Only the default, the last year, moves
   with the data, so `/reviews/` always shows the latest year. Dates that
   are no choice's (a link from before an update) are shown in the Period
-  menu as an extra option, "Mar 1, 2024 – Feb 28, 2025".
+  menu as an extra option, "Custom range", as on GitHub; the tiles give
+  the dates.
 - **Unknown or invalid parameters are dropped quietly** and the URL
   rewritten without them.
 - **Paths that aren't pages get `404.html`**, a static "Page not found"
