@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { DEFAULT, href, pagePath, parse, query, rangeDays, selectedRepos, type Context } from "../src/lib/url.ts";
+import { DEFAULT, href, pagePath, parse, presetRange, query, rangeDays, rangePreset, selectedRepos, type Context } from "../src/lib/url.ts";
 
 const ctx: Context = { repoNames: ["dom", "fetch", "html", "url"], from: "2022-01-01", to: "2026-11-17" };
 
@@ -16,25 +16,28 @@ test("the default view is issues/, with no query string", () => {
   // The site's root is the default view too.
   assert.deepEqual(parse("", "", ctx), DEFAULT);
   assert.equal(round(""), "issues/");
-  assert.equal(round("?range=3y"), "issues/?range=3y");
+  assert.equal(round("?from=2024-01-01&to=2025-01-01"), "issues/?from=2024-01-01&to=2025-01-01");
 });
 
 test("the view and spec are in the path, the rest in the query string", () => {
   assert.equal(parse("reviews/html/", "", ctx).repo, "html");
-  assert.equal(round("reviews/html/?range=3y"), "reviews/html/?range=3y");
-  assert.equal(round("reviews/dom/?range=all&bin=month"), "reviews/dom/?range=all&bin=month");
+  assert.equal(round("reviews/html/?from=2024-01-01&to=2025-01-01"), "reviews/html/?from=2024-01-01&to=2025-01-01");
+  assert.equal(round("reviews/dom/?bin=month&to=2025-01-01&from=2022-01-01"), "reviews/dom/?from=2022-01-01&to=2025-01-01&bin=month");
   assert.equal(round("reviews/html"), "reviews/html/");
   assert.equal(pagePath({ view: "open-prs", repo: "url" }), "reviews/url/");
   assert.equal(query({ ...DEFAULT, repo: "url" }), "");
   // The default range, the last year, is left out.
-  assert.deepEqual(parse("reviews/dom/", "", ctx).range, "1y");
-  assert.equal(round("reviews/dom/?range=1y"), "reviews/dom/");
+  assert.equal(parse("reviews/dom/", "", ctx).range, null);
 });
 
 test("each view has its own path", () => {
   assert.equal(parse("issues/", "", ctx).view, "open-issues");
-  assert.deepEqual(parse("issues/html/", "?range=3y", ctx), { ...DEFAULT, view: "open-issues", repo: "html", range: "3y" });
-  assert.equal(round("issues/html/?range=all&bin=month"), "issues/html/?range=all&bin=month");
+  assert.deepEqual(parse("issues/html/", "?from=2024-01-01&to=2025-01-01", ctx), {
+    ...DEFAULT,
+    view: "open-issues",
+    repo: "html",
+    range: { from: "2024-01-01", to: "2025-01-01" },
+  });
   assert.equal(pagePath({ view: "open-issues", repo: null }), "issues/");
   assert.equal(pagePath({ view: "open-issues", repo: "url" }), "issues/url/");
 });
@@ -56,10 +59,32 @@ test("the bars' period is in the URL, auto by default", () => {
 test("unknown and invalid parameters are dropped", () => {
   assert.equal(round("reviews/html/?view=nope&range=7y&drafts=maybe&utm_source=x"), "reviews/html/");
   // Old parameters are unknown too.
-  assert.equal(round("reviews/?repo=dom&from=2024-01-01&to=2026-11-17"), "reviews/");
-  // Dates were read until 2026-11-22; now they're dropped too.
+  assert.equal(round("reviews/?repo=dom"), "reviews/");
   assert.equal(round("reviews/?range=2024-01-01..2026-11-17"), "reviews/");
-  assert.equal(round("reviews/?range=2024-01-01..*"), "reviews/");
+  assert.equal(round("reviews/?range=3y"), "reviews/");
+  // Invalid or backwards dates: the default.
+  assert.equal(round("reviews/?from=2025-13-45&to=2026-01-01"), "reviews/");
+  assert.equal(round("reviews/?from=2025-01-01&to=soon"), "reviews/");
+  assert.equal(round("reviews/?from=2025-01-01&to=2024-01-01"), "reviews/");
+});
+
+test("dates are from and to, as on GitHub; an end left out is the window's", () => {
+  assert.equal(round("reviews/?from=2024-01-01"), "reviews/?from=2024-01-01&to=2026-11-17");
+  assert.equal(round("reviews/?to=2024-01-01"), "reviews/?from=2022-01-01&to=2024-01-01");
+  assert.equal(round("reviews/?from=2024-01-01&to=2024-01-01"), "reviews/?from=2024-01-01&to=2024-01-01");
+  // Out of the window: clamped to it.
+  assert.equal(round("reviews/?from=2019-01-01&to=2030-01-01"), "reviews/?from=2022-01-01&to=2026-11-17");
+});
+
+test("the Period choices set dates, except the default", () => {
+  assert.equal(presetRange("1y", ctx), null);
+  assert.deepEqual(presetRange("3y", ctx), { from: "2023-11-18", to: "2026-11-17" });
+  assert.deepEqual(presetRange("all", ctx), { from: "2022-01-01", to: "2026-11-17" });
+  for (const p of ["1y", "3y", "all"] as const) assert.equal(rangePreset(presetRange(p, ctx), ctx), p);
+  // The last year's dates, fixed, are still that choice.
+  assert.equal(rangePreset({ from: "2025-11-18", to: "2026-11-17" }, ctx), "1y");
+  // Dates from before the data was updated are no choice.
+  assert.equal(rangePreset({ from: "2023-11-17", to: "2026-11-16" }, ctx), null);
 });
 
 test("a state's repos", () => {
@@ -69,12 +94,12 @@ test("a state's repos", () => {
 });
 
 test("presets are relative to the end of the window", () => {
-  const last = rangeDays("all", ctx)[1];
+  const last = rangeDays(presetRange("all", ctx), ctx)[1];
   assert.equal(last, 1781);
-  const [a, b] = rangeDays("1y", ctx);
+  const [a, b] = rangeDays(null, ctx);
   assert.equal(b, last);
   assert.equal(b - a + 1, 365);
-  const [c, d] = rangeDays("3y", ctx);
+  const [c, d] = rangeDays(presetRange("3y", ctx), ctx);
   assert.equal(d, last);
   // 2023-11-18 to 2025-11-18, across 2024-02-29.
   assert.equal(a - c, 366 + 365);

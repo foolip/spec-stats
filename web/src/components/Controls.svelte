@@ -3,10 +3,9 @@
   // controller (src/controller.ts) finds by its data-control attributes
   // and runs, from before the first paint. One row of same-sized controls:
   // the spec as a native <select> (type-ahead works, and phones show their
-  // own picker), the date range as presets, and the bars' period as a
-  // <select>.
-  import { BIN_LABELS, PRESET_LABELS, PRESET_TITLES, type StateText } from "../lib/texts.ts";
-  import { BIN_CHOICES, PRESETS, type Context, type State } from "../lib/url.ts";
+  // own picker), and the date range and the bars' period as <select>s too.
+  import { BIN_LABELS, CUSTOM_LABEL, PRESET_LABELS, type StateText } from "../lib/texts.ts";
+  import { BIN_CHOICES, PRESETS, rangePreset, type Context, type State } from "../lib/url.ts";
 
   interface Props {
     state: State;
@@ -18,6 +17,8 @@
 
   // In the order the build lists them (spec_order in specstats/build.py).
   const names = $derived(ctx.repoNames);
+  // Null for dates that are no choice's, shown as an extra option.
+  const preset = $derived(rangePreset(state.range, ctx));
 </script>
 
 <div class="controls" role="group" aria-label="Filters">
@@ -32,12 +33,17 @@
     </select>
   </label>
 
-  <div class="segmented" role="group" aria-label="Date range">
-    {#each PRESETS as p (p)}
-      <button type="button" title={PRESET_TITLES[p]} aria-label={PRESET_TITLES[p]} data-preset={p}
-        aria-pressed={state.range === p}>{PRESET_LABELS[p]}</button>
-    {/each}
-  </div>
+  <label class="select">
+    <span class="menu-label">Period</span>
+    <select data-control="range">
+      {#each PRESETS as p (p)}
+        <option value={p} selected={preset === p}>{PRESET_LABELS[p]}</option>
+      {/each}
+      {#if preset === null}
+        <option value="" selected>{CUSTOM_LABEL}</option>
+      {/if}
+    </select>
+  </label>
 
   <label class="select">
     <span class="menu-label">Per</span>

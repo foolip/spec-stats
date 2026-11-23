@@ -153,14 +153,14 @@ button, input, summary { font: inherit; color: inherit; }
 button { cursor: pointer; }
 button:disabled { cursor: default; }
 
-/* One control height and shape for every button in the bar. */
-.segmented, .select {
+/* One control height and shape for every control in the bar. */
+.select {
   height: 2rem; border: 1px solid var(--rule); border-radius: 8px; background: var(--surface);
   font-size: 0.875rem;
 }
 .menu-label { color: var(--ink-2); }
 
-/* The spec select: the label and a native select inside one control. */
+/* A select: the label and a native select inside one control. */
 .select { position: relative; display: inline-flex; align-items: center; gap: 0.4rem; padding: 0 0 0 0.7rem; cursor: pointer; }
 .select:hover { border-color: var(--ink-3); }
 .select:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
@@ -175,13 +175,6 @@ button:disabled { cursor: default; }
 }
 .select option { color: var(--ink); background: var(--tooltip-bg); }
 
-.segmented { display: inline-flex; align-items: stretch; max-width: 100%; overflow-x: auto; scrollbar-width: none; padding: 2px; gap: 2px; }
-.segmented button {
-  border: 0; background: none; padding: 0 0.6rem; border-radius: 6px;
-  font-size: 0.875rem; color: var(--ink-2); white-space: nowrap; font-variant-numeric: tabular-nums;
-}
-.segmented button:hover { color: var(--ink); }
-.segmented button[aria-pressed="true"] { background: var(--bg); color: var(--ink); font-weight: 600; box-shadow: 0 0 0 1px var(--rule); }
 
 /* Summary tiles */
 
@@ -250,8 +243,6 @@ button.spec:hover { color: var(--accent); text-decoration: underline; }
 
 @media (max-width: 640px) {
   .controls { position: static; }
-  .segmented { width: 100%; }
-  .segmented button { flex: 1; padding: 0 0.4rem; }
   .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
   .tile { min-width: 0; }
   .tile-value { font-size: 1.625rem; }

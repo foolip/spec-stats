@@ -9,8 +9,10 @@ import { longDate } from "./format.ts";
 import { rangeDays, type Context, type Preset, type State, type View } from "./url.ts";
 
 export const BIN_LABELS: Record<Bin, string> = { day: "Day", week: "Week", month: "Month", quarter: "Quarter" };
-export const PRESET_LABELS: Record<Preset, string> = { all: "All", "3y": "3 yrs", "1y": "1 yr" };
-export const PRESET_TITLES: Record<Preset, string> = { all: "All", "3y": "3 years", "1y": "1 year" };
+export const PRESET_LABELS: Record<Preset, string> = { all: "All", "3y": "Last 3 years", "1y": "Last year" };
+/** The Period menu's option for dates that are no choice's, as on GitHub's
+ * contributors graph; the tiles say which dates. */
+export const CUSTOM_LABEL = "Custom range";
 
 export interface StateText {
   /** First and last day of the range, inclusive, from ctx.from. */
@@ -31,6 +33,7 @@ export interface StateText {
 
 export function stateText(state: State, ctx: Context): StateText {
   const [start, end] = rangeDays(state.range, ctx);
+
   const auto = chooseBin(ctx.from, start, end);
   const bin = state.bin === "auto" ? auto : state.bin;
   const unit = UNIT[bin];

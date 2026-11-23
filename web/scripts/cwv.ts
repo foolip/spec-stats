@@ -51,7 +51,7 @@ function check(ok: boolean, message: string) {
 
 // The URLs checked: each kind of page, and links with a query string, which
 // load a page prerendered for other values; both views.
-const URLS = ["issues/", "reviews/html/", "reviews/?range=3y&bin=month", "reviews/dom/?range=all"];
+const URLS = ["issues/", "reviews/html/", "reviews/?from=2024-01-01&bin=month", "reviews/dom/?from=2022-01-01"];
 
 const TYPES: Record<string, string> = {
   ".html": "text/html",
@@ -120,7 +120,7 @@ async function open(browser: Browser, viewport: { width: number; height: number 
       for (const e of list.getEntries() as (PerformanceEntry & { interactionId: number; target: Element | null })[]) {
         if (e.interactionId && e.duration > cwv.inp) {
           const t = e.target as HTMLElement | null;
-          [cwv.inp, cwv.inpOn] = [e.duration, `${e.name} on ${t?.dataset.control ?? t?.dataset.preset ?? t?.textContent?.trim().slice(0, 20) ?? "?"}`];
+          [cwv.inp, cwv.inpOn] = [e.duration, `${e.name} on ${t?.dataset.control ?? t?.textContent?.trim().slice(0, 20) ?? "?"}`];
         }
       }
     }).observe({ type: "event", durationThreshold: 16, buffered: true } as PerformanceObserverInit); // durationThreshold: Event Timing
@@ -137,15 +137,18 @@ const result = (page: Page) =>
   page.evaluate(() => (window as unknown as { cwv: { cls: number; shifts: string[]; lcp: number; inp: number; inpOn: string } }).cwv);
 
 /** Every control once, with real input: both views' links (switching in
- * place), the date presets, both selects by keyboard, and a spec in the
+ * place), every range, the selects by keyboard, and a spec in the
  * by-spec table. */
 async function useControls(page: Page) {
   for (const view of ["open-prs", "open-issues"]) {
     await page.locator(`a[data-view="${view}"]`).click();
     await page.waitForTimeout(600);
   }
-  for (const preset of ["all", "3y", "1y"]) {
-    await page.locator(`[data-preset="${preset}"]`).click();
+  // Every range, by keyboard (selectOption's events aren't input, so the
+  // shifts after them would count): 3 years, All, 3 years, 1 year.
+  await page.locator('[data-control="range"]').focus();
+  for (const key of ["ArrowDown", "ArrowDown", "ArrowUp", "ArrowUp"]) {
+    await page.keyboard.press(key);
     await page.waitForTimeout(600);
   }
   for (const select of await page.locator("select").all()) {
