@@ -662,5 +662,5 @@ The site's icon, `web/public/favicon.svg`, is drawn the way the WHATWG's
 spec logos are (`resources.whatwg.org/logo-*.svg`): a 100×100 viewBox, a
 white circle (r=45) with a 10-wide `#3c790a` ring, and one solid green
 glyph, here three rising bars. It's an icon of the same family, not the
-WHATWG logo itself. The header shows the same file before the site's name,
-so it keeps its white circle in dark mode too.
+WHATWG logo itself. The header shows the same file at its top right, across
+from the site's name, so it keeps its white circle in dark mode too.

@@ -1,5 +1,6 @@
 <script lang="ts">
-  // The site's header, on every page: its name and icon, and the links to
+  // The site's header, on every page: its name, its icon at the top right,
+  // and the links to
   // the views. On a view's page, the controller switches views in place
   // when they're clicked.
   import { VIEW_TEXT } from "../lib/texts.ts";
@@ -19,9 +20,12 @@
 </script>
 
 <header class="site">
-  <div class="wrap">
-    <a class="brand" href={root}><img class="logo" src={icon} alt="" />spec-stats</a>
-    <p class="tagline">How the WHATWG’s Living Standards are maintained, from public GitHub data.</p>
+  <div class="wrap masthead">
+    <div class="name">
+      <a class="brand" href={root}>Living Standard Stats</a>
+      <p class="tagline">How the WHATWG’s Living Standards are maintained, from public GitHub data.</p>
+    </div>
+    <img class="logo" src={icon} alt="" />
   </div>
   <div class="wrap">
     <nav class="views" aria-label="Views">

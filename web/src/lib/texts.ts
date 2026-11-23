@@ -75,9 +75,9 @@ export const VIEW_TEXT: Record<View, ViewText> = {
   },
 };
 
-/** "HTML · Reviews · spec-stats" */
+/** "HTML · Reviews · Living Standard Stats" */
 export function pageTitle(view: View, standard: string | null): string {
-  return `${standard ? `${standard} · ` : ""}${VIEW_TEXT[view].title} · spec-stats`;
+  return `${standard ? `${standard} · ` : ""}${VIEW_TEXT[view].title} · Living Standard Stats`;
 }
 
 /** "Merged", for a column heading. */

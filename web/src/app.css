@@ -85,13 +85,15 @@ a:hover { text-decoration-thickness: 2px; }
 /* Header and footer */
 
 header.site { border-top: 4px solid var(--accent); padding: 1.25rem 0 0.5rem; }
-header.site .wrap { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 1rem; }
+/* The site's name and tagline, with its icon at the top right. */
+.masthead { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.masthead .name { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 1rem; }
 .brand {
-  font-weight: 700; font-size: 1.125rem; letter-spacing: -0.01em;
+  font-weight: 700; font-size: clamp(1.375rem, 4vw, 1.875rem); line-height: 1.2; letter-spacing: -0.02em;
   color: var(--ink); text-decoration: none;
 }
-/* The site icon, public/favicon.svg, relative to the page (base "./"). */
-.brand .logo { width: 1.5em; height: 1.5em; margin-right: 0.4em; vertical-align: -0.4em; }
+/* The site icon, public/favicon.svg, as a data: URL. */
+.masthead .logo { flex: none; width: 2.75rem; height: 2.75rem; }
 .tagline { margin: 0; color: var(--ink-2); font-size: 0.9375rem; }
 
 /* Links to the views, as tabs under the site's name. */

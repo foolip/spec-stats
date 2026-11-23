@@ -102,7 +102,7 @@ export function renderNotFound(o: Pick<PageOptions, "root" | "icon">): string {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<title>Page not found · spec-stats</title>
+<title>Page not found · Living Standard Stats</title>
 <link rel="icon" href="${o.root}favicon.svg" type="image/svg+xml">
 <style>${css}</style>
 </head>

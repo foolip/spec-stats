@@ -202,6 +202,7 @@ removed on 2026-11-14 (decisions log); its last version is at commit
 | 2026-11-22 | **The opened chart comes before the merges (or closes) chart** in both views: open, then opened, then merged or closed | Maintainer's request. Items are opened before they're closed, so the charts read in that order |
 | 2026-11-22 | **The date range presets are listed 1 year, 3 years, All**, shortest first (were All, 3 years, 1 year); the default, 1 year, comes first | Maintainer's request |
 | 2026-11-23 | **The view tabs are the view's visible name**: the "Issues" and "Reviews" headings below the tabs are visually hidden (still the page's `<h1>`, for screen readers and the outline), and the tabs are larger (1.25–1.5rem, was 0.9375rem, with a 3 px underline) | Maintainer's request: the heading repeated the current tab. Hidden rather than removed so the page keeps a top-level heading |
+| 2026-11-23 | **The site is named "Living Standard Stats"** in its header and page titles ("HTML · Reviews · Living Standard Stats"); the header's name is larger (1.375–1.875rem, was 1.125rem), and the icon moves from before the name to the header's top right, at 2.75rem. The repository, the GitHub Pages path (`/spec-stats/`) and the docs keep the name spec-stats | Maintainer's request |
 
 ## Status
 
