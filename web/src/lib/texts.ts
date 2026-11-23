@@ -24,12 +24,16 @@ export interface StateText {
   /** "ISO week", and "ISO week" as a column heading. */
   unit: string;
   unitTitle: string;
+  /** "Nov 20, 2025 – Nov 19, 2026", for dates that are no Period choice. */
+  rangeLabel: string;
   /** "Auto (week)" */
   autoLabel: string;
 }
 
 export function stateText(state: State, ctx: Context): StateText {
   const [start, end] = rangeDays(state.range, ctx);
+  const startDate = longDate(dateOf(ctx.from, start));
+  const endDate = longDate(dateOf(ctx.from, end));
   const auto = chooseBin(ctx.from, start, end);
   const bin = state.bin === "auto" ? auto : state.bin;
   const unit = UNIT[bin];
@@ -38,8 +42,9 @@ export function stateText(state: State, ctx: Context): StateText {
     end,
     bin,
     auto,
-    startDate: longDate(dateOf(ctx.from, start)),
-    endDate: longDate(dateOf(ctx.from, end)),
+    startDate,
+    endDate,
+    rangeLabel: `${startDate} – ${endDate}`,
     unit,
     unitTitle: unit[0].toUpperCase() + unit.slice(1),
     autoLabel: `Auto (${BIN_LABELS[auto].toLowerCase()})`,

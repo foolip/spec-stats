@@ -15,7 +15,7 @@
 
 import type { PageConfig } from "./lib/config.ts";
 import { heading, pageTitle, stateText, VIEW_TEXT } from "./lib/texts.ts";
-import { href, parse, type BinChoice, type Context, type Preset, type State, type View } from "./lib/url.ts";
+import { href, parse, presetRange, rangePreset, type BinChoice, type Context, type Preset, type State, type View } from "./lib/url.ts";
 
 export interface Controller {
   readonly state: State;
@@ -68,7 +68,16 @@ let state = fromUrl();
 function apply() {
   const t = stateText(state, ctx);
   repoSelect.value = state.repo ?? "";
-  rangeSelect.value = state.range;
+  // Dates that are no Period choice get an option of their own.
+  const preset = rangePreset(state.range, ctx);
+  let custom = rangeSelect.querySelector<HTMLOptionElement>('option[value=""]');
+  if (preset === null) {
+    custom ??= rangeSelect.appendChild(new Option("", ""));
+    custom.text = t.rangeLabel;
+  } else {
+    custom?.remove();
+  }
+  rangeSelect.value = preset ?? "";
   binSelect.value = state.bin;
   binSelect.options[0].text = t.autoLabel;
   // The views, with the same spec and query string.
@@ -104,7 +113,9 @@ update(state);
 addEventListener("popstate", () => update(fromUrl()));
 
 repoSelect.addEventListener("change", () => set({ repo: repoSelect.value || null }));
-rangeSelect.addEventListener("change", () => set({ range: rangeSelect.value as Preset }));
+rangeSelect.addEventListener("change", () => {
+  if (rangeSelect.value) set({ range: presetRange(rangeSelect.value as Preset, ctx) });
+});
 binSelect.addEventListener("change", () => set({ bin: binSelect.value as BinChoice }));
 for (const a of viewLinks) {
   a.addEventListener("click", (e) => {

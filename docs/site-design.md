@@ -321,8 +321,8 @@ view and the spec are in the path, each with its own prerendered page
 page); the rest is in the query string.
 
 ```
-/reviews/html/?range=3y
-/reviews/dom/?range=all
+/reviews/html/?from=2023-11-22&to=2026-11-21
+/reviews/dom/?from=2022-01-01&to=2026-11-21
 ```
 
 `web/src/lib/url.ts` parses and writes it, relative to the site's root
@@ -338,7 +338,7 @@ The views are linked in that order: Issues, then Reviews.
 
 | Parameter | Values | Default |
 |---|---|---|
-| `range` | `all`, `3y`, `1y`, counted back from the window's end (dates, `2024-01-01..2026-11-17`, until 2026-11-22) | `1y` |
+| `from`, `to` | the first and last day, `2024-01-01`, as on GitHub's contributors graph; an end left out is the window's, and dates outside it are clamped to it (`range`, a preset, 2026-11-22 to 2026-11-23) | the last year, counted back from the window's end |
 | `bin` | `day`, `week` (ISO), `month`, `quarter`: the period of the bars, and of the points the open PRs are drawn at | `auto` |
 
 - **Defaults are left out**, so `/reviews/` is a whole link.
@@ -347,13 +347,15 @@ The views are linked in that order: Issues, then Reviews.
   so dragging a range doesn't fill the back button. **Changing view**
   adds one (`pushState`), so Back returns to the previous chart.
   `popstate` re-reads the URL.
-- **Parameters mean the same in every view** that uses them (`range`,
-  `window`), and so does the spec in the path, so switching views keeps
+- **Parameters mean the same in every view** that uses them (`from`,
+  `to`, `bin`), and so does the spec in the path, so switching views keeps
   the filters.
-- **Relative dates only.** Presets write `range=3y`, which moves with
-  the data, so a link shows the latest dates when it's opened. Fixed
-  dates, and the "Copy link" button that wrote them, were removed on
-  2026-11-22.
+- **Fixed dates, as on GitHub** (since 2026-11-23): the Period choices
+  other than the default write their dates, so a link shows the same
+  days after the data is updated. Only the default, the last year, moves
+  with the data, so `/reviews/` always shows the latest year. Dates that
+  are no choice's (a link from before an update) are shown in the Period
+  menu as an extra option, "Mar 1, 2024 – Feb 28, 2025".
 - **Unknown or invalid parameters are dropped quietly** and the URL
   rewritten without them.
 - **Paths that aren't pages get `404.html`**, a static "Page not found"
@@ -362,7 +364,7 @@ The views are linked in that order: Issues, then Reviews.
   Pages serves it with status 404.
 - **Old links aren't kept working** (since 2026-11-22): nobody uses the
   site yet, so the parameters of earlier URL designs (`repo`, `repos`,
-  `from`, `to`) are unknown parameters like any other.
+  `range`) are unknown parameters like any other.
 - **The header is laid out as a standard's** (since 2026-11-23): the
   page's `<h1>`, large and green, is the spec's name ("DOM"), or "WHATWG"
   for all specs; under it, in green, "Living Statistics — Last Updated
@@ -622,7 +624,7 @@ filters.
 
 The filter bar is one row of same-sized controls (since 2026-11-18, after
 the maintainer found the first version hard to use): a Spec select, a
-Range select (Last year, Last 3 years, All; buttons until 2026-11-23),
+Period select (Last year, Last 3 years, All; buttons until 2026-11-23),
 and a Per select. There's no control for custom dates (removed
 2026-11-22: it didn't work on phones), and no "Copy link" button: the
 address bar is the link.

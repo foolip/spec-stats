@@ -5,7 +5,7 @@
   // the spec as a native <select> (type-ahead works, and phones show their
   // own picker), and the date range and the bars' period as <select>s too.
   import { BIN_LABELS, PRESET_LABELS, type StateText } from "../lib/texts.ts";
-  import { BIN_CHOICES, PRESETS, type Context, type State } from "../lib/url.ts";
+  import { BIN_CHOICES, PRESETS, rangePreset, type Context, type State } from "../lib/url.ts";
 
   interface Props {
     state: State;
@@ -17,6 +17,8 @@
 
   // In the order the build lists them (spec_order in specstats/build.py).
   const names = $derived(ctx.repoNames);
+  // Null for dates that are no choice's, shown as an extra option.
+  const preset = $derived(rangePreset(state.range, ctx));
 </script>
 
 <div class="controls" role="group" aria-label="Filters">
@@ -32,11 +34,14 @@
   </label>
 
   <label class="select">
-    <span class="menu-label">Range</span>
+    <span class="menu-label">Period</span>
     <select data-control="range">
       {#each PRESETS as p (p)}
-        <option value={p} selected={state.range === p}>{PRESET_LABELS[p]}</option>
+        <option value={p} selected={preset === p}>{PRESET_LABELS[p]}</option>
       {/each}
+      {#if preset === null}
+        <option value="" selected>{text.rangeLabel}</option>
+      {/if}
     </select>
   </label>
 
