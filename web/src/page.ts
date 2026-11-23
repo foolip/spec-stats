@@ -75,6 +75,7 @@ export function renderPage(raw: RawData, o: PageOptions): string {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#3c790a">
 <title>${pageTitle(state.view, r < 0 ? null : data.repos.standard[r])}</title>
 <meta name="description" content="How WHATWG specs are maintained, from public GitHub data.">
 <link rel="icon" href="${o.root}favicon.svg" type="image/svg+xml">
@@ -102,7 +103,8 @@ export function renderNotFound(o: Pick<PageOptions, "root" | "icon">): string {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<title>Page not found · spec-stats</title>
+<meta name="theme-color" content="#3c790a">
+<title>Page not found · WHATWG Living Statistics</title>
 <link rel="icon" href="${o.root}favicon.svg" type="image/svg+xml">
 <style>${css}</style>
 </head>

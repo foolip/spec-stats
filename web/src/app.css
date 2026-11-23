@@ -84,22 +84,29 @@ a:hover { text-decoration-thickness: 2px; }
 
 /* Header and footer */
 
-header.site { border-top: 4px solid var(--accent); padding: 1.25rem 0 0.5rem; }
-header.site .wrap { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 1rem; }
-.brand {
-  font-weight: 700; font-size: 1.125rem; letter-spacing: -0.01em;
-  color: var(--ink); text-decoration: none;
+header.site { padding: 1.25rem 0 0.5rem; }
+/* As the WHATWG's standards' headers: a large green title, a green
+   subtitle, and the icon at the top right. */
+.masthead { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.masthead h1 {
+  margin: 0; color: var(--accent); font-weight: 700;
+  font-size: clamp(2.75rem, 10vw, 4rem); line-height: 1.1; letter-spacing: -0.01em;
 }
-/* The site icon, public/favicon.svg, relative to the page (base "./"). */
-.brand .logo { width: 1.5em; height: 1.5em; margin-right: 0.4em; vertical-align: -0.4em; }
-.tagline { margin: 0; color: var(--ink-2); font-size: 0.9375rem; }
+.subtitle {
+  margin: 0.375rem 0 0; color: var(--accent); font-weight: 700;
+  font-size: clamp(1.25rem, 3.5vw, 1.5rem); line-height: 1.25;
+}
+/* The site icon, public/favicon.svg, as a data: URL. */
+.masthead .logo { flex: none; line-height: 0; }
+.masthead .logo img { width: clamp(4rem, 16vw, 5.5rem); height: clamp(4rem, 16vw, 5.5rem); }
 
 /* Links to the views, as tabs under the site's name. */
-.views { flex: 1; display: flex; gap: 1.25rem; margin-top: 0.75rem; border-bottom: 1px solid var(--rule); }
+.views { flex: 1; display: flex; gap: 2rem; margin-top: 1rem; border-bottom: 1px solid var(--rule); }
 .views a {
-  padding: 0.375rem 0; margin-bottom: -1px;
-  color: var(--ink-2); text-decoration: none; font-weight: 600; font-size: 0.9375rem;
-  border-bottom: 2px solid transparent;
+  padding: 0.5rem 0; margin-bottom: -1px;
+  color: var(--ink-2); text-decoration: none; font-weight: 600;
+  font-size: clamp(1.25rem, 3vw, 1.5rem); letter-spacing: -0.01em;
+  border-bottom: 3px solid transparent;
 }
 .views a:hover { color: var(--ink); }
 .views a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--accent); }
@@ -125,8 +132,9 @@ main { display: flow-root; min-height: 100vh; }
 
 /* A view */
 
-.view hgroup { margin: 2rem 0 1.25rem; }
-.view h1 { font-size: clamp(1.75rem, 4vw, 2.25rem); line-height: 1.15; letter-spacing: -0.02em; margin: 0; }
+.view > .question { margin: 1.25rem 0; }
+.view hgroup { margin: 1.25rem 0; }
+.view hgroup h2 { font-size: clamp(1.75rem, 4vw, 2.25rem); line-height: 1.15; letter-spacing: -0.02em; }
 .question { margin: 0.4rem 0 0; color: var(--ink-2); font-size: 1.0625rem; max-width: 40rem; }
 
 h2 { font-size: 1rem; margin: 0; letter-spacing: -0.005em; }

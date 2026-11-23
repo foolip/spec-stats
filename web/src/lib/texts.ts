@@ -75,9 +75,15 @@ export const VIEW_TEXT: Record<View, ViewText> = {
   },
 };
 
-/** "HTML · Reviews · spec-stats" */
+/** The header's title: the spec's standard, "DOM", or for all specs,
+ * "WHATWG". */
+export function heading(standard: string | null): string {
+  return standard ?? "WHATWG";
+}
+
+/** "DOM Living Statistics · Reviews", "WHATWG Living Statistics · Issues" */
 export function pageTitle(view: View, standard: string | null): string {
-  return `${standard ? `${standard} · ` : ""}${VIEW_TEXT[view].title} · spec-stats`;
+  return `${heading(standard)} Living Statistics · ${VIEW_TEXT[view].title}`;
 }
 
 /** "Merged", for a column heading. */

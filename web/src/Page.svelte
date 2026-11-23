@@ -7,6 +7,7 @@
   import Controls from "./components/Controls.svelte";
   import SiteHeader from "./components/SiteHeader.svelte";
   import { islands } from "./islands/index.ts";
+  import { heading } from "./lib/texts.ts";
   import { longDate } from "./lib/format.ts";
   import type { Model } from "./lib/model.svelte.ts";
   import { href } from "./lib/url.ts";
@@ -25,19 +26,19 @@
   }
   let { model, root, icon, controller }: Props = $props();
   const t = $derived(model.text);
+  const r = $derived(model.view.repo === null ? -1 : model.data.repos.name.indexOf(model.view.repo));
 </script>
 
 <!-- Links to the other views keep the spec and the query string: the
      controller updates them as the state changes. -->
-<SiteHeader {root} {icon} href={(view) => href({ ...model.view, view })} current={model.view.view} />
+<SiteHeader {root} {icon} href={(view) => href({ ...model.view, view })} current={model.view.view}
+  title={heading(r < 0 ? null : model.data.repos.standard[r])} updated={model.data.to} />
 
 <main class="wrap">
   <p class="notice" role="alert" data-error hidden></p>
   <article class="view">
-    <hgroup>
-      <h1 data-control="title">{model.words.title}</h1>
-      <p class="question" data-control="question">{model.words.question}</p>
-    </hgroup>
+    <!-- The view's name is the current tab. -->
+    <p class="question" data-control="question">{model.words.question}</p>
 
     <Controls state={model.view} text={t} ctx={model.ctx} standards={model.data.repos.standard} />
 

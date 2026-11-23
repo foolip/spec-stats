@@ -10,10 +10,11 @@
 // isn't the one the page was prerendered for, the islands are hidden
 // (`data-pending`), keeping their space. Switching views happens here too,
 // without loading a page: the view links push a history entry, and the
-// view's title and question are set from lib/texts.ts.
+// view's question is set from lib/texts.ts, and the header's title is the
+// spec's name.
 
 import type { PageConfig } from "./lib/config.ts";
-import { pageTitle, stateText, VIEW_TEXT } from "./lib/texts.ts";
+import { heading, pageTitle, stateText, VIEW_TEXT } from "./lib/texts.ts";
 import { href, parse, type BinChoice, type Context, type Preset, type State, type View } from "./lib/url.ts";
 
 export interface Controller {
@@ -76,10 +77,11 @@ function apply() {
     if (a.dataset.view === state.view) a.setAttribute("aria-current", "page");
     else a.removeAttribute("aria-current");
   }
-  title.textContent = VIEW_TEXT[state.view].title;
   question.textContent = VIEW_TEXT[state.view].question;
   const r = state.repo === null ? -1 : config.repos.indexOf(state.repo);
-  document.title = pageTitle(state.view, r < 0 ? null : config.standards[r]);
+  const standard = r < 0 ? null : config.standards[r];
+  title.textContent = heading(standard);
+  document.title = pageTitle(state.view, standard);
   html.toggleAttribute("data-pending", !ready && href(state) !== config.prerendered);
 }
 
