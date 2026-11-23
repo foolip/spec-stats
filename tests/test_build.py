@@ -22,111 +22,65 @@ class BuildTest(TempDirs):
         data = build.build(standards=standards, updated_since=START, log=logs.append)
         return data, logs
 
-    def events(self, data):
-        """number -> [(day, event type)]"""
-        items, rows = build.expand(data)
-        out = {}
-        for i, d, e in rows:
-            out.setdefault(items["number"][i], []).append((d, e))
-        return out
+    def rows(self, data):
+        """number -> (kind, created, closed, later_in_day)"""
+        items = build.expand(data)
+        return {n: (k, c, cl, li) for n, k, c, cl, li in
+                zip(items["number"], items["kind"], items["created"], items["closed"], items["later_in_day"])}
 
-    def test_open_prs(self):
+    def test_prs(self):
         gh = populated()  # #1 an open issue, #2 and #3 PRs merged in the window
         # Open when the window starts, closed in it.
         gh.add_issue(10, "2024-01-01T00:00:00Z", is_pr=True)
         gh.close(10, "2025-01-15T00:00:00Z")
-        # Closed before the window starts, touched in it: no events in the window.
+        # Closed before the window starts, touched in it: not an item.
         gh.add_issue(11, "2024-01-01T00:00:00Z", is_pr=True, closed_at="2024-02-01T00:00:00Z")
         gh.add_comment(11, "2025-01-05T00:00:00Z", "ed")
         # Open since before the window, never touched since (fetched as an old open item).
         gh.add_issue(12, "2023-01-01T00:00:00Z", is_pr=True)
-        # Closed and reopened in the window.
+        # Closed and reopened in the window: open.
         gh.add_issue(13, "2025-01-01T00:00:00Z", is_pr=True)
         gh.close(13, "2025-01-02T00:00:00Z")
         gh.add_event(13, "2025-01-03T00:00:00Z", "reopened", "ed")
         gh.issues[13]["state"] = "open"
         gh.touch(13, "2025-01-03T00:00:00Z")
-        # Reopened and closed again on one day: both kept, in time order.
+        # Closed, then reopened and closed again on one day: closed then.
         gh.add_issue(16, "2025-02-01T00:00:00Z", is_pr=True)
         gh.close(16, "2025-02-05T00:00:00Z")
         gh.add_event(16, "2025-02-20T09:00:00Z", "reopened", "ed")
         gh.close(16, "2025-02-20T17:00:00Z")
-        # Closed after the window ends: still open on its last day.
+        # Closed after the window ends: open at its end.
         gh.add_issue(14, "2025-03-15T00:00:00Z", is_pr=True)
         gh.close(14, "2025-04-01T12:00:00Z")
         # Created after the window ends: not there at all.
         gh.add_issue(15, "2025-04-01T06:00:00Z", is_pr=True)
+        # A draft is an open PR like any other.
+        gh.add_issue(17, "2025-03-20T00:00:00Z", is_pr=True)
+        gh.pulls[17]["draft"] = True
         self.sync(gh)
 
         data, logs = self.build()
         self.assertEqual(data["meta"], {"from": "2024-06-01", "to": "2025-03-31"})
-        self.assertEqual(data["event_types"], ["_carried_in", "_carried_in_as_draft", "_created",
-                                               "_created_as_draft", "closed", "reopened",
-                                               "convert_to_draft", "ready_for_review", "merged"])
+        self.assertEqual(set(data), {"meta", "repos", "items"})
         self.assertEqual(data["repos"], {"name": ["dom"], "standard": ["DOM"]})
-        items, _ = build.expand(data)
-        self.assertEqual(items, {
-            "repo": [0] * 8, "number": [1, 2, 3, 10, 12, 13, 14, 16], "is_pr": [0, 1, 1, 1, 1, 1, 1, 1],
-            "created": [day(d) for d in ("2025-01-01", "2025-02-01", "2025-03-01", "2024-01-01", "2023-01-01",
-                                         "2025-01-01", "2025-03-15", "2025-02-01")],
-            # #2 merged 9 days after it was created, #3 one day after.
-            "hours_to_merge": [None, 216, 24, None, None, None, None, None],
-            # From creation to the last close, merges included; null while open.
-            "hours_to_close": [None, 216, 24, (day("2025-01-15") - day("2024-01-01")) * 24, None, None, None,
-                               (day("2025-02-20") - day("2025-02-01")) * 24 + 17]})
-        self.assertLess(items["created"][4], 0)  # opened before the window
-        self.assertEqual(self.events(data), {
-            1: [(day("2025-01-01"), "_created")],
-            2: [(day("2025-02-01"), "_created"), (day("2025-02-10"), "closed"), (day("2025-02-10"), "merged")],
-            3: [(day("2025-03-01"), "_created"), (day("2025-03-02"), "closed"), (day("2025-03-02"), "merged")],
-            10: [(0, "_carried_in"), (day("2025-01-15"), "closed")],
-            12: [(0, "_carried_in")],
-            13: [(day("2025-01-01"), "_created"), (day("2025-01-02"), "closed"),
-                 (day("2025-01-03"), "reopened")],
-            14: [(day("2025-03-15"), "_created")],
-            16: [(day("2025-02-01"), "_created"), (day("2025-02-05"), "closed"),
-                 (day("2025-02-20"), "reopened"), (day("2025-02-20"), "closed")],
+        self.assertEqual(self.rows(data), {
+            1: (0, day("2025-01-01"), None, 0),
+            # Merged 9 days after it was created, and 1 day after.
+            2: (2, day("2025-02-01"), 9, 0),
+            3: (2, day("2025-03-01"), 1, 0),
+            10: (1, day("2024-01-01"), day("2025-01-15") - day("2024-01-01"), 0),
+            12: (1, day("2023-01-01"), None, 0),
+            13: (1, day("2025-01-01"), None, 0),
+            14: (1, day("2025-03-15"), None, 0),
+            # From creation to the last close: 19 days and 17 hours.
+            16: (1, day("2025-02-01"), 19, 1),
+            17: (1, day("2025-03-20"), None, 0),
         })
+        self.assertLess(day("2023-01-01"), 0)  # opened before the window
         # As stored: numbers and creation days as differences from the
-        # previous item, events grouped by item with days as gaps.
-        self.assertEqual(data["items"]["number"], [1, 1, 1, 7, 2, 1, 1, 2])
+        # previous item of the same repo.
+        self.assertEqual(data["items"]["number"], [1, 1, 1, 7, 2, 1, 1, 2, 1])
         self.assertEqual(data["items"]["created"][:2], [day("2025-01-01"), day("2025-02-01") - day("2025-01-01")])
-        self.assertEqual(data["items"]["events"], [1, 3, 3, 2, 1, 3, 1, 4])
-        self.assertEqual(data["events"]["day"][:9], [0, 0, 9, 0, 0, 1, 0, 0, day("2025-01-15")])
-        self.assertEqual(data["events"]["day"][-4:], [0, 4, 15, 0])  # #16
-        self.assertEqual(logs, [])
-
-    def test_drafts(self):
-        gh = populated()
-        # Created as a draft, ready later (GitHub has no event for the first).
-        gh.add_issue(10, "2025-01-01T00:00:00Z", is_pr=True, draft_ready_at="2025-01-10T00:00:00Z")
-        # Created as a draft, still one.
-        gh.add_issue(11, "2025-01-01T00:00:00Z", is_pr=True)
-        gh.pulls[11]["draft"] = True
-        # Ready when created, made a draft, then closed as one.
-        gh.add_issue(12, "2025-01-01T00:00:00Z", is_pr=True)
-        gh.add_event(12, "2025-01-05T00:00:00Z", "convert_to_draft", "alice")
-        gh.pulls[12]["draft"] = True
-        gh.close(12, "2025-01-20T00:00:00Z")
-        # Open as a draft when the window starts, ready in it.
-        gh.add_issue(13, "2024-01-01T00:00:00Z", is_pr=True, draft_ready_at="2025-02-01T00:00:00Z")
-        # A draft when the window starts, but closed then; reopened in it.
-        gh.add_issue(14, "2024-01-01T00:00:00Z", is_pr=True, closed_at="2024-02-01T00:00:00Z")
-        gh.pulls[14]["draft"] = True
-        gh.add_event(14, "2025-02-01T00:00:00Z", "reopened", "ed")
-        gh.issues[14]["state"] = "open"
-        gh.touch(14, "2025-02-01T00:00:00Z")
-        self.sync(gh)
-        data, logs = self.build()
-        ev = self.events(data)
-        self.assertEqual(ev[10], [(day("2025-01-01"), "_created"), (day("2025-01-01"), "_created_as_draft"),
-                                  (day("2025-01-10"), "ready_for_review")])
-        self.assertEqual(ev[11], [(day("2025-01-01"), "_created"), (day("2025-01-01"), "_created_as_draft")])
-        self.assertEqual(ev[12], [(day("2025-01-01"), "_created"), (day("2025-01-05"), "convert_to_draft"),
-                                  (day("2025-01-20"), "closed")])
-        self.assertEqual(ev[13], [(0, "_carried_in"), (0, "_carried_in_as_draft"),
-                                  (day("2025-02-01"), "ready_for_review")])
-        self.assertEqual(ev[14], [(0, "_carried_in_as_draft"), (day("2025-02-01"), "reopened")])
         self.assertEqual(logs, [])
 
     def test_issues(self):
@@ -140,7 +94,7 @@ class BuildTest(TempDirs):
         gh.close(11, "2025-01-10T00:00:00Z")
         gh.add_event(11, "2025-01-12T00:00:00Z", "reopened", "ed")
         gh.close(11, "2025-01-20T00:00:00Z")
-        # Closed in the window, then reopened: not closed at the end.
+        # Closed in the window, then reopened: open at the end.
         gh.add_issue(12, "2025-01-01T00:00:00Z")
         gh.close(12, "2025-01-05T00:00:00Z")
         gh.add_event(12, "2025-01-06T00:00:00Z", "reopened", "ed")
@@ -155,57 +109,47 @@ class BuildTest(TempDirs):
         # Closed with no `closed` event: the issue's own state wins.
         gh.add_issue(15, "2025-01-01T00:00:00Z")
         gh.close(15, "2025-01-02T00:00:00Z", event=False)
+        # Closed before the window started, reopened and closed again in
+        # it: open from its creation, as GitHub search counts it.
+        gh.add_issue(16, "2024-01-01T00:00:00Z", closed_at="2024-02-01T00:00:00Z")
+        gh.add_event(16, "2025-02-01T00:00:00Z", "reopened", "ed")
+        gh.close(16, "2025-02-02T00:00:00Z")
         self.sync(gh)
         data, logs = self.build()
-        items, _ = build.expand(data)
-        self.assertNotIn(13, items["number"])
-        issues = {n: (h, m) for n, pr, h, m in zip(items["number"], items["is_pr"], items["hours_to_close"],
-                                                     items["hours_to_merge"]) if not pr}
-        self.assertEqual(issues, {1: (None, None), 10: (49, None), 11: ((day("2025-01-20") - day("2024-05-01")) * 24, None),
-                                  12: (None, None), 14: (None, None), 15: (24, None)})
-        ev = self.events(data)
-        self.assertEqual(ev[10], [(day("2025-01-01"), "_created"), (day("2025-01-03"), "closed")])
-        self.assertEqual(ev[11], [(0, "_carried_in"), (day("2025-01-10"), "closed"),
-                                  (day("2025-01-12"), "reopened"), (day("2025-01-20"), "closed")])
-        self.assertEqual(ev[12], [(day("2025-01-01"), "_created"), (day("2025-01-05"), "closed"),
-                                  (day("2025-01-06"), "reopened")])
-        self.assertEqual(ev[14], [(day("2025-03-15"), "_created")])
-        # Issues have no draft events, and no pull object isn't a fix-up.
+        rows = self.rows(data)
+        self.assertNotIn(13, rows)
+        self.assertEqual({n: r for n, r in rows.items() if r[0] == 0}, {
+            1: (0, day("2025-01-01"), None, 0),
+            10: (0, day("2025-01-01"), 2, 1),
+            11: (0, day("2024-05-01"), day("2025-01-20") - day("2024-05-01"), 0),
+            12: (0, day("2025-01-01"), None, 0),
+            14: (0, day("2025-03-15"), None, 0),
+            15: (0, day("2025-01-01"), 1, 0),
+            16: (0, day("2024-01-01"), day("2025-02-02") - day("2024-01-01"), 0),
+        })
         self.assertEqual(logs, ["fixed up from the item's own state (closed with no `closed` event): 1"])
 
-    def test_hours_to_merge_count_from_ready_for_review(self):
+    def test_time_open_rounds_up_to_whole_days(self):
         gh = populated()
-        # Created as a draft, ready 2 days later, merged 6 hours after that.
-        gh.add_issue(10, "2025-01-01T00:00:00Z", is_pr=True, draft_ready_at="2025-01-03T00:00:00Z",
+        # Merged 24 hours and 1 second after it was created: 2 days.
+        gh.add_issue(10, "2025-01-05T00:00:00Z", is_pr=True, merged_at="2025-01-06T00:00:01Z", merged_by="ed")
+        # Exactly 24 hours: 1 day.
+        gh.add_issue(11, "2025-01-05T12:00:00Z", is_pr=True, merged_at="2025-01-06T12:00:00Z", merged_by="ed")
+        # 12 hours across midnight: 1 day.
+        gh.add_issue(12, "2025-01-05T20:00:00Z", is_pr=True, merged_at="2025-01-06T08:00:00Z", merged_by="ed")
+        # Within the same day: 1 day.
+        gh.add_issue(13, "2025-01-05T08:00:00Z", is_pr=True, merged_at="2025-01-05T09:00:00Z", merged_by="ed")
+        # Created as a draft: still from its creation.
+        gh.add_issue(14, "2025-01-01T00:00:00Z", is_pr=True, draft_ready_at="2025-01-03T00:00:00Z",
                      merged_at="2025-01-03T06:00:00Z", merged_by="ed")
-        # Merged before the window ended, but created before it started.
-        gh.add_issue(11, "2024-05-01T12:00:00Z", is_pr=True, merged_at="2025-01-01T12:00:00Z", merged_by="ed")
-        # Merged 24 hours and 1 second after it was created: rounded up.
-        gh.add_issue(12, "2025-01-05T00:00:00Z", is_pr=True, merged_at="2025-01-06T00:00:01Z", merged_by="ed")
+        # Merged in the window, but created before it started.
+        gh.add_issue(15, "2024-05-01T12:00:00Z", is_pr=True, merged_at="2025-01-01T12:00:00Z", merged_by="ed")
         self.sync(gh)
         data, logs = self.build()
-        items, _ = build.expand(data)
-        hours = dict(zip(items["number"], items["hours_to_merge"]))
-        self.assertEqual(hours[10], 6)
-        self.assertEqual(hours[11], 245 * 24)
-        self.assertEqual(hours[12], 25)
-        self.assertIsInstance(hours[10], int)
-        self.assertEqual(self.events(data)[10][-1], (day("2025-01-03"), "merged"))
-        self.assertEqual(logs, [])
-
-    def test_a_first_event_can_come_after_the_window_starts(self):
-        gh = populated()
-        # Closed when the window starts, reopened in it: its first event is
-        # the reopening, so the first gap isn't 0.
-        gh.add_issue(10, "2024-01-01T00:00:00Z", is_pr=True, closed_at="2024-02-01T00:00:00Z")
-        gh.add_event(10, "2025-02-01T00:00:00Z", "reopened", "ed")
-        gh.issues[10]["state"] = "open"
-        gh.touch(10, "2025-02-01T00:00:00Z")
-        self.sync(gh)
-        data, logs = self.build()
-        self.assertEqual(self.events(data)[10], [(day("2025-02-01"), "reopened")])
-        self.assertEqual(data["items"]["events"][-1], 1)
-        self.assertEqual(data["events"]["day"][-1], day("2025-02-01"))
+        rows = self.rows(data)
+        days_open = {n: rows[n][2] + rows[n][3] for n in range(10, 16)}
+        self.assertEqual(days_open, {10: 2, 11: 1, 12: 1, 13: 1, 14: 3, 15: day("2025-01-01") - day("2024-05-01")})
+        self.assertEqual({rows[n][0] for n in range(10, 16)}, {2})
         self.assertEqual(logs, [])
 
     def test_the_items_own_state_wins(self):
@@ -214,18 +158,21 @@ class BuildTest(TempDirs):
         gh.close(10, "2025-02-01T00:00:00Z", event=False)  # whatwg/fullscreen #220
         gh.add_issue(11, "2025-01-01T00:00:00Z", is_pr=True)
         gh.close(11, "2025-01-10T00:00:00Z")
-        gh.add_event(11, "2025-01-20T00:00:00Z", "closed", "ed")  # closed twice
-        gh.add_issue(12, "2025-01-01T00:00:00Z", is_pr=True, draft_ready_at="2025-01-05T00:00:00Z")
-        gh.pulls[12].update(draft=True, updated_at="2025-01-07T00:00:00Z")  # a draft again, with no event
+        gh.add_event(11, "2025-01-20T00:00:00Z", "closed", "ed")  # closed twice: the first counts
+        # Merged, with a later `closed` and `reopened` (never seen on GitHub):
+        # closed at the merge.
+        gh.add_issue(12, "2025-01-01T00:00:00Z", is_pr=True, merged_at="2025-01-05T00:00:00Z", merged_by="ed")
+        gh.add_event(12, "2025-01-07T00:00:00Z", "reopened", "ed")
+        gh.add_event(12, "2025-01-09T00:00:00Z", "closed", "ed")
         self.sync(gh)
         data, logs = self.build()
-        self.assertEqual(self.events(data)[12], [
-            (day("2025-01-01"), "_created"), (day("2025-01-01"), "_created_as_draft"),
-            (day("2025-01-05"), "ready_for_review"), (day("2025-01-07"), "convert_to_draft")])
-        self.assertEqual(self.events(data)[10], [(day("2025-01-01"), "_created"), (day("2025-02-01"), "closed")])
-        self.assertEqual(self.events(data)[11], [(day("2025-01-01"), "_created"), (day("2025-01-10"), "closed")])
-        self.assertEqual(logs, ["fixed up from the item's own state (closed with no `closed` event): 1",
-                                "fixed up from the item's own state (draft state differs from the last draft event): 1"])
+        rows = self.rows(data)
+        self.assertEqual(rows[10], (1, day("2025-01-01"), 31, 0))
+        self.assertEqual(rows[11], (1, day("2025-01-01"), 9, 0))
+        self.assertEqual(rows[12], (2, day("2025-01-01"), 4, 0))
+        self.assertEqual(logs, [
+            "fixed up from the item's own state (closed with no `closed` event): 1",
+            "fixed up from the item's own state (merged, but its last close isn't the merge: closed at the merge): 1"])
 
     def test_incomplete_repos_are_left_out(self):
         gh = populated()

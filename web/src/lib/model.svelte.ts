@@ -1,6 +1,6 @@
 // Everything a view shows that needs the data, derived from the data and
-// the state: open PRs, merges and PRs opened for the open PRs view; open
-// issues, closes and issues opened for the open issues view. Used on the server to prerender a page
+// the state: open PRs, merges and closes and PRs opened for the open PRs
+// view; open issues, closes and issues opened for the open issues view. Used on the server to prerender a page
 // and in the browser, where the state follows the controller, the view
 // included: switching views recomputes from the data in memory.
 
@@ -8,7 +8,7 @@ import { periods, sampleDays } from "./bins.ts";
 import type { Layer } from "../components/StackedArea.svelte";
 import type { BarLayer } from "../components/StackedBars.svelte";
 import { dateOf, type Data } from "./data.ts";
-import { closes, flowByPeriod, merges, openedByPeriod, OUTCOME_BANDS, type Flow } from "./flow.ts";
+import { closes, flowByPeriod, merges, openedByPeriod, OUTCOME_BANDS, unmergedCloses, type Flow } from "./flow.ts";
 import { ofKind, openByGroup, openByRepo, total, yearCohorts, type Cohorts, type Kind, type OpenSeries } from "./open.ts";
 import { stateText, VIEW_TEXT } from "./texts.ts";
 import { selectedRepos, type Context, type State } from "./url.ts";
@@ -18,8 +18,10 @@ interface Counts {
   byRepo: OpenSeries[];
   /** By repo, then by year opened (Model.cohorts). */
   byCohort: OpenSeries[][];
-  /** Merges or closes. */
+  /** Merges or closes, by time open. */
   flow: Flow;
+  /** PRs closed without merging, stacked on top of the merges. */
+  extra?: Flow;
 }
 
 export class Model {
@@ -48,6 +50,7 @@ export class Model {
         byRepo: openByRepo(this.data, kind),
         byCohort: openByGroup(this.data, of, this.cohorts.labels.length),
         flow: kind === "issue" ? closes(this.data) : merges(this.data),
+        extra: kind === "issue" ? undefined : unmergedCloses(this.data),
       };
       this.#counts.set(kind, c);
     }
@@ -61,36 +64,48 @@ export class Model {
   byRepo = $derived.by(() => this.#c.byRepo);
   byCohort = $derived.by(() => this.#c.byCohort);
   flow = $derived.by(() => this.#c.flow);
+  extra = $derived.by(() => this.#c.extra);
 
   text = $derived.by(() => stateText(this.view, this.ctx));
   repos = $derived.by(() => selectedRepos(this.view.repo, this.data.repos.name));
   series = $derived.by(() => total(this.byRepo, this.repos, this.data.days));
 
-  /** Open items by year opened, oldest at the bottom. Drafts aren't
-   * counted: only PRs ready for review (and every open issue). */
+  /** Open items by year opened, oldest at the bottom. Drafts are open
+   * PRs. */
   layers: Layer[] = $derived.by(() =>
     this.cohorts.labels.map((label, g) => {
       const values = new Int32Array(this.data.days);
       for (const r of this.repos) {
         const s = this.byCohort[r][g];
-        for (let d = 0; d < this.data.days; d++) values[d] += s.ready[d];
+        for (let d = 0; d < this.data.days; d++) values[d] += s[d];
       }
       return { label, values, color: `var(--cohort-${g})` };
     }),
   );
 
-  /** PRs merged, or issues closed, per calendar period. */
+  /** PRs merged, or issues closed, per calendar period, by time open; for
+   * PRs, then those closed without merging. */
   flowPeriods = $derived.by(() => periods(this.data.from, this.text.start, this.text.end, this.text.bin));
-  flowCounts = $derived.by(() => flowByPeriod(this.data, this.flow, this.repos, this.flowPeriods));
-  /** Fastest first, for the legend and the table (BarsPanel stacks them
-   * the other way). */
-  flowBands: BarLayer[] = $derived.by(() =>
-    this.flow.bands.labels.map((label, k) => ({
+  #merged = $derived.by(() => flowByPeriod(this.data, this.flow, this.repos, this.flowPeriods));
+  flowCounts = $derived.by(() => {
+    if (!this.extra) return this.#merged;
+    const extra = flowByPeriod(this.data, this.extra, this.repos, this.flowPeriods);
+    return this.#merged.map((c, j) => [...c, extra[j][0]]);
+  });
+  /** Fastest first, then PRs closed without merging, for the legend and
+   * the table (BarsPanel stacks the bands the other way, and that on top). */
+  flowBands: BarLayer[] = $derived.by(() => [
+    ...(this.flow.bands?.labels ?? []).map((label, k) => ({
       label,
       values: this.flowCounts.map((c) => c[k]),
       color: `var(--age-${k})`,
     })),
-  );
+    ...(this.extra
+      ? [{ label: "closed without merging", values: this.flowCounts.map((c) => c[c.length - 1]), color: "var(--closed)" }]
+      : []),
+  ]);
+  /** How many of flowBands are stacked on top, in order. */
+  flowOnTop = $derived.by(() => (this.extra ? 1 : 0));
   /** PRs or issues opened per period, by how soon they were closed. */
   opened = $derived.by(() => openedByPeriod(this.data, this.kind, this.repos, this.flowPeriods));
   openedBands: BarLayer[] = $derived.by(() =>
@@ -100,13 +115,14 @@ export class Model {
       color: `var(--age-${k})`,
     })),
   );
-  done = $derived.by(() => this.flowCounts.reduce((s, c) => s + c.reduce((a, b) => a + b, 0), 0));
+  /** Merges, or issues closed, in the range. */
+  done = $derived.by(() => this.#merged.reduce((s, c) => s + c.reduce((a, b) => a + b, 0), 0));
   /** The open PRs are drawn at the same periods' ends, so they follow the
    * bin too: every day, or the last day of each week, month or quarter. */
   sample = $derived.by(() => sampleDays(this.flowPeriods));
 
-  now = $derived.by(() => this.series.ready[this.text.end]);
-  startOpen = $derived.by(() => this.series.ready[this.text.start]);
+  now = $derived.by(() => this.series[this.text.end]);
+  startOpen = $derived.by(() => this.series[this.text.start]);
   change = $derived.by(() => this.now - this.startOpen);
 
   rows = $derived.by(() =>
@@ -114,8 +130,8 @@ export class Model {
       .map((r) => ({
         standard: this.data.repos.standard[r],
         name: this.data.repos.name[r],
-        open: this.byRepo[r].ready[this.text.end],
-        change: this.byRepo[r].ready[this.text.end] - this.byRepo[r].ready[this.text.start],
+        open: this.byRepo[r][this.text.end],
+        change: this.byRepo[r][this.text.end] - this.byRepo[r][this.text.start],
       }))
       // A stable sort: ties stay in the build's order of specs.
       .sort((a, b) => b.open - a.open),

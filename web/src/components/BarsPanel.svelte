@@ -26,13 +26,18 @@
     counts: number[][];
     /** Fastest first, for the legend and the table. */
     bands: BarLayer[];
+    /** How many of the last bands aren't times, stacked on top in order. */
+    onTop?: number;
     width?: number;
   }
-  let { heading, label, summary, done, from, start, end, bin, unitTitle, periods, counts, bands, width }: Props =
-    $props();
+  let { heading, label, summary, done, from, start, end, bin, unitTitle, periods, counts, bands, onTop = 0, width }:
+    Props = $props();
   // Stacked the other way, so the slowest is at the bottom and the fastest
-  // (lightest) on top, as the open items' newest layer is.
-  const layers = $derived([...bands].reverse());
+  // (lightest) on top, as the open items' newest layer is; then the rest.
+  const layers = $derived([
+    ...bands.slice(0, bands.length - onTop).reverse(),
+    ...bands.slice(bands.length - onTop),
+  ]);
 </script>
 
 <section class="panel">

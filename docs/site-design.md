@@ -44,10 +44,11 @@ data could give one.
   event in it. The build skips them; they serve `check` and
   completeness only. Every item the published tables hold has its
   details, and the pages can't tell the difference and don't need to.
-- **Opening state.** Items already open when the window starts get a
-  synthetic `_carried_in` event dated the window's first day. The build
-  works out who was open then by replaying each item's events before the
-  window. No other event dated before the window is published.
+- **Opening state.** Items already open when the window starts ~~get a
+  synthetic `_carried_in` event dated the window's first day~~ have a
+  `created` before the window and no close before it (since 2026-11-23,
+  when the events table went: an item is open from its creation to its
+  last close). No event dated before the window is published.
 - **Item dates may be older than the window.** An item's `created` is its
   real creation date, so the age of a backlog item on a day in the window
   is right. That is an attribute of an item in the window, not a figure
@@ -74,110 +75,97 @@ a time as later metrics need them:
   pages show HTML rather than html. In the order pages list specs (since
   2026-11-22): by `standard`, with "Web Foo" sorted as WebFoo, so Web IDL
   comes between WebHID and WebNFC; pages don't sort specs themselves.
-- **event_types**: `_carried_in`, `_carried_in_as_draft`, `_created`,
-  `_created_as_draft`, `closed`, `reopened`, `convert_to_draft`,
-  `ready_for_review`, `merged`.
-  - GitHub records a `closed` event on every merge too (all 154 merged
-    whatwg/dom PRs have both), so `closed` alone ends a PR's open span.
-  - `merged` (since 2026-11-19, from the PR's `merged_at`) is there for
-    counting merges and changes no state.
-  - **Drafts** are a second state alongside open or closed, so a page can
-    show open PRs with the drafts among them. GitHub's `convert_to_draft`
-    and `ready_for_review` change it. GitHub has no event for a PR
-    created as a draft, so the build adds `_created_as_draft` after
-    `_created` (a PR was created as a draft if its first draft event is
-    `ready_for_review`, or, with none, if it's a draft now), and
-    `_carried_in_as_draft` for a PR that was a draft when the window
-    started (after `_carried_in` if it was open; alone if it was closed
-    and is reopened in the window). So a page knows a PR's draft state
-    from its events so far, without looking ahead.
-  - The open count is a sum over the open/closed events; open drafts need
-    each PR's open and draft state replayed, as a draft can be closed
-    without becoming ready.
-- **items**, PRs and issues (issues since 2026-11-21):
+- **items**, PRs and issues (issues since 2026-11-21), one row each, and
+  since 2026-11-23 nothing else: no events table.
   - repo, and number (for links and for checking a count against
     GitHub);
-  - `is_pr`: 1 for a PR, 0 for an issue;
+  - `kind`: 0 for an issue, 1 for a PR not merged in the window, 2 for a
+    PR merged in it (since 2026-11-23; was `is_pr`, 1 or 0, with merges
+    as `merged` events);
   - `created`: the day of `created_at`, counted from `meta.from`, so
     negative for an item opened before the window;
-  - `hours_to_merge`: hours from ready for review to merge, for PRs
-    merged in the window, and null for the rest. Ready for review means
-    created, or the first `ready_for_review` for a PR created as a
-    draft. Whole hours, rounded up (since 2026-11-20): merged within that
-    many hours, so a limit in whole hours, like the merge chart's 24 and
-    240, counts each PR as the exact time would.
-
-  - `hours_to_close`: hours from an item's creation to its last
-    `closed` event (a merge is a close), for items closed at the end of
-    the window whose last close is in it, and null for the rest. Whole
-    hours, rounded up, like `hours_to_merge`. An item closed, reopened
-    and closed again counts once, at its last close. Issues only until
-    2026-11-22; PRs have it since, for PRs opened by time to close
-    (below), which took the file from 45.3 KB to 50.0 KB gzipped.
-
-  `created` and `hours_to_merge` were added on 2026-11-19, for open PRs
-  by year opened and merges by time to merge; `is_pr` and
-  `hours_to_close` on 2026-11-21, for the same about issues. Issues have
-  only `_carried_in`, `_created`, `closed` and `reopened` events.
-- **events**: day, item, event, each item's in time order (a PR
-  reopened and closed on one day has both, in that order). Only changes of state
-  are published (a second `closed` without a `reopened` between is left
-  out), and a PR with no event in the window isn't an item.
+  - `closed`: for an item closed at the end of the window, the day of
+    its last close, as days after `created`; null for an item open at
+    the end. A merged PR can't be reopened, so its last close is its
+    merge (the build checks, and closes it at its merge if not);
+  - `later_in_day`: 1 if the last close was at a later time of day (UTC)
+    than the creation, else 0. The time open in whole days, rounded up,
+    is `closed + later_in_day`, so a limit in whole days (the charts'
+    1, 7, 10 and 90) counts each item as the exact time would. It
+    replaced `hours_to_merge` and `hours_to_close` on 2026-11-23: every
+    band is a whole number of days.
+- **An item is open from its creation to its last close**, as GitHub
+  search sees it (since 2026-11-23): open at the end of day D if
+  `created:<=D (is:open OR closed:>D)`, written with D's last second in
+  UTC. Closes followed by a reopen are ignored, and every chart follows
+  the same rule, so the open count, the items opened and the items
+  closed agree, and any count can be checked against a search. Drafts
+  are open PRs, as in `is:pr is:open`. An item is in the file if it was
+  open on any day of the window by this rule.
+  - On 2026-11-23's data this counts an item as open while it was
+    actually closed, between a close and a later reopen, on at most 11
+    issues (of about 3,100 open) and 2 PRs (of about 320) on any day,
+    and never undercounts. The last day's count is exact.
+  - Of 216 reopens in the window, 168 came within a day of the close
+    (90 of the PRs' 102 within 10 minutes, as when a PR is closed and
+    reopened to rerun CI), where counting the item as open throughout
+    is about right. The rest reopen items closed for weeks to years
+    (whatwg/html#8173 after 3.5 years), which then count as open all
+    that time, and whose time to close runs to their new last close.
+  - Rules that hid short closes and short reopens, with the rest as
+    separate spans, were measured and rejected: no search could check
+    them.
 - **meta**: the window.
 
-**Laid out to compress well** (since 2026-11-20). In the file:
+**Laid out to compress well** (since 2026-11-20): `items.number` and
+`items.created` are differences from the previous item of the same repo
+(the first of a repo's items holds its own value); items are written by
+repo and number, so both are small. The loader (`fromRaw` in
+`web/src/lib/data.ts`) turns them back into values, and `closed` into a
+day of the window (Infinity while open) and the time open in days (NaN
+while open). Views rely on no order of items (the order of `repos` is
+the one the pages show); the web tests run each view on the same data
+with its items shuffled to check. `build.expand` does the same decoding
+in Python.
 
-- events are grouped by item, in the items' order; `items.events` says
-  how many each item has, so there's no `events.item` column;
-- `events.day` is the days since the item's previous event, or for its
-  first event, since `max(created, 0)`: mostly 0;
-- `items.number` and `items.created` are differences from the previous
-  item of the same repo (the first of a repo's items holds its own
-  value); items are written by repo and number, so both are small.
-
-The loader (`fromRaw` in `web/src/lib/data.ts`) turns these back into
-values and gives every event its item, so views see `day`, `item` and
-`event` arrays. They may rely on each item's events being together and
-in time order, and on nothing else about the order of events or items
-(the order of `repos` is the one the pages show):
-a view that needs events by day sorts them itself. The web tests run
-each view on the same data with its items shuffled to check.
-`build.expand` does the same decoding in Python. On 2026-11-20 this took
-the file from 183 KB (43.9 KB gzipped) to 100 KB (21.5 KB gzipped),
-with the same contents, and whole hours to merge to 92 KB (17.7 KB
-gzipped).
+Sizes, gzipped: on 2026-11-20 the layout took the file from 43.9 KB to
+21.5 KB, and whole hours to merge to 17.7 KB. Issues (2026-11-21) took
+it to 43 KB and PRs' time to close (2026-11-22) to about 48 KB. One row
+per item (2026-11-23) took it to 23.6 KB (150 KB uncompressed): no
+draft events (1 KB), whole days with `later_in_day` in place of both
+hours columns (16 KB), and no events table (8 KB). A single timeline of
+items opened and closed each day, with item indexes, was measured and
+came out no smaller gzipped than the events it would replace: indexes
+compress worse than small day gaps.
 
 `python3 -m specstats build` (`specstats/build.py`) writes it to
 `build/data.json`, which isn't committed: whatever deploys the site runs
-the build. `events.day` counts UTC days from `meta.from`, day 0. The
+the build. Days are UTC days from `meta.from`, day 0. The
 window ends on the last full UTC day before the newest time any repo's
 `state.json` shows it was listed at: the newest `updated_at` seen
 (`items.cursor`) or the last reconcile's start (`items.rows`). Every run
 lists every repo, so that's when the data was last complete; if fetching
-stops, the window stops with it. A repo whose listings aren't done, or
-with nothing stored (whatwg/nfc), is left out. A PR whose events disagree
-with its own state follows its state: a `closed` at its `closed_at` (12
-PRs on 2026-11-18), or a `reopened` at its `updated_at`; where the
-pull object's `draft` differs from its last draft event, a draft event
-at the pull object's `updated_at` (none on 2026-11-18).
+stops, the window stops with it. Changes after the window's end are
+ignored: an item closed after it is open. A repo whose listings aren't
+done, or with nothing stored (whatwg/nfc), is left out. An item whose
+events disagree with its own state follows its state: a `closed` at its
+`closed_at` (17 items on 2026-11-23), or a `reopened` at its
+`updated_at`.
 
-On 2026-11-18 it held 26 repos, 3,727 PRs and 7,736 events in 115 KB,
-2022-01-01 to 2026-11-17: 242 PRs open at the start and 560 at the end,
-64 of them drafts; each repo's end counts equal its stored open PRs and
-drafts.
-
-With issues (2026-11-21), it held 3,751 PRs and 6,739 issues with 19,894
-events, in 298 KB (43 KB gzipped, from 18 KB with PRs alone). Laying the
-items out by kind, or sharing one column for hours to merge and to close,
-saved about 2 KB gzipped, so neither was done. Each repo's open issues on
-the last day equal its stored open issues, less those created after it.
+On 2026-11-23 it held 26 repos, 3,758 PRs (2,647 merged in the window)
+and 6,738 issues. Each repo's open items on the last day equal its
+stored open items, less those created after it, plus those closed after
+it.
 
 No users, labels or other lookups yet.
 
 ## Published tables
 
 A star schema: one table of facts (events) and tables describing the
-things they refer to (items, users, repos).
+things they refer to (items, users, repos). This is the plan for later
+metrics; since 2026-11-23 the file has no events table, as the first
+views need only one row per item ("First version", above). Events come
+back when a metric needs them.
 
 - **items**, one row per issue or PR: repo, number, is_pr, author,
   created, and attributes worked out at build time (size, whether a PR
@@ -503,10 +491,11 @@ one above the other on the same time axis, over the last year by default:
   oldest at the bottom: one layer for each of the last five calendar
   years, and one for every PR opened before them ("before 2022"). A layer
   only shrinks once its year is over, so clearing old PRs shows as its
-  layer thinning. Drafts aren't counted, only PRs ready for review.
+  layer thinning. Drafts are counted (since 2026-11-23; before, only PRs
+  ready for review were), as in a search for `is:pr is:open`.
 - **PRs opened per period, by time to close** (since 2026-11-22), on the
   same axis and periods as the merges (the third chart until it was moved
-  above them, the same day): each PR at the day it was created, split by its `hours_to_close`: closed within 1 week, closed
+  above them, the same day): each PR at the day it was created, split by its time to close: closed within 1 week, closed
   later, or still open (until 2026-11-22: within 1 day, in 1–7 days, or
   open more than 7 days). A merge is a close. Of the 3,513 PRs opened
   from 2022-01-01 to 2026-11-21, 61%, 26% and 13%; whatwg/html's 1,868,
@@ -519,13 +508,21 @@ one above the other on the same time axis, over the last year by default:
     never stop doing; that isn't marked.
   - PRs opened before the window aren't counted.
 
-- **PRs merged per period, by time from ready for review to merge.**
-  Stacked bars:
+- **PRs merged or closed per period, by time open.** Stacked bars
+  ("by time from ready for review to merge", and merges only, until
+  2026-11-23):
   - The split is within 1 day, 1–10 days, and more than 10 days, stacked
     slowest at the bottom, so the fastest (lightest) is on top as the
     newest year is in the chart above. For
-    whatwg/html's 1,310 merges since 2022 those breaks give near thirds:
-    34%, 34% and 32% (`docs/response-metrics.md`).
+    whatwg/html's 1,310 merges since 2022 those breaks gave near thirds,
+    timed from ready for review: 34%, 34% and 32%
+    (`docs/response-metrics.md`). Since 2026-11-23 the time runs from
+    creation, so a PR's time as a draft counts: 131 of the 2,646 merged
+    PRs were created as drafts.
+  - PRs closed without merging are a fourth layer, gray (`--closed`),
+    on top of the merges, with no split by time (since 2026-11-23), so
+    the change in open PRs over a period is the PRs opened in it less
+    those merged or closed. The tile still counts merges only.
   - Each bar is a calendar period: a day, an ISO week, a month or a
     quarter, chosen with the "Per" select (`bin` in the URL).
   - "Auto", the default, picks the smallest of week, month or quarter
