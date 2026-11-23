@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/498513279",
+    "html_url": "https://github.com/whatwg/html/issues/4653#issuecomment-498513279",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/4653",
+    "id": 498513279,
+    "node_id": "MDEyOklzc3VlQ29tbWVudDQ5ODUxMzI3OQ==",
+    "user": {
+      "login": "gterzian",
+      "id": 2792687,
+      "node_id": "MDQ6VXNlcjI3OTI2ODc=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2792687?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/gterzian",
+      "html_url": "https://github.com/gterzian",
+      "followers_url": "https://api.github.com/users/gterzian/followers",
+      "following_url": "https://api.github.com/users/gterzian/following{/other_user}",
+      "gists_url": "https://api.github.com/users/gterzian/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/gterzian/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/gterzian/subscriptions",
+      "organizations_url": "https://api.github.com/users/gterzian/orgs",
+      "repos_url": "https://api.github.com/users/gterzian/repos",
+      "events_url": "https://api.github.com/users/gterzian/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/gterzian/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2019-06-04T04:07:38Z",
+    "updated_at": "2019-06-04T04:26:30Z",
+    "body": "The algorihtm reads like the event-loop where `targetWindow` is running would be the [implied event-loop](https://html.spec.whatwg.org/#implied-event-loop), however I agree there is some un-clarity because the algorithm runs implicitely in the context of the \"source window\", as exemplified by Step 2 reading \"Let incumbentSettings be the incumbent settings object\", where the  \"incumbent settings object\" is that of the source window, not the target. \r\n\r\nSo since the two communicating windows are potentially running in different [similar-origin-window-agent](https://html.spec.whatwg.org/#similar-origin-window-agent), the algorithm actually falls in the \"non-obvious category\"  mentioned at:\r\n\r\n> The exception is algorithms involving or specifying cross-agent communication (e.g., between a window and a worker); for those cases, the implied event loop concept must not be relied upon(..) (source: https://html.spec.whatwg.org/#implied-event-loop)\r\n\r\nAnd \"window-post-message-steps\" should explicit ally include an event-loop in Step 8 where it queues a task.\r\n\r\nNote that even if the two windows are same-origin, they could still be in different \"similar-origin window agents\" if they are part of different browsing-context group, see: https://html.spec.whatwg.org/#integration-with-the-javascript-agent-formalism:browsing-context-group (It seems one can learn something new everyday when it comes to this topic...).",
+    "author_association": "MEMBER",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/498513279/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

@@ -1,0 +1,509 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/111500343",
+    "pull_request_review_id": 32753399,
+    "id": 111500343,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDExMTUwMDM0Mw==",
+    "diff_hunk": "@@ -95498,14 +95478,38 @@ function receiver(e) {\n     </ol>\n    </li>\n \n-   <li><p>Let <var>cloneRecord</var> be <span>StructuredCloneWithTransfer</span>(<var>message</var>,\n-   <var>transfer</var>, <var>targetRealm</var>). Rethrow any exceptions.</p></li>\n+   <li><p>Let <var>serializeWithTransferResult</var> be\n+   <span>StructuredSerializeWithTransfer</span>(<var>message</var>, <var>transfer</var>,\n+   <var>targetRealm</var>). Rethrow any exceptions.</p></li>\n \n-   <li><p>Let <var>messageClone</var> be <var>cloneRecord</var>.[[Deserialized]].</p></li>\n+   <li><p>Let <var>serializeError</var> be false.</p></li>\n \n-   <li><p>Let <var>newPorts</var> be a new <span>frozen array</span> consisting of all\n-   <code>MessagePort</code> objects in <var>cloneRecord</var>.[[TransferredValues]], if any,\n-   maintaining their relative order.</p></li>\n+   <li>\n+    <p>Let <var>deserializeRecord</var> be\n+    <span>StructuredDeserializeWithTransfer</span>(<var>serializeWithTransferResult</var>,\n+    <var>targetRealm</var>).</p>\n+\n+    <p>If this throws an exception, then set <var>serializeError</var> to true.</p>\n+   </li>\n+\n+   <li><p>Let <var>eventName</var> be <code\n+   data-x=\"event-messageerror\">messageerror</code>.</p></li>",
+    "path": "source",
+    "commit_id": "3497e8f469810285c950c144bf60471a8e021d9b",
+    "original_commit_id": "305882658c65b6daacd6b971134cb967b88d780e",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This never gets set to \"message\" in the success case.",
+    "created_at": "2017-04-13T22:28:05Z",
+    "updated_at": "2017-04-24T10:53:42Z",
+    "html_url": "https://github.com/whatwg/html/pull/2530#discussion_r111500343",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2530",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/111500343"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2530#discussion_r111500343"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2530"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/111500343/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 95496,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 112,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/111500821",
+    "pull_request_review_id": 32753399,
+    "id": 111500821,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDExMTUwMDgyMQ==",
+    "diff_hunk": "@@ -95498,14 +95478,38 @@ function receiver(e) {\n     </ol>\n    </li>\n \n-   <li><p>Let <var>cloneRecord</var> be <span>StructuredCloneWithTransfer</span>(<var>message</var>,\n-   <var>transfer</var>, <var>targetRealm</var>). Rethrow any exceptions.</p></li>\n+   <li><p>Let <var>serializeWithTransferResult</var> be\n+   <span>StructuredSerializeWithTransfer</span>(<var>message</var>, <var>transfer</var>,\n+   <var>targetRealm</var>). Rethrow any exceptions.</p></li>\n \n-   <li><p>Let <var>messageClone</var> be <var>cloneRecord</var>.[[Deserialized]].</p></li>\n+   <li><p>Let <var>serializeError</var> be false.</p></li>\n \n-   <li><p>Let <var>newPorts</var> be a new <span>frozen array</span> consisting of all\n-   <code>MessagePort</code> objects in <var>cloneRecord</var>.[[TransferredValues]], if any,\n-   maintaining their relative order.</p></li>\n+   <li>\n+    <p>Let <var>deserializeRecord</var> be\n+    <span>StructuredDeserializeWithTransfer</span>(<var>serializeWithTransferResult</var>,\n+    <var>targetRealm</var>).</p>\n+\n+    <p>If this throws an exception, then set <var>serializeError</var> to true.</p>\n+   </li>\n+\n+   <li><p>Let <var>eventName</var> be <code\n+   data-x=\"event-messageerror\">messageerror</code>.</p></li>\n+\n+   <li><p>Let <var>messageClone</var> be null.</p></li>\n+\n+   <li><p>Let <var>newPorts</var> a new <span>frozen array</span>.</p></li>\n+\n+   <li>\n+    <p>If <var>serializeError</var> is false, then:</p>\n+\n+    <ol>\n+     <li><p>Set <var>messageClone</var> to <var>deserializeRecord</var>.[[Deserialized]].</p></li>\n+\n+     <li><p>Set <var>newPorts</var> to a new <span>frozen array</span> consisting of all\n+     <code>MessagePort</code> objects in <var>cloneRecord</var>.[[TransferredValues]], if any,\n+     maintaining their relative order.</p></li>\n+    </ol>\n+   </li>\n \n    <li><p>Return, but continue running these steps in <span>in parallel</span>.</p></li>",
+    "path": "source",
+    "commit_id": "3497e8f469810285c950c144bf60471a8e021d9b",
+    "original_commit_id": "305882658c65b6daacd6b971134cb967b88d780e",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I wish I remembered why we go in parallel here. We should add a note if we can remember. It seems a bit weird to check the origin stuff while in parallel. I would have expected everything after serialize to be in the queued task, but nothing to be in parallel. Similar to postMessage() for MessagePort.\r\n\r\nAs-is it causes an awkward split where you have to set up all the data ahead of time before going in parallel, then fire the event etc. I guess I can't see a good way around that, unless we're comfortable changing this to be more like MessagePort.",
+    "created_at": "2017-04-13T22:31:43Z",
+    "updated_at": "2017-04-24T10:53:42Z",
+    "html_url": "https://github.com/whatwg/html/pull/2530#discussion_r111500821",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2530",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/111500821"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2530#discussion_r111500821"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2530"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/111500821/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 95514,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 130,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/111501185",
+    "pull_request_review_id": 32753399,
+    "id": 111501185,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDExMTUwMTE4NQ==",
+    "diff_hunk": "@@ -96030,28 +96032,28 @@ interface <dfn>MessagePort</dfn> : <span>EventTarget</span> {\n      <li><p>Let <var>targetRealm</var> be <var>finalTargetPort</var>'s <span\n      data-x=\"concept-relevant-realm\">relevant Realm</span>.</p></li>\n \n-     <li><p>Let <var>deserializeRecord</var> be\n-     <span>StructuredDeserializeWithTransfer</span>(<var>serializeWithTransferResult</var>,\n-     <var>targetRealm</var>).</p></li>\n-     <!-- TODO: deal with exceptions: deliver \"messageerror\" or similar. See discussion in\n-     https://github.com/whatwg/html/issues/936. -->\n+     <li>\n+      <p>Let <var>deserializeRecord</var> be\n+      <span>StructuredDeserializeWithTransfer</span>(<var>serializeWithTransferResult</var>,\n+      <var>targetRealm</var>).</p>\n+\n+      <p>If this throws an exception, <span data-x=\"concept-event-fire\">fire an event</span> named\n+      <code data-x=\"event-messageerror\">messageerror</code> at <var>finalTargetPort</var>, using\n+      <code>MessageEvent</code>, and then abort these steps.\n+     </li>\n \n      <li><p>Let <var>messageClone</var> be <var>deserializeRecord</var>.[[Deserialized]].</p></li>\n \n      <li><p>Let <var>newPorts</var> be a new <span>frozen array</span> consisting of all\n      <code>MessagePort</code> objects in <var>deserializeRecord</var>.[[TransferredValues]], if any,\n      maintaining their relative order.</p></li>\n \n-     <li><p>Let <var>e</var> be the result of <span>creating an event</span> using\n-     <code>MessageEvent</code> in <var>targetRealm</var>.</p></li>\n-\n-     <li><p>Initialize <var>e</var>'s <code data-x=\"dom-Event-type\">type</code> attribute to <code\n-     data-x=\"event-message\">message</code>, its <code data-x=\"dom-MessageEvent-data\">data</code>\n-     attribute to <var>messageClone</var>, and its <code\n-     data-x=\"dom-MessageEvent-ports\">ports</code> attribute to <var>newPorts</var>.</p></li>\n-\n-     <li><p><span data-x=\"concept-event-dispatch\">Dispatch</span> <var>e</var> at\n-     <var>finalTargetPort</var>.</p></li>\n+     <li><p><span data-x=\"concept-event-fire\">Fire an event</span> named <code\n+     data-x=\"event-message\">message</code> at <var>finalTargetPort</var>, using\n+     <code>MessageEvent</code>, with the <code data-x=\"dom-MessageEvent-data\">data</code> attribute\n+     initialized to <var>messageClone</var> and the <code\n+     data-x=\"dom-MessageEvent-ports\">ports</code> attribute initialized to\n+     <var>newPorts</var>.</p></li>",
+    "path": "source",
+    "commit_id": "3497e8f469810285c950c144bf60471a8e021d9b",
+    "original_commit_id": "305882658c65b6daacd6b971134cb967b88d780e",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Nice cleanup.",
+    "created_at": "2017-04-13T22:34:47Z",
+    "updated_at": "2017-04-24T10:53:42Z",
+    "html_url": "https://github.com/whatwg/html/pull/2530#discussion_r111501185",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2530",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/111501185"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2530#discussion_r111501185"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2530"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/111501185/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 96056,
+    "original_line": 96056,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 209,
+    "position": 218,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/111501323",
+    "pull_request_review_id": 32753399,
+    "id": 111501323,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDExMTUwMTMyMw==",
+    "diff_hunk": "@@ -96129,7 +96131,7 @@ interface <dfn>MessagePort</dfn> : <span>EventTarget</span> {\n     <tr><th><span data-x=\"event handlers\">Event handler</span> <th><span>Event handler event type</span>\n    <tbody>\n     <tr><td><dfn><code data-x=\"handler-MessagePort-onmessage\">onmessage</code></dfn> <td> <code data-x=\"event-message\">message</code>\n-<!--ILLFATED    <tr><td><dfn><code data-x=\"handler-MessagePort-onerror\">onerror</code></dfn> <td> <code data-x=\"event-error\">error</code>\n+    <tr><td><dfn><code data-x=\"handler-MessagePort-onmessageerror\">onmessageerror</code></dfn> <td> <code data-x=\"event-messageerror\">messageerror</code><!--ILLFATED    <tr><td><dfn><code data-x=\"handler-MessagePort-onerror\">onerror</code></dfn> <td> <code data-x=\"event-error\">error</code>",
+    "path": "source",
+    "commit_id": "3497e8f469810285c950c144bf60471a8e021d9b",
+    "original_commit_id": "305882658c65b6daacd6b971134cb967b88d780e",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Any reason to squash the comment and the new event onto the same line? Separate seems nicer.",
+    "created_at": "2017-04-13T22:35:53Z",
+    "updated_at": "2017-04-24T10:53:42Z",
+    "html_url": "https://github.com/whatwg/html/pull/2530#discussion_r111501323",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2530",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/111501323"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2530#discussion_r111501323"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2530"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/111501323/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 96134,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 218,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/111533066",
+    "pull_request_review_id": 32786543,
+    "id": 111533066,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDExMTUzMzA2Ng==",
+    "diff_hunk": "@@ -95498,14 +95478,38 @@ function receiver(e) {\n     </ol>\n    </li>\n \n-   <li><p>Let <var>cloneRecord</var> be <span>StructuredCloneWithTransfer</span>(<var>message</var>,\n-   <var>transfer</var>, <var>targetRealm</var>). Rethrow any exceptions.</p></li>\n+   <li><p>Let <var>serializeWithTransferResult</var> be\n+   <span>StructuredSerializeWithTransfer</span>(<var>message</var>, <var>transfer</var>,\n+   <var>targetRealm</var>). Rethrow any exceptions.</p></li>\n \n-   <li><p>Let <var>messageClone</var> be <var>cloneRecord</var>.[[Deserialized]].</p></li>\n+   <li><p>Let <var>serializeError</var> be false.</p></li>\n \n-   <li><p>Let <var>newPorts</var> be a new <span>frozen array</span> consisting of all\n-   <code>MessagePort</code> objects in <var>cloneRecord</var>.[[TransferredValues]], if any,\n-   maintaining their relative order.</p></li>\n+   <li>\n+    <p>Let <var>deserializeRecord</var> be\n+    <span>StructuredDeserializeWithTransfer</span>(<var>serializeWithTransferResult</var>,\n+    <var>targetRealm</var>).</p>\n+\n+    <p>If this throws an exception, then set <var>serializeError</var> to true.</p>\n+   </li>\n+\n+   <li><p>Let <var>eventName</var> be <code\n+   data-x=\"event-messageerror\">messageerror</code>.</p></li>\n+\n+   <li><p>Let <var>messageClone</var> be null.</p></li>\n+\n+   <li><p>Let <var>newPorts</var> a new <span>frozen array</span>.</p></li>\n+\n+   <li>\n+    <p>If <var>serializeError</var> is false, then:</p>\n+\n+    <ol>\n+     <li><p>Set <var>messageClone</var> to <var>deserializeRecord</var>.[[Deserialized]].</p></li>\n+\n+     <li><p>Set <var>newPorts</var> to a new <span>frozen array</span> consisting of all\n+     <code>MessagePort</code> objects in <var>cloneRecord</var>.[[TransferredValues]], if any,\n+     maintaining their relative order.</p></li>\n+    </ol>\n+   </li>\n \n    <li><p>Return, but continue running these steps in <span>in parallel</span>.</p></li>",
+    "path": "source",
+    "commit_id": "3497e8f469810285c950c144bf60471a8e021d9b",
+    "original_commit_id": "305882658c65b6daacd6b971134cb967b88d780e",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "I think it uses that to give the illusion it could be a separate process, without actually going to the length required in other parts of the system to make that possible (such as actually duplicating Window and Location objects and set them up as message passing systems).\r\n\r\nI'm okay with dropping it or putting all state in variables beforehand.",
+    "created_at": "2017-04-14T06:01:05Z",
+    "updated_at": "2017-04-24T10:53:42Z",
+    "html_url": "https://github.com/whatwg/html/pull/2530#discussion_r111533066",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2530",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/111533066"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2530#discussion_r111533066"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2530"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/111533066/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 95514,
+    "side": "RIGHT",
+    "in_reply_to_id": 111500821,
+    "author_association": "MEMBER",
+    "original_position": 130,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/111533225",
+    "pull_request_review_id": 32786703,
+    "id": 111533225,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDExMTUzMzIyNQ==",
+    "diff_hunk": "@@ -95498,14 +95478,38 @@ function receiver(e) {\n     </ol>\n    </li>\n \n-   <li><p>Let <var>cloneRecord</var> be <span>StructuredCloneWithTransfer</span>(<var>message</var>,\n-   <var>transfer</var>, <var>targetRealm</var>). Rethrow any exceptions.</p></li>\n+   <li><p>Let <var>serializeWithTransferResult</var> be\n+   <span>StructuredSerializeWithTransfer</span>(<var>message</var>, <var>transfer</var>,\n+   <var>targetRealm</var>). Rethrow any exceptions.</p></li>\n \n-   <li><p>Let <var>messageClone</var> be <var>cloneRecord</var>.[[Deserialized]].</p></li>\n+   <li><p>Let <var>serializeError</var> be false.</p></li>\n \n-   <li><p>Let <var>newPorts</var> be a new <span>frozen array</span> consisting of all\n-   <code>MessagePort</code> objects in <var>cloneRecord</var>.[[TransferredValues]], if any,\n-   maintaining their relative order.</p></li>\n+   <li>\n+    <p>Let <var>deserializeRecord</var> be\n+    <span>StructuredDeserializeWithTransfer</span>(<var>serializeWithTransferResult</var>,\n+    <var>targetRealm</var>).</p>\n+\n+    <p>If this throws an exception, then set <var>serializeError</var> to true.</p>\n+   </li>\n+\n+   <li><p>Let <var>eventName</var> be <code\n+   data-x=\"event-messageerror\">messageerror</code>.</p></li>\n+\n+   <li><p>Let <var>messageClone</var> be null.</p></li>\n+\n+   <li><p>Let <var>newPorts</var> a new <span>frozen array</span>.</p></li>\n+\n+   <li>\n+    <p>If <var>serializeError</var> is false, then:</p>\n+\n+    <ol>\n+     <li><p>Set <var>messageClone</var> to <var>deserializeRecord</var>.[[Deserialized]].</p></li>\n+\n+     <li><p>Set <var>newPorts</var> to a new <span>frozen array</span> consisting of all\n+     <code>MessagePort</code> objects in <var>cloneRecord</var>.[[TransferredValues]], if any,\n+     maintaining their relative order.</p></li>\n+    </ol>\n+   </li>\n \n    <li><p>Return, but continue running these steps in <span>in parallel</span>.</p></li>",
+    "path": "source",
+    "commit_id": "3497e8f469810285c950c144bf60471a8e021d9b",
+    "original_commit_id": "305882658c65b6daacd6b971134cb967b88d780e",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Though we should make sure to create the frozen array within the task, otherwise it has the wrong global... That's broken too.",
+    "created_at": "2017-04-14T06:03:22Z",
+    "updated_at": "2017-04-24T10:53:42Z",
+    "html_url": "https://github.com/whatwg/html/pull/2530#discussion_r111533225",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2530",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/111533225"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2530#discussion_r111533225"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2530"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/111533225/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 95514,
+    "side": "RIGHT",
+    "in_reply_to_id": 111500821,
+    "author_association": "MEMBER",
+    "original_position": 130,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/111629806",
+    "pull_request_review_id": 32890642,
+    "id": 111629806,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDExMTYyOTgwNg==",
+    "diff_hunk": "@@ -95498,14 +95478,38 @@ function receiver(e) {\n     </ol>\n    </li>\n \n-   <li><p>Let <var>cloneRecord</var> be <span>StructuredCloneWithTransfer</span>(<var>message</var>,\n-   <var>transfer</var>, <var>targetRealm</var>). Rethrow any exceptions.</p></li>\n+   <li><p>Let <var>serializeWithTransferResult</var> be\n+   <span>StructuredSerializeWithTransfer</span>(<var>message</var>, <var>transfer</var>,\n+   <var>targetRealm</var>). Rethrow any exceptions.</p></li>\n \n-   <li><p>Let <var>messageClone</var> be <var>cloneRecord</var>.[[Deserialized]].</p></li>\n+   <li><p>Let <var>serializeError</var> be false.</p></li>\n \n-   <li><p>Let <var>newPorts</var> be a new <span>frozen array</span> consisting of all\n-   <code>MessagePort</code> objects in <var>cloneRecord</var>.[[TransferredValues]], if any,\n-   maintaining their relative order.</p></li>\n+   <li>\n+    <p>Let <var>deserializeRecord</var> be\n+    <span>StructuredDeserializeWithTransfer</span>(<var>serializeWithTransferResult</var>,\n+    <var>targetRealm</var>).</p>\n+\n+    <p>If this throws an exception, then set <var>serializeError</var> to true.</p>\n+   </li>\n+\n+   <li><p>Let <var>eventName</var> be <code\n+   data-x=\"event-messageerror\">messageerror</code>.</p></li>\n+\n+   <li><p>Let <var>messageClone</var> be null.</p></li>\n+\n+   <li><p>Let <var>newPorts</var> a new <span>frozen array</span>.</p></li>\n+\n+   <li>\n+    <p>If <var>serializeError</var> is false, then:</p>\n+\n+    <ol>\n+     <li><p>Set <var>messageClone</var> to <var>deserializeRecord</var>.[[Deserialized]].</p></li>\n+\n+     <li><p>Set <var>newPorts</var> to a new <span>frozen array</span> consisting of all\n+     <code>MessagePort</code> objects in <var>cloneRecord</var>.[[TransferredValues]], if any,\n+     maintaining their relative order.</p></li>\n+    </ol>\n+   </li>\n \n    <li><p>Return, but continue running these steps in <span>in parallel</span>.</p></li>",
+    "path": "source",
+    "commit_id": "3497e8f469810285c950c144bf60471a8e021d9b",
+    "original_commit_id": "305882658c65b6daacd6b971134cb967b88d780e",
+    "user": {
+      "login": "domenic",
+      "id": 617481,
+      "node_id": "MDQ6VXNlcjYxNzQ4MQ==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/617481?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/domenic",
+      "html_url": "https://github.com/domenic",
+      "followers_url": "https://api.github.com/users/domenic/followers",
+      "following_url": "https://api.github.com/users/domenic/following{/other_user}",
+      "gists_url": "https://api.github.com/users/domenic/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/domenic/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/domenic/subscriptions",
+      "organizations_url": "https://api.github.com/users/domenic/orgs",
+      "repos_url": "https://api.github.com/users/domenic/repos",
+      "events_url": "https://api.github.com/users/domenic/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/domenic/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "OK cool, I pushed a commit that changes that. We should remember to mention it in the ultimate commit message. Now off to work on tests...",
+    "created_at": "2017-04-14T20:16:10Z",
+    "updated_at": "2017-04-24T10:53:42Z",
+    "html_url": "https://github.com/whatwg/html/pull/2530#discussion_r111629806",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/2530",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/111629806"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/2530#discussion_r111629806"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/2530"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/111629806/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 95514,
+    "side": "RIGHT",
+    "in_reply_to_id": 111500821,
+    "author_association": "MEMBER",
+    "original_position": 130,
+    "position": 1,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
+    "copilot_code_review_sources": []
+  }
+]

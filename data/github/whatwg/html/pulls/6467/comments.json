@@ -1,0 +1,146 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/590358936",
+    "pull_request_review_id": 607391951,
+    "id": 590358936,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU5MDM1ODkzNg==",
+    "diff_hunk": "@@ -19765,42 +19765,48 @@ interface <dfn>HTMLAnchorElement</dfn> : <span>HTMLElement</span> {\n   attributes may be used to indicate to the user the likely nature of the target resource before the\n   user follows the link.</p>\n \n-  <p>The <span>activation behavior</span> of <code>a</code> elements that create <span\n-  data-x=\"hyperlink\">hyperlinks</span> is to run the following steps:</p>\n+  <p>The <span>activation behavior</span> of an <code>a</code> element <var>element</var> given an\n+  event <var>event</var> is:</p>\n \n-  <ol><!-- c.f. <link> and <area>'s similar section -->\n-   <li><p>If the target of the <code data-x=\"event-click\">click</code> event is an <code>img</code>\n-   element with an <code data-x=\"attr-img-ismap\">ismap</code> attribute specified, then server-side\n-   image map processing must be performed, as follows:</p>\n+  <ol>\n+   <li><p>If <var>element</var> has no <code data-x=\"attr-hyperlink-href\">href</code> attribute,\n+   then return.</p></li>\n+\n+   <li><p>Let <var>hyperlinkSuffix</var> be null.</p></li>\n+\n+   <li><p>If <var>event</var>'s <span data-x=\"concept-event-target\">target</span> is an\n+   <code>img</code> with an <code data-x=\"attr-img-ismap\">ismap</code> attribute specified,\n+   then:</p>\n \n     <ol>\n      <!-- https://software.hixie.ch/utilities/js/live-dom-viewer/?%3C%21DOCTYPE%20html%3E%0A...%3Ca%20href%3D%22%23%22%3E%3Cimg%20ismap%20usemap%3D%22%23a%22%20src%3D/resources/images/smallcats%3E%3C/a%3E%0A%3Cmap%20name%3Da%3E%3Carea%20shape%3Drect%20coords%3D0%2C0%2C50%2C50%20href%3Db%3E%3C/map%3E -->\n \n-     <li>Let <var>x</var> and <var>y</var> be zero.</li>\n+     <li><p>Let <var>x</var> and <var>y</var> be zero.</p></li>",
+    "path": "source",
+    "commit_id": "3c8184e16d6dac753cfc973cd207ce67a82daf2d",
+    "original_commit_id": "67f810969ff30becf07a843cbff6531a3fe589f2",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Nit: 0 while here (and below)?",
+    "created_at": "2021-03-09T13:16:12Z",
+    "updated_at": "2021-03-09T16:41:28Z",
+    "html_url": "https://github.com/whatwg/html/pull/6467#discussion_r590358936",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/6467",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/590358936"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/6467#discussion_r590358936"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/6467"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/590358936/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 19784,
+    "original_line": 19784,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 36,
+    "position": 36,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
+    "copilot_code_review_sources": []
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/pulls/comments/590360363",
+    "pull_request_review_id": 607391951,
+    "id": 590360363,
+    "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDU5MDM2MDM2Mw==",
+    "diff_hunk": "@@ -19765,42 +19765,48 @@ interface <dfn>HTMLAnchorElement</dfn> : <span>HTMLElement</span> {\n   attributes may be used to indicate to the user the likely nature of the target resource before the\n   user follows the link.</p>\n \n-  <p>The <span>activation behavior</span> of <code>a</code> elements that create <span\n-  data-x=\"hyperlink\">hyperlinks</span> is to run the following steps:</p>\n+  <p>The <span>activation behavior</span> of an <code>a</code> element <var>element</var> given an\n+  event <var>event</var> is:</p>\n \n-  <ol><!-- c.f. <link> and <area>'s similar section -->\n-   <li><p>If the target of the <code data-x=\"event-click\">click</code> event is an <code>img</code>\n-   element with an <code data-x=\"attr-img-ismap\">ismap</code> attribute specified, then server-side\n-   image map processing must be performed, as follows:</p>\n+  <ol>\n+   <li><p>If <var>element</var> has no <code data-x=\"attr-hyperlink-href\">href</code> attribute,\n+   then return.</p></li>\n+\n+   <li><p>Let <var>hyperlinkSuffix</var> be null.</p></li>\n+\n+   <li><p>If <var>event</var>'s <span data-x=\"concept-event-target\">target</span> is an\n+   <code>img</code> with an <code data-x=\"attr-img-ismap\">ismap</code> attribute specified,\n+   then:</p>\n \n     <ol>\n      <!-- https://software.hixie.ch/utilities/js/live-dom-viewer/?%3C%21DOCTYPE%20html%3E%0A...%3Ca%20href%3D%22%23%22%3E%3Cimg%20ismap%20usemap%3D%22%23a%22%20src%3D/resources/images/smallcats%3E%3C/a%3E%0A%3Cmap%20name%3Da%3E%3Carea%20shape%3Drect%20coords%3D0%2C0%2C50%2C50%20href%3Db%3E%3C/map%3E -->\n \n-     <li>Let <var>x</var> and <var>y</var> be zero.</li>\n+     <li><p>Let <var>x</var> and <var>y</var> be zero.</p></li>\n \n-     <li>If the <code data-x=\"event-click\">click</code> event was a real pointing-device-triggered\n-     <code data-x=\"event-click\">click</code> event on the <code>img</code> element, then set\n-     <var>x</var> to the distance in <span data-x=\"'px'\">CSS pixels</span> from the left edge of the\n-     image to the location of the click, and set <var>y</var> to the distance in <span\n-     data-x=\"'px'\">CSS pixels</span> from the top edge of the image to the location of the\n-     click.</li>\n+     <li><p>If <var>event</var>'s <code data-x=\"dom-Event-isTrusted\">isTrusted</code> attribute is\n+     initialized to true, then set <var>x</var> to the distance in <span data-x=\"'px'\">CSS\n+     pixels</span> from the left edge of the image to the location of the click, and set\n+     <var>y</var> to the distance in <span data-x=\"'px'\">CSS pixels</span> from the top edge of the\n+     image to the location of the click.</p></li>\n \n-     <li>If <var>x</var> is negative, set <var>x</var> to zero.</li>\n+     <li><p>If <var>x</var> is negative, set <var>x</var> to zero.</p></li>\n \n-     <li>If <var>y</var> is negative, set <var>y</var> to zero.</li>\n+     <li><p>If <var>y</var> is negative, set <var>y</var> to zero.</p></li>\n \n-     <li>Let <var>hyperlink suffix</var> be a U+003F QUESTION MARK character, the value of\n-     <var>x</var> expressed as a base-ten integer using <span>ASCII digits</span>, a U+002C COMMA\n-     character (,), and the value of <var>y</var> expressed as a base-ten integer using <span>ASCII\n-     digits</span>.</li>\n+     <li><p>Set <var>hyperlinkSuffix</var> to the concatenation of U+003F (?), the value of\n+     <var>x</var> expressed as a base-ten integer using <span>ASCII digits</span>, U+002C (,), and\n+     the value of <var>y</var> expressed as a base-ten integer using <span>ASCII\n+     digits</span>.</p></li>",
+    "path": "source",
+    "commit_id": "3c8184e16d6dac753cfc973cd207ce67a82daf2d",
+    "original_commit_id": "67f810969ff30becf07a843cbff6531a3fe589f2",
+    "user": {
+      "login": "annevk",
+      "id": 1544111,
+      "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/annevk",
+      "html_url": "https://github.com/annevk",
+      "followers_url": "https://api.github.com/users/annevk/followers",
+      "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+      "organizations_url": "https://api.github.com/users/annevk/orgs",
+      "repos_url": "https://api.github.com/users/annevk/repos",
+      "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/annevk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "At some point we should define this in Infra to ensure there's only one serialization allowed.",
+    "created_at": "2021-03-09T13:18:07Z",
+    "updated_at": "2021-03-09T16:41:28Z",
+    "html_url": "https://github.com/whatwg/html/pull/6467#discussion_r590360363",
+    "pull_request_url": "https://api.github.com/repos/whatwg/html/pulls/6467",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/comments/590360363"
+      },
+      "html": {
+        "href": "https://github.com/whatwg/html/pull/6467#discussion_r590360363"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/whatwg/html/pulls/6467"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/pulls/comments/590360363/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 19799,
+    "original_line": 19799,
+    "side": "RIGHT",
+    "author_association": "MEMBER",
+    "original_position": 63,
+    "position": 63,
+    "subject_type": "line",
+    "is_copilot_code_review": false,
+    "copilot_code_review_severity": null,
+    "copilot_code_review_sources": []
+  }
+]
