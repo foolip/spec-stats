@@ -17,6 +17,16 @@ export function longDate(date: string): string {
   return `${MONTHS[Number(m) - 1]} ${Number(d)}, ${y}`;
 }
 
+/** en-US's month names, in full. */
+const FULL_MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+/** "17 November 2026" for "2026-11-17": day first, as the WHATWG's
+ * standards write "Last Updated". */
+export function specDate(date: string): string {
+  const [y, m, d] = date.split("-");
+  return `${Number(d)} ${FULL_MONTHS[Number(m) - 1]} ${y}`;
+}
+
 /** "1,234" */
 export function num(n: number): string {
   const [int, frac] = String(Math.abs(n)).split(".");

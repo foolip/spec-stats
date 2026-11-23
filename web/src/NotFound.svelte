@@ -13,12 +13,12 @@
   const href = (view: (typeof VIEWS)[number]) => pagePath({ view, repo: null });
 </script>
 
-<SiteHeader {root} {icon} {href} />
+<SiteHeader {root} {icon} {href} title="WHATWG" />
 
 <main class="wrap">
   <article class="view">
     <hgroup>
-      <h1>Page not found</h1>
+      <h2>Page not found</h2>
       <p class="question">There’s no page at this address.</p>
     </hgroup>
     <ul class="not-found">

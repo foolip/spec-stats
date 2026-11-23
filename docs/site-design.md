@@ -363,15 +363,20 @@ The views are linked in that order: Issues, then Reviews.
 - **Old links aren't kept working** (since 2026-11-22): nobody uses the
   site yet, so the parameters of earlier URL designs (`repo`, `repos`,
   `from`, `to`) are unknown parameters like any other.
-- **Views are linked under the site's name**, as large tabs, and the
-  current tab is the view's only visible name: its `<h1>` is visually
-  hidden (since 2026-11-23), kept for screen readers and the document
-  outline, with the view's question below the tabs. Each link keeps
+- **The header is laid out as a standard's** (since 2026-11-23): the
+  page's `<h1>`, large and green, is the spec's name ("DOM"), or "WHATWG"
+  for all specs; under it, in green, "Living Statistics — Last Updated
+  21 November 2026", the data's last day written as the standards write
+  it; the icon at the top right, linking to the site's root. The browser's
+  address bar is the same green (`<meta name="theme-color">`), as on the
+  standards. The controller sets the title as the spec changes.
+- **Views are linked under the header**, as large tabs, and the current
+  tab is the view's only visible name, with the view's question below
+  the tabs. Each link keeps
   the spec and the query string, so switching views keeps the filters.
   **Switching is in place** (since 2026-11-22): the controller handles
   the click (a plain click; with a modifier key it's an ordinary link),
-  pushes the URL, and sets the view's title and question and the current
-  tab; the islands recompute from the data in memory, as for any
+  pushes the URL, and sets the view's question and the current tab; the islands recompute from the data in memory, as for any
   control. `Model` works out each kind's series the first time its view
   is shown. A click before the data has loaded hides the islands
   (`data-pending`) until they're mounted for the new view. Each view
@@ -431,8 +436,8 @@ before the data file's compact layout, 2026-11-20).
   open PRs (or issues) panel, the merges (or closes) panel, the PRs (or
   issues) opened panel (each panel its heading, legend,
   chart and table; the two bar panels share `components/BarsPanel.svelte`) and the by-spec table, which shows itself for all
-  specs only. The header, the view's title and question, and the footer
-  are static HTML. `src/islands/index.ts` maps each `data-island` name to
+  specs only. The header, the view's question, and the footer
+  are static HTML, the title and question set by the controller. `src/islands/index.ts` maps each `data-island` name to
   its component; `Page.svelte` prerenders them from it (the charts as
   empty boxes) and `src/main.ts` mounts them from it, so the names can't
   drift apart. Once the data has loaded, `main.ts` mounts each in its
@@ -655,12 +660,14 @@ step of the same hue for dark mode, checked for contrast), the same
 system font stack, a white page, and a reading column near whatwg.org's.
 Chart series colors are a validated categorical palette, not the header
 links' colors, which aren't chosen to be told apart in charts. The
-WHATWG logo isn't used: spec-stats isn't a WHATWG site, and shouldn't
-look like one.
+header follows the standards' headers (since 2026-11-23: title,
+subtitle, icon at the top right, green address bar), but the WHATWG logo
+isn't used, and the footer says the site isn't affiliated with the
+WHATWG.
 
 The site's icon, `web/public/favicon.svg`, is drawn the way the WHATWG's
 spec logos are (`resources.whatwg.org/logo-*.svg`): a 100×100 viewBox, a
 white circle (r=45) with a 10-wide `#3c790a` ring, and one solid green
 glyph, here three rising bars. It's an icon of the same family, not the
-WHATWG logo itself. The header shows the same file at its top right, across
-from the site's name, so it keeps its white circle in dark mode too.
+WHATWG logo itself. The header shows the same file at its top right, where a
+standard shows its logo, so it keeps its white circle in dark mode too.
