@@ -320,5 +320,51 @@
     },
     "performed_via_github_app": null,
     "minimized": null
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/7128887090",
+    "html_url": "https://github.com/whatwg/html/pull/12833#issuecomment-7128887090",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/12833",
+    "id": 7128887090,
+    "node_id": "IC_kwDOALaj488AAAABqOovMg",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-24T10:31:07Z",
+    "updated_at": "2026-11-24T10:31:07Z",
+    "body": "I've rebased onto `main` to fix the PR preview (there were no conflicts).\n\nProposed fixes for defects D1 and D2 aren't applied yet. Defect D3 is open, no fix yet. Questions Q1, Q2, Q3, and Q4 are open.\n\nNew in this review:\n\nD1: In web-platform-tests/wpt#62524, `assert_browsing_context` takes `has_immediate_navigation` and reads `info[\"hasImmediateNavigation\"]`, but `context_created.py` passes `has_planned_navigation` (TypeError) and the BiDi property is `hasPlannedNavigation` (KeyError in `original_opener.py` and `subscribe_steps.py`). So none of the new assertions can run. Not applied: [proposed fix](https://github.com/zcorpan/wpt/commit/05ebd432b14b919cba3e5440f3ae9ee162840bc3).\n\nD2: `subscribe_steps.py` expects `true` for contexts reported on subscribe (`test_existing_nested_contexts`, `test_new_context_event_not_subscribed`, `test_new_context_event_cross_origin_frame`), but \"recursively emit context created events\" in BiDi always passes false. Not applied: [proposed fix](https://github.com/zcorpan/wpt/commit/2c0dcfe4e63f1b61aa5ed82da681258ffb7fc2a0) (on top of D1).\n\nD3: No tests for `<iframe>` without `src`, with `src=\"about:blank\"`, with `srcdoc`, or with a `src` equal to an ancestor's URL; `<frame>`; `<object>` (`about:blank` and a real URL); `<embed>`; `<a target=_blank>`; `<form target=_blank>`; `window.open(\"about:blank\")`; `javascript:` URLs. Open, no fix yet (depends on Q2 and Q3).\n\nQ2: Should `javascript:` URLs get true? `<iframe src=\"javascript:void 0\">`, `window.open(\"javascript:void 0\")`, or `<a href=\"javascript:...\" target=_blank>` get true, and navigate fires navigation started, but \"navigate to a `javascript:` URL\" then returns without any further BiDi event when the result isn't a string, the initiator isn't same origin-domain (the `<a target=_blank>` case, since the new window has an opaque origin), or CSP blocks it. A client waiting for load, failed, or aborted would hang. This is beyond what was discussed in [whimboo's thread](https://github.com/whatwg/html/pull/12833#discussion_r3966919081), which assumed one of those events follows.\n- (a) Keep as is: simplest; clients need a timeout.\n- (b) False for `javascript:` URLs: no hang, but true would be right when the result is a string and a new document loads.\n- (c) Keep true and have HTML invoke WebDriver BiDi navigation aborted (or failed) at those early returns: accurate, but touches the navigate algorithms and needs a BiDi check.\n\nQ3: Should an about:blank navigation via navigate get true? `<a href=\"about:blank\" target=_blank>`, `<form action=\"about:blank\" target=_blank>`, and \"create a fresh top-level traversable\" with an about:blank URL get false, but they call navigate, which creates a new `Document` and fires navigation started and then load. A client acting on the initial document can race with its replacement. (`window.open()`, `<iframe>`, and `<frame>` don't navigate for about:blank, so false is right there.)\n- (a) Keep as is: matches the \"beyond about:blank\" wording, but the event under-reports a real navigation.\n- (b) True wherever navigate is actually called: matches BiDi's \"is going to perform a navigation\"; the flag stops being a URL check at those call sites.\n\n<details><summary>Raised earlier</summary>\n\nQ1: Lazy-loaded iframes always get true ([whimboo](https://github.com/whatwg/html/pull/12833#discussion_r3966840852)), but one that's not near the viewport never navigates, so a client waiting for load hangs. Whether the element will lazy load is known at insertion (the will lazy load element steps), only the intersection isn't.\n- (a) Keep true (the current note): clients need another signal for lazy iframes later.\n- (b) False when the will lazy load element steps return true: the lazy navigation then shows up as a normal navigation started when it resumes.\n\nQ4: create a new top-level traversable now requires `openerNavigableForWebDriver` and `hasPlannedNavigationForWebDriver` ([sadym-chromium](https://github.com/whatwg/html/pull/12833#discussion_r4025738534)), which breaks callers in other specs: prerendering in WICG/nav-speculation (with null and the empty string, and with no arguments) and WICG/document-picture-in-picture (two arguments).\n- (a) Keep required and file issues on both specs: each caller states its value; prerendering navigates right away, so it should pass true.\n- (b) Make them optional with defaults null and false: document picture-in-picture keeps working; prerendering still needs an issue, since false would be wrong for it.\n</details>\n\n<details><summary>Reviewed commits</summary>\n\nReviewed at 7da1329 on 546d834, with web-platform-tests/wpt#62524 at 9cb7d7e, using spec-pr-review.\n</details>\n",
+    "author_association": "MEMBER",
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/7128887090/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
   }
 ]

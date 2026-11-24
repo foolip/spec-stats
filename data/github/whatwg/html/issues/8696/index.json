@@ -31,17 +31,22 @@
     "site_admin": false
   },
   "labels": [],
-  "state": "open",
+  "state": "closed",
   "locked": false,
   "assignees": [],
   "milestone": null,
-  "comments": 0,
+  "comments": 1,
   "created_at": "2023-01-08T02:37:06Z",
-  "updated_at": "2023-01-08T02:37:06Z",
-  "closed_at": null,
+  "updated_at": "2026-11-24T10:06:05Z",
+  "closed_at": "2026-11-24T06:02:28Z",
   "author_association": "NONE",
   "issue_field_values": [],
   "type": null,
+  "status": {
+    "id": 6,
+    "name": "Not planned",
+    "category": "not_planned"
+  },
   "active_lock_reason": null,
   "sub_issues_summary": {
     "total": 0,
@@ -55,7 +60,27 @@
     "total_blocking": 0
   },
   "body": "The current `charset` parameter is, for legacy reasons, actually a declaration of character *encoding*. The encoding for a conformant document has to be UTF-8. That's fine, if a touch confusing, but there's no way to declare the actual character *set*. While most documents use only Unicode, others may find it necessary to use parts of [UCSUR](https://www.kreativekorp.com/ucsur/), [MUFI](https://mufi.info/m.php?p=mufi), or other defined extended sets. Leaving this unspecified is rather like saying that something is ASCII but then using the upper half for some unspecified purpose.\r\n\r\nCurrently, there are two ways this can be roughly hinted at in HTML:\r\n- Specifying a font implies you're using that font's character set. This relies on external files, mixes content into presentation, and isn't machine-readable without resorting to huge lists of fonts.\r\n- Specifying a language before using private use characters has a rough implication that they may be used for that language. This is insufficient, as many under-served scripts have multiple encodings, some of them even stomping over the ASCII range! Further, a language may have multiple scripts - this is especially common with constructed languages, but Japanese can be written with the Latin alphabet, or English can be written with the Deseret script. (Fortunately both of those cases are now supported by Unicode, but they still serve as illustration.)\r\n\r\nTo be clear, I do expect that the big interactive browsers would respond to such a declaration by doing nothing. If there's a usable font specified, they just use that, and if not the common font infrastructure doesn't provide enough information to pick an appropriate fallback. This is more for the benefit of archivists, or machines trying to extract semantic information from text.",
-  "closed_by": null,
+  "closed_by": {
+    "login": "zcorpan",
+    "id": 244772,
+    "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+    "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/zcorpan",
+    "html_url": "https://github.com/zcorpan",
+    "followers_url": "https://api.github.com/users/zcorpan/followers",
+    "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+    "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+    "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+    "repos_url": "https://api.github.com/users/zcorpan/repos",
+    "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
   "reactions": {
     "url": "https://api.github.com/repos/whatwg/html/issues/8696/reactions",
     "total_count": 0,
@@ -70,6 +95,6 @@
   },
   "timeline_url": "https://api.github.com/repos/whatwg/html/issues/8696/timeline",
   "performed_via_github_app": null,
-  "state_reason": null,
+  "state_reason": "not_planned",
   "pinned_comment": null
 }
