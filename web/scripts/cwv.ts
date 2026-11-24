@@ -14,6 +14,10 @@
 //   request, the HTML within the first round trip, and every request
 //   started by the HTML itself, so there's no chain. Plus a time budget.
 // - INP: the slowest response to a control, at full CPU speed.
+// - Main thread (reported, not enforced): on the throttled phone, the long
+//   tasks (over 50 ms) until the charts are drawn: Total Blocking Time
+//   (the part of each long task over 50 ms, after the first paint, as
+//   Lighthouse counts it), all long-task time, and the longest task.
 //
 // dist/ is served as GitHub Pages serves it: gzipped, under SITE_BASE,
 // with 404.html for unknown paths. The browser is Chrome for Testing, the
@@ -43,6 +47,7 @@ const BUDGETS = {
 const web = dirname(dirname(fileURLToPath(import.meta.url)));
 const dist = join(web, "dist");
 const base = process.env.SITE_BASE ?? "/spec-stats/";
+const runs = Number(process.env.CWV_RUNS ?? 3);
 const failures: string[] = [];
 
 function check(ok: boolean, message: string) {
@@ -84,6 +89,15 @@ function serve(): Promise<Server> {
   });
 }
 
+interface Cwv {
+  cls: number;
+  shifts: string[];
+  lcp: number;
+  inp: number;
+  inpOn: string;
+  longTasks: { start: number; duration: number }[];
+}
+
 interface Throttle {
   slow: boolean;
 }
@@ -104,8 +118,11 @@ async function open(browser: Browser, viewport: { width: number; height: number 
     await cdp.send("Emulation.setCPUThrottlingRate", { rate: 4 });
   }
   await page.addInitScript(() => {
-    const w = window as unknown as { cwv: { cls: number; shifts: string[]; lcp: number; inp: number; inpOn: string } };
-    const cwv = (w.cwv = { cls: 0, shifts: [] as string[], lcp: 0, inp: 0, inpOn: "" });
+    const w = window as unknown as { cwv: Cwv };
+    const cwv: Cwv = (w.cwv = { cls: 0, shifts: [], lcp: 0, inp: 0, inpOn: "", longTasks: [] });
+    new PerformanceObserver((list) => {
+      for (const e of list.getEntries()) cwv.longTasks.push({ start: e.startTime, duration: e.duration });
+    }).observe({ type: "longtask", buffered: true });
     new PerformanceObserver((list) => {
       for (const e of list.getEntries() as (PerformanceEntry & { value: number; hadRecentInput: boolean; sources: { node?: Node }[] })[]) {
         if (e.hadRecentInput) continue;
@@ -128,13 +145,22 @@ async function open(browser: Browser, viewport: { width: number; height: number 
   return { context, page, cdp };
 }
 
-async function loaded(page: Page) {
-  await page.waitForSelector(".chart svg path", { timeout: 60_000 });
+/** Waits for the charts, and returns when they were first drawn. */
+async function loaded(page: Page): Promise<number> {
+  const drawn = await page.waitForFunction(
+    () => {
+      if (document.documentElement.hasAttribute("data-pending")) return false;
+      return document.querySelector(".chart svg path") ? performance.now() : false;
+    },
+    undefined,
+    { timeout: 60_000, polling: "raf" },
+  );
+  const at = (await drawn.jsonValue()) as number;
   await page.waitForTimeout(500);
+  return at;
 }
 
-const result = (page: Page) =>
-  page.evaluate(() => (window as unknown as { cwv: { cls: number; shifts: string[]; lcp: number; inp: number; inpOn: string } }).cwv);
+const result = (page: Page) => page.evaluate(() => (window as unknown as { cwv: Cwv }).cwv);
 
 /** Every control once, with real input: both views' links (switching in
  * place), every range, the selects by keyboard, and a spec in the
@@ -166,15 +192,20 @@ async function useControls(page: Page) {
 const median = (xs: number[]) => [...xs].sort((a, b) => a - b)[Math.floor(xs.length / 2)];
 
 async function lcpChecks(browser: Browser, origin: string) {
-  console.log("LCP, throttled phone (Slow 4G, CPU 4x), 3 cold loads each:");
+  console.log(`LCP, throttled phone (Slow 4G, CPU 4x), ${runs} cold loads each:`);
+  const main: string[] = [];
   for (const path of URLS) {
     const lcps: number[] = [];
-    for (let run = 0; run < 3; run++) {
+    const tbts: number[] = [];
+    const totals: number[] = [];
+    const longest: number[] = [];
+    const drawn: number[] = [];
+    for (let run = 0; run < runs; run++) {
       const { context, page, cdp } = await open(browser, { width: 412, height: 823 }, { slow: true });
       const started: { url: string; by: string }[] = [];
       cdp.on("Network.requestWillBeSent", (e) => started.push({ url: e.request.url, by: e.initiator.type }));
       const response = await page.goto(origin + path);
-      await loaded(page);
+      const drawnAt = await loaded(page);
       const timing = await page.evaluate(() => ({
         fcp: performance.getEntriesByName("first-contentful-paint")[0]?.startTime ?? 0,
         html: (performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming).transferSize,
@@ -182,9 +213,14 @@ async function lcpChecks(browser: Browser, origin: string) {
           .filter((r) => r.renderBlockingStatus === "blocking")
           .map((r) => r.name),
       }));
-      const { lcp, cls, shifts } = await result(page);
+      const { lcp, cls, shifts, longTasks } = await result(page);
       await context.close();
       lcps.push(lcp);
+      const tasks = longTasks.filter((t) => t.start <= drawnAt);
+      tbts.push(tasks.reduce((a, t) => a + Math.max(0, Math.min(t.duration, t.start + t.duration - timing.fcp) - 50), 0));
+      totals.push(tasks.reduce((a, t) => a + t.duration, 0));
+      longest.push(Math.max(0, ...tasks.map((t) => t.duration)));
+      drawn.push(drawnAt);
       check(response?.ok() ?? false, `${path}: HTTP ${response?.status()}`);
       check(lcp - timing.fcp <= BUDGETS.lcpAfterFirstPaintMs, `${path}: LCP at ${Math.round(lcp)} ms, after the first paint at ${Math.round(timing.fcp)} ms: the largest content isn't in the first paint`);
       check(timing.blocking.length === 0, `${path}: render-blocking requests: ${timing.blocking.join(", ")}`);
@@ -199,7 +235,12 @@ async function lcpChecks(browser: Browser, origin: string) {
     const lcp = median(lcps);
     console.log(`  ${path.padEnd(44)} LCP ${lcps.map((x) => Math.round(x)).join(", ")} ms`);
     check(lcp <= BUDGETS.lcpMs, `${path}: LCP ${Math.round(lcp)} ms, over ${BUDGETS.lcpMs} ms`);
+    main.push(
+      `  ${path.padEnd(44)} TBT ${Math.round(median(tbts))} ms, long tasks ${Math.round(median(totals))} ms, longest ${Math.round(median(longest))} ms, charts at ${Math.round(median(drawn))} ms`,
+    );
   }
+  console.log("Main thread until the charts are drawn, medians (reported, not enforced):");
+  for (const line of main) console.log(line);
 }
 
 async function clsChecks(browser: Browser, origin: string) {
@@ -272,8 +313,10 @@ const browser = await chromium.launch({
 console.log(`Chrome ${browser.version()}\n`);
 try {
   await lcpChecks(browser, origin);
-  await clsChecks(browser, origin);
-  await inpChecks(browser, origin);
+  if (!process.env.CWV_ONLY_LOAD) {
+    await clsChecks(browser, origin);
+    await inpChecks(browser, origin);
+  }
 } finally {
   await browser.close();
   server.close();
