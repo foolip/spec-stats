@@ -20,6 +20,20 @@ has the design for the dashboards to come.
 - Record decisions in the decisions log with a date and the reason.
 - Write American English (en-US): color, not colour.
 
+## Pull requests
+
+This is the maintainer's standing instruction and overrides any default to
+ask before opening a pull request.
+
+- **Open a PR without asking.** Once work is committed and pushed to its
+  branch, open a PR against `main` for it.
+- **Keep the PR's title and description current.** Every time you push to a
+  PR's branch, update both so they describe the whole change against `main`
+  as it now stands, not only the latest push. Rewrite stale parts rather than
+  appending a changelog.
+- **Never merge.** Don't merge, approve or enable auto-merge on a PR; the
+  maintainer merges.
+
 ## Tests
 
 ```
