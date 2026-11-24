@@ -2,7 +2,7 @@
 // is open from its creation (or the window's start) to its last close, as
 // GitHub search sees it. Drafts are open PRs.
 
-import { dateOf, type Data } from "./data.ts";
+import { dayOf, type Data } from "./data.ts";
 
 /** Open items at the end of each day of the window. */
 export type OpenSeries = Int32Array;
@@ -69,10 +69,15 @@ export function yearCohorts(data: Data, years = 5): Cohorts {
   const first = last - years + 1;
   const labels = ["older"];
   for (let y = first; y <= last; y++) labels.push(String(y));
-  const of = new Int32Array(data.items.created.length);
+  // The day each year starts on, compared with each item's day: no date
+  // strings per item, which cost about 25 ms on a slow phone.
+  const starts = labels.slice(1).map((y) => dayOf(data.from, `${y}-01-01`));
+  const { created } = data.items;
+  const of = new Int32Array(created.length);
   for (let i = 0; i < of.length; i++) {
-    const y = Number(dateOf(data.from, data.items.created[i]).slice(0, 4));
-    of[i] = y < first ? 0 : y - first + 1;
+    let g = 0;
+    while (g < starts.length && created[i] >= starts[g]) g++;
+    of[i] = g;
   }
   return { labels, of };
 }
