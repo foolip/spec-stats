@@ -5,20 +5,18 @@ import type { RawData } from "../src/lib/data.ts";
 
 export interface Table {
   meta: RawData["meta"];
-  event_types: string[];
   repos: RawData["repos"];
-  /** Values, not differences. `is_pr` is all 1s (PRs) and `hours_to_close`
-   * all nulls if left out. */
+  /** Values, not differences. `kind` is all 1s (PRs not merged) and
+   * `later_in_day` all 0s if left out. `closed` is the day of the last
+   * close, from meta.from, or null while open. */
   items: {
     repo: number[];
     number: number[];
-    is_pr?: number[];
+    kind?: number[];
     created: number[];
-    hours_to_merge: (number | null)[];
-    hours_to_close?: (number | null)[];
+    closed: (number | null)[];
+    later_in_day?: number[];
   };
-  /** [day, item, event type], each item's in time order. */
-  events: [number, number, string][];
 }
 
 export function encode(t: Table): RawData {
@@ -33,37 +31,22 @@ export function encode(t: Table): RawData {
     created.push(t.items.created[i] - lc);
     last.set(r, [t.items.number[i], t.items.created[i]]);
   }
-  const counts = new Array<number>(n).fill(0);
-  const day: number[] = [];
-  const event: number[] = [];
-  for (let i = 0; i < n; i++) {
-    let prev = Math.max(t.items.created[i], 0);
-    for (const [d, item, type] of t.events) {
-      if (item !== i) continue;
-      counts[i]++;
-      day.push(d - prev);
-      event.push(t.event_types.indexOf(type));
-      prev = d;
-    }
-  }
   return {
     meta: t.meta,
-    event_types: t.event_types,
     repos: t.repos,
     items: {
-      ...t.items,
+      repo: t.items.repo,
       number,
-      is_pr: t.items.is_pr ?? new Array<number>(n).fill(1),
+      kind: t.items.kind ?? new Array<number>(n).fill(1),
       created,
-      hours_to_close: t.items.hours_to_close ?? new Array<null>(n).fill(null),
-      events: counts,
+      closed: t.items.closed.map((c, i) => (c === null ? null : c - t.items.created[i])),
+      later_in_day: t.items.later_in_day ?? new Array<number>(n).fill(0),
     },
-    events: { day, event },
   };
 }
 
 /** The same table with its items in another order, so a view that relies
- * on the order of items or events gives different results. */
+ * on the order of items gives different results. */
 export function shuffled(t: Table): Table {
   const n = t.items.repo.length;
   // A fixed shuffle: Fisher–Yates with a small LCG.
@@ -75,19 +58,16 @@ export function shuffled(t: Table): Table {
     [order[i], order[j]] = [order[j], order[i]];
   }
   if (n > 1 && order.every((o, i) => o === i)) order.reverse();
-  const to = new Array<number>(n);
-  order.forEach((o, i) => (to[o] = i));
   const pick = <T>(xs: T[]) => order.map((o) => xs[o]);
   return {
     ...t,
     items: {
       repo: pick(t.items.repo),
       number: pick(t.items.number),
-      is_pr: t.items.is_pr && pick(t.items.is_pr),
+      kind: t.items.kind && pick(t.items.kind),
       created: pick(t.items.created),
-      hours_to_merge: pick(t.items.hours_to_merge),
-      hours_to_close: t.items.hours_to_close && pick(t.items.hours_to_close),
+      closed: pick(t.items.closed),
+      later_in_day: t.items.later_in_day && pick(t.items.later_in_day),
     },
-    events: t.events.map(([d, i, e]) => [d, to[i], e]),
   };
 }

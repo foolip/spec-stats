@@ -56,9 +56,12 @@ export interface ViewText {
   question: string;
   /** What's counted: "PRs", "issues". */
   items: string;
-  /** What the bars count, as a verb and a noun: "merged", "merges". */
+  /** What the summary tile counts: "merged". */
   done: string;
-  doneNoun: string;
+  /** What the flow chart counts, as a verb and a noun: "merged or
+   * closed", "merges and closes". */
+  flowDone: string;
+  flowNoun: string;
 }
 
 export const VIEW_TEXT: Record<View, ViewText> = {
@@ -67,14 +70,16 @@ export const VIEW_TEXT: Record<View, ViewText> = {
     question: "How many PRs are open, and how many are getting merged?",
     items: "PRs",
     done: "merged",
-    doneNoun: "merges",
+    flowDone: "merged or closed",
+    flowNoun: "merges and closes",
   },
   "open-issues": {
     title: "Issues",
     question: "How many issues are open, and how many are getting closed?",
     items: "issues",
     done: "closed",
-    doneNoun: "closes",
+    flowDone: "closed",
+    flowNoun: "closes",
   },
 };
 
