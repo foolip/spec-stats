@@ -30,18 +30,46 @@
     "user_view_type": "public",
     "site_admin": false
   },
-  "labels": [],
-  "state": "open",
+  "labels": [
+    {
+      "id": 377109407,
+      "node_id": "MDU6TGFiZWwzNzcxMDk0MDc=",
+      "url": "https://api.github.com/repos/whatwg/html/labels/accessibility",
+      "name": "accessibility",
+      "color": "fbca04",
+      "default": true,
+      "description": "Affects accessibility",
+      "archived_at": null,
+      "archived_by": null
+    },
+    {
+      "id": 402537936,
+      "node_id": "MDU6TGFiZWw0MDI1Mzc5MzY=",
+      "url": "https://api.github.com/repos/whatwg/html/labels/topic:%20forms",
+      "name": "topic: forms",
+      "color": "009800",
+      "default": false,
+      "description": "Forms and form controls: input types, submission, constraint validation and autofill",
+      "archived_at": null,
+      "archived_by": null
+    }
+  ],
+  "state": "closed",
   "locked": false,
   "assignees": [],
   "milestone": null,
-  "comments": 11,
+  "comments": 12,
   "created_at": "2022-04-22T18:15:44Z",
-  "updated_at": "2022-04-24T22:31:32Z",
-  "closed_at": null,
+  "updated_at": "2026-11-24T01:21:29Z",
+  "closed_at": "2026-11-24T01:21:11Z",
   "author_association": "NONE",
   "issue_field_values": [],
   "type": null,
+  "status": {
+    "id": 5,
+    "name": "Done",
+    "category": "completed"
+  },
   "active_lock_reason": null,
   "sub_issues_summary": {
     "total": 0,
@@ -55,7 +83,27 @@
     "total_blocking": 0
   },
   "body": "Hello :) \r\n\r\nBecause of the way the Spec [defines](https://html.spec.whatwg.org/multipage/input.html#the-required-attribute) a field owning the `required` attribute as **invalid** when the page loads, this creates an experience for screen reader users that does not match the typical visual experience and one that many would agree, is not a great experience. Form fields owning the `requried` attribute are announced as \"invalid data\" which sound like an error even without user interaction. Typically, a form gracefully presents errors after interaction (whether this be onBlur or submission). This is why we don't often see all errors for fields presented to the user both programmatically and visually on landing for web forms. \r\n\r\nHTML5 validation only presents these errors on submission or mouse-over behaviors by default.\r\n\r\nThis is an example of presenting errors on load - not great UX - looks like the form has been submitted:\r\n\r\n![Screenshot of web form with all fields having errors present on landing and error bucket at top of form present](https://user-images.githubusercontent.com/3695795/164761247-6d4d13f2-958f-4e60-8fce-009bb2b67265.png)\r\n\r\n## `Invalid user entry` and `Required` computed properties\r\nUsing Google Chrome DevTools, if we inspect a field with the `required` attribute, in the Accessibility Inspector you will find it computes the property `Invalid user entry` as `true`. This, as a result, is announced by the screen reader when the field receives focus. \"invalid data\" - even though visually, 9 times out of 10, visual errors or visual text is not communicating this state. Technically, the browser is doing its job correctly here as it is respecting the spec.\r\n\r\nMost forms on page load wait for user interaction prior to presenting errors. Most would agree that hearing \"invalid data\" announced by the screen reader when data has not been entered into the field would be confusing and frustrating for some  users. \r\n\r\nWhen inspecting a field with the `required` attribute defined it also separately computes the `Required` property as `true`. This I believe is all that needs to be defined.\r\n\r\n![Screenshot of computed properties in chrome devtools Invalid user entry: true, Required: true](https://user-images.githubusercontent.com/3695795/164770365-7c7a987b-f908-4b73-8410-3da5706221ed.png)\r\n\r\nThe `Invalid user entry` and `Required` properties are separate in the computed properties for a field. Why does the `required` attribute define both? Why does it perform double duty? My guess is because Chrome is following what is defined in the HTML Spec.\r\n\r\nIronically, the browser calls it `Invalid user entry` even though entry hasn't occurred.\r\n\r\n## Mouse-only features\r\nOnly some users are able to access secret features such as on mouse hover a validation message is presented \"Please fill out this field\". This content is only available to mouse users, or similar input devices/emulation by default.\r\n\r\n![Text field with mouse over and tooltip stating Please fill out this field codepen example](https://user-images.githubusercontent.com/3695795/164770657-6c6a44d4-7b83-42ac-9c94-6ee7e71654b7.png)\r\n\r\n## ARIA Mismatch\r\nThe ARIA spec for [aria-required](https://w3c.github.io/aria/#aria-required) property and the [aria-invalid](https://w3c.github.io/aria/#aria-invalid) state along the way browsers currently treat `aria-required` also does not match how the native HTML attribute behaves. In fact, it is the opposite and is in my opinion a more predictable/better experience for all.  This isn't the work of WHATWG, but there is a huge disconnect / mismatch. See: [mismatch between native and custom required controls](https://github.com/w3c/aria/issues/1488) #1488\r\n\r\nBrowsers do not automatically compute `aria-required` attribute as `Invalid user entry:true` thus if `aria-required=\"true\"` is used the only thing announced is the required-ness. The validity of the field is left out of the mix and browsers await a 2nd attribute to be defined once the user has interacted with the form field: `aria-invalid`. The [ARIA spec](https://w3c.github.io/aria/#aria-invalid) normative guidance states that the `aria-invalid` attribute should not be set until after user interaction. This is a good thing in my opinion. \r\n\r\n> However, if the user has not attempted to submit the form, authors SHOULD NOT set the aria-invalid attribute on required widgets simply because the user has not yet entered data.\r\n\r\n## Dirty / Clean / Touched / Untouched Logic\r\nDoes the HTML5 validation mechanism need an extra layer of logic that checks for user interaction on the form field prior to defining validity? Is this possible? \r\n\r\nCan we still communicate requiredness without attaching validity state when the field hasn't been interacted with? \r\n\r\n## A new HTML attribute?\r\nCould we consider a new attribute that separately defines the valid state like ARIA does? `invalid=\"true\"` \r\n\r\n## Using ARIA to hack HTML\r\nAt this stage, a current recommendation out there is to bolt onto a native form element ARIA to hack a browser to behave differently that the way it is supposed to. This tugs against all best practice and moves us away from purely respecting an native HTML-first approach which is not ideal.\r\n\r\n`<input required aria-invalid=\"false\">` Behaves well for all users on load. Still \"required\" but not invalid. But is ARIA misuse. \r\n\r\nAnother approach is to avoid the `required` attribute all together and go all ARIA which also isn't ideal - HTML should be the way. The `required` attribute is the most semantic method, but at a cost.\r\n\r\n## Summary\r\nAre we still working out the `required` attribute so that we should still lean on ARIA for an accessible experience? My guess is that the attribute is fairly baked by now, but could there be consideration around improving it? \r\n\r\nThis would surely impact `:invalid` pseudo selectors as well. This is also triggered by fields owning `required`.\r\n\r\nIt's a bummer as a professional in the web accessibility space that we have to encourage folks to avoid the use of this attribute because its negative impacts on screen reader users.\r\n\r\nWhat is the Working Group's thoughts on all of this?",
-  "closed_by": null,
+  "closed_by": {
+    "login": "zcorpan",
+    "id": 244772,
+    "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+    "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/zcorpan",
+    "html_url": "https://github.com/zcorpan",
+    "followers_url": "https://api.github.com/users/zcorpan/followers",
+    "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+    "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+    "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+    "repos_url": "https://api.github.com/users/zcorpan/repos",
+    "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
   "reactions": {
     "url": "https://api.github.com/repos/whatwg/html/issues/7848/reactions",
     "total_count": 4,
@@ -70,6 +118,6 @@
   },
   "timeline_url": "https://api.github.com/repos/whatwg/html/issues/7848/timeline",
   "performed_via_github_app": null,
-  "state_reason": null,
+  "state_reason": "completed",
   "pinned_comment": null
 }

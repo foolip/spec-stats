@@ -168,7 +168,7 @@
       "site_admin": false
     },
     "created_at": "2026-11-22T01:39:09Z",
-    "updated_at": "2026-11-22T01:39:09Z",
+    "updated_at": "2026-11-22T07:17:55Z",
     "body": "> Actualmente parece que hay dos significados distintos para \"descargar\" en la especificación:\n> \n> * Cambiar el `Document`que está cargado actualmente: Utilizado por \" [descargar un documento](https://html.spec.whatwg.org/multipage/browsing-the-web.html#unload-a-document) \" y \" [descargar pasos de cambio de visibilidad del documento](https://html.spec.whatwg.org/multipage/browsing-the-web.html#unloading-document-visibility-change-steps) \" que se llaman en [navegaciones](https://html.spec.whatwg.org/multipage/browsing-the-web.html#navigating-across-documents:unload-a-document-2) ,   [recorrido del historial](https://html.spec.whatwg.org/multipage/history.html#the-history-interface:unload-a-document-2) , [cierre del contexto de navegación](https://html.spec.whatwg.org/multipage/window-object.html#close-a-browsing-context) y el `beforeunload`evento.\n> * Destruir un `Document`: utilizado por el `unload`evento, que solo se activa si el `Document`ya no es recuperable (por [Hacer que beforeunload no afecte a 'salvageable' y activar el evento de descarga solo si el documento ya no es recuperable  #5889](https://github.com/whatwg/html/pull/5889) ).\n> \n> La primera definición significa que `Document`no es necesario destruirlo si se descarga, lo que permite casos en los que la caché de avance/retroceso mantiene el `Document`objeto activo después de la navegación para que `Document`pueda reutilizarse en la navegación hacia atrás, etc.\n> \n> Sin embargo, el `unload`evento no se activa cada vez que \"descargamos\" (usando la primera definición), sino que solo se activa cuando `Document`resulta que ya no se [puede recuperar](https://html.spec.whatwg.org/multipage/browsing-the-web.html#concept-document-salvageable) , lo que significa que se destruirá más tarde. Incluso usando la segunda definición, no siempre se activa: ejemplos notables incluyen cuando descartamos [un contexto de navegación](https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element:unload-a-document) (aunque según [#4611](https://github.com/whatwg/html/issues/4611) esto no es cierto en la práctica, por lo que podría ser un problema aparte), y cuando `Document`se destruye mientras no es el \"documento activo\" (por ejemplo, cuando se guarda en bfcache pero luego se destruye debido a presión de memoria/tiempo de espera/otras razones).\n> \n> Así que supongo que el problema principal aquí es que **el `unload`evento tiene un nombre engañoso** , ya que no siempre se activará cuando estemos \"descargando\" como se define en la primera definición (es decir, cuando se use el término \"descargar\" en la especificación). Además, ya tenemos el `pagehide`evento, que [siempre se activará](https://html.spec.whatwg.org/multipage/browsing-the-web.html#unloading-documents:event-pagehide-4) cuando estemos descargando y cubre todos los casos en los que `unload`se activa el evento (+ ¡más!). Esto significa que todos `unload`los manejadores deberían poder cambiarse a un `pagehide`manejador.\n> \n> Teniendo en cuenta lo anterior, me pregunto si sería conveniente descontinuar el `unload`evento (esto no significa que los navegadores dejarán de activarlo inmediatamente; [aproximadamente el 66 %](https://www.chromestatus.com/metrics/feature/timeline/popularity/202) de las cargas de página aún utilizan `unload`controladores). Esto eliminaría cualquier confusión en torno al término \"descargar\".\n> \n> Si eso parece demasiado drástico, supongo que podemos simplemente aclarar los diferentes significados (y tal vez MDN, etc., puedan ayudar a aclarar los casos en los que se activará el evento de descarga y en los que no).\n> \n> Temas relevantes: [#5748](https://github.com/whatwg/html/issues/5748) , [#4611](https://github.com/whatwg/html/issues/4611)\n> \n> cc[@annevk](https://github.com/annevk) [@domenic](https://github.com/domenic) [@cdumez](https://github.com/cdumez) [@fergald](https://github.com/fergald) [@altimin](https://github.com/altimin) [@smaug----](https://github.com/smaug----) [@mystor](https://github.com/mystor)\n\nhttps://github.com/whatwg/html/issues/6026",
     "author_association": "NONE",
     "pin": null,
@@ -185,7 +185,9 @@
       "eyes": 0
     },
     "performed_via_github_app": null,
-    "minimized": null
+    "minimized": {
+      "reason": "spam"
+    }
   },
   {
     "url": "https://api.github.com/repos/whatwg/html/issues/comments/7072346794",
@@ -215,7 +217,7 @@
       "site_admin": false
     },
     "created_at": "2026-11-22T01:39:27Z",
-    "updated_at": "2026-11-22T01:39:27Z",
+    "updated_at": "2026-11-22T07:17:56Z",
     "body": "[https://github.com/whatwg/html/issues/6026](https://github.com/whatwg/html/issues/6026) y",
     "author_association": "NONE",
     "pin": null,
@@ -232,6 +234,8 @@
       "eyes": 0
     },
     "performed_via_github_app": null,
-    "minimized": null
+    "minimized": {
+      "reason": "spam"
+    }
   }
 ]

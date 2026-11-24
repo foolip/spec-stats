@@ -1,45 +1,66 @@
 // Everything a view shows that needs the data, derived from the data and
-// the state: open PRs and merges for the open PRs view, open issues and
-// closes for the open issues view. Used on the server to prerender a page
-// and in the browser, where the state follows the controller. A page is
-// one view, so the view is fixed when the model is made.
+// the state: open PRs, merges and PRs opened for the open PRs view; open
+// issues, closes and issues opened for the open issues view. Used on the server to prerender a page
+// and in the browser, where the state follows the controller, the view
+// included: switching views recomputes from the data in memory.
 
 import { periods, sampleDays } from "./bins.ts";
 import type { Layer } from "../components/StackedArea.svelte";
 import type { BarLayer } from "../components/StackedBars.svelte";
 import { dateOf, type Data } from "./data.ts";
-import { closes, flowByPeriod, merges, type Flow } from "./flow.ts";
-import { ofKind, openByGroup, openByRepo, total, yearCohorts, type Cohorts, type OpenSeries } from "./open.ts";
-import { stateText, VIEW_TEXT, type ViewText } from "./texts.ts";
+import { closes, flowByPeriod, merges, openedByPeriod, OUTCOME_BANDS, type Flow } from "./flow.ts";
+import { ofKind, openByGroup, openByRepo, total, yearCohorts, type Cohorts, type Kind, type OpenSeries } from "./open.ts";
+import { stateText, VIEW_TEXT } from "./texts.ts";
 import { selectedRepos, type Context, type State } from "./url.ts";
+
+/** What a view counts, over the whole window and every repo. */
+interface Counts {
+  byRepo: OpenSeries[];
+  /** By repo, then by year opened (Model.cohorts). */
+  byCohort: OpenSeries[][];
+  /** Merges or closes. */
+  flow: Flow;
+}
 
 export class Model {
   data: Data;
   /** Reactive in the browser. */
   view: State;
   ctx: Context;
-  /** The view's words: "PRs", "merged". */
-  words: ViewText;
-  byRepo: OpenSeries[];
-  /** Open items by the year they were opened, oldest first. */
+  /** Items by the year they were opened, oldest first. */
   cohorts: Cohorts;
-  byCohort: OpenSeries[][];
-  /** Merges or closes. */
-  flow: Flow;
+  /** Each kind's counts, worked out the first time its view is shown. */
+  #counts = new Map<Kind, Counts>();
 
   constructor(data: Data, view: State) {
     this.data = data;
     this.view = view;
     this.ctx = { repoNames: data.repos.name, from: data.from, to: data.to };
-    this.words = VIEW_TEXT[view.view];
-    const kind = view.view === "open-issues" ? "issue" : "pr";
-    this.byRepo = openByRepo(data, kind);
     this.cohorts = yearCohorts(data);
-    const mine = ofKind(data, kind);
-    const of = this.cohorts.of.map((g, i) => (mine[i] < 0 ? -1 : g));
-    this.byCohort = openByGroup(data, of, this.cohorts.labels.length);
-    this.flow = kind === "issue" ? closes(data) : merges(data);
   }
+
+  #countsOf(kind: Kind): Counts {
+    let c = this.#counts.get(kind);
+    if (!c) {
+      const mine = ofKind(this.data, kind);
+      const of = this.cohorts.of.map((g, i) => (mine[i] < 0 ? -1 : g));
+      c = {
+        byRepo: openByRepo(this.data, kind),
+        byCohort: openByGroup(this.data, of, this.cohorts.labels.length),
+        flow: kind === "issue" ? closes(this.data) : merges(this.data),
+      };
+      this.#counts.set(kind, c);
+    }
+    return c;
+  }
+
+  kind: Kind = $derived.by(() => (this.view.view === "open-issues" ? "issue" : "pr"));
+  /** The view's words: "PRs", "merged". */
+  words = $derived.by(() => VIEW_TEXT[this.view.view]);
+  #c = $derived.by(() => this.#countsOf(this.kind));
+  byRepo = $derived.by(() => this.#c.byRepo);
+  byCohort = $derived.by(() => this.#c.byCohort);
+  flow = $derived.by(() => this.#c.flow);
 
   text = $derived.by(() => stateText(this.view, this.ctx));
   repos = $derived.by(() => selectedRepos(this.view.repo, this.data.repos.name));
@@ -61,9 +82,8 @@ export class Model {
   /** PRs merged, or issues closed, per calendar period. */
   flowPeriods = $derived.by(() => periods(this.data.from, this.text.start, this.text.end, this.text.bin));
   flowCounts = $derived.by(() => flowByPeriod(this.data, this.flow, this.repos, this.flowPeriods));
-  /** Fastest first, for the legend and the table; stacked the other way,
-   * so the slowest is at the bottom and the fastest (lightest) on top, as
-   * the open items' newest layer is. */
+  /** Fastest first, for the legend and the table (BarsPanel stacks them
+   * the other way). */
   flowBands: BarLayer[] = $derived.by(() =>
     this.flow.bands.labels.map((label, k) => ({
       label,
@@ -71,7 +91,15 @@ export class Model {
       color: `var(--age-${k})`,
     })),
   );
-  flowLayers = $derived.by(() => [...this.flowBands].reverse());
+  /** PRs or issues opened per period, by how soon they were closed. */
+  opened = $derived.by(() => openedByPeriod(this.data, this.kind, this.repos, this.flowPeriods));
+  openedBands: BarLayer[] = $derived.by(() =>
+    OUTCOME_BANDS.labels.map((label, k) => ({
+      label,
+      values: this.opened.counts.map((c) => c[k]),
+      color: `var(--age-${k})`,
+    })),
+  );
   done = $derived.by(() => this.flowCounts.reduce((s, c) => s + c.reduce((a, b) => a + b, 0), 0));
   /** The open PRs are drawn at the same periods' ends, so they follow the
    * bin too: every day, or the last day of each week, month or quarter. */
@@ -89,7 +117,8 @@ export class Model {
         open: this.byRepo[r].ready[this.text.end],
         change: this.byRepo[r].ready[this.text.end] - this.byRepo[r].ready[this.text.start],
       }))
-      .sort((a, b) => b.open - a.open || a.standard.localeCompare(b.standard)),
+      // A stable sort: ties stay in the build's order of specs.
+      .sort((a, b) => b.open - a.open),
   );
   maxOpen = $derived.by(() => Math.max(1, ...this.rows.map((r) => r.open)));
 

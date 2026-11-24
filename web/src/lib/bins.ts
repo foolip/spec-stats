@@ -2,7 +2,6 @@
 // and quarters, clipped to the range (so the first and last may be partial).
 
 import { dateOf, dayOf } from "./data.ts";
-import { LOCALE } from "./format.ts";
 
 export type Bin = "day" | "week" | "month" | "quarter";
 export const BINS: readonly Bin[] = ["day", "week", "month", "quarter"];
@@ -17,6 +16,9 @@ export interface Period {
   first: string;
   /** Whether the range cuts the period short. */
   partial: boolean;
+  /** Whether its figures may still change: items opened in it may yet be
+   * closed within the time a band counts (lib/flow.ts, SETTLE_DAYS). */
+  provisional?: boolean;
 }
 
 /** The calendar periods covering days start..end (inclusive), clipped to them. */
@@ -68,22 +70,11 @@ export function chooseBin(from: string, start: number, end: number): Bin {
 /** A period's unit in text: "Open PRs at the end of each ISO week". */
 export const UNIT: Record<Bin, string> = { day: "day", week: "ISO week", month: "month", quarter: "quarter" };
 
-/** "Tue, Nov 17, 2026", "2026-W47", "November 2026" or "2026 Q4". */
-export function periodName(p: Period, bin: Bin): string {
-  const d = new Date(`${p.first}T00:00:00Z`);
-  if (bin === "day") {
-    return d.toLocaleString(LOCALE, { weekday: "short", day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
-  }
-  if (bin === "month") return d.toLocaleString(LOCALE, { month: "long", year: "numeric", timeZone: "UTC" });
-  if (bin === "quarter") return `${d.getUTCFullYear()} Q${Math.floor(d.getUTCMonth() / 3) + 1}`;
-  // ISO week: the week's Thursday decides its year.
-  const thu = new Date(d);
-  thu.setUTCDate(d.getUTCDate() + 3);
-  const jan1 = Date.UTC(thu.getUTCFullYear(), 0, 1);
-  const week = Math.floor((thu.getTime() - jan1) / 86_400_000 / 7) + 1;
-  return `${thu.getUTCFullYear()}-W${String(week).padStart(2, "0")}`;
+/** " (partial)", " (provisional)", both, or "", after a period's name. */
+export function periodNote(p: Period): string {
+  const notes = [p.partial && "partial", p.provisional && "provisional"].filter(Boolean);
+  return notes.length ? ` (${notes.join(", ")})` : "";
 }
-
 
 /** The days to plot a daily count at so it follows the periods: the
  * range's first day, then each period's last day (clipped to the range).

@@ -44,5 +44,51 @@
     },
     "performed_via_github_app": null,
     "minimized": null
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/7112073794",
+    "html_url": "https://github.com/whatwg/html/pull/13305#issuecomment-7112073794",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/13305",
+    "id": 7112073794,
+    "node_id": "IC_kwDOALaj488AAAABp-miQg",
+    "user": {
+      "login": "noamr",
+      "id": 88566,
+      "node_id": "MDQ6VXNlcjg4NTY2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88566?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/noamr",
+      "html_url": "https://github.com/noamr",
+      "followers_url": "https://api.github.com/users/noamr/followers",
+      "following_url": "https://api.github.com/users/noamr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/noamr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/noamr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/noamr/subscriptions",
+      "organizations_url": "https://api.github.com/users/noamr/orgs",
+      "repos_url": "https://api.github.com/users/noamr/repos",
+      "events_url": "https://api.github.com/users/noamr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/noamr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-23T19:46:02Z",
+    "updated_at": "2026-11-23T19:46:02Z",
+    "body": "Proposed fixes for defects D1 and D2 aren't applied yet. Question Q1 is open.\n\nD1: The `webgl`/`webgl2` cell of both `getContext()` tables has no path that returns null when `contextId` and the context mode disagree. With\n\n```js\nconst canvas = document.createElement('canvas');\nconst outer = canvas.getContext('webgl', {\n  get alpha() { canvas.getContext('webgl2'); return true; }\n});\n```\n\nthe outer call now reaches the cell \"Return the same object as was returned the last time the method was invoked with this same first argument\", but `getContext('webgl')` has never returned anything. The tests in web-platform-tests/wpt#65525 expect null here, and Chrome, Firefox and Safari return null. The sequential case (`getContext('webgl2')` then `getContext('webgl')`) has the same gap and predates this PR; the re-entrant case is new. Also, \"set this's context mode to webgl or webgl2\" doesn't say which.\nNot applied: proposed fix: [spec](https://github.com/noamr/html/commit/2eb33fd8a144d822c905d19412a7ebf9a519e28e), [test](https://github.com/noamr/wpt/commit/38953ed31f62d2b46342b3fb292a900f5599dccf)\n\nD2: The tests can't catch some bugs they look like they cover:\n\n- When the outer and inner calls use the same `contextId`, the outer options have the default values, so an implementation that returns the inner context after applying the outer settings to it still passes.\n- No subtest creates a context in the outer call, so nothing checks that the options are read only once (relevant to KhronosGroup/WebGL#3807) or that the converted settings are the ones used.\n- The `webgl` and `webgl2` transfer and throwing-getter subtests are skipped when WebGL is unsupported, although they never create a WebGL context.\n- Each file leaves 10 WebGL contexts alive.\n\nNot applied: [proposed fix](https://github.com/noamr/wpt/commit/7c39f6f163cf4e7bfc9684c60feb0e8cf0d61384) (passes in Chrome Canary 160 and Safari TP 256)\n\nQ1: Should `getContext()` convert `options` when the context mode is already not none?\n\n```js\nconst canvas = document.createElement('canvas');\ncanvas.getContext('2d'); // or canvas.transferControlToOffscreen()\ncanvas.getContext('2d', { get alpha() { throw new Error('boom'); } });\n```\n\nThe commit message says options are converted first and the context mode is consulted afterwards, but the steps only convert when the context mode is none, so this returns the existing context (or throws \"InvalidStateError\") without calling the getter. Which is intended?\n\n- a: keep the steps as they are, and add tests: [test](https://github.com/noamr/wpt/commit/e82cd032fe005e3fb5c8d041e744c856599c3450). Matches the current spec and WebKit; Chromium and Gecko would need to change.\n- b: always convert before consulting the context mode: [spec](https://github.com/noamr/html/commit/e2c445ded771242a6f0fe213aee2c36e9f2782cd), [test](https://github.com/noamr/wpt/commit/c828011244fbf9e6210719c602d435c6df2e5287). Simpler steps, and matches Chromium, and Gecko except for `bitmaprenderer`; WebKit would need to change, and throwing or invalid options on a canvas that already has a context, or is a placeholder or detached, would throw from the conversion.\n\n<details><summary>Evidence</summary>\n\n- Safari TP 256 passes the tests for a and fails those for b. Chrome Canary 160 passes the tests for b and fails those for a. Firefox 160 calls the getter in these cases too, except for `bitmaprenderer`, where it doesn't convert options at all.\n- WebKit checks `m_context` and `m_detached` before converting: [HTMLCanvasElement.cpp](https://github.com/WebKit/WebKit/blob/040ef6e21ffac03b6d6098e0e12354bdb5469ad1/Source/WebCore/html/HTMLCanvasElement.cpp#L269-L270), [OffscreenCanvas.cpp](https://github.com/WebKit/WebKit/blob/040ef6e21ffac03b6d6098e0e12354bdb5469ad1/Source/WebCore/html/OffscreenCanvas.cpp#L183-L194).\n- Chromium converts in the bindings, as a dictionary argument: [html_canvas_element_module.idl](https://source.chromium.org/chromium/chromium/src/+/c510abc5a1b8bfc9b9e2fbfee8d78626cebb0b00:third_party/blink/renderer/modules/canvas/htmlcanvas/html_canvas_element_module.idl;l=19). That dictionary is the union from #3395, so Chromium also reads options for `webgpu` and unknown context IDs, which neither option specifies.\n- Gecko converts before checking for a placeholder or an existing context: [HTMLCanvasElement.cpp](https://github.com/mozilla-firefox/firefox/blob/05ea3f8e9fd32050f86babe19eddc88e77a1ca64/dom/html/HTMLCanvasElement.cpp#L1315-L1325).\n\n</details>\n\n<details><summary>Reviewed commits</summary>\n\nReviewed at 15c9808 on 0e292f4, with web-platform-tests/wpt#65525 at 2011a66, using spec-pr-review.\n</details>\n",
+    "author_association": "CONTRIBUTOR",
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/7112073794/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
   }
 ]

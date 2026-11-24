@@ -6,11 +6,13 @@
 import { chooseBin, UNIT, type Bin } from "./bins.ts";
 import { dateOf } from "./data.ts";
 import { longDate } from "./format.ts";
-import { fixed, rangeDays, type Context, type Preset, type State, type View } from "./url.ts";
+import { rangeDays, type Context, type Preset, type State, type View } from "./url.ts";
 
 export const BIN_LABELS: Record<Bin, string> = { day: "Day", week: "Week", month: "Month", quarter: "Quarter" };
-export const PRESET_LABELS: Record<Preset, string> = { all: "All", "3y": "3 yrs", "1y": "1 yr" };
-export const PRESET_TITLES: Record<Preset, string> = { all: "All", "3y": "3 years", "1y": "1 year" };
+export const PRESET_LABELS: Record<Preset, string> = { all: "All", "3y": "Last 3 years", "1y": "Last year" };
+/** The Period menu's option for dates that are no choice's, as on GitHub's
+ * contributors graph; the tiles say which dates. */
+export const CUSTOM_LABEL = "Custom range";
 
 export interface StateText {
   /** First and last day of the range, inclusive, from ctx.from. */
@@ -27,17 +29,13 @@ export interface StateText {
   unitTitle: string;
   /** "Auto (week)" */
   autoLabel: string;
-  /** "Custom", or the custom range's dates. */
-  customLabel: string;
-  /** The range's dates, YYYY-MM-DD, for the date inputs. */
-  dates: { from: string; to: string };
 }
 
 export function stateText(state: State, ctx: Context): StateText {
   const [start, end] = rangeDays(state.range, ctx);
+
   const auto = chooseBin(ctx.from, start, end);
   const bin = state.bin === "auto" ? auto : state.bin;
-  const dates = fixed(state.range, ctx) as { from: string; to: string };
   const unit = UNIT[bin];
   return {
     start,
@@ -49,8 +47,6 @@ export function stateText(state: State, ctx: Context): StateText {
     unit,
     unitTitle: unit[0].toUpperCase() + unit.slice(1),
     autoLabel: `Auto (${BIN_LABELS[auto].toLowerCase()})`,
-    customLabel: "from" in state.range ? `${longDate(dates.from)} – ${longDate(dates.to)}` : "Custom",
-    dates,
   };
 }
 
@@ -82,9 +78,15 @@ export const VIEW_TEXT: Record<View, ViewText> = {
   },
 };
 
-/** "HTML · Reviews · spec-stats" */
+/** The header's title: the spec's standard, "DOM", or for all specs,
+ * "WHATWG". */
+export function heading(standard: string | null): string {
+  return standard ?? "WHATWG";
+}
+
+/** "DOM Living Statistics · Reviews", "WHATWG Living Statistics · Issues" */
 export function pageTitle(view: View, standard: string | null): string {
-  return `${standard ? `${standard} · ` : ""}${VIEW_TEXT[view].title} · spec-stats`;
+  return `${heading(standard)} Living Statistics · ${VIEW_TEXT[view].title}`;
 }
 
 /** "Merged", for a column heading. */

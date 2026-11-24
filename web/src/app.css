@@ -84,22 +84,29 @@ a:hover { text-decoration-thickness: 2px; }
 
 /* Header and footer */
 
-header.site { border-top: 4px solid var(--accent); padding: 1.25rem 0 0.5rem; }
-header.site .wrap { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 1rem; }
-.brand {
-  font-weight: 700; font-size: 1.125rem; letter-spacing: -0.01em;
-  color: var(--ink); text-decoration: none;
+header.site { padding: 1.25rem 0 0.5rem; }
+/* As the WHATWG's standards' headers: a large green title, a green
+   subtitle, and the icon at the top right. */
+.masthead { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.masthead h1 {
+  margin: 0; color: var(--accent); font-weight: 700;
+  font-size: clamp(2.75rem, 10vw, 4rem); line-height: 1.1; letter-spacing: -0.01em;
 }
-/* The site icon, public/favicon.svg, relative to the page (base "./"). */
-.brand .logo { width: 1.5em; height: 1.5em; margin-right: 0.4em; vertical-align: -0.4em; }
-.tagline { margin: 0; color: var(--ink-2); font-size: 0.9375rem; }
+.subtitle {
+  margin: 0.375rem 0 0; color: var(--accent); font-weight: 700;
+  font-size: clamp(1.25rem, 3.5vw, 1.5rem); line-height: 1.25;
+}
+/* The site icon, public/favicon.svg, as a data: URL. */
+.masthead .logo { flex: none; line-height: 0; }
+.masthead .logo img { width: clamp(4rem, 16vw, 5.5rem); height: clamp(4rem, 16vw, 5.5rem); }
 
 /* Links to the views, as tabs under the site's name. */
-.views { flex: 1; display: flex; gap: 1.25rem; margin-top: 0.75rem; border-bottom: 1px solid var(--rule); }
+.views { flex: 1; display: flex; gap: 2rem; margin-top: 1rem; border-bottom: 1px solid var(--rule); }
 .views a {
-  padding: 0.375rem 0; margin-bottom: -1px;
-  color: var(--ink-2); text-decoration: none; font-weight: 600; font-size: 0.9375rem;
-  border-bottom: 2px solid transparent;
+  padding: 0.5rem 0; margin-bottom: -1px;
+  color: var(--ink-2); text-decoration: none; font-weight: 600;
+  font-size: clamp(1.25rem, 3vw, 1.5rem); letter-spacing: -0.01em;
+  border-bottom: 3px solid transparent;
 }
 .views a:hover { color: var(--ink); }
 .views a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--accent); }
@@ -125,8 +132,9 @@ main { display: flow-root; min-height: 100vh; }
 
 /* A view */
 
-.view hgroup { margin: 2rem 0 1.25rem; }
-.view h1 { font-size: clamp(1.75rem, 4vw, 2.25rem); line-height: 1.15; letter-spacing: -0.02em; margin: 0; }
+.view > .question { margin: 1.25rem 0; }
+.view hgroup { margin: 1.25rem 0; }
+.view hgroup h2 { font-size: clamp(1.75rem, 4vw, 2.25rem); line-height: 1.15; letter-spacing: -0.02em; }
 .question { margin: 0.4rem 0 0; color: var(--ink-2); font-size: 1.0625rem; max-width: 40rem; }
 
 h2 { font-size: 1rem; margin: 0; letter-spacing: -0.005em; }
@@ -145,17 +153,14 @@ button, input, summary { font: inherit; color: inherit; }
 button { cursor: pointer; }
 button:disabled { cursor: default; }
 
-/* One control height and shape for every button in the bar. */
-.menu-button, .segmented, button.copy, .select {
+/* One control height and shape for every control in the bar. */
+.select {
   height: 2rem; border: 1px solid var(--rule); border-radius: 8px; background: var(--surface);
   font-size: 0.875rem;
 }
-.menu-button, button.copy { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0 0.7rem; white-space: nowrap; }
-.menu-button::after { content: ""; width: 0.4em; height: 0.4em; margin: -0.2em 0 0 0.15rem; border: solid var(--ink-3); border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); }
-.menu-button:hover, button.copy:hover { border-color: var(--ink-3); }
 .menu-label { color: var(--ink-2); }
 
-/* The spec select: the label and a native select inside one control. */
+/* A select: the label and a native select inside one control. */
 .select { position: relative; display: inline-flex; align-items: center; gap: 0.4rem; padding: 0 0 0 0.7rem; cursor: pointer; }
 .select:hover { border-color: var(--ink-3); }
 .select:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
@@ -170,66 +175,6 @@ button:disabled { cursor: default; }
 }
 .select option { color: var(--ink); background: var(--tooltip-bg); }
 
-.segmented { display: inline-flex; align-items: stretch; max-width: 100%; overflow-x: auto; scrollbar-width: none; padding: 2px; gap: 2px; }
-.segmented button {
-  border: 0; background: none; padding: 0 0.6rem; border-radius: 6px;
-  font-size: 0.875rem; color: var(--ink-2); white-space: nowrap; font-variant-numeric: tabular-nums;
-}
-.segmented button:hover { color: var(--ink); }
-.segmented button[aria-pressed="true"] { background: var(--bg); color: var(--ink); font-weight: 600; box-shadow: 0 0 0 1px var(--rule); }
-.segment-menu[data-active] { background: var(--bg); color: var(--ink); font-weight: 600; box-shadow: 0 0 0 1px var(--rule); }
-.segment-menu::after { content: " ▾"; color: var(--ink-3); font-weight: 400; }
-
-/* Copy link: both labels share one grid cell, so the width never changes. */
-button.copy { margin-left: auto; display: inline-grid; }
-button.copy > span { grid-area: 1 / 1; text-align: center; }
-button.copy > .hidden { visibility: hidden; }
-button.copy > span:last-child { color: var(--accent); font-weight: 600; }
-
-/* Menus: in the top layer, opaque, never clipped. Placed by Menu.svelte's
-   place() unless anchor positioning is supported (below). */
-.menu {
-  position: fixed; inset: auto; margin: 0; overscroll-behavior: contain;
-  width: max-content; max-width: calc(100vw - 16px); max-height: calc(100vh - 6rem); overflow: auto;
-  padding: 0.75rem; color: var(--ink);
-  background: var(--tooltip-bg); border: 1px solid var(--rule); border-radius: 12px; box-shadow: var(--shadow);
-  scrollbar-width: thin; scrollbar-color: var(--rule) transparent;
-}
-
-.dates { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-.dates label { display: grid; gap: 0.2rem; font-size: 0.8125rem; color: var(--ink-2); }
-.dates input {
-  height: 2rem; border: 1px solid var(--rule); border-radius: 8px; padding: 0 0.5rem;
-  background: var(--bg); color: var(--ink); font-size: 0.875rem; font-variant-numeric: tabular-nums;
-}
-.menu-note { margin: 0.6rem 0 0; font-size: 0.8125rem; color: var(--ink-3); }
-.menu-done { display: none; }
-
-@supports (position-area: block-end) {
-  @media (min-width: 641px) {
-    .menu {
-      position-area: block-end span-inline-end;
-      position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
-      margin-block-start: 6px;
-      max-height: calc(100vh - 2rem);
-    }
-  }
-}
-
-/* Open and close with a short fade (and a small slide, motion allowing). */
-.menu {
-  opacity: 1;
-  transition: opacity 0.15s ease-out, display 0.15s, overlay 0.15s;
-  transition-behavior: allow-discrete;
-}
-.menu:not(:popover-open) { opacity: 0; }
-@starting-style { .menu:popover-open { opacity: 0; } }
-@media (prefers-reduced-motion: no-preference) {
-  .menu { transition: opacity 0.15s ease-out, translate 0.2s cubic-bezier(0.25, 1, 0.5, 1), display 0.2s, overlay 0.2s; transition-behavior: allow-discrete; }
-  .menu:not(:popover-open) { translate: 0 -4px; }
-  @starting-style { .menu:popover-open { translate: 0 -4px; } }
-}
-.menu::backdrop { overflow: hidden; overscroll-behavior: contain; }
 
 /* Summary tiles */
 
@@ -298,26 +243,9 @@ button.spec:hover { color: var(--accent); text-decoration: underline; }
 
 @media (max-width: 640px) {
   .controls { position: static; }
-  button.copy { margin-left: 0; }
-  .segmented { width: 100%; }
-  .segmented button { flex: 1; padding: 0 0.4rem; }
-  /* Menus become a bottom sheet. */
-  .menu {
-    inset: auto 0 0 0; width: 100%; max-width: none; max-height: 85vh;
-    border-radius: 16px 16px 0 0; border-bottom: 0; padding: 1rem 1rem calc(1rem + env(safe-area-inset-bottom));
-  }
-  .menu::backdrop { background: rgb(0 0 0 / 0.3); }
-  .menu-done {
-    display: block; width: 100%; margin-top: 0.75rem; height: 2.75rem;
-    border: 0; border-radius: 10px; background: var(--accent); color: var(--accent-ink); font-weight: 600;
-  }
   .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
   .tile { min-width: 0; }
   .tile-value { font-size: 1.625rem; }
   .by-spec .bar-col { display: none; }
 }
 
-@media (max-width: 640px) and (prefers-reduced-motion: no-preference) {
-  .menu:not(:popover-open) { translate: 0 1.5rem; }
-  @starting-style { .menu:popover-open { translate: 0 1.5rem; } }
-}

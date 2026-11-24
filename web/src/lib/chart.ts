@@ -28,3 +28,7 @@ export function margins(width: number): Margins {
  * are drawn (docs/site-design.md, "Loading"). */
 export const AREA_HEIGHT = 320;
 export const BARS_HEIGHT = 220;
+
+/** The length of the axes' tick marks, outside the plot, so the start of a
+ * year or month is clear and the label below or beside it names it. */
+export const TICK_LENGTH = 5;

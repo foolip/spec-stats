@@ -71,7 +71,9 @@ a time as later metrics need them:
 - **repos**, one row per standard: `name` (`html`, the repo's `name` in
   GitHub's API, and the spec's subdomain) and `standard` (`HTML`, the
   standard's `name` in `config/db.json`, as is: no "Standard" added), so
-  pages show HTML rather than html.
+  pages show HTML rather than html. In the order pages list specs (since
+  2026-11-22): by `standard`, with "Web Foo" sorted as WebFoo, so Web IDL
+  comes between WebHID and WebNFC; pages don't sort specs themselves.
 - **event_types**: `_carried_in`, `_carried_in_as_draft`, `_created`,
   `_created_as_draft`, `closed`, `reopened`, `convert_to_draft`,
   `ready_for_review`, `merged`.
@@ -105,11 +107,13 @@ a time as later metrics need them:
     many hours, so a limit in whole hours, like the merge chart's 24 and
     240, counts each PR as the exact time would.
 
-  - `hours_to_close`: hours from an issue's creation to its last
-    `closed` event, for issues closed at the end of the window whose
-    last close is in it, and null for the rest (PRs included). Whole
-    hours, rounded up, like `hours_to_merge`. An issue closed, reopened
-    and closed again counts once, at its last close.
+  - `hours_to_close`: hours from an item's creation to its last
+    `closed` event (a merge is a close), for items closed at the end of
+    the window whose last close is in it, and null for the rest. Whole
+    hours, rounded up, like `hours_to_merge`. An item closed, reopened
+    and closed again counts once, at its last close. Issues only until
+    2026-11-22; PRs have it since, for PRs opened by time to close
+    (below), which took the file from 45.3 KB to 50.0 KB gzipped.
 
   `created` and `hours_to_merge` were added on 2026-11-19, for open PRs
   by year opened and merges by time to merge; `is_pr` and
@@ -134,7 +138,8 @@ a time as later metrics need them:
 The loader (`fromRaw` in `web/src/lib/data.ts`) turns these back into
 values and gives every event its item, so views see `day`, `item` and
 `event` arrays. They may rely on each item's events being together and
-in time order, and on nothing else about the order of events or items:
+in time order, and on nothing else about the order of events or items
+(the order of `repos` is the one the pages show):
 a view that needs events by day sorts them itself. The web tests run
 each view on the same data with its items shuffled to check.
 `build.expand` does the same decoding in Python. On 2026-11-20 this took
@@ -285,8 +290,8 @@ a decisions-log entry when the definition changes.
   (`.github/workflows/site.yml`, after every push to `main` and every
   fetch run). The Vite dev server renders each page on request and
   serves `build/data.json` as `data.json`.
-- **Few dependencies:** Svelte, Vite, and `d3-scale` and `d3-shape` for
-  the charts; TypeScript and `svelte-check` (with `@tsconfig/svelte` and
+- **Few dependencies:** Svelte, Vite, and `d3-scale`, `d3-shape` and
+  `d3-time-format` for the charts; TypeScript and `svelte-check` (with `@tsconfig/svelte` and
   type packages) to check them. All pinned exactly. Anything else needs a
   reason in the decisions log. Unit tests use `node --test` with Node's
   type stripping, so no test framework.
@@ -316,8 +321,8 @@ view and the spec are in the path, each with its own prerendered page
 page); the rest is in the query string.
 
 ```
-/reviews/html/?range=2024-01-01..2026-11-17
-/reviews/dom/?range=all
+/reviews/html/?from=2023-11-22&to=2026-11-21
+/reviews/dom/?from=2022-01-01&to=2026-11-21
 ```
 
 `web/src/lib/url.ts` parses and writes it, relative to the site's root
@@ -333,22 +338,25 @@ The views are linked in that order: Issues, then Reviews.
 
 | Parameter | Values | Default |
 |---|---|---|
-| `range` | `all`, `3y`, `1y`, counted back from the window's end; or dates as in GitHub's search, `2024-01-01..2026-11-17`, inclusive and clamped to the window, `*` for an open end | `1y` |
+| `from`, `to` | the first and last day, `2024-01-01`, as on GitHub's contributors graph; an end left out is the window's, and dates outside it are clamped to it (`range`, a preset, 2026-11-22 to 2026-11-23) | the last year, counted back from the window's end |
 | `bin` | `day`, `week` (ISO), `month`, `quarter`: the period of the bars, and of the points the open PRs are drawn at | `auto` |
 
 - **Defaults are left out**, so `/reviews/` is a whole link.
 - **Changing a control** replaces the history entry (`replaceState`),
   the spec included, which changes the path without loading its page;
   so dragging a range doesn't fill the back button. **Changing view**
-  will add one (`pushState`), so Back returns to the previous chart.
+  adds one (`pushState`), so Back returns to the previous chart.
   `popstate` re-reads the URL.
-- **Parameters mean the same in every view** that uses them (`range`,
-  `window`), and so does the spec in the path, so switching views keeps
+- **Parameters mean the same in every view** that uses them (`from`,
+  `to`, `bin`), and so does the spec in the path, so switching views keeps
   the filters.
-- **Relative or fixed dates.** Presets write `range=12m`, which moves
-  with the data; "link to this view" writes the dates instead
-  (`range=2024-01-01..2026-11-17`), so the link shows the same dates
-  later (the figures are stable up to the data's small corrections).
+- **Fixed dates, as on GitHub** (since 2026-11-23): the Period choices
+  other than the default write their dates, so a link shows the same
+  days after the data is updated. Only the default, the last year, moves
+  with the data, so `/reviews/` always shows the latest year. Dates that
+  are no choice's (a link from before an update) are shown in the Period
+  menu as an extra option, "Custom range", as on GitHub; the tiles give
+  the dates.
 - **Unknown or invalid parameters are dropped quietly** and the URL
   rewritten without them.
 - **Paths that aren't pages get `404.html`**, a static "Page not found"
@@ -357,11 +365,25 @@ The views are linked in that order: Issues, then Reviews.
   Pages serves it with status 404.
 - **Old links aren't kept working** (since 2026-11-22): nobody uses the
   site yet, so the parameters of earlier URL designs (`repo`, `repos`,
-  `from`, `to`) are unknown parameters like any other.
-- **Views are linked under the site's name**, as tabs. Each link keeps
-  the spec and the query string, so switching views keeps the filters;
-  it loads the other view's prerendered page, and the data comes from
-  the HTTP cache.
+  `range`) are unknown parameters like any other.
+- **The header is laid out as a standard's** (since 2026-11-23): the
+  page's `<h1>`, large and green, is the spec's name ("DOM"), or "WHATWG"
+  for all specs; under it, in green, "Living Statistics — Last Updated
+  21 November 2026", the data's last day written as the standards write
+  it; the icon at the top right, linking to the site's root. The browser's
+  address bar is the same green (`<meta name="theme-color">`), as on the
+  standards. The controller sets the title as the spec changes.
+- **Views are linked under the header**, as large tabs, and the current
+  tab is the view's only visible name, with the view's question below
+  the tabs. Each link keeps
+  the spec and the query string, so switching views keeps the filters.
+  **Switching is in place** (since 2026-11-22): the controller handles
+  the click (a plain click; with a modifier key it's an ordinary link),
+  pushes the URL, and sets the view's question and the current tab; the islands recompute from the data in memory, as for any
+  control. `Model` works out each kind's series the first time its view
+  is shown. A click before the data has loaded hides the islands
+  (`data-pending`) until they're mounted for the new view. Each view
+  still has its own prerendered page, for links and reloads.
 - Repos in the URL are their `name` (`html`), not indexes, as indexes
   change when repos are added.
 
@@ -387,16 +409,23 @@ before the data file's compact layout, 2026-11-20).
   any depth. (No `<base>`: it would make `#footer`, below, point at
   another page.)
 - **The controller**, `src/controller.ts`, is plain TypeScript, built
-  into one small script (6 KB) inlined into every page after the view,
+  into one small script (5 KB) inlined into every page after the view,
   before the footer. It owns the URL and the form controls for the life
   of the page, and nothing else: it reads the state from the URL, sets
   the controls (their labels, such as "Auto (week)", included) and the
   title, handles the controls' events and writes the URL back. The
   controls are the one part that must be right, and work, before Svelte
   has loaded; their labels come from `stateText()` in `lib/texts.ts`,
-  which the islands use too, so the two agree. Running it costs about 5 ms of CPU; it formats dates by hand
-  (`lib/format.ts`), as creating an `Intl.DateTimeFormat` took 54 ms on
-  the throttled phone.
+  which the islands use too, so the two agree. Running it costs about 5 ms
+  of CPU. It shows no dates, but it bundles the summary tiles' ("Open on
+  Nov 21, 2026"), which `stateText()` makes with `longDate()` in
+  `lib/format.ts`. That's written by hand: `Intl`'s first use costs tens
+  of milliseconds on the throttled phone (54 ms for an
+  `Intl.DateTimeFormat`), and `d3-time-format` would add about 11 KB to
+  the controller. Nothing else uses `Intl` either: the islands name
+  periods with `d3-time-format`, which has its own en-US names, so their
+  mount doesn't pay that cost (about 27 ms with month periods, when they
+  used `toLocaleString`).
 - **Before the first paint.** `<link rel="expect" href="#footer"
   blocking="render">` holds rendering until the footer is parsed, which
   is after the controller has run, so no paint shows the prerendered
@@ -407,10 +436,11 @@ before the data file's compact layout, 2026-11-20).
   has it) paint a page this small whole in practice.
 - **Islands.** Everything else that changes with the state is a Svelte
   component in `src/islands/`, one per section: the summary tiles, the
-  open PRs (or issues) panel, the merges (or closes) panel (each panel its heading, legend,
-  chart and table) and the by-spec table, which shows itself for all
-  specs only. The header, the view's title and question, and the footer
-  are static HTML. `src/islands/index.ts` maps each `data-island` name to
+  open PRs (or issues) panel, the merges (or closes) panel, the PRs (or
+  issues) opened panel (each panel its heading, legend,
+  chart and table; the two bar panels share `components/BarsPanel.svelte`) and the by-spec table, which shows itself for all
+  specs only. The header, the view's question, and the footer
+  are static HTML, the title and question set by the controller. `src/islands/index.ts` maps each `data-island` name to
   its component; `Page.svelte` prerenders them from it (the charts as
   empty boxes) and `src/main.ts` mounts them from it, so the names can't
   drift apart. Once the data has loaded, `main.ts` mounts each in its
@@ -447,7 +477,7 @@ and what the design guarantees is checked exactly.
 
 | Check | How | Budget |
 |---|---|---|
-| CLS | 58 loads: six sizes, slow and fast, light and dark, the four kinds of URL (one of them an issues page), scrolled, with real scrollbars; every control used on one load per size | 0, on every load |
+| CLS | 58 loads: six sizes, slow and fast, light and dark, the four kinds of URL (one of them an issues page), scrolled, with real scrollbars; every control used on one load per size, switching views included | 0, on every load |
 | LCP | Three cold loads of each kind of URL on a throttled phone (Slow 4G, CPU 4× slower) | 1 s, median (about 0.35 s now) |
 | LCP in the first paint | The same loads | no later than the first paint, plus 50 ms |
 | First paint needs only the HTML | The same loads | no render-blocking request; HTML at most 14 KB gzipped (the first round trip); every request started by the HTML (no chain), the tab icon aside |
@@ -466,14 +496,29 @@ build Playwright uses for headless by default. CI installs it with
 
 ### The open PRs view
 
-Since 2026-11-19 the view has two charts, one above the other on the
-same time axis, over the last year by default:
+Since 2026-11-19 the view has two charts, and since 2026-11-22 three,
+one above the other on the same time axis, over the last year by default:
 
 - **Open PRs at the end of each period, by year opened.** A stacked area,
   oldest at the bottom: one layer for each of the last five calendar
   years, and one for every PR opened before them ("before 2022"). A layer
   only shrinks once its year is over, so clearing old PRs shows as its
   layer thinning. Drafts aren't counted, only PRs ready for review.
+- **PRs opened per period, by time to close** (since 2026-11-22), on the
+  same axis and periods as the merges (the third chart until it was moved
+  above them, the same day): each PR at the day it was created, split by its `hours_to_close`: closed within 1 week, closed
+  later, or still open (until 2026-11-22: within 1 day, in 1–7 days, or
+  open more than 7 days). A merge is a close. Of the 3,513 PRs opened
+  from 2022-01-01 to 2026-11-21, 61%, 26% and 13%; whatwg/html's 1,868,
+  54%, 31% and 14%. The bands are the same for issues, so the two compare.
+  - PRs opened in the window's last 7 days may still be closed within a
+    week, so periods ending in them are **provisional**: shaded like a
+    partial period, and marked "provisional" in the tooltip and the
+    table (`SETTLE_DAYS` in `lib/flow.ts`). After that only "closed
+    later" and "still open" change, as old PRs are closed, which they
+    never stop doing; that isn't marked.
+  - PRs opened before the window aren't counted.
+
 - **PRs merged per period, by time from ready for review to merge.**
   Stacked bars:
   - The split is within 1 day, 1–10 days, and more than 10 days, stacked
@@ -521,6 +566,10 @@ the same controls, layout and colors:
   layers. Issues have no drafts, so every open issue counts. About half
   of the open issues (2,158 of 4,219 on 2026-11-20) were opened before
   2022, so the oldest layer is the largest.
+- **Issues opened per period, by time to close** (since 2026-11-22), as
+  for PRs: closed within 1 week, closed later, or still open. Of the
+  4,069 issues opened from 2022-01-01 to 2026-11-21, 24%, 26% and 51%;
+  whatwg/html's 2,608, 23%, 26% and 50%.
 - **Issues closed per period, by time open**, from creation to the last
   close: within 1 week, 1 week to 90 days, more than 90 days. For
   whatwg/html's 1,569 issues closed since 2022 those breaks give 39%,
@@ -531,14 +580,16 @@ the same controls, layout and colors:
 - The tiles: issues open at the end of the range, the change over it,
   and issues closed in it; and the by-spec table.
 
-`Model` (`lib/model.svelte.ts`) takes the view from the state once, as a
-page shows one view: `lib/open.ts` counts the items of one kind, and
-`lib/flow.ts` counts merges or closes with their bands.
+`Model` (`lib/model.svelte.ts`) works out each kind's counts the first
+time its view is shown: `lib/open.ts` counts the items of one kind, and
+`lib/flow.ts` counts merges or closes, and items opened, with their
+bands.
 
 ### Charts
 
 Hand-written SVG components, using `d3-scale` and `d3-shape` for scales,
-ticks and paths; no chart library.
+ticks and paths, and `d3-time-format` for the periods' names ("November 2026",
+"2026-W47"; `periodName()` in `lib/names.ts`); no chart library.
 
 - **Lines and areas use `curveMonotoneX`.** It passes through every
   point drawn and never overshoots, so the chart rounds corners without
@@ -548,7 +599,10 @@ ticks and paths; no chart library.
   enough on the right for the area chart's direct labels, which are
   dropped below 480 px, on phones, so the plot gets the width. The axis
   runs from the start of the first day to the end of the last, each
-  day's value sits at its middle, and a bar covers its whole days. About 1,800 daily points a series is
+  day's value sits at its middle, and a bar covers its whole days.
+- **Tick marks on both axes**, 5 px outside the plot at each label but
+  the y axis's 0 (the x axis line is there), so
+  the start of a year or month is clear. About 1,800 daily points a series is
 well within what SVG draws smoothly, and owning the markup gives full
 control of type, color and axes. What a library would have given is
 ours to build and test:
@@ -570,8 +624,11 @@ gridlines, a real dark mode, and a sticky bar for the range and repo
 filters.
 
 The filter bar is one row of same-sized controls (since 2026-11-18, after
-the maintainer found the first version hard to use): a Spec select, date
-presets with a Custom button, and "Copy link".
+the maintainer found the first version hard to use): a Spec select, a
+Period select (Last year, Last 3 years, All; buttons until 2026-11-23),
+and a Per select. There's no control for custom dates (removed
+2026-11-22: it didn't work on phones), and no "Copy link" button: the
+address bar is the link.
 
 - **Spec** is a native `<select>`: All specs, or one spec, the two
   common cases, each one choice (type-ahead works, and phones show their
@@ -579,14 +636,6 @@ presets with a Custom button, and "Copy link".
   spec in the by-spec table also selects it. The by-spec table is shown
   only when more than one spec is (since 2026-11-20): for one spec it
   would repeat the tiles.
-- **Custom** opens a native popover (the Popover API, in the top layer,
-  so the bar can't clip it or show through), placed under its button
-  with CSS anchor positioning (`position-area`, flipping at the
-  viewport's edges), or by a few lines of script where that isn't
-  supported (Firefox, in November 2026), and a bottom sheet on narrow
-  screens. It fades in and out (`@starting-style`), with a small slide
-  unless reduced motion is preferred. No polyfill: the Popover API has
-  been in every major browser since January 2025.
 - Patterns follow Modern Web Guidance (GoogleChrome/modern-web-guidance)
   where it covers them.
 
@@ -615,12 +664,14 @@ step of the same hue for dark mode, checked for contrast), the same
 system font stack, a white page, and a reading column near whatwg.org's.
 Chart series colors are a validated categorical palette, not the header
 links' colors, which aren't chosen to be told apart in charts. The
-WHATWG logo isn't used: spec-stats isn't a WHATWG site, and shouldn't
-look like one.
+header follows the standards' headers (since 2026-11-23: title,
+subtitle, icon at the top right, green address bar), but the WHATWG logo
+isn't used, and the footer says the site isn't affiliated with the
+WHATWG.
 
 The site's icon, `web/public/favicon.svg`, is drawn the way the WHATWG's
 spec logos are (`resources.whatwg.org/logo-*.svg`): a 100×100 viewBox, a
 white circle (r=45) with a 10-wide `#3c790a` ring, and one solid green
 glyph, here three rising bars. It's an icon of the same family, not the
-WHATWG logo itself. The header shows the same file before the site's name,
-so it keeps its white circle in dark mode too.
+WHATWG logo itself. The header shows the same file at its top right, where a
+standard shows its logo, so it keeps its white circle in dark mode too.

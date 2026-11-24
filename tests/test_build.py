@@ -71,7 +71,9 @@ class BuildTest(TempDirs):
                                          "2025-01-01", "2025-03-15", "2025-02-01")],
             # #2 merged 9 days after it was created, #3 one day after.
             "hours_to_merge": [None, 216, 24, None, None, None, None, None],
-            "hours_to_close": [None] * 8})
+            # From creation to the last close, merges included; null while open.
+            "hours_to_close": [None, 216, 24, (day("2025-01-15") - day("2024-01-01")) * 24, None, None, None,
+                               (day("2025-02-20") - day("2025-02-01")) * 24 + 17]})
         self.assertLess(items["created"][4], 0)  # opened before the window
         self.assertEqual(self.events(data), {
             1: [(day("2025-01-01"), "_created")],
@@ -168,8 +170,6 @@ class BuildTest(TempDirs):
         self.assertEqual(ev[12], [(day("2025-01-01"), "_created"), (day("2025-01-05"), "closed"),
                                   (day("2025-01-06"), "reopened")])
         self.assertEqual(ev[14], [(day("2025-03-15"), "_created")])
-        # PRs have no hours to close.
-        self.assertEqual({h for h, pr in zip(items["hours_to_close"], items["is_pr"]) if pr}, {None})
         # Issues have no draft events, and no pull object isn't a fix-up.
         self.assertEqual(logs, ["fixed up from the item's own state (closed with no `closed` event): 1"])
 
@@ -255,6 +255,22 @@ class BuildTest(TempDirs):
         other.save_state()
         data, _ = self.build(dict(STANDARDS, **{"whatwg/url": "URL"}))
         self.assertEqual((data["meta"]["to"], data["repos"]["name"]), ("2025-03-27", ["dom", "url"]))
+
+    def test_repos_are_in_spec_order(self):
+        gh = populated()
+        self.sync(gh)
+        store = extract.RepoStore(REPO)
+        other = extract.RepoStore("whatwg/bluetooth")
+        other.state = store.state
+        other.save_state()
+        data, _ = self.build(dict(STANDARDS, **{"whatwg/bluetooth": "Web Bluetooth"}))
+        self.assertEqual(data["repos"], {"name": ["dom", "bluetooth"], "standard": ["DOM", "Web Bluetooth"]})
+
+    def test_spec_order(self):
+        names = ["XMLHttpRequest", "WebUSB", "Web IDL", "WebHID", "WebNFC", "URL Pattern", "URL", "HTML", "Fetch"]
+        self.assertEqual(sorted(names, key=build.spec_order),
+                         ["Fetch", "HTML", "URL", "URL Pattern", "WebHID", "Web IDL", "WebNFC", "WebUSB",
+                          "XMLHttpRequest"])
 
     def test_write(self):
         gh = populated()

@@ -3,7 +3,7 @@
   // (pointer and keyboard) and direct labels at the right edge.
   import { scaleLinear, scaleUtc } from "d3-scale";
   import { area as d3area, curveMonotoneX, line as d3line } from "d3-shape";
-  import { directLabels, margins } from "../lib/chart.ts";
+  import { directLabels, margins, TICK_LENGTH } from "../lib/chart.ts";
   import { dateOf, parseDate } from "../lib/data.ts";
   import { longDate, num } from "../lib/format.ts";
 
@@ -149,7 +149,12 @@
     <g class="grid">
       {#each yTicks as t (t)}
         <line x1={M.left} x2={width - M.right} y1={y(t)} y2={y(t)} />
-        <text x={M.left - 8} y={y(t)} dy="0.32em" text-anchor="end">{num(t)}</text>
+        <text x={M.left - 9} y={y(t)} dy="0.32em" text-anchor="end">{num(t)}</text>
+      {/each}
+    </g>
+    <g class="axis">
+      {#each yTicks.filter((t) => t !== 0) as t (t)}
+        <line x1={M.left - TICK_LENGTH} x2={M.left} y1={y(t)} y2={y(t)} />
       {/each}
     </g>
     {#each paths as d, l (l)}
@@ -159,6 +164,7 @@
     <g class="axis">
       <line x1={M.left} x2={width - M.right} y1={height - M.bottom} y2={height - M.bottom} />
       {#each xTicks as t (t.getTime())}
+        <line x1={x(t)} x2={x(t)} y1={height - M.bottom} y2={height - M.bottom + TICK_LENGTH} />
         <text x={x(t)} y={height - M.bottom + 18} text-anchor="middle">{tickFormat(t)}</text>
       {/each}
     </g>

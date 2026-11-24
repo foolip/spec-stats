@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { chooseBin, periodName, periods, sampleDays } from "../src/lib/bins.ts";
+import { chooseBin, periods, sampleDays } from "../src/lib/bins.ts";
+import { periodName } from "../src/lib/names.ts";
 
 const FROM = "2022-01-01";
 
@@ -17,6 +18,7 @@ test("periods are ISO weeks, months or quarters, clipped to the range", () => {
   // ISO weeks at a year boundary: 2026-12-28 is in 2026-W53, 2021-01-03 in 2020-W53.
   assert.equal(periodName({ start: 0, end: 0, first: "2026-12-28", partial: false }, "week"), "2026-W53");
   assert.equal(periodName({ start: 0, end: 0, first: "2020-12-28", partial: false }, "week"), "2020-W53");
+  assert.equal(periodName({ start: 0, end: 0, first: "2021-01-04", partial: false }, "week"), "2021-W01");
   const months = periods(FROM, 0, 1781, "month");
   assert.equal(months.length, 59);
   assert.deepEqual(months[0], { start: 0, end: 30, first: "2022-01-01", partial: false });

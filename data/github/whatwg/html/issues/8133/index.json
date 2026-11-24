@@ -54,17 +54,18 @@
       "archived_by": null
     }
   ],
-  "state": "open",
+  "state": "closed",
   "locked": false,
   "assignees": [],
   "milestone": null,
   "comments": 4,
   "created_at": "2022-07-27T01:40:41Z",
-  "updated_at": "2026-04-03T13:34:38Z",
-  "closed_at": null,
+  "updated_at": "2026-11-23T14:14:46Z",
+  "closed_at": "2026-11-23T14:14:45Z",
   "author_association": "MEMBER",
   "issue_field_values": [],
   "type": null,
+  "status": null,
   "active_lock_reason": null,
   "sub_issues_summary": {
     "total": 0,
@@ -78,7 +79,27 @@
     "total_blocking": 0
   },
   "body": "Given this example:\r\n\r\n`data:text/html,<input type=range min=0 max=100 value=50><input type=range readonly min=0 max=100 value=50><style>input:in-range { appearance: none; border: 1px solid red; }</style>`\r\n\r\n`:in-range` seems to be affected by whether an input is readonly, which makes sense when you read:\r\n> Constraint validation: If the readonly attribute is specified on an input element, the element is [barred from constraint validation](https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#barred-from-constraint-validation).`\r\nfrom https://html.spec.whatwg.org/multipage/input.html#the-readonly-attribute\r\n\r\nbut on the other hand, the spec says that readonly does not apply to input[type=range] : https://html.spec.whatwg.org/multipage/input.html#do-not-apply\r\n\r\nBy that logic, I would expect `readonly` to have no effect on the `:in-range` selector for `input[type=range]`.\r\n\r\nWebKit & Firefox & Chrome all (probably unintentionally) have this incoherency, it is worth a clarification on whether:\r\n\r\n1. readonly bars constraint validation from *all* input types (matches current behavior in all browsers, but incoherent)\r\n2. readonly bars constraint validation on *supported* input types (more logical IMHO)\r\n",
-  "closed_by": null,
+  "closed_by": {
+    "login": "annevk",
+    "id": 1544111,
+    "node_id": "MDQ6VXNlcjE1NDQxMTE=",
+    "avatar_url": "https://avatars.githubusercontent.com/u/1544111?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/annevk",
+    "html_url": "https://github.com/annevk",
+    "followers_url": "https://api.github.com/users/annevk/followers",
+    "following_url": "https://api.github.com/users/annevk/following{/other_user}",
+    "gists_url": "https://api.github.com/users/annevk/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/annevk/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/annevk/subscriptions",
+    "organizations_url": "https://api.github.com/users/annevk/orgs",
+    "repos_url": "https://api.github.com/users/annevk/repos",
+    "events_url": "https://api.github.com/users/annevk/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/annevk/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
   "reactions": {
     "url": "https://api.github.com/repos/whatwg/html/issues/8133/reactions",
     "total_count": 0,
@@ -93,6 +114,6 @@
   },
   "timeline_url": "https://api.github.com/repos/whatwg/html/issues/8133/timeline",
   "performed_via_github_app": null,
-  "state_reason": null,
+  "state_reason": "completed",
   "pinned_comment": null
 }
