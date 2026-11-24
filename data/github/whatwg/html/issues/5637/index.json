@@ -30,18 +30,35 @@
     "user_view_type": "public",
     "site_admin": false
   },
-  "labels": [],
-  "state": "open",
+  "labels": [
+    {
+      "id": 402537936,
+      "node_id": "MDU6TGFiZWw0MDI1Mzc5MzY=",
+      "url": "https://api.github.com/repos/whatwg/html/labels/topic:%20forms",
+      "name": "topic: forms",
+      "color": "009800",
+      "default": false,
+      "description": "Forms and form controls: input types, submission, constraint validation and autofill",
+      "archived_at": null,
+      "archived_by": null
+    }
+  ],
+  "state": "closed",
   "locked": false,
   "assignees": [],
   "milestone": null,
-  "comments": 1,
+  "comments": 2,
   "created_at": "2020-06-11T11:57:54Z",
-  "updated_at": "2020-06-11T13:27:08Z",
-  "closed_at": null,
+  "updated_at": "2026-11-24T01:34:51Z",
+  "closed_at": "2026-11-24T01:34:51Z",
   "author_association": "NONE",
   "issue_field_values": [],
   "type": null,
+  "status": {
+    "id": 6,
+    "name": "Not planned",
+    "category": "not_planned"
+  },
   "active_lock_reason": null,
   "sub_issues_summary": {
     "total": 0,
@@ -55,7 +72,27 @@
     "total_blocking": 0
   },
   "body": "The current draft spec for time inputs allows the min, max and step attributes to be specified. Every single browser that implements this control and these attributes gets it wrong by implementing validation of said attributes at **form submission time**, rather than at **control creation time**.\r\n\r\nTake a look at https://jsfiddle.net/t6fbhd8y/1/ which has been setup with a time picker configured with min=09:00, max=18:00, step=900. These rules mean \"any time between 9 AM and 6 PM, at 15-minute intervals\". In other words, these rules should define what the user is allowed to choose, in order to prevent them from inputting invalid data. This means, for example, that a user shouldn't be able to input something like 08:15 or 14:23.\r\n\r\nYet no browser today prevents this invalid input. Chrome 83, for example, allows the user to input any hour/minute combination, and only warns the user that they've provided invalid input once the form is submitted. Further, the validation message uses a UI that differs per browser and cannot, as far as I can see, be customised or disabled.\r\n\r\nYes, the spec for input type=time is not yet finalised, but \"not allowing users to input things that are going to be rejected later\" is UX 101.",
-  "closed_by": null,
+  "closed_by": {
+    "login": "zcorpan",
+    "id": 244772,
+    "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+    "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/zcorpan",
+    "html_url": "https://github.com/zcorpan",
+    "followers_url": "https://api.github.com/users/zcorpan/followers",
+    "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+    "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+    "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+    "repos_url": "https://api.github.com/users/zcorpan/repos",
+    "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
   "reactions": {
     "url": "https://api.github.com/repos/whatwg/html/issues/5637/reactions",
     "total_count": 0,
@@ -70,6 +107,6 @@
   },
   "timeline_url": "https://api.github.com/repos/whatwg/html/issues/5637/timeline",
   "performed_via_github_app": null,
-  "state_reason": null,
+  "state_reason": "not_planned",
   "pinned_comment": null
 }
