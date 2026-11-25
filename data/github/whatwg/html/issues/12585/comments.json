@@ -596,5 +596,51 @@
     },
     "performed_via_github_app": null,
     "minimized": null
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/7142214739",
+    "html_url": "https://github.com/whatwg/html/pull/12585#issuecomment-7142214739",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/12585",
+    "id": 7142214739,
+    "node_id": "IC_kwDOALaj488AAAABqbWMUw",
+    "user": {
+      "login": "noamr",
+      "id": 88566,
+      "node_id": "MDQ6VXNlcjg4NTY2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88566?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/noamr",
+      "html_url": "https://github.com/noamr",
+      "followers_url": "https://api.github.com/users/noamr/followers",
+      "following_url": "https://api.github.com/users/noamr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/noamr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/noamr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/noamr/subscriptions",
+      "organizations_url": "https://api.github.com/users/noamr/orgs",
+      "repos_url": "https://api.github.com/users/noamr/repos",
+      "events_url": "https://api.github.com/users/noamr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/noamr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-24T19:31:13Z",
+    "updated_at": "2026-11-24T19:31:13Z",
+    "body": "<details><summary>AI feedback</summary>\n\nQuestion Q1 is open. Defects D1, D2, and D3 in web-platform-tests/wpt#62290 aren't applied yet.\n\nQ1: `<video>` has no size containment when its `poster image element` `allows auto-sizes`\nFor `<video loading=\"lazy\"><poster><img srcset=\"a.jpg 300w, b.jpg 1200w\" sizes=\"auto\" alt=\"...\"></poster></video>` (where `a.jpg` is 600×400) without explicit `width`/`height`, `<video>` initially has concrete object size `300px × 150px` and fetches `a.jpg`; once `a.jpg` loads, `<video>`'s natural width becomes `600px`, triggering `Reacting to DOM mutations` and re-fetching `b.jpg` (or oscillating if aspect ratios differ).\n- Option a: Apply UA-origin `contain: size !important` and `contain-intrinsic-size: 300px 150px` to `<video>` when its `show poster flag` is set and its `poster image element` is non-null and `allows auto-sizes`. Avoids double-fetches/oscillation without locking `<video>` to `300×150` once playback starts, at the cost of keying containment on `show poster flag` + `poster image element` state rather than a pure CSS selector.\n- Option b: Keep as is (optionally add a note advising authors to set `width`/`height` or `contain: size` when using `sizes=\"auto\"`). Zero UA rendering complexity, but unsized `<video>` double-fetches when the loaded poster's natural width differs from `300px`.\n\nD1: `video-poster-element-is-first-img.tentative.html` hangs on an `extra poster image`\nThe subtest `'An empty first poster element is not skipped in favor of a later poster element'` calls `await settled(img)` on an `img` in a second `<poster>`. Per `update the image data` step 2, that `img` is an `extra poster image` and aborts without fetching or firing `load`/`error`, leaving `img.currentSrc === ''`, so `settled(img)` hangs until timeout.\nNot applied: suggested fix: wait with `settleFrames()` and assert `img.currentSrc === ''` and `video.currentPoster === ''`.\n\nD2: `video-poster-element-attribute-fetch.tentative.html` parser-deferral check is vacuous\nThe subtest `'The poster attribute URL is not fetched by the parser before the video end tag...'` checks `performance.getEntriesByName(attributeUrl).length === 0` in a synchronous `<script>` before `</video>`. Resource Timing entries are only added after a fetch completes, so this passes even if the parser starts fetching `poster` on the `<video>` start tag.\nNot applied: suggested fix: use a server-side request-order check (e.g. a synchronous `<script src=\"...\">` inside `<video>` paired with a server handler recording whether the `poster` request arrived before the `<script>` request).\n\nD3: web-platform-tests/wpt#62290 is missing coverage for several new behavior deltas\nMissing tests for: `extra poster image` lifecycle (non-fetch, reset on displacement, fetch on promotion), XML/XHTML parser `blocked-on-parser` ordering, `video.removeAttribute('loading')`, `sizes=\"auto\"` when `<video>` is `display: none` (`last auto-sizes width`) and `<source sizes=\"auto\">` in `<poster><picture>`, a visual reftest for broken `<poster><img>` suppressing the `poster` attribute, `show poster flag` hiding the poster on play while `currentPoster` stays non-empty, moving `<poster>` out of `<video>`, prepending a second `<poster>`, and fetch/decode behavior for `fetchpriority`/`decoding`.\nOpen, no fix yet.\n\n<details><summary>Reviewed commits</summary>\n\nReviewed at 4abffd0 on 0e292f4, with web-platform-tests/wpt#62290 at 0de43e9, using spec-pr-review.\n</details>\n\n</details>\n",
+    "author_association": "CONTRIBUTOR",
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/7142214739/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
   }
 ]

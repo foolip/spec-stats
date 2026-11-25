@@ -182,5 +182,51 @@
     },
     "performed_via_github_app": null,
     "minimized": null
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/7142705468",
+    "html_url": "https://github.com/whatwg/html/pull/12942#issuecomment-7142705468",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/12942",
+    "id": 7142705468,
+    "node_id": "IC_kwDOALaj488AAAABqb0JPA",
+    "user": {
+      "login": "noamr",
+      "id": 88566,
+      "node_id": "MDQ6VXNlcjg4NTY2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88566?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/noamr",
+      "html_url": "https://github.com/noamr",
+      "followers_url": "https://api.github.com/users/noamr/followers",
+      "following_url": "https://api.github.com/users/noamr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/noamr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/noamr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/noamr/subscriptions",
+      "organizations_url": "https://api.github.com/users/noamr/orgs",
+      "repos_url": "https://api.github.com/users/noamr/repos",
+      "events_url": "https://api.github.com/users/noamr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/noamr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-24T19:52:16Z",
+    "updated_at": "2026-11-24T20:02:26Z",
+    "body": "<details><summary>(AI-assisted design review)</summary>\r\n\r\nProposed fixes for defects D1, D2, and D3 aren't applied yet. Question Q1 is open.\r\n\r\nNew in this review:\r\n\r\n- D1: `process navigate event handler failure` clears `ongoing navigation` *after* firing `navigateerror`. If a `navigateerror` listener starts a new navigation (e.g. `location.href = \"/fallback\"`), its new `navigation ID` is immediately overwritten to `null`, causing the second navigation to abort in `navigate` or `process a navigate response`. Not applied: [proposed fix](https://github.com/noamr/html/commit/1f73669) (clear `ongoing navigation` before `Abort a NavigateEvent`, matching `navigatesuccess`).\r\n\r\n- D2: `afterPotentialUnloads` step 2 clears `ongoing navigation` whenever `update-only` is false and `ongoing navigation` is *any* `navigation ID`. For a cross-document `push`/`replace` navigation, if `pageswap` (or a task queued before unload) starts a new navigation `navId2`, `afterPotentialUnloads` step 2 overwrites `navId2` to `null` and aborts it. Not applied: [proposed fix](https://github.com/noamr/html/commit/407e3f5) (clear `ongoing navigation` when equal to `navigationId` at the end of `#process-a-navigate-response` and `navigate to a javascript: URL`, and remove `afterPotentialUnloads` step 2).\r\n\r\n- D3: The new note under `ongoing navigation` states that it is only ever read or written from tasks on `navigable`'s active window's event loop, but `navigate` steps 9–10 and `navigate to a fragment` step 6.1 still read/write it synchronously from cross-origin callers (`iframe.src = ...`) or `in parallel` (`object`, `embed`, `multipart/x-mixed-replace`). Not applied: [proposed fix](https://github.com/noamr/html/commit/6454e4e) (qualify the note).\r\n\r\n- Q1: When should `ongoing navigation` be `\"traversal\"` vs a `navigation ID` vs `null` during `reload()` and `checking if unloading is canceled`? Setting `\"traversal\"` before `beforeunload`/`navigate` breaks `window.stop()` on intercepted `reload()` and traversals, blocks `e.preventDefault(); location.href = ...` and `location.reload(); location.href = ...`, aborts prior navigations if `beforeunload` cancels, and contradicts 4 existing WPTs; also `afterPotentialUnloads` step 1 unconditionally clears `\"traversal\"` even if an intercepted fragment navigation replaced it with a `navigation ID`.\r\n  - option a: Only set `\"traversal\"` in `apply the history step`, and guard `afterPotentialUnloads` step 1 with `ongoing navigation` is `\"traversal\"` — [spec](https://github.com/noamr/html/commit/166cf51). Minimal diff matching pre-PR behavior; fixes `beforeunload` cancelation, `e.preventDefault(); location.href = ...`, `location.reload(); location.href = ...`, and `precommitHandler-traversal-commit-new-navigation-before-commit.html`, while leaving `window.stop()` on `back()`/`reload()` `precommitHandler`s unaddressed (#6905 / web-platform-tests/wpt#64391).\r\n  - option b: Track `reload()` and `checking if unloading is canceled`'s `navigate` event with a fresh `navigation ID`, and only set `\"traversal\"` in `apply the history step` (with `afterPotentialUnloads` step 1 guarded) — [spec](https://github.com/noamr/html/commit/d55ce4c). Fixes all 4 regressions and makes all 4 contradicting WPTs pass; slightly more spec text than option a.\r\n  - option c: Keep as is and update the 4 contradicting WPTs.\r\n\r\n  <details><summary>Contradicting WPTs</summary>\r\n\r\n  - `navigation-api/precommit-handler/precommitHandler-window-stop-before-commit.html` (subtest 4: `precommitHandler with window.stop() before reload commit`)\r\n  - `navigation-api/precommit-handler/precommitHandler-traversal-commit-new-navigation-before-commit.html`\r\n  - `navigation-api/precommit-handler/precommitHandler-traversal-window-stop-before-commit.html`\r\n  - `navigation-api/navigate-event/signal-abort-window-stop-same-document.html` (subtest: `window.stop() inside a navigate listener aborts a cancelable traversal`)\r\n\r\n  </details>\r\n\r\n<details><summary>Earlier thread concerns</summary>\r\n\r\n- `same-document-nav-cross-document-nav.html` (#12861): addressed in `df49fcd` (`update-only` is true for synchronous same-document updates, preserving the subsequent `navigation ID`).\r\n- theIDinside's [comment](https://github.com/whatwg/html/pull/12942#issuecomment-6126251682): synchronous same-document updates are skipped via `update-only`, while `navigate to a fragment` still needs `navigationId` when intercepted so `window.stop()` can abort it.\r\n- shannonbooth's [review comment](https://github.com/whatwg/html/pull/12942#discussion_r4007177040): keeping `documentState`/`historyEntry`/`navigationParams` creation in the queued task on `navigable`'s active window is needed because it reads `navigable`'s active document / target name on that event loop.\r\n\r\n</details>\r\n\r\n<details><summary>Reviewed commits</summary>\r\n\r\nReviewed at df49fcd on d2f752f, using spec-pr-review.\r\n</details>\r\n</details>\r\n",
+    "author_association": "CONTRIBUTOR",
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/7142705468/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
   }
 ]
