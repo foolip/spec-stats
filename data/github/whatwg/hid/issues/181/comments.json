@@ -1,0 +1,49 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/hid/issues/comments/7168224028",
+    "html_url": "https://github.com/whatwg/hid/issues/181#issuecomment-7168224028",
+    "issue_url": "https://api.github.com/repos/whatwg/hid/issues/181",
+    "id": 7168224028,
+    "node_id": "IC_kwDOCPOi6M8AAAABq0JrHA",
+    "user": {
+      "login": "gregstoll",
+      "id": 4392001,
+      "node_id": "MDQ6VXNlcjQzOTIwMDE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4392001?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/gregstoll",
+      "html_url": "https://github.com/gregstoll",
+      "followers_url": "https://api.github.com/users/gregstoll/followers",
+      "following_url": "https://api.github.com/users/gregstoll/following{/other_user}",
+      "gists_url": "https://api.github.com/users/gregstoll/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/gregstoll/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/gregstoll/subscriptions",
+      "organizations_url": "https://api.github.com/users/gregstoll/orgs",
+      "repos_url": "https://api.github.com/users/gregstoll/repos",
+      "events_url": "https://api.github.com/users/gregstoll/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/gregstoll/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-25T16:35:29Z",
+    "updated_at": "2026-11-25T16:35:48Z",
+    "body": "Actually, digging into this a bit more it looks like Chromium doesn't do this right now - the device service [checks this and returns failure if there's a mismatch](https://source.chromium.org/chromium/chromium/src/+/main:services/device/hid/hid_connection.cc;l=98-102;drc=584159394114a18259b1af8327df3868b36b22ac), which gets [turned into a NotAllowedError DOMException](https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/hid/hid_device.cc;l=536-537;drc=557d18d6e337bab85172345226da54e2f770682b). (and similar code for `sendFeatureReport()`/`receiveFeatureReport()`)\n\nOn balance I think it would be nice to return some sort of different error here since passing the wrong report ID (i.e. zero vs. non-zero) seems like a pretty different problem than calling a protected report. What do you think @nondebug ?",
+    "author_association": "CONTRIBUTOR",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/hid/issues/comments/7168224028/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]

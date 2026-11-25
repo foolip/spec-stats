@@ -38,7 +38,7 @@
       "name": "topic: navigation",
       "color": "009800",
       "default": false,
-      "description": null,
+      "description": "Navigating documents, the Location interface, window.open() and fragment navigation",
       "archived_at": null,
       "archived_by": null
     },
@@ -49,19 +49,19 @@
       "name": "topic: navigation API",
       "color": "009800",
       "default": false,
-      "description": "Topics directly related to the navigation API",
+      "description": "The navigation API: navigation, NavigateEvent and intercepted navigations",
       "archived_at": null,
       "archived_by": null
     }
   ],
-  "state": "open",
+  "state": "closed",
   "locked": false,
   "assignees": [],
   "milestone": null,
-  "comments": 9,
+  "comments": 10,
   "created_at": "2025-10-26T12:56:55Z",
-  "updated_at": "2026-08-24T09:01:35Z",
-  "closed_at": null,
+  "updated_at": "2026-11-25T10:44:05Z",
+  "closed_at": "2026-11-25T10:44:05Z",
   "author_association": "NONE",
   "issue_field_values": [],
   "type": {
@@ -73,6 +73,11 @@
     "created_at": "2024-01-25T09:27:01Z",
     "updated_at": "2024-07-26T10:07:25Z",
     "is_enabled": true
+  },
+  "status": {
+    "id": 5,
+    "name": "Done",
+    "category": "completed"
   },
   "active_lock_reason": null,
   "sub_issues_summary": {
@@ -87,7 +92,27 @@
     "total_blocking": 0
   },
   "body": "### What is the issue with the HTML Standard?\n\n[Step 2](https://html.spec.whatwg.org/#abort-a-navigateevent:~:text=Signal%20abort%20on%20event%27s%20abort%20controller%20given%20reason%2E) of #abort-a-navigateevent signals an abort on the event's abort controller. This is called as part of the [failure steps](https://html.spec.whatwg.org/#navigate-event-firing:abort-a-navigateevent) called from #inner-navigate-event-firing. However, when implementing this, the following tests fail, because the abort signal is not listed.\n- https://github.com/web-platform-tests/wpt/blob/c05ece9d6f47c4e8ca20c3625a12206fe4208519/navigation-api/ordering-and-transition/navigate-same-document-intercept-reject.html#L46-L47\n- https://github.com/web-platform-tests/wpt/blob/c05ece9d6f47c4e8ca20c3625a12206fe4208519/navigation-api/ordering-and-transition/reload-intercept-reject.html#L46-L47\n\nGecko's old (pre-precommithandler) implementation passed these tests, so I assume that there were refactorings and the tests need to be updated.\n\ncc @noamr ",
-  "closed_by": null,
+  "closed_by": {
+    "login": "noamr",
+    "id": 88566,
+    "node_id": "MDQ6VXNlcjg4NTY2",
+    "avatar_url": "https://avatars.githubusercontent.com/u/88566?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/noamr",
+    "html_url": "https://github.com/noamr",
+    "followers_url": "https://api.github.com/users/noamr/followers",
+    "following_url": "https://api.github.com/users/noamr/following{/other_user}",
+    "gists_url": "https://api.github.com/users/noamr/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/noamr/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/noamr/subscriptions",
+    "organizations_url": "https://api.github.com/users/noamr/orgs",
+    "repos_url": "https://api.github.com/users/noamr/repos",
+    "events_url": "https://api.github.com/users/noamr/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/noamr/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
   "reactions": {
     "url": "https://api.github.com/repos/whatwg/html/issues/11831/reactions",
     "total_count": 0,
@@ -102,6 +127,6 @@
   },
   "timeline_url": "https://api.github.com/repos/whatwg/html/issues/11831/timeline",
   "performed_via_github_app": null,
-  "state_reason": null,
+  "state_reason": "completed",
   "pinned_comment": null
 }

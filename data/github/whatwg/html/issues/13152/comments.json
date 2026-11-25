@@ -1,0 +1,48 @@
+[
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/7161126811",
+    "html_url": "https://github.com/whatwg/html/pull/13152#issuecomment-7161126811",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/13152",
+    "id": 7161126811,
+    "node_id": "IC_kwDOALaj488AAAABqtYfmw",
+    "user": {
+      "login": "noamr",
+      "id": 88566,
+      "node_id": "MDQ6VXNlcjg4NTY2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88566?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/noamr",
+      "html_url": "https://github.com/noamr",
+      "followers_url": "https://api.github.com/users/noamr/followers",
+      "following_url": "https://api.github.com/users/noamr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/noamr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/noamr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/noamr/subscriptions",
+      "organizations_url": "https://api.github.com/users/noamr/orgs",
+      "repos_url": "https://api.github.com/users/noamr/repos",
+      "events_url": "https://api.github.com/users/noamr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/noamr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-25T11:30:01Z",
+    "updated_at": "2026-11-25T11:30:01Z",
+    "body": "<details><summary>AI feedback</summary>\n\nProposed fixes for defects D1 and D2 aren't applied yet.\n\nD1: In `download the hyperlink`, `subject`'s `hyperlink referrer policy` is read after `fire a download request navigate event` dispatches the `navigate` event, whereas `urlString` and `filename` are snapshotted before it (and `following hyperlinks` passes `hyperlink referrer policy` before `Navigate` fires `navigate`). If a `navigate` event listener mutates `e.sourceElement.referrerPolicy` or `e.sourceElement.rel`, `download the hyperlink` would use the mutated value; Safari Technology Preview and Chrome Canary both snapshot `referrerPolicy` before firing `navigate`. Not applied: proposed fix ([spec](https://github.com/noamr/html/commit/4e8682a), [test](https://github.com/noamr/wpt/commit/8051ec0)).\n\nD2: In `web-platform-tests/wpt#64051`, `resources/download-referrerpolicy.js` triggers multiple synthetic `element.click()` downloads in the same tab without user activation, causing `download-referrerpolicy.html` and `download-referrerpolicy-overrides-document-policy.html` to time out on the second download in Chrome Canary (`DownloadRequestLimiter` blocks the second automatic download behind a prompt, so `receive(id)` hangs). Not applied: [proposed fix](https://github.com/noamr/wpt/commit/7a06271) (with which both files finish in ~3s in Chrome Canary and ~4s in Firefox).\n\n</details>\n\n<details><summary>Reviewed commits</summary>\n\nReviewed at a3127c5 on 9396777, with web-platform-tests/wpt#64051 at 4e761be, using spec-pr-review.\n</details>",
+    "author_association": "CONTRIBUTOR",
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/7161126811/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
+  }
+]
