@@ -1126,5 +1126,52 @@
     },
     "performed_via_github_app": null,
     "minimized": null
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/compression/issues/comments/7224627154",
+    "html_url": "https://github.com/whatwg/compression/issues/54#issuecomment-7224627154",
+    "issue_url": "https://api.github.com/repos/whatwg/compression/issues/54",
+    "id": 7224627154,
+    "node_id": "IC_kwDODH3UzM8AAAABrp8P0g",
+    "user": {
+      "login": "oddharsh",
+      "id": 19518661,
+      "node_id": "MDQ6VXNlcjE5NTE4NjYx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/19518661?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/oddharsh",
+      "html_url": "https://github.com/oddharsh",
+      "followers_url": "https://api.github.com/users/oddharsh/followers",
+      "following_url": "https://api.github.com/users/oddharsh/following{/other_user}",
+      "gists_url": "https://api.github.com/users/oddharsh/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/oddharsh/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/oddharsh/subscriptions",
+      "organizations_url": "https://api.github.com/users/oddharsh/orgs",
+      "repos_url": "https://api.github.com/users/oddharsh/repos",
+      "events_url": "https://api.github.com/users/oddharsh/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/oddharsh/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-27T17:38:24Z",
+    "updated_at": "2026-11-27T17:38:24Z",
+    "body": "The 8 MB failure in the last comment looks like zstd's window limit rather than a file-size limit. \"Frame requires too much memory for decoding\" is libzstd's `ZSTD_error_frameParameter_windowTooLarge`, which fires when a frame declares a `Window_Size` larger than the decoder allows. Capping the decoder at `windowLogMax = 23` (8 MiB, the limit RFC 9659 sets for `Content-Encoding: zstd`) reproduces that message exactly. An 11 MiB file compressed with an 8 MiB window still decodes fine under the same cap:\n\n| Frame | Declared window | zstd 1.5.7 CLI, Node 26.13.1 `node:zlib`, Bun 1.4.4 `DecompressionStream(\"zstd\")` | `node:zlib` with `windowLogMax = 23` |\n|---|---|---|---|\n| 11 MiB, `zstd -19` | 8 MiB | ok | ok |\n| 11 MiB, `zstd --ultra -22` | 11 MiB (single segment) | ok | Frame requires too much memory for decoding |\n| 201 MiB, `zstd -3 --long=27` | 128 MiB | ok | Frame requires too much memory for decoding |\n| 201 MiB, `zstd -3 --long=28` | 201 MiB (single segment) | fails in all 3 | fails |\n\nSo a large file fails only when its encoder declared a large window. `--ultra -22` on an 11 MiB input writes a single-segment frame whose window is the whole 11 MiB, and `--long=27` declares 128 MiB. Bun's own `CompressionStream(\"zstd\")` writes 2 MiB windows for both inputs, so its output decodes under either limit.\n\nThat means implementations already disagree on which `\"zstd\"` streams they accept. Bun 1.4.4 decodes windows up to 128 MiB, which is libzstd's default (`ZSTD_WINDOWLOG_LIMIT_DEFAULT` is 27). Firefox's decoder behind the pref looks like it caps at 8 MiB: same message, same threshold, though I haven't run Firefox myself. RFC 9659 §3 settled this for HTTP by making 8 MB a MUST for decoders and encoders, but it only covers the content coding.\n\nIf zstd goes into this spec, I think it needs its own number. RFC 9659's 8 MiB keeps memory bounded and matches what browsers already enforce for HTTP. libzstd's 128 MiB default covers the 200 MB files above. A WPT test at the limit and one just past it would keep implementations from drifting. Once there's a number, I'm happy to write those tests.\n\n<details><summary>Repro: zstd 1.5.7, Node 26.13.1, Bun 1.4.4, macOS 27.3 arm64</summary>\n\nThe inputs are seeded word lists, 11 MiB and 201 MiB, so they're very compressible. Only the declared window matters here.\n\n```bash\nzstd -19 in11.txt -o a.zst                  # Window Size: 8.00 MiB\nzstd --ultra -22 in11.txt -o b.zst          # Window Size: 11.0 MiB, single segment\nzstd -3 --long=27 in200.txt -o c.zst        # Window Size: 128 MiB\nzstd -3 --long=28 in200.txt -o d.zst        # Window Size: 201 MiB, single segment\nzstd -lv b.zst | grep \"Window Size\"\n```\n\n```js\n// node dec.mjs <file> [windowLogMax]\nimport { readFileSync } from \"node:fs\";\nimport { zstdDecompressSync, constants } from \"node:zlib\";\nconst [file, cap] = process.argv.slice(2);\nconst opts = cap ? { params: { [constants.ZSTD_d_windowLogMax]: Number(cap) } } : {};\ntry { console.log(\"ok\", zstdDecompressSync(readFileSync(file), opts).length); }\ncatch (e) { console.log(\"FAIL\", e.code, e.message); }\n```\n\n```js\n// bun dec.ts <file>\nconst body = Bun.file(process.argv[2]).stream().pipeThrough(new DecompressionStream(\"zstd\"));\ntry { console.log(\"ok\", (await new Response(body).arrayBuffer()).byteLength); }\ncatch (e) { console.log(\"FAIL\", e.message); }\n```\n\n`node dec.mjs b.zst 23` prints `FAIL ZSTD_error_frameParameter_windowTooLarge Frame requires too much memory for decoding`. Without the cap, and in Bun, it prints `ok 11534336`.\n\n</details>\n",
+    "author_association": "NONE",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/compression/issues/comments/7224627154/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
   }
 ]

@@ -90,5 +90,51 @@
     },
     "performed_via_github_app": null,
     "minimized": null
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/7220871202",
+    "html_url": "https://github.com/whatwg/html/pull/13210#issuecomment-7220871202",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/13210",
+    "id": 7220871202,
+    "node_id": "IC_kwDOALaj488AAAABrmXAIg",
+    "user": {
+      "login": "noamr",
+      "id": 88566,
+      "node_id": "MDQ6VXNlcjg4NTY2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88566?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/noamr",
+      "html_url": "https://github.com/noamr",
+      "followers_url": "https://api.github.com/users/noamr/followers",
+      "following_url": "https://api.github.com/users/noamr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/noamr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/noamr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/noamr/subscriptions",
+      "organizations_url": "https://api.github.com/users/noamr/orgs",
+      "repos_url": "https://api.github.com/users/noamr/repos",
+      "events_url": "https://api.github.com/users/noamr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/noamr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-27T14:30:32Z",
+    "updated_at": "2026-11-27T14:38:54Z",
+    "body": "Applied the fixes from https://github.com/whatwg/html/pull/13210#issuecomment-7218395820:\n\n- Q1 (option a): Fixed in 14d5f20 and 479e5cb (with editorial cleanup in 5010fba and 62c9f9e), and tested in https://github.com/web-platform-tests/wpt/commit/5a6310e and https://github.com/web-platform-tests/wpt/commit/cf4e834. In addition to checking `image request` against `pending request` in `finishUpdate` and aborting/clearing `pending request` on relevant mutations when obtaining images on demand, `finishUpdate` only sets `last selected source` if no relevant mutation occurred since the algorithm started, and `processResponse` queues a task to clear `pending request` only if it is still `image request`.\n- D2: Fixed in https://github.com/web-platform-tests/wpt/commit/5a6310e and https://github.com/web-platform-tests/wpt/commit/cf4e834 (asserts `naturalWidth` updates before `load` and waits past the pending delay to verify the aborted pending request is dropped).\n- D1: Fixed in https://github.com/web-platform-tests/wpt/commit/5a6310e and https://github.com/web-platform-tests/wpt/commit/cf4e834 (uses a `<picture>` media query that flips on resize and server-side fetch counting via `image-and-stash.py`).\n\n<details><summary>Reviewed commits</summary>\n\nReviewed at 62c9f9e on 5fcc231, with web-platform-tests/wpt#64903 at cf4e834, using spec-pr-review.\n</details>",
+    "author_association": "CONTRIBUTOR",
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/7220871202/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
   }
 ]

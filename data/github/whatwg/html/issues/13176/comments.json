@@ -233,5 +233,52 @@
     },
     "performed_via_github_app": null,
     "minimized": null
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/7223315923",
+    "html_url": "https://github.com/whatwg/html/issues/13176#issuecomment-7223315923",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/13176",
+    "id": 7223315923,
+    "node_id": "IC_kwDOALaj488AAAABrosN0w",
+    "user": {
+      "login": "kepstin",
+      "id": 38788,
+      "node_id": "MDQ6VXNlcjM4Nzg4",
+      "avatar_url": "https://avatars.githubusercontent.com/u/38788?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/kepstin",
+      "html_url": "https://github.com/kepstin",
+      "followers_url": "https://api.github.com/users/kepstin/followers",
+      "following_url": "https://api.github.com/users/kepstin/following{/other_user}",
+      "gists_url": "https://api.github.com/users/kepstin/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/kepstin/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/kepstin/subscriptions",
+      "organizations_url": "https://api.github.com/users/kepstin/orgs",
+      "repos_url": "https://api.github.com/users/kepstin/repos",
+      "events_url": "https://api.github.com/users/kepstin/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/kepstin/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-27T16:29:09Z",
+    "updated_at": "2026-11-27T16:45:56Z",
+    "body": "I think the main use case for providing a set of previews would be to allow automatic fallback to different _types_ of previews, rather than responsive image selection.\n\nFor example, `blurhash()` or something similar might be added in the future, but you want to provide a solid `color()` fallback for people using browsers which do not support blurhash.\n\nA full-css solution would handle this automatically using standard CSS behaviour. To extend the example in https://github.com/whatwg/html/issues/13176#issuecomment-7016500145 you could repeat the `content:` property, and the browser would ignore the declarations which use unsupported content types.\n\n```html\n<img src=\"https://…\" style=\"content: rgb(123 45 67); content: blurhash(…)\">\n```\n\nor, if a selector is needed that means it can't be done inline:\n\n```html\n<img src=\"https://…\" data-preview-color=\"rgb(123 45 67)\" data-preview-blurhash=\"…\">\n```\n\ncombined with CSS that pulls values from the data attributes:\n\n```css\nimg[data-preview-color]:loading {\n  content: attr(data-preview-color type(<color>));\n}\nimg[data-preview-blurhash]:loading {\n  /* ignored if browser doesn't support blurhash() */\n  content: blurhash(attr(data-preview-blurhash type(<string>)));\n}\n```",
+    "author_association": "NONE",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/7223315923/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
   }
 ]
