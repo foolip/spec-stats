@@ -366,5 +366,51 @@
     },
     "performed_via_github_app": null,
     "minimized": null
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/7218869995",
+    "html_url": "https://github.com/whatwg/html/pull/12833#issuecomment-7218869995",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/12833",
+    "id": 7218869995,
+    "node_id": "IC_kwDOALaj488AAAABrkc26w",
+    "user": {
+      "login": "lutien",
+      "id": 5276969,
+      "node_id": "MDQ6VXNlcjUyNzY5Njk=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5276969?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/lutien",
+      "html_url": "https://github.com/lutien",
+      "followers_url": "https://api.github.com/users/lutien/followers",
+      "following_url": "https://api.github.com/users/lutien/following{/other_user}",
+      "gists_url": "https://api.github.com/users/lutien/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/lutien/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/lutien/subscriptions",
+      "organizations_url": "https://api.github.com/users/lutien/orgs",
+      "repos_url": "https://api.github.com/users/lutien/repos",
+      "events_url": "https://api.github.com/users/lutien/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/lutien/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-27T12:56:46Z",
+    "updated_at": "2026-11-27T13:34:50Z",
+    "body": "> D1: In [web-platform-tests/wpt#62524](https://github.com/web-platform-tests/wpt/pull/62524), `assert_browsing_context` takes `has_immediate_navigation` and reads `info[\"hasImmediateNavigation\"]`, but `context_created.py` passes `has_planned_navigation` (TypeError) and the BiDi property is `hasPlannedNavigation` (KeyError in `original_opener.py` and `subscribe_steps.py`). So none of the new assertions can run. Not applied: [proposed fix](https://github.com/zcorpan/wpt/commit/05ebd432b14b919cba3e5440f3ae9ee162840bc3).\r\n\r\nI've updated [the wpt PR](https://github.com/web-platform-tests/wpt/pull/62524).\r\n\r\n\r\n> D2: `subscribe_steps.py` expects `true` for contexts reported on subscribe (`test_existing_nested_contexts`, `test_new_context_event_not_subscribed`, `test_new_context_event_cross_origin_frame`), but \"recursively emit context created events\" in BiDi always passes false. Not applied: [proposed fix](https://github.com/zcorpan/wpt/commit/2c0dcfe4e63f1b61aa5ed82da681258ffb7fc2a0) (on top of D1).\r\n\r\nI've updated [the wpt PR](https://github.com/web-platform-tests/wpt/pull/62524).\r\n\r\n\r\n> D3: No tests for `<iframe>` without `src`, with `src=\"about:blank\"`, with `srcdoc`, or with a `src` equal to an ancestor's URL; `<frame>`; `<object>` (`about:blank` and a real URL); `<embed>`; `<a target=_blank>`; `<form target=_blank>`; `window.open(\"about:blank\")`; `javascript:` URLs. Open, no fix yet (depends on Q2 and Q3).\r\n\r\nI've updated [the wpt PR](https://github.com/web-platform-tests/wpt/pull/62524).\r\n\r\n\r\n> Q2: Should `javascript:` URLs get true? `<iframe src=\"javascript:void 0\">`, `window.open(\"javascript:void 0\")`, or `<a href=\"javascript:...\" target=_blank>` get true, and navigate fires navigation started, but \"navigate to a `javascript:` URL\" then returns without any further BiDi event when the result isn't a string, the initiator isn't same origin-domain (the `<a target=_blank>` case, since the new window has an opaque origin), or CSP blocks it. A client waiting for load, failed, or aborted would hang. This is beyond what was discussed in [whimboo's thread](https://github.com/whatwg/html/pull/12833#discussion_r3966919081), which assumed one of those events follows.\r\n> \r\n>     * (a) Keep as is: simplest; clients need a timeout.\r\n> \r\n>     * (b) False for `javascript:` URLs: no hang, but true would be right when the result is a string and a new document loads.\r\n> \r\n>     * (c) Keep true and have HTML invoke WebDriver BiDi navigation aborted (or failed) at those early returns: accurate, but touches the navigate algorithms and needs a BiDi check.\r\n> \r\nI think for `javascript:` URLs we should set `hasPlannedNavigationForWebDriver` to `false`, since we don't send BiDi load events in this case. I've updated this PR to accommodate this change, the wpt tests are also updated.\r\n\r\n\r\n> Q3: Should an about:blank navigation via navigate get true? `<a href=\"about:blank\" target=_blank>`, `<form action=\"about:blank\" target=_blank>`, and \"create a fresh top-level traversable\" with an about:blank URL get false, but they call navigate, which creates a new `Document` and fires navigation started and then load. A client acting on the initial document can race with its replacement. (`window.open()`, `<iframe>`, and `<frame>` don't navigate for about:blank, so false is right there.)\r\n> \r\n>     * (a) Keep as is: matches the \"beyond about:blank\" wording, but the event under-reports a real navigation.\r\n> \r\n>     * (b) True wherever navigate is actually called: matches BiDi's \"is going to perform a navigation\"; the flag stops being a URL check at those call sites.\r\n> \r\n\r\nSince we don't send BiDi load events in case of `about:blank` navigation, I think we should keep `hasPlannedNavigationForWebDriver` as `false`. So the spec PR and tests stay the same.\r\n\r\n@zcorpan, could you take another look?",
+    "author_association": "CONTRIBUTOR",
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/7218869995/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
   }
 ]

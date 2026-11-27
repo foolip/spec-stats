@@ -186,5 +186,52 @@
     },
     "performed_via_github_app": null,
     "minimized": null
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/7214514873",
+    "html_url": "https://github.com/whatwg/html/issues/4489#issuecomment-7214514873",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/4489",
+    "id": 7214514873,
+    "node_id": "IC_kwDOALaj488AAAABrgTCuQ",
+    "user": {
+      "login": "theIDinside",
+      "id": 25328813,
+      "node_id": "MDQ6VXNlcjI1MzI4ODEz",
+      "avatar_url": "https://avatars.githubusercontent.com/u/25328813?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/theIDinside",
+      "html_url": "https://github.com/theIDinside",
+      "followers_url": "https://api.github.com/users/theIDinside/followers",
+      "following_url": "https://api.github.com/users/theIDinside/following{/other_user}",
+      "gists_url": "https://api.github.com/users/theIDinside/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/theIDinside/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/theIDinside/subscriptions",
+      "organizations_url": "https://api.github.com/users/theIDinside/orgs",
+      "repos_url": "https://api.github.com/users/theIDinside/repos",
+      "events_url": "https://api.github.com/users/theIDinside/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/theIDinside/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-27T09:17:58Z",
+    "updated_at": "2026-11-27T09:17:58Z",
+    "body": "We've had several web compatibility issues with this in Gecko, and I think we'd like to change the spec. \n\nThe spec here is a little odd, because we have two points in time, where we abort a document like @domenic says. Aborting at two points in time, means we have a window between A and B, which leaves for brittle & error prone behavior in implementations. I think the solution would be to not cancel fetches at all, via step [24.3 of beginning a navigation](https://html.spec.whatwg.org/multipage/browsing-the-web.html#beginning-navigation:queue-a-global-task-3) (which calls abort the document). If we create a new \"abort the loading of a document\" algorithm, which doesn't cancel fetches, the old \"abort the document\" can still be called as it is today, during unload. I think below would be a good first sketch.\n\nWe'd create a new algorithm:\n> To **abort the loading of** a `Document` *document*:\n>\n> 1. Assert: this is running as part of a task queued on *document*'s relevant agent's event loop.\n> 2. If *document*'s [during-loading navigation ID for WebDriver BiDi](https://html.spec.whatwg.org/#concept-document-navigation-id) is non-null:\n>     1. Invoke [WebDriver BiDi navigation aborted](https://w3c.github.io/webdriver-bidi/#webdriver-bidi-navigation-aborted) with *document*'s node navigable and a new WebDriver BiDi navigation status whose id is *document*'s during-loading navigation ID for WebDriver BiDi, status is \"`canceled`\", and url is *document*'s URL.\n>     2. Set *document*'s during-loading navigation ID for WebDriver BiDi to null.\n> 3. If *document* has an [active parser](https://html.spec.whatwg.org/#active-parser):\n>     1. Set *document*'s [active parser was aborted](https://html.spec.whatwg.org/#active-parser-was-aborted) to true.\n>     2. [Abort that parser](https://html.spec.whatwg.org/#abort-a-parser).\n>     3. [Make document unsalvageable](https://html.spec.whatwg.org/#make-document-unsalvageable) given *document* and \"[`parser-aborted`](https://html.spec.whatwg.org/#blocking-parser-aborted)\".\n>\n> Note: The user agent may cancel fetches whose only consumer was the aborted parser, such as those for the pending parsing-blocking script and the list of scripts that will execute when the document has finished parsing. Those scripts can no longer execute, so the cancellation is not observable to script.\n\nFollowing that, changes would go into **[abort a document](https://html.spec.whatwg.org/#abort-a-document)** which would see its steps 3 and 4 replaced by a call to the new algorithm:\n\n> To **abort** a `Document` *document*:\n>\n> 1. Assert: this is running as part of a task queued on *document*'s relevant agent's event loop.\n> 2. Cancel any instances of the fetch algorithm in the context of *document*, discarding any tasks queued for them, and discarding any further data received from the network for them. If this resulted in any instances of the fetch algorithm being canceled or any queued tasks or any network data getting discarded, then make document unsalvageable given *document* and \"[`fetch`](https://html.spec.whatwg.org/#blocking-fetch)\". *(unchanged)*\n> 3. <ins>[Abort the loading of](#) *document*.</ins>\n\nThen we'd have to change the abort-the-descendants to also take this difference into account, so either abort the loading document, or abort the document.\n\nNo new cancellation point is needed. [Unload a document](https://html.spec.whatwg.org/#unload-a-document) step 20 destroys the document when it isn't salvageable, and [destroy a document](https://html.spec.whatwg.org/#destroy-a-document) step 2 aborts it. As a result:\n\n- **A navigation that commits and doesn't enter bfcache:** fetches are cancelled during unload, after `pagehide` and `unload` have fired. Fetches started from those handlers are cancelled at the same point.\n- **A navigation that doesn't commit** (204/205, a `Content-Disposition: attachment` download, a failed fetch): the document that stays on screen keeps its fetches.\n- **A document kept in bfcache:** it is salvageable, so it isn't destroyed. Its fetches keep running, and the tasks they queue aren't runnable while the document isn't fully active, so the data is effectively buffered until the document is restored or evicted.\n\nI think it's the last part that could potentially be contentious, Blink (and soon Gecko will) supports this - however, the spec already allows for fetches \"following along into bfcache\" given the time window previously described and as such could be spec'ed in a follow up change.",
+    "author_association": "CONTRIBUTOR",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/7214514873/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
   }
 ]

@@ -38,7 +38,7 @@
       "name": "topic: img",
       "color": "009800",
       "default": false,
-      "description": null,
+      "description": "Images: img, picture, srcset and sizes, image loading and decoding, and image maps",
       "archived_at": null,
       "archived_by": null
     }
@@ -49,11 +49,12 @@
   "milestone": null,
   "comments": 0,
   "created_at": "2026-10-08T09:03:26Z",
-  "updated_at": "2026-10-08T09:06:23Z",
+  "updated_at": "2026-11-27T11:06:05Z",
   "closed_at": null,
   "author_association": "MEMBER",
   "issue_field_values": [],
   "type": null,
+  "status": null,
   "active_lock_reason": null,
   "sub_issues_summary": {
     "total": 0,
@@ -66,7 +67,7 @@
     "blocking": 0,
     "total_blocking": 0
   },
-  "body": "Comment by Claude:\n\n> [Update the image data](https://html.spec.whatwg.org/multipage/images.html#updating-the-image-data) has:\n>\n>> If *urlString* is the same as the current request's current URL and current request's state is partially available, then abort the image request for the pending request, queue an element task on the DOM manipulation task source given the `img` element to restart the animation if *restart animation* is set, and return.\n>\n> If the same URL is selected again with a different pixel density, e.g. because `sizes` changed while the image was loading, this returns without updating the current request's current pixel density, so the image keeps the old density.\n>\n> In the test below, a 256×256 image is selected with `512w` and `sizes=\"256px\"` (density 2) and trickled so it stays partially available; while it's partially available, `sizes` changes to `128px` (density 4). Per spec (with the #3835 fix in #13046), `naturalWidth` stays 128 after load. Firefox Nightly and Chrome Canary give 64.\n>\n> ```html\n> <!doctype html>\n> <pre id=out></pre>\n> <script>\n> const log = s => out.textContent += s + '\\n';\n> const img = new Image();\n> img.sizes = '256px';\n> img.srcset = `/images/green-256x256.png?pipe=trickle(60:d1)&uid=${Math.random()} 512w`;\n> document.body.append(img);\n> let changed = false;\n> const poll = setInterval(() => {\n>   if (!changed && img.naturalWidth > 0 && !img.complete) {\n>     changed = true;\n>     log(`partial: naturalWidth=${img.naturalWidth} complete=${img.complete}`);\n>     img.sizes = '128px';\n>   }\n> }, 20);\n> img.onload = () => {\n>   log(`load: naturalWidth=${img.naturalWidth} changed=${changed}`);\n>   if (changed) { clearInterval(poll); document.title = 'done'; }\n> };\n> setTimeout(() => { document.title = 'done'; log('timeout'); }, 15000);\n> </script>\n> ```\n>\n> Maybe this step should also require the selected pixel density to match the current request's current pixel density (and, with #13046, its current source size). Related: #10808.\n",
+  "body": "[Update the image data](https://html.spec.whatwg.org/multipage/images.html#updating-the-image-data) has:\n\n> If *urlString* is the same as the current request's current URL and current request's state is partially available, then abort the image request for the pending request, queue an element task on the DOM manipulation task source given the `img` element to restart the animation if *restart animation* is set, and return.\n\nIf the same URL is selected again with a different pixel density, e.g. because `sizes` changed while the image was loading, this returns without updating the current request's current pixel density, so the image keeps the old density.\n\nIn the test below, a 256×256 image is selected with `512w` and `sizes=\"256px\"` (density 2) and trickled so it stays partially available; while it's partially available, `sizes` changes to `128px` (density 4). Per spec (with the #3835 fix in #13046), `naturalWidth` stays 128 after load. Firefox Nightly and Chrome Canary give 64.\n\n```\n<!doctype html>\n<pre id=out></pre>\n<script>\nconst log = s => out.textContent += s + '\\n';\nconst img = new Image();\nimg.sizes = '256px';\nimg.srcset = `/images/green-256x256.png?pipe=trickle(60:d1)&uid=${Math.random()} 512w`;\ndocument.body.append(img);\nlet changed = false;\nconst poll = setInterval(() => {\n  if (!changed && img.naturalWidth > 0 && !img.complete) {\n    changed = true;\n    log(`partial: naturalWidth=${img.naturalWidth} complete=${img.complete}`);\n    img.sizes = '128px';\n  }\n}, 20);\nimg.onload = () => {\n  log(`load: naturalWidth=${img.naturalWidth} changed=${changed}`);\n  if (changed) { clearInterval(poll); document.title = 'done'; }\n};\nsetTimeout(() => { document.title = 'done'; log('timeout'); }, 15000);\n</script>\n```\n\nMaybe this step should also require the selected pixel density to match the current request's current pixel density (and, with #13046, its current source size). Related: #10808.",
   "closed_by": null,
   "reactions": {
     "url": "https://api.github.com/repos/whatwg/html/issues/13049/reactions",

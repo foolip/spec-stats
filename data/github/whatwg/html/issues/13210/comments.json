@@ -44,5 +44,51 @@
     },
     "performed_via_github_app": null,
     "minimized": null
+  },
+  {
+    "url": "https://api.github.com/repos/whatwg/html/issues/comments/7218395820",
+    "html_url": "https://github.com/whatwg/html/pull/13210#issuecomment-7218395820",
+    "issue_url": "https://api.github.com/repos/whatwg/html/issues/13210",
+    "id": 7218395820,
+    "node_id": "IC_kwDOALaj488AAAABrj_6rA",
+    "user": {
+      "login": "zcorpan",
+      "id": 244772,
+      "node_id": "MDQ6VXNlcjI0NDc3Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/244772?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/zcorpan",
+      "html_url": "https://github.com/zcorpan",
+      "followers_url": "https://api.github.com/users/zcorpan/followers",
+      "following_url": "https://api.github.com/users/zcorpan/following{/other_user}",
+      "gists_url": "https://api.github.com/users/zcorpan/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/zcorpan/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/zcorpan/subscriptions",
+      "organizations_url": "https://api.github.com/users/zcorpan/orgs",
+      "repos_url": "https://api.github.com/users/zcorpan/repos",
+      "events_url": "https://api.github.com/users/zcorpan/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/zcorpan/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-11-27T12:33:58Z",
+    "updated_at": "2026-11-27T12:37:51Z",
+    "body": "Proposed fixes for defects D1 and D2 aren't applied yet. Question Q1 is open.\n\nQ1: A relevant mutation during a \"react to environment changes\" fetch can now leave the image stuck. With `<picture><source media=\"(min-width: 800px)\" srcset=\"big.png\"><img src=\"small.png\"></picture>` resized from 600px to 900px, setting `img.referrerPolicy` before `big.png` arrives makes \"update the image data\" set `last selected source` to `big.png` and keep the pending request, but `finishUpdate` then discards it. `small.png` stays, and later environment changes return early because `last selected source` already matches. Before this change, `last selected source` was null in responsive mode, so the next environment change recovered. Firefox Nightly, Chrome Canary, and Safari TP all show `big.png` once the fetch completes.\n- a: in `finishUpdate`, return if `image request` is no longer the pending request, instead of checking for relevant mutations, and null the pending request on relevant mutations when obtaining images on demand (where \"update the image data\" doesn't run). Matches browsers. Option a: [spec](https://github.com/zcorpan/html/commit/3d47ac083a5559119ebf38b9b86a8ccd620f9d57), [test](https://github.com/zcorpan/wpt/commit/c3790f4c9de8b1401352c8a7ad8e0629700ee786)\n- b: also set `last selected source` to null when `finishUpdate` discards the request. Smaller, but only recovers on a later environment change, unlike browsers.\n- c: Keep as is.\n\nD2: The partially-available tests only check `naturalWidth` after `load`, so refetching at the new density also passes, and nothing checks that the aborted pending request is dropped. Not applied: [proposed fix](https://github.com/zcorpan/wpt/commit/9a3cdaa6a39d9dcd294fcfabd7b0e12c48a5e955).\n\nD1: The environment-change tests can't fail: an x-descriptor-only `srcset` gives no reason to re-select on a width change, and a failed environment-change fetch fires no `error` event, so the broken-candidate count stays 1 either way. Not applied: [proposed fix](https://github.com/zcorpan/wpt/commit/8c8b2aed87c66eb7e342cc473b9e8548d68447c6) (a `<picture>` whose media query flips on resize, with fetches counted on the server; Safari TP fails the broken-candidate test because it refetches).\n\n<details><summary>Reviewed commits</summary>\n\nReviewed at cf99394 on 5fcc231, with web-platform-tests/wpt#64903 at 3d69293, using spec-pr-review.\n</details>\n",
+    "author_association": "MEMBER",
+    "reactions": {
+      "url": "https://api.github.com/repos/whatwg/html/issues/comments/7218395820/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null,
+    "minimized": null
   }
 ]
